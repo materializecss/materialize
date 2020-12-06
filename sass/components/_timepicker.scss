@@ -100,7 +100,7 @@
 
 .timepicker-tick.active,
 .timepicker-tick:hover {
-	background-color: transparentize($secondary-color, .75);
+	background-color: $secondary-color-hover-opaque;
 }
 .timepicker-dial {
 	transition: transform 350ms, opacity 350ms;
