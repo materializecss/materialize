@@ -1,3 +1,9 @@
+$tabs-text-active-color: $primary-color-font-emphasize-color !default;
+$tabs-text-inactive-color: $primary-color-font-medium-color !default;
+$tabs-text-disabled-color: $primary-color-font-disabled-color !default;
+$tabs-underline-color: $tabs-text-active-color !default;
+$tabs-bg-color: $bg-color !default;
+
 .tabs {
   &.tabs-transparent {
     background-color: transparent;

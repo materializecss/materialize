@@ -1,6 +1,16 @@
 /* Switch
    ========================================================================== */
 
+$switch-thumb-checked-color: $secondary-color !default;
+$switch-thumb-unchecked-color: #FFFFFF;
+$switch-reaction-checked-focus-color: $secondary-color-focus-opaque !default;
+$switch-reaction-unchecked-focus-color: $bg-focus-color-opaque !default;
+$switch-reaction-checked-hover-color: $secondary-color-hover-opaque !default;
+$switch-reaction-unchecked-hover-color: $bg-hover-color-opaque !default;
+$switch-track-checked-bg: desaturate(lighten($switch-thumb-checked-color, 25%), 25%) !default;
+$switch-track-unchecked-bg: rgba(0,0,0,.38) !default;
+$switch-radius: 15px !default;
+
 .switch,
 .switch * {
   -webkit-tap-highlight-color: transparent;
