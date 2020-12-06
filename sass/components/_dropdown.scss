@@ -1,3 +1,10 @@
+$dropdown-bg-color: $bg-color !default;
+$dropdown-hover-bg-color: $bg-hover-color-opaque !default;
+$dropdown-focus-bg-color: $bg-focus-color-opaque !default;
+$dropdown-color: $secondary-color !default;
+$dropdown-item-height: 50px !default;
+
+
 .dropdown-content {
   &:focus {
     outline: 0;
@@ -68,7 +75,7 @@
 
 body.keyboard-focused {
   .dropdown-content li:focus {
-    background-color: darken($dropdown-hover-bg-color, 8%);
+    background-color: $dropdown-focus-bg-color;
   }
 }
 
