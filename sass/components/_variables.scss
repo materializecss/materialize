@@ -12,7 +12,7 @@
 //  6. Collapsible
 //  7. Chips
 //  8. Date + Time Picker
-//  9. -
+//  9. Dropdown
 //  10. Forms
 //  11. Global
 //  12. Grid
@@ -20,7 +20,7 @@
 //  14. Side Navigation
 //  15. Photo Slider
 //  16. Spinners | Loaders
-//  17. -
+//  17. Tabs
 //  18. Tables
 //  19. Toasts
 //  20. Typography
@@ -165,6 +165,16 @@ $timepicker-clock-color: rgba(0, 0, 0, .87) !default;
 $timepicker-clock-plate-bg: #eee !default;
 
 
+// 9. Dropdown
+// ==========================================================================
+
+$dropdown-bg-color: $bg-color !default;
+$dropdown-hover-bg-color: $bg-hover-color-opaque !default;
+$dropdown-focus-bg-color: $bg-focus-color-opaque !default;
+$dropdown-color: $secondary-color !default;
+$dropdown-item-height: 50px !default;
+
+
 // 10. Forms
 // ==========================================================================
 
@@ -210,6 +220,16 @@ $select-padding: 5px !default;
 $select-radius: 2px !default;
 $select-disabled-color: rgba(0,0,0,.3) !default;
 
+// Switches
+$switch-thumb-checked-color: $secondary-color !default;
+$switch-thumb-unchecked-color: #FFFFFF;
+$switch-reaction-checked-focus-color: $secondary-color-focus-opaque !default;
+$switch-reaction-unchecked-focus-color: $bg-focus-color-opaque !default;
+$switch-reaction-checked-hover-color: $secondary-color-hover-opaque !default;
+$switch-reaction-unchecked-hover-color: $bg-hover-color-opaque !default;
+$switch-track-checked-bg: desaturate(lighten($switch-thumb-checked-color, 25%), 25%) !default;
+$switch-track-unchecked-bg: rgba(0,0,0,.38) !default;
+$switch-radius: 15px !default;
 
 
 // 11. Global
@@ -277,8 +297,15 @@ $slider-indicator-color: color('green', 'base') !default;
 $spinner-default-color: $secondary-color !default;
 
 
-// 17. -
+// 17. Tabs
 // ==========================================================================
+
+$tabs-text-active-color: $primary-color-font-emphasize-color !default;
+$tabs-text-inactive-color: $primary-color-font-medium-color !default;
+$tabs-text-disabled-color: $primary-color-font-disabled-color !default;
+$tabs-underline-color: $tabs-text-active-color !default;
+$tabs-bg-color: $bg-color !default;
+
 
 // 18. Tables
 // ==========================================================================
