@@ -81,5 +81,9 @@ body.keyboard-focused {
 }
 
 .dropdown-trigger {
+  &:focus {
+    outline: 0;
+  }
+
   cursor: pointer;
 }
