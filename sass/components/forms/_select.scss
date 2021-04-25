@@ -74,6 +74,7 @@ select {
     display: block;
     user-select:none;
     z-index: 1;
+    color: $select-input-color;
   }
 
   .caret {
@@ -143,11 +144,11 @@ body.keyboard-focused {
 
 .select-dropdown.dropdown-content {
   li {
-    &:hover {
+    &:hover:not(.disabled) {
       background-color: $select-option-hover;
     }
 
-    &.selected {
+    &.selected:not(.disabled) {
       background-color: $select-option-selected;
     }
   }

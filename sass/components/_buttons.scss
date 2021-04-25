@@ -280,6 +280,7 @@ button.btn-floating {
   &:focus,
   &:hover {
     box-shadow: none;
+    background-color: $button-flat-hover-background-color;
   }
   &:focus {
     background-color: rgba(0, 0, 0, .1);

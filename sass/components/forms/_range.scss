@@ -63,7 +63,7 @@ input[type=range] + .thumb {
 // Shared
 @mixin range-track {
   height: $track-height;
-  background: #c2c0c2;
+  background: $range-track-color;
   border: none;
 }
 
@@ -100,8 +100,6 @@ input[type=range]::-webkit-slider-thumb {
 
 // FireFox
 input[type=range] {
-  /* fix for FF unable to apply focus style bug  */
-  border: 1px solid white;
 
   /*required for proper track sizing in FF*/
 }
