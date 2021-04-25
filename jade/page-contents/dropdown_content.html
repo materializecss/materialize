@@ -1,15 +1,16 @@
 <div class="container">
   <div class="row">
     <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-
       <div id="introduction" class="scrollspy section">
-        <p class="caption">Add a dropdown list to any button. Make sure that the
+        <p class="caption">
+          Add a dropdown list to any button. Make sure that the
           <code class="language-markup">data-target</code> attribute matches the id in the
           <code class="language-markup">&lt;ul></code> tag. You can add a divider with the
-          <code class="language-markup">&lt;li class="divider">&lt;/li></code> tag. You can also add icons. Just add the icon inside the
-          <code class="language-markup">anchor</code> tag.</p>
-        <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!</a>
-        <ul id='dropdown1' class='dropdown-content'>
+          <code class="language-markup">&lt;li class="divider">&lt;/li></code> tag. You can also add
+          icons. Just add the icon inside the <code class="language-markup">anchor</code> tag.
+        </p>
+        <a class="dropdown-trigger btn" href="#" data-target="dropdown1">Drop Me!</a>
+        <ul id="dropdown1" class="dropdown-content">
           <li>
             <a href="#!">one</a>
           </li>
@@ -21,16 +22,14 @@
             <a href="#!">three</a>
           </li>
           <li>
-            <a href="#!">
-              <i class="material-icons">view_module</i>four</a>
+            <a href="#!"> <i class="material-icons">view_module</i>four</a>
           </li>
           <li>
-            <a href="#!">
-              <i class="material-icons">cloud</i>five</a>
+            <a href="#!"> <i class="material-icons">cloud</i>five</a>
           </li>
         </ul>
-        <br>
-        <br>
+        <br />
+        <br />
         <pre><code class="language-markup">
   &lt;!-- Dropdown Trigger -->
   &lt;a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!&lt;/a>
@@ -66,7 +65,6 @@
   });
         </code></pre>
       </div>
-
 
       <div id="options" class="section scrollspy">
         <h3 class="header">Options</h3>
@@ -166,8 +164,10 @@
       <div id="methods" class="scrollspy section">
         <h3 class="header">Methods</h3>
         <blockquote>
-          <p>Because jQuery is no longer a dependency, all the methods are called on the plugin instance. You can get the plugin
-            instance like this: </p>
+          <p>
+            Because jQuery is no longer a dependency, all the methods are called on the plugin
+            instance. You can get the plugin instance like this:
+          </p>
           <pre><code class="language-javascript col s12">
     var instance = M.Dropdown.getInstance(elem);
 
@@ -180,42 +180,35 @@
     */
           </code></pre>
         </blockquote>
-        <h5 class="method-header">
-          .open();
-        </h5>
+        <h5 class="method-header">.open();</h5>
         <p>Open dropdown.</p>
         <pre><code class="language-javascript col s12">
   instance.open();
         </code></pre>
-        <br>
+        <br />
 
-        <h5 class="method-header">
-          .close();
-        </h5>
+        <h5 class="method-header">.close();</h5>
         <p>Close dropdown.</p>
         <pre><code class="language-javascript col s12">
   instance.close();
         </code></pre>
-        <br>
+        <br />
 
-        <h5 class="method-header">
-          .recalculateDimensions();
-        </h5>
-        <p>While dropdown is open, you can recalculate its dimensions if its contents have changed.</p>
+        <h5 class="method-header">.recalculateDimensions();</h5>
+        <p>
+          While dropdown is open, you can recalculate its dimensions if its contents have changed.
+        </p>
         <pre><code class="language-javascript col s12">
   instance.recalculateDimensions();
         </code></pre>
-        <br>
+        <br />
 
-        <h5 class="method-header">
-          .destroy();
-        </h5>
+        <h5 class="method-header">.destroy();</h5>
         <p>Destroy plugin instance and teardown</p>
         <pre><code class="language-javascript col s12">
   instance.destroy();
         </code></pre>
       </div>
-
 
       <div id="properties" class="scrollspy section">
         <h3 class="header">Properties</h3>
@@ -267,14 +260,12 @@
           </tbody>
         </table>
       </div>
-
     </div>
 
     <!-- Table of Contents -->
     <div class="col hide-on-small-only m3 xl3 offset-xl1">
       <div class="toc-wrapper">
-
-        <div style="height: 1px;">
+        <div style="height: 1px">
           <ul class="section table-of-contents">
             <li>
               <a href="#introduction">Introduction</a>
@@ -295,6 +286,5 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>

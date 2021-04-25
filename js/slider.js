@@ -1,4 +1,4 @@
-(function($, anim) {
+(function ($, anim) {
   'use strict';
 
   let _defaults = {
@@ -38,7 +38,7 @@
       this.$slider = this.$el.find('.slides');
       this.$slides = this.$slider.children('li');
       this.activeIndex = this.$slides
-        .filter(function(item) {
+        .filter(function (item) {
           return $(item).hasClass('active');
         })
         .first()

@@ -1,5 +1,5 @@
-(function($, anim) {
-  $(document).on('click', '.card', function(e) {
+(function ($, anim) {
+  $(document).on('click', '.card', function (e) {
     if ($(this).children('.card-reveal').length) {
       var $card = $(e.target).closest('.card');
       if ($card.data('initialOverflow') === undefined) {
@@ -19,7 +19,7 @@
           translateY: 0,
           duration: 225,
           easing: 'easeInOutQuad',
-          complete: function(anim) {
+          complete: function (anim) {
             let el = anim.animatables[0].target;
             $(el).css({ display: 'none' });
             $card.css('overflow', $card.data('initialOverflow'));

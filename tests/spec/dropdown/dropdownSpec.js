@@ -1,22 +1,20 @@
-describe("Dropdown Plugin", function () {
-
-  beforeEach(async function () {      
+describe('Dropdown Plugin', function () {
+  beforeEach(async function () {
     await XloadFixtures(['dropdown/dropdownFixture.html']);
     M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
   });
-  afterEach(function(){
+  afterEach(function () {
     XunloadFixtures();
   });
 
-  describe("Dropdown", function () {
-
+  describe('Dropdown', function () {
     var normalDropdown;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // browserSelect = $('select.normal');
     });
 
-    it("should open and close programmatically", function (done) {
+    it('should open and close programmatically', function (done) {
       let dropdown1 = document.querySelector('#dropdown1');
       normalDropdown = document.querySelector('#dropdownActivator');
 
@@ -24,18 +22,18 @@ describe("Dropdown Plugin", function () {
 
       M.Dropdown.getInstance(normalDropdown).open();
 
-      setTimeout(function() {
+      setTimeout(function () {
         expect(dropdown1).toBeVisible('Should be shown after dropdown is opened.');
         M.Dropdown.getInstance(normalDropdown).close();
 
-        setTimeout(function() {
+        setTimeout(function () {
           expect(dropdown1).toBeHidden('Should be hidden after dropdown is closed.');
           done();
         }, 400);
       }, 400);
     });
 
-    it("should close dropdown on document click if programmatically opened", function (done) {
+    it('should close dropdown on document click if programmatically opened', function (done) {
       let dropdown1 = document.querySelector('#dropdown1');
       normalDropdown = document.querySelector('#dropdownActivator');
 
@@ -43,18 +41,18 @@ describe("Dropdown Plugin", function () {
 
       M.Dropdown.getInstance(normalDropdown).open();
 
-      setTimeout(function() {
+      setTimeout(function () {
         expect(dropdown1).toBeVisible('Should be shown after dropdown is opened.');
         click(document.body);
 
-        setTimeout(function() {
+        setTimeout(function () {
           expect(dropdown1).toBeHidden('Should be hidden after dropdown is closed.');
           done();
         }, 400);
       }, 400);
     });
 
-    it("should bubble events correctly", function (done) {
+    it('should bubble events correctly', function (done) {
       let dropdown2 = document.querySelector('#dropdown2');
       normalDropdown = document.querySelector('#dropdownBubble');
 
@@ -62,29 +60,29 @@ describe("Dropdown Plugin", function () {
 
       click(normalDropdown.querySelector('i'));
 
-      setTimeout(function() {
+      setTimeout(function () {
         expect(dropdown2).toBeVisible('Should be shown after dropdown is opened.');
         click(document.body);
 
-        setTimeout(function() {
+        setTimeout(function () {
           expect(dropdown2).toBeHidden('Should be hidden after dropdown is closed.');
           done();
         }, 400);
       }, 400);
     });
 
-    it("hovered should destroy itself", function (done) {
+    it('hovered should destroy itself', function (done) {
       let dropdownTrigger = document.querySelector('#dropdownDestroyTrigger');
       M.Dropdown.getInstance(dropdownTrigger).destroy();
       M.Dropdown.init(dropdownTrigger, { hover: true });
 
-      expect(function() {
+      expect(function () {
         M.Dropdown.getInstance(dropdownTrigger).destroy();
       }).not.toThrow();
 
-      setTimeout(function() {
+      setTimeout(function () {
         done();
       }, 400);
-  });
+    });
   });
 });

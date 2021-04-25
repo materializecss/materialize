@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   'use strict';
 
   let _defaults = {
@@ -431,7 +431,7 @@
     deleteChip(chipIndex) {
       let $chip = this.$chips.eq(chipIndex);
       this.$chips.eq(chipIndex).remove();
-      this.$chips = this.$chips.filter(function(el) {
+      this.$chips = this.$chips.filter(function (el) {
         return $(el).index() >= 0;
       });
       this.chipsData.splice(chipIndex, 1);
@@ -471,16 +471,14 @@
     M.initializeJqueryWrapper(Chips, 'chips', 'M_Chips');
   }
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Handle removal of static chips.
-    $(document.body).on('click', '.chip .close', function() {
+    $(document.body).on('click', '.chip .close', function () {
       let $chips = $(this).closest('.chips');
       if ($chips.length && $chips[0].M_Chips) {
         return;
       }
-      $(this)
-        .closest('.chip')
-        .remove();
+      $(this).closest('.chip').remove();
     });
   });
 })(cash);

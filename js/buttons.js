@@ -1,4 +1,4 @@
-(function($, anim) {
+(function ($, anim) {
   'use strict';
 
   let _defaults = {
@@ -263,12 +263,9 @@
             transform: 'scale(' + scaleFactor + ')',
             transition: 'transform .2s cubic-bezier(0.550, 0.055, 0.675, 0.190)'
           });
-          this.$menu
-            .children('li')
-            .children('a')
-            .css({
-              opacity: 1
-            });
+          this.$menu.children('li').children('a').css({
+            opacity: 1
+          });
 
           // Scroll to close.
           this._handleDocumentClickBound = this._handleDocumentClick.bind(this);
@@ -303,12 +300,9 @@
         transform: 'scale(0)',
         'background-color': fabColor
       });
-      this.$menu
-        .children('li')
-        .children('a')
-        .css({
-          opacity: ''
-        });
+      this.$menu.children('li').children('a').css({
+        opacity: ''
+      });
 
       setTimeout(() => {
         backdrop.remove();

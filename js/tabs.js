@@ -1,4 +1,4 @@
-(function($, anim) {
+(function ($, anim) {
   'use strict';
 
   let _defaults = {
@@ -212,16 +212,10 @@
 
       // If no match is found, use the first link or any with class 'active' as the initial active tab.
       if (this.$activeTabLink.length === 0) {
-        this.$activeTabLink = this.$el
-          .children('li.tab')
-          .children('a.active')
-          .first();
+        this.$activeTabLink = this.$el.children('li.tab').children('a.active').first();
       }
       if (this.$activeTabLink.length === 0) {
-        this.$activeTabLink = this.$el
-          .children('li.tab')
-          .children('a')
-          .first();
+        this.$activeTabLink = this.$el.children('li.tab').children('a').first();
       }
 
       this.$tabLinks.removeClass('active');

@@ -1,19 +1,16 @@
 <div class="container">
   <div class="row">
-
     <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-
       <div id="date-picker" class="section scrollspy">
         <h3 class="header">Date Picker</h3>
         <p>The datepicker allows users to select a date from an interactive calendar.</p>
         <div class="input-field">
-          <input id="birthdate" type="text" class="datepicker">
+          <input id="birthdate" type="text" class="datepicker" />
           <label for="birthdate">Birthdate</label>
         </div>
         <pre><code class="language-markup">
   &lt;input type="text" class="datepicker">
         </code></pre>
-
 
         <div class="section">
           <h5>Initialization</h5>
@@ -34,7 +31,6 @@
   });
           </code></pre>
         </div>
-
 
         <div class="section">
           <h5>Options</h5>
@@ -143,7 +139,10 @@
                 <td>container</td>
                 <td>Element</td>
                 <td>null</td>
-                <td>Specify a DOM element to render the calendar in, by default it will be placed before the input.</td>
+                <td>
+                  Specify a DOM element to render the calendar in, by default it will be placed
+                  before the input.
+                </td>
               </tr>
               <tr>
                 <td>showClearBtn</td>
@@ -161,13 +160,19 @@
                 <td>events</td>
                 <td>Array</td>
                 <td>[]</td>
-                <td>An array of string returned by `Date.toDateString()`, indicating there are events in the specified days.</td>
+                <td>
+                  An array of string returned by `Date.toDateString()`, indicating there are events
+                  in the specified days.
+                </td>
               </tr>
               <tr>
                 <td>onSelect</td>
                 <td>Function</td>
                 <td>null</td>
-                <td>Callback function when date is selected, first parameter is the newly selected date.</td>
+                <td>
+                  Callback function when date is selected, first parameter is the newly selected
+                  date.
+                </td>
               </tr>
               <tr>
                 <td>onOpen</td>
@@ -190,7 +195,6 @@
             </tbody>
           </table>
         </div>
-
 
         <div class="section">
           <h5>Date format options</h5>
@@ -258,7 +262,6 @@
             </tbody>
           </table>
         </div>
-
 
         <div class="section">
           <h5>Datepicker Internationalization options</h5>
@@ -374,8 +377,6 @@
           </table>
         </div>
 
-
-
         <div class="section">
           <h5>Properties</h5>
           <table class="striped">
@@ -416,8 +417,10 @@
           <h5>Methods</h5>
 
           <blockquote>
-            <p>Because jQuery is no longer a dependency, all the methods are called on the plugin instance. You can get the
-              plugin instance like this: </p>
+            <p>
+              Because jQuery is no longer a dependency, all the methods are called on the plugin
+              instance. You can get the plugin instance like this:
+            </p>
             <pre><code class="language-javascript col s12">
   var instance = M.Datepicker.getInstance(elem);
 
@@ -430,60 +433,46 @@
   */
             </code></pre>
           </blockquote>
-          <h5 class="method-header">
-            .open();
-          </h5>
+          <h5 class="method-header">.open();</h5>
           <p>Open datepicker</p>
           <pre><code class="language-javascript col s12">
 instance.open();
           </code></pre>
-          <br>
+          <br />
 
-          <h5 class="method-header">
-            .close();
-          </h5>
+          <h5 class="method-header">.close();</h5>
           <p>Close datepicker</p>
           <pre><code class="language-javascript col s12">
 instance.close();
           </code></pre>
-          <br>
+          <br />
 
-          <h5 class="method-header">
-            .toString();
-          </h5>
+          <h5 class="method-header">.toString();</h5>
           <p>Gets a string representation of the selected date</p>
           <pre><code class="language-javascript col s12">
 instance.toString();
           </code></pre>
-          <br>
+          <br />
 
-          <h5 class="method-header">
-            .setDate();
-          </h5>
+          <h5 class="method-header">.setDate();</h5>
           <p>Set a date on the datepicker</p>
           <h6>Arguments</h6>
-          <p>
-            <b>Date (optional):</b> Date to set on the datepicker.</p>
+          <p><b>Date (optional):</b> Date to set on the datepicker.</p>
           <pre><code class="language-javascript col s12">
 instance.setDate(new Date());
           </code></pre>
-          <br>
+          <br />
 
-          <h5 class="method-header">
-            .gotoDate();
-          </h5>
+          <h5 class="method-header">.gotoDate();</h5>
           <p>Change date view to a specific date on the datepicker</p>
           <h6>Arguments</h6>
-          <p>
-            <b>Date:</b> Date to show on the datepicker.</p>
+          <p><b>Date:</b> Date to show on the datepicker.</p>
           <pre><code class="language-javascript col s12">
 instance.gotoDate(new Date());
           </code></pre>
-          <br>
+          <br />
 
-          <h5 class="method-header">
-            .destroy();
-          </h5>
+          <h5 class="method-header">.destroy();</h5>
           <p>Destroy plugin instance and teardown</p>
           <pre><code class="language-javascript col s12">
 instance.destroy();
@@ -495,13 +484,12 @@ instance.destroy();
         <h3 class="header">Time Picker</h3>
         <p>The timepicker allows users to select a date from an interactive clock.</p>
         <div class="input-field">
-          <input id="lunchtime" type="text" class="timepicker">
+          <input id="lunchtime" type="text" class="timepicker" />
           <label for="lunchtime">Lunchtime</label>
         </div>
         <pre><code class="language-markup">
   &lt;input type="text" class="timepicker">
         </code></pre>
-
 
         <div class="section">
           <h5>Initialization</h5>
@@ -522,7 +510,6 @@ instance.destroy();
   });
           </code></pre>
         </div>
-
 
         <div class="section">
           <h5>Options</h5>
@@ -547,7 +534,10 @@ instance.destroy();
                 <td>container</td>
                 <td>String</td>
                 <td>null</td>
-                <td>Specify a selector for a DOM element to render the calendar in, by default it will be placed before the input.</td>
+                <td>
+                  Specify a selector for a DOM element to render the calendar in, by default it will
+                  be placed before the input.
+                </td>
               </tr>
               <tr>
                 <td>showClearBtn</td>
@@ -619,12 +609,14 @@ instance.destroy();
                 <td>onSelect</td>
                 <td>Function</td>
                 <td>null</td>
-                <td>Callback function when a time is selected, first parameter is the hour and the second is the minute.</td>
+                <td>
+                  Callback function when a time is selected, first parameter is the hour and the
+                  second is the minute.
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
-
 
         <div class="section">
           <h5>Timepicker Internationalization options</h5>
@@ -653,8 +645,6 @@ instance.destroy();
             </tbody>
           </table>
         </div>
-
-
 
         <div class="section">
           <h5>Properties</h5>
@@ -692,13 +682,14 @@ instance.destroy();
           </table>
         </div>
 
-
         <div class="section">
           <h5>Methods</h5>
 
           <blockquote>
-            <p>Because jQuery is no longer a dependency, all the methods are called on the plugin instance. You can get the
-              plugin instance like this: </p>
+            <p>
+              Because jQuery is no longer a dependency, all the methods are called on the plugin
+              instance. You can get the plugin instance like this:
+            </p>
             <pre><code class="language-javascript col s12">
   var instance = M.Timepicker.getInstance(elem);
 
@@ -711,53 +702,41 @@ instance.destroy();
   */
             </code></pre>
           </blockquote>
-          <h5 class="method-header">
-            .open();
-          </h5>
+          <h5 class="method-header">.open();</h5>
           <p>Open timepicker</p>
           <pre><code class="language-javascript col s12">
 instance.open();
           </code></pre>
-          <br>
+          <br />
 
-          <h5 class="method-header">
-            .close();
-          </h5>
+          <h5 class="method-header">.close();</h5>
           <p>Close timepicker</p>
           <pre><code class="language-javascript col s12">
 instance.close();
           </code></pre>
-          <br>
+          <br />
 
-          <h5 class="method-header">
-            .showView();
-          </h5>
+          <h5 class="method-header">.showView();</h5>
           <p>Show hours or minutes view on timepicker</p>
           <h6>Arguments</h6>
-          <p>
-            <b>String:</b> The name of the view you want to switch to, 'hours' or 'minutes'.</p>
+          <p><b>String:</b> The name of the view you want to switch to, 'hours' or 'minutes'.</p>
           <pre><code class="language-javascript col s12">
 instance.showView('hours');
           </code></pre>
-          <br>
+          <br />
 
-          <h5 class="method-header">
-            .destroy();
-          </h5>
+          <h5 class="method-header">.destroy();</h5>
           <p>Destroy plugin instance and teardown</p>
           <pre><code class="language-javascript col s12">
 instance.destroy();
           </code></pre>
         </div>
-
       </div>
-
     </div>
 
     <div class="col hide-on-small-only m3 xl3 offset-xl1">
       <div class="toc-wrapper">
-
-        <div style="height: 1px;">
+        <div style="height: 1px">
           <ul class="section table-of-contents">
             <li>
               <a href="#date-picker">Date Picker</a>
@@ -769,6 +748,5 @@ instance.destroy();
         </div>
       </div>
     </div>
-
   </div>
 </div>

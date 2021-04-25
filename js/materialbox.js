@@ -1,4 +1,4 @@
-(function($, anim) {
+(function ($, anim) {
   'use strict';
 
   let _defaults = {
@@ -77,9 +77,7 @@
       this.el.M_Materialbox = undefined;
 
       // Unwrap image
-      $(this.placeholder)
-        .after(this.el)
-        .remove();
+      $(this.placeholder).after(this.el).remove();
 
       this.$el.removeAttr('style');
     }

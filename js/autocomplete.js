@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   'use strict';
 
   let _defaults = {
@@ -12,7 +12,7 @@
       coverTrigger: false
     },
     minLength: 1, // Min characters before autocomplete starts
-    sortFunction: function(a, b, inputString) {
+    sortFunction: function (a, b, inputString) {
       // Sort function for sorting autocomplete results
       return a.indexOf(inputString) - b.indexOf(inputString);
     },
@@ -241,9 +241,7 @@
 
       // select element on Enter
       if (keyCode === M.keys.ENTER && this.activeIndex >= 0) {
-        liElement = $(this.container)
-          .children('li')
-          .eq(this.activeIndex);
+        liElement = $(this.container).children('li').eq(this.activeIndex);
         if (liElement.length) {
           this.selectOption(liElement);
           e.preventDefault();
@@ -265,9 +263,7 @@
 
         this.$active.removeClass('active');
         if (this.activeIndex >= 0) {
-          this.$active = $(this.container)
-            .children('li')
-            .eq(this.activeIndex);
+          this.$active = $(this.container).children('li').eq(this.activeIndex);
           this.$active.addClass('active');
 
           // Focus selected

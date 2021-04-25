@@ -9,3 +9,8 @@ bin/
 dist/
 extras/
 css/
+.grunt/
+docs/
+templates/masonry-template/js/masonry.pkgd.min.js
+*.md
+.prettierignore

@@ -1,11 +1,11 @@
-(function($, anim) {
+(function ($, anim) {
   'use strict';
 
   let _defaults = {
     throttle: 100,
     scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
     activeClass: 'active',
-    getActiveElement: function(id) {
+    getActiveElement: function (id) {
       return 'a[href="#' + id + '"]';
     }
   };
@@ -200,7 +200,7 @@
     }
 
     _enter() {
-      ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(function(value) {
+      ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(function (value) {
         return value.height() != 0;
       });
 
@@ -226,7 +226,7 @@
     }
 
     _exit() {
-      ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(function(value) {
+      ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(function (value) {
         return value.height() != 0;
       });
 

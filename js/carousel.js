@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   'use strict';
 
   let _defaults = {
@@ -52,14 +52,8 @@
       this.dragged = false;
       this.offset = this.target = 0;
       this.images = [];
-      this.itemWidth = this.$el
-        .find('.carousel-item')
-        .first()
-        .innerWidth();
-      this.itemHeight = this.$el
-        .find('.carousel-item')
-        .first()
-        .innerHeight();
+      this.itemWidth = this.$el.find('.carousel-item').first().innerWidth();
+      this.itemHeight = this.$el.find('.carousel-item').first().innerHeight();
       this.dim = this.itemWidth * 2 + this.options.padding || 1; // Make sure dim is non zero for divisions.
       this._autoScrollBound = this._autoScroll.bind(this);
       this._trackBound = this._track.bind(this);
@@ -304,9 +298,7 @@
         e.stopPropagation();
         return false;
       } else if (!this.options.fullWidth) {
-        let clickedIndex = $(e.target)
-          .closest('.carousel-item')
-          .index();
+        let clickedIndex = $(e.target).closest('.carousel-item').index();
         let diff = this._wrap(this.center) - clickedIndex;
 
         // Disable clicks if carousel was shifted by click
@@ -337,10 +329,7 @@
      */
     _handleResize(e) {
       if (this.options.fullWidth) {
-        this.itemWidth = this.$el
-          .find('.carousel-item')
-          .first()
-          .innerWidth();
+        this.itemWidth = this.$el.find('.carousel-item').first().innerWidth();
         this.imageHeight = this.$el.find('.carousel-item.active').height();
         this.dim = this.itemWidth * 2 + this.options.padding;
         this.offset = this.center * 2 * this.itemWidth;
@@ -370,7 +359,7 @@
             // If image still has no height, use the natural dimensions to calculate
             let naturalWidth = firstImage[0].naturalWidth;
             let naturalHeight = firstImage[0].naturalHeight;
-            let adjustedHeight = this.$el.width() / naturalWidth * naturalHeight;
+            let adjustedHeight = (this.$el.width() / naturalWidth) * naturalHeight;
             this.$el.css('height', adjustedHeight + 'px');
           }
         } else {
@@ -418,7 +407,11 @@
      * @param {Number} x
      */
     _wrap(x) {
-      return x >= this.count ? x % this.count : x < 0 ? this._wrap(this.count + x % this.count) : x;
+      return x >= this.count
+        ? x % this.count
+        : x < 0
+        ? this._wrap(this.count + (x % this.count))
+        : x;
     }
 
     /**
@@ -433,7 +426,7 @@
       delta = this.offset - this.frame;
       this.frame = this.offset;
 
-      v = 1000 * delta / (1 + elapsed);
+      v = (1000 * delta) / (1 + elapsed);
       this.velocity = 0.8 * v + 0.2 * this.velocity;
     }
 
@@ -489,7 +482,7 @@
       this.center = Math.floor((this.offset + this.dim / 2) / this.dim);
       delta = this.offset - this.center * this.dim;
       dir = delta < 0 ? 1 : -1;
-      tween = -dir * delta * 2 / this.dim;
+      tween = (-dir * delta * 2) / this.dim;
       half = this.count >> 1;
 
       if (this.options.fullWidth) {
@@ -507,10 +500,7 @@
         let activeIndicator = this.$indicators.find('.indicator-item.active');
         if (activeIndicator.index() !== diff) {
           activeIndicator.removeClass('active');
-          this.$indicators
-            .find('.indicator-item')
-            .eq(diff)[0]
-            .classList.add('active');
+          this.$indicators.find('.indicator-item').eq(diff)[0].classList.add('active');
         }
       }
 
@@ -524,10 +514,9 @@
           this.$el.find('.carousel-item').removeClass('active');
           el.classList.add('active');
         }
-        let transformString = `${alignment} translateX(${-delta / 2}px) translateX(${dir *
-          this.options.shift *
-          tween *
-          i}px) translateZ(${this.options.dist * tween}px)`;
+        let transformString = `${alignment} translateX(${-delta / 2}px) translateX(${
+          dir * this.options.shift * tween * i
+        }px) translateZ(${this.options.dist * tween}px)`;
         this._updateItemStyle(el, centerTweenedOpacity, 0, transformString);
       }
 
@@ -543,8 +532,9 @@
         // Don't show wrapped items.
         if (!this.noWrap || this.center + i < this.count) {
           el = this.images[this._wrap(this.center + i)];
-          let transformString = `${alignment} translateX(${this.options.shift +
-            (this.dim * i - delta) / 2}px) translateZ(${zTranslation}px)`;
+          let transformString = `${alignment} translateX(${
+            this.options.shift + (this.dim * i - delta) / 2
+          }px) translateZ(${zTranslation}px)`;
           this._updateItemStyle(el, tweenedOpacity, -i, transformString);
         }
 
@@ -559,8 +549,9 @@
         // Don't show wrapped items.
         if (!this.noWrap || this.center - i >= 0) {
           el = this.images[this._wrap(this.center - i)];
-          let transformString = `${alignment} translateX(${-this.options.shift +
-            (-this.dim * i - delta) / 2}px) translateZ(${zTranslation}px)`;
+          let transformString = `${alignment} translateX(${
+            -this.options.shift + (-this.dim * i - delta) / 2
+          }px) translateZ(${zTranslation}px)`;
           this._updateItemStyle(el, tweenedOpacity, -i, transformString);
         }
       }
@@ -569,9 +560,9 @@
       // Don't show wrapped items.
       if (!this.noWrap || (this.center >= 0 && this.center < this.count)) {
         el = this.images[this._wrap(this.center)];
-        let transformString = `${alignment} translateX(${-delta / 2}px) translateX(${dir *
-          this.options.shift *
-          tween}px) translateZ(${this.options.dist * tween}px)`;
+        let transformString = `${alignment} translateX(${-delta / 2}px) translateX(${
+          dir * this.options.shift * tween
+        }px) translateZ(${this.options.dist * tween}px)`;
         this._updateItemStyle(el, centerTweenedOpacity, 0, transformString);
       }
 
@@ -608,7 +599,7 @@
      * @param {Function} callback
      */
     _cycleTo(n, callback) {
-      let diff = this.center % this.count - n;
+      let diff = (this.center % this.count) - n;
 
       // Account for wraparound.
       if (!this.noWrap) {

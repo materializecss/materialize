@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Documentation - Materialize</title>
     <!-- CSS  -->
-    <link href="../../../bin/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"
+    <link
+      href="../../../bin/materialize.css"
+      type="text/css"
+      rel="stylesheet"
+      media="screen,projection"
     />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   </head>
   <body>
     <div class="row">
@@ -16,7 +22,12 @@
         <h2>Collapsible Header Text Wrap</h2>
         <ul id="first" class="collapsible" data-collapsible="accordion">
           <li>
-            <div class="collapsible-header"><i class="mdi-maps-place"></i>Second really long title that should overlap on most screens that aren't incredibly big and wide. Second really long title that should overlap on most screens that aren't incredibly big and wide. Second really long title that should overlap on most screens that aren't incredibly big and wide.</div>
+            <div class="collapsible-header">
+              <i class="mdi-maps-place"></i>Second really long title that should overlap on most
+              screens that aren't incredibly big and wide. Second really long title that should
+              overlap on most screens that aren't incredibly big and wide. Second really long title
+              that should overlap on most screens that aren't incredibly big and wide.
+            </div>
             <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
           </li>
           <li>
@@ -27,7 +38,6 @@
         <button id="add-li" class="btn">Add LI dynamically</button>
       </div>
       <div class="col s6">
-
         <h2>Add dynamically to both expandable and collapsible</h2>
         <ul id="second" class="collapsible" data-collapsible="expandable">
           <li>
@@ -79,7 +89,6 @@
       </div>
     </div>
 
-
     <h2>Nested Collapsible</h2>
     <!-- Nested Accordion -->
     <ul class="collapsible" data-collapsible="accordion">
@@ -112,7 +121,6 @@
       </li>
     </ul>
 
-
     <!-- Nested Expandable -->
     <ul class="collapsible" data-collapsible="expandable">
       <li>
@@ -143,7 +151,7 @@
         <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
       </li>
     </ul>
-    <br>
+    <br />
     <h2>Collapsible Callbacks</h2>
     <ul id="callbacks" class="collapsible" data-collapsible="expandable">
       <li>
@@ -156,45 +164,46 @@
       </li>
     </ul>
 
-
-
-
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="../../../bin/materialize.js"></script>
 
     <script type="text/javascript">
-    $( document ).ready(function() {
-      $(".sidenav").sidenav({
-         edge: 'right', menuWidth: '90%'
-       });
+      $(document).ready(function () {
+        $('.sidenav').sidenav({
+          edge: 'right',
+          menuWidth: '90%'
+        });
 
-      $('select').select();
+        $('select').select();
 
-      $('.collapsible').collapsible();
+        $('.collapsible').collapsible();
 
-      $('.collapsible[data-collapsible="expandable"]').collapsible({
-        accordion: false
+        $('.collapsible[data-collapsible="expandable"]').collapsible({
+          accordion: false
+        });
+
+        $('#callbacks').collapsible({
+          accordion: false, // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+          onOpen: function (el) {
+            alert('Open');
+          }, // Callback for Collapsible open
+          onClose: function (el) {
+            alert('Closed');
+          } // Callback for Collapsible close
+        });
+
+        $('#add-li').click(function () {
+          $('#first').append(
+            '<li><div class="collapsible-header"><i class="mdi-social-whatshot"></i>Third</div><div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div></li>'
+          );
+        });
+
+        $('#add-li2').click(function () {
+          $('#second').append(
+            '<li><div class="collapsible-header"><i class="mdi-social-whatshot"></i>Third</div><div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div></li>'
+          );
+        });
       });
-
-      $('#callbacks').collapsible({
-        accordion: false, // A setting that changes the collapsible behavior to expandable instead of the default accordion style
-        onOpen: function(el) { alert('Open'); }, // Callback for Collapsible open
-        onClose: function(el) { alert('Closed'); } // Callback for Collapsible close
-      });
-
-
-      $('#add-li').click(function() {
-        $('#first').append('<li><div class="collapsible-header"><i class="mdi-social-whatshot"></i>Third</div><div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div></li>');
-      });
-
-      $('#add-li2').click(function() {
-        $('#second').append('<li><div class="collapsible-header"><i class="mdi-social-whatshot"></i>Third</div><div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div></li>');
-      });
-
-    });
-
-
-
     </script>
   </body>
 </html>

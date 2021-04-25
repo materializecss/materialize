@@ -1,4 +1,4 @@
-(function($, anim) {
+(function ($, anim) {
   'use strict';
 
   let _defaults = {
@@ -289,9 +289,7 @@
       } else if (e.which === M.keys.ENTER && this.isOpen) {
         // Search for <a> and <button>
         let focusedElement = this.dropdownEl.children[this.focusedIndex];
-        let $activatableElement = $(focusedElement)
-          .find('a, button')
-          .first();
+        let $activatableElement = $(focusedElement).find('a, button').first();
 
         // Click a or button tag if exists, otherwise click li tag
         if (!!$activatableElement.length) {
@@ -316,12 +314,7 @@
           newOptionEl = $(this.dropdownEl)
             .find('li')
             .filter((el) => {
-              return (
-                $(el)
-                  .text()
-                  .toLowerCase()
-                  .indexOf(string) === 0
-              );
+              return $(el).text().toLowerCase().indexOf(string) === 0;
             })[0];
 
         if (newOptionEl) {
@@ -373,7 +366,7 @@
       // Only set tabindex if it hasn't been set by user
       $(this.dropdownEl)
         .children()
-        .each(function(el) {
+        .each(function (el) {
           if (!el.getAttribute('tabindex')) {
             el.setAttribute('tabindex', 0);
           }
@@ -549,7 +542,7 @@
        * @param {Function} condition  Function that given an ancestor element returns true or false
        * @returns {Element} Return closest ancestor or null if none satisfies the condition
        */
-      const getClosestAncestor = function(el, condition) {
+      const getClosestAncestor = function (el, condition) {
         let ancestor = el.parentNode;
         while (ancestor !== null && !$(ancestor).is(document)) {
           if (condition(ancestor)) {

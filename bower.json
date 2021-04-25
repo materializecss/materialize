@@ -13,10 +13,7 @@
     "material",
     "design"
   ],
-  "main": [
-    "dist/js/materialize.js",
-    "dist/css/materialize.css"
-  ],
+  "main": ["dist/js/materialize.js", "dist/css/materialize.css"],
   "ignore": [
     "jade/",
     ".gitignore",

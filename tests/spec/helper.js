@@ -14,7 +14,7 @@ async function XloadFixtures(fixtureUrls) {
   // console.log("body after clear", document.body.innerHTML);
   const htmlChunks = [];
   for (let i = 0; i < fixtureUrls.length; i++) {
-    const url = fixturesPath + "/" + fixtureUrls[i];
+    const url = fixturesPath + '/' + fixtureUrls[i];
     if (fixturesCache[url] === undefined) {
       const response = await fetch(url);
       fixturesCache[url] = await response.text();
@@ -43,14 +43,14 @@ function XunloadFixtures() {
   let scriptCount = 0;
   for (let i = 0; i < c.length; i++) {
     const elt = c[i];
-    if (elt.tagName === "SCRIPT" || elt.classList[0] === "jasmine_html-reporter") {
+    if (elt.tagName === 'SCRIPT' || elt.classList[0] === 'jasmine_html-reporter') {
       scriptCount++;
     }
   }
   while (c.length > scriptCount) {
     for (let i = 0; i < c.length; i++) {
       const elt = c[i];
-      if (elt.tagName !== "SCRIPT" && elt.classList[0] !== "jasmine_html-reporter") {
+      if (elt.tagName !== 'SCRIPT' && elt.classList[0] !== 'jasmine_html-reporter') {
         document.body.removeChild(elt);
       }
     }
@@ -58,12 +58,11 @@ function XunloadFixtures() {
   }
 }
 
-
 beforeEach(function () {
   let matchers = {
-    toExist: function(util, customEqualityTesters) {
+    toExist: function (util, customEqualityTesters) {
       return {
-        compare: function(actual) {
+        compare: function (actual) {
           let result = {};
           result.pass = util.equals(!!actual, true, customEqualityTesters);
 
@@ -71,9 +70,9 @@ beforeEach(function () {
         }
       };
     },
-    toBeHidden: function(util, customEqualityTesters) {
+    toBeHidden: function (util, customEqualityTesters) {
       return {
-        compare: function(actual) {
+        compare: function (actual) {
           const style = getComputedStyle(actual);
           let result = {};
           result.pass = util.equals(
@@ -86,9 +85,9 @@ beforeEach(function () {
         }
       };
     },
-    toBeVisible: function(util, customEqualityTesters) {
+    toBeVisible: function (util, customEqualityTesters) {
       return {
-        compare: function(actual) {
+        compare: function (actual) {
           const style = getComputedStyle(actual);
           let result = {};
           result.pass = !util.equals(
@@ -109,9 +108,9 @@ beforeEach(function () {
         }
       };
     },
-    toHaveClass: function(util, customEqualityTesters) {
+    toHaveClass: function (util, customEqualityTesters) {
       return {
-        compare: function(actual, expected) {
+        compare: function (actual, expected) {
           let result = {};
           result.pass = util.equals(
             actual.classList.contains(expected),
@@ -123,9 +122,9 @@ beforeEach(function () {
         }
       };
     },
-    toNotHaveClass: function(util, customEqualityTesters) {
+    toNotHaveClass: function (util, customEqualityTesters) {
       return {
-        compare: function(actual, expected) {
+        compare: function (actual, expected) {
           let result = {};
           result.pass = util.equals(
             actual.classList.contains(expected),
@@ -156,60 +155,78 @@ beforeEach(function () {
   };
 
   window.mouseenter = function (el) {
-    let ev = document.createEvent("MouseEvent");
+    let ev = document.createEvent('MouseEvent');
     ev.initMouseEvent(
-      "mouseenter",
-      true /* bubble */, true /* cancelable */,
-      window, null,
-      0, 0, 0, 0, /* coordinates */
-      false, false, false, false, /* modifier keys */
-      0 /*left*/, null
+      'mouseenter',
+      true /* bubble */,
+      true /* cancelable */,
+      window,
+      null,
+      0,
+      0,
+      0,
+      0 /* coordinates */,
+      false,
+      false,
+      false,
+      false /* modifier keys */,
+      0 /*left*/,
+      null
     );
     el.dispatchEvent(ev);
   };
 
   window.mouseleave = function (el) {
-    let ev = document.createEvent("MouseEvent");
+    let ev = document.createEvent('MouseEvent');
     ev.initMouseEvent(
-      "mouseleave",
-      true /* bubble */, true /* cancelable */,
-      window, null,
-      0, 0, 0, 0, /* coordinates */
-      false, false, false, false, /* modifier keys */
-      0 /*left*/, null
+      'mouseleave',
+      true /* bubble */,
+      true /* cancelable */,
+      window,
+      null,
+      0,
+      0,
+      0,
+      0 /* coordinates */,
+      false,
+      false,
+      false,
+      false /* modifier keys */,
+      0 /*left*/,
+      null
     );
     el.dispatchEvent(ev);
   };
 
   window.keydown = function (el, keycode) {
-    let ev = document.createEvent("Events");
-    ev.initEvent("keydown", true, true);
+    let ev = document.createEvent('Events');
+    ev.initEvent('keydown', true, true);
 
     ev.keyCode = keycode;
     ev.which = keycode;
 
     el.dispatchEvent(ev);
-  }
+  };
 
   window.keyup = function (el, keycode) {
-    let ev = document.createEvent("Events");
-    ev.initEvent("keyup", true, true);
+    let ev = document.createEvent('Events');
+    ev.initEvent('keyup', true, true);
 
     ev.keyCode = keycode;
     ev.which = keycode;
 
     el.dispatchEvent(ev);
-  }
+  };
 
   window.focus = function (el) {
-    let ev = document.createEvent("Events");
-    ev.initEvent("focus", true, true);
+    let ev = document.createEvent('Events');
+    ev.initEvent('focus', true, true);
     el.dispatchEvent(ev);
-  }
+  };
 
   window.blur = function (el) {
-    let ev = document.createEvent("Events");
-    ev.initEvent("blur", true, true);
+    let ev = document.createEvent('Events');
+    ev.initEvent('blur', true, true);
     el.dispatchEvent(ev);
-  }
+  };
 });
