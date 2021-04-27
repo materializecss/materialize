@@ -3,7 +3,6 @@
     outline: 0;
   }
 
-
   @extend .z-depth-1;
   background-color: $dropdown-bg-color;
   margin: 0;
@@ -17,9 +16,9 @@
   z-index: 9999; // TODO: Check if this doesn't break other things
   transform-origin: 0 0;
 
-
   li {
-    &:hover, &.active {
+    &:hover,
+    &.active {
       background-color: $dropdown-hover-bg-color;
     }
 
@@ -32,7 +31,8 @@
       height: 1px;
     }
 
-    & > a, & > span {
+    & > a,
+    & > span {
       font-size: 16px;
       color: $dropdown-color;
       display: block;
@@ -55,7 +55,6 @@
       width: 24px;
     }
 
-
     clear: both;
     color: $off-black;
     cursor: pointer;
@@ -73,7 +72,7 @@ body.keyboard-focused {
 }
 
 // Input field specificity bugfix
-.input-field.col .dropdown-content [type="checkbox"] + label {
+.input-field.col .dropdown-content [type='checkbox'] + label {
   top: 1px;
   left: 0;
   height: 18px;

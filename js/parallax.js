@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   'use strict';
 
   let _defaults = {
@@ -20,7 +20,7 @@
       this._enabled = window.innerWidth > this.options.responsiveThreshold;
 
       this.$img = this.$el.find('img').first();
-      this.$img.each(function() {
+      this.$img.each(function () {
         let el = this;
         if (el.complete) $(el).trigger('load');
       });

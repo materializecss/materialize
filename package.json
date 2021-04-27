@@ -23,7 +23,7 @@
     "docs": "grunt docs"
   },
   "lint-staged": {
-    "js/*.js": [
+    "*": [
       "prettier --write",
       "git add"
     ]
@@ -61,7 +61,7 @@
     "node-archiver": "^0.3.0",
     "node-sass": "^4.14.1",
     "phantomjs-prebuilt": "^2.1.14",
-    "prettier": "^1.12.1"
+    "prettier": "^2.2.1"
   },
   "files": [
     "dist",

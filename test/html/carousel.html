@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Documentation - Materialize</title>
     <!-- CSS  -->
-    <link href="../../../bin/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      href="../../../bin/materialize.css"
+      type="text/css"
+      rel="stylesheet"
+      media="screen,projection"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   </head>
   <body>
     <h3>Carousel within collapsible</h3>
@@ -19,11 +27,21 @@
         <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
         <div class="collapsible-body">
           <div class="carousel">
-            <a class="carousel-item" href="#one!"><img src="../../images/placeholder/250x250_a.png"></a>
-            <a class="carousel-item" href="#two!"><img src="../../images/placeholder/250x250_b.png"></a>
-            <a class="carousel-item" href="#three!"><img src="../../images/placeholder/250x250_c.png"></a>
-            <a class="carousel-item" href="#four!"><img src="../../images/placeholder/250x250_d.png"></a>
-            <a class="carousel-item" href="#five!"><img src="../../images/placeholder/250x250_e.png"></a>
+            <a class="carousel-item" href="#one!"
+              ><img src="../../images/placeholder/250x250_a.png"
+            /></a>
+            <a class="carousel-item" href="#two!"
+              ><img src="../../images/placeholder/250x250_b.png"
+            /></a>
+            <a class="carousel-item" href="#three!"
+              ><img src="../../images/placeholder/250x250_c.png"
+            /></a>
+            <a class="carousel-item" href="#four!"
+              ><img src="../../images/placeholder/250x250_d.png"
+            /></a>
+            <a class="carousel-item" href="#five!"
+              ><img src="../../images/placeholder/250x250_e.png"
+            /></a>
           </div>
         </div>
       </li>
@@ -40,18 +58,34 @@
     </ul>
     <div id="test1" class="col s12">
       <div class="carousel carousel-slider">
-        <a class="carousel-item" href="#one!"><img src="../../images/placeholder/800x400_a.jpg"></a>
-        <a class="carousel-item" href="#two!"><img src="../../images/placeholder/800x400_b.jpg"></a>
-        <a class="carousel-item" href="#three!"><img src="../../images/placeholder/800x400_c.jpg"></a>
-        <a class="carousel-item" href="#four!"><img src="../../images/placeholder/800x400_d.jpg"></a>
+        <a class="carousel-item" href="#one!"
+          ><img src="../../images/placeholder/800x400_a.jpg"
+        /></a>
+        <a class="carousel-item" href="#two!"
+          ><img src="../../images/placeholder/800x400_b.jpg"
+        /></a>
+        <a class="carousel-item" href="#three!"
+          ><img src="../../images/placeholder/800x400_c.jpg"
+        /></a>
+        <a class="carousel-item" href="#four!"
+          ><img src="../../images/placeholder/800x400_d.jpg"
+        /></a>
       </div>
     </div>
     <div id="test2" class="col s12">
       <div class="carousel carousel-slider">
-        <a class="carousel-item" href="#one!"><img src="../../images/placeholder/800x400_a.jpg"></a>
-        <a class="carousel-item" href="#two!"><img src="../../images/placeholder/800x400_b.jpg"></a>
-        <a class="carousel-item" href="#three!"><img src="../../images/placeholder/800x400_c.jpg"></a>
-        <a class="carousel-item" href="#four!"><img src="../../images/placeholder/800x400_d.jpg"></a>
+        <a class="carousel-item" href="#one!"
+          ><img src="../../images/placeholder/800x400_a.jpg"
+        /></a>
+        <a class="carousel-item" href="#two!"
+          ><img src="../../images/placeholder/800x400_b.jpg"
+        /></a>
+        <a class="carousel-item" href="#three!"
+          ><img src="../../images/placeholder/800x400_c.jpg"
+        /></a>
+        <a class="carousel-item" href="#four!"
+          ><img src="../../images/placeholder/800x400_d.jpg"
+        /></a>
       </div>
     </div>
 
@@ -59,24 +93,24 @@
     <script src="../../../bin/materialize.js"></script>
 
     <script type="text/javascript">
-    $( document ).ready(function() {
-      $('.collapsible').collapsible({
-        onOpenEnd: function(el) {
-          console.log("OPEN", el);
-          var carousel = $(el).find('.carousel');
-          carousel.carousel();
-        }
-      });
+      $(document).ready(function () {
+        $('.collapsible').collapsible({
+          onOpenEnd: function (el) {
+            console.log('OPEN', el);
+            var carousel = $(el).find('.carousel');
+            carousel.carousel();
+          }
+        });
 
-      $('ul.tabs').tabs({
-        onShow: function(tab) {
-          $('.carousel.carousel-slider').carousel({fullWidth : true});
-        }
-      });
+        $('ul.tabs').tabs({
+          onShow: function (tab) {
+            $('.carousel.carousel-slider').carousel({ fullWidth: true });
+          }
+        });
 
-      $('.carousel').carousel();
-      $('.carousel.carousel-slider').carousel({fullWidth : true});
-    });
+        $('.carousel').carousel();
+        $('.carousel.carousel-slider').carousel({ fullWidth: true });
+      });
     </script>
   </body>
 </html>

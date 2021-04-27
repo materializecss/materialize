@@ -1,21 +1,19 @@
 // package metadata file for Meteor.js
 
 Package.describe({
-  name: 'materialize:materialize',  // http://atmospherejs.com/materialize/materialize
-  summary: 'Materialize (official): A modern responsive front-end framework based on Material Design',
+  name: 'materialize:materialize', // http://atmospherejs.com/materialize/materialize
+  summary:
+    'Materialize (official): A modern responsive front-end framework based on Material Design',
   version: '1.0.0',
   git: 'https://github.com/materializecss/materialize.git'
 });
-
 
 Package.onUse(function (api) {
   api.versionsFrom('METEOR@1.0');
 
   api.use('fourseven:scss@4.5.4');
 
-  api.addFiles([
-    'dist/js/materialize.js'
-  ], 'client');
+  api.addFiles(['dist/js/materialize.js'], 'client');
 
   var scssFiles = [
     'sass/components/forms/_checkboxes.scss',
@@ -61,7 +59,6 @@ Package.onUse(function (api) {
   ];
 
   api.addFiles(scssFiles, 'client', { isImport: true });
-
 
   api.export('M', 'client');
 });

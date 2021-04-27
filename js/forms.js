@@ -1,9 +1,9 @@
-(function($) {
+(function ($) {
   // Function to update labels of text fields
-  M.updateTextFields = function() {
+  M.updateTextFields = function () {
     let input_selector =
       'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], input[type=date], input[type=time], textarea';
-    $(input_selector).each(function(element, index) {
+    $(input_selector).each(function (element, index) {
       let $this = $(this);
       if (
         element.value.length > 0 ||
@@ -20,7 +20,7 @@
     });
   };
 
-  M.validate_field = function(object) {
+  M.validate_field = function (object) {
     let hasLength = object.attr('data-length') !== null;
     let lenAttr = parseInt(object.attr('data-length'));
     let len = object[0].value.length;
@@ -47,7 +47,7 @@
     }
   };
 
-  M.textareaAutoResize = function($textarea) {
+  M.textareaAutoResize = function ($textarea) {
     // Wrap if native element
     if ($textarea instanceof Element) {
       $textarea = $($textarea);
@@ -137,45 +137,38 @@
     $textarea.data('previous-length', $textarea[0].value.length);
   };
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Text based inputs
     let input_selector =
       'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], input[type=date], input[type=time], textarea';
 
     // Add active if form auto complete
-    $(document).on('change', input_selector, function() {
+    $(document).on('change', input_selector, function () {
       if (this.value.length !== 0 || $(this).attr('placeholder') !== null) {
-        $(this)
-          .siblings('label')
-          .addClass('active');
+        $(this).siblings('label').addClass('active');
       }
       M.validate_field($(this));
     });
 
     // Add active if input element has been pre-populated on document ready
-    $(document).ready(function() {
+    $(document).ready(function () {
       M.updateTextFields();
     });
 
     // HTML DOM FORM RESET handling
-    $(document).on('reset', function(e) {
+    $(document).on('reset', function (e) {
       let formReset = $(e.target);
       if (formReset.is('form')) {
-        formReset
-          .find(input_selector)
-          .removeClass('valid')
-          .removeClass('invalid');
-        formReset.find(input_selector).each(function(e) {
+        formReset.find(input_selector).removeClass('valid').removeClass('invalid');
+        formReset.find(input_selector).each(function (e) {
           if (this.value.length) {
-            $(this)
-              .siblings('label')
-              .removeClass('active');
+            $(this).siblings('label').removeClass('active');
           }
         });
 
         // Reset select (after native reset)
-        setTimeout(function() {
-          formReset.find('select').each(function() {
+        setTimeout(function () {
+          formReset.find('select').each(function () {
             // check if initialized
             if (this.M_FormSelect) {
               $(this).trigger('change');
@@ -191,11 +184,9 @@
      */
     document.addEventListener(
       'focus',
-      function(e) {
+      function (e) {
         if ($(e.target).is(input_selector)) {
-          $(e.target)
-            .siblings('label, .prefix')
-            .addClass('active');
+          $(e.target).siblings('label, .prefix').addClass('active');
         }
       },
       true
@@ -207,7 +198,7 @@
      */
     document.addEventListener(
       'blur',
-      function(e) {
+      function (e) {
         let $inputElement = $(e.target);
         if ($inputElement.is(input_selector)) {
           let selector = '.prefix';
@@ -228,12 +219,12 @@
 
     // Radio and Checkbox focus class
     let radio_checkbox = 'input[type=radio], input[type=checkbox]';
-    $(document).on('keyup', radio_checkbox, function(e) {
+    $(document).on('keyup', radio_checkbox, function (e) {
       // TAB, check if tabbing to radio or checkbox.
       if (e.which === M.keys.TAB) {
         $(this).addClass('tabbed');
         let $this = $(this);
-        $this.one('blur', function(e) {
+        $this.one('blur', function (e) {
           $(this).removeClass('tabbed');
         });
         return;
@@ -241,7 +232,7 @@
     });
 
     let text_area_selector = '.materialize-textarea';
-    $(text_area_selector).each(function() {
+    $(text_area_selector).each(function () {
       let $textarea = $(this);
       /**
        * Resize textarea on document load after storing
@@ -252,15 +243,15 @@
       M.textareaAutoResize($textarea);
     });
 
-    $(document).on('keyup', text_area_selector, function() {
+    $(document).on('keyup', text_area_selector, function () {
       M.textareaAutoResize($(this));
     });
-    $(document).on('keydown', text_area_selector, function() {
+    $(document).on('keydown', text_area_selector, function () {
       M.textareaAutoResize($(this));
     });
 
     // File Input Path
-    $(document).on('change', '.file-field input[type="file"]', function() {
+    $(document).on('change', '.file-field input[type="file"]', function () {
       let file_field = $(this).closest('.file-field');
       let path_input = file_field.find('input.file-path');
       let files = $(this)[0].files;

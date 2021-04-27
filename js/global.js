@@ -1,5 +1,5 @@
 // Required for Meteor package, the use of window prevents export by Meteor
-(function(window) {
+(function (window) {
   if (window.Package) {
     M = {};
   } else {
@@ -12,7 +12,7 @@
 
 // AMD
 if (typeof define === 'function' && define.amd) {
-  define('M', [], function() {
+  define('M', [], function () {
     return M;
   });
 
@@ -39,24 +39,24 @@ M.keys = {
  */
 M.tabPressed = false;
 M.keyDown = false;
-let docHandleKeydown = function(e) {
+let docHandleKeydown = function (e) {
   M.keyDown = true;
   if (e.which === M.keys.TAB || e.which === M.keys.ARROW_DOWN || e.which === M.keys.ARROW_UP) {
     M.tabPressed = true;
   }
 };
-let docHandleKeyup = function(e) {
+let docHandleKeyup = function (e) {
   M.keyDown = false;
   if (e.which === M.keys.TAB || e.which === M.keys.ARROW_DOWN || e.which === M.keys.ARROW_UP) {
     M.tabPressed = false;
   }
 };
-let docHandleFocus = function(e) {
+let docHandleFocus = function (e) {
   if (M.keyDown) {
     document.body.classList.add('keyboard-focused');
   }
 };
-let docHandleBlur = function(e) {
+let docHandleBlur = function (e) {
   document.body.classList.remove('keyboard-focused');
 };
 document.addEventListener('keydown', docHandleKeydown, true);
@@ -70,8 +70,8 @@ document.addEventListener('blur', docHandleBlur, true);
  * @param {string} pluginName  jQuery plugin name
  * @param {string} classRef  Class reference name
  */
-M.initializeJqueryWrapper = function(plugin, pluginName, classRef) {
-  jQuery.fn[pluginName] = function(methodOrOptions) {
+M.initializeJqueryWrapper = function (plugin, pluginName, classRef) {
+  jQuery.fn[pluginName] = function (methodOrOptions) {
     // Call plugin method if valid method name is passed in
     if (plugin.prototype[methodOrOptions]) {
       let params = Array.prototype.slice.call(arguments, 1);
@@ -83,7 +83,7 @@ M.initializeJqueryWrapper = function(plugin, pluginName, classRef) {
       }
 
       // Void methods
-      return this.each(function() {
+      return this.each(function () {
         let instance = this[classRef];
         instance[methodOrOptions].apply(instance, params);
       });
@@ -103,7 +103,7 @@ M.initializeJqueryWrapper = function(plugin, pluginName, classRef) {
  * Automatically initialize components
  * @param {Element} context  DOM Element to search within for components
  */
-M.AutoInit = function(context) {
+M.AutoInit = function (context) {
   // Use document.body if no context is given
   let root = !!context ? context : document.body;
 
@@ -139,7 +139,7 @@ M.AutoInit = function(context) {
  * @param {jQuery} obj  jQuery object to be parsed
  * @returns {string}
  */
-M.objectSelectorString = function(obj) {
+M.objectSelectorString = function (obj) {
   let tagStr = obj.prop('tagName') || '';
   let idStr = obj.attr('id') || '';
   let classStr = obj.attr('class') || '';
@@ -147,13 +147,13 @@ M.objectSelectorString = function(obj) {
 };
 
 // Unique Random ID
-M.guid = (function() {
+M.guid = (function () {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)
       .substring(1);
   }
-  return function() {
+  return function () {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   };
 })();
@@ -163,7 +163,7 @@ M.guid = (function() {
  * @param {string} hash  String returned from this.hash
  * @returns {string}
  */
-M.escapeHash = function(hash) {
+M.escapeHash = function (hash) {
   return hash.replace(/(:|\.|\[|\]|,|=|\/)/g, '\\$1');
 };
 
@@ -190,7 +190,7 @@ M.escapeHash = function(hash) {
  * @param {Number} offset  offset from edge that counts as exceeding
  * @returns {Edges}
  */
-M.checkWithinContainer = function(container, bounding, offset) {
+M.checkWithinContainer = function (container, bounding, offset) {
   let edges = {
     top: false,
     right: false,
@@ -237,7 +237,7 @@ M.checkWithinContainer = function(container, bounding, offset) {
   return edges;
 };
 
-M.checkPossibleAlignments = function(el, container, bounding, offset) {
+M.checkPossibleAlignments = function (el, container, bounding, offset) {
   let canAlign = {
     top: true,
     right: true,
@@ -297,7 +297,7 @@ M.checkPossibleAlignments = function(el, container, bounding, offset) {
   return canAlign;
 };
 
-M.getOverflowParent = function(element) {
+M.getOverflowParent = function (element) {
   if (element == null) {
     return null;
   }
@@ -314,7 +314,7 @@ M.getOverflowParent = function(element) {
  * @param {Element} trigger  trigger
  * @returns {string}
  */
-M.getIdFromTrigger = function(trigger) {
+M.getIdFromTrigger = function (trigger) {
   let id = trigger.getAttribute('data-target');
   if (!id) {
     id = trigger.getAttribute('href');
@@ -331,7 +331,7 @@ M.getIdFromTrigger = function(trigger) {
  * Multi browser support for document scroll top
  * @returns {Number}
  */
-M.getDocumentScrollTop = function() {
+M.getDocumentScrollTop = function () {
   return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
 };
 
@@ -339,7 +339,7 @@ M.getDocumentScrollTop = function() {
  * Multi browser support for document scroll left
  * @returns {Number}
  */
-M.getDocumentScrollLeft = function() {
+M.getDocumentScrollLeft = function () {
   return window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
 };
 
@@ -367,7 +367,7 @@ M.getDocumentScrollLeft = function() {
  */
 let getTime =
   Date.now ||
-  function() {
+  function () {
     return new Date().getTime();
   };
 
@@ -383,18 +383,18 @@ let getTime =
  * @param {Object=} options
  * @returns {Function}
  */
-M.throttle = function(func, wait, options) {
+M.throttle = function (func, wait, options) {
   let context, args, result;
   let timeout = null;
   let previous = 0;
   options || (options = {});
-  let later = function() {
+  let later = function () {
     previous = options.leading === false ? 0 : getTime();
     timeout = null;
     result = func.apply(context, args);
     context = args = null;
   };
-  return function() {
+  return function () {
     let now = getTime();
     if (!previous && options.leading === false) previous = now;
     let remaining = wait - (now - previous);
@@ -416,9 +416,13 @@ M.throttle = function(func, wait, options) {
 /* Feature detection */
 var passiveIfSupported = false;
 try {
-    window.addEventListener("test", null, 
-        Object.defineProperty({}, "passive", {
-            get: function() { passiveIfSupported = { passive: false }; }
-        }
-    ));
-} catch(err) {}
+  window.addEventListener(
+    'test',
+    null,
+    Object.defineProperty({}, 'passive', {
+      get: function () {
+        passiveIfSupported = { passive: false };
+      }
+    })
+  );
+} catch (err) {}

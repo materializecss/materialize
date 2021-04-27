@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   'use strict';
 
   let _defaults = {
@@ -133,9 +133,7 @@
           }
           selected = this._toggleEntryFromArray(key);
         } else {
-          $(this.dropdownOptions)
-            .find('li')
-            .removeClass('selected');
+          $(this.dropdownOptions).find('li').removeClass('selected');
           $(optionEl).toggleClass('selected', selected);
           this._keysSelected = {};
           this._keysSelected[optionEl.id] = true;
@@ -245,9 +243,7 @@
 
         // Add callback for centering selected option when dropdown content is scrollable
         dropdownOptions.onOpenEnd = (el) => {
-          let selectedOption = $(this.dropdownOptions)
-            .find('.selected')
-            .first();
+          let selectedOption = $(this.dropdownOptions).find('.selected').first();
 
           if (selectedOption.length) {
             // Focus selected option in dropdown
@@ -302,9 +298,7 @@
      * Remove dropdown
      */
     _removeDropdown() {
-      $(this.wrapper)
-        .find('.caret')
-        .remove();
+      $(this.wrapper).find('.caret').remove();
       $(this.input).remove();
       $(this.dropdownOptions).remove();
       $(this.wrapper).before(this.$el);
@@ -402,9 +396,7 @@
       for (let key in this._valueDict) {
         let option = this._valueDict[key];
         let optionIsSelected = $(option.el).prop('selected');
-        $(option.optionEl)
-          .find('input[type="checkbox"]')
-          .prop('checked', optionIsSelected);
+        $(option.optionEl).find('input[type="checkbox"]').prop('checked', optionIsSelected);
         if (optionIsSelected) {
           this._activateOption($(this.dropdownOptions), $(option.optionEl));
           this._keysSelected[key] = true;

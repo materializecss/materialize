@@ -1,4 +1,4 @@
-(function($, anim) {
+(function ($, anim) {
   'use strict';
 
   let _defaults = {
@@ -316,7 +316,7 @@
   Toast._draggedToast = null;
 
   M.Toast = Toast;
-  M.toast = function(options) {
+  M.toast = function (options) {
     return new Toast(options);
   };
 })(cash, M.anime);

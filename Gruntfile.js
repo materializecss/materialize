@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   let concatFile = 'temp/js/materialize_concat.js.map';
 
   // configure the tasks
@@ -8,22 +8,20 @@ module.exports = function(grunt) {
       components: {
         src: ['bin/materialize.js'],
         options: {
-          vendor: [
-            'node_modules/jquery/dist/jquery.min.js'
-          ],
+          vendor: ['node_modules/jquery/dist/jquery.min.js'],
           styles: 'bin/materialize.css',
           specs: 'tests/spec/**/*Spec.js',
           helpers: 'tests/spec/helper.js',
           keepRunner: true,
           page: {
             viewportSize: {
-                width: 1400,
-                height: 735
+              width: 1400,
+              height: 735
             }
           },
           sandboxArgs: {
             args: ['--headless', '--no-sandbox']
-          },
+          }
         }
       }
     },
@@ -627,15 +625,18 @@ module.exports = function(grunt) {
         options: {
           port: 9001,
           protocol: 'http',
-          middleware: function(connect, options, middlewares) {
-            middlewares.unshift(function(req, res, next){
+          middleware: function (connect, options, middlewares) {
+            middlewares.unshift(function (req, res, next) {
               res.setHeader('Access-Control-Allow-Origin', '*');
               res.setHeader('Access-Control-Allow-Credentials', true);
-              res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+              res.setHeader(
+                'Access-Control-Allow-Headers',
+                'Origin, X-Requested-With, Content-Type, Accept'
+              );
               res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
               next();
             });
-            return middlewares
+            return middlewares;
           }
         }
       }
@@ -643,10 +644,10 @@ module.exports = function(grunt) {
 
     copy: {
       docs: {
-        src: 'bin/materialize.js', dest: 'docs/js/materialize.js'
+        src: 'bin/materialize.js',
+        dest: 'docs/js/materialize.js'
       }
     }
-
   };
 
   grunt.initConfig(config);
@@ -694,7 +695,7 @@ module.exports = function(grunt) {
     'clean:temp'
   ]);
 
-  grunt.task.registerTask('configureBabel', 'configures babel options', function() {
+  grunt.task.registerTask('configureBabel', 'configures babel options', function () {
     config.babel.bin.options.inputSourceMap = grunt.file.readJSON(concatFile);
   });
 
@@ -711,7 +712,7 @@ module.exports = function(grunt) {
   grunt.registerTask('monitor', ['concurrent:monitor']);
   grunt.registerTask('travis', ['js_compile', 'sass_compile', 'connect', 'jasmine']);
   grunt.registerTask('jas_test', ['connect', 'jasmine']);
-  grunt.registerTask('test_repeat', function(){
+  grunt.registerTask('test_repeat', function () {
     const tasks = ['connect'];
     const n = 30;
     for (let i = 0; i < n; i++) {
@@ -719,7 +720,13 @@ module.exports = function(grunt) {
     }
 
     grunt.task.run(tasks);
-
   });
-  grunt.registerTask('docs', ['js_compile', 'copy:docs', 'sass:gh',  'postcss:gh', 'jade', 'replace:docs']);
+  grunt.registerTask('docs', [
+    'js_compile',
+    'copy:docs',
+    'sass:gh',
+    'postcss:gh',
+    'jade',
+    'replace:docs'
+  ]);
 };

@@ -2,15 +2,14 @@
 
 @each $color_name, $color in $colors {
   @each $color_type, $color_value in $color {
-    @if $color_type == "base" {
+    @if $color_type == 'base' {
       .#{$color_name} {
         background-color: $color_value !important;
       }
       .#{$color_name}-text {
         color: $color_value !important;
       }
-    }
-    @else if $color_name != "shades" {
+    } @else if $color_name != 'shades' {
       .#{$color_name}.#{$color_type} {
         background-color: $color_value !important;
       }

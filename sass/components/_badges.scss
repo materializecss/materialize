@@ -19,11 +19,11 @@ span.badge {
     border-radius: 2px;
   }
   &.new:after {
-    content: " new";
+    content: ' new';
   }
 
   &[data-badge-caption]::after {
-    content: " " attr(data-badge-caption);
+    content: ' ' attr(data-badge-caption);
   }
 }
 

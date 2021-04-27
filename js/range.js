@@ -1,4 +1,4 @@
-(function($, anim) {
+(function ($, anim) {
   'use strict';
 
   let _defaults = {};
@@ -222,11 +222,7 @@
      * morph thumb into bubble
      */
     _showRangeBubble() {
-      let paddingLeft = parseInt(
-        $(this.thumb)
-          .parent()
-          .css('padding-left')
-      );
+      let paddingLeft = parseInt($(this.thumb).parent().css('padding-left'));
       let marginLeft = -7 + paddingLeft + 'px'; // TODO: fix magic number?
       anim.remove(this.thumb);
       anim({

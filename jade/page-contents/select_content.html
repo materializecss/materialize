@@ -1,12 +1,13 @@
 <div class="container">
   <div class="row">
-
     <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-
       <div id="introduction" class="section scrollspy">
-        <p> Select allows user input through specified options. Make sure you wrap it in a
-          <code class="language-markup">.input-field</code> for proper alignment with other text fields. Remember that this is a jQuery plugin so make sure you
-          <a href="#initialization">initialize</a> this in your document ready. </p>
+        <p>
+          Select allows user input through specified options. Make sure you wrap it in a
+          <code class="language-markup">.input-field</code> for proper alignment with other text
+          fields. Remember that this is a jQuery plugin so make sure you
+          <a href="#initialization">initialize</a> this in your document ready.
+        </p>
         <div class="row">
           <form class="col s12">
             <div class="row">
@@ -20,9 +21,11 @@
                 <label>Materialize Select</label>
               </div>
               <div class="col s12">
-                <br>
-                <p>You can add the property
-                  <code class="language-markup">multiple</code> to get the multiple select and select several options.</p>
+                <br />
+                <p>
+                  You can add the property <code class="language-markup">multiple</code> to get the
+                  multiple select and select several options.
+                </p>
               </div>
               <div class="input-field col s12 m6">
                 <select multiple>
@@ -34,7 +37,7 @@
                 <label>Materialize Multiple Select</label>
               </div>
               <div class="col s12">
-                <br>
+                <br />
                 <p>We also support optgroups in our selects.</p>
               </div>
               <div class="input-field col s12 m6">
@@ -51,9 +54,11 @@
                 <label>Optgroups</label>
               </div>
               <div class="col s12">
-                <br>
-                <p>You can add icons to your options in any type of select. In the option you add the image source with the
-                  <code class="language-markup">data-icon</code> attribute.</p>
+                <br />
+                <p>
+                  You can add icons to your options in any type of select. In the option you add the
+                  image source with the <code class="language-markup">data-icon</code> attribute.
+                </p>
               </div>
               <div class="input-field col s12 m6">
                 <select class="icons">
@@ -74,9 +79,11 @@
                 <label>Images in select</label>
               </div>
               <div class="col s12">
-                <br>
-                <p>You can add the class
-                  <code class="language-markup">browser-default</code> to get the browser default.</p>
+                <br />
+                <p>
+                  You can add the class <code class="language-markup">browser-default</code> to get
+                  the browser default.
+                </p>
               </div>
               <div class="col s12 m6">
                 <label>Browser Select</label>
@@ -158,8 +165,10 @@
 
       <div id="initialization" class="scrollspy section">
         <h3 class="header">Initialization</h3>
-        <p>You must initialize the select element as shown below. In addition, you will need a separate call for any dynamically
-          generated select elements your page generates.</p>
+        <p>
+          You must initialize the select element as shown below. In addition, you will need a
+          separate call for any dynamically generated select elements your page generates.
+        </p>
 
         <pre><code class="language-javascript">
   document.addEventListener('DOMContentLoaded', function() {
@@ -177,7 +186,7 @@
     });
   });
         </code></pre>
-        <br>
+        <br />
       </div>
 
       <div id="options" class="scrollspy section">
@@ -207,14 +216,16 @@
             </tr>
           </tbody>
         </table>
-        <br>
+        <br />
       </div>
 
       <div id="methods" class="scrollspy section">
         <h3 class="header">Methods</h3>
         <blockquote>
-          <p>Because jQuery is no longer a dependency, all the methods are called on the plugin instance. You can get the plugin
-            instance like this: </p>
+          <p>
+            Because jQuery is no longer a dependency, all the methods are called on the plugin
+            instance. You can get the plugin instance like this:
+          </p>
           <pre><code class="language-javascript col s12">
   var instance = M.FormSelect.getInstance(elem);
 
@@ -228,21 +239,16 @@
         </code></pre>
         </blockquote>
 
-        <h5 class="method-header">
-          .getSelectedValues();
-        </h5>
+        <h5 class="method-header">.getSelectedValues();</h5>
         <p>Get selected values in an array.</p>
         <h6>Return Value</h6>
-        <p>
-          <b>Array:</b> Array of selected values.</p>
+        <p><b>Array:</b> Array of selected values.</p>
         <pre><code class="language-javascript col s12">
 instance.getSelectedValues();
       </code></pre>
-        <br>
+        <br />
 
-        <h5 class="method-header">
-          .destroy();
-        </h5>
+        <h5 class="method-header">.destroy();</h5>
         <p>Destroy plugin instance and teardown</p>
         <pre><code class="language-javascript col s12">
 instance.destroy();
@@ -303,12 +309,15 @@ instance.destroy();
       <div id="disabled" class="section scrollspy">
         <div class="row">
           <div class="col s12">
-            <br>
-            <br>
+            <br />
+            <br />
             <h3 class="header">Disabled Styles</h3>
-            <p>You can also add
-              <code class="language-markup">disabled</code> to the select element to make the whole thing disabled. Or if you add
-              <code class="language-markup">disabled</code> to the options, the individual options will be unselectable. </p>
+            <p>
+              You can also add <code class="language-markup">disabled</code> to the select element
+              to make the whole thing disabled. Or if you add
+              <code class="language-markup">disabled</code> to the options, the individual options
+              will be unselectable.
+            </p>
           </div>
           <form class="col s12 m6">
             <div class="row">
@@ -357,12 +366,10 @@ instance.destroy();
           </div>
         </div>
       </div>
-
-
     </div>
     <div class="col hide-on-small-only m3 xl3 offset-xl1">
       <div class="toc-wrapper">
-        <div style="height: 1px;">
+        <div style="height: 1px">
           <ul class="section table-of-contents">
             <li>
               <a href="#introduction">Introduction</a>
@@ -386,6 +393,5 @@ instance.destroy();
         </div>
       </div>
     </div>
-
   </div>
 </div>

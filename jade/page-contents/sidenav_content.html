@@ -1,16 +1,18 @@
 <div class="container">
   <div class="row">
-
     <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-
       <div id="structure" class="section scrollspy">
         <p class="caption">
-          This is a slide out menu. You can add a dropdown to your sidebar by using our collapsible component. If you want to see a
-          demo, our sidebar will use this on smaller screens. To use this in conjunction with a fullscreen navigation, you
-          have to use two copies of the same UL.
+          This is a slide out menu. You can add a dropdown to your sidebar by using our collapsible
+          component. If you want to see a demo, our sidebar will use this on smaller screens. To use
+          this in conjunction with a fullscreen navigation, you have to use two copies of the same
+          UL.
         </p>
         <p>
-          <strong>Please note that the sidenav HTML should not be contained within the navbar HTML.</strong>
+          <strong
+            >Please note that the sidenav HTML should not be contained within the navbar
+            HTML.</strong
+          >
         </p>
 
         <a href="#" data-target="slide-out" class="sidenav-trigger btn">Side nav demo</a>
@@ -19,10 +21,10 @@
           <li>
             <div class="user-view">
               <div class="background">
-                <img src="images/office.jpg">
+                <img src="images/office.jpg" />
               </div>
               <a href="#user">
-                <img class="circle" src="images/yuna.jpg">
+                <img class="circle" src="images/yuna.jpg" />
               </a>
               <a href="#name">
                 <span class="white-text name">John Doe</span>
@@ -33,8 +35,7 @@
             </div>
           </li>
           <li>
-            <a href="#!">
-              <i class="material-icons">cloud</i>First Link With Icon</a>
+            <a href="#!"> <i class="material-icons">cloud</i>First Link With Icon</a>
           </li>
           <li>
             <a href="#!">Second Link</a>
@@ -50,7 +51,7 @@
           </li>
         </ul>
 
-        <br/>
+        <br />
 
         <pre><code class="language-markup col s12">
 
@@ -100,7 +101,6 @@
   });
         </code></pre>
       </div>
-
 
       <div id="options" class="scrollspy section">
         <h3 class="header">Options</h3>
@@ -177,15 +177,16 @@
             </tr>
           </tbody>
         </table>
-        <br>
+        <br />
       </div>
-
 
       <div id="methods" class="scrollspy section">
         <h3 class="header">Methods</h3>
         <blockquote>
-          <p>Because jQuery is no longer a dependency, all the methods are called on the plugin instance. You can get the plugin
-            instance like this: </p>
+          <p>
+            Because jQuery is no longer a dependency, all the methods are called on the plugin
+            instance. You can get the plugin instance like this:
+          </p>
           <pre><code class="language-javascript col s12">
   var instance = M.Sidenav.getInstance(elem);
 
@@ -198,33 +199,26 @@
   */
           </code></pre>
         </blockquote>
-        <h5 class="method-header">
-          .open();
-        </h5>
+        <h5 class="method-header">.open();</h5>
         <p>Opens Sidenav.</p>
         <pre><code class="language-javascript col s12">
 instance.open();
         </code></pre>
-        <br>
+        <br />
 
-        <h5 class="method-header">
-          .close();
-        </h5>
+        <h5 class="method-header">.close();</h5>
         <p>Closes Sidenav.</p>
         <pre><code class="language-javascript col s12">
 instance.close();
         </code></pre>
-        <br>
+        <br />
 
-        <h5 class="method-header">
-          .destroy();
-        </h5>
+        <h5 class="method-header">.destroy();</h5>
         <p>Destroy plugin instance and teardown</p>
         <pre><code class="language-javascript col s12">
 instance.destroy();
         </code></pre>
       </div>
-
 
       <div id="properties" class="scrollspy section">
         <h3 class="header">Properties</h3>
@@ -267,12 +261,13 @@ instance.destroy();
         </table>
       </div>
 
-
       <div id="close-trigger" class="section scrollspy">
         <h3 class="header">Close Trigger</h3>
-        <p>Add the class
-          <code class="language-markup">.sidenav-close</code> to an element inside the sidenav and any click event on that element will cause the sidenav to close. This is
-          useful in Single Page Apps where the page does not refresh on link clicks.</p>
+        <p>
+          Add the class <code class="language-markup">.sidenav-close</code> to an element inside the
+          sidenav and any click event on that element will cause the sidenav to close. This is
+          useful in Single Page Apps where the page does not refresh on link clicks.
+        </p>
         <pre><code class="language-markup col s12">
   &lt;ul id="slide-out" class="sidenav">
       &lt;li>&lt;a class="sidenav-close" href="#!">Clicking this will close Sidenav&lt;/a>&lt;/li>
@@ -280,7 +275,6 @@ instance.destroy();
   &lt;a href="#" data-target="slide-out" class="sidenav-trigger">&lt;i class="material-icons">menu&lt;/i>&lt;/a>
           </code></pre>
       </div>
-
 
       <div id="variations" class="scrollspy section">
         <h3 class="header">Variations</h3>
@@ -323,12 +317,14 @@ instance.destroy();
     &lt;/ul>
     &lt;a href="#" data-target="slide-out" class="sidenav-trigger">&lt;i class="material-icons">menu&lt;/i>&lt;/a>
           </code></pre>
-        <br>
+        <br />
 
         <h4>Fullscreen HTML Structure</h4>
-        <p>If you want the menu to be accessible on all screensizes you just have to add a simple helper class
-          <code class="language-markup">show-on-large</code> to the
-          <code class="language-markup">.sidenav-trigger</code>. </p>
+        <p>
+          If you want the menu to be accessible on all screensizes you just have to add a simple
+          helper class <code class="language-markup">show-on-large</code> to the
+          <code class="language-markup">.sidenav-trigger</code>.
+        </p>
 
         <pre><code class="language-markup col s12">
     &lt;ul id="slide-out" class="sidenav">
@@ -337,12 +333,14 @@ instance.destroy();
     &lt;/ul>
     &lt;a href="#" data-target="slide-out" class="sidenav-trigger show-on-large">&lt;i class="material-icons">menu&lt;/i>&lt;/a>
           </code></pre>
-        <br>
+        <br />
 
         <h4>Fixed HTML Structure</h4>
-        <p>Add the class
-          <code class="language-markup">sidenav-fixed</code> to have the sidenav be fixed and open on large screens and hides to the regular functionality on smaller screens.
-          Our sidenav on the left is an example of this.</p>
+        <p>
+          Add the class <code class="language-markup">sidenav-fixed</code> to have the sidenav be
+          fixed and open on large screens and hides to the regular functionality on smaller screens.
+          Our sidenav on the left is an example of this.
+        </p>
         <pre><code class="language-markup col s12">
     &lt;ul id="slide-out" class="sidenav sidenav-fixed">
       &lt;li>&lt;a href="#!">First Sidebar Link&lt;/a>&lt;/li>
@@ -350,8 +348,11 @@ instance.destroy();
     &lt;/ul>
     &lt;a href="#" data-target="slide-out" class="sidenav-trigger">&lt;i class="material-icons">menu&lt;/i>&lt;/a>
           </code></pre>
-        <p>If you are planning on using this you will have to offset your content by the width of the side menu. Place the padding
-          on where the offset content will be, which in our case is in header, main and footer.</p>
+        <p>
+          If you are planning on using this you will have to offset your content by the width of the
+          side menu. Place the padding on where the offset content will be, which in our case is in
+          header, main and footer.
+        </p>
         <pre><code class="language-css col s12">
     header, main, footer {
       padding-left: 300px;
@@ -369,7 +370,7 @@ instance.destroy();
     <!-- Table of Contents -->
     <div class="col hide-on-small-only m3 xl3 offset-xl1">
       <div class="toc-wrapper">
-        <div style="height: 1px;">
+        <div style="height: 1px">
           <ul class="section table-of-contents">
             <li>
               <a href="#structure">Structure</a>
@@ -396,6 +397,5 @@ instance.destroy();
         </div>
       </div>
     </div>
-
   </div>
 </div>
