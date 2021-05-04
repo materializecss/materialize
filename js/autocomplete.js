@@ -12,7 +12,7 @@
       coverTrigger: false
     },
     minLength: 1, // Min characters before autocomplete starts
-    sortFunction: function(a, b, inputString) {
+    compareFunction: function(a, b, inputString) {
       // Sort function for sorting autocomplete results
       return a.indexOf(inputString) - b.indexOf(inputString);
     },
@@ -363,29 +363,44 @@
 
       let matchingData = [];
 
-      // Gather all matching data
-      for (let key in data) {
-        if (data.hasOwnProperty(key) && key.toLowerCase().indexOf(val) !== -1) {
-          let entry = {
-            data: data[key],
-            key: key
-          };
-          matchingData.push(entry);
+      if (this.options.customSort) {
+        const customResult = this.options.customSort(data, val.toLowerCase());
 
-          this.count++;
-        }
-      }
-
-      // Sort
-      if (this.options.sortFunction) {
-        let sortFunctionBound = (a, b) => {
-          return this.options.sortFunction(
-            a.key.toLowerCase(),
-            b.key.toLowerCase(),
-            val.toLowerCase()
+        // Check to make sure the result is an array
+        if (Array.isArray(customResult)) {
+          // If it is, use it
+          matchingData = customResult;
+        } else {
+          // If not, throw an error
+          console.error(
+            'customSort should return an array objects. For more info see https://materializecss.github.io/materialize/autocomplete.html'
           );
-        };
-        matchingData.sort(sortFunctionBound);
+        }
+      } else {
+        // Gather all matching data
+        for (let key in data) {
+          if (data.hasOwnProperty(key) && key.toLowerCase().indexOf(val) !== -1) {
+            let entry = {
+              data: data[key],
+              key: key
+            };
+            matchingData.push(entry);
+
+            this.count++;
+          }
+        }
+
+        // Sort
+        if (this.options.compareFunction) {
+          let compareFunctionBound = (a, b) => {
+            return this.options.compareFunction(
+              a.key.toLowerCase(),
+              b.key.toLowerCase(),
+              val.toLowerCase()
+            );
+          };
+          matchingData.sort(compareFunctionBound);
+        }
       }
 
       // Limit
