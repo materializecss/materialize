@@ -43,7 +43,16 @@ $success-color: color("green", "base") !default;
 $error-color: color("red", "base") !default;
 $link-color: color("light-blue", "darken-1") !default;
 
+$bg-color: var(--background-color) !default;
+$bg-hover-color-opaque: var(--hover-color) !default;
+$bg-focus-color-opaque: var(--focus-color) !default;
 
+$secondary-color-when-hovered-solid: lighten($secondary-color, 4%) !default;
+$secondary-color-when-focused-solid: lighten($secondary-color, 12%) !default;
+$secondary-color-hover-opaque: rgba($secondary-color, 0.08) !default;
+$secondary-color-focus-opaque: rgba($secondary-color, 0.24) !default;
+
+$divider-color: var(--separator-color);
 // 2. Badges
 // ==========================================================================
 
@@ -64,8 +73,8 @@ $button-padding: 0 16px !default;
 $button-radius: 2px !default;
 
 // Disabled styles
-$button-disabled-background: #DFDFDF !default;
-$button-disabled-color: #9F9F9F !default;
+$button-disabled-background: var(--background-color-disabled) !default;
+$button-disabled-color: var(--font-color-disabled) !default;
 
 // Raised buttons
 $button-raised-background: $secondary-color !default;
@@ -85,8 +94,10 @@ $button-small-height: $button-height * .9 !default;
 $button-floating-small-size: $button-height * .9 !default;
 
 // Flat buttons
-$button-flat-color: #343434 !default;
-$button-flat-disabled-color: lighten(#999, 10%) !default;
+$button-flat-color: var(--font-color-medium) !default;
+$button-flat-hover-background-color: var(--hover-color) !default;
+$button-flat-focus-background-color: var(--focus-color) !default;
+$button-flat-disabled-color: var(--font-color-disabled) !default;
 
 // Floating buttons
 $button-floating-background: $secondary-color !default;
@@ -146,15 +157,17 @@ $datepicker-selected-outfocus: desaturate(lighten($secondary-color, 35%), 15%) !
 $datepicker-day-focus: transparentize(desaturate($secondary-color, 5%), .75) !default;
 $datepicker-disabled-day-color: rgba(0, 0, 0, .3) !default;
 
-$timepicker-clock-color: rgba(0, 0, 0, .87) !default;
-$timepicker-clock-plate-bg: #eee !default;
+$timepicker-clock-bg: $bg-color !default;
+$timepicker-clock-color: var(--font-color-main) !default;
+$timepicker-clock-plate-bg: var(--background-color-level-4dp) !default;
 
 
 // 9. Dropdown
 // ==========================================================================
 
-$dropdown-bg-color: #fff !default;
-$dropdown-hover-bg-color: #eee !default;
+$dropdown-bg-color: $bg-color !default;
+$dropdown-hover-bg-color: $bg-hover-color-opaque !default;
+$dropdown-focus-bg-color: $bg-focus-color-opaque !default;
 $dropdown-color: $secondary-color !default;
 $dropdown-item-height: 50px !default;
 
@@ -164,7 +177,8 @@ $dropdown-item-height: 50px !default;
 
 // Text Inputs + Textarea
 $input-height: 3rem !default;
-$input-border-color: color("grey", "base") !default;
+$input-border-color: var(--font-color-medium) !default;
+$input-color: var(--font-color-main) !default;
 $input-border: 1px solid $input-border-color !default;
 $input-background: #fff !default;
 $input-error-color: $error-color !default;
@@ -180,7 +194,7 @@ $input-disabled-solid-color: #949494 !default;
 $input-disabled-border: 1px dotted $input-disabled-color !default;
 $input-invalid-border: 1px solid $input-error-color !default;
 $input-icon-size: 2rem;
-$placeholder-text-color: lighten($input-border-color, 20%) !default;
+$placeholder-text-color: var(--font-color-medium) !default;
 
 // Radio Buttons
 $radio-fill-color: $secondary-color !default;
@@ -191,23 +205,29 @@ $radio-border: 2px solid $radio-fill-color !default;
 $range-height: 14px !default;
 $range-width: 14px !default;
 $track-height: 3px !default;
+$range-track-color: var(--slider-track-color) !default;
 
 // Select
 $select-border: 1px solid #f2f2f2 !default;
-$select-background: rgba(255, 255, 255, 0.90) !default;
+$select-background: $bg-color !default;
 $select-focus: 1px solid lighten($secondary-color, 47%) !default;
-$select-option-hover: rgba(0,0,0,.08) !default;
-$select-option-focus: rgba(0,0,0,.08) !default;
-$select-option-selected: rgba(0,0,0,.03) !default;
+$select-option-hover: $bg-hover-color-opaque !default;
+$select-option-focus: $bg-focus-color-opaque !default;
+$select-option-selected: $bg-focus-color-opaque !default;
 $select-padding: 5px !default;
 $select-radius: 2px !default;
-$select-disabled-color: rgba(0,0,0,.3) !default;
+$select-disabled-color: var(--font-color-disabled) !default;
+$select-input-color: var(--font-color-main)  !default;
 
 // Switches
-$switch-bg-color: $secondary-color !default;
-$switch-checked-lever-bg: desaturate(lighten($switch-bg-color, 25%), 25%) !default;
-$switch-unchecked-bg: #F1F1F1 !default;
-$switch-unchecked-lever-bg: rgba(0,0,0,.38) !default;
+$switch-thumb-checked-color: $secondary-color !default;
+$switch-thumb-unchecked-color: var(--switch-thumb-off-color) !default;
+$switch-track-unchecked-bg: var(--slider-track-color) !default;
+$switch-track-checked-bg: rgba($secondary-color, 0.32)  !default;
+$switch-reaction-checked-focus-color: $secondary-color-focus-opaque !default;
+$switch-reaction-unchecked-focus-color: $bg-focus-color-opaque !default;
+$switch-reaction-checked-hover-color: $secondary-color-hover-opaque !default;
+$switch-reaction-unchecked-hover-color: $bg-hover-color-opaque !default;
 $switch-radius: 15px !default;
 
 
@@ -255,8 +275,10 @@ $navbar-brand-font-size: 2.1rem !default;
 
 $sidenav-width: 300px !default;
 $sidenav-font-size: 14px !default;
-$sidenav-font-color: rgba(0,0,0,.87) !default;
-$sidenav-bg-color: #fff !default;
+$sidenav-font-color: var(--font-color-main) !default;
+$sidenav-bg-color: $bg-color !default;
+$sidenav-icon-color: var(--font-color-medium) !default;
+$sidenav-subheader-color: var(--font-color-medium) !default;
 $sidenav-padding: 16px !default;
 $sidenav-item-height: 48px !default;
 $sidenav-line-height: $sidenav-item-height !default;
@@ -279,9 +301,13 @@ $spinner-default-color: $secondary-color !default;
 // 17. Tabs
 // ==========================================================================
 
-$tabs-underline-color: $primary-color-light !default;
-$tabs-text-color: $primary-color !default;
-$tabs-bg-color: #fff !default;
+$tabs-underline-color: $secondary-color !default;
+$tabs-text-color: $button-flat-color !default;
+$tabs-active-text-color: $secondary-color !default;
+$tabs-disabled-text-color: $button-disabled-color !default;
+$tabs-bg-color: var(--background-color) !default;
+$tabs-hover-bg-color: var(--hover-color) !default;
+$tabs-focus-bg-color: var(--focus-color) !default;
 
 
 // 18. Tables
@@ -304,7 +330,7 @@ $toast-action-color: #eeff41;
 // ==========================================================================
 
 $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !default;
-$off-black: rgba(0, 0, 0, 0.87) !default;
+$off-black: var(--font-color-main) !default;
 // Header Styles
 $h1-fontsize: 4.2rem !default;
 $h2-fontsize: 3.56rem !default;

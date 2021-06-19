@@ -1,0 +1,41 @@
+:root {
+    --surface-color: #ffffff;
+    --background-color: #ffffff;
+
+    --font-color-main: rgba(0, 0, 0, 0.87);
+    --font-color-medium: rgba(0, 0, 0, 0.56);
+    --font-color-disabled: rgba(0, 0, 0, 0.38);
+
+    --hover-color: rgba(0, 0, 0, 0.04);
+    --focus-color: rgba(0, 0, 0, 0.12);
+    --focus-color-solid: #E0E0E0;
+
+    --background-color-disabled: rgba(0, 0, 0, 0.12);
+    --background-color-level-4dp: rgba(0, 0, 0, 0.09);
+
+    --separator-color: #DDDDDD; /* borders between components */
+
+    --slider-track-color: rgba(0, 0, 0, 0.32);
+    --switch-thumb-off-color: #ffffff;
+}
+
+:root[theme='dark'] {
+    --surface-color: #121212;
+    --background-color: #242424;
+
+    --font-color-main: rgba(255, 255, 255, 0.87);
+    --font-color-medium: rgba(255, 255, 255, 0.60);
+    --font-color-disabled: rgba(255, 255, 255, 0.38);
+
+    --hover-color: rgba(255, 255, 255, 0.04);
+    --focus-color: rgba(255, 255, 255, 0.12);
+    --focus-color-solid: #424242;
+
+    --background-color-disabled: rgba(255, 255, 255, 0.12);
+    --background-color-level-4dp: rgba(255, 255, 255, 0.09);
+
+    --separator-color: #424242; /* borders between components */
+
+    --slider-track-color: rgba(255, 255, 255, 0.32);
+    --switch-thumb-off-color: #bababa;
+}

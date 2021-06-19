@@ -47,17 +47,19 @@
     a {
       &:focus,
       &:focus.active {
-        background-color: transparentize($tabs-underline-color, .8);
+        background-color: $tabs-focus-bg-color;
         outline: none;
       }
 
-      &:hover,
       &.active {
-        background-color: transparent;
-        color: $tabs-text-color;
+        color: $tabs-active-text-color;
       }
 
-      color: rgba($tabs-text-color, .7);
+      &:hover {
+        background-color: $tabs-hover-bg-color;
+      }
+
+      color: $tabs-text-color;
       display: block;
       width: 100%;
       height: 100%;
@@ -70,8 +72,9 @@
 
     &.disabled a,
     &.disabled a:hover {
-      color: rgba($tabs-text-color, .4);
+      color: $tabs-disabled-text-color;
       cursor: default;
+      background-color: transparent;
     }
   }
   .indicator {

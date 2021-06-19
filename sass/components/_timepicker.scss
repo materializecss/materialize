@@ -58,7 +58,8 @@
 
 /* Analog Clock Display */
 .timepicker-analog-display {
-  flex: 2.5 auto;
+	flex: 2.5 auto;
+	background-color: $timepicker-clock-bg;
 }
 
 .timepicker-plate {
