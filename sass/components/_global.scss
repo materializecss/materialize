@@ -647,7 +647,7 @@ td, th{
     height: 4px;
     display: block;
     width: 100%;
-    background-color: lighten($progress-bar-color, 40%);
+    background-color: $progress-bar-track-color;
     border-radius: 2px;
     margin: $element-top-margin 0 $element-bottom-margin 0;
     overflow: hidden;

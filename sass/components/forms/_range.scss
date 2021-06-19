@@ -95,7 +95,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .keyboard-focused input[type=range]:focus:not(.active)::-webkit-slider-thumb {
-  box-shadow: 0 0 0 10px rgba($radio-fill-color, .26);
+  box-shadow: 0 0 0 10px $radio-focus-color;
 }
 
 // FireFox
@@ -126,7 +126,7 @@ input[type=range]:-moz-focusring {
 }
 
 .keyboard-focused input[type=range]:focus:not(.active)::-moz-range-thumb {
-  box-shadow: 0 0 0 10px rgba($radio-fill-color, .26);
+  box-shadow: 0 0 0 10px $radio-focus-color;
 }
 
 // IE 10+
@@ -157,5 +157,5 @@ input[type=range]::-ms-thumb {
 }
 
 .keyboard-focused input[type=range]:focus:not(.active)::-ms-thumb {
-  box-shadow: 0 0 0 10px rgba($radio-fill-color, .26);
+  box-shadow: 0 0 0 10px $radio-focus-color;
 }
