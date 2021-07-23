@@ -245,5 +245,5 @@ function copyText() {
   .insertAdjacentHTML('afterend',
   `<span style="margin-left:10px; font-size:14px;">Copied!</span>`
   )
-  // alert("Code copied to clipboard: " + textArea.value);
+  document.getElementById("copyButton").onclick = "";
   }
