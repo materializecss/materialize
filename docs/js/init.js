@@ -236,14 +236,15 @@
 function copyText() {
   const copiedText = document.getElementById('copiedText').textContent
   const textArea = document.createElement('textArea');
+
   textArea.textContent = copiedText;
   document.body.append(textArea);
   textArea.select();
   textArea.setSelectionRange(0, 99999)
   document.execCommand('copy');
   document.getElementById('copyButton')
-  .insertAdjacentHTML('afterend',
-  `<span style="margin-left:10px; font-size:14px;">Copied!</span>`
-  )
+    .insertAdjacentHTML('afterend', 
+      `<span style="margin-left:10px; font-size:14px;">Copied!</span>`
+    )
   document.getElementById("copyButton").onclick = "";
-  }
+}
