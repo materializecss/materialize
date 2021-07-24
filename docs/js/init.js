@@ -246,7 +246,5 @@ function copyText() {
   copyBtn.insertAdjacentHTML('afterend', 
     `<span style="margin-left:10px; font-size:14px;">Copied!</span>`
   )
-  copyBtn.classList.remove("waves-effect");
-  copyBtn.classList.remove("waves-light");
   copyBtn.classList.add("disabled");
 }
