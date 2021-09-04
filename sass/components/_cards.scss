@@ -16,7 +16,7 @@
   transition: box-shadow .25s;
   border-radius: 2px;
   @extend .z-depth-1;
-
+  
 
   .card-title {
     font-size: 24px;
@@ -141,7 +141,10 @@
   .card-content {
     padding: $card-padding;
     border-radius: 0 0 2px 2px;
-
+    
+    .card-smalltext {
+      text-transform: uppercase;
+    }
     p {
       margin: 0;
     }
