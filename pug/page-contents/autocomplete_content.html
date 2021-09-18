@@ -117,10 +117,16 @@
               <td>Minimum number of characters before autocomplete starts.</td>
             </tr>
             <tr>
-              <td>sortFunction</td>
+              <td>compareFunction</td>
               <td>Function</td>
               <td></td>
-              <td>Sort function that defines the order of the list of autocomplete options.</td>
+              <td>A function that compares two values and decides which goes first.</td>
+            </tr>
+            <tr>
+              <td>customSort</td>
+              <td>Function</td>
+              <td></td>
+              <td>A function that defines the order of the list of autocomplete options.</td>
             </tr>
             <tr>
               <td>allowUnsafeHTML</td>
@@ -138,22 +144,41 @@
         </table>
 
         <h5 class="method-header">
-          sortFunction
+          compareFunction
         </h5>
         <p>This is the default compareFunction. You can write your own compareFunction by passing in a function with these same
           3 parameters. You can read more about how a compareFunction works
           <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort">here</a>.</p>
-          <pre style="padding-top: 0px;">
-            <span class="copyMessage">Copied!</span>
-            <i class="material-icons copyButton">content_copy</i>
-            <code class="language-javascript col s12 copiedText">
-  // Sort function for sorting autocomplete results
+        <pre><code class="language-javascript col s12">
+  // Compare function for sorting autocomplete results
   function (a, b, inputString) {
     return a.indexOf(inputString) - b.indexOf(inputString);
   }
             </code>
           </pre>
         <p>To disable sorting and use the values as they appear in the data object, use a falsy value.</p>
+
+        <h5 class="method-header">
+          customSort
+        </h5>
+        <p>A custom sort function takes 2 arguments, an object of all the elements in the autocomplete and the user input.
+          This function should return an array of objects.
+          <pre><code class="language-javascript col s12">
+  // Example of an input object
+  {
+    "Apple":null,
+    "Microsoft":null,
+    "Google":"https://placehold.it/250x250"
+  }
+
+  // Example of an output array
+  [
+    {"data":null,"key":"Apple"},
+    {"data":"https://placehold.it/250x250","key":"Google"}
+  ]
+          </code></pre>
+          This allows you to do things such as implmenting a fuzzy search using <a href="https://fusejs.io/">Fuse.js</a> or similar libraries.
+          An implementation of this can be found here: <a href="https://github.com/materializecss/materialize/blob/v1-dev/test/html/autocomplete.html">materialize/autocomplete.html</a></p>
       </div>
 
 
