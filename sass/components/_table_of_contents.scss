@@ -9,22 +9,23 @@
   li {
     padding: 2px 0;
   }
+
   a {
     display: inline-block;
-    font-weight: 300;
-    color: #757575;
+    font-weight: 400;
+    color: $font-color-medium;
     padding-left: 16px;
     height: 1.5rem;
     line-height: 1.5rem;
-    letter-spacing: .4;
-    display: inline-block;
 
     &:hover {
-      color: lighten(#757575, 20%);
+      color: $font-color-main;
       padding-left: 15px;
       border-left: 1px solid $primary-color;
     }
+
     &.active {
+      color: $font-color-main;
       font-weight: 500;
       padding-left: 14px;
       border-left: 2px solid $primary-color;

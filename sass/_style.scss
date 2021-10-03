@@ -594,17 +594,7 @@ thead {
 ul.table-of-contents {
   margin-top: 0;
   padding-top: 48px;
-
-  a {
-    &.active {
-      color: rgba(0,0,0,.8);
-    }
-    color: rgba(0,0,0,.55);
-    font-weight: 400;
-  }
 }
-
-
 
 // Prism Styling
 code, pre {

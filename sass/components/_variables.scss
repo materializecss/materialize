@@ -41,6 +41,10 @@ $primary-color-font-disabled-color: rgba($primary-color, 0.4) !default;
 $primary-color-hover-opaque: rgba($primary-color, 0.06) !default;
 $primary-color-focus-opaque: rgba($primary-color, 0.18) !default;
 
+$font-color-main: rgba(0, 0, 0, 0.87) !default;
+$font-color-medium: rgba(0, 0, 0, 0.56) !default;
+$font-color-disabled: rgba(0, 0, 0, 0.38) !default;
+
 $secondary-color: color("teal", "lighten-1") !default;
 $success-color: color("green", "base") !default;
 $error-color: color("red", "base") !default;
@@ -55,12 +59,14 @@ $secondary-color-when-focused-solid: lighten($secondary-color, 12%) !default;
 $secondary-color-hover-opaque: rgba($secondary-color, 0.08) !default;
 $secondary-color-focus-opaque: rgba($secondary-color, 0.24) !default;
 
+$divider-color: #DDDDDD;
+
 // 2. Badges
 // ==========================================================================
 
 $badge-bg-color: $secondary-color !default;
 $badge-height: 22px !default;
-
+$badge-color: $font-color-medium !default;
 
 // 3. Buttons
 // ==========================================================================
