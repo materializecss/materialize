@@ -16,8 +16,8 @@
   width: 0;
   height: 0;
 
-  &:checked:not([disabled]) {
-    background-color: $switch-checked-lever-bg;
+  &:checked + .lever{
+    background-color: $switch-track-checked-bg;
   }
 
   &:checked + .lever {
@@ -26,7 +26,7 @@
     }
 
     &:after {
-      background-color: $switch-bg-color;
+      background-color: $switch-thumb-checked-color;
     }
   }
 }
@@ -37,7 +37,7 @@
   position: relative;
   width: 36px;
   height: 14px;
-  background-color: $switch-unchecked-lever-bg;
+  background-color: $switch-track-unchecked-bg;
   border-radius: $switch-radius;
   margin-right: 10px;
   transition: background 0.3s ease;
@@ -56,36 +56,40 @@
     transition: left 0.3s ease, background .3s ease, box-shadow 0.1s ease, transform .1s ease;
   }
 
-  &:before {
-    background-color: transparentize($switch-bg-color, .85);
-  }
-
   &:after {
-    background-color: $switch-unchecked-bg;
+    background-color: $switch-thumb-unchecked-color;
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   }
+}
+
+input[type=checkbox]:not(:disabled) ~ .lever:active:before,
+input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::before,
+input[type=checkbox]:not(:disabled) ~ .lever:hover::before {
+    transform: scale(2.4);
+}
+
+input[type=checkbox]:checked:not(:disabled) ~ .lever:hover::before {
+  background-color: $switch-reaction-checked-hover-color;
 }
 
 // Switch active style
 input[type=checkbox]:checked:not(:disabled) ~ .lever:active::before,
 input[type=checkbox]:checked:not(:disabled).tabbed:focus ~ .lever::before {
-  transform: scale(2.4);
-  background-color: transparentize($switch-bg-color, .85);
+  background-color: $switch-reaction-checked-focus-color;
+}
+
+input[type=checkbox]:not(:disabled) ~ .lever:hover::before {
+  background-color: $switch-reaction-unchecked-hover-color;
 }
 
 input[type=checkbox]:not(:disabled) ~ .lever:active:before,
 input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::before {
-  transform: scale(2.4);
-  background-color: rgba(0,0,0,.08);
+  background-color: $switch-reaction-unchecked-focus-color;
 }
 
 // Disabled Styles
 .switch input[type=checkbox][disabled] + .lever {
   cursor: default;
-  background-color: rgba(0,0,0,.12);
+  opacity: 0.5;
 }
 
-.switch label input[type=checkbox][disabled] + .lever:after,
-.switch label input[type=checkbox][disabled]:checked + .lever:after {
-  background-color: $input-disabled-solid-color;
-}

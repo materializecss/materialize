@@ -53,14 +53,6 @@
   }
 }
 
-// Shared focus button style
-.btn,
-.btn-floating {
-  &:focus {
-    background-color: darken($button-raised-background, 10%);
-  }
-}
-
 // Raised Button
 .btn {
   text-decoration: none;
@@ -75,12 +67,20 @@
     background-color: $button-raised-background-hover;
     @extend .z-depth-1-half;
   }
+  &:focus {
+    background-color: $button-raised-background-focus;
+    @extend .z-depth-1-half;
+  }
 }
 
 // Floating button
 .btn-floating {
   &:hover {
     background-color: $button-floating-background-hover;
+    @extend .z-depth-1-half;
+  }
+  &:focus {
+    background-color: $button-floating-background-focus;
     @extend .z-depth-1-half;
   }
   &:before {
