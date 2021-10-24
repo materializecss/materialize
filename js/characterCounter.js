@@ -77,6 +77,9 @@
      * Setup counter element
      */
     _setupCounter() {
+      if (!Number.isInteger(this.$el.attr('data-length'))) {
+        throw 'characterCounter: The targeted input element requires a data-lenght attribute that should be a number';
+      }
       this.counterEl = document.createElement('span');
       $(this.counterEl)
         .addClass('character-counter')
