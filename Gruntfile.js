@@ -623,7 +623,10 @@ module.exports = function(grunt) {
 
     copy: {
       docs: {
-        src: 'bin/materialize.js', dest: 'docs/js/materialize.js'
+        files: [
+          {src: 'bin/materialize.js', dest: 'docs/js/materialize.js'},
+          {src: 'templates/**', dest: 'docs/'}
+        ]
       }
     }
 
