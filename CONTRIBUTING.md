@@ -74,7 +74,6 @@ For a complete look at our labels, see the [project labels page](https://github.
 A bug is a _demonstrable problem_ that is caused by the code in the repository.
 Good bug reports are extremely helpful! Unclear issues with little explanations will be closed.
 
-
 #### Guidelines for bug reports:
 
 1. **Use the GitHub issue search** - check if the issue has already been reported.

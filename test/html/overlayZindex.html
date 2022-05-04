@@ -1,15 +1,23 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <title>Documentation - Materialize</title>
-    <!-- CSS  -->
-    <link href="../../../bin/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  </head>
-  <body>
+    <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" href="../../docs/images/favicon/apple-touch-icon-152x152.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
+    <link rel="icon" href="../../docs/images/favicon/favicon-32x32.png" sizes="32x32">
+
+    <!-- Android 5 Chrome Color -->
+    <meta name="theme-color" content="#EE6E73">
+
+    <link href="../../dist/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
     <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper">
@@ -21,7 +29,6 @@
         </div>
       </nav>
     </div>
-
 
     <ul id="slide-out" class="sidenav">
       <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
@@ -47,24 +54,18 @@
       </div>
     </div>
 
-    <img class="materialboxed" width="650" src="../../images/sample-1.jpg">
+    <img class="materialboxed" width="650" src="../../docs/images/sample-1.jpg">
 
-
-
-
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="../../../bin/materialize.js"></script>
+    <script src="../../dist/css/materialize.js"></script>
 
     <script type="text/javascript">
     $( document ).ready(function() {
-
       $('.sidenav').sidenav({'edge': 'left'});
       $('.modal').modal();
-
     });
-
-
-
     </script>
-  </body>
+
+</body>
 </html>
