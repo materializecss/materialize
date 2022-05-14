@@ -1,11 +1,21 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
     <title>Documentation - Materialize</title>
-    <!-- CSS  -->
-    <link href="../../../bin/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" href="../../docs/images/favicon/apple-touch-icon-152x152.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
+    <link rel="icon" href="../../docs/images/favicon/favicon-32x32.png" sizes="32x32">
+
+    <!-- Android 5 Chrome Color -->
+    <meta name="theme-color" content="#EE6E73">
+
+    <link href="../../dist/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
     <style>
         body, html,
         .section {
@@ -32,14 +42,13 @@
           right: 0;
           transform: translateX(100%);
         }
-
         .scrolled .box,
         #green.scrolled .box, #red.scrolled .box {
           transform: translateX(0);
         }
     </style>
-  </head>
-  <body>
+</head>
+<body>
 
     <div id="blue" class="section scrollspy blue">
       <div class="wrapper">
@@ -62,17 +71,16 @@
       </div>
     </div>
 
-
     <div class="stats" style="position: fixed; top: 50%; left: 50%; width: 100px; margin-left: -50px;">
       <strong>scrollTop:&nbsp;</strong><span id="scrollTop">0</span>
     </div>
 
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="../../../bin/materialize.js"></script>
+    <script src="../../dist/css/materialize.js"></script>
 
     <script type="text/javascript">
       $( document ).ready(function() {
-
         var options = [
           {selector: '#blue', offset: 50, callback: function(el) {
             $(el).addClass('scrolled');
@@ -93,7 +101,7 @@
           $('#scrollTop').text($(window).scrollTop());
         });
       });
-
     </script>
-  </body>
+
+</body>
 </html>

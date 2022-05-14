@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <title>Select testbed</title>
-    <!-- CSS  -->
-    <link href="../../../bin/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    <title>Documentation - Materialize</title>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" href="../../docs/images/favicon/apple-touch-icon-152x152.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
+    <link rel="icon" href="../../docs/images/favicon/favicon-32x32.png" sizes="32x32">
+
+    <!-- Android 5 Chrome Color -->
+    <meta name="theme-color" content="#EE6E73">
+
+    <link href="../../dist/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
 
     <style>
       body {
@@ -15,8 +25,8 @@
         padding-bottom: 2em;
       }
     </style>
-  </head>
-  <body>
+</head>
+<body>
 
     <div class="row">
       <div class="input-field col s12 m6">
@@ -44,7 +54,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="input-field col s12">
       <select>
@@ -140,9 +149,9 @@
       </div>
     </div>
 
+    <!-- Scripts -->
+    <script src="../../dist/css/materialize.js"></script>
 
-
-    <script src="../../../bin/materialize.js"></script>
     <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('select');
@@ -190,8 +199,8 @@
           M.FormSelect.init(singleSelect, {});
           M.FormSelect.init(multiSelect, {});
         });
-
       });
     </script>
-  </body>
+
+</body>
 </html>
