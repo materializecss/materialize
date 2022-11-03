@@ -5,6 +5,7 @@
     html: '',
     unsafeHTML: '',
     text: '',
+    alertType: 'assertive',
     displayLength: 4000,
     inDuration: 300,
     outDuration: 375,
@@ -26,6 +27,15 @@
         console.warn(
           'The html option is deprecated and will be removed in the future. See https://github.com/materializecss/materialize/pull/49'
         );
+      
+      // Warn when using incorrect alertType corrisponding to aria-live
+      if (!(this.options.alertType == 'assertive' || this.options.alertType == 'polite' || this.options.alertType == 'off')) {
+        console.warn(
+          "The Toast alertType option is not 'assertive', 'polite', or 'off'. Conforming to aira-live spec by setting alertType to default 'assertive'."
+        );
+        this.options.alertType = 'assertive';
+      }
+      
       // If the new unsafeHTML is used, prefer that
       if (!!this.options.unsafeHTML) {
         this.htmlMessage = this.options.unsafeHTML;
@@ -195,7 +205,7 @@
       let toast = document.createElement('div');
       toast.classList.add('toast');
       toast.setAttribute('role', 'alert');
-      toast.setAttribute('aria-live', 'assertive');
+      toast.setAttribute('aria-live', this.options.alertType);
       toast.setAttribute('aria-atomic', true);
 
       // Add custom classes onto toast
