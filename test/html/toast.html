@@ -25,6 +25,8 @@
     <div class="container">
         <button type="button" onclick="toast1()" class="btn">Toast with text!</button>
         <button type="button" onclick="toast2()" class="btn">Toast with html!</button>
+        <button type="button" onclick="toast2polite()" class="btn">Toast with html! (polite)</button>
+        <button type="button" onclick="toast2screenreadoff()" class="btn">Toast with html! (screenreader not informed)</button>
         <button type="button" onclick="toast3()" class="btn">Toast with unsafeHTML!</button>
         <button type="button" onclick="toast4()" class="btn">Toast with unsafeHTML and text!</button>
     </div>
@@ -40,6 +42,15 @@
     function toast2() {
         text = '<span>I am toast content</span><button type="button" class="btn-flat toast-action">Undo</button>';
         M.toast({html: text});
+    }
+    function toast2polite() {
+        text = '<span>I am toast content</span><button type="button" class="btn-flat toast-action">Undo</button>';
+        document.querySelectorAll(".container button")[3].focus();
+        setTimeout(function(){M.toast({html: text, alertType: 'polite'})}, 1000);
+    }
+    function toast2screenreadoff() {
+        text = '<span>I am toast content</span><button type="button" class="btn-flat toast-action">Undo</button>';
+        M.toast({html: text, alertType: 'off'});
     }
     function toast3() {
         text = '<span>I am toast content</span><button type="button" class="btn-flat toast-action">Undo</button>';

@@ -48,10 +48,6 @@
        */
       this.panning = false;
 
-      /**
-       * Time remaining until toast is removed
-       */
-      this.timeRemaining = this.options.displayLength;
 
       if (Toast._toasts.length === 0) {
         Toast._createContainer();
@@ -60,6 +56,12 @@
       // Create new toast
       Toast._toasts.push(this);
       let toastElement = this._createToast();
+
+      /**
+       * Time remaining until toast is removed
+       */
+      this.timeRemaining = this.options.displayLength;
+
       toastElement.M_Toast = this;
       this.el = toastElement;
       this.$el = $(toastElement);
@@ -204,10 +206,16 @@
     _createToast() {
       let toast = document.createElement('div');
       toast.classList.add('toast');
-      toast.setAttribute('role', 'alert');
-      toast.setAttribute('aria-live', this.options.alertType);
-      toast.setAttribute('aria-atomic', true);
-
+      toast.setAttribute('aria-hidden', 'false');
+      if (this.options.alertType != 'off') {
+        if (this.options.alertType == 'assertive') toast.setAttribute('role', 'alert');
+        else {
+          toast.setAttribute('role', 'status');
+          this.dismissPolite(this);
+        }
+        //toast.setAttribute('aria-live', this.options.alertType);
+        //toast.setAttribute('aria-atomic', true);
+      }
       // Add custom classes onto toast
       if (!!this.options.classes.length) {
         $(toast).addClass(this.options.classes);
@@ -305,6 +313,19 @@
           }
         }
       });
+    }
+    dismissPolite(toast) {
+      setTimeout(function() {
+        anim({
+          targets: toast.el,
+          opacity: 0,
+          marginTop: -40,
+          duration: toast.options.outDuration,
+          easing: 'easeOutExpo',
+          complete: () => {}
+        });
+      }, toast.options.displayLength);
+      toast.options.displayLength = (toast.options.displayLength <= 10000)? 10000 : toast.options.displayLength;
     }
   }
 
