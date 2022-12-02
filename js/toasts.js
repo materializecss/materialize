@@ -218,7 +218,7 @@
         toast.appendChild(this.htmlMessage);
       } else if (!!this.htmlMessage.jquery) {
         // Check if it is jQuery object, append the node
-        $(toast).append(this.htmlMessage[0]);
+        $(toast).append(this.htmlMessage);
       } else {
         // Append as unsanitized html;
         $(toast).append(this.htmlMessage);
