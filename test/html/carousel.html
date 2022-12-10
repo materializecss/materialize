@@ -29,11 +29,11 @@
         <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
         <div class="collapsible-body">
           <div class="carousel">
-            <a class="carousel-item" href="#one!"><img src="../../images/placeholder/250x250_a.png"></a>
-            <a class="carousel-item" href="#two!"><img src="../../images/placeholder/250x250_b.png"></a>
-            <a class="carousel-item" href="#three!"><img src="../../images/placeholder/250x250_c.png"></a>
-            <a class="carousel-item" href="#four!"><img src="../../images/placeholder/250x250_d.png"></a>
-            <a class="carousel-item" href="#five!"><img src="../../images/placeholder/250x250_e.png"></a>
+            <a class="carousel-item" href="#one!"><img src="../../docs/images/placeholder/250x250_a.png" alt="Letter A"></a>
+            <a class="carousel-item" href="#two!"><img src="../../docs/images/placeholder/250x250_b.png" alt="Letter B"></a>
+            <a class="carousel-item" href="#three!"><img src="../../docs/images/placeholder/250x250_c.png" alt="Letter C"></a>
+            <a class="carousel-item" href="#four!"><img src="../../docs/images/placeholder/250x250_d.png" alt="Letter D"></a>
+            <a class="carousel-item" href="#five!"><img src="../../docs/images/placeholder/250x250_e.png" alt="Letter E"></a>
           </div>
         </div>
       </li>
@@ -50,18 +50,18 @@
     </ul>
     <div id="test1" class="col s12">
       <div class="carousel carousel-slider">
-        <a class="carousel-item" href="#one!"><img src="../../images/placeholder/800x400_a.jpg"></a>
-        <a class="carousel-item" href="#two!"><img src="../../images/placeholder/800x400_b.jpg"></a>
-        <a class="carousel-item" href="#three!"><img src="../../images/placeholder/800x400_c.jpg"></a>
-        <a class="carousel-item" href="#four!"><img src="../../images/placeholder/800x400_d.jpg"></a>
+        <a class="carousel-item" href="#one!"><img src="../../docs/images/placeholder/800x400_a.jpg" alt="First image sample"></a>
+        <a class="carousel-item" href="#two!"><img src="../../docs/images/placeholder/800x400_b.jpg" alt="Second image sample"></a>
+        <a class="carousel-item" href="#three!"><img src="../../docs/images/placeholder/800x400_c.jpg" alt="Third image sample"></a>
+        <a class="carousel-item" href="#four!"><img src="../../docs/images/placeholder/800x400_d.jpg" alt="Fourth image sample"></a>
       </div>
     </div>
     <div id="test2" class="col s12">
       <div class="carousel carousel-slider">
-        <a class="carousel-item" href="#one!"><img src="../../images/placeholder/800x400_a.jpg"></a>
-        <a class="carousel-item" href="#two!"><img src="../../images/placeholder/800x400_b.jpg"></a>
-        <a class="carousel-item" href="#three!"><img src="../../images/placeholder/800x400_c.jpg"></a>
-        <a class="carousel-item" href="#four!"><img src="../../images/placeholder/800x400_d.jpg"></a>
+        <a class="carousel-item" href="#one!"><img src="../../docs/images/placeholder/800x400_a.jpg" alt="First image sample"></a>
+        <a class="carousel-item" href="#two!"><img src="../../docs/images/placeholder/800x400_b.jpg" alt="Second image sample"></a>
+        <a class="carousel-item" href="#three!"><img src="../../docs/images/placeholder/800x400_c.jpg" alt="Third image sample"></a>
+        <a class="carousel-item" href="#four!"><img src="../../docs/images/placeholder/800x400_d.jpg" alt="Fourth image sample"></a>
       </div>
     </div>
 
@@ -81,12 +81,20 @@
 
       $('ul.tabs').tabs({
         onShow: function(tab) {
-          $('.carousel.carousel-slider').carousel({fullWidth : true});
+          $('.carousel.carousel-slider').carousel({
+            fullWidth : true,
+            indicators: true,
+            indicatorLabelFunc: (i, current) => 'Go to Slide ' + i + (current ? ' (Current)' : '')
+          });
         }
       });
 
       $('.carousel').carousel();
-      $('.carousel.carousel-slider').carousel({fullWidth : true});
+      $('.carousel.carousel-slider').carousel({
+        fullWidth : true,
+        indicators: true,
+        indicatorLabelFunc: (i, current) => 'Go to Slide ' + i + (current ? ' (Current)' : '')
+      });
     });
     </script>
 
