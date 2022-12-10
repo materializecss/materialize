@@ -11,33 +11,35 @@
 
         <div class="carousel">
           <a class="carousel-item" href="#one!">
-            <img src="images/placeholder/250x250_a.png">
+            <img src="images/placeholder/250x250_a.png" alt="Letter 'A' inside a red squared box.">
           </a>
           <a class="carousel-item" href="#two!">
-            <img src="images/placeholder/250x250_b.png">
+            <img src="images/placeholder/250x250_b.png" alt="Letter 'B' inside a blue squared box.">
           </a>
           <a class="carousel-item" href="#three!">
-            <img src="images/placeholder/250x250_c.png">
+            <img src="images/placeholder/250x250_c.png" alt="Letter 'C' inside a yellow squared box.">
           </a>
           <a class="carousel-item" href="#four!">
-            <img src="images/placeholder/250x250_d.png">
+            <img src="images/placeholder/250x250_d.png" alt="Letter 'D' inside a purple squared box.">
           </a>
           <a class="carousel-item" href="#five!">
-            <img src="images/placeholder/250x250_e.png">
+            <img src="images/placeholder/250x250_e.png" alt="Letter 'E' inside a green squared box.">
           </a>
         </div>
         <br>
 
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
-          <i class="material-icons copyButton">content_copy</i>
+          <span class="copyButton" role="button" aria-label="Copy code to clipboard" tabindex="0">
+            <i class="material-icons" aria-hidden="true">content_copy</i>
+          </span>
           <code class="language-markup copiedText">
   &lt;div class="carousel">
-    &lt;a class="carousel-item" href="#one!">&lt;img src="images/placeholder/250x250_a.png">&lt;/a>
-    &lt;a class="carousel-item" href="#two!">&lt;img src="images/placeholder/250x250_b.png">&lt;/a>
-    &lt;a class="carousel-item" href="#three!">&lt;img src="images/placeholder/250x250_c.png">&lt;/a>
-    &lt;a class="carousel-item" href="#four!">&lt;img src="images/placeholder/250x250_d.png">&lt;/a>
-    &lt;a class="carousel-item" href="#five!">&lt;img src="images/placeholder/250x250_e.png">&lt;/a>
+    &lt;a class="carousel-item" href="#one!">&lt;img src="images/placeholder/250x250_a.png" alt="Letter 'A' inside a red squared box.">&lt;/a>
+    &lt;a class="carousel-item" href="#two!">&lt;img src="images/placeholder/250x250_b.png" alt="Letter 'B' inside a blue squared box.">&lt;/a>
+    &lt;a class="carousel-item" href="#three!">&lt;img src="images/placeholder/250x250_c.png" alt="Letter 'C' inside a yellow squared box.">&lt;/a>
+    &lt;a class="carousel-item" href="#four!">&lt;img src="images/placeholder/250x250_d.png" alt="Letter 'D' inside a purple squared box.">&lt;/a>
+    &lt;a class="carousel-item" href="#five!">&lt;img src="images/placeholder/250x250_e.png" alt="Letter 'E' inside a green squared box.">&lt;/a>
   &lt;/div>
           </code>
         </pre>
@@ -48,7 +50,9 @@
         <h3 class="header">Initialization</h3>
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
-          <i class="material-icons copyButton">content_copy</i>
+          <span class="copyButton" role="button" aria-label="Copy code to clipboard" tabindex="0">
+            <i class="material-icons" aria-hidden="true">content_copy</i>
+          </span>
           <code class="language-javascript copiedText">
   document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.carousel');
@@ -136,6 +140,22 @@
               <td>null</td>
               <td>Callback for when a new slide is cycled to.</td>
             </tr>
+            <tr>
+              <td>indicatorLabelFunc</td>
+              <td>Function</td>
+              <td>null</td>
+              <td>
+                <p>
+                  Function used to generate ARIA label to indicators (for accessibility purposes).
+                </p>
+                <p>
+                  It receives the current index, starting from "1", and a boolean indicating whether it is the current element or not. 
+                </p>
+                <p>
+                  If not specified, the generated label is going to be the current index.
+                </p>
+              </td>
+            </tr>
           </tbody>
         </table>
         <br>
@@ -148,7 +168,9 @@
             instance like this: </p>
             <pre style="padding-top: 0px;">
               <span class="copyMessage">Copied!</span>
-              <i class="material-icons copyButton">content_copy</i>
+              <span class="copyButton" role="button" aria-label="Copy code to clipboard" tabindex="0">
+                <i class="material-icons" aria-hidden="true">content_copy</i>
+              </span>
               <code class="language-javascript col s12 copiedText">
   var instance = M.Carousel.getInstance(elem);
 
@@ -261,36 +283,40 @@ instance.destroy();
 
         <div class="carousel carousel-slider">
           <a class="carousel-item" href="#one!">
-            <img src="images/placeholder/800x400_a.jpg">
+            <img src="images/placeholder/800x400_a.jpg" alt="Placeholder image for first carousel item.">
           </a>
           <a class="carousel-item" href="#two!">
-            <img src="images/placeholder/800x400_b.jpg">
+            <img src="images/placeholder/800x400_b.jpg" alt="Placeholder image for second carousel item.">
           </a>
           <a class="carousel-item" href="#three!">
-            <img src="images/placeholder/800x400_c.jpg">
+            <img src="images/placeholder/800x400_c.jpg" alt="Placeholder image for third carousel item.">
           </a>
           <a class="carousel-item" href="#four!">
-            <img src="images/placeholder/800x400_d.jpg">
+            <img src="images/placeholder/800x400_d.jpg" alt="Placeholder image for fourth carousel item.">
           </a>
         </div>
         <br>
 
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
-          <i class="material-icons copyButton">content_copy</i>
+          <span class="copyButton" role="button" aria-label="Copy code to clipboard" tabindex="0">
+            <i class="material-icons" aria-hidden="true">content_copy</i>
+          </span>
           <code class="language-markup copiedText">
   &lt;div class="carousel carousel-slider">
-    &lt;a class="carousel-item" href="#one!">&lt;img src="images/placeholder/800x400_a.jpg">&lt;/a>
-    &lt;a class="carousel-item" href="#two!">&lt;img src="images/placeholder/800x400_b.jpg">&lt;/a>
-    &lt;a class="carousel-item" href="#three!">&lt;img src="images/placeholder/800x400_c.jpg">&lt;/a>
-    &lt;a class="carousel-item" href="#four!">&lt;img src="images/placeholder/800x400_d.jpg">&lt;/a>
+    &lt;a class="carousel-item" href="#one!">&lt;img src="images/placeholder/800x400_a.jpg" alt="Placeholder image for first carousel item.">&lt;/a>
+    &lt;a class="carousel-item" href="#two!">&lt;img src="images/placeholder/800x400_b.jpg" alt="Placeholder image for second carousel item.">&lt;/a>
+    &lt;a class="carousel-item" href="#three!">&lt;img src="images/placeholder/800x400_c.jpg" alt="Placeholder image for third carousel item.">&lt;/a>
+    &lt;a class="carousel-item" href="#four!">&lt;img src="images/placeholder/800x400_d.jpg" alt="Placeholder image for fourth carousel item.">&lt;/a>
   &lt;/div>
           </code>
         </pre>
 
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
-          <i class="material-icons copyButton">content_copy</i>
+          <span class="copyButton" role="button" aria-label="Copy code to clipboard" tabindex="0">
+            <i class="material-icons" aria-hidden="true">content_copy</i>
+          </span>
           <code class="language-javascript copiedText">
   var instance = M.Carousel.init({
     fullWidth: true
@@ -316,7 +342,7 @@ instance.destroy();
 
         <div class="carousel carousel-slider center">
           <div class="carousel-fixed-item center">
-            <a class="btn waves-effect white grey-text darken-text-2">button</a>
+            <button type="button" class="btn waves-effect white grey-text darken-text-2">button</button>
           </div>
           <div class="carousel-item red white-text" href="#one!">
             <h2>First Panel</h2>
@@ -338,7 +364,9 @@ instance.destroy();
         <br>
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
-          <i class="material-icons copyButton">content_copy</i>
+          <span class="copyButton" role="button" aria-label="Copy code to clipboard" tabindex="0">
+            <i class="material-icons" aria-hidden="true">content_copy</i>
+          </span>
           <code class="language-markup copiedText">
   &lt;div class="carousel carousel-slider center">
     &lt;div class="carousel-fixed-item center">
@@ -365,18 +393,34 @@ instance.destroy();
         </pre>
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
-          <i class="material-icons copyButton">content_copy</i>
+          <span class="copyButton" role="button" aria-label="Copy code to clipboard" tabindex="0">
+            <i class="material-icons" aria-hidden="true">content_copy</i>
+          </span>
           <code class="language-javascript copiedText">
   var instance = M.Carousel.init({
     fullWidth: true,
-    indicators: true
+    indicators: true,
+    indicatorLabelFunc: (idx, curr) => {
+      let label = "Go to slide " + idx;
+      if (current){
+        label = label + " (Current)";
+      }
+      return label;
+    }
   });
 
   // Or with jQuery
 
   $('.carousel.carousel-slider').carousel({
     fullWidth: true,
-    indicators: true
+    indicators: true,
+    indicatorLabelFunc: (idx, curr) => {
+      let label = "Go to slide " + idx;
+      if (current){
+        label = label + " (Current)";
+      }
+      return label;
+    }
   });
           </code>
         </pre>
