@@ -10,7 +10,8 @@
     fullWidth: false, // Change to full width styles
     indicators: false, // Toggle indicators
     noWrap: false, // Don't wrap around and cycle through items.
-    onCycleTo: null // Callback for when a new slide is cycled to.
+    onCycleTo: null, // Callback for when a new slide is cycled to.
+    indicatorLabelFunc: null // Function which will generate a label for the indicators (ARIA)
   };
 
   /**
@@ -63,6 +64,14 @@
       this.dim = this.itemWidth * 2 + this.options.padding || 1; // Make sure dim is non zero for divisions.
       this._autoScrollBound = this._autoScroll.bind(this);
       this._trackBound = this._track.bind(this);
+      this._focusCurrent = false;
+
+      // Sets element id if it does not have one
+      if (this.el.hasAttribute("id")) this._elId = this.el.getAttribute("id");
+      else {
+        this._elId = "carousel-" + M.guid();
+        this.el.setAttribute("id", this._elId);
+      }
 
       // Full Width carousel setup
       if (this.options.fullWidth) {
@@ -79,12 +88,19 @@
       this.$indicators = $('<ul class="indicators"></ul>');
       this.$el.find('.carousel-item').each((el, i) => {
         this.images.push(el);
+        // Enables slide focus on elements not focusable by default
+        if ((el.tagName.toLowerCase() != "a" || !el.hasAttribute("href")) && !el.hasAttribute("tabindex")){
+          el.setAttribute("tabindex", -1);
+        }
         if (this.showIndicators) {
-          let $indicator = $('<li class="indicator-item"></li>');
+          let label = this.options.indicatorLabelFunc ? this.options.indicatorLabelFunc.call(this, i + 1, i === 0) : `${i + 1}`;
+          let $indicator = $(`<li class="indicator-item">
+            <button type="button" class="indicator-item-btn" aria-label="${label}" aria-controls="${this._elId}"></button>
+          </li>`);
 
           // Add active to first by default.
           if (i === 0) {
-            $indicator[0].classList.add('active');
+            $indicator[0].children[0].classList.add('active');
           }
 
           this.$indicators.append($indicator);
@@ -160,7 +176,7 @@
 
       if (this.showIndicators && this.$indicators) {
         this._handleIndicatorClickBound = this._handleIndicatorClick.bind(this);
-        this.$indicators.find('.indicator-item').each((el, i) => {
+        this.$indicators.find('.indicator-item-btn').each((el, i) => {
           el.addEventListener('click', this._handleIndicatorClickBound);
         });
       }
@@ -315,6 +331,7 @@
           e.stopPropagation();
         }
 
+        this._focusCurrent = true;
         // fixes https://github.com/materializecss/materialize/issues/180
         if (clickedIndex < 0) {
           // relative X position > center of carousel = clicked at the right part of the carousel
@@ -338,6 +355,7 @@
 
       let indicator = $(e.target).closest('.indicator-item');
       if (indicator.length) {
+        this._focusCurrent = true;
         this._cycleTo(indicator.index());
       }
     }
@@ -484,6 +502,20 @@
       }
       this.scrollingTimeout = window.setTimeout(() => {
         this.$el.removeClass('scrolling');
+        // Shows only current carousel item for assistive technologies
+        // Only applied to "fullWidth" carousels
+        if (this.options.fullWidth && !this.pressed){
+          for (let i = 0; i < this.count; ++i){
+            let isCenter = i === (this.center % this.count);
+            const current = this.images[i];
+            current.setAttribute('aria-hidden', !isCenter);
+            if (!isCenter) current.style.visibility = null;
+            else if (this._focusCurrent){
+              current.focus();
+              this._focusCurrent = false;
+            }
+          }
+        }
       }, this.options.duration);
 
       // Start actual scroll
@@ -519,13 +551,18 @@
       // Set indicator active
       if (this.showIndicators) {
         let diff = this.center % this.count;
-        let activeIndicator = this.$indicators.find('.indicator-item.active');
+        let activeBtn = this.$indicators.find('.indicator-item-btn.active');
+        let activeIndicator = activeBtn.parent();
         if (activeIndicator.index() !== diff) {
-          activeIndicator.removeClass('active');
-          this.$indicators
-            .find('.indicator-item')
-            .eq(diff)[0]
-            .classList.add('active');
+          activeBtn.removeClass('active');
+          let newActiveBtn = this.$indicators.find('.indicator-item-btn').eq(diff);
+          let newActiveIndicator = newActiveBtn.parent();
+          newActiveBtn[0].classList.add('active');
+          // Updates indicator label, when given
+          if (typeof this.options.indicatorLabelFunc === "function"){
+            activeBtn[0].setAttribute("aria-label", this.options.indicatorLabelFunc.call(this, activeIndicator.index() + 1, false));
+            newActiveBtn[0].setAttribute("aria-label", this.options.indicatorLabelFunc.call(this, newActiveIndicator.index() + 1, true));
+          }
         }
       }
 
