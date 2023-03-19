@@ -1,20 +1,31 @@
 import { Component } from "./component";
+import { DropdownOptions } from "./dropdown";
 import { M } from "./global";
-import { Dropdown } from "./dropdown";
 
-let _defaults = {
+export interface AutocompleteOptions {
+  data?: any[];
+  onAutocomplete?(selectedValue: any): void;
+  maxDropDownHeight?: string;
+  dropdownOptions?: DropdownOptions;
+  minLength?: number;
+  isMultiSelect?: boolean;
+  onSearch?(text: string, autocomplete: Autocomplete, options: AutocompleteOptions):void;
+  allowUnsafeHTML?: boolean;
+}
+
+const _defaults: AutocompleteOptions = {
   data: [], // Autocomplete data set
-  onAutocomplete: null, // Callback for when autocompleted
   dropdownOptions: {
     // Default dropdown options
     autoFocus: false,
     closeOnClick: false,
     coverTrigger: false
   },
+  onAutocomplete: null,
   minLength: 1, // Min characters before autocomplete starts
   isMultiSelect: false,
-  onSearch: function(text, autocomplete) {
-    const filteredData = autocomplete.options.data.filter(item => {
+  onSearch: (text, autocomplete, options) => {
+    const filteredData = options.data.filter(item => {
       return Object.keys(item)
         .map(key => item[key].toString().toLowerCase().indexOf(text.toLowerCase()) >= 0)
         .some(isMatch => isMatch);
@@ -48,7 +59,7 @@ export class Autocomplete extends Component {
   menuItems: any[];
 
 
-  constructor(el, options) {
+  constructor(el, protected options: AutocompleteOptions) {
     super(Autocomplete, el, options);
     (this.el as any).M_Autocomplete = this;
     this.options = {...Autocomplete.defaults, ...options};
@@ -66,7 +77,7 @@ export class Autocomplete extends Component {
   static get defaults() {
     return _defaults;
   }
-  static init(els, options) {
+  static init(els, options: AutocompleteOptions) {
     return super.init(this, els, options);
   }
   static getInstance(el) {
@@ -203,7 +214,7 @@ export class Autocomplete extends Component {
     // Value has changed!
     if (this.oldVal !== actualValue) {
       this._setStatusLoading();
-      this.options.onSearch(this.el.value, this);
+      this.options.onSearch(this.el.value, this, this.options);
     }
     // Reset Single-Select when Input cleared
     if (!this.options.isMultiSelect && this.el.value.length === 0) {
