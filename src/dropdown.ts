@@ -2,6 +2,23 @@ import { Component } from "./component";
 import { M } from "./global";
 import anim from "animejs";
 
+  export interface DropdownOptions {    
+    alignment?: string;
+    autoFocus?: boolean;
+    constrainWidth?: boolean;
+    container?: any;
+    coverTrigger?: boolean;
+    closeOnClick?: boolean;
+    hover?: boolean;
+    inDuration?: number;
+    outDuration?: number;
+    onOpenStart?(elem: HTMLElement):void;
+    onOpenEnd?(elem: HTMLElement):void;
+    onCloseStart?(elem: HTMLElement):void;
+    onCloseEnd?(elem: HTMLElement):void;
+    onItemClick?(elem: HTMLElement):void;
+  }
+
   const _defaults = {
     alignment: 'left',
     autoFocus: true,
@@ -40,7 +57,7 @@ import anim from "animejs";
     private _handleClickBound: any;
     filterTimeout: NodeJS.Timeout;
 
-    constructor(el, options) {
+    constructor(el, protected options: DropdownOptions) {
       super(Dropdown, el, options);
       (this.el as any).M_Dropdown = this;
       Dropdown._dropdowns.push(this);
