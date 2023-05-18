@@ -87,8 +87,16 @@ export class Tabs extends Component {
     }
 
     _handleTabClick(e) {
-      const tabLink = e.target;
-      const tab = tabLink.parentElement;  
+      var tabLink = e.target;
+      if (!tabLink)
+        return;
+      var tab = tabLink.parentElement;  
+      while (tab && !tab.classList.contains('tab')) {
+        tabLink = tabLink.parentElement;
+        tab = tab.parentElement;
+      }
+      if (!tab)
+        return;
       // Handle click on tab link only
       if (!tabLink || !tab.classList.contains('tab')) return;
       // is disabled?
