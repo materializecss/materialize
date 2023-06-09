@@ -29,15 +29,6 @@ export class Dropdown extends Component {
   isTouchMoving: boolean;
   focusedIndex: number;
   filterQuery: any[];
-  private _resetFilterQueryBound: any;
-  private _handleDocumentClickBound: any;
-  private _handleDocumentTouchmoveBound: any;
-  private _handleDropdownClickBound: any;
-  private _handleDropdownKeydownBound: any;
-  private _handleTriggerKeydownBound: any;
-  private _handleMouseEnterBound: any;
-  private _handleMouseLeaveBound: any;
-  _handleClickBound: any;
   filterTimeout: NodeJS.Timeout;
 
   constructor(el, options) {
@@ -58,12 +49,6 @@ export class Dropdown extends Component {
     // Move dropdown-content after dropdown-trigger
     this._moveDropdown();
     this._makeDropdownFocusable();
-    this._resetFilterQueryBound = this._resetFilterQuery.bind(this);
-    this._handleDocumentClickBound = this._handleDocumentClick.bind(this);
-    this._handleDocumentTouchmoveBound = this._handleDocumentTouchmove.bind(this);
-    this._handleDropdownClickBound = this._handleDropdownClick.bind(this);
-    this._handleDropdownKeydownBound = this._handleDropdownKeydown.bind(this);
-    this._handleTriggerKeydownBound = this._handleTriggerKeydown.bind(this);
     this._setupEventHandlers();
   }
 
@@ -89,59 +74,56 @@ export class Dropdown extends Component {
 
   _setupEventHandlers() {
     // Trigger keydown handler
-    this.el.addEventListener('keydown', this._handleTriggerKeydownBound);
+    this.el.addEventListener('keydown', this._handleTriggerKeydown);
     // Item click handler
-    this.dropdownEl?.addEventListener('click', this._handleDropdownClickBound);
+    this.dropdownEl?.addEventListener('click', this._handleDropdownClick);
     // Hover event handlers
     if (this.options.hover) {
-      this._handleMouseEnterBound = this._handleMouseEnter.bind(this);
-      this.el.addEventListener('mouseenter', this._handleMouseEnterBound);
-      this._handleMouseLeaveBound = this._handleMouseLeave.bind(this);
-      this.el.addEventListener('mouseleave', this._handleMouseLeaveBound);
-      this.dropdownEl.addEventListener('mouseleave', this._handleMouseLeaveBound);
+      this.el.addEventListener('mouseenter', this._handleMouseEnter);
+      this.el.addEventListener('mouseleave', this._handleMouseLeave);
+      this.dropdownEl.addEventListener('mouseleave', this._handleMouseLeave);
       // Click event handlers
     } else {
-      this._handleClickBound = this._handleClick.bind(this);
-      this.el.addEventListener('click', this._handleClickBound);
+      this.el.addEventListener('click', this._handleClick);
     }
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('keydown', this._handleTriggerKeydownBound);
-    this.dropdownEl.removeEventListener('click', this._handleDropdownClickBound);
+    this.el.removeEventListener('keydown', this._handleTriggerKeydown);
+    this.dropdownEl.removeEventListener('click', this._handleDropdownClick);
     if (this.options.hover) {
-      this.el.removeEventListener('mouseenter', this._handleMouseEnterBound);
-      this.el.removeEventListener('mouseleave', this._handleMouseLeaveBound);
-      this.dropdownEl.removeEventListener('mouseleave', this._handleMouseLeaveBound);
+      this.el.removeEventListener('mouseenter', this._handleMouseEnter);
+      this.el.removeEventListener('mouseleave', this._handleMouseLeave);
+      this.dropdownEl.removeEventListener('mouseleave', this._handleMouseLeave);
     } else {
-      this.el.removeEventListener('click', this._handleClickBound);
+      this.el.removeEventListener('click', this._handleClick);
     }
   }
 
   _setupTemporaryEventHandlers() {
     // Use capture phase event handler to prevent click
-    document.body.addEventListener('click', this._handleDocumentClickBound, true);
-    document.body.addEventListener('touchmove', this._handleDocumentTouchmoveBound);
-    this.dropdownEl.addEventListener('keydown', this._handleDropdownKeydownBound);
+    document.body.addEventListener('click', this._handleDocumentClick, true);
+    document.body.addEventListener('touchmove', this._handleDocumentTouchmove);
+    this.dropdownEl.addEventListener('keydown', this._handleDropdownKeydown);
   }
 
   _removeTemporaryEventHandlers() {
     // Use capture phase event handler to prevent click
-    document.body.removeEventListener('click', this._handleDocumentClickBound, true);
-    document.body.removeEventListener('touchmove', this._handleDocumentTouchmoveBound);
-    this.dropdownEl.removeEventListener('keydown', this._handleDropdownKeydownBound);
+    document.body.removeEventListener('click', this._handleDocumentClick, true);
+    document.body.removeEventListener('touchmove', this._handleDocumentTouchmove);
+    this.dropdownEl.removeEventListener('keydown', this._handleDropdownKeydown);
   }
 
-  _handleClick(e) {
+  _handleClick = (e) => {
     e.preventDefault();
     this.open();
   }
 
-  _handleMouseEnter() {
+  _handleMouseEnter = () => {
     this.open();
   }
 
-  _handleMouseLeave(e) {
+  _handleMouseLeave = (e) => {
     const toEl = e.toElement || e.relatedTarget;
     const leaveToDropdownContent = !!toEl.closest('.dropdown-content');
     let leaveToActiveDropdownTrigger = false;
@@ -159,7 +141,7 @@ export class Dropdown extends Component {
     }
   }
 
-  _handleDocumentClick(e) {
+  _handleDocumentClick = (e) => {
     const target = <HTMLElement>e.target;
     if (
       this.options.closeOnClick &&
@@ -182,7 +164,7 @@ export class Dropdown extends Component {
     this.isTouchMoving = false;
   }
 
-  _handleTriggerKeydown(e) {
+  _handleTriggerKeydown = (e) => {
     // ARROW DOWN OR ENTER WHEN SELECT IS CLOSED - open Dropdown
     if ((e.which === M.keys.ARROW_DOWN || e.which === M.keys.ENTER) && !this.isOpen) {
       e.preventDefault();
@@ -190,14 +172,14 @@ export class Dropdown extends Component {
     }
   }
 
-  _handleDocumentTouchmove(e) {
+  _handleDocumentTouchmove = (e) => {
     const target = <HTMLElement>e.target;
     if (target.closest('.dropdown-content')) {
       this.isTouchMoving = true;
     }
   }
 
-  _handleDropdownClick(e) {
+  _handleDropdownClick = (e) => {
     // onItemClick callback
     if (typeof this.options.onItemClick === 'function') {
       const itemEl = <HTMLElement>e.target.closest('li');
@@ -205,7 +187,7 @@ export class Dropdown extends Component {
     }
   }
 
-  _handleDropdownKeydown(e) {
+  _handleDropdownKeydown = (e) => {
     if (e.which === M.keys.TAB) {
       e.preventDefault();
       this.close();
@@ -269,10 +251,10 @@ export class Dropdown extends Component {
         this._focusFocusedItem();
       }
     }
-    this.filterTimeout = setTimeout(this._resetFilterQueryBound, 1000);
+    this.filterTimeout = setTimeout(this._resetFilterQuery, 1000);
   }
 
-  _resetFilterQuery() {
+  _resetFilterQuery = () => {
     this.filterQuery = [];
   }
 

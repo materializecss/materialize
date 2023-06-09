@@ -16,10 +16,6 @@ export class FloatingActionButton extends Component {
   private _floatingBtnsReverse: HTMLElement[];
   offsetY: number;
   offsetX: number;
-  private _handleFABClickBound: any;
-  private _handleOpenBound: any;
-  private _handleCloseBound: any;
-  private _handleDocumentClickBound: (this: HTMLElement, ev: MouseEvent) => any;
   btnBottom: number;
   btnLeft: number;
   btnWidth: number;
@@ -69,28 +65,24 @@ export class FloatingActionButton extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleFABClickBound = this._handleFABClick.bind(this);
-    this._handleOpenBound = this.open.bind(this);
-    this._handleCloseBound = this.close.bind(this);
-
     if (this.options.hoverEnabled && !this.options.toolbarEnabled) {
-      this.el.addEventListener('mouseenter', this._handleOpenBound);
-      this.el.addEventListener('mouseleave', this._handleCloseBound);
+      this.el.addEventListener('mouseenter', this.open);
+      this.el.addEventListener('mouseleave', this.close);
     } else {
-      this.el.addEventListener('click', this._handleFABClickBound);
+      this.el.addEventListener('click', this._handleFABClick);
     }
   }
 
   _removeEventHandlers() {
     if (this.options.hoverEnabled && !this.options.toolbarEnabled) {
-      this.el.removeEventListener('mouseenter', this._handleOpenBound);
-      this.el.removeEventListener('mouseleave', this._handleCloseBound);
+      this.el.removeEventListener('mouseenter', this.open);
+      this.el.removeEventListener('mouseleave', this.close);
     } else {
-      this.el.removeEventListener('click', this._handleFABClickBound);
+      this.el.removeEventListener('click', this._handleFABClick);
     }
   }
 
-  _handleFABClick() {
+  _handleFABClick = () => {
     if (this.isOpen) {
       this.close();
     } else {
@@ -98,7 +90,7 @@ export class FloatingActionButton extends Component {
     }
   }
 
-  _handleDocumentClick(e) {
+  _handleDocumentClick = (e) => {
     const elem = <HTMLElement>e.target;
     if (elem !== this._menu) this.close;
     /*
@@ -107,7 +99,7 @@ export class FloatingActionButton extends Component {
     }*/
   }
 
-  open() {
+  open = () => {
     if (this.isOpen) return;
     if (this.options.toolbarEnabled)
       this._animateInToolbar();
@@ -116,11 +108,11 @@ export class FloatingActionButton extends Component {
     this.isOpen = true;
   }
 
-  close() {
+  close = () => {
     if (!this.isOpen) return;
     if (this.options.toolbarEnabled) {
-      window.removeEventListener('scroll', this._handleCloseBound, true);
-      document.body.removeEventListener('click', this._handleDocumentClickBound, true);
+      window.removeEventListener('scroll', this.close, true);
+      document.body.removeEventListener('click', this._handleDocumentClick, true);
       this._animateOutToolbar();
     }
     else {
@@ -217,9 +209,8 @@ export class FloatingActionButton extends Component {
         this._menu.querySelectorAll('li > a').forEach((a: HTMLAnchorElement) => a.style.opacity = '1');
 
         // Scroll to close.
-        this._handleDocumentClickBound = this._handleDocumentClick.bind(this);
-        window.addEventListener('scroll', this._handleCloseBound, true);
-        document.body.addEventListener('click', this._handleDocumentClickBound, true);
+        window.addEventListener('scroll', this.close, true);
+        document.body.addEventListener('click', this._handleDocumentClick, true);
       }, 100);
     }, 0);
   }

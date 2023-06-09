@@ -39,12 +39,6 @@ export class Timepicker extends Component {
   id: string;
   modal: Modal;
   modalEl: HTMLElement;
-  private _handleInputKeydownBound: any;
-  private _handleInputClickBound: any;
-  private _handleClockClickStartBound: any;
-  private _handleDocumentClickMoveBound: any;
-  private _handleDocumentClickEndBound: any;
-  private _inputFromTextFieldBound: any;
   plate: any;
   digitalClock: any;
   inputHours: HTMLInputElement;
@@ -128,45 +122,39 @@ export class Timepicker extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleInputKeydownBound = this._handleInputKeydown.bind(this);
-    this._handleInputClickBound = this._handleInputClick.bind(this);
-    this._handleClockClickStartBound = this._handleClockClickStart.bind(this);
-    this._handleDocumentClickMoveBound = this._handleDocumentClickMove.bind(this);
-    this._handleDocumentClickEndBound = this._handleDocumentClickEnd.bind(this);
-    this._inputFromTextFieldBound = this._handleTimeInputEnterKey.bind(this);
-    this.el.addEventListener('click', this._handleInputClickBound);
-    this.el.addEventListener('keydown', this._handleInputKeydownBound);
-    this.plate.addEventListener('mousedown', this._handleClockClickStartBound);
-    this.plate.addEventListener('touchstart', this._handleClockClickStartBound);
-    this.digitalClock.addEventListener('keyup', this._inputFromTextFieldBound);
-    this.inputHours.addEventListener('click', this.showView.bind(this, 'hours'));
-    this.inputMinutes.addEventListener('click', this.showView.bind(this, 'minutes'));
+    this.el.addEventListener('click', this._handleInputClick);
+    this.el.addEventListener('keydown', this._handleInputKeydown);
+    this.plate.addEventListener('mousedown', this._handleClockClickStart);
+    this.plate.addEventListener('touchstart', this._handleClockClickStart);
+    this.digitalClock.addEventListener('keyup', this._inputFromTextField);
+    this.inputHours.addEventListener('click', () => this.showView('hours'));
+    this.inputMinutes.addEventListener('click', () => this.showView('minutes'));
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('click', this._handleInputClickBound);
-    this.el.removeEventListener('keydown', this._handleInputKeydownBound);
+    this.el.removeEventListener('click', this._handleInputClick);
+    this.el.removeEventListener('keydown', this._handleInputKeydown);
   }
 
-  _handleInputClick() {
+  _handleInputClick = () => {
     this.open();
   }
 
-  _handleInputKeydown(e) {
+  _handleInputKeydown = (e) => {
     if (e.which === M.keys.ENTER) {
       e.preventDefault();
       this.open();
     }
   }
 
-  _handleTimeInputEnterKey(e) {
+  _handleTimeInputEnterKey = (e) => {
     if (e.which === M.keys.ENTER) {
       e.preventDefault();
       this._inputFromTextField();
     }
   }
 
-  _handleClockClickStart(e) {
+  _handleClockClickStart = (e) => {
     e.preventDefault();
     let clockPlateBR = this.plate.getBoundingClientRect();
     let offset = { x: clockPlateBR.left, y: clockPlateBR.top };
@@ -181,14 +169,14 @@ export class Timepicker extends Component {
     // Set clock hands
     this.setHand(this.dx, this.dy, false);
     // Mousemove on document
-    document.addEventListener('mousemove', this._handleDocumentClickMoveBound);
-    document.addEventListener('touchmove', this._handleDocumentClickMoveBound);
+    document.addEventListener('mousemove', this._handleDocumentClickMove);
+    document.addEventListener('touchmove', this._handleDocumentClickMove);
     // Mouseup on document
-    document.addEventListener('mouseup', this._handleDocumentClickEndBound);
-    document.addEventListener('touchend', this._handleDocumentClickEndBound);
+    document.addEventListener('mouseup', this._handleDocumentClickEnd);
+    document.addEventListener('touchend', this._handleDocumentClickEnd);
   }
 
-  _handleDocumentClickMove(e) {
+  _handleDocumentClickMove = (e) => {
     e.preventDefault();
     let clickPos = Timepicker._Pos(e);
     let x = clickPos.x - this.x0;
@@ -197,10 +185,10 @@ export class Timepicker extends Component {
     this.setHand(x, y, false);
   }
 
-  _handleDocumentClickEnd(e) {
+  _handleDocumentClickEnd = (e) => {
     e.preventDefault();
-    document.removeEventListener('mouseup', this._handleDocumentClickEndBound);
-    document.removeEventListener('touchend', this._handleDocumentClickEndBound);
+    document.removeEventListener('mouseup', this._handleDocumentClickEnd);
+    document.removeEventListener('touchend', this._handleDocumentClickEnd);
     let clickPos = Timepicker._Pos(e);
     let x = clickPos.x - this.x0;
     let y = clickPos.y - this.y0;
@@ -220,8 +208,8 @@ export class Timepicker extends Component {
       this.options.onSelect.call(this, this.hours, this.minutes);
     }
     // Unbind mousemove event
-    document.removeEventListener('mousemove', this._handleDocumentClickMoveBound);
-    document.removeEventListener('touchmove', this._handleDocumentClickMoveBound);
+    document.removeEventListener('mousemove', this._handleDocumentClickMove);
+    document.removeEventListener('touchmove', this._handleDocumentClickMove);
   }
 
   _insertHTMLIntoDOM() {
@@ -288,7 +276,7 @@ export class Timepicker extends Component {
   _pickerSetup() {
     const clearButton = this._createButton(this.options.i18n.clear, this.options.showClearBtn ? '' : 'hidden');
     clearButton.classList.add('timepicker-clear');
-    clearButton.addEventListener('click', this.clear.bind(this));
+    clearButton.addEventListener('click', this.clear);
     this.footer.appendChild(clearButton);
 
     const confirmationBtnsContainer = document.createElement('div');
@@ -297,12 +285,12 @@ export class Timepicker extends Component {
 
     const cancelButton = this._createButton(this.options.i18n.cancel, '');
     cancelButton.classList.add('timepicker-close');
-    cancelButton.addEventListener('click', this.close.bind(this));
+    cancelButton.addEventListener('click', this.close);
     confirmationBtnsContainer.appendChild(cancelButton);
 
     const doneButton = this._createButton(this.options.i18n.done, '');
     doneButton.classList.add('timepicker-close');
-    doneButton.addEventListener('click', this.done.bind(this));
+    doneButton.addEventListener('click', this.done);
     confirmationBtnsContainer.appendChild(doneButton);
   }
 
@@ -312,13 +300,13 @@ export class Timepicker extends Component {
       this._amBtn = document.createElement('div');
       this._amBtn.classList.add('am-btn');
       this._amBtn.innerText = 'AM';
-      this._amBtn.addEventListener('click', this._handleAmPmClick.bind(this));
+      this._amBtn.addEventListener('click', this._handleAmPmClick);
       this.spanAmPm.appendChild(this._amBtn);
       // PM Button
       this._pmBtn = document.createElement('div');
       this._pmBtn.classList.add('pm-btn');
       this._pmBtn.innerText = 'PM';
-      this._pmBtn.addEventListener('click', this._handleAmPmClick.bind(this));
+      this._pmBtn.addEventListener('click', this._handleAmPmClick);
       this.spanAmPm.appendChild(this._pmBtn);
     }
     this._buildHoursView();
@@ -412,7 +400,7 @@ export class Timepicker extends Component {
     }
   }
 
-  _handleAmPmClick(e) {
+  _handleAmPmClick = (e) => {
     const btnClicked = <HTMLElement>e.target;
     this.amOrPm = btnClicked.classList.contains('am-btn') ? 'AM' : 'PM';
     this._updateAmPmView();
@@ -457,7 +445,7 @@ export class Timepicker extends Component {
     this._updateAmPmView();
   }
 
-  showView(view, delay: number = null) {
+  showView = (view, delay: number = null) => {
     if (view === 'minutes' && getComputedStyle(this.hoursView).visibility === 'visible') {
       // raiseCallback(this.options.beforeHourSelect);
     }
@@ -514,7 +502,7 @@ export class Timepicker extends Component {
     }
   }
 
-  _inputFromTextField() {
+  _inputFromTextField = () => {
     const isHours = this.currentView === 'hours';
     if (isHours) {
       const value = parseInt(this.inputHours.value);
@@ -648,13 +636,13 @@ export class Timepicker extends Component {
     this.modal.open(undefined);
   }
 
-  close() {
+  close = () => {
     if (!this.isOpen) return;
     this.isOpen = false;
     this.modal.close();
   }
 
-  done(e = null, clearValue = null) {
+  done = (e = null, clearValue = null) => {
     // Set input value
     let last = this.el.value;
     let value = clearValue
@@ -673,7 +661,7 @@ export class Timepicker extends Component {
     this.el.focus();
   }
 
-  clear() {
+  clear = () => {
     this.done(null, true);
   }
 

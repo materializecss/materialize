@@ -25,10 +25,6 @@ export class Modal extends Component {
   private _openingTrigger: any;
   private _overlay: HTMLElement;
   private _nthModalOpened: number;
-  private _handleOverlayClickBound: any;
-  private _handleModalCloseClickBound: any;
-  private _handleKeydownBound: any;
-  private _handleFocusBound: any;
 
   constructor(el, options) {
     super(Modal, el, options);
@@ -67,24 +63,22 @@ export class Modal extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleOverlayClickBound = this._handleOverlayClick.bind(this);
-    this._handleModalCloseClickBound = this._handleModalCloseClick.bind(this);
     if (Modal._count === 1) {
       document.body.addEventListener('click', this._handleTriggerClick);
     }
-    this._overlay.addEventListener('click', this._handleOverlayClickBound);
-    this.el.addEventListener('click', this._handleModalCloseClickBound);
+    this._overlay.addEventListener('click', this._handleOverlayClick);
+    this.el.addEventListener('click', this._handleModalCloseClick);
   }
 
   _removeEventHandlers() {
     if (Modal._count === 0) {
       document.body.removeEventListener('click', this._handleTriggerClick);
     }
-    this._overlay.removeEventListener('click', this._handleOverlayClickBound);
-    this.el.removeEventListener('click', this._handleModalCloseClickBound);
+    this._overlay.removeEventListener('click', this._handleOverlayClick);
+    this.el.removeEventListener('click', this._handleModalCloseClick);
   }
 
-  _handleTriggerClick(e) {
+  _handleTriggerClick = (e) => {
     const trigger = e.target.closest('.modal-trigger');
     if (!trigger) return;
     const modalId = M.getIdFromTrigger(trigger);
@@ -93,21 +87,21 @@ export class Modal extends Component {
     e.preventDefault();
   }
 
-  _handleOverlayClick() {
+  _handleOverlayClick = () => {
     if (this.options.dismissible) this.close();
   }
 
-  _handleModalCloseClick(e) {
+  _handleModalCloseClick = (e) => {
     const closeTrigger = e.target.closest('.modal-close');
     if (closeTrigger) this.close();
   }
 
-  _handleKeydown(e) {
+  _handleKeydown = (e) => {
     // ESC key
     if (e.keyCode === 27 && this.options.dismissible) this.close();
   }
 
-  _handleFocus(e) {
+  _handleFocus = (e) => {
     // Only trap focus if this modal is the last model opened (prevents loops in nested modals).
     if (!this.el.contains(e.target) && this._nthModalOpened === Modal._modalsOpen) {
       this.el.focus();
@@ -212,10 +206,8 @@ export class Modal extends Component {
     this.el.classList.add('open');
     this.el.insertAdjacentElement('afterend', this._overlay);
     if (this.options.dismissible) {
-      this._handleKeydownBound = this._handleKeydown.bind(this);
-      this._handleFocusBound = this._handleFocus.bind(this);
-      document.addEventListener('keydown', this._handleKeydownBound);
-      document.addEventListener('focus', this._handleFocusBound, true);
+      document.addEventListener('keydown', this._handleKeydown);
+      document.addEventListener('focus', this._handleFocus, true);
     }
     anim.remove(this.el);
     anim.remove(this._overlay);
@@ -240,8 +232,8 @@ export class Modal extends Component {
       document.body.style.overflow = '';
     }
     if (this.options.dismissible) {
-      document.removeEventListener('keydown', this._handleKeydownBound);
-      document.removeEventListener('focus', this._handleFocusBound, true);
+      document.removeEventListener('keydown', this._handleKeydown);
+      document.removeEventListener('focus', this._handleFocus, true);
     }
     anim.remove(this.el);
     anim.remove(this._overlay);

@@ -26,17 +26,9 @@ export class Carousel extends Component {
   itemWidth: any;
   itemHeight: any;
   dim: number;
-  _autoScrollBound: any;
-  _trackBound: any;
   _indicators: any;
   count: number;
   xform: string;
-  private _handleCarouselTapBound: any;
-  private _handleCarouselDragBound: any;
-  private _handleCarouselReleaseBound: any;
-  private _handleCarouselClickBound: any;
-  _handleIndicatorClickBound: any;
-  _handleThrottledResizeBound: any;
   verticalDragged: boolean;
   reference: any;
   referenceY: any;
@@ -66,8 +58,6 @@ export class Carousel extends Component {
     this.itemWidth = this.el.querySelector('.carousel-item').clientWidth;
     this.itemHeight = this.el.querySelector('.carousel-item').clientHeight;
     this.dim = this.itemWidth * 2 + this.options.padding || 1; // Make sure dim is non zero for divisions.
-    this._autoScrollBound = this._autoScroll.bind(this);
-    this._trackBound = this._track.bind(this);
 
     // Full Width carousel setup
     if (this.options.fullWidth) {
@@ -138,52 +128,47 @@ export class Carousel extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleCarouselTapBound = this._handleCarouselTap.bind(this);
-    this._handleCarouselDragBound = this._handleCarouselDrag.bind(this);
-    this._handleCarouselReleaseBound = this._handleCarouselRelease.bind(this);
-    this._handleCarouselClickBound = this._handleCarouselClick.bind(this);
     if (typeof window.ontouchstart !== 'undefined') {
-      this.el.addEventListener('touchstart', this._handleCarouselTapBound);
-      this.el.addEventListener('touchmove', this._handleCarouselDragBound);
-      this.el.addEventListener('touchend', this._handleCarouselReleaseBound);
+      this.el.addEventListener('touchstart', this._handleCarouselTap);
+      this.el.addEventListener('touchmove', this._handleCarouselDrag);
+      this.el.addEventListener('touchend', this._handleCarouselRelease);
     }
-    this.el.addEventListener('mousedown', this._handleCarouselTapBound);
-    this.el.addEventListener('mousemove', this._handleCarouselDragBound);
-    this.el.addEventListener('mouseup', this._handleCarouselReleaseBound);
-    this.el.addEventListener('mouseleave', this._handleCarouselReleaseBound);
-    this.el.addEventListener('click', this._handleCarouselClickBound);
+    this.el.addEventListener('mousedown', this._handleCarouselTap);
+    this.el.addEventListener('mousemove', this._handleCarouselDrag);
+    this.el.addEventListener('mouseup', this._handleCarouselRelease);
+    this.el.addEventListener('mouseleave', this._handleCarouselRelease);
+    this.el.addEventListener('click', this._handleCarouselClick);
     if (this.showIndicators && this._indicators) {
-      this._handleIndicatorClickBound = this._handleIndicatorClick.bind(this);
       this._indicators.querySelectorAll('.indicator-item').forEach((el) => {
-        el.addEventListener('click', this._handleIndicatorClickBound);
+        el.addEventListener('click', this._handleIndicatorClick);
       });
     }
     // Resize
-    let throttledResize = M.throttle(this._handleResize, 200, null);
-    this._handleThrottledResizeBound = throttledResize.bind(this);
-    window.addEventListener('resize', this._handleThrottledResizeBound);
+    window.addEventListener('resize', this._handleThrottledResize);
   }
 
   _removeEventHandlers() {
     if (typeof window.ontouchstart !== 'undefined') {
-      this.el.removeEventListener('touchstart', this._handleCarouselTapBound);
-      this.el.removeEventListener('touchmove', this._handleCarouselDragBound);
-      this.el.removeEventListener('touchend', this._handleCarouselReleaseBound);
+      this.el.removeEventListener('touchstart', this._handleCarouselTap);
+      this.el.removeEventListener('touchmove', this._handleCarouselDrag);
+      this.el.removeEventListener('touchend', this._handleCarouselRelease);
     }
-    this.el.removeEventListener('mousedown', this._handleCarouselTapBound);
-    this.el.removeEventListener('mousemove', this._handleCarouselDragBound);
-    this.el.removeEventListener('mouseup', this._handleCarouselReleaseBound);
-    this.el.removeEventListener('mouseleave', this._handleCarouselReleaseBound);
-    this.el.removeEventListener('click', this._handleCarouselClickBound);
+    this.el.removeEventListener('mousedown', this._handleCarouselTap);
+    this.el.removeEventListener('mousemove', this._handleCarouselDrag);
+    this.el.removeEventListener('mouseup', this._handleCarouselRelease);
+    this.el.removeEventListener('mouseleave', this._handleCarouselRelease);
+    this.el.removeEventListener('click', this._handleCarouselClick);
     if (this.showIndicators && this._indicators) {
       this._indicators.querySelectorAll('.indicator-item').forEach((el) => {
-        el.removeEventListener('click', this._handleIndicatorClickBound);
+        el.removeEventListener('click', this._handleIndicatorClick);
       });
     }
-    window.removeEventListener('resize', this._handleThrottledResizeBound);
+    window.removeEventListener('resize', this._handleThrottledResize);
   }
 
-  _handleCarouselTap(e) {
+  _handleThrottledResize = () => M.throttle(this._handleResize, 200, null);
+
+  _handleCarouselTap = (e) => {
     // Fixes firefox draggable image bug
     if (e.type === 'mousedown' && (<HTMLElement>e.target).tagName === 'IMG') {
       e.preventDefault();
@@ -198,10 +183,10 @@ export class Carousel extends Component {
     this.frame = this.offset;
     this.timestamp = Date.now();
     clearInterval(this.ticker);
-    this.ticker = setInterval(this._trackBound, 100);
+    this.ticker = setInterval(this._track, 100);
   }
 
-  _handleCarouselDrag(e) {
+  _handleCarouselDrag = (e) => {
     let x, y, delta, deltaY;
     if (this.pressed) {
       x = this._xpos(e);
@@ -233,7 +218,7 @@ export class Carousel extends Component {
     }
   }
 
-  _handleCarouselRelease(e) {
+  _handleCarouselRelease = (e) => {
     if (this.pressed) {
       this.pressed = false;
     } else {
@@ -256,7 +241,7 @@ export class Carousel extends Component {
     }
     this.amplitude = this.target - this.offset;
     this.timestamp = Date.now();
-    requestAnimationFrame(this._autoScrollBound);
+    requestAnimationFrame(this._autoScroll);
     if (this.dragged) {
       e.preventDefault();
       e.stopPropagation();
@@ -264,7 +249,7 @@ export class Carousel extends Component {
     return false;
   }
 
-  _handleCarouselClick(e) {
+  _handleCarouselClick = (e) => {
     // Disable clicks if carousel was dragged.
     if (this.dragged) {
       e.preventDefault();
@@ -294,7 +279,7 @@ export class Carousel extends Component {
     }
   }
 
-  _handleIndicatorClick(e: Event) {
+  _handleIndicatorClick = (e: Event) => {
     e.stopPropagation();
     const indicator = (<HTMLElement>e.target).closest('.indicator-item');
     if (indicator) {
@@ -376,7 +361,7 @@ export class Carousel extends Component {
       : x;
   }
 
-  _track() {
+  _track = () => {
     let now, elapsed, delta, v;
     now = Date.now();
     elapsed = now - this.timestamp;
@@ -387,14 +372,14 @@ export class Carousel extends Component {
     this.velocity = 0.8 * v + 0.2 * this.velocity;
   }
 
-  _autoScroll() {
+  _autoScroll = () => {
     let elapsed, delta;
     if (this.amplitude) {
       elapsed = Date.now() - this.timestamp;
       delta = this.amplitude * Math.exp(-elapsed / this.options.duration);
       if (delta > 2 || delta < -2) {
         this._scroll(this.target - delta);
-        requestAnimationFrame(this._autoScrollBound);
+        requestAnimationFrame(this._autoScroll);
       } else {
         this._scroll(this.target);
       }
@@ -566,7 +551,7 @@ export class Carousel extends Component {
     if (this.offset !== this.target) {
       this.amplitude = this.target - this.offset;
       this.timestamp = Date.now();
-      requestAnimationFrame(this._autoScrollBound);
+      requestAnimationFrame(this._autoScroll);
     }
   }
 

@@ -19,18 +19,12 @@ export class Slider extends Component {
   activeIndex: number;
   _activeSlide: HTMLLIElement;
   _indicators: HTMLLIElement[];
-  private _handleIntervalBound: any;
-  private _handleIndicatorClickBound: any;
   interval: string | number | NodeJS.Timeout;
   eventPause: any;
   _hovered: boolean;
   _focused: boolean;
   _focusCurrent: boolean;
   _sliderId: string;
-  private _handleAutoPauseFocusBound: any;
-  private _handleAutoStartFocusBound: any;
-  private _handleAutoPauseHoverBound: any;
-  private _handleAutoStartHoverBound: any;
 
   constructor(el, options) {
     super(Slider, el, options);
@@ -151,79 +145,73 @@ export class Slider extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleIntervalBound = this._handleInterval.bind(this);
-    this._handleIndicatorClickBound = this._handleIndicatorClick.bind(this);
-    this._handleAutoPauseFocusBound = this._handleAutoPauseFocus.bind(this);
-    this._handleAutoStartFocusBound = this._handleAutoStartFocus.bind(this);
-    this._handleAutoPauseHoverBound = this._handleAutoPauseHover.bind(this);
-    this._handleAutoStartHoverBound = this._handleAutoStartHover.bind(this);
     if (this.options.pauseOnFocus) {
-      this.el.addEventListener('focusin', this._handleAutoPauseFocusBound);
-      this.el.addEventListener('focusout', this._handleAutoStartFocusBound);
+      this.el.addEventListener('focusin', this._handleAutoPauseFocus);
+      this.el.addEventListener('focusout', this._handleAutoStartFocus);
     }
     if (this.options.pauseOnHover) {
-      this.el.addEventListener('mouseenter', this._handleAutoPauseHoverBound);
-      this.el.addEventListener('mouseleave', this._handleAutoStartHoverBound);
+      this.el.addEventListener('mouseenter', this._handleAutoPauseHover);
+      this.el.addEventListener('mouseleave', this._handleAutoStartHover);
     }
     if (this.options.indicators) {
       this._indicators.forEach((el) => {
-        el.addEventListener('click', this._handleIndicatorClickBound);
+        el.addEventListener('click', this._handleIndicatorClick);
       });
     }
   }
 
   _removeEventHandlers() {
     if (this.options.pauseOnFocus) {
-      this.el.removeEventListener('focusin', this._handleAutoPauseFocusBound);
-      this.el.removeEventListener('focusout', this._handleAutoStartFocusBound);
+      this.el.removeEventListener('focusin', this._handleAutoPauseFocus);
+      this.el.removeEventListener('focusout', this._handleAutoStartFocus);
     }
     if (this.options.pauseOnHover) {
-      this.el.removeEventListener('mouseenter', this._handleAutoPauseHoverBound);
-      this.el.removeEventListener('mouseleave', this._handleAutoStartHoverBound);
+      this.el.removeEventListener('mouseenter', this._handleAutoPauseHover);
+      this.el.removeEventListener('mouseleave', this._handleAutoStartHover);
     }
     if (this.options.indicators) {
       this._indicators.forEach((el) => {
-        el.removeEventListener('click', this._handleIndicatorClickBound);
+        el.removeEventListener('click', this._handleIndicatorClick);
       });
     }
   }
 
-  _handleIndicatorClick(e) {
+  _handleIndicatorClick = (e) => {
     const el = (<HTMLElement>e.target).parentElement;
     const currIndex = [...el.parentNode.children].indexOf(el);
     this._focusCurrent = true;
     this.set(currIndex);
   }
 
-  _handleAutoPauseHover() {
+  _handleAutoPauseHover = () => {
     this._hovered = true;
     if (this.interval != null) {
       this._pause(true);
     }
   }
 
-  _handleAutoPauseFocus() {
+  _handleAutoPauseFocus = () => {
     this._focused = true;
     if (this.interval != null) {
       this._pause(true);
     }
   }
 
-  _handleAutoStartHover() {
+  _handleAutoStartHover = () => {
     this._hovered = false;
     if (!(this.options.pauseOnFocus && this._focused) && this.eventPause) {
       this.start();
     }
   }
 
-  _handleAutoStartFocus() {
+  _handleAutoStartFocus = () => {
     this._focused = false;
     if (!(this.options.pauseOnHover && this._hovered) && this.eventPause) {
       this.start();
     }
   }
 
-  _handleInterval() {
+  _handleInterval = () => {
     const activeElem = this._slider.querySelector('.active');
     let newActiveIndex = [...activeElem.parentNode.children].indexOf(activeElem);
     if (this._slides.length === newActiveIndex + 1)
@@ -388,7 +376,7 @@ export class Slider extends Component {
   start() {
     clearInterval(this.interval);
     this.interval = setInterval(
-      this._handleIntervalBound,
+      this._handleInterval,
       this.options.duration + this.options.interval
     );
     this.eventPause = false;

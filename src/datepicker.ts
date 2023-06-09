@@ -105,13 +105,6 @@ export class Datepicker extends Component {
   calendars: any;
   private _y: any;
   private _m: any;
-  private _handleInputKeydownBound: any;
-  private _handleInputClickBound: any;
-  private _handleInputChangeBound: any;
-  private _handleCalendarClickBound: any;
-  private _finishSelectionBound: any;
-  private _closeBound: any;
-  private _handleClearClickBound: any;
   static _template: string;
 
   constructor(el, options) {
@@ -668,8 +661,8 @@ export class Datepicker extends Component {
     });
 
     // Add change handlers for select
-    yearSelect.addEventListener('change', this._handleYearChange.bind(this));
-    monthSelect.addEventListener('change', this._handleMonthChange.bind(this));
+    yearSelect.addEventListener('change', () => this._handleYearChange);
+    monthSelect.addEventListener('change', () => this._handleMonthChange);
 
     if (typeof this.options.onDraw === 'function') {
       this.options.onDraw(this);
@@ -677,24 +670,15 @@ export class Datepicker extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleInputKeydownBound = this._handleInputKeydown.bind(this);
-    this._handleInputClickBound = this._handleInputClick.bind(this);
-    this._handleInputChangeBound = this._handleInputChange.bind(this);
-    this._handleCalendarClickBound = this._handleCalendarClick.bind(this);
-    this._finishSelectionBound = this._finishSelection.bind(this);
-    this._handleMonthChange = this._handleMonthChange.bind(this);
-    this._closeBound = this.close.bind(this);
-
-    this.el.addEventListener('click', this._handleInputClickBound);
-    this.el.addEventListener('keydown', this._handleInputKeydownBound);
-    this.el.addEventListener('change', this._handleInputChangeBound);
-    this.calendarEl.addEventListener('click', this._handleCalendarClickBound);
-    this.doneBtn.addEventListener('click', this._finishSelectionBound);
-    this.cancelBtn.addEventListener('click', this._closeBound);
+    this.el.addEventListener('click', this._handleInputClick);
+    this.el.addEventListener('keydown', this._handleInputKeydown);
+    this.el.addEventListener('change', this._handleInputChange);
+    this.calendarEl.addEventListener('click', this._handleCalendarClick);
+    this.doneBtn.addEventListener('click', this._finishSelection);
+    this.cancelBtn.addEventListener('click', this.close);
 
     if (this.options.showClearBtn) {
-      this._handleClearClickBound = this._handleClearClick.bind(this);
-      this.clearBtn.addEventListener('click', this._handleClearClickBound);
+      this.clearBtn.addEventListener('click', this._handleClearClick);
     }
   }
 
@@ -749,24 +733,24 @@ export class Datepicker extends Component {
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('click', this._handleInputClickBound);
-    this.el.removeEventListener('keydown', this._handleInputKeydownBound);
-    this.el.removeEventListener('change', this._handleInputChangeBound);
-    this.calendarEl.removeEventListener('click', this._handleCalendarClickBound);
+    this.el.removeEventListener('click', this._handleInputClick);
+    this.el.removeEventListener('keydown', this._handleInputKeydown);
+    this.el.removeEventListener('change', this._handleInputChange);
+    this.calendarEl.removeEventListener('click', this._handleCalendarClick);
   }
 
-  _handleInputClick() {
+  _handleInputClick = () => {
     this.open();
   }
 
-  _handleInputKeydown(e) {
+  _handleInputKeydown = (e) => {
     if (e.which === M.keys.ENTER) {
       e.preventDefault();
       this.open();
     }
   }
 
-  _handleCalendarClick(e) {
+  _handleCalendarClick = (e) => {
     if (!this.isOpen) return;
     const target = <HTMLElement>(e.target);
     if (!target.classList.contains('is-disabled')) {
@@ -795,17 +779,17 @@ export class Datepicker extends Component {
     }
   }
 
-  _handleClearClick() {
+  _handleClearClick = () => {
     this.date = null;
     this.setInputValue();
     this.close();
   }
 
-  _handleMonthChange(e) {
+  _handleMonthChange = (e) => {
     this.gotoMonth(e.target.value);
   }
 
-  _handleYearChange(e) {
+  _handleYearChange = (e) => {
     this.gotoYear(e.target.value);
   }
 
@@ -825,7 +809,7 @@ export class Datepicker extends Component {
     }
   }
 
-  _handleInputChange(e: Event) {
+  _handleInputChange = (e: Event) => {
     let date;
     // Prevent change event from being fired when triggered by the plugin
     if (e['detail']?.firedBy === this) return;
@@ -847,7 +831,7 @@ export class Datepicker extends Component {
   }
 
   // Set input value to the selected date and close Datepicker
-  _finishSelection() {
+  _finishSelection = () => {
     this.setInputValue();
     this.close();
   }
@@ -863,7 +847,7 @@ export class Datepicker extends Component {
     return this;
   }
 
-  close() {
+  close = () => {
     if (!this.isOpen) return;
     this.isOpen = false;
     if (typeof this.options.onClose === 'function') {

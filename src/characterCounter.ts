@@ -5,7 +5,6 @@ let _defaults = {};
 export class CharacterCounter extends Component {
   isInvalid: boolean;
   isValidLength: boolean;
-  private _handleUpdateCounterBound: any;
   counterEl: HTMLSpanElement;
 
   constructor(el: Element, options: Object) {
@@ -38,14 +37,13 @@ export class CharacterCounter extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleUpdateCounterBound = this.updateCounter.bind(this);
-    this.el.addEventListener('focus', this._handleUpdateCounterBound, true);
-    this.el.addEventListener('input', this._handleUpdateCounterBound, true);
+    this.el.addEventListener('focus', this.updateCounter, true);
+    this.el.addEventListener('input', this.updateCounter, true);
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('focus', this._handleUpdateCounterBound, true);
-    this.el.removeEventListener('input', this._handleUpdateCounterBound, true);
+    this.el.removeEventListener('focus', this.updateCounter, true);
+    this.el.removeEventListener('input', this.updateCounter, true);
   }
 
   _setupCounter() {
@@ -61,7 +59,7 @@ export class CharacterCounter extends Component {
     this.counterEl.remove();
   }
 
-  updateCounter() {
+  updateCounter = () => {
     let maxLength = parseInt(this.el.getAttribute('data-length')),
       actualLength = (this.el as HTMLInputElement).value.length;
 

@@ -14,8 +14,6 @@ export class Tabs extends Component {
   _tabLinks: any;
   _index: number;
   _indicator: any;
-  _handleWindowResizeBound: (this: Window, ev: UIEvent) => any;
-  _handleTabClickBound: (this: Window, ev: UIEvent) => any;
   _tabWidth: number;
   _tabsWidth: number;
   _tabsCarousel: any;
@@ -67,18 +65,16 @@ export class Tabs extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleWindowResizeBound = this._handleWindowResize.bind(this);
-    window.addEventListener('resize', this._handleWindowResizeBound);
-    this._handleTabClickBound = this._handleTabClick.bind(this);
-    this.el.addEventListener('click', this._handleTabClickBound);
+    window.addEventListener('resize', this._handleWindowResize);
+    this.el.addEventListener('click', this._handleTabClick);
   }
 
   _removeEventHandlers() {
-    window.removeEventListener('resize', this._handleWindowResizeBound);
-    this.el.removeEventListener('click', this._handleTabClickBound);
+    window.removeEventListener('resize', this._handleWindowResize);
+    this.el.removeEventListener('click', this._handleTabClick);
   }
 
-  _handleWindowResize() {
+  _handleWindowResize = () => {
     this._setTabsAndTabWidth();
     if (this._tabWidth !== 0 && this._tabsWidth !== 0) {
       this._indicator.style.left = this._calcLeftPos(this._activeTabLink)+'px';
@@ -86,7 +82,7 @@ export class Tabs extends Component {
     }
   }
 
-  _handleTabClick(e) {
+  _handleTabClick = (e) => {
     const tabLink = e.target;
     const tab = tabLink.parentElement;
     // Handle click on tab link only
@@ -224,7 +220,7 @@ export class Tabs extends Component {
 
   _setupNormalTabs() {
     // Hide Tabs Content
-    Array.from(this._tabLinks).forEach(a => {
+    Array.from(this._tabLinks).forEach((a) => {
       if (a === this._activeTabLink) return;
       if ((<HTMLAnchorElement>a).hash) {
         const currContent = document.querySelector((<HTMLAnchorElement>a).hash);

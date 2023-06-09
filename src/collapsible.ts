@@ -13,8 +13,6 @@ const _defaults = {
 
 export class Collapsible extends Component {
   private _headers: HTMLElement[];
-  private _handleCollapsibleClickBound: any;
-  private _handleCollapsibleKeydownBound: any;
 
   constructor(el, options) {
     super(Collapsible, el, options);
@@ -52,18 +50,16 @@ export class Collapsible extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleCollapsibleClickBound = this._handleCollapsibleClick.bind(this);
-    this._handleCollapsibleKeydownBound = this._handleCollapsibleKeydown.bind(this);
-    this.el.addEventListener('click', this._handleCollapsibleClickBound);
-    this._headers.forEach(header => header.addEventListener('keydown', this._handleCollapsibleKeydownBound));
+    this.el.addEventListener('click', this._handleCollapsibleClick);
+    this._headers.forEach(header => header.addEventListener('keydown', this._handleCollapsibleKeydown));
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('click', this._handleCollapsibleClickBound);
-    this._headers.forEach(header => header.removeEventListener('keydown', this._handleCollapsibleKeydownBound));
+    this.el.removeEventListener('click', this._handleCollapsibleClick);
+    this._headers.forEach(header => header.removeEventListener('keydown', this._handleCollapsibleKeydown));
   }
 
-  _handleCollapsibleClick(e) {
+  _handleCollapsibleClick = (e) => {
     const header = e.target.closest('.collapsible-header');
     if (e.target && header) {
       const collapsible = header.closest('.collapsible');
@@ -80,9 +76,9 @@ export class Collapsible extends Component {
     }
   }
 
-  _handleCollapsibleKeydown(e) {
+  _handleCollapsibleKeydown = (e) => {
     if (e.keyCode === 13) {
-      this._handleCollapsibleClickBound(e);
+      this._handleCollapsibleClick(e);
     }
   }
 

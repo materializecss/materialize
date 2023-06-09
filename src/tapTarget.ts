@@ -10,12 +10,8 @@ export class TapTarget extends Component {
   el: HTMLElement
   isOpen: boolean;
   private wrapper: HTMLElement;
-  private _handleDocumentClickBound: (this: HTMLElement, ev: MouseEvent) => any;
   private _origin: HTMLElement;
-  private _handleTargetClickBound: EventListenerOrEventListenerObject;
   private originEl: HTMLElement;
-  private _handleOriginClickBound: any;
-  private _handleThrottledResizeBound: any;
   private waveEl: HTMLElement & Element & Node;
   private contentEl: HTMLElement;
 
@@ -50,36 +46,33 @@ export class TapTarget extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleDocumentClickBound = this._handleDocumentClick.bind(this);
-    this._handleTargetClickBound = this._handleTargetClick.bind(this);
-    this._handleOriginClickBound = this._handleOriginClick.bind(this);
-    this.el.addEventListener('click', this._handleTargetClickBound);
-    this.originEl.addEventListener('click', this._handleOriginClickBound);
+    this.el.addEventListener('click', this._handleTargetClick);
+    this.originEl.addEventListener('click', this._handleOriginClick);
     // Resize
-    let throttledResize = M.throttle(this._handleResize, 200);
-    this._handleThrottledResizeBound = throttledResize.bind(this);
-    window.addEventListener('resize', this._handleThrottledResizeBound);
+    window.addEventListener('resize', this._handleThrottledResize);
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('click', this._handleTargetClickBound);
-    this.originEl.removeEventListener('click', this._handleOriginClickBound);
-    window.removeEventListener('resize', this._handleThrottledResizeBound);
+    this.el.removeEventListener('click', this._handleTargetClick);
+    this.originEl.removeEventListener('click', this._handleOriginClick);
+    window.removeEventListener('resize', this._handleThrottledResize);
   }
 
-  _handleTargetClick(e) {
+  _handleThrottledResize = () => M.throttle(this._handleResize, 200);
+
+  _handleTargetClick = () => {
     this.open();
   }
 
-  _handleOriginClick(e) {
+  _handleOriginClick = () => {
     this.close();
   }
 
-  _handleResize(e) {
+  _handleResize = () => {
     this._calculatePositioning();
   }
 
-  _handleDocumentClick(e) {
+  _handleDocumentClick = (e) => {
     if (!e.target.closest('.tap-target-wrapper')) {
       this.close();
       e.preventDefault();
@@ -219,8 +212,8 @@ export class TapTarget extends Component {
     }
     this.isOpen = true;
     this.wrapper.classList.add('open');
-    document.body.addEventListener('click', this._handleDocumentClickBound, true);
-    document.body.addEventListener('touchend', this._handleDocumentClickBound);
+    document.body.addEventListener('click', this._handleDocumentClick, true);
+    document.body.addEventListener('touchend', this._handleDocumentClick);
   }
 
   close() {
@@ -231,7 +224,7 @@ export class TapTarget extends Component {
     }
     this.isOpen = false;
     this.wrapper.classList.remove('open');
-    document.body.removeEventListener('click', this._handleDocumentClickBound, true);
-    document.body.removeEventListener('touchend', this._handleDocumentClickBound);
+    document.body.removeEventListener('click', this._handleDocumentClick, true);
+    document.body.removeEventListener('touchend', this._handleDocumentClick);
   }
 }

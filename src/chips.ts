@@ -32,10 +32,6 @@ export class Chips extends Component {
   _input: HTMLInputElement;
   _label: any;
   _chips: HTMLElement[];
-  private _handleChipClickBound: any;
-  private _handleInputKeydownBound: any;
-  private _handleInputFocusBound: any;
-  private _handleInputBlurBound: any;
   static _keydown: boolean;
   private _selectedChip: any;
 
@@ -91,30 +87,26 @@ export class Chips extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleChipClickBound = this._handleChipClick.bind(this);
-    this._handleInputKeydownBound = this._handleInputKeydown.bind(this);
-    this._handleInputFocusBound = this._handleInputFocus.bind(this);
-    this._handleInputBlurBound = this._handleInputBlur.bind(this);
-    this.el.addEventListener('click', this._handleChipClickBound);
+    this.el.addEventListener('click', this._handleChipClick);
     document.addEventListener('keydown', Chips._handleChipsKeydown);
     document.addEventListener('keyup', Chips._handleChipsKeyup);
     this.el.addEventListener('blur', Chips._handleChipsBlur, true);
-    this._input.addEventListener('focus', this._handleInputFocusBound);
-    this._input.addEventListener('blur', this._handleInputBlurBound);
-    this._input.addEventListener('keydown', this._handleInputKeydownBound);
+    this._input.addEventListener('focus', this._handleInputFocus);
+    this._input.addEventListener('blur', this._handleInputBlur);
+    this._input.addEventListener('keydown', this._handleInputKeydown);
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('click', this._handleChipClickBound);
+    this.el.removeEventListener('click', this._handleChipClick);
     document.removeEventListener('keydown', Chips._handleChipsKeydown);
     document.removeEventListener('keyup', Chips._handleChipsKeyup);
     this.el.removeEventListener('blur', Chips._handleChipsBlur, true);
-    this._input.removeEventListener('focus', this._handleInputFocusBound);
-    this._input.removeEventListener('blur', this._handleInputBlurBound);
-    this._input.removeEventListener('keydown', this._handleInputKeydownBound);
+    this._input.removeEventListener('focus', this._handleInputFocus);
+    this._input.removeEventListener('blur', this._handleInputBlur);
+    this._input.removeEventListener('keydown', this._handleInputKeydown);
   }
 
-  _handleChipClick(e) {
+  _handleChipClick = (e) => {
     const _chip = (<HTMLElement>e.target).closest('.chip');
     const clickedClose = (<HTMLElement>e.target).classList.contains('close');
     if (_chip) {
@@ -191,15 +183,15 @@ export class Chips extends Component {
     }
   }
 
-  _handleInputFocus() {
+  _handleInputFocus = () => {
     this.el.classList.add('focus');
   }
 
-  _handleInputBlur() {
+  _handleInputBlur = () => {
     this.el.classList.remove('focus');
   }
 
-  _handleInputKeydown(e) {
+  _handleInputKeydown = (e) => {
     Chips._keydown = true;
     // enter
     if (e.keyCode === 13) {

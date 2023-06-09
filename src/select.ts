@@ -23,9 +23,6 @@ export class FormSelect extends Component {
   dropdown: Dropdown;
   wrapper: HTMLDivElement;
   selectOptions: HTMLElement[];
-  private _handleSelectChangeBound: any;
-  private _handleOptionClickBound: any;
-  private _handleInputClickBound: any;
 
   constructor(el, options) {
     super(FormSelect, el, options);
@@ -63,32 +60,29 @@ export class FormSelect extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleSelectChangeBound = this._handleSelectChange.bind(this);
-    this._handleOptionClickBound = this._handleOptionClick.bind(this);
-    this._handleInputClickBound = this._handleInputClick.bind(this);
     this.dropdownOptions.querySelectorAll('li:not(.optgroup)').forEach((el) => {
-      el.addEventListener('click', this._handleOptionClickBound);
+      el.addEventListener('click', this._handleOptionClick);
       el.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.key === " " || e.key === "Enter") this._handleOptionClickBound(e);
+        if (e.key === " " || e.key === "Enter") this._handleOptionClick(e);
       });
     });
-    this.el.addEventListener('change', this._handleSelectChangeBound);
-    this.input.addEventListener('click', this._handleInputClickBound);
+    this.el.addEventListener('change', this._handleSelectChange);
+    this.input.addEventListener('click', this._handleInputClick);
   }
 
   _removeEventHandlers() {
     this.dropdownOptions.querySelectorAll('li:not(.optgroup)').forEach((el) => {
-      el.removeEventListener('click', this._handleOptionClickBound);
+      el.removeEventListener('click', this._handleOptionClick);
     });
-    this.el.removeEventListener('change', this._handleSelectChangeBound);
-    this.input.removeEventListener('click', this._handleInputClickBound);
+    this.el.removeEventListener('change', this._handleSelectChange);
+    this.input.removeEventListener('click', this._handleInputClick);
   }
 
-  _handleSelectChange(e) {
+  _handleSelectChange = () => {
     this._setValueToInput();
   }
 
-  _handleOptionClick(e) {
+  _handleOptionClick = (e) => {
     e.preventDefault();
     const virtualOption = e.target.closest('li');
     this._selectOptionElement(virtualOption);
@@ -129,7 +123,7 @@ export class FormSelect extends Component {
     if (!this.isMultiple) this.dropdown.close();
   }
 
-  _handleInputClick() {
+  _handleInputClick = () => {
     if (this.dropdown && this.dropdown.isOpen) {
       this._setValueToInput();
       this._setSelectedStates();

@@ -8,11 +8,6 @@ const _defaults = {};
 export class Range extends Component {
   el: HTMLInputElement;
   private _mousedown: boolean;
-  private _handleRangeChangeBound: any;
-  private _handleRangeMousedownTouchstartBound: any;
-  private _handleRangeInputMousemoveTouchmoveBound: any;
-  private _handleRangeMouseupTouchendBound: any;
-  private _handleRangeBlurMouseoutTouchleaveBound: any;
   value: HTMLElement;
   thumb: HTMLElement;
 
@@ -45,39 +40,34 @@ export class Range extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleRangeChangeBound = this._handleRangeChange.bind(this);
-    this._handleRangeMousedownTouchstartBound = this._handleRangeMousedownTouchstart.bind(this);
-    this._handleRangeInputMousemoveTouchmoveBound = this._handleRangeInputMousemoveTouchmove.bind(this);
-    this._handleRangeMouseupTouchendBound = this._handleRangeMouseupTouchend.bind(this);
-    this._handleRangeBlurMouseoutTouchleaveBound = this._handleRangeBlurMouseoutTouchleave.bind(this);
-    this.el.addEventListener('change', this._handleRangeChangeBound);
-    this.el.addEventListener('mousedown', this._handleRangeMousedownTouchstartBound);
-    this.el.addEventListener('touchstart', this._handleRangeMousedownTouchstartBound);
-    this.el.addEventListener('input', this._handleRangeInputMousemoveTouchmoveBound);
-    this.el.addEventListener('mousemove', this._handleRangeInputMousemoveTouchmoveBound);
-    this.el.addEventListener('touchmove', this._handleRangeInputMousemoveTouchmoveBound);
-    this.el.addEventListener('mouseup', this._handleRangeMouseupTouchendBound);
-    this.el.addEventListener('touchend', this._handleRangeMouseupTouchendBound);
-    this.el.addEventListener('blur', this._handleRangeBlurMouseoutTouchleaveBound);
-    this.el.addEventListener('mouseout', this._handleRangeBlurMouseoutTouchleaveBound);
-    this.el.addEventListener('touchleave', this._handleRangeBlurMouseoutTouchleaveBound);
+    this.el.addEventListener('change', this._handleRangeChange);
+    this.el.addEventListener('mousedown', this._handleRangeMousedownTouchstart);
+    this.el.addEventListener('touchstart', this._handleRangeMousedownTouchstart);
+    this.el.addEventListener('input', this._handleRangeInputMousemoveTouchmove);
+    this.el.addEventListener('mousemove', this._handleRangeInputMousemoveTouchmove);
+    this.el.addEventListener('touchmove', this._handleRangeInputMousemoveTouchmove);
+    this.el.addEventListener('mouseup', this._handleRangeMouseupTouchend);
+    this.el.addEventListener('touchend', this._handleRangeMouseupTouchend);
+    this.el.addEventListener('blur', this._handleRangeBlurMouseoutTouchleave);
+    this.el.addEventListener('mouseout', this._handleRangeBlurMouseoutTouchleave);
+    this.el.addEventListener('touchleave', this._handleRangeBlurMouseoutTouchleave);
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('change', this._handleRangeChangeBound);
-    this.el.removeEventListener('mousedown', this._handleRangeMousedownTouchstartBound);
-    this.el.removeEventListener('touchstart', this._handleRangeMousedownTouchstartBound);
-    this.el.removeEventListener('input', this._handleRangeInputMousemoveTouchmoveBound);
-    this.el.removeEventListener('mousemove', this._handleRangeInputMousemoveTouchmoveBound);
-    this.el.removeEventListener('touchmove', this._handleRangeInputMousemoveTouchmoveBound);
-    this.el.removeEventListener('mouseup', this._handleRangeMouseupTouchendBound);
-    this.el.removeEventListener('touchend', this._handleRangeMouseupTouchendBound);
-    this.el.removeEventListener('blur', this._handleRangeBlurMouseoutTouchleaveBound);
-    this.el.removeEventListener('mouseout', this._handleRangeBlurMouseoutTouchleaveBound);
-    this.el.removeEventListener('touchleave', this._handleRangeBlurMouseoutTouchleaveBound);
+    this.el.removeEventListener('change', this._handleRangeChange);
+    this.el.removeEventListener('mousedown', this._handleRangeMousedownTouchstart);
+    this.el.removeEventListener('touchstart', this._handleRangeMousedownTouchstart);
+    this.el.removeEventListener('input', this._handleRangeInputMousemoveTouchmove);
+    this.el.removeEventListener('mousemove', this._handleRangeInputMousemoveTouchmove);
+    this.el.removeEventListener('touchmove', this._handleRangeInputMousemoveTouchmove);
+    this.el.removeEventListener('mouseup', this._handleRangeMouseupTouchend);
+    this.el.removeEventListener('touchend', this._handleRangeMouseupTouchend);
+    this.el.removeEventListener('blur', this._handleRangeBlurMouseoutTouchleave);
+    this.el.removeEventListener('mouseout', this._handleRangeBlurMouseoutTouchleave);
+    this.el.removeEventListener('touchleave', this._handleRangeBlurMouseoutTouchleave);
   }
 
-  _handleRangeChange() {
+  _handleRangeChange = () => {
     this.value.innerHTML = this.el.value;
     if (!this.thumb.classList.contains('active')) {
       this._showRangeBubble();
@@ -87,7 +77,7 @@ export class Range extends Component {
     this.thumb.style.left = offsetLeft+'px';
   }
 
-  _handleRangeMousedownTouchstart(e) {
+  _handleRangeMousedownTouchstart = (e) => {
     // Set indicator value
     this.value.innerHTML = this.el.value;
     this._mousedown = true;
@@ -102,7 +92,7 @@ export class Range extends Component {
     }
   }
 
-  _handleRangeInputMousemoveTouchmove() {
+  _handleRangeInputMousemoveTouchmove = () => {
     if (this._mousedown) {
       if (!this.thumb.classList.contains('active')) {
         this._showRangeBubble();
@@ -114,12 +104,12 @@ export class Range extends Component {
     }
   }
 
-  _handleRangeMouseupTouchend() {
+  _handleRangeMouseupTouchend = () => {
     this._mousedown = false;
     this.el.classList.remove('active');
   }
 
-  _handleRangeBlurMouseoutTouchleave() {
+  _handleRangeBlurMouseoutTouchleave = () => {
     if (!this._mousedown) {
       const paddingLeft = parseInt(getComputedStyle(this.el).paddingLeft);
       const marginLeft = 7 + paddingLeft + 'px';

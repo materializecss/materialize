@@ -22,10 +22,6 @@ export class Tooltip extends Component {
   isHovered: boolean;
   isFocused: boolean;
   tooltipEl: HTMLElement;
-  private _handleMouseEnterBound: any;
-  private _handleMouseLeaveBound: any;
-  private _handleFocusBound: any;
-  private _handleBlurBound: any;
   private _exitDelayTimeout: string | number | NodeJS.Timeout;
   private _enterDelayTimeout: string | number | NodeJS.Timeout;
   xMovement: number;
@@ -81,21 +77,17 @@ export class Tooltip extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleMouseEnterBound = this._handleMouseEnter.bind(this);
-    this._handleMouseLeaveBound = this._handleMouseLeave.bind(this);
-    this._handleFocusBound = this._handleFocus.bind(this);
-    this._handleBlurBound = this._handleBlur.bind(this);
-    this.el.addEventListener('mouseenter', this._handleMouseEnterBound);
-    this.el.addEventListener('mouseleave', this._handleMouseLeaveBound);
-    this.el.addEventListener('focus', this._handleFocusBound, true);
-    this.el.addEventListener('blur', this._handleBlurBound, true);
+    this.el.addEventListener('mouseenter', this._handleMouseEnter);
+    this.el.addEventListener('mouseleave', this._handleMouseLeave);
+    this.el.addEventListener('focus', this._handleFocus, true);
+    this.el.addEventListener('blur', this._handleBlur, true);
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('mouseenter', this._handleMouseEnterBound);
-    this.el.removeEventListener('mouseleave', this._handleMouseLeaveBound);
-    this.el.removeEventListener('focus', this._handleFocusBound, true);
-    this.el.removeEventListener('blur', this._handleBlurBound, true);
+    this.el.removeEventListener('mouseenter', this._handleMouseEnter);
+    this.el.removeEventListener('mouseleave', this._handleMouseLeave);
+    this.el.removeEventListener('focus', this._handleFocus, true);
+    this.el.removeEventListener('blur', this._handleBlur, true);
   }
 
   open(isManual) {
@@ -231,26 +223,26 @@ export class Tooltip extends Component {
     });
   }
 
-  _handleMouseEnter() {
+  _handleMouseEnter = () => {
     this.isHovered = true;
     this.isFocused = false; // Allows close of tooltip when opened by focus.
     this.open(false);
   }
 
-  _handleMouseLeave() {
+  _handleMouseLeave = () => {
     this.isHovered = false;
     this.isFocused = false; // Allows close of tooltip when opened by focus.
     this.close();
   }
 
-  _handleFocus() {
+  _handleFocus = () => {
     if (M.tabPressed) {
       this.isFocused = true;
       this.open(false);
     }
   }
 
-  _handleBlur() {
+  _handleBlur = () => {
     this.isFocused = false;
     this.close();
   }

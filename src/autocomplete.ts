@@ -32,15 +32,8 @@ export class Autocomplete extends Component {
   count: number;
   activeIndex: number;
   private oldVal: any;
-  private $inputField: any;
   private $active: HTMLElement|null;
   private _mousedown: boolean;
-  private _handleInputBlurBound: any;
-  private _handleInputKeyupAndFocusBound: any;
-  private _handleInputKeydownBound: any;
-  private _handleInputClickBound: any;
-  private _handleContainerMousedownAndTouchstartBound: any;
-  private _handleContainerMouseupAndTouchendBound: any;
   container: HTMLElement;
   dropdown: Dropdown;
   static _keydown: boolean;
@@ -81,55 +74,45 @@ export class Autocomplete extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleInputBlurBound = this._handleInputBlur.bind(this);
-    this._handleInputKeyupAndFocusBound = this._handleInputKeyupAndFocus.bind(this);
-    this._handleInputKeydownBound = this._handleInputKeydown.bind(this);
-    this._handleInputClickBound = this._handleInputClick.bind(this);
-    this._handleContainerMousedownAndTouchstartBound = this._handleContainerMousedownAndTouchstart.bind(
-      this
-    );
-    this._handleContainerMouseupAndTouchendBound = this._handleContainerMouseupAndTouchend.bind(
-      this
-    );
-    this.el.addEventListener('blur', this._handleInputBlurBound);
-    this.el.addEventListener('keyup', this._handleInputKeyupAndFocusBound);
-    this.el.addEventListener('focus', this._handleInputKeyupAndFocusBound);
-    this.el.addEventListener('keydown', this._handleInputKeydownBound);
-    this.el.addEventListener('click', this._handleInputClickBound);
+    this.el.addEventListener('blur', this._handleInputBlur);
+    this.el.addEventListener('keyup', this._handleInputKeyupAndFocus);
+    this.el.addEventListener('focus', this._handleInputKeyupAndFocus);
+    this.el.addEventListener('keydown', this._handleInputKeydown);
+    this.el.addEventListener('click', this._handleInputClick);
     this.container.addEventListener(
       'mousedown',
-      this._handleContainerMousedownAndTouchstartBound
+      this._handleContainerMousedownAndTouchstart
     );
-    this.container.addEventListener('mouseup', this._handleContainerMouseupAndTouchendBound);
+    this.container.addEventListener('mouseup', this._handleContainerMouseupAndTouchend);
     if (typeof window.ontouchstart !== 'undefined') {
       this.container.addEventListener(
         'touchstart',
-        this._handleContainerMousedownAndTouchstartBound
+        this._handleContainerMousedownAndTouchstart
       );
-      this.container.addEventListener('touchend', this._handleContainerMouseupAndTouchendBound);
+      this.container.addEventListener('touchend', this._handleContainerMouseupAndTouchend);
     }
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('blur', this._handleInputBlurBound);
-    this.el.removeEventListener('keyup', this._handleInputKeyupAndFocusBound);
-    this.el.removeEventListener('focus', this._handleInputKeyupAndFocusBound);
-    this.el.removeEventListener('keydown', this._handleInputKeydownBound);
-    this.el.removeEventListener('click', this._handleInputClickBound);
+    this.el.removeEventListener('blur', this._handleInputBlur);
+    this.el.removeEventListener('keyup', this._handleInputKeyupAndFocus);
+    this.el.removeEventListener('focus', this._handleInputKeyupAndFocus);
+    this.el.removeEventListener('keydown', this._handleInputKeydown);
+    this.el.removeEventListener('click', this._handleInputClick);
     this.container.removeEventListener(
       'mousedown',
-      this._handleContainerMousedownAndTouchstartBound
+      this._handleContainerMousedownAndTouchstart
     );
-    this.container.removeEventListener('mouseup', this._handleContainerMouseupAndTouchendBound);
+    this.container.removeEventListener('mouseup', this._handleContainerMouseupAndTouchend);
 
     if (typeof window.ontouchstart !== 'undefined') {
       this.container.removeEventListener(
         'touchstart',
-        this._handleContainerMousedownAndTouchstartBound
+        this._handleContainerMousedownAndTouchstart
       );
       this.container.removeEventListener(
         'touchend',
-        this._handleContainerMouseupAndTouchendBound
+        this._handleContainerMouseupAndTouchend
       );
     }
   }
@@ -167,7 +150,7 @@ export class Autocomplete extends Component {
     if (label) this.el.after(label);
 
     // Sketchy removal of dropdown click handler
-    this.el.removeEventListener('click', this.dropdown._handleClickBound);
+    this.el.removeEventListener('click', this.dropdown._handleClick);
     // Set Value if already set in HTML
     if (this.el.value) this.selectOption(this.el.value);
     // Add StatusInfo
@@ -182,14 +165,14 @@ export class Autocomplete extends Component {
     this.container.parentNode.removeChild(this.container);
   }
 
-  _handleInputBlur() {
+  _handleInputBlur = () => {
     if (!this._mousedown) {
       this.close();
       this._resetAutocomplete();
     }
   }
 
-  _handleInputKeyupAndFocus(e) {
+  _handleInputKeyupAndFocus = (e) => {
     if (e.type === 'keyup') Autocomplete._keydown = false;
     this.count = 0;
     const actualValue = this.el.value.toLowerCase();
@@ -213,7 +196,7 @@ export class Autocomplete extends Component {
     this.oldVal = actualValue;
   }
 
-  _handleInputKeydown(e) {
+  _handleInputKeydown = (e) => {
     Autocomplete._keydown = true;
     // Arrow keys and enter key usage
     const keyCode = e.keyCode;
@@ -246,15 +229,15 @@ export class Autocomplete extends Component {
     }
   }
 
-  _handleInputClick(e) {
+  _handleInputClick = () => {
     this.open();
   }
 
-  _handleContainerMousedownAndTouchstart(e) {
+  _handleContainerMousedownAndTouchstart = () => {
     this._mousedown = true;
   }
 
-  _handleContainerMouseupAndTouchend(e) {
+  _handleContainerMouseupAndTouchend = () => {
     this._mousedown = false;
   }
 

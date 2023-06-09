@@ -18,8 +18,6 @@ export class ScrollSpy extends Component {
   id: any;
   static _elementsInView: ScrollSpy[];
   static _visibleElements: any[];
-  private _handleThrottledResizeBound: any;
-  private _handleWindowScrollBound: any;
   static _ticks: number;
 
   constructor(el, options) {
@@ -60,25 +58,24 @@ export class ScrollSpy extends Component {
   }
 
   _setupEventHandlers() {
-    let throttledResize = M.throttle(this._handleWindowScroll, 200);
-    this._handleThrottledResizeBound = throttledResize.bind(this);
-    this._handleWindowScrollBound = this._handleWindowScroll.bind(this);
     if (ScrollSpy._count === 1) {
-      window.addEventListener('scroll', this._handleWindowScrollBound);
-      window.addEventListener('resize', this._handleThrottledResizeBound);
+      window.addEventListener('scroll', this._handleWindowScroll);
+      window.addEventListener('resize', this._handleThrottledResize);
       document.body.addEventListener('click', this._handleTriggerClick);
     }
   }
 
   _removeEventHandlers() {
     if (ScrollSpy._count === 0) {
-      window.removeEventListener('scroll', this._handleWindowScrollBound);
-      window.removeEventListener('resize', this._handleThrottledResizeBound);
+      window.removeEventListener('scroll', this._handleWindowScroll);
+      window.removeEventListener('resize', this._handleThrottledResize);
       document.body.removeEventListener('click', this._handleTriggerClick);
     }
   }
 
-  _handleTriggerClick(e) {
+  _handleThrottledResize = () => M.throttle(this._handleWindowScroll, 200); 
+
+  _handleTriggerClick = (e) => {
     const trigger = e.target;
     for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
       const scrollspy = ScrollSpy._elements[i];
@@ -100,7 +97,7 @@ export class ScrollSpy extends Component {
     }
   }
 
-  _handleWindowScroll() {
+  _handleWindowScroll = () => {
     // unique tick id
     ScrollSpy._ticks++;
 

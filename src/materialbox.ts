@@ -29,10 +29,6 @@ export class Materialbox extends Component {
   private attrHeight: string;
   private _overlay: HTMLElement;
   private _photoCaption: HTMLElement;
-  private _handleMaterialboxClickBound: any;
-  private _handleWindowScrollBound: any;
-  private _handleWindowResizeBound: any;
-  private _handleWindowEscapeBound: any;
 
   constructor(el, options) {
     super(Materialbox, el, options);
@@ -75,15 +71,14 @@ export class Materialbox extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleMaterialboxClickBound = this._handleMaterialboxClick.bind(this);
-    this.el.addEventListener('click', this._handleMaterialboxClickBound);
+    this.el.addEventListener('click', this._handleMaterialboxClick);
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('click', this._handleMaterialboxClickBound);
+    this.el.removeEventListener('click', this._handleMaterialboxClick);
   }
 
-  _handleMaterialboxClick(e) {
+  _handleMaterialboxClick = () => {
     // If already modal, return to original
     if (this.doneAnimating === false || (this.overlayActive && this.doneAnimating))
       this.close();
@@ -91,15 +86,15 @@ export class Materialbox extends Component {
       this.open();
   }
 
-  _handleWindowScroll() {
+  _handleWindowScroll = () => {
     if (this.overlayActive) this.close();
   }
 
-  _handleWindowResize() {
+  _handleWindowResize = () => {
     if (this.overlayActive) this.close();
   }
 
-  _handleWindowEscape(e) {
+  _handleWindowEscape = (e) => {
     // ESC key
     if (e.keyCode === 27 && this.doneAnimating && this.overlayActive) this.close();
   }
@@ -299,12 +294,9 @@ export class Materialbox extends Component {
     this._animateImageIn();
 
     // Handle Exit triggers
-    this._handleWindowScrollBound = this._handleWindowScroll.bind(this);
-    this._handleWindowResizeBound = this._handleWindowResize.bind(this);
-    this._handleWindowEscapeBound = this._handleWindowEscape.bind(this);
-    window.addEventListener('scroll', this._handleWindowScrollBound);
-    window.addEventListener('resize', this._handleWindowResizeBound);
-    window.addEventListener('keyup', this._handleWindowEscapeBound);
+    window.addEventListener('scroll', this._handleWindowScroll);
+    window.addEventListener('resize', this._handleWindowResize);
+    window.addEventListener('keyup', this._handleWindowEscape);
   }
 
   close() {
@@ -318,9 +310,9 @@ export class Materialbox extends Component {
     anim.remove(this._overlay);
     if (this.caption !== '') anim.remove(this._photoCaption);
     // disable exit handlers
-    window.removeEventListener('scroll', this._handleWindowScrollBound);
-    window.removeEventListener('resize', this._handleWindowResizeBound);
-    window.removeEventListener('keyup', this._handleWindowEscapeBound);
+    window.removeEventListener('scroll', this._handleWindowScroll);
+    window.removeEventListener('resize', this._handleWindowResize);
+    window.removeEventListener('keyup', this._handleWindowEscape);
     anim({
       targets: this._overlay,
       opacity: 0,

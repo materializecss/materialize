@@ -8,10 +8,9 @@ let _defaults = {
 export class Parallax extends Component {
   private _enabled: boolean;
   private _img: HTMLImageElement;
-  private _handleImageLoadBound: any;
-  static _parallaxes: any;
-  static _handleScrollThrottled: any;
-  static _handleWindowResizeThrottled: () => any;
+  static _parallaxes : Parallax[] = [];
+  static _handleScrollThrottled = M.throttle(Parallax._handleScroll, 5);
+  static _handleWindowResizeThrottled = M.throttle(Parallax._handleWindowResize, 5);
 
   constructor(el, options) {
     super(Parallax, el, options);
@@ -61,18 +60,15 @@ export class Parallax extends Component {
   }
 
   _setupEventHandlers() {
-    this._handleImageLoadBound = this._handleImageLoad.bind(this);
-    this._img.addEventListener('load', this._handleImageLoadBound);
+    this._img.addEventListener('load', this._handleImageLoad);
     if (Parallax._parallaxes.length === 0) {
-      Parallax._handleScrollThrottled = M.throttle(Parallax._handleScroll, 5);
       window.addEventListener('scroll', Parallax._handleScrollThrottled);
-      Parallax._handleWindowResizeThrottled = M.throttle(Parallax._handleWindowResize, 5);
       window.addEventListener('resize', Parallax._handleWindowResizeThrottled);
     }
   }
 
   _removeEventHandlers() {
-    this._img.removeEventListener('load', this._handleImageLoadBound);
+    this._img.removeEventListener('load', this._handleImageLoad);
     if (Parallax._parallaxes.length === 0) {
       window.removeEventListener('scroll', Parallax._handleScrollThrottled);
       window.removeEventListener('resize', Parallax._handleWindowResizeThrottled);
@@ -83,7 +79,7 @@ export class Parallax extends Component {
     this._img.style.opacity = '1';
   }
 
-  _handleImageLoad() {
+  _handleImageLoad = () => {
     this._updateParallax();
   }
 
@@ -114,9 +110,5 @@ export class Parallax extends Component {
     else if (bottom > scrollTop && top < scrollTop + windowHeight) {
       this._img.style.transform = `translate3D(-50%, ${parallax}px, 0)`;
     }
-  }
-
-  static {
-    Parallax._parallaxes = [];
   }
 }

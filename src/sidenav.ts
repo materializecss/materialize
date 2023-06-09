@@ -25,13 +25,6 @@ export class Sidenav extends Component {
   static _sidenavs: any;
   private _overlay: HTMLElement;
   dragTarget: Element;
-  private _closeBound: any;
-  private _handleDragTargetDragBound: any;
-  private _handleDragTargetReleaseBound: any;
-  private _handleCloseDragBound: any;
-  private _handleCloseReleaseBound: any;
-  private _handleCloseTriggerClickBound: any;
-  private _handleWindowResizeBound: any;
   private _startingXpos: number;
   private _xPos: number;
   private _time: number;
@@ -89,9 +82,8 @@ export class Sidenav extends Component {
 
   _createOverlay() {
     this._overlay = document.createElement('div');
-    this._closeBound = this.close.bind(this);
     this._overlay.classList.add('sidenav-overlay');
-    this._overlay.addEventListener('click', this._closeBound);
+    this._overlay.addEventListener('click', this.close);
     document.body.appendChild(this._overlay);
   }
 
@@ -99,23 +91,17 @@ export class Sidenav extends Component {
     if (Sidenav._sidenavs.length === 0) {
       document.body.addEventListener('click', this._handleTriggerClick);
     }
-    this._handleDragTargetDragBound = this._handleDragTargetDrag.bind(this);
-    this._handleDragTargetReleaseBound = this._handleDragTargetRelease.bind(this);
-    this._handleCloseDragBound = this._handleCloseDrag.bind(this);
-    this._handleCloseReleaseBound = this._handleCloseRelease.bind(this);
-    this._handleCloseTriggerClickBound = this._handleCloseTriggerClick.bind(this);
     var passiveIfSupported: boolean = null;
-    this.dragTarget.addEventListener('touchmove', this._handleDragTargetDragBound, passiveIfSupported);
-    this.dragTarget.addEventListener('touchend', this._handleDragTargetReleaseBound);
-    this._overlay.addEventListener('touchmove', this._handleCloseDragBound, passiveIfSupported);
-    this._overlay.addEventListener('touchend', this._handleCloseReleaseBound);
-    this.el.addEventListener('touchmove', this._handleCloseDragBound, passiveIfSupported);
-    this.el.addEventListener('touchend', this._handleCloseReleaseBound);
-    this.el.addEventListener('click', this._handleCloseTriggerClickBound);
+    this.dragTarget.addEventListener('touchmove', this._handleDragTargetDrag, passiveIfSupported);
+    this.dragTarget.addEventListener('touchend', this._handleDragTargetRelease);
+    this._overlay.addEventListener('touchmove', this._handleCloseDrag, passiveIfSupported);
+    this._overlay.addEventListener('touchend', this._handleCloseRelease);
+    this.el.addEventListener('touchmove', this._handleCloseDrag, passiveIfSupported);
+    this.el.addEventListener('touchend', this._handleCloseRelease);
+    this.el.addEventListener('click', this._handleCloseTriggerClick);
     // Add resize for side nav fixed
     if (this.isFixed) {
-      this._handleWindowResizeBound = this._handleWindowResize.bind(this);
-      window.addEventListener('resize', this._handleWindowResizeBound);
+      window.addEventListener('resize', this._handleWindowResize);
     }
   }
 
@@ -123,17 +109,17 @@ export class Sidenav extends Component {
     if (Sidenav._sidenavs.length === 1) {
       document.body.removeEventListener('click', this._handleTriggerClick);
     }
-    this.dragTarget.removeEventListener('touchmove', this._handleDragTargetDragBound);
-    this.dragTarget.removeEventListener('touchend', this._handleDragTargetReleaseBound);
-    this._overlay.removeEventListener('touchmove', this._handleCloseDragBound);
-    this._overlay.removeEventListener('touchend', this._handleCloseReleaseBound);
-    this.el.removeEventListener('touchmove', this._handleCloseDragBound);
-    this.el.removeEventListener('touchend', this._handleCloseReleaseBound);
-    this.el.removeEventListener('click', this._handleCloseTriggerClickBound);
+    this.dragTarget.removeEventListener('touchmove', this._handleDragTargetDrag);
+    this.dragTarget.removeEventListener('touchend', this._handleDragTargetRelease);
+    this._overlay.removeEventListener('touchmove', this._handleCloseDrag);
+    this._overlay.removeEventListener('touchend', this._handleCloseRelease);
+    this.el.removeEventListener('touchmove', this._handleCloseDrag);
+    this.el.removeEventListener('touchend', this._handleCloseRelease);
+    this.el.removeEventListener('click', this._handleCloseTriggerClick);
 
     // Remove resize for side nav fixed
     if (this.isFixed) {
-      window.removeEventListener('resize', this._handleWindowResizeBound);
+      window.removeEventListener('resize', this._handleWindowResize);
     }
   }
 
@@ -177,7 +163,7 @@ export class Sidenav extends Component {
     }
   }
 
-  _handleDragTargetDrag(e) {
+  _handleDragTargetDrag = (e) => {
     // Check if draggable
     if (!this.options.draggable || this._isCurrentlyFixed() || this._verticallyScrolling) {
       return;
@@ -215,7 +201,7 @@ export class Sidenav extends Component {
     this._overlay.style.opacity = this.percentOpen.toString();
   }
 
-  _handleDragTargetRelease() {
+  _handleDragTargetRelease = () => {
     if (this.isDragged) {
       if (this.percentOpen > 0.2) {
         this.open();
@@ -227,7 +213,7 @@ export class Sidenav extends Component {
     }
   }
 
-  _handleCloseDrag(e) {
+  _handleCloseDrag = (e) => {
     if (this.isOpen) {
       // Check if draggable
       if (!this.options.draggable || this._isCurrentlyFixed() || this._verticallyScrolling) {
@@ -260,7 +246,7 @@ export class Sidenav extends Component {
     }
   }
 
-  _handleCloseRelease() {
+  _handleCloseRelease = () => {
     if (this.isOpen && this.isDragged) {
       if (this.percentOpen > 0.8) {
         this._animateIn();
@@ -273,14 +259,14 @@ export class Sidenav extends Component {
   }
 
   // Handles closing of Sidenav when element with class .sidenav-close
-  _handleCloseTriggerClick(e) {
+  _handleCloseTriggerClick = (e) => {
     const closeTrigger = e.target.closest('.sidenav-close');
     if (closeTrigger && !this._isCurrentlyFixed()) {
       this.close();
     }
   }
 
-  _handleWindowResize() {
+  _handleWindowResize = () => {
     // Only handle horizontal resizes
     if (this.lastWindowWidth !== window.innerWidth) {
       if (window.innerWidth > 992) {
@@ -360,7 +346,7 @@ export class Sidenav extends Component {
     }
   }
 
-  close() {
+  close = () => {
     if (this.isOpen === false) return;
     this.isOpen = false;
     // Run onCloseStart callback
