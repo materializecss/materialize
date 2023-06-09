@@ -73,7 +73,7 @@ export class ScrollSpy extends Component {
     }
   }
 
-  _handleThrottledResize = () => M.throttle(this._handleWindowScroll, 200); 
+  _handleThrottledResize = (() => M.throttle(function(){ this._handleWindowScroll(); }, 200).bind(this))(); 
 
   _handleTriggerClick = (e) => {
     const trigger = e.target;

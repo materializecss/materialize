@@ -8,9 +8,9 @@ let _defaults = {
 export class Parallax extends Component {
   private _enabled: boolean;
   private _img: HTMLImageElement;
-  static _parallaxes : Parallax[] = [];
-  static _handleScrollThrottled = M.throttle(Parallax._handleScroll, 5);
-  static _handleWindowResizeThrottled = M.throttle(Parallax._handleWindowResize, 5);
+  static _parallaxes: Parallax[] = [];
+  static _handleScrollThrottled: () => any;
+  static _handleWindowResizeThrottled: () => any;
 
   constructor(el, options) {
     super(Parallax, el, options);
@@ -62,6 +62,12 @@ export class Parallax extends Component {
   _setupEventHandlers() {
     this._img.addEventListener('load', this._handleImageLoad);
     if (Parallax._parallaxes.length === 0) {
+      if (!Parallax._handleScrollThrottled){
+        Parallax._handleScrollThrottled = M.throttle(Parallax._handleScroll, 5);
+      }
+      if (!Parallax._handleWindowResizeThrottled){
+        Parallax._handleWindowResizeThrottled = M.throttle(Parallax._handleWindowResize, 5);
+      }
       window.addEventListener('scroll', Parallax._handleScrollThrottled);
       window.addEventListener('resize', Parallax._handleWindowResizeThrottled);
     }

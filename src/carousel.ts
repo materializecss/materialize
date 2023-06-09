@@ -166,7 +166,7 @@ export class Carousel extends Component {
     window.removeEventListener('resize', this._handleThrottledResize);
   }
 
-  _handleThrottledResize = () => M.throttle(this._handleResize, 200, null);
+  _handleThrottledResize = (() => M.throttle(function(){ this._handleResize(); }, 200, null).bind(this))();
 
   _handleCarouselTap = (e) => {
     // Fixes firefox draggable image bug
@@ -288,7 +288,7 @@ export class Carousel extends Component {
     }
   }
 
-  _handleResize(e) {
+  _handleResize = () => {
     if (this.options.fullWidth) {
       this.itemWidth = this.el.querySelector('.carousel-item').clientWidth;
       this.imageHeight = this.el.querySelector('.carousel-item.active').clientHeight;

@@ -58,7 +58,7 @@ export class TapTarget extends Component {
     window.removeEventListener('resize', this._handleThrottledResize);
   }
 
-  _handleThrottledResize = () => M.throttle(this._handleResize, 200);
+  _handleThrottledResize = (() => M.throttle(function(){ this._handleResize(); }, 200).bind(this))();
 
   _handleTargetClick = () => {
     this.open();
