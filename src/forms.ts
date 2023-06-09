@@ -27,13 +27,13 @@ export class Forms {
 
     if (fontSize) hiddenDiv.style.fontSize = fontSize; //('font-size', fontSize);
     if (fontFamily) hiddenDiv.style.fontFamily = fontFamily; //css('font-family', fontFamily);
-    if (lineHeight) hiddenDiv.style.lineHeight = lineHeight; //css('line-height', lineHeight);    
-    if (paddingTop) hiddenDiv.style.paddingTop = paddingTop; //ss('padding-top', paddingTop);    
-    if (paddingRight) hiddenDiv.style.paddingRight = paddingRight; //css('padding-right', paddingRight);    
-    if (paddingBottom) hiddenDiv.style.paddingBottom = paddingBottom; //css('padding-bottom', paddingBottom);    
-    if (paddingLeft) hiddenDiv.style.paddingLeft = paddingLeft; //css('padding-left', paddingLeft);    
+    if (lineHeight) hiddenDiv.style.lineHeight = lineHeight; //css('line-height', lineHeight);
+    if (paddingTop) hiddenDiv.style.paddingTop = paddingTop; //ss('padding-top', paddingTop);
+    if (paddingRight) hiddenDiv.style.paddingRight = paddingRight; //css('padding-right', paddingRight);
+    if (paddingBottom) hiddenDiv.style.paddingBottom = paddingBottom; //css('padding-bottom', paddingBottom);
+    if (paddingLeft) hiddenDiv.style.paddingLeft = paddingLeft; //css('padding-left', paddingLeft);
 
-    // Set original-height, if none    
+    // Set original-height, if none
     if (!textarea.hasAttribute('original-height'))
       textarea.setAttribute('original-height', textarea.getBoundingClientRect().height.toString());
 
@@ -97,7 +97,7 @@ export class Forms {
         textArea.addEventListener('keyup', e => Forms.textareaAutoResize(textArea));
         textArea.addEventListener('keydown', e => Forms.textareaAutoResize(textArea));
       });
-  
+
       // File Input Path
       document.querySelectorAll('.file-field input[type="file"]').forEach((fileInput: HTMLInputElement) => {
         fileInput.addEventListener('change', e => {
@@ -112,9 +112,7 @@ export class Forms {
           pathInput.dispatchEvent(new Event('change'));
         });
       });
-  
+
     });
   }
 }
-
-  

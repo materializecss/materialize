@@ -134,7 +134,7 @@ export class Autocomplete extends Component {
     }
   }
 
-  _setupDropdown() {      
+  _setupDropdown() {
     this.container = document.createElement('ul');
     this.container.style.maxHeight = this.options.maxDropDownHeight;
     this.container.id = `autocomplete-options-${M.guid()}`;
@@ -142,7 +142,7 @@ export class Autocomplete extends Component {
     this.el.setAttribute('data-target', this.container.id);
 
     // ! Issue in Component Dropdown: _placeDropdown moves dom-position
-    this.el.parentElement.appendChild(this.container); 
+    this.el.parentElement.appendChild(this.container);
 
     // Initialize dropdown
     let dropdownOptions = {
@@ -174,7 +174,7 @@ export class Autocomplete extends Component {
     const div = document.createElement('div');
     div.classList.add('status-info');
     div.setAttribute('style', 'position: absolute;right:0;top:0;');
-    this.el.parentElement.appendChild(div);      
+    this.el.parentElement.appendChild(div);
     this._updateSelectedInfo();
   }
 
@@ -456,4 +456,3 @@ export class Autocomplete extends Component {
     this._triggerChanged();
   }
 }
-   

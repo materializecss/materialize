@@ -15,7 +15,7 @@ export class Cards {
         if (!cardReveal) return;
         const initialOverflow = getComputedStyle(card).overflow;
 
-        // Close Card        
+        // Close Card
         const closeArea = cardReveal.querySelector('.card-reveal .card-title');
         if (trigger === closeArea || closeArea.contains(trigger)) {
           anim({
@@ -29,7 +29,7 @@ export class Cards {
             }
           });
         };
-        
+
         // Reveal Card
         const activators = card.querySelectorAll('.activator');
         activators.forEach(activator => {
@@ -44,11 +44,10 @@ export class Cards {
             });
           }
         });
-        
 
-      });     
+
+      });
     });
 
-  }  
+  }
 }
-  

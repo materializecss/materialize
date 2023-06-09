@@ -10,8 +10,8 @@ type Position = {
 }
 
 export class Waves {
- 
-  private static _offset(el) {
+
+  private static _offset(el: HTMLElement) {
     const box = el.getBoundingClientRect();
     const docElem = document.documentElement;
     return {
@@ -19,24 +19,24 @@ export class Waves {
       left: box.left + window.pageXOffset - docElem.clientLeft
     };
   }
-  
+
   // https://phoenix-dx.com/css-techniques-for-material-ripple-effect/
 
   public static renderWaveEffect(targetElement: HTMLElement, position: Position|null = null, color: RGBColor|null = null): void {
     const isCentered = position === null;
     const duration = 500;
-    let animationFrame, animationStart;          
-    const animationStep = function(timestamp) {
+    let animationFrame: number, animationStart: number;
+    const animationStep = function(timestamp: number) {
       if (!animationStart) {
         animationStart = timestamp;
-      }             
+      }
       const frame = timestamp - animationStart;
       if (frame < duration) {
         const easing = (frame/duration) * (2 - (frame/duration));
         const circle = isCentered ? 'circle at 50% 50%' : `circle at ${position.x}px ${position.y}px`;
         const waveColor = `rgba(${color?.r || 0}, ${color?.g || 0}, ${color?.b || 0}, ${ 0.3 * (1-easing) })`;
-        const stop = 90 * easing + "%";  
-        targetElement.style.backgroundImage = "radial-gradient("+circle+", "+waveColor+" "+stop+", transparent "+stop+")";       
+        const stop = 90 * easing + "%";
+        targetElement.style.backgroundImage = "radial-gradient("+circle+", "+waveColor+" "+stop+", transparent "+stop+")";
         animationFrame = window.requestAnimationFrame(animationStep);
       }
       else {
@@ -44,7 +44,7 @@ export class Waves {
         window.cancelAnimationFrame(animationFrame);
       }
     };
-    animationFrame = window.requestAnimationFrame(animationStep);    
+    animationFrame = window.requestAnimationFrame(animationStep);
   }
 
   static Init() {
@@ -60,7 +60,7 @@ export class Waves {
           let color = null;
           if (el.classList.contains('waves-light'))
             color = {r:255, g:255, b:255};
-        
+
           Waves.renderWaveEffect(el, isCircular ? null : {x, y}, color);
         }
       });

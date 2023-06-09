@@ -37,9 +37,9 @@ export class M {
     ARROW_DOWN: 40
   };
 
-  static Autocomplete: typeof Autocomplete = Autocomplete; 
-  static Tabs: typeof Tabs = Tabs; 
-  static Carousel: typeof Carousel = Carousel; 
+  static Autocomplete: typeof Autocomplete = Autocomplete;
+  static Tabs: typeof Tabs = Tabs;
+  static Carousel: typeof Carousel = Carousel;
   static Dropdown: typeof Dropdown = Dropdown;
   static FloatingActionButton: typeof FloatingActionButton = FloatingActionButton;
   static Chips: typeof Chips = Chips;
@@ -92,19 +92,19 @@ export class M {
     document.addEventListener('keydown', this.docHandleKeydown, true);
     document.addEventListener('keyup', this.docHandleKeyup, true);
     document.addEventListener('focus', this.docHandleFocus, true);
-    document.addEventListener('blur', this.docHandleBlur, true); 
-    this.initializeJqueryWrapper(Tabs, 'tabs', 'M_Tabs');  
+    document.addEventListener('blur', this.docHandleBlur, true);
+    this.initializeJqueryWrapper(Tabs, 'tabs', 'M_Tabs');
     this.initializeJqueryWrapper(Carousel, 'carousel', 'M_Carousel');
     this.initializeJqueryWrapper(Autocomplete, 'autocomplete', 'M_Autocomplete');
     this.initializeJqueryWrapper(Dropdown, 'dropdown', 'M_Dropdown');
     this.initializeJqueryWrapper(FloatingActionButton, 'floatingActionButton', 'M_FloatingActionButton');
     M.initializeJqueryWrapper(Collapsible, 'collapsible', 'M_Collapsible');
     M.initializeJqueryWrapper(CharacterCounter, 'characterCounter', 'M_CharacterCounter');
-    M.initializeJqueryWrapper(Datepicker, 'datepicker', 'M_Datepicker');  
-    M.initializeJqueryWrapper(FormSelect, 'formSelect', 'M_FormSelect'); 
+    M.initializeJqueryWrapper(Datepicker, 'datepicker', 'M_Datepicker');
+    M.initializeJqueryWrapper(FormSelect, 'formSelect', 'M_FormSelect');
     M.initializeJqueryWrapper(Modal, 'modal', 'M_Modal');
     M.initializeJqueryWrapper(Pushpin, 'pushpin', 'M_Pushpin');
-    M.initializeJqueryWrapper(Materialbox, 'materialbox', 'M_Materialbox'); 
+    M.initializeJqueryWrapper(Materialbox, 'materialbox', 'M_Materialbox');
     M.initializeJqueryWrapper(Parallax, 'parallax', 'M_Parallax');
     M.initializeJqueryWrapper(Slider, 'slider', 'M_Slider');
     M.initializeJqueryWrapper(Timepicker, 'timepicker', 'M_Timepicker');
@@ -123,13 +123,13 @@ export class M {
 
   //--- TODO: Remove!
   static jQueryLoaded(): boolean {
-    return !!(<any>window).jQuery;      
+    return !!(<any>window).jQuery;
   }
   static initializeJqueryWrapper(plugin: any, pluginName: string, classRef: string) {
     if (!this.jQueryLoaded())
       return;
     var jq = (<any>window).jQuery;
-    
+
     jq.fn[pluginName] = function(methodOrOptions) {
       // Call plugin method if valid method name is passed in
       if (plugin.prototype[methodOrOptions]) {
@@ -178,11 +178,11 @@ export class M {
       FloatingActionButton: root.querySelectorAll('.fixed-action-btn:not(.no-autoinit)'),
     };
     M.Autocomplete.init(registry.Autocomplete, null);
-    M.Carousel.init(registry.Carousel, null);  
-    M.Chips.init(registry.Chips, null);  
+    M.Carousel.init(registry.Carousel, null);
+    M.Chips.init(registry.Chips, null);
     M.Collapsible.init(registry.Collapsible, null);
     M.Datepicker.init(registry.Datepicker, null);
-    M.Dropdown.init(registry.Dropdown, null);  
+    M.Dropdown.init(registry.Dropdown, null);
     M.Materialbox.init(registry.Materialbox, null);
     M.Modal.init(registry.Modal, null);
     M.Parallax.init(registry.Parallax, null);
@@ -209,8 +209,8 @@ export class M {
       return Math.floor((1 + Math.random()) * 0x10000)
         .toString(16)
         .substring(1);
-    }  
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();      
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 
   static checkWithinContainer(container: Element, bounding: Bounding, offset: number): Edges {

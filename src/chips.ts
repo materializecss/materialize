@@ -141,7 +141,7 @@ export class Chips extends Component {
     // Don't handle keydown inputs on input and textarea
     const tag = (<HTMLElement>e.target).tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || !chipsKeydown) return;
-    
+
     const currChips: Chips = (chips as any).M_Chips;
     // backspace and delete
     if (e.keyCode === 8 || e.keyCode === 46) {

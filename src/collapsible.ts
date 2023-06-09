@@ -29,7 +29,7 @@ export class Collapsible extends Component {
     if (this.options.accordion)
       if (activeBodies.length > 0)
         activeBodies[0].style.display = 'block'; // Accordion
-    else 
+    else
       activeBodies.forEach(el => el.style.display = 'block'); // Expandables
   }
 
