@@ -7,7 +7,7 @@ let _defaults = {
 };
 
 export class TapTarget extends Component {
-  el: HTMLElement
+  declare el: HTMLElement;
   isOpen: boolean;
   private wrapper: HTMLElement;
   private _origin: HTMLElement;

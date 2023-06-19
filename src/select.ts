@@ -13,7 +13,7 @@ type ValueStruct = {
 }
 
 export class FormSelect extends Component {
-  el: HTMLSelectElement;
+  declare el: HTMLSelectElement;
   isMultiple: boolean;
   private _values: ValueStruct[];
   labelEl: HTMLLabelElement;

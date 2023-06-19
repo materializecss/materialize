@@ -27,7 +27,7 @@ let _defaults = {
 
 
 export class Autocomplete extends Component {
-  el: HTMLInputElement;
+  declare el: HTMLInputElement;
   isOpen: boolean;
   count: number;
   activeIndex: number;

@@ -89,7 +89,7 @@ let _defaults = {
 };
 
 export class Datepicker extends Component {
-  el: HTMLInputElement
+  declare el: HTMLInputElement;
   id: string;
   isOpen: boolean;
   modal: Modal;

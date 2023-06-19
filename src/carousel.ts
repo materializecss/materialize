@@ -14,7 +14,7 @@ let _defaults = {
 };
 
 export class Carousel extends Component {
-  el: HTMLElement;
+  declare el: HTMLElement;
   hasMultipleSlides: boolean;
   showIndicators: boolean;
   noWrap: any;

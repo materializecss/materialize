@@ -13,7 +13,7 @@ let _defaults = {
 };
 
 export class Slider extends Component {
-  el: HTMLElement;
+  declare el: HTMLElement;
   _slider: HTMLUListElement;
   _slides: HTMLLIElement[];
   activeIndex: number;

@@ -17,7 +17,7 @@ const _defaults = {
 };
 
 export class Modal extends Component {
-  el: HTMLElement;
+  declare el: HTMLElement;
   static _modalsOpen: number;
   static _count: number;
   isOpen: boolean;

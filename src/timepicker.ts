@@ -35,7 +35,7 @@ type Point = {
 };
 
 export class Timepicker extends Component {
-  el: HTMLInputElement;
+  declare el: HTMLInputElement;
   id: string;
   modal: Modal;
   modalEl: HTMLElement;

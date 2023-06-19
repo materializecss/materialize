@@ -20,7 +20,7 @@ const _defaults = {
 };
 
 export class Dropdown extends Component {
-  el: HTMLElement;
+  declare el: HTMLElement;
   static _dropdowns: Dropdown[] = [];
   id: string;
   dropdownEl: HTMLElement;

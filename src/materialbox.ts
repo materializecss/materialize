@@ -12,7 +12,7 @@ const _defaults = {
 };
 
 export class Materialbox extends Component {
-  el: HTMLElement;
+  declare el: HTMLElement;
   overlayActive: boolean;
   doneAnimating: boolean;
   caption: string;

@@ -10,7 +10,7 @@ let _defaults = {
 };
 
 export class Tabs extends Component {
-  el: HTMLElement;
+  declare el: HTMLElement;
   _tabLinks: any;
   _index: number;
   _indicator: any;

@@ -6,7 +6,7 @@ const _defaults = {};
 // TODO: !!!!!
 
 export class Range extends Component {
-  el: HTMLInputElement;
+  declare el: HTMLInputElement;
   private _mousedown: boolean;
   value: HTMLElement;
   thumb: HTMLElement;

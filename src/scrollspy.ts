@@ -10,7 +10,7 @@ let _defaults = {
 };
 
 export class ScrollSpy extends Component {
-  el: HTMLElement;
+  declare el: HTMLElement;
   static _elements: ScrollSpy[];
   static _count: number;
   static _increment: number;

@@ -8,7 +8,7 @@ let _defaults = {
 };
 
 export class FloatingActionButton extends Component {
-  el: HTMLElement;
+  declare el: HTMLElement;
   isOpen: boolean;
   private _anchor: HTMLAnchorElement;
   private _menu: HTMLElement|null;
