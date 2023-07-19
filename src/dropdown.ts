@@ -641,4 +641,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     }
   }
 
+  static {
+    Dropdown._dropdowns = [];
+  }
 }

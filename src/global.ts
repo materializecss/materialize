@@ -46,7 +46,7 @@ export class M {
   static Slider: typeof Slider = Slider;
   static Timepicker: typeof Timepicker = Timepicker;
   /** Creates a toast. */
-  static toast: (opt: Partial<ToastOptions>) => Toast = (opt) => new Toast(opt) ;
+  static toast: (opt: ToastOptions) => Toast = (opt) => new Toast(opt) ;
   static Tooltip: typeof Tooltip = Tooltip;
   static Sidenav: typeof Sidenav = Sidenav;
   static TapTarget: typeof TapTarget = TapTarget;
@@ -73,24 +73,24 @@ export class M {
    */
   static AutoInit(context: HTMLElement = document.body) {
     let registry = {
-      Autocomplete: context.querySelectorAll('.autocomplete:not(.no-autoinit)'),
-      Carousel: context.querySelectorAll('.carousel:not(.no-autoinit)'),
-      Chips: context.querySelectorAll('.chips:not(.no-autoinit)'),
-      Collapsible: context.querySelectorAll('.collapsible:not(.no-autoinit)'),
-      Datepicker: context.querySelectorAll('.datepicker:not(.no-autoinit)'),
-      Dropdown: context.querySelectorAll('.dropdown-trigger:not(.no-autoinit)'),
-      Materialbox: context.querySelectorAll('.materialboxed:not(.no-autoinit)'),
-      Modal: context.querySelectorAll('.modal:not(.no-autoinit)'),
-      Parallax: context.querySelectorAll('.parallax:not(.no-autoinit)'),
-      Pushpin: context.querySelectorAll('.pushpin:not(.no-autoinit)'),
-      ScrollSpy: context.querySelectorAll('.scrollspy:not(.no-autoinit)'),
-      FormSelect: context.querySelectorAll('select:not(.no-autoinit)'),
-      Sidenav: context.querySelectorAll('.sidenav:not(.no-autoinit)'),
-      Tabs: context.querySelectorAll('.tabs:not(.no-autoinit)'),
-      TapTarget: context.querySelectorAll('.tap-target:not(.no-autoinit)'),
-      Timepicker: context.querySelectorAll('.timepicker:not(.no-autoinit)'),
-      Tooltip: context.querySelectorAll('.tooltipped:not(.no-autoinit)'),
-      FloatingActionButton: context.querySelectorAll('.fixed-action-btn:not(.no-autoinit)'),
+      Autocomplete: <NodeListOf<HTMLElement>>context.querySelectorAll('.autocomplete:not(.no-autoinit)'),
+      Carousel: <NodeListOf<HTMLElement>>context.querySelectorAll('.carousel:not(.no-autoinit)'),
+      Chips: <NodeListOf<HTMLElement>>context.querySelectorAll('.chips:not(.no-autoinit)'),
+      Collapsible: <NodeListOf<HTMLElement>>context.querySelectorAll('.collapsible:not(.no-autoinit)'),
+      Datepicker: <NodeListOf<HTMLElement>>context.querySelectorAll('.datepicker:not(.no-autoinit)'),
+      Dropdown: <NodeListOf<HTMLElement>>context.querySelectorAll('.dropdown-trigger:not(.no-autoinit)'),
+      Materialbox: <NodeListOf<HTMLElement>>context.querySelectorAll('.materialboxed:not(.no-autoinit)'),
+      Modal: <NodeListOf<HTMLElement>>context.querySelectorAll('.modal:not(.no-autoinit)'),
+      Parallax: <NodeListOf<HTMLElement>>context.querySelectorAll('.parallax:not(.no-autoinit)'),
+      Pushpin: <NodeListOf<HTMLElement>>context.querySelectorAll('.pushpin:not(.no-autoinit)'),
+      ScrollSpy: <NodeListOf<HTMLElement>>context.querySelectorAll('.scrollspy:not(.no-autoinit)'),
+      FormSelect: <NodeListOf<HTMLElement>>context.querySelectorAll('select:not(.no-autoinit)'),
+      Sidenav: <NodeListOf<HTMLElement>>context.querySelectorAll('.sidenav:not(.no-autoinit)'),
+      Tabs: <NodeListOf<HTMLElement>>context.querySelectorAll('.tabs:not(.no-autoinit)'),
+      TapTarget: <NodeListOf<HTMLElement>>context.querySelectorAll('.tap-target:not(.no-autoinit)'),
+      Timepicker: <NodeListOf<HTMLElement>>context.querySelectorAll('.timepicker:not(.no-autoinit)'),
+      Tooltip: <NodeListOf<HTMLElement>>context.querySelectorAll('.tooltipped:not(.no-autoinit)'),
+      FloatingActionButton: <NodeListOf<HTMLElement>>context.querySelectorAll('.fixed-action-btn:not(.no-autoinit)'),
     };
     M.Autocomplete.init(registry.Autocomplete, {});
     M.Carousel.init(registry.Carousel, {});
