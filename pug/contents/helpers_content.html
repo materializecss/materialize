@@ -122,7 +122,326 @@
 
       </div><!--  End Hiding Section  -->
 
-
+      <!-- Spacing Section -->
+      <div id="spacing" class="section scrollspy">
+        <h3 class="header">Spacing</h3>
+        <p>These classes help space elements with margin and padding helpers for all directions. This works by combining a margin/padding prefix, a direction infix and value suffix</p>
+        <h5>Prefix margin and padding modifiers</h5>
+        <table class="striped">
+          <thead>
+            <tr>
+              <th>Prefix</th>
+              <th>Modifies</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="language-markup"><strong>m*</strong></code></td>
+              <td>Modifies the margin according to the infix and suffix values. If no infix is provided, it will be applied to all directions.</td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>p*</strong></code></td>
+              <td>Modifies the padding according to the infix and suffix values. If no infix is provided, it will be applied to all directions.</td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Inffix direction modifiers</h5>
+        <table class="striped">
+          <thead>
+            <tr>
+              <th>Infix</th>
+              <th>Direction</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="language-markup"><strong>*t</strong></code></td>
+              <td>Applies modifier to the top side of the element</td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*r</strong></code></td>
+              <td>Applies modifier to the right side of the element</td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*b</strong></code></td>
+              <td>Applies modifier to the bottom side of the element</td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*l</strong></code></td>
+              <td>Applies modifier to the left side of the element</td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*x</strong></code></td>
+              <td>Applies modifier to the left and right sides of the element</td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*y</strong></code></td>
+              <td>Applies modifier to the top and bottom sides of the element</td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Suffix values</h5>
+        <p>Any margin or padding modifier must be appended with one of 6 value suffixes</p>
+        <table class="striped">
+          <thead>
+            <tr>
+              <th>Suffix</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="language-markup"><strong>*-0</strong></code></td>
+              <td><code class="language-markup"><strong>0</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*-1</strong></code></td>
+              <td><code class="language-markup"><strong>0.25rem</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*-2</strong></code></td>
+              <td><code class="language-markup"><strong>0.5rem</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*-3</strong></code></td>
+              <td><code class="language-markup"><strong>0.75rem</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*-4</strong></code></td>
+              <td><code class="language-markup"><strong>1rem</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*-5</strong></code></td>
+              <td><code class="language-markup"><strong>1.5rem</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>*-6</strong></code></td>
+              <td><code class="language-markup"><strong>3rem</strong></code></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Tables of all spacing helpers</h5>
+        <p>All margin helpers</p>
+        <table class="responsive-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Prefix</th>
+              <th colspan="8">Classes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="language-markup"><strong>margin</strong></code></td>
+              <td><code class="language-markup"><strong>m</strong></code></td>
+              <td><code class="language-markup"><strong>m-0</strong></code></td>
+              <td><code class="language-markup"><strong>m-1</strong></code></td>
+              <td><code class="language-markup"><strong>m-2</strong></code></td>
+              <td><code class="language-markup"><strong>m-3</strong></code></td>
+              <td><code class="language-markup"><strong>m-4</strong></code></td>
+              <td><code class="language-markup"><strong>m-5</strong></code></td>
+              <td><code class="language-markup"><strong>m-6</strong></code></td>
+              <td><code class="language-markup"><strong>m-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>margin-top</strong></code></td>
+              <td><code class="language-markup"><strong>mt</strong></code></td>
+              <td><code class="language-markup"><strong>mt-0</strong></code></td>
+              <td><code class="language-markup"><strong>mt-1</strong></code></td>
+              <td><code class="language-markup"><strong>mt-2</strong></code></td>
+              <td><code class="language-markup"><strong>mt-3</strong></code></td>
+              <td><code class="language-markup"><strong>mt-4</strong></code></td>
+              <td><code class="language-markup"><strong>mt-5</strong></code></td>
+              <td><code class="language-markup"><strong>mt-6</strong></code></td>
+              <td><code class="language-markup"><strong>mt-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>margin-right</strong></code></td>
+              <td><code class="language-markup"><strong>mr</strong></code></td>
+              <td><code class="language-markup"><strong>mr-0</strong></code></td>
+              <td><code class="language-markup"><strong>mr-1</strong></code></td>
+              <td><code class="language-markup"><strong>mr-2</strong></code></td>
+              <td><code class="language-markup"><strong>mr-3</strong></code></td>
+              <td><code class="language-markup"><strong>mr-4</strong></code></td>
+              <td><code class="language-markup"><strong>mr-5</strong></code></td>
+              <td><code class="language-markup"><strong>mr-6</strong></code></td>
+              <td><code class="language-markup"><strong>mr-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>margin-bottom</strong></code></td>
+              <td><code class="language-markup"><strong>mb</strong></code></td>
+              <td><code class="language-markup"><strong>mb-0</strong></code></td>
+              <td><code class="language-markup"><strong>mb-1</strong></code></td>
+              <td><code class="language-markup"><strong>mb-2</strong></code></td>
+              <td><code class="language-markup"><strong>mb-3</strong></code></td>
+              <td><code class="language-markup"><strong>mb-4</strong></code></td>
+              <td><code class="language-markup"><strong>mb-5</strong></code></td>
+              <td><code class="language-markup"><strong>mb-6</strong></code></td>
+              <td><code class="language-markup"><strong>mb-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>margin-left</strong></code></td>
+              <td><code class="language-markup"><strong>ml</strong></code></td>
+              <td><code class="language-markup"><strong>ml-0</strong></code></td>
+              <td><code class="language-markup"><strong>ml-1</strong></code></td>
+              <td><code class="language-markup"><strong>ml-2</strong></code></td>
+              <td><code class="language-markup"><strong>ml-3</strong></code></td>
+              <td><code class="language-markup"><strong>ml-4</strong></code></td>
+              <td><code class="language-markup"><strong>ml-5</strong></code></td>
+              <td><code class="language-markup"><strong>ml-6</strong></code></td>
+              <td><code class="language-markup"><strong>ml-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>margin-top</strong></code> and <code class="language-markup"><strong>margin-bottom</strong></code></td>
+              <td><code class="language-markup"><strong>my</strong></code></td>
+              <td><code class="language-markup"><strong>my-0</strong></code></td>
+              <td><code class="language-markup"><strong>my-1</strong></code></td>
+              <td><code class="language-markup"><strong>my-2</strong></code></td>
+              <td><code class="language-markup"><strong>my-3</strong></code></td>
+              <td><code class="language-markup"><strong>my-4</strong></code></td>
+              <td><code class="language-markup"><strong>my-5</strong></code></td>
+              <td><code class="language-markup"><strong>my-6</strong></code></td>
+              <td><code class="language-markup"><strong>my-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>margin-left</strong></code> and <code class="language-markup"><strong>margin-right</strong></code></td>
+              <td><code class="language-markup"><strong>mx</strong></code></td>
+              <td><code class="language-markup"><strong>mx-0</strong></code></td>
+              <td><code class="language-markup"><strong>mx-1</strong></code></td>
+              <td><code class="language-markup"><strong>mx-2</strong></code></td>
+              <td><code class="language-markup"><strong>mx-3</strong></code></td>
+              <td><code class="language-markup"><strong>mx-4</strong></code></td>
+              <td><code class="language-markup"><strong>mx-5</strong></code></td>
+              <td><code class="language-markup"><strong>mx-6</strong></code></td>
+              <td><code class="language-markup"><strong>mx-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td colspan="2">Values</td>
+              <td>0</td>
+              <td>0.25rem</td>
+              <td>0.5rem</td>
+              <td>0.75rem</td>
+              <td>1rem</td>
+              <td>1.5rem</td>
+              <td>3rem</td>
+              <td>auto</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>All padding helpers</p>
+        <table class="responsive-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Prefix</th>
+              <th colspan="8">Classes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="language-markup"><strong>padding</strong></code></td>
+              <td><code class="language-markup"><strong>p</strong></code></td>
+              <td><code class="language-markup"><strong>p-0</strong></code></td>
+              <td><code class="language-markup"><strong>p-1</strong></code></td>
+              <td><code class="language-markup"><strong>p-2</strong></code></td>
+              <td><code class="language-markup"><strong>p-3</strong></code></td>
+              <td><code class="language-markup"><strong>p-4</strong></code></td>
+              <td><code class="language-markup"><strong>p-5</strong></code></td>
+              <td><code class="language-markup"><strong>p-6</strong></code></td>
+              <td><code class="language-markup"><strong>p-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>padding-top</strong></code></td>
+              <td><code class="language-markup"><strong>pt</strong></code></td>
+              <td><code class="language-markup"><strong>pt-0</strong></code></td>
+              <td><code class="language-markup"><strong>pt-1</strong></code></td>
+              <td><code class="language-markup"><strong>pt-2</strong></code></td>
+              <td><code class="language-markup"><strong>pt-3</strong></code></td>
+              <td><code class="language-markup"><strong>pt-4</strong></code></td>
+              <td><code class="language-markup"><strong>pt-5</strong></code></td>
+              <td><code class="language-markup"><strong>pt-6</strong></code></td>
+              <td><code class="language-markup"><strong>pt-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>padding-right</strong></code></td>
+              <td><code class="language-markup"><strong>pr</strong></code></td>
+              <td><code class="language-markup"><strong>pr-0</strong></code></td>
+              <td><code class="language-markup"><strong>pr-1</strong></code></td>
+              <td><code class="language-markup"><strong>pr-2</strong></code></td>
+              <td><code class="language-markup"><strong>pr-3</strong></code></td>
+              <td><code class="language-markup"><strong>pr-4</strong></code></td>
+              <td><code class="language-markup"><strong>pr-5</strong></code></td>
+              <td><code class="language-markup"><strong>pr-6</strong></code></td>
+              <td><code class="language-markup"><strong>pr-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>padding-bottom</strong></code></td>
+              <td><code class="language-markup"><strong>pb</strong></code></td>
+              <td><code class="language-markup"><strong>pb-0</strong></code></td>
+              <td><code class="language-markup"><strong>pb-1</strong></code></td>
+              <td><code class="language-markup"><strong>pb-2</strong></code></td>
+              <td><code class="language-markup"><strong>pb-3</strong></code></td>
+              <td><code class="language-markup"><strong>pb-4</strong></code></td>
+              <td><code class="language-markup"><strong>pb-5</strong></code></td>
+              <td><code class="language-markup"><strong>pb-6</strong></code></td>
+              <td><code class="language-markup"><strong>pb-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>padding-left</strong></code></td>
+              <td><code class="language-markup"><strong>pl</strong></code></td>
+              <td><code class="language-markup"><strong>pl-0</strong></code></td>
+              <td><code class="language-markup"><strong>pl-1</strong></code></td>
+              <td><code class="language-markup"><strong>pl-2</strong></code></td>
+              <td><code class="language-markup"><strong>pl-3</strong></code></td>
+              <td><code class="language-markup"><strong>pl-4</strong></code></td>
+              <td><code class="language-markup"><strong>pl-5</strong></code></td>
+              <td><code class="language-markup"><strong>pl-6</strong></code></td>
+              <td><code class="language-markup"><strong>pl-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>padding-top</strong></code> and <code class="language-markup"><strong>padding-bottom</strong></code></td>
+              <td><code class="language-markup"><strong>py</strong></code></td>
+              <td><code class="language-markup"><strong>py-0</strong></code></td>
+              <td><code class="language-markup"><strong>py-1</strong></code></td>
+              <td><code class="language-markup"><strong>py-2</strong></code></td>
+              <td><code class="language-markup"><strong>py-3</strong></code></td>
+              <td><code class="language-markup"><strong>py-4</strong></code></td>
+              <td><code class="language-markup"><strong>py-5</strong></code></td>
+              <td><code class="language-markup"><strong>py-6</strong></code></td>
+              <td><code class="language-markup"><strong>py-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td><code class="language-markup"><strong>padding-left</strong></code> and <code class="language-markup"><strong>padding-right</strong></code></td>
+              <td><code class="language-markup"><strong>px</strong></code></td>
+              <td><code class="language-markup"><strong>px-0</strong></code></td>
+              <td><code class="language-markup"><strong>px-1</strong></code></td>
+              <td><code class="language-markup"><strong>px-2</strong></code></td>
+              <td><code class="language-markup"><strong>px-3</strong></code></td>
+              <td><code class="language-markup"><strong>px-4</strong></code></td>
+              <td><code class="language-markup"><strong>px-5</strong></code></td>
+              <td><code class="language-markup"><strong>px-6</strong></code></td>
+              <td><code class="language-markup"><strong>px-auto</strong></code></td>
+            </tr>
+            <tr>
+              <td colspan="2">Values</td>
+              <td>0</td>
+              <td>0.25rem</td>
+              <td>0.5rem</td>
+              <td>0.75rem</td>
+              <td>1rem</td>
+              <td>1.5rem</td>
+              <td>3rem</td>
+              <td>auto</td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Usage</h5>
+        <pre><code class="language-markup">
+          &lt;div class="p-2">
+            &lt;h5 class="mt-1">The div has a padding 0.5rem and the h5 has a margin-top of 0.25rem&lt;/h5>
+          &lt;/div>
+        </code></pre>
+      </div><!--  End Spacing Section  -->
 
       <!--  Formatting Section-->
       <div id="formatting" class="section scrollspy">
@@ -204,6 +523,7 @@
           <ul class="section table-of-contents">
             <li><a href="#valign">Alignment</a></li>
             <li><a href="#hiding">Hiding/Showing Content</a></li>
+            <li><a href="#spacing">Spacing Content</a></li>
             <li><a href="#formatting">Formatting</a></li>
             <li><a href="#browser-default">Browser Defaults</a></li>
           </ul>
