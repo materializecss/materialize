@@ -3,10 +3,12 @@
   "description": "Builds Materialize distribution packages",
   "author": "Alvin Wang, Alan Chang",
   "homepage": "https://materializecss.github.io/materialize/",
-  "version": "2.0.2-alpha",
+  "version": "2.0.3-alpha",
   "main": "dist/js/materialize.js",
+  "module": "src/index.ts",
   "style": "dist/css/materialize.css",
   "sass": "sass/materialize.scss",
+  "typings": "dist/src/index.d.ts",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -37,6 +39,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@types/node": "^20.5.2",
     "autoprefixer": "^7.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",

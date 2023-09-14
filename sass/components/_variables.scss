@@ -62,6 +62,8 @@ $font-on-secondary-color-main: var(--font-on-secondary-color-main) !default;
 $secondary-color: var(--secondary-color) !default;
 $secondary-color-when-hovered-solid: var(--secondary-color-hover-solid) !default;
 $secondary-color-when-focused-solid: var(--secondary-color-focus-solid) !default;
+$secondary-container-color: var(--secondary-container-color) !default;
+$font-on-secondary-container-color: var(--font-on-secondary-container-color) !default;
 
 $success-color: color("green", "base") !default;
 $error-color: var(--error-color) !default;

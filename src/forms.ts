@@ -94,17 +94,28 @@ export class Forms {
       });
 
       document.querySelectorAll('.materialize-textarea').forEach((textArea: HTMLTextAreaElement) => {
-        // Save Data in Element
-        textArea.setAttribute('original-height', textArea.getBoundingClientRect().height.toString());
-        textArea.setAttribute('previous-length', textArea.value.length.toString());
-        Forms.textareaAutoResize(textArea);
-
-        textArea.addEventListener('keyup', e => Forms.textareaAutoResize(textArea));
-        textArea.addEventListener('keydown', e => Forms.textareaAutoResize(textArea));
+          Forms.textareaAutoResize(textArea);
       });
 
       // File Input Path
       document.querySelectorAll('.file-field input[type="file"]').forEach((fileInput: HTMLInputElement) => {
+          Forms.InitFileInputPath(fileInput);
+      });
+
+    });
+  }
+
+  static InitTextarea(textarea: HTMLTextAreaElement){
+        // Save Data in Element
+        textarea.setAttribute('original-height', textarea.getBoundingClientRect().height.toString());
+        textarea.setAttribute('previous-length', textarea.value.length.toString());
+        Forms.textareaAutoResize(textarea);
+
+        textarea.addEventListener('keyup', e => Forms.textareaAutoResize(textarea));
+        textarea.addEventListener('keydown', e => Forms.textareaAutoResize(textarea));
+  }
+
+  static InitFileInputPath(fileInput: HTMLInputElement){
         fileInput.addEventListener('change', e => {
           const fileField = fileInput.closest('.file-field');
           const pathInput = <HTMLInputElement>fileField.querySelector('input.file-path');
@@ -114,10 +125,8 @@ export class Forms {
             filenames.push(files[i].name);
           }
           pathInput.value = filenames.join(', ');
-          pathInput.dispatchEvent(new Event('change'));
+          pathInput.dispatchEvent(new Event('change',{bubbles:true, cancelable:true, composed:true}));
         });
-      });
-
-    });
   }
+  
 }

@@ -160,7 +160,7 @@ export class FormSelect extends Component<FormSelectOptions> {
         previousSelectedValues,
         actualSelectedValues
       );
-      if (selectionHasChanged) this.el.dispatchEvent(new Event('change')); // trigger('change');
+      if (selectionHasChanged) this.el.dispatchEvent(new Event('change',{bubbles:true, cancelable:true, composed:true})); // trigger('change');
     }
     if (!this.isMultiple) this.dropdown.close();
   }

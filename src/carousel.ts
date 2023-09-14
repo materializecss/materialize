@@ -84,7 +84,7 @@ export class Carousel extends Component<CarouselOptions> {
   velocity: number;
   frame: number;
   timestamp: number;
-  ticker: NodeJS.Timer;
+  ticker: string | number | NodeJS.Timeout;
   amplitude: number;
   /** The index of the center carousel item. */
   center: number = 0;

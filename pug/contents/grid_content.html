@@ -121,29 +121,63 @@
         <!-- Grid Offsets -->
         <div id="grid-offsets" class="section scrollspy">
           <h2 class="header">Offsets</h2>
-          <p>To offset, simply add <code class="language-markup">offset-s2</code> to the class where <code class="language-markup">s</code> signifies the screen class-prefix (s = small, m = medium, l = large) and the number after is the number of columns you want to offset by.</p>
+          <p>To offset, simply add <code class="language-markup">offset-s2</code> to the class
+            where <code class="language-markup">s</code> signifies the screen class-prefix
+            (s = small, m = medium, l = large) and the number after is the number of columns
+            you want to offset by.</p>
+          <p class="red-text">Attention! This changed with v2! since we are using grid now, the offset
+            is always calculated absolutely starting from left! If you need relative offsets, then just add
+            empty columns to the row.</p>
+
           <div class="row">
             <div class="col s12 grid-example"><span class="flow-text">This div is 12-columns wide on all screen sizes</span></div>
             <div class="col s6 offset-s6 grid-example"><span class="flow-text">6-columns (offset-by-6)</span></div>
           </div>
+          <div class="row">
+            <div class="l6 grid-example"><span class="flow-text">l6 column</span></div>
+            <div class="l4 offset-l8 grid-example"><span class="flow-text">l4 column (offset-l8)</span></div>
+          </div>
+          <div class="row">
+            <div class="l2 offset-l3 grid-example"><span>offset-l3</span></div>
+            <div class="l2 offset-l6 grid-example"><span>offset-l6</span></div>
+            <div class="l2 offset-l9 grid-example"><span>offset-l9</span></div>
+          </div>
+          <div class="row">
+            <div class="l2 grid-example"><span>col</span></div>
+            <div class="l2"></div>
+            <div class="l2 grid-example"><span>relative offset 2</span></div>
+          </div>
+
           <pre><code class="language-markup">
-    &lt;div class="row">
-      &lt;div class="col s12">&lt;span class="flow-text">This div is 12-columns wide on all screen sizes&lt;/span>&lt;/div>
-      &lt;div class="col s6 offset-s6">&lt;span class="flow-text">6-columns (offset-by-6)&lt;/span>&lt;/div>
-    &lt;/div>
-          </code></pre>
+&lt;div class="row">
+  &lt;div class="col s12"> &lt;span class="flow-text">This div is 12-columns wide on all screen sizes &lt;/span> &lt;/div>
+  &lt;div class="col s6 offset-s6"> &lt;span class="flow-text">6-columns (offset-by-6) &lt;/span> &lt;/div>
+&lt;/div>
+&lt;div class="row">
+  &lt;div class="l6"> &lt;span class="flow-text">l6 column &lt;/span> &lt;/div>
+  &lt;div class="l4 offset-l8"> &lt;span class="flow-text">l4 column (offset-l8) &lt;/span> &lt;/div>
+&lt;/div>
+&lt;div class="row">
+  &lt;div class="l2 offset-l3"> &lt;span>offset-l3 &lt;/span> &lt;/div>
+  &lt;div class="l2 offset-l6"> &lt;span>offset-l6 &lt;/span> &lt;/div>
+  &lt;div class="l2 offset-l9"> &lt;span>offset-l9 &lt;/span> &lt;/div>
+&lt;/div>
+&lt;div class="row">
+  &lt;div class="l2"> &lt;span>col &lt;/span> &lt;/div>
+  &lt;div class="l2"> &lt;/div>
+  &lt;div class="l2"> &lt;span>relative offset 2 &lt;/span> &lt;/div>
+&lt;/div>
+</code></pre>
         </div>
 
         
-
-
         <!-- Gaps -->
         <div id="grid-gaps" class="section scrollspy">
           <h2 class="header">Gaps</h2>
           <p class="green-text">New in V2.0.0, since CSS Grid is used.</p>
           <p>You can easily change the Gap between the Grid. Simply add <code class="language-markup">style="gap:5px;"</code> to the row element to change the gap.</p>
           
-          <p>Without Gaps (normal):</p>
+          <p>Without Gaps (standard):</p>
           <div class="row">
             <div class="s3 grid-example">1</div>
             <div class="s3 grid-example">2</div>
@@ -155,7 +189,7 @@
             <div class="s3 grid-example">8</div>
           </div>
 
-          <p>Grid is with Gapsize 5px:</p>
+          <p>Grid with Gapsize 5px:</p>
           <div class="row" style="gap: 5px;">
             <div class="s3 grid-example">1</div>
             <div class="s3 grid-example">2</div>
@@ -183,18 +217,12 @@
         <!-- Grid push and pull -->
         <div id="grid-push" class="section scrollspy">
           <h2 class="header">Push and Pull</h2>
-          <p class="red-text">Deprecated in V2.0.0, since CSS Grid is used.</p>
+          <p class="red-text">Deprecated in V2.0.0, since CSS Grid is used. You can use left and right (see offsets).</p>
           <p>You can easily change the order of your columns with push and pull. Simply add <code class="language-markup">push-s2</code> or <code class="language-markup">pull-s2</code> to the class where <code class="language-markup">s</code> signifies the screen class-prefix (s = small, m = medium, l = large) and the number after is the number of columns you want to push or pull by.</p>
           <div class="row">
             <div class="col s7 push-s5 grid-example"><span style="font-size: 14px;">This div is 7-columns wide on pushed to the right by 5-columns.</span></div>
             <div class="col s5 pull-s7 grid-example"><span style="font-size: 14px;">5-columns wide pulled to the left by 7-columns.</span></div>
           </div>
-          <pre><code class="language-markup">
-    &lt;div class="row">
-      &lt;div class="col s7 push-s5">&lt;span class="flow-text">This div is 7-columns wide on pushed to the right by 5-columns.&lt;/span>&lt;/div>
-      &lt;div class="col s5 pull-s7">&lt;span class="flow-text">5-columns wide pulled to the left by 7-columns.&lt;/span>&lt;/div>
-    &lt;/div>
-          </code></pre>
         </div>
 
         

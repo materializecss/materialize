@@ -140,7 +140,7 @@ export class Chips extends Component<ChipsOptions> {
    * @param el HTML element.
    * @param options Component options.
    */
-  static init(el: HTMLElement, options?: Partial<ChipsOptions>): Chips;
+  static init(el: InitElements<MElement>, options?: Partial<ChipsOptions>): Chips;
   /**
    * Initializes instances of Chips.
    * @param els HTML elements.

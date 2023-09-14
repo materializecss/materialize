@@ -1,4 +1,11 @@
 @charset "UTF-8";
+@import "components/tokens.module";
+@import "components/colors.module";
+@import "components/typography.module";
+@import "components/theme.light.module";
+@import "components/theme.dark.module";
+@import "components/_theme_variables";
+
 // Color
 @import "components/color-variables";
 @import "components/color-classes";
@@ -35,4 +42,3 @@
 @import "components/pulse";
 @import "components/datepicker";
 @import "components/timepicker";
-@import "components/_theme_variables";

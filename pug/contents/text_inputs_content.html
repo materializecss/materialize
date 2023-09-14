@@ -349,7 +349,10 @@
     &lt;/form>
   &lt;/div>
         </code></pre>
-        <p><strong><b>Advanced note:</b></strong> When dynamically changing the value of a textarea like setting <code class="language-markup">HTMLElement#value</code> attribute, you must trigger an autoresize on it afterwords because simply updating the element's value does not automatically trigger the events we've binded to the textarea.</p>
+        <p><strong><b>Advanced notes:</b></strong> </p>
+        <p>If you are adding Textarea form elements dynamically, you can use this to initialize them.</p>
+        <pre><code class="language-javascript">  M.Forms.InitTextarea(document.querySelector('#textarea1'));</code></pre>
+        <p>When dynamically changing the value of a textarea like setting <code class="language-markup">HTMLElement#value</code> attribute, you must trigger an autoresize on it afterwords because simply updating the element's value does not automatically trigger the events we've binded to the textarea.</p>
         <pre><code class="language-javascript">
   document.querySelector("#textarea1").value = 'New Text';
   M.Forms.textareaAutoResize(document.querySelector('#textarea1'));
@@ -439,6 +442,10 @@
     &lt;/div>
   &lt;/form>
         </code></pre>
+
+      <p><strong><b>Advanced note:</b></strong> </p>
+        <p>If you are adding File Input form elements dynamically, you can use this to initialize them.</p>
+        <pre><code class="language-javascript">  M.Forms.InitFileInputPath(document.querySelector('#fileinput1'));</code></pre>
       </div>
 
 

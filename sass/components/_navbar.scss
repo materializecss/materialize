@@ -15,7 +15,7 @@ nav {
 
   color: $navbar-font-color;
   @extend .z-depth-1;
-  background-color: $primary-color;
+  background-color: $secondary-container-color;
 
   width: 100%;
   height: $navbar-height-mobile;
@@ -119,38 +119,38 @@ nav {
     list-style-type: none;
     margin: 0;
 
-    li {
+    & > li {
       transition: background-color .3s;
       float: left;
       padding: 0;
-    }
 
-    a {
-      transition: background-color .3s;
-      font-size: $navbar-font-size;
-      color: $navbar-font-color;
-      display: block;
-      padding: 0 15px;
-      cursor: pointer;
+      & > a {
+        transition: background-color .3s;
+        font-size: $navbar-font-size;
+        color: $navbar-font-color;
+        display: block;
+        padding: 0 15px;
+        cursor: pointer;
 
-      &.active {
-        background-color: $navbar-bg-color-focus;
-      }
+        &.active {
+          background-color: $navbar-bg-color-focus;
+        }
 
-      &:hover:not(.active) {
-        background-color: $navbar-bg-color-hover;
-      }
+        &:hover:not(.active) {
+          background-color: $navbar-bg-color-hover;
+        }
 
-      &.btn, &.btn-large, &.btn-flat, &.btn-floating {
-        margin-top: -2px;
-        margin-left: 15px;
-        margin-right: 15px;
-        display: inline-block;
+        &.btn, &.btn-large, &.btn-flat, &.btn-floating {
+          margin-top: -2px;
+          margin-left: 15px;
+          margin-right: 15px;
+          display: inline-block;
 
-        & > .material-icons, & > .material-symbols-outlined,
-        & > .material-symbols-rounded, & > .material-symbols-sharp {
-          height: inherit;
-          line-height: inherit;
+          & > .material-icons, & > .material-symbols-outlined,
+          & > .material-symbols-rounded, & > .material-symbols-sharp {
+            height: inherit;
+            line-height: inherit;
+          }
         }
       }
     }

@@ -38,9 +38,9 @@
     background-color: $button-flat-focus-background-color;
   }
 
-  li.active > a:not(.collapsible-header) {
-    color: $font-on-primary-color-main;
-    background-color: $primary-color;
+  li.active > a:not(.collapsible-header):not(.btn):not(.btn-large):not(.btn-small):not(.btn-flat):not(.btn-large):not(.btn-floating)  {
+    color: $font-on-secondary-container-color;
+    background-color: $secondary-container-color;
   }
 
   .collapsible-body > ul { padding-left: 10px; }
@@ -201,16 +201,6 @@
   }
 }
 
-/*
-.sidenav .collapsible-body > ul:not(.collapsible) > li.active,
-.sidenav.sidenav-fixed .collapsible-body > ul:not(.collapsible) > li.active {
-  background-color: $primary-color;
-  a:not(.btn) {
-    color: $font-on-primary-color-main;
-  }
-}
-*/
-
 .sidenav .collapsible-body {
   padding: 0;
 }
@@ -239,6 +229,5 @@
   }
   .collapsible-body {
     border: none;
-    background-color: $collapsible-bg-color;
   }
 }

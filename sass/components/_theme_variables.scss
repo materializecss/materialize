@@ -1,17 +1,17 @@
 :root, :host {
-    --surface-color: #f3f6fc;
-    --background-color: #ffffff;
+    --surface-color: var(--md-sys-color-surface);
+    --background-color: var(--md-sys-color-background);
 
-    --font-color-main: rgba(0, 0, 0, 0.87);
-    --font-color-medium: rgba(0, 0, 0, 0.56);
-    --font-color-disabled: rgba(0, 0, 0, 0.38);
+    --font-color-main: var(--md-sys-color-on-background);
+    --font-color-medium: var(--md-sys-color-on-surface-variant);
+    --font-color-disabled: var(--md-sys-color-on-surface);
 
-    --font-on-primary-color-main: rgba(255, 255, 255, 0.87);
-    --font-on-primary-color-dark-main: rgba(255, 255, 255, 0.87);
-    --font-on-primary-color-dark-medium: rgba(255, 255, 255, 0.60);
-    --font-on-primary-color-medium: rgba(255, 255, 255, 0.60);
+    --font-on-primary-color-main: var(--md-sys-color-on-primary);
+    --font-on-primary-color-dark-main: var(--md-sys-color-on-primary-dark);
+    --font-on-primary-color-dark-medium: var(--md-sys-color-on-surface-variant-dark);
+    --font-on-primary-color-medium:  var(--md-sys-color-on-surface-variant);
     --font-on-primary-color-disabled: rgba(255, 255, 255, 0.38);
-    --font-on-secondary-color-main: rgba(0, 0, 0, 0.87);
+    --font-on-secondary-color-main: var(--md-sys-color-on-secondary);
 
     --hover-color: rgba(0, 0, 0, 0.04);
     --focus-color: rgba(0, 0, 0, 0.12);
@@ -20,7 +20,7 @@
     --background-color-disabled: rgba(0, 0, 0, 0.12);
     --background-color-level-4dp: rgba(0, 0, 0, 0.09);
     --background-color-level-16dp-solid: var(--surface-color);
-    --background-color-slight-emphasis: rgba(0, 0, 0, 0.025); /* stripes in table */
+    --background-color-slight-emphasis: rgba(0, 0, 0, 0.08);
     --background-color-card: var(--surface-color);
 
     --tooltip-background-color: #313033;
@@ -30,41 +30,32 @@
 
     --error-color: #F44336;
 
-    --slider-track-color: rgba(0, 0, 0, 0.26);
-    --switch-thumb-off-color: #ffffff;
+    --slider-track-color: var(--md-sys-color-shadow-light);
+    --switch-thumb-off-color: var(--md-ref-palette-primary100);
 
     --carousel-indicator-color: rgba(255, 255, 255, 0.45);
-    --carousel-indicator-active-color: #FFF;
+    --carousel-indicator-active-color: var(--md-ref-palette-primary100);
 
-    --primary-color: #26a69a;
-    --primary-color-dark: #009688;
-    --primary-color-numeric: 38, 166, 154;
-    --primary-color-raised-hover-solid: #30B0A4;
-    --primary-color-raised-focus-solid: #44C4B8;
+    --primary-color: var(--md-sys-color-primary);
+    --primary-color-dark: var(--md-sys-color-primary-dark);    
+    --primary-color-raised-hover-solid: var(--md-ref-palette-primary70);
+    --primary-color-raised-focus-solid: var(--md-ref-palette-primary80);
     --primary-color-font-medium-color: rgba(var(--primary-color-numeric), 0.7);
     --primary-color-font-disabled-color: rgba(var(--primary-color-numeric), 0.4);
     --primary-color-hover-opaque: rgba(var(--primary-color-numeric), 0.06);
     --primary-color-focus-opaque: rgba(var(--primary-color-numeric), 0.18);
 
-    --secondary-color: #EF5350;
-    --secondary-color-hover-solid: #FE625F;
-    --secondary-color-focus-solid: #FF7B78;
+    --secondary-color: var(--md-sys-color-secondary);
+    --secondary-color-hover-solid: var(--md-ref-palette-secondary70);
+    --secondary-color-focus-solid:  var(--md-ref-palette-secondary80);
+    --secondary-container-color: var(--md-sys-color-secondary-container);
+    --font-on-secondary-container-color: var(--md-sys-color-on-secondary-container);
 
     --md_sys_color_on-surface: 28, 27, 31;
 }
 
-:root[theme='dark'], :host[theme='dark'] {
-    --background-color: #121212;
-    --surface-color: #242424;
-
-    --font-color-main: rgba(255, 255, 255, 0.87);
-    --font-color-medium: rgba(255, 255, 255, 0.60);
-    --font-color-disabled: rgba(255, 255, 255, 0.38);
-
-    --font-on-primary-color-main: rgba(0, 0, 0, 0.87);
-    --font-on-primary-color-dark-main: rgba(255, 255, 255, 0.87);
-    --font-on-primary-color-dark-medium: rgba(255, 255, 255, 0.60);
-    --font-on-primary-color-medium: rgba(0, 0, 0, 0.56);
+//important: when all variables are assigned this could be removed as will be no difference
+:root[theme='dark'] {
     --font-on-primary-color-disabled: rgba(0, 0, 0, 0.38);
 
     --hover-color: rgba(255, 255, 255, 0.04);
@@ -73,26 +64,15 @@
 
     --background-color-disabled: rgba(255, 255, 255, 0.12);
     --background-color-level-4dp: rgba(255, 255, 255, 0.09);
-    --background-color-level-16dp-solid: #262626;
-    --background-color-card: var(--surface-color);
     --background-color-slight-emphasis: rgba(255, 255, 255, 0.05);
 
     --separator-color: #424242; /* borders between components */
 
     --error-color: #CF6679;
 
-    --slider-track-color: rgba(255, 255, 255, 0.26);
     --switch-thumb-off-color: #bababa;
-
-    --primary-color: #B39DDB;
-    --primary-color-dark: #9575CD;
-    --primary-color-numeric: 179, 157, 219;
-    --primary-color-raised-hover-solid: #C2ACEA;
-    --primary-color-raised-focus-solid: #DBC5FF;
-
-    --secondary-color: #CDDC39;
-    --secondary-color-hover-solid: #DCEB48;
-    --secondary-color-focus-solid: #F5FF61;
 
     --md_sys_color_on-surface: 230, 225, 229;
 }
+
+

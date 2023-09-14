@@ -463,7 +463,7 @@ export class Datepicker extends Component<DatepickerOptions> {
    */
   setInputValue() {
     this.el.value = this.toString();
-    this.el.dispatchEvent(new CustomEvent('change', {detail: {firedBy: this}}));
+    this.el.dispatchEvent(new CustomEvent('change', {bubbles:true, cancelable:true, composed:true, detail: {firedBy: this}}));
   }
 
   _renderDateDisplay() {

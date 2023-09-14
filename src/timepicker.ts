@@ -792,7 +792,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.el.value = value;
     // Trigger change event
     if (value !== last) {
-      this.el.dispatchEvent(new Event('change'));
+      this.el.dispatchEvent(new Event('change',{bubbles:true, cancelable:true, composed:true}));
     }
     this.close();
     this.el.focus();
