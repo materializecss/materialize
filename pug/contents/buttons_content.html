@@ -1,181 +1,315 @@
 <div class="container">
   <div class="row">
     <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-      <div id="elevated" class="section scrollspy">
-        <p class="caption">
-          There are 3 main button types described in material design - the elevated button, the
-          floating, and the flat button button.
-        </p>
-        <h3 class="header">Elevated</h3>
+      <p class="caption">
+        There are main button types described in material design - the elevated button, the filled,
+        text and floating button.
+      </p>
+
+      <!-- ### -->
+
+      <div id="filled" class="section scrollspy">
+        <h3 class="header">Filled (standard)</h3>
         <p>
-          The elevated button is a standard button that signify actions and seek to give depth to a
-          mostly flat page.
+          The filled buttons communicates <b>high</b> emphasized actions. This is the Stadard Button Design.
+          You can add the class <u>filled</u> to the button to provide this style.
+          This should be the main Actions on a Page, so be carful. A good rule of thumb is to add just one primary
+          action per page or field of view.
         </p>
-        <a class="waves-effect waves-light btn">button</a>
-        <a class="waves-effect waves-light btn">
-          <i class="material-icons left">cloud</i>button
+
+        <a class="btn">Standard Button</a>
+        <a class="btn filled">Create</a>
+        <a class="btn filled icon-left">
+          <i class="material-icons">add</i>Create
         </a>
-        <a class="waves-effect waves-light btn">
-          <i class="material-icons right">cloud</i>button
+        <a class="btn filled icon-right rounded waves-effect waves-light">
+          <i class="material-icons">edit</i>Update
         </a>
+ 
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
           <i class="material-icons copyButton">content_copy</i>
           <code class="language-markup copiedText">
-            &lt;a class="waves-effect waves-light btn">button&lt;/a> &lt;a class="waves-effect
-            waves-light btn">&lt;i class="material-icons left">cloud&lt;/i>button&lt;/a> &lt;a
-            class="waves-effect waves-light btn">&lt;i class="material-icons
-            right">cloud&lt;/i>button&lt;/a>
-          </code>
+&lt;a class="btn">Standard Button&lt;/a>
+&lt;a class="btn filled">Create&lt;/a>
+&lt;a class="btn filled icon-left">
+  &lt;i class="material-icons">add&lt;/i>Create
+&lt;/a>
+&lt;a class="btn filled icon-right rounded waves-effect waves-light">
+  &lt;i class="material-icons">edit&lt;/i>Update
+&lt;/a>
+</code>
         </pre>
       </div>
+
+      <!-- ### -->
+
+      <div id="filled-tonal" class="section scrollspy">
+        <h4>Tonal</h3>
+        <p>
+          Tonal buttons communicates a <b>medium</b> emphasized action. Just add the class tonal to the button.
+          This can be used more often on a page because this are additional Actions next to the primary actions.
+        </p>
+
+        <a class="btn tonal">Create</a>
+        <a class="btn tonal icon-left">
+          <i class="material-icons">add</i>Create
+        </a>
+        <a class="btn tonal icon-right waves-effect waves-light">
+          <i class="material-icons">add</i>Create
+        </a>
+
+        <pre style="padding-top: 0px;">
+          <span class="copyMessage">Copied!</span>
+          <i class="material-icons copyButton">content_copy</i>
+          <code class="language-markup copiedText">
+&lt;a class="btn tonal">Create&lt;/a>
+&lt;a class="btn tonal icon-left">
+  &lt;i class="material-icons">add&lt;/i>Create
+&lt;/a>
+&lt;a class="btn tonal icon-right waves-effect waves-light">
+  &lt;i class="material-icons">add&lt;/i>Create
+&lt;/a>
+</code>
+        </pre>
+      </div>
+
+      <!-- ### -->
 
       <div id="outlined" class="section scrollspy">
         <h3 class="header">Outlined</h3>
         <p>
-          The outlined button communicates a medium emphasized action. Just add the class outlined
+          The outlined button communicates a <b>medium</b> emphasized action. Just add the class outlined
           to the button.
         </p>
-        <a class="waves-effect waves-light outlined btn">button</a>
-        <a class="waves-effect waves-light outlined btn">
-          <i class="material-icons left">cloud</i>button
+
+        <a class="btn outlined">Create</a>
+        <a class="btn outlined icon-left">
+          <i class="material-icons">add</i>Create
         </a>
-        <a class="waves-effect waves-light outlined btn">
-          <i class="material-icons right">cloud</i>button
+        <a class="btn outlined icon-right waves-effect waves-light">
+          <i class="material-icons">add</i>Create
         </a>
+
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
           <i class="material-icons copyButton">content_copy</i>
           <code class="language-markup copiedText">
-            &lt;a class="waves-effect waves-light outlined btn">button&lt;/a> &lt;a
-            class="waves-effect waves-light outlined btn"> &lt;i class="material-icons
-            left">cloud&lt;/i>button&lt;/a> &lt;a class="waves-effect waves-light outlined btn">
-            &lt;i class="material-icons right">cloud&lt;/i>button&lt;/a>
+&lt;a class="btn outlined">Create&lt;/a>
+&lt;a class="btn outlined icon-left">
+  &lt;i class="material-icons">add&lt;/i>Create
+&lt;/a>
+&lt;a class="btn outlined icon-right waves-effect waves-light">
+  &lt;i class="material-icons">add&lt;/i>Create
+&lt;/a>
+</code>
+        </pre>
+      </div>
+
+      <!-- ### -->
+
+      <div id="elevated" class="section scrollspy">
+        <h3 class="header">Elevated</h3>
+        <p>
+          The elevated button is a tonal button with a shadow. This button that signify <b>medium</b> emphazied actions and seek to give depth to a
+          mostly flat page. Try to only use shadows when absolutely neccessary, to prevent shadow creep. Also keep in mind that on darker backgrounds
+          the shadows are not really good visible.
+        </p>
+
+        <a class="btn elevated">Create</a>
+        <a class="btn elevated icon-left">
+          <i class="material-icons">add</i>Create
+        </a>
+        <a class="btn elevated icon-right">
+          <i class="material-icons">add</i>Create
+        </a>        
+        <a class="btn elevated rounded">Create</a>
+        <a class="btn elevated icon-left rounded"><i class="material-icons">add</i>Create</a>
+  
+        <pre style="padding-top: 0px;">
+          <span class="copyMessage">Copied!</span>
+          <i class="material-icons copyButton">content_copy</i>
+          <code class="language-markup copiedText">
+&lt;a class="btn elevated">Create&lt;/a>
+&lt;a class="btn elevated">
+  &lt;i class="material-icons left">add&lt;/i>Create
+&lt;/a>
+&lt;a class="btn elevated">
+  &lt;i class="material-icons right">add&lt;/i>Create
+&lt;/a>        
+&lt;a class="btn elevated rounded">Create&lt;/a>
+&lt;a class="btn elevated rounded">&lt;i class="material-icons">add&lt;/i>Create&lt;/a>
+</code>
+        </pre>
+      </div>
+
+      <!-- ### -->
+
+      <div id="text" class="section scrollspy">
+        <h3 class="header">Text</h3>
+        <p>
+          Text buttons are used to reduce excessive layering and communicate <b>low</b> emphasis actions.
+          For example, text buttons are used for actions within a card or modal so there are not too
+          many overlapping shadows.
+        </p>
+
+        <a tabindex="0" class="btn text">Create</a>
+        <button class="btn text icon-left">
+          <i class="material-icons">add</i>Create
+        </button>
+        <a tabindex="0" class="btn text icon-right waves-effect">
+          <i class="material-icons">add</i>Create
+        </a>
+
+        <pre style="padding-top: 0px;">
+          <span class="copyMessage">Copied!</span>
+          <i class="material-icons copyButton">content_copy</i>
+          <code class="language-markup copiedText">
+&lt;a tabindex="0" class="btn text">Create&lt;/a>
+&lt;button class="btn text icon-left">
+  &lt;i class="material-icons">add&lt;/i>Create
+&lt;/button>
+&lt;a tabindex="0" class="btn text icon-right waves-effect">
+  &lt;i class="material-icons">add&lt;/i>Create
+&lt;/a>
           </code>
         </pre>
       </div>
 
+      <!-- ### -->
+
       <div id="floating" class="section scrollspy">
         <h3 class="header">Floating</h3>
-        <a class="btn-floating waves-effect waves-light btn-large">
+
+        <a class="btn-floating btn-large waves-effect waves-light">
           <i class="material-icons">add</i>
         </a>
+
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
           <i class="material-icons copyButton">content_copy</i>
           <code class="language-markup copiedText">
-            &lt;a class="btn-floating btn-large waves-effect waves-light">&lt;i
-            class="material-icons">add&lt;/i>&lt;/a>
-          </code>
+&lt;a class="btn-floating btn-large waves-effect waves-light">
+  &lt;i class="material-icons">add&lt;/i>
+&lt;/a>
+</code>
         </pre>
-
         <h5>Floating Action Button</h5>
         <p>
           A circular material button that lifts and displays an ink reaction on press. See the
           documentation on <a href="floating-action-button.html">this page</a>
         </p>
       </div>
-      <div id="flat" class="section scrollspy">
-        <h3 class="header">Flat</h3>
 
-        <p>
-          Flat buttons are used to reduce excessive layering. For example, flat buttons are usually
-          used for actions within a card or modal so there aren't too many overlapping shadows.
-        </p>
-        <a class="waves-effect btn-flat">Button</a>
-        <pre style="padding-top: 0px;">
-          <span class="copyMessage">Copied!</span>
-          <i class="material-icons copyButton">content_copy</i>
-          <code class="language-markup copiedText">
-            &lt;a class="waves-effect btn-flat">Button&lt;/a>
-          </code>
-        </pre>
-      </div>
-      <div id="submit" class="section scrollspy">
-        <h3 class="header">Submit Button</h3>
+      <!-- Helpers -->
+
+      <div id="helpers" class="section scrollspy">
+        <h3 class="header">Helpers</h3>
+        <h4 class="header">Submit Button</h4>
         <p>
           When you use a button to submit a form, instead of using a input tag, use a button tag
           with a type submit
         </p>
-        <button class="btn waves-effect waves-light" type="submit" name="action">
+
+        <button class="btn icon-right waves-effect waves-light" type="submit" name="action">
           Submit<i class="material-icons right">send</i>
         </button>
+
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
           <i class="material-icons copyButton">content_copy</i>
           <code class="language-markup copiedText">
-            &lt;button class="btn waves-effect waves-light" type="submit" name="action">Submit &lt;i
-            class="material-icons right">send&lt;/i> &lt;/button>
-          </code>
+&lt;button class="btn icon-right waves-effect waves-light" type="submit" name="action">
+  Submit&lt;i class="material-icons right">send&lt;/i>
+&lt;/button>
+</code>
         </pre>
-      </div>
 
-      <div id="large" class="section scrollspy">
-        <h3 class="header">Large</h3>
+        <!-- ### -->
+
+        <h4 class="header">Large</h4>
         <p>This button has a larger height for buttons that need more attention.</p>
-        <a class="waves-effect waves-light btn-large">Button</a>
-        <a class="waves-effect waves-light btn-large">
-          <i class="material-icons left">cloud</i>button
+
+        <a class="btn-large waves-effect waves-light">Button</a>
+        <a class="btn-large icon-left waves-effect waves-light">
+          <i class="material-icons">cloud</i>button
         </a>
-        <a class="waves-effect waves-light btn-large">
-          <i class="material-icons right">cloud</i>button
+        <a class="btn-large icon-right waves-effect waves-light ">
+          <i class="material-icons">cloud</i>button
         </a>
+
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
           <i class="material-icons copyButton">content_copy</i>
           <code class="language-markup copiedText">
-            &lt;a class="waves-effect waves-light btn-large">Button&lt;/a> &lt;a class="waves-effect
-            waves-light btn-large">&lt;i class="material-icons left">cloud&lt;/i>button&lt;/a> &lt;a
-            class="waves-effect waves-light btn-large">&lt;i class="material-icons
-            right">cloud&lt;/i>button&lt;/a>
-          </code>
+&lt;a class="btn-large waves-effect waves-light">Button&lt;/a>
+&lt;a class="btn-large icon-left waves-effect waves-light">
+  &lt;i class="material-icons">cloud&lt;/i>button
+&lt;/a>
+&lt;a class="btn-large icon-right waves-effect waves-light ">
+  &lt;i class="material-icons">cloud&lt;/i>button
+&lt;/a>
+</code>
         </pre>
-      </div>
 
-      <div id="small" class="section scrollspy">
-        <h3 class="header">Small</h3>
+        <!-- ### -->
+
+        <h4 class="header">Small</h4>
         <p>
           When mouse and keyboard are the primary input methods, this smaller button is useful for
           denser UI layouts.
         </p>
-        <a class="waves-effect waves-light btn-small">Button</a>
-        <a class="waves-effect waves-light btn-small">
-          <i class="material-icons left">cloud</i>button
+
+        <a class="btn-small waves-effect waves-light">Button</a>
+        <a class="btn-small icon-left waves-effect waves-light">
+          <i class="material-icons">cloud</i>button
         </a>
-        <a class="waves-effect waves-light btn-small">
-          <i class="material-icons right">cloud</i>button
+        <a class="btn-small icon-right waves-effect waves-light">
+          <i class="material-icons">cloud</i>button
         </a>
+
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
           <i class="material-icons copyButton">content_copy</i>
           <code class="language-markup copiedText">
-            &lt;a class="waves-effect waves-light btn-small">Button&lt;/a> &lt;a class="waves-effect
-            waves-light btn-small">&lt;i class="material-icons left">cloud&lt;/i>button&lt;/a> &lt;a
-            class="waves-effect waves-light btn-small">&lt;i class="material-icons
-            right">cloud&lt;/i>button&lt;/a>
-          </code>
+&lt;a class="btn-small waves-effect waves-light">Button&lt;/a>
+&lt;a class="btn-small icon-left waves-effect waves-light">
+  &lt;i class="material-icons">cloud&lt;/i>button
+&lt;/a>
+&lt;a class="btn-small icon-right waves-effect waves-light">
+  &lt;i class="material-icons">cloud&lt;/i>button
+&lt;/a>
+</code>
         </pre>
       </div>
+
+      <!-- ### -->
 
       <div id="disabled" class="section scrollspy">
         <h3 class="header">Disabled</h3>
         <p>This style can be applied to all button types</p>
+
         <a class="btn-large disabled">Button</a>
         <a class="btn disabled">Button</a>
         <a class="btn-flat disabled">Button</a>
         <a class="btn-floating disabled">
           <i class="material-icons">add</i>
         </a>
+
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
           <i class="material-icons copyButton">content_copy</i>
           <code class="language-markup copiedText">
-            &lt;a class="btn-large disabled">Button&lt;/a> &lt;a class="btn disabled">Button&lt;/a>
-            &lt;a class="btn-flat disabled">Button&lt;/a> &lt;a class="btn-floating disabled">&lt;i
-            class="material-icons">add&lt;/i>&lt;/a>
-          </code>
+&lt;a class="btn-large disabled">Button&lt;/a>
+&lt;a class="btn disabled">Button&lt;/a>
+&lt;a class="btn-flat disabled">Button&lt;/a>
+&lt;a class="btn-floating disabled">
+  &lt;i class="material-icons">add&lt;/i>
+&lt;/a>
+</code>
         </pre>
       </div>
+
     </div>
 
     <div class="col hide-on-small-only m3 xl3">
@@ -183,25 +317,25 @@
         <div style="height: 1px;">
           <ul class="section table-of-contents">
             <li>
-              <a href="#elevated">Elevated</a>
+              <a href="#filled">Filled</a>
+            </li>
+            <li>
+              <a href="#filled-tonal">Filled Tonal</a>
             </li>
             <li>
               <a href="#outlined">Outlined</a>
             </li>
             <li>
+              <a href="#elevated">Elevated</a>
+            </li>
+            <li>
+              <a href="#text">Text</a>
+            </li>            
+            <li>
               <a href="#floating">Floating</a>
             </li>
             <li>
-              <a href="#flat">Flat</a>
-            </li>
-            <li>
-              <a href="#submit">Submit</a>
-            </li>
-            <li>
-              <a href="#large">Large</a>
-            </li>
-            <li>
-              <a href="#small">Small</a>
+              <a href="#helpers">Helpers</a>
             </li>
             <li>
               <a href="#disabled">Disabled</a>
@@ -211,4 +345,4 @@
       </div>
     </div>
   </div>
-</div>;
+</div>

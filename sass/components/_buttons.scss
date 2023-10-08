@@ -1,32 +1,57 @@
-// shared styles
-.btn, .btn-flat {
+.btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
+  --font-size-icon: 16px;
+  --padding: 24px;
+  --padding-icon: 16px;
+  --gap-icon: 8px;
+  
+  height: $button-height;
+  
   // line-height: $button-height;
   border: $button-border;
-  border-radius: $button-radius;
-  height: $button-height;
-  padding: $button-padding;
-  font-weight: 500;  
-  display: inline-flex;
-  vertical-align: top;
-  align-items: center;
-  -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
-}
-/*
-.btn-small {
-  padding: 0 8px;
-}
-*/
-.btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
+  border-radius: $button-radius;  
+  
+  // padding: $button-padding;
+  padding-left: var(--padding);
+  padding-right: var(--padding);
+  
+  color: $button-raised-color;
   font-size: $button-font-size;
-  user-select: none;
+  font-weight: 500;
+  text-decoration: none;
+  
+  display: inline-flex;
+  align-items: center;
+  
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
   white-space: nowrap;
   outline: 0;
-
-  i {
-    font-size: $button-icon-font-size;
-    line-height: inherit;
-  }
+  user-select: none;
+  
+  transition: background-color .2s ease-out;
 }
+
+// Icon
+.btn.icon-left, .btn.icon-right {
+  position: relative;
+}
+.btn.icon-left {
+  padding-left: calc(var(--padding-icon) + var(--font-size-icon) + var(--gap-icon));
+}
+.btn.icon-right {
+  padding-right: calc(var(--padding-icon) + var(--font-size-icon) + var(--gap-icon)); 
+}
+.btn.icon-left i, .btn.icon-right i {
+  position: absolute;
+  font-size: var(--font-size-icon);
+}
+.btn.icon-left i {
+  left: var(--padding-icon);
+}
+.btn.icon-right i {
+  right: var(--padding-icon);
+}
+
 
 // Disabled shared style
 .btn.disabled,
@@ -55,25 +80,64 @@
   }
 }
 
-
-// Raised Button
-.btn {
-  text-decoration: none;
-  color: $button-raised-color;
-  background-color: $button-raised-background;
-  text-align: center;
-  letter-spacing: .5px;
-  @extend .z-depth-1;
-  transition: background-color .2s ease-out;
+//--- Filled Button
+.btn.filled {
+  background-color: var(--md-sys-color-primary);
+}
+//--- Filled Tonal
+.btn.tonal {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+//--- Text-Button (Flat)
+.btn.text, .btn-flat {
+  box-shadow: none;
+  background-color: transparent;
+  color: var(--md-sys-color-primary);
   cursor: pointer;
+  transition: background-color .2s;
+  &:focus,
+  &:hover {
+    box-shadow: none;
+    background-color: $button-flat-hover-background-color;
+  }
+  &:focus {
+    background-color: $button-flat-focus-background-color;
+  }
+  &.disabled,
+  &.btn.text[disabled], &.btn-flat[disabled] {
+    background-color: transparent !important;
+    color: $button-flat-disabled-color !important;
+    cursor: default;
+  }
+}
+//--- Outlined-Button
+.btn.outlined {
+  background-color: transparent;
+  color: $button-raised-background;
+  border: 1px solid $button-raised-background;
+}
+//--- Elevated
+.btn.elevated {
+  @extend .tonal;
+  @extend .z-depth-1;
+}
+
+
+//======================== States (Hover, Focused, ...)
+
+.btn {
+  @extend .filled;
+
   &:hover {
     background-color: $button-raised-background-hover;
     @extend .z-depth-1-half;
   }
+
   &:focus {
     background-color: $button-raised-background-focus;
     @extend .z-depth-1-half;
-  }
+  }  
 }
 
 
@@ -96,19 +160,19 @@
 //   font-size: 14px;
 // }
 //-----
-
-
-
 // Floating button
 .btn-floating {
+
   &:hover {
     background-color: $button-floating-background-hover;
     @extend .z-depth-1-half;
   }
+
   &:focus {
     background-color: $button-floating-background-focus;
     @extend .z-depth-1-half;
   }
+
   &:before {
     border-radius: 0;
   }
@@ -154,7 +218,8 @@
   // gap: 8px;
 
   color: $button-floating-color;
-  // width: $button-floating-size;
+  
+  width: $button-floating-size;
   height: $button-floating-size;
   // line-height: $button-floating-size;
 
@@ -183,12 +248,10 @@
     text-align: center;
   }
 }
-
 // button fix
 button.btn-floating {
   border: $button-border;
 }
-
 // Fixed Action Button
 .fixed-action-btn {
   &.active {
@@ -314,32 +377,7 @@ button.btn-floating {
   }
 }
 
-// Flat button
-.btn-flat {
-  box-shadow: none;
-  background-color: transparent;
-  color: $button-flat-color;
-  cursor: pointer;
-  transition: background-color .2s;
-  &:focus,
-  &:hover {
-    box-shadow: none;
-    background-color: $button-flat-hover-background-color;
-  }
-  &:focus {
-    background-color: $button-flat-focus-background-color;
-  }
-  &.disabled,
-  &.btn-flat[disabled]  {
-    background-color: transparent !important;
-    color: $button-flat-disabled-color !important;
-    cursor: default;
-  }
-}
-
-
-
-//--- TODO: Remove this styles
+//--- Helper classes (for all)
 
 // Large button
 .btn-large {
@@ -369,10 +407,6 @@ button.btn-floating {
   display: block;
 }
 
-// Helpers
-
-.outlined {
-  background-color: var(--md-sys-color-surface);
-  color: $button-raised-background;
-  border: 1px solid $button-raised-background;
+.btn.rounded {
+  border-radius: 99999px;
 }
