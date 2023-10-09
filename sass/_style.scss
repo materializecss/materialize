@@ -611,7 +611,7 @@ code[class*="language-"] {
   width: var(--size);
   height: var(--size);
   filter: blur(calc(var(--size) / 5));
-  background-image: linear-gradient(hsl(158, 82, 57, 85%), hsl(252, 82, 57));
+  background-image: linear-gradient(hsla(158, 81%, 41%, 0.85), hsl(252, 59%, 63%));
   animation: rotate var(--speed) var(--easing) alternate infinite;
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
 }
