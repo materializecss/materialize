@@ -78,7 +78,6 @@ a {
 
 .hoverable {
   transition: box-shadow .25s;
-
   &:hover {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
@@ -91,7 +90,6 @@ a {
   background-color: $divider-color;
 }
 
-
 //  Blockquote
 blockquote {
   margin: 20px 0;
@@ -102,7 +100,6 @@ blockquote {
 // Icon Styles
 i {
   line-height: inherit;
-
   &.left {
     float: left;
     margin-left: -8px;
@@ -112,19 +109,15 @@ i {
     float: right;
     // margin-left: 15px;
   }
-
   &.tiny {
     font-size: 1rem;
   }
-
   &.small {
     font-size: 2rem;
   }
-
   &.medium {
     font-size: 4rem;
   }
-
   &.large {
     font-size: 6rem;
   }
@@ -525,9 +518,7 @@ td, th {
       border-right: 1px solid $table-border-color;
     }
   }
-
 }
-
 
 // Responsive Videos
 .video-container {
@@ -544,88 +535,6 @@ td, th {
     height: 100%;
   }
 }
-
-// Progress Bar
-.progress {
-  position: relative;
-  height: 4px;
-  display: block;
-  width: 100%;
-  background-color: $progress-bar-track-color;
-  border-radius: 2px;
-  margin: $element-top-margin 0 $element-bottom-margin 0;
-  overflow: hidden;
-
-  .determinate {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    background-color: $progress-bar-color;
-    transition: width .3s linear;
-  }
-
-  .indeterminate {
-    background-color: $progress-bar-color;
-
-    &:before {
-      content: '';
-      position: absolute;
-      background-color: inherit;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      will-change: left, right;
-      // Custom bezier
-      animation: indeterminate 2.1s cubic-bezier(0.650, 0.815, 0.735, 0.395) infinite;
-
-    }
-
-    &:after {
-      content: '';
-      position: absolute;
-      background-color: inherit;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      will-change: left, right;
-      // Custom bezier
-      animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.840, 0.440, 1.000) infinite;
-      animation-delay: 1.15s;
-    }
-  }
-}
-
-@keyframes indeterminate {
-  0% {
-    left: -35%;
-    right: 100%;
-  }
-  60% {
-    left: 100%;
-    right: -90%;
-  }
-  100% {
-    left: 100%;
-    right: -90%;
-  }
-}
-
-@keyframes indeterminate-short {
-  0% {
-    left: -200%;
-    right: 100%;
-  }
-  60% {
-    left: 107%;
-    right: -8%;
-  }
-  100% {
-    left: 107%;
-    right: -8%;
-  }
-}
-
 
 /*******************
   Utility Classes
@@ -644,12 +553,15 @@ td, th {
 .center, .center-align {
   text-align: center;
 }
+
+// TODO: Remove this
 .left {
   float: left !important;
 }
 .right {
   float: right !important;
 }
+
 // No Text Select
 .no-select {
   user-select: none;
