@@ -1,5 +1,5 @@
 /*!
- * Materialize v2.0.2-alpha (https://materializecss.github.io/materialize)
+ * Materialize v2.0.3-alpha (https://materializecss.github.io/materialize)
  * Copyright 2014-2023 Materialize
  * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
  */
@@ -3616,7 +3616,7 @@ class Datepicker extends component_1.Component {
      */
     setInputValue() {
         this.el.value = this.toString();
-        this.el.dispatchEvent(new CustomEvent('change', { detail: { firedBy: this } }));
+        this.el.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true, composed: true, detail: { firedBy: this } }));
     }
     _renderDateDisplay() {
         let displayDate = Datepicker._isDate(this.date) ? this.date : new Date();
@@ -4510,9 +4510,6 @@ class Dropdown extends component_1.Component {
 }
 exports.Dropdown = Dropdown;
 Dropdown._dropdowns = [];
-(() => {
-    Dropdown._dropdowns = [];
-})();
 
 
 /***/ }),
@@ -4619,27 +4616,33 @@ class Forms {
                 }
             });
             document.querySelectorAll('.materialize-textarea').forEach((textArea) => {
-                // Save Data in Element
-                textArea.setAttribute('original-height', textArea.getBoundingClientRect().height.toString());
-                textArea.setAttribute('previous-length', textArea.value.length.toString());
                 Forms.textareaAutoResize(textArea);
-                textArea.addEventListener('keyup', e => Forms.textareaAutoResize(textArea));
-                textArea.addEventListener('keydown', e => Forms.textareaAutoResize(textArea));
             });
             // File Input Path
             document.querySelectorAll('.file-field input[type="file"]').forEach((fileInput) => {
-                fileInput.addEventListener('change', e => {
-                    const fileField = fileInput.closest('.file-field');
-                    const pathInput = fileField.querySelector('input.file-path');
-                    const files = fileInput.files;
-                    const filenames = [];
-                    for (let i = 0; i < files.length; i++) {
-                        filenames.push(files[i].name);
-                    }
-                    pathInput.value = filenames.join(', ');
-                    pathInput.dispatchEvent(new Event('change'));
-                });
+                Forms.InitFileInputPath(fileInput);
             });
+        });
+    }
+    static InitTextarea(textarea) {
+        // Save Data in Element
+        textarea.setAttribute('original-height', textarea.getBoundingClientRect().height.toString());
+        textarea.setAttribute('previous-length', textarea.value.length.toString());
+        Forms.textareaAutoResize(textarea);
+        textarea.addEventListener('keyup', e => Forms.textareaAutoResize(textarea));
+        textarea.addEventListener('keydown', e => Forms.textareaAutoResize(textarea));
+    }
+    static InitFileInputPath(fileInput) {
+        fileInput.addEventListener('change', e => {
+            const fileField = fileInput.closest('.file-field');
+            const pathInput = fileField.querySelector('input.file-path');
+            const files = fileInput.files;
+            const filenames = [];
+            for (let i = 0; i < files.length; i++) {
+                filenames.push(files[i].name);
+            }
+            pathInput.value = filenames.join(', ');
+            pathInput.dispatchEvent(new Event('change', { bubbles: true, cancelable: true, composed: true }));
         });
     }
 }
@@ -5947,7 +5950,7 @@ class FormSelect extends component_1.Component {
             const actualSelectedValues = this.getSelectedValues();
             const selectionHasChanged = !this._arraysEqual(previousSelectedValues, actualSelectedValues);
             if (selectionHasChanged)
-                this.el.dispatchEvent(new Event('change')); // trigger('change');
+                this.el.dispatchEvent(new Event('change', { bubbles: true, cancelable: true, composed: true })); // trigger('change');
         }
         if (!this.isMultiple)
             this.dropdown.close();
@@ -7786,7 +7789,7 @@ class Timepicker extends component_1.Component {
             this.el.value = value;
             // Trigger change event
             if (value !== last) {
-                this.el.dispatchEvent(new Event('change'));
+                this.el.dispatchEvent(new Event('change', { bubbles: true, cancelable: true, composed: true }));
             }
             this.close();
             this.el.focus();
@@ -9099,7 +9102,7 @@ class M {
     }
 }
 exports.M = M;
-M.version = '2.0.2-alpha';
+M.version = '2.0.3-alpha';
 M.Autocomplete = autocomplete_1.Autocomplete;
 M.Tabs = tabs_1.Tabs;
 M.Carousel = carousel_1.Carousel;
@@ -9137,7 +9140,6 @@ M.Utils = utils_1.Utils;
     waves_1.Waves.Init();
     range_1.Range.Init();
 })();
-exports["default"] = M;
 
 })();
 

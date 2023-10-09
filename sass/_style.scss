@@ -82,9 +82,18 @@ footer.example {
   padding: 1rem;
   border-radius: unset;
   height: 75px;
+  display: flex;
+  gap: 1rem;
+  font-size: 1.5rem;
 }
-#logo-container:hover {
-  background-color: unset;
+
+#front-page-logo {
+  display: inline-block;
+  height: 42px;
+  width: 90px;
+  object-fit: contain;
+  pointer-events: none;
+  margin: 1rem 0;
 }
 
 .current-version-number {
@@ -93,8 +102,13 @@ footer.example {
   color: $font-color-medium;
 }
 
+.intro {
+  //background-color: color-mix(in srgb, var(--primary-color) 30%, var(--background-color));
+  padding: 6rem 0;
+}
 .intro #logo {
   height: 150px;
+  
 }
 .intro h2 {
   font-size: 2rem;
@@ -102,16 +116,15 @@ footer.example {
   margin-bottom: 2rem;
 }
 
-.call-to-action > .btn { border: 1px solid $primary-color; }
-.call-to-action > .btn:first-of-type { border: none;  }
-.call-to-action > .btn-flat { color: $primary-color; }
-
 .materialize-benefits .collection-item > h4 {
   font-size: 1.75rem;
   font-weight: 500;
 }
 
 @media #{$medium-and-down} {
+  .intro {
+    padding: 3rem 0;
+  }
   footer.page-footer .container {
     text-align: center;
   }
@@ -174,13 +187,6 @@ a.sidenav-trigger.top-nav {
   }
 }
 
-#front-page-logo {
-  display: inline-block;
-  height: 100%;
-  pointer-events: none;
-  margin: 1rem 0;
-}
-
 #responsive-img {
   width: 80%;
   display: block;
@@ -205,7 +211,10 @@ a.sidenav-trigger.top-nav {
 @media #{$medium-and-down} {
   #index-banner {
     h1 {
-      margin-top: 60px;
+      margin-top: 1rem;
+    }
+    h2 {
+      margin: 1rem;
     }
     h4 {
       margin-bottom: 15px;
@@ -585,6 +594,29 @@ code[class*="language-"] {
 
 /**********************************/
 
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.gradient {
+  --size: 100vh;
+  --speed: 25s;
+  --easing: cubic-bezier(0.8, 0.2, 0.2, 0.8);
+
+  width: var(--size);
+  height: var(--size);
+  filter: blur(calc(var(--size) / 5));
+  background-image: linear-gradient(hsla(158, 81%, 41%, 0.85), hsl(252, 59%, 63%));
+  animation: rotate var(--speed) var(--easing) alternate infinite;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+/***************************************/
 
 .toc-wrapper {
   &.pin-bottom {
@@ -665,7 +697,6 @@ body.parallax-demo footer {
   position: relative;
   height: 100px;
 }
-
 #pushpin-demo-1 {
   display: block;
   height: inherit;
@@ -675,12 +706,11 @@ body.parallax-demo footer {
 // Valign Demo
 .valign-demo {
   height: 400px;
-  background-color: var(--slider-track-color);
+  border: 1px solid var(--secondary-color);
 }
-
 .talign-demo {
   height: 100px;
-  background-color: var(--slider-track-color);
+  border: 1px solid var(--secondary-color);
 }
 
 // Transitions demos

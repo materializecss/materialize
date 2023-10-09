@@ -97,7 +97,7 @@ $button-raised-color: $font-on-primary-color-main !default;
 $button-border: none !default;
 $button-background-focus: $button-raised-background-focus !default;
 $button-font-size: 14px !default;
-$button-icon-font-size: 1.3rem !default;
+$button-icon-font-size: 18px !default;
 $button-height: 40px !default;
 $button-padding: 0 16px !default;
 $button-radius: 4px !default;
@@ -116,6 +116,7 @@ $button-floating-large-size: 56px !default;
 $button-small-font-size: 13px !default;
 $button-small-icon-font-size: 1.2rem !default;
 $button-small-height: $button-height * .75 !default;
+$button-small-padding: 0 8px !default;
 $button-floating-small-size: $button-height * .75 !default;
 
 // Flat buttons
@@ -130,7 +131,7 @@ $button-floating-background-hover: $secondary-color-when-hovered-solid !default;
 $button-floating-background-focus: $secondary-color-when-focused-solid !default;
 $button-floating-color: $font-on-secondary-color-main !default;
 $button-floating-size: 40px !default;
-$button-floating-radius: 50% !default;
+$button-floating-radius: 16px !default;
 
 
 // 4. Cards

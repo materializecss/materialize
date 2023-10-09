@@ -1,12 +1,11 @@
 <div class="container">
   <div class="row">
-
-    <div class="col s12 m8 offset-m1 xl7 offset-xl1">
-
+    <div class="s12 m8 offset-m1 xl7 offset-xl1">
       <div id="introduction" class="section scrollspy">
         <p class="caption">
           Chips can be used to represent small blocks of information. They are most commonly used either for contacts or for tags.
         </p>
+
         <div class="chip">
           <img src="images/yuna.jpg" alt="Contact Person"> Jane Doe
         </div>
@@ -14,12 +13,45 @@
           Tag
           <i class="close material-icons">close</i>
         </div>
+        <div class="chip">
+          <i class="material-icons">check</i>
+          Filter
+          <i class="close material-icons">close</i>
+        </div>
+        <div class="chip outlined">Information</div>
+        <div class="chip outlined">
+          <i class="material-icons">check</i>
+          Filter
+          <i class="close material-icons">close</i>
+        </div>
+
+        <pre style="padding-top: 0px;">
+          <span class="copyMessage">Copied!</span>
+          <i class="material-icons copyButton">content_copy</i>
+          <code class="language-markup copiedText">
+&lt;div class="chip">
+  &lt;img src="images/yuna.jpg" alt="Contact Person"> Jane Doe
+&lt;/div>
+&lt;div class="chip">
+  Tag
+  &lt;i class="close material-icons">close&lt;/i>
+&lt;/div>
+&lt;div class="chip">
+  &lt;i class="material-icons">check&lt;/i>
+  Filter
+  &lt;i class="close material-icons">close&lt;/i>
+&lt;/div>
+&lt;div class="chip outlined">Information&lt;/div>
+&lt;div class="chip outlined">
+  &lt;i class="material-icons">check&lt;/i>
+  Filter
+  &lt;i class="close material-icons">close&lt;/i>
+&lt;/div></code>
+        </pre>
+
       </div>
 
-      <!-- Update Info -->
-      <div class="col s12">
-        <p class="red-text"><strong>ATTENTION:</strong> Data-Format has changed from version 1.X.X to 2.0.0! Please update option 'data'.</p>
-      </div>
+      <!-- ### -->
 
       <div id="contact" class="section scrollspy">
         <h3 class="header">Contacts</h3>
@@ -29,17 +61,19 @@
             <img src="images/yuna.jpg" alt="Contact Person"> Jane Doe
           </div>
         </p>
+
         <pre style="padding-top: 0px;">
           <span class="copyMessage">Copied!</span>
           <i class="material-icons copyButton">content_copy</i>
           <code class="language-markup copiedText">
-  &lt;div class="chip">
-    &lt;img src="images/yuna.jpg" alt="Contact Person">
-    Jane Doe
-  &lt;/div>
-          </code>
+&lt;div class="chip">
+  &lt;img src="images/yuna.jpg" alt="Contact Person">
+  Jane Doe
+&lt;/div></code>
         </pre>
       </div>
+
+      <!-- ### -->
 
       <div id="tag" class="section scrollspy">
         <h3 class="header">Tags</h3>
@@ -63,10 +97,18 @@
         </pre>
       </div>
 
+      <!-- ### -->
+
       <div id="basic" class="section scrollspy">
         <h3 class="header">Javascript Plugin</h4>
           <p class="caption">To add tags, just enter your tag text and press enter. You can delete them by clicking on the close icon or by
             using your delete button.</p>
+
+          <!-- Update Info -->
+          <div class="s12">
+            <p class="red-text"><strong>ATTENTION:</strong> Data-Format has changed from version 1.X.X to 2.0.0! Please update option 'data'.</p>
+          </div>
+
           <div class="chips"></div>
           
           <p class="caption">Set initial tags.</p>

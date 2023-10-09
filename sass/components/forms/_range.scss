@@ -63,7 +63,7 @@ input[type=range] + .thumb {
 // Shared
 @mixin range-track {
   height: $track-height;
-  background: $range-track-color;
+  @extend .surface-variant;
   border: none;
 }
 
