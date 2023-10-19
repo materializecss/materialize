@@ -134,7 +134,7 @@ export interface DatepickerOptions extends BaseOptions {
    * @default null
    */
   onDraw: (() => void) | null;
-  
+
   /** Field used for internal calculations DO NOT CHANGE IT */
   minYear?: any;
   /** Field used for internal calculations DO NOT CHANGE IT */
@@ -261,7 +261,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   constructor(el: HTMLInputElement, options: Partial<DatepickerOptions>) {
     super(el, options, Datepicker);
     (this.el as any).M_Datepicker = this;
-    
+
     this.options = {
       ...Datepicker.defaults,
       ...options
@@ -847,8 +847,8 @@ export class Datepicker extends Component<DatepickerOptions> {
     });
 
     // Add change handlers for select
-    yearSelect.addEventListener('change', () => this._handleYearChange);
-    monthSelect.addEventListener('change', () => this._handleMonthChange);
+    yearSelect.addEventListener('change', this._handleYearChange);
+    monthSelect.addEventListener('change', this._handleMonthChange);
 
     if (typeof this.options.onDraw === 'function') {
       this.options.onDraw.call(this);
