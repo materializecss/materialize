@@ -4,6 +4,8 @@ import { Utils } from "./utils";
 import { Bounding } from "./bounding";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
+export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
+
 export interface TooltipOptions extends BaseOptions {
   /**
    * Delay time before tooltip disappears.
@@ -45,7 +47,7 @@ export interface TooltipOptions extends BaseOptions {
    * Set the direction of the tooltip.
    * @default 'bottom'
    */
-  position: 'top' | 'right' | 'bottom' | 'left';
+  position: TooltipPosition;
   /**
    * Amount in px that the tooltip moves during its transition.
    * @default 10
@@ -60,7 +62,7 @@ const _defaults: TooltipOptions = {
   margin: 5,
   inDuration: 250,
   outDuration: 200,
-  position: 'bottom',
+  position: 'bottom' as TooltipPosition,
   transitionMovement: 10,
   opacity: 1
 };
@@ -331,15 +333,15 @@ export class Tooltip extends Component<TooltipOptions> {
     this.close();
   }
 
-  _getAttributeOptions() {
-    const attributeOptions = {};
+  _getAttributeOptions(): Partial<TooltipOptions> {    
+    let attributeOptions: Partial<TooltipOptions> = { };
     const tooltipTextOption = this.el.getAttribute('data-tooltip');
     const positionOption = this.el.getAttribute('data-position');
     if (tooltipTextOption) {
-      (attributeOptions as any).text = tooltipTextOption;
+      attributeOptions.text = tooltipTextOption;
     }
     if (positionOption) {
-      (attributeOptions as any).position = positionOption;
+      attributeOptions.position = positionOption as TooltipPosition;
     }
     return attributeOptions;
   }
