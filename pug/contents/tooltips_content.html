@@ -7,8 +7,10 @@
         <p>Tooltips are small, interactive, textual hints for mainly graphical elements. When using icons for actions you can
           use a tooltip to give people clarification on its function.</p>
         <div class="row">
-          <a href="#!" class="btn tooltipped col s4 offset-s4 l2 offset-l1" data-html="true" data-position="bottom" data-tooltip="I am a tooltip">
-          Bottom</a>
+          <a href="#!" class="btn tooltipped col s4 offset-s4 l2 offset-l1" data-html="true" data-position="bottom" data-tooltip-id="tooltip-content"> Bottom</a>
+          <div id="tooltip-content" style="display: nonne;">            
+              This is a tooltip with a <a href="https://github.com/materializecss">link</a> and a <i class="material-icons icon-demo">insert_chart</i>
+          </div>  
           <a href="#!" class="btn tooltipped col s4 offset-s4 l2 offset-l1" data-position="top" data-tooltip="I am a tooltip"> Top</a>
           <a href="#!" class="btn tooltipped col s4 offset-s4 l2 offset-l1" data-position="left" data-tooltip="I am a tooltip"> Left</a>
           <a href="#!" class="btn tooltipped col s4 offset-s4 l2 offset-l1" data-position="right" data-tooltip="I am a tooltip"> Right</a>
