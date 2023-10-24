@@ -18,6 +18,11 @@ export interface TooltipOptions extends BaseOptions {
    */
   enterDelay: number;
   /**
+   * Element Id for the tooltip.
+   * @default ""
+   */
+  tooltipId?: string;
+  /**
    * Text string for the tooltip.
    * @default ""
    */
@@ -92,6 +97,7 @@ export class Tooltip extends Component<TooltipOptions> {
 
     this.options = {
       ...Tooltip.defaults,
+      ...this._getAttributeOptions(),
       ...options
     };
     
@@ -141,7 +147,12 @@ export class Tooltip extends Component<TooltipOptions> {
     this.tooltipEl = document.createElement('div');
     this.tooltipEl.classList.add('material-tooltip');
 
-    const tooltipContentEl = document.createElement('div');
+    const tooltipContentEl = this.options.tooltipId 
+      ? document.getElementById(this.options.tooltipId)
+      : document.createElement('div');
+    this.tooltipEl.append( tooltipContentEl);
+    tooltipContentEl.style.display = ""; 
+    
     tooltipContentEl.classList.add('tooltip-content');
     this._setTooltipContent(tooltipContentEl);
     this.tooltipEl.appendChild(tooltipContentEl);
@@ -149,7 +160,9 @@ export class Tooltip extends Component<TooltipOptions> {
   }
 
   _setTooltipContent(tooltipContentEl: HTMLElement) {
-    tooltipContentEl.innerText = this.options.text;
+    if (this.options.tooltipId) 
+      return;
+    tooltipContentEl.innerText = this.options.text;        
   }
 
   _updateTooltipContent() {
@@ -336,6 +349,7 @@ export class Tooltip extends Component<TooltipOptions> {
   _getAttributeOptions(): Partial<TooltipOptions> {    
     let attributeOptions: Partial<TooltipOptions> = { };
     const tooltipTextOption = this.el.getAttribute('data-tooltip');
+    const tooltipId = this.el.getAttribute('data-tooltip-id');
     const positionOption = this.el.getAttribute('data-position');
     if (tooltipTextOption) {
       attributeOptions.text = tooltipTextOption;
@@ -343,6 +357,10 @@ export class Tooltip extends Component<TooltipOptions> {
     if (positionOption) {
       attributeOptions.position = positionOption as TooltipPostion;
     }
+    if (tooltipId) {
+      attributeOptions.tooltipId = tooltipId;
+    }
+
     return attributeOptions;
   }
 }
