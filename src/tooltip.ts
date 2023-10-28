@@ -4,6 +4,8 @@ import { Utils } from "./utils";
 import { Bounding } from "./bounding";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
+export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
+
 export interface TooltipOptions extends BaseOptions {
   /**
    * Delay time before tooltip disappears.
@@ -15,6 +17,11 @@ export interface TooltipOptions extends BaseOptions {
    * @default 0
    */
   enterDelay: number;
+  /**
+   * Element Id for the tooltip.
+   * @default ""
+   */
+  tooltipId?: string;
   /**
    * Text string for the tooltip.
    * @default ""
@@ -45,7 +52,7 @@ export interface TooltipOptions extends BaseOptions {
    * Set the direction of the tooltip.
    * @default 'bottom'
    */
-  position: 'top' | 'right' | 'bottom' | 'left';
+  position: TooltipPosition;
   /**
    * Amount in px that the tooltip moves during its transition.
    * @default 10
@@ -60,7 +67,7 @@ const _defaults: TooltipOptions = {
   margin: 5,
   inDuration: 250,
   outDuration: 200,
-  position: 'bottom',
+  position: 'bottom' as TooltipPosition,
   transitionMovement: 10,
   opacity: 1
 };
@@ -90,6 +97,7 @@ export class Tooltip extends Component<TooltipOptions> {
 
     this.options = {
       ...Tooltip.defaults,
+      ...this._getAttributeOptions(),
       ...options
     };
     
@@ -139,7 +147,12 @@ export class Tooltip extends Component<TooltipOptions> {
     this.tooltipEl = document.createElement('div');
     this.tooltipEl.classList.add('material-tooltip');
 
-    const tooltipContentEl = document.createElement('div');
+    const tooltipContentEl = this.options.tooltipId 
+      ? document.getElementById(this.options.tooltipId)
+      : document.createElement('div');
+    this.tooltipEl.append( tooltipContentEl);
+    tooltipContentEl.style.display = ""; 
+    
     tooltipContentEl.classList.add('tooltip-content');
     this._setTooltipContent(tooltipContentEl);
     this.tooltipEl.appendChild(tooltipContentEl);
@@ -147,7 +160,9 @@ export class Tooltip extends Component<TooltipOptions> {
   }
 
   _setTooltipContent(tooltipContentEl: HTMLElement) {
-    tooltipContentEl.innerText = this.options.text;
+    if (this.options.tooltipId) 
+      return;
+    tooltipContentEl.innerText = this.options.text;        
   }
 
   _updateTooltipContent() {
@@ -331,16 +346,21 @@ export class Tooltip extends Component<TooltipOptions> {
     this.close();
   }
 
-  _getAttributeOptions() {
-    const attributeOptions = {};
+  _getAttributeOptions(): Partial<TooltipOptions> {    
+    let attributeOptions: Partial<TooltipOptions> = { };
     const tooltipTextOption = this.el.getAttribute('data-tooltip');
+    const tooltipId = this.el.getAttribute('data-tooltip-id');
     const positionOption = this.el.getAttribute('data-position');
     if (tooltipTextOption) {
-      (attributeOptions as any).text = tooltipTextOption;
+      attributeOptions.text = tooltipTextOption;
     }
     if (positionOption) {
-      (attributeOptions as any).position = positionOption;
+      attributeOptions.position = positionOption as TooltipPosition;
     }
+    if (tooltipId) {
+      attributeOptions.tooltipId = tooltipId;
+    }
+
     return attributeOptions;
   }
 }
