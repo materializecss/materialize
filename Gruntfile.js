@@ -98,9 +98,6 @@ module.exports = function(grunt) {
       min: {
         src: 'dist/css/materialize.min.css'
       },
-      gh: {
-        src: 'docs/css/ghpages-materialize.css'
-      },
       bin: {
         src: 'bin/materialize.css'
       }
@@ -117,9 +114,9 @@ module.exports = function(grunt) {
 
       dev_watch: Object.assign({}, webpackConfig, {
         mode: 'development',
-        watch: true,
+        watch: true
       }),
-      
+
       dev_dist: Object.assign({}, webpackConfig, {
         mode: 'development',
         devtool: false,
@@ -129,8 +126,8 @@ module.exports = function(grunt) {
         output: {
           filename: 'materialize.js',
           path: path.resolve(__dirname, 'dist/js'),
-          libraryTarget: 'umd',        
-          globalObject: 'this'          
+          libraryTarget: 'umd',
+          globalObject: 'this'
         }
       }),
 
@@ -146,24 +143,7 @@ module.exports = function(grunt) {
           libraryTarget: 'umd',
           globalObject: 'this'
         }
-      }),
-    },       
-
-    browserSync: {
-      bsFiles: ['bin/*', 'css/ghpages-materialize.css', '!**/node_modules/**/*'],
-      options: {
-        server: {
-          baseDir: './docs/' // make server from root dir
-        },
-        port: 8000,
-        ui: {
-          port: 8080,
-          weinre: {
-            port: 9090
-          }
-        },
-        open: false
-      }
+      })
     },
 
     compress: {
@@ -186,7 +166,7 @@ module.exports = function(grunt) {
         files: [
           { expand: true, cwd: 'sass/', src: ['materialize.scss'], dest: 'materialize-src/sass/' },
           { expand: true, cwd: 'sass/', src: ['components/**/*'], dest: 'materialize-src/sass/' },
-          { expand: true, cwd: 'src/',  src: ['**/*'], dest: 'materialize-src/ts/' },
+          { expand: true, cwd: 'src/', src: ['**/*'], dest: 'materialize-src/ts/' },
           { expand: true, cwd: 'dist/js/', src: ['**/*'], dest: 'materialize-src/js/bin/' },
           { expand: true, cwd: './', src: ['LICENSE', 'README.md'], dest: 'materialize-src/' }
         ]
@@ -249,43 +229,7 @@ module.exports = function(grunt) {
       }
     },
 
-    pug: {
-      compile: {
-        options: {
-          pretty: true,
-          data: {
-            debug: false
-          }
-        },
-        files: [{
-          expand: true,
-          cwd: 'pug/',
-          src: ['*.pug', '!**/pug/includes/*.*'],
-          dest: 'docs/',
-          rename: function (dest, src) {
-            return dest + src.split('.', 2)[0] + '.html';
-          }
-        }]
-      }
-    },
-
     watch: {
-      pug: {
-        files: ['pug/**/*'],
-        tasks: ['pug_compile'],
-        options: {
-          interrupt: false,
-          spawn: false
-        }
-      },
-      copydocs: {
-        files: ['bin/*.js'],
-        tasks: ['copy:docs_js'],
-        options: {
-          interrupt: false,
-          spawn: false
-        }
-      },
       sass: {
         files: ['sass/**/*'],
         tasks: ['sass_compile'],
@@ -302,22 +246,14 @@ module.exports = function(grunt) {
         limit: 10
       },
       monitor: {
-        tasks: [
-          'webpack:dev_watch',
-          'pug_compile',
-          'sass_compile',
-          'watch:pug',
-          'watch:sass',
-          'watch:copydocs',
-          'server'
-        ]
+        tasks: ['webpack:dev_watch', 'sass_compile', 'watch:sass']
       }
     },
 
     // Replace text to update the version string
     replace: {
       version: {
-        src: ['bower.json', 'package.js', 'pug/**/*.html', 'pug/includes/_navbar.pug', 'src/global.ts'],
+        src: ['bower.json', 'package.js', 'src/global.ts'],
         overwrite: true,
         replacements: [
           {
@@ -333,16 +269,6 @@ module.exports = function(grunt) {
           {
             from: '"version": "' + grunt.option('oldver'),
             to: '"version": "' + grunt.option('newver')
-          }
-        ]
-      },
-      docs: {
-        src: ['.gitignore'],
-        overwrite: true,
-        replacements: [
-          {
-            from: '/docs/*.html',
-            to: ''
           }
         ]
       }
@@ -404,15 +330,6 @@ module.exports = function(grunt) {
           }
         }
       }
-    },
-
-    copy: {
-      docs_js: {
-        files: [{ src: 'bin/materialize.js', dest: 'docs/js/materialize.js' }]
-      },
-      docs_templates: {
-        files: [{ src: 'templates/**', dest: 'docs/' }]
-      }
     }
   };
 
@@ -422,7 +339,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-contrib-compress');
-  grunt.loadNpmTasks('grunt-contrib-pug');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-text-replace');
   grunt.loadNpmTasks('grunt-banner');
@@ -432,7 +348,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-postcss');
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-copy');
 
   // define tasks
   grunt.registerTask('release', [
@@ -451,15 +366,14 @@ module.exports = function(grunt) {
     'replace:version', // again because of cdn
     'replace:package_json',
     'rename:rename_src',
-    'rename:rename_compiled',
-  ]);  
-  grunt.registerTask('pug_compile', ['pug']);
-  grunt.registerTask('js_compile', ['webpack:dev', 'copy:docs_js']);
-  grunt.registerTask('sass_compile', ['sass:gh', 'sass:bin', 'postcss:gh', 'postcss:bin']);
-  grunt.registerTask('server', ['browserSync']);
+    'rename:rename_compiled'
+  ]);
+
+  grunt.registerTask('sass_compile', ['sass:gh', 'sass:bin', 'postcss:bin']);
   grunt.registerTask('monitor', ['concurrent:monitor']); // DEV
-  grunt.registerTask('test', ['js_compile', 'sass_compile', 'connect', 'jasmine']);
+  grunt.registerTask('test', ['webpack:dev', 'sass_compile', 'connect', 'jasmine']);
   grunt.registerTask('jas_test', ['connect', 'jasmine']);
+
   grunt.registerTask('test_repeat', function() {
     const tasks = ['connect'];
     const n = 30;
@@ -468,13 +382,4 @@ module.exports = function(grunt) {
     }
     grunt.task.run(tasks);
   });
-  grunt.registerTask('docs', [
-    'js_compile',
-    'copy:docs_js',
-    'copy:docs_templates',
-    'sass:gh',
-    'postcss:gh',
-    'pug',
-    'replace:docs'
-  ]);
 };
