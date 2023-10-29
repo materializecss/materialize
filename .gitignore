@@ -45,7 +45,3 @@ bin/
 
 # Ignore lock
 yarn.lock
-
-# Compiled docs
-/docs/*.html
-!/docs/fab-toolbar-demo.html
