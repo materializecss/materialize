@@ -26,7 +26,7 @@ import { Range } from './range';
 import { Utils } from './utils';
 
 export class M {
-  static version = '2.0.3-alpha';
+  static version = '2.0.3-beta';
 
   static Autocomplete: typeof Autocomplete = Autocomplete;
   static Tabs: typeof Tabs = Tabs;
