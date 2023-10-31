@@ -1,45 +1,87 @@
 .chip {
+  --font-size: 14px;
+  --font-size-icon: 18px;
+  --padding: 8px;
+
+  background-color: $chip-bg-color;
+
+  display: inline-flex;
+  white-space: nowrap;
+  gap: 8px;
+
+  margin: 0;
+  height: 32px;
+
+  padding-left: var(--padding);
+  padding-right: var(--padding);
+  
+  font-size: var(--font-size);
+  font-weight: 500;  
+  color: $chip-font-color;
+  
+  border-radius: 8px;
+
+  align-items: center;
+  user-select: none;
+  vertical-align: top;
+
   &:focus {
     outline: none;
     background-color: $chip-selected-color;
     color: $chip-selected-font-color;
   }
-
-  display: inline-block;
-  height: 32px;
-  font-size: 13px;
-  font-weight: 500;
-  color: $chip-font-color;
-  line-height: 32px;
-  padding: 0 12px;
-  border-radius: 16px;
-  background-color: $chip-bg-color;
-  margin-bottom: $chip-margin;
-  margin-right: $chip-margin;
-
-  > img {
-    float: left;
-    margin: 0 8px 0 -12px;
-    height: 32px;
-    width: 32px;
-    border-radius: 50%;
-  }
-
-  .close {
-    cursor: pointer;
-    float: right;
-    font-size: 16px;
-    line-height: 32px;
-    padding-left: 8px;
-  }
 }
 
+.chip.outlined {
+  background-color: transparent;
+  border-color: var(--md-sys-color-outline);
+  border-width: 1px;
+  border-style: solid;
+}
+
+.chip > img {
+  margin: 0;
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.chip > .material-icons {
+  font-size: var(--font-size-icon);
+  @extend .on-surface-variant-text;
+}
+
+.chip .close {
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+  padding: 0;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  cursor: pointer;
+}
+
+.chip .close:hover {
+  background-color: #8888;
+}
+
+//--------------------------
+
 .chips {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+
   border: none;
   border-bottom: 1px solid $chip-border-color;
   box-shadow: none;
   margin: $input-margin;
-  min-height: 45px;
+
+  padding: 4px;
+  // min-height: 45px;
+
   outline: none;
   transition: all .3s;
 
@@ -58,12 +100,17 @@
     color: $input-color;
     display: inline-block;
     font-size: $input-font-size;
-    height: $input-height;
-    line-height: 32px;
+
+    // height: 32px;
+    // height: $input-height;
+    // line-height: 32px;
+    height: 32px;
+
     outline: 0;
     margin: 0;
     padding: 0;
     width: 120px;
+
 
     &:focus {
       border: 0;

@@ -1,17 +1,57 @@
-// shared styles
-.btn,
-.btn-flat {
-  font-weight: 500;
-  border: $button-border;
-  border-radius: $button-radius;
-  display: inline-block;
+.btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
+  --font-size-icon: 16px;
+  --padding: 24px;
+  --padding-icon: 16px;
+  --gap-icon: 8px;
+  
   height: $button-height;
-  line-height: $button-height;
-  padding: $button-padding;
-  vertical-align: middle;
-  user-select: none;
+  
+  // line-height: $button-height;
+  border: $button-border;
+  border-radius: $button-radius;  
+  
+  // padding: $button-padding;
+  padding-left: var(--padding);
+  padding-right: var(--padding);
+  
+  color: $button-raised-color;
+  font-size: $button-font-size;
+  font-weight: 500;
+  text-decoration: none;
+  
+  display: inline-flex;
+  align-items: center;
+  
+  cursor: pointer;
   -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
+  white-space: nowrap;
+  outline: 0;
+  user-select: none;
+  
+  transition: background-color .2s ease-out;
 }
+
+// Icon
+.btn.icon-left, .btn.icon-right {
+  position: relative;
+}
+.btn.icon-left {
+  padding-left: calc(var(--padding-icon) + var(--font-size-icon) + var(--gap-icon));
+}
+.btn.icon-right {
+  padding-right: calc(var(--padding-icon) + var(--font-size-icon) + var(--gap-icon)); 
+}
+.btn.icon-left i, .btn.icon-right i {
+  position: absolute;
+  font-size: var(--font-size-icon);
+}
+.btn.icon-left i {
+  left: var(--padding-icon);
+}
+.btn.icon-right i {
+  right: var(--padding-icon);
+}
+
 
 // Disabled shared style
 .btn.disabled,
@@ -40,53 +80,103 @@
   }
 }
 
-// Shared icon styles
-.btn,
-.btn-floating,
-.btn-large,
-.btn-small,
-.btn-flat {
-  font-size: $button-font-size;
-  outline: 0;
-  i {
-    font-size: $button-icon-font-size;
-    line-height: inherit;
+//--- Filled Button
+.btn.filled {
+  background-color: var(--md-sys-color-primary);
+}
+//--- Filled Tonal
+.btn.tonal {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+//--- Text-Button (Flat)
+.btn.text, .btn-flat {
+  box-shadow: none;
+  background-color: transparent;
+  color: var(--md-sys-color-primary);
+  cursor: pointer;
+  transition: background-color .2s;
+  &:focus,
+  &:hover {
+    box-shadow: none;
+    background-color: $button-flat-hover-background-color;
+  }
+  &:focus {
+    background-color: $button-flat-focus-background-color;
+  }
+  &.disabled,
+  &.btn.text[disabled], &.btn-flat[disabled] {
+    background-color: transparent !important;
+    color: $button-flat-disabled-color !important;
+    cursor: default;
   }
 }
-
-// Raised Button
-.btn {
-  text-decoration: none;
-  color: $button-raised-color;
-  background-color: $button-raised-background;
-  text-align: center;
-  letter-spacing: .5px;
+//--- Outlined-Button
+.btn.outlined {
+  background-color: transparent;
+  color: $button-raised-background;
+  border: 1px solid $button-raised-background;
+}
+//--- Elevated
+.btn.elevated {
+  @extend .tonal;
   @extend .z-depth-1;
-  transition: background-color .2s ease-out;
-  cursor: pointer;
+}
+
+
+//======================== States (Hover, Focused, ...)
+
+.btn {
+  @extend .filled;
+
   &:hover {
     background-color: $button-raised-background-hover;
     @extend .z-depth-1-half;
   }
+
   &:focus {
     background-color: $button-raised-background-focus;
     @extend .z-depth-1-half;
-  }
+  }  
 }
 
+
+
+//----------
+// .btn-floating {
+//   border-radius: 16px;
+//   width: unset;
+//   display: grid;
+//   grid-auto-flow: column;
+//   align-items: center;
+//   padding: 16px !important;
+//   padding-right: 24px !important; /* only with icon */
+//   gap: 8px;
+// }
+// .btn-floating.btn-large {
+//   width: unset;
+// }
+// .btn-large {
+//   font-size: 14px;
+// }
+//-----
 // Floating button
 .btn-floating {
+
   &:hover {
     background-color: $button-floating-background-hover;
     @extend .z-depth-1-half;
   }
+
   &:focus {
     background-color: $button-floating-background-focus;
     @extend .z-depth-1-half;
   }
+
   &:before {
     border-radius: 0;
   }
+
   &.btn-large {
     &.halfway-fab {
       bottom: -$button-floating-large-size * 0.5;
@@ -94,9 +184,10 @@
     width: $button-floating-large-size;
     height: $button-floating-large-size;
     padding: 0;
-    i {
-      line-height: $button-floating-large-size;
-    }
+    // font-size: 
+    // i {
+    //   // line-height: $button-floating-large-size;
+    // }
   }
 
   &.btn-small {
@@ -105,9 +196,9 @@
     }
     width: $button-floating-small-size;
     height: $button-floating-small-size;
-    i {
-      line-height: $button-floating-small-size;
-    }
+    // i {
+    //   line-height: $button-floating-small-size;
+    // }
   }
 
   &.halfway-fab {
@@ -119,36 +210,48 @@
     right: 24px;
     bottom: -$button-floating-size * 0.5;
   }
-  display: inline-block;
+
+  // FIXES
+  // width: unset;  
+  // padding: 16px !important;
+  // padding-right: 24px !important; /* only with icon */
+  // gap: 8px;
+
   color: $button-floating-color;
+  
+  width: $button-floating-size;
+  height: $button-floating-size;
+  // line-height: $button-floating-size;
+
+  background-color: $button-floating-background;
+  border-radius: $button-floating-radius;
+  padding: 0;
+
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+
   position: relative;
   overflow: hidden;
   z-index: 1;
-  width: $button-floating-size;
-  height: $button-floating-size;
-  line-height: $button-floating-size;
-  padding: 0;
-  background-color: $button-floating-background;
-  border-radius: $button-floating-radius;
   @extend .z-depth-1;
   transition: background-color .3s;
   cursor: pointer;
   vertical-align: middle;
+
   i {
+    color: $button-floating-color;
+    font-size: $button-large-icon-font-size;
+    // line-height: $button-floating-size;
     width: inherit;
     display: inline-block;
     text-align: center;
-    color: $button-floating-color;
-    font-size: $button-large-icon-font-size;
-    line-height: $button-floating-size;
   }
 }
-
 // button fix
 button.btn-floating {
   border: $button-border;
 }
-
 // Fixed Action Button
 .fixed-action-btn {
   &.active {
@@ -274,37 +377,15 @@ button.btn-floating {
   }
 }
 
-// Flat button
-.btn-flat {
-  box-shadow: none;
-  background-color: transparent;
-  color: $button-flat-color;
-  cursor: pointer;
-  transition: background-color .2s;
-  &:focus,
-  &:hover {
-    box-shadow: none;
-    background-color: $button-flat-hover-background-color;
-  }
-  &:focus {
-    background-color: $button-flat-focus-background-color;
-  }
-  &.disabled,
-  &.btn-flat[disabled]  {
-    background-color: transparent !important;
-    color: $button-flat-disabled-color !important;
-    cursor: default;
-  }
-}
+//--- Helper classes (for all)
 
 // Large button
 .btn-large {
   @extend .btn;
   height: $button-large-height;
-  line-height: $button-large-height;
+  // line-height: $button-large-height;
   font-size: $button-large-font-size;
   padding: 0 28px;
-
   i {
     font-size: $button-large-icon-font-size;
   }
@@ -324,4 +405,8 @@ button.btn-floating {
 // Block button
 .btn-block {
   display: block;
+}
+
+.btn.rounded {
+  border-radius: 99999px;
 }

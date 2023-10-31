@@ -1,5 +1,5 @@
 /*!
- * Materialize v2.0.3-alpha (https://materializecss.github.io/materialize)
+ * Materialize v2.0.3-beta (https://materializecss.github.io/materialize)
  * Copyright 2014-2023 Materialize
  * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
  */
@@ -3894,8 +3894,8 @@ class Datepicker extends component_1.Component {
             dropdownOptions: { container: document.body, constrainWidth: false }
         });
         // Add change handlers for select
-        yearSelect.addEventListener('change', () => this._handleYearChange);
-        monthSelect.addEventListener('change', () => this._handleMonthChange);
+        yearSelect.addEventListener('change', this._handleYearChange);
+        monthSelect.addEventListener('change', this._handleMonthChange);
         if (typeof this.options.onDraw === 'function') {
             this.options.onDraw.call(this);
         }
@@ -8483,7 +8483,7 @@ class Tooltip extends component_1.Component {
             this.close();
         };
         this.el.M_Tooltip = this;
-        this.options = Object.assign(Object.assign({}, Tooltip.defaults), options);
+        this.options = Object.assign(Object.assign(Object.assign({}, Tooltip.defaults), this._getAttributeOptions()), options);
         this.isOpen = false;
         this.isHovered = false;
         this.isFocused = false;
@@ -8512,13 +8512,19 @@ class Tooltip extends component_1.Component {
     _appendTooltipEl() {
         this.tooltipEl = document.createElement('div');
         this.tooltipEl.classList.add('material-tooltip');
-        const tooltipContentEl = document.createElement('div');
+        const tooltipContentEl = this.options.tooltipId
+            ? document.getElementById(this.options.tooltipId)
+            : document.createElement('div');
+        this.tooltipEl.append(tooltipContentEl);
+        tooltipContentEl.style.display = "";
         tooltipContentEl.classList.add('tooltip-content');
         this._setTooltipContent(tooltipContentEl);
         this.tooltipEl.appendChild(tooltipContentEl);
         document.body.appendChild(this.tooltipEl);
     }
     _setTooltipContent(tooltipContentEl) {
+        if (this.options.tooltipId)
+            return;
         tooltipContentEl.innerText = this.options.text;
     }
     _updateTooltipContent() {
@@ -8637,14 +8643,18 @@ class Tooltip extends component_1.Component {
         });
     }
     _getAttributeOptions() {
-        const attributeOptions = {};
+        let attributeOptions = {};
         const tooltipTextOption = this.el.getAttribute('data-tooltip');
+        const tooltipId = this.el.getAttribute('data-tooltip-id');
         const positionOption = this.el.getAttribute('data-position');
         if (tooltipTextOption) {
             attributeOptions.text = tooltipTextOption;
         }
         if (positionOption) {
             attributeOptions.position = positionOption;
+        }
+        if (tooltipId) {
+            attributeOptions.tooltipId = tooltipId;
         }
         return attributeOptions;
     }
@@ -9102,7 +9112,7 @@ class M {
     }
 }
 exports.M = M;
-M.version = '2.0.3-alpha';
+M.version = '2.0.3-beta';
 M.Autocomplete = autocomplete_1.Autocomplete;
 M.Tabs = tabs_1.Tabs;
 M.Carousel = carousel_1.Carousel;
