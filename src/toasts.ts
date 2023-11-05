@@ -211,7 +211,7 @@ export class Toast {
     }
 
     // Set text content
-    else toast.innerText = this.message;
+    toast.innerText = this.message;
 
     // Append toast
     Toast._container.appendChild(toast);
