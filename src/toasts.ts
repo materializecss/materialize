@@ -9,6 +9,11 @@ export interface ToastOptions extends BaseOptions {
    */
   text: string;
   /**
+   * Element Id for the tooltip.
+   * @default ""
+   */
+  toastId?: string;
+  /**
    * Length in ms the Toast stays before dismissal.
    * @default 4000
    */
@@ -53,7 +58,7 @@ let _defaults: ToastOptions = {
 
 export class Toast {
   /** The toast element. */
-  el: HTMLDivElement;
+  el: HTMLElement;
   /**
    * The remaining amount of time in ms that the toast
    * will stay before dismissal.
@@ -199,7 +204,10 @@ export class Toast {
   }
 
   _createToast() {
-    const toast = document.createElement('div');
+    const toast = this.options.toastId 
+      ? document.getElementById(this.options.toastId)
+      : document.createElement('div');
+    //const toast = document.createElement('div');
     toast.classList.add('toast');
     toast.setAttribute('role', 'alert');
     toast.setAttribute('aria-live', 'assertive');
@@ -211,7 +219,8 @@ export class Toast {
     }
 
     // Set text content
-    toast.innerText = this.message;
+    if (this.message)
+      toast.innerText = this.message;
 
     // Append toast
     Toast._container.appendChild(toast);
@@ -220,6 +229,7 @@ export class Toast {
 
   _animateIn() {
     // Animate toast in
+    this.el.style.display = ""
     anim({
       targets: this.el,
       top: 0,
@@ -273,10 +283,12 @@ export class Toast {
           this.options.completeCallback();
         }
         // Remove toast from DOM
-        this.el.remove();
-        Toast._toasts.splice(Toast._toasts.indexOf(this), 1);
-        if (Toast._toasts.length === 0) {
-          Toast._removeContainer();
+        if (!this.options.toastId) {
+          this.el.remove();
+          Toast._toasts.splice(Toast._toasts.indexOf(this), 1);
+          if (Toast._toasts.length === 0) {
+            Toast._removeContainer();
+          }  
         }
       }
     });
