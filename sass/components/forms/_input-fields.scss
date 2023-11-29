@@ -26,6 +26,45 @@ textarea.materialize-textarea {
   width: 100%;  
   font-size: $md_sys_typescale_body-large_size; //$input-font-size; // => 16 dp
   height: 56px; // 56dp $input-height;
+
+  // Hide helper text on data message
+  &.valid ~ .supporting-text[data-success],
+  &:focus.valid ~ .supporting-text[data-success],
+  &.invalid ~ .supporting-text[data-error],
+  &:focus.invalid~.supporting-text[data-error] {
+    @extend %hidden-text;
+  }
+
+  // Valid Input Style
+  &.valid,
+  &:focus.valid {
+    @extend %valid-input-style;
+  }
+
+  // Custom Success Message
+  &.valid ~ .supporting-text:after,
+  &:focus.valid ~ .supporting-text:after {
+    @extend %custom-success-message;
+  }
+
+  &:focus.valid ~ label {
+    color: $input-success-color;
+  }
+
+  // Invalid Input Style
+  &.invalid,
+  &:focus.invalid {
+    @extend %invalid-input-style;
+  }
+
+  // Custom Error message
+  &.invalid ~ .supporting-text:after,
+  &:focus.invalid ~ .supporting-text:after {
+    @extend %custom-error-message;
+  }
+  &:focus.invalid ~ label {
+    color: $input-error-color;
+  }
 }
 
 /* Validation Sass Placeholders */
@@ -42,16 +81,16 @@ textarea.materialize-textarea {
   user-select: none;
   pointer-events: none;
 }
-/*
+
 %custom-success-message {
   content: attr(data-success);
   color: $input-success-color;
 }
+
 %custom-error-message {
   content: attr(data-error);
   color: $input-error-color;
 }
-*/
 
 .input-field {
   position: relative;

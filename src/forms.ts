@@ -2,6 +2,37 @@ import { Utils } from "./utils";
 
 export class Forms {
 
+  static validate_field(textarea: HTMLInputElement) {
+    // Checks if textarea is exist
+    if (!textarea) {
+      console.error('No textarea element found');
+      return;
+    }
+
+    let hasLength = textarea.getAttribute('data-length') !== null;
+    let lenAttr = parseInt(textarea.getAttribute('data-length'));
+    let len = textarea.value.length;
+
+    if (len === 0 && textarea.validity.badInput === false && !textarea.required ) {
+      if (textarea.classList.contains('validate')) {
+        textarea.classList.remove('valid');
+        textarea.classList.remove('invalid');
+      }
+    } else {
+      
+      if (textarea.classList.contains('validate')) {
+        // Check for character counter attributes
+        if (((textarea.validity.valid) && hasLength && len <= lenAttr) || textarea.validity.valid && !hasLength) {
+          textarea.classList.remove('invalid');
+          textarea.classList.add('valid');
+        } else {
+          textarea.classList.remove('valid');
+          textarea.classList.add('invalid');
+        }
+      }
+    }
+  }
+
   /**
    * Resizes the given TextArea after updating the
    *  value content dynamically.
@@ -80,6 +111,20 @@ export class Forms {
 
   static Init(){
     document.addEventListener("DOMContentLoaded", () => {
+
+      document.addEventListener('change', (e: KeyboardEvent) => {
+        const target = <HTMLInputElement>e.target;
+        if (target instanceof HTMLInputElement) {
+          if (target.value.length !== 0 || target.getAttribute('placeholder') !== null) {
+            for (const child of target.parentNode.children) {
+              if (child.tagName == "label") {
+                child.classList.add("active");
+              }
+            }
+          }
+          Forms.validate_field(target);
+        }
+      })
 
       document.addEventListener('keyup', (e: KeyboardEvent) => {
         const target = <HTMLInputElement>e.target;
