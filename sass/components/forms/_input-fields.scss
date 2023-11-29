@@ -42,8 +42,7 @@ textarea.materialize-textarea {
   }
 
   // Custom Success Message
-  &.valid ~ .supporting-text:after,
-  &:focus.valid ~ .supporting-text:after {
+  &:focus.valid ~ .supporting-text:before {
     @extend %custom-success-message;
   }
 
@@ -58,8 +57,8 @@ textarea.materialize-textarea {
   }
 
   // Custom Error message
-  &.invalid ~ .supporting-text:after,
-  &:focus.invalid ~ .supporting-text:after {
+  &.invalid ~ .supporting-text:before,
+  &:focus.invalid ~ .supporting-text:before {
     @extend %custom-error-message;
   }
   &:focus.invalid ~ label {
