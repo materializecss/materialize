@@ -42,6 +42,7 @@ textarea.materialize-textarea {
   }
 
   // Custom Success Message
+  &.valid ~ .supporting-text:before,
   &:focus.valid ~ .supporting-text:before {
     @extend %custom-success-message;
   }
