@@ -1,7 +1,11 @@
 import { Utils } from "./utils";
 
 export class Forms {
-
+  /**
+   * Checks if the label has validation and apply
+   * the correct class and styles
+   * @params textarea Textarea to be checked
+   */
   static validate_field(textarea: HTMLInputElement) {
     // Checks if textarea is exist
     if (!textarea) {
