@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://materializecss.github.io/materialize/">
-    <img src="https://materializecss.github.io/materialize/images/materialize.svg" width="200">
+    <img src="https://materializeweb.com/images/materialize.svg" width="200">
   </a>
 </p>
 
