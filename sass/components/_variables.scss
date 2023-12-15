@@ -359,8 +359,8 @@ $toast-action-color: #eeff41;
 // 20. Tooltips
 // ==========================================================================
 
-$tooltip-bg-color: var(--tooltip-background-color) !default;
-$tooltip-font-color: var(--tooltip-font-color) !default;
+$tooltip-bg-color: var(--md-sys-color-inverse-surface) !default;
+$tooltip-font-color: var(--md-sys-color-inverse-on-surface) !default;
 
 
 // 21. Typography

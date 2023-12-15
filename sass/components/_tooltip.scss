@@ -1,21 +1,29 @@
 .material-tooltip {
-  padding: 10px 8px;
-  font-size: 1rem;
-  z-index: 2000;
-  border-radius: 2px;
+  // font-family: var(--md-sys-typescale-body-small-font-family-name);
+  padding: 0 8px;  
+  border-radius: 4px;
+  
+  background-color: $tooltip-bg-color;
   color: $tooltip-font-color;
-  min-height: 36px;
-  line-height: 120%;
+  
+  font-size: var(--md-sys-typescale-body-small-font-size);
+  line-height: vat(--md-sys-typescale-body-small-line-height);
+  min-height: 24px;
   opacity: 0;
-  position: absolute;
   text-align: center;
+  
+  position: absolute;
   max-width: calc(100% - 4px);
   overflow: hidden;
   left: 0;
   top: 0;
   pointer-events: none;
+
+  display: flex;
+  align-items: center;
+  
   visibility: hidden;
-  background-color: $tooltip-bg-color;
+  z-index: 2000;
 }
 
 .backdrop {
