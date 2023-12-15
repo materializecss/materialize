@@ -31,6 +31,17 @@
   }
 }
 
+.collapsible-header::after {
+  content: '▾';
+  text-align: right;
+  margin-right: 0.25rem;
+  width: 100%;
+}
+.active .collapsible-header::after {
+  content: "▴";
+}
+
+
 .keyboard-focused .collapsible-header:focus {
   background-color: $surface-focus-color-opaque;
 }
@@ -39,7 +50,8 @@
   display: none;
   border-bottom: 1px solid $collapsible-border-color;
   box-sizing: border-box;
-  padding: 2rem;
+  padding: 0 2rem;
+  overflow: hidden;
   background-color: $collapsible-bg-color;
 }
 

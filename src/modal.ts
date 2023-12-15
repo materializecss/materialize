@@ -241,7 +241,6 @@ export class Modal extends Component<ModalOptions> {
     const isBottomSheet = this.el.classList.contains('bottom-sheet');
     if (!isBottomSheet) {
       this.el.style.top = this.options.endingTop;
-//      this.el.style.transform = 'scaleX(0.9) scaleY(0.9)';
     }
 
     // Overlay

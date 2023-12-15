@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Utils } from "./utils";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
@@ -144,64 +142,33 @@ export class Collapsible extends Component<CollapsibleOptions> {
   }
 
   _animateIn(index: number) {
-    const li = this.el.children[index];
+    const li = <HTMLLIElement>this.el.children[index];
     if (!li) return;
     const body: HTMLElement = li.querySelector('.collapsible-body');
-    anim.remove(body);
     body.style.display = 'block';
-    body.style.overflow = 'hidden';
-    body.style.height = '0';
-    body.style.paddingTop = '';
-    body.style.paddingBottom = '';
-    const pTop = getComputedStyle(body).paddingTop; //  . css('padding-top');
-    const pBottom = getComputedStyle(body).paddingBottom; //body.css('padding-bottom');
-    const finalHeight = body.scrollHeight;
-    body.style.paddingTop = '0';
-    body.style.paddingBottom = '0';
-    anim({
-      targets: body,
-      height: finalHeight,
-      paddingTop: pTop,
-      paddingBottom: pBottom,
-      duration: this.options.inDuration,
-      easing: 'easeInOutCubic',
-      complete: (anim) => {
-        body.style.overflow = '';
-        body.style.height = '';
-        body.style.paddingTop = '';
-        body.style.paddingBottom = '';
-        // onOpenEnd callback
-        if (typeof this.options.onOpenEnd === 'function') {
-          this.options.onOpenEnd.call(this, li);
-        }
+    body.style.maxHeight = '0';
+    const duration = this.options.inDuration; // easeInOutCubic
+    body.style.transition = `max-height ${duration}ms ease-out`;
+    body.style.maxHeight = body.scrollHeight + "px";
+    setTimeout(() => {
+      if (typeof this.options.onOpenEnd === 'function') {
+        this.options.onOpenEnd.call(this, li);
       }
-    });
+    }, duration);
   }
 
   _animateOut(index: number) {
     const li = this.el.children[index];
     if (!li) return;
     const body: HTMLElement = li.querySelector('.collapsible-body');
-    anim.remove(body);
-    body.style.overflow = 'hidden';
-    anim({
-      targets: body,
-      height: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
-      duration: this.options.outDuration,
-      easing: 'easeInOutCubic',
-      complete: () => {
-        body.style.overflow = '';
-        body.style.height = '';
-        body.style.padding = '';
-        body.style.display = '';
-        // onCloseEnd callback
-        if (typeof this.options.onCloseEnd === 'function') {
-          this.options.onCloseEnd.call(this, li);
-        }
+    const duration = this.options.outDuration; // easeInOutCubic
+    body.style.transition = `max-height ${duration}ms ease-out`;
+    body.style.maxHeight = "0";
+    setTimeout(() => {
+      if (typeof this.options.onCloseEnd === 'function') {
+        this.options.onCloseEnd.call(this, li);
       }
-    });
+    }, duration);
   }
 
   /**
