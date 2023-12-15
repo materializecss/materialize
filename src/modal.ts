@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Utils } from "./utils";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
@@ -90,7 +88,7 @@ export class Modal extends Component<ModalOptions> {
   isOpen: boolean;
   
   private _openingTrigger: any;
-  private _overlay: HTMLElement;
+  private _overlay: HTMLDivElement;
   private _nthModalOpened: number;
 
   constructor(el: HTMLElement, options: Partial<ModalOptions>) {
@@ -105,6 +103,7 @@ export class Modal extends Component<ModalOptions> {
     this.isOpen = false;
     this.id = this.el.id;
     this._openingTrigger = undefined;
+    console.log("create new overlay");
     this._overlay = document.createElement('div');
     this._overlay.classList.add('modal-overlay');
     this.el.tabIndex = 0;
@@ -197,80 +196,83 @@ export class Modal extends Component<ModalOptions> {
 
   _animateIn() {
     // Set initial styles
-    this.el.style.display = 'block';
-    this.el.style.opacity = '0';
     this._overlay.style.display = 'block';
     this._overlay.style.opacity = '0';
-    // Animate overlay
-    anim({
-      targets: this._overlay,
-      opacity: this.options.opacity,
-      duration: this.options.inDuration,
-      easing: 'easeOutQuad'
-    });
-    // Define modal animation options
-    const enterAnimOptions = {
-      targets: this.el,
-      duration: this.options.inDuration,
-      easing: 'easeOutCubic',
-      // Handle modal onOpenEnd callback
-      complete: () => {
+    this.el.style.display = 'block';    
+    this.el.style.opacity = '0';
+
+    const duration = this.options.inDuration;
+    const isBottomSheet = this.el.classList.contains('bottom-sheet');
+
+    if (!isBottomSheet) {
+      this.el.style.top = this.options.startingTop;
+      this.el.style.transform = 'scaleX(0.9) scaleY(0.9)';
+    }
+    // Overlay
+    this._overlay.style.transition = `opacity ${duration}ms ease-out`; // v1: easeOutQuad
+    // Modal
+    this.el.style.transition = `
+      top ${duration}ms ease-out,
+      bottom ${duration}ms ease-out,
+      opacity ${duration}ms ease-out,
+      transform ${duration}ms ease-out
+    `;
+
+    setTimeout(() => {
+      this._overlay.style.opacity = this.options.opacity.toString();
+      this.el.style.opacity = '1';
+      if (isBottomSheet) {
+        this.el.style.bottom = '0';
+      }
+      else {
+        this.el.style.top = this.options.endingTop;    
+        this.el.style.transform = 'scaleX(1) scaleY(1)';
+      }
+      setTimeout(() => {
         if (typeof this.options.onOpenEnd === 'function') {
           this.options.onOpenEnd.call(this, this.el, this._openingTrigger);
         }
-      }
-    };
-    // Bottom sheet animation
-    if (this.el.classList.contains('bottom-sheet')) {
-      enterAnimOptions['bottom'] = 0;
-      enterAnimOptions['opacity'] = 1;
-    }
-    // Normal modal animation
-    else {
-      enterAnimOptions['top'] = [this.options.startingTop, this.options.endingTop];
-      enterAnimOptions['opacity'] = 1;
-      enterAnimOptions['scaleX'] = [0.8, 1];
-      enterAnimOptions['scaleY'] = [0.8, 1];
-    }
-    anim(enterAnimOptions);
+      }, duration);
+    }, 1);
   }
 
   _animateOut() {
-    // Animate overlay
-    anim({
-      targets: this._overlay,
-      opacity: 0,
-      duration: this.options.outDuration,
-      easing: 'easeOutQuart'
-    });
-    // Define modal animation options
-    const exitAnimOptions = {
-      targets: this.el,
-      duration: this.options.outDuration,
-      easing: 'easeOutCubic',
-      // Handle modal ready callback
-      complete: () => {
+    const duration = this.options.outDuration;
+    const isBottomSheet = this.el.classList.contains('bottom-sheet');
+    if (!isBottomSheet) {
+      this.el.style.top = this.options.endingTop;
+//      this.el.style.transform = 'scaleX(0.9) scaleY(0.9)';
+    }
+
+    // Overlay
+    this._overlay.style.transition = `opacity ${duration}ms ease-out`; // v1: easeOutQuart
+
+    // Modal // easeOutCubic
+    this.el.style.transition = `
+      top ${duration}ms ease-out,
+      bottom ${duration}ms ease-out,
+      opacity ${duration}ms ease-out,
+      transform ${duration}ms ease-out
+    `;
+
+    setTimeout(() => {
+      this._overlay.style.opacity = '0';
+      this.el.style.opacity = '0';
+      if (isBottomSheet) {
+        this.el.style.bottom = '-100%';
+      }
+      else {
+        this.el.style.top = this.options.startingTop;    
+        this.el.style.transform = 'scaleX(0.9) scaleY(0.9)';
+      }
+      setTimeout(() => {
         this.el.style.display = 'none';
         this._overlay.remove();
-        // Call onCloseEnd callback
         if (typeof this.options.onCloseEnd === 'function') {
           this.options.onCloseEnd.call(this, this.el);
         }
-      }
-    };
-    // Bottom sheet animation
-    if (this.el.classList.contains('bottom-sheet')) {
-      exitAnimOptions['bottom'] = '-100%';
-      exitAnimOptions['opacity'] = 0;
-    }
-    // Normal modal animation
-    else {
-      exitAnimOptions['top'] = [this.options.endingTop, this.options.startingTop];
-      exitAnimOptions['opacity'] = 0;
-      exitAnimOptions['scaleX'] = 0.8;
-      exitAnimOptions['scaleY'] = 0.8;
-    }
-    anim(exitAnimOptions);
+      }, duration);
+    }, 1);
   }
 
   /**
@@ -299,8 +301,6 @@ export class Modal extends Component<ModalOptions> {
       document.addEventListener('keydown', this._handleKeydown);
       document.addEventListener('focus', this._handleFocus, true);
     }
-    anim.remove(this.el);
-    anim.remove(this._overlay);
     this._animateIn();
     // Focus modal
     this.el.focus();
@@ -328,8 +328,6 @@ export class Modal extends Component<ModalOptions> {
       document.removeEventListener('keydown', this._handleKeydown);
       document.removeEventListener('focus', this._handleFocus, true);
     }
-    anim.remove(this.el);
-    anim.remove(this._overlay);
     this._animateOut();
     return this;
   }
