@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Component, BaseOptions, InitElements, MElement, Openable } from "./component";
 
 export interface FloatingActionButtonOptions extends BaseOptions {
@@ -166,37 +164,36 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
 
   _animateInFAB() {
     this.el.classList.add('active');
-    let time = 0;
-    this._floatingBtnsReverse.forEach((el) => {
-      anim({
-        targets: el,
-        opacity: 1,
-        scale: [0.4, 1],
-        translateY: [this.offsetY, 0],
-        translateX: [this.offsetX, 0],
-        duration: 275,
-        delay: time,
-        easing: 'easeInOutQuad'
-      });
-      time += 40;
+    const delayIncrement = 40;
+    const duration = 275;
+    
+    this._floatingBtnsReverse.forEach((el, index) => {
+      const delay = delayIncrement * index;
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+      el.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px) scale(0.4)`;
+      setTimeout(() => {
+        // from:
+        el.style.opacity = '0.4';
+        // easeInOutQuad
+        setTimeout(() => {
+          // to:
+          el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
+          el.style.opacity = '1';
+          el.style.transform = 'translate(0, 0) scale(1)';
+        }, 1);
+      }, delay);
     });
   }
 
   _animateOutFAB() {
+    const duration = 175;
+    setTimeout(() => this.el.classList.remove('active'), duration);
     this._floatingBtnsReverse.forEach((el) => {
-      anim.remove(el);
-      anim({
-        targets: el,
-        opacity: 0,
-        scale: 0.4,
-        translateY: this.offsetY,
-        translateX: this.offsetX,
-        duration: 175,
-        easing: 'easeOutQuad',
-        complete: () => {
-          this.el.classList.remove('active');
-        }
-      });
+      el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
+      // to
+      el.style.opacity = '0';
+      el.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px) scale(0.4)`;
     });
   }
 
