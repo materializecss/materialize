@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Utils } from "./utils";
 import { BaseOptions, Component, InitElements, MElement } from "./component";
 
@@ -129,15 +127,15 @@ export class Materialbox extends Component<MaterialboxOptions> {
     this.el.removeAttribute('style');
   }
 
-  _setupEventHandlers() {
+  private _setupEventHandlers() {
     this.el.addEventListener('click', this._handleMaterialboxClick);
   }
 
-  _removeEventHandlers() {
+  private _removeEventHandlers() {
     this.el.removeEventListener('click', this._handleMaterialboxClick);
   }
 
-  _handleMaterialboxClick = () => {
+  private _handleMaterialboxClick = () => {
     // If already modal, return to original
     if (this.doneAnimating === false || (this.overlayActive && this.doneAnimating))
       this.close();
@@ -145,19 +143,19 @@ export class Materialbox extends Component<MaterialboxOptions> {
       this.open();
   }
 
-  _handleWindowScroll = () => {
+  private _handleWindowScroll = () => {
     if (this.overlayActive) this.close();
   }
 
-  _handleWindowResize = () => {
+  private _handleWindowResize = () => {
     if (this.overlayActive) this.close();
   }
 
-  _handleWindowEscape = (e: KeyboardEvent) => {
+  private _handleWindowEscape = (e: KeyboardEvent) => {
     if (Utils.keys.ESC.includes(e.key) && this.doneAnimating && this.overlayActive) this.close();
   }
 
-  _makeAncestorsOverflowVisible() {
+  private _makeAncestorsOverflowVisible() {
     this._changedAncestorList = [];
     let ancestor = this.placeholder.parentNode;
     while (ancestor !== null && ancestor !== document) {
@@ -178,12 +176,49 @@ export class Materialbox extends Component<MaterialboxOptions> {
       left: box.left + window.pageXOffset - docElem.clientLeft
     };
   }
+  private _updateVars(): void {
+    this.windowWidth = window.innerWidth;
+    this.windowHeight = window.innerHeight;
+    this.caption = this.el.getAttribute('data-caption') || '';
+  }
 
-  _animateImageIn() {
-    this.el.style.maxHeight = this.newHeight.toString()+'px';
-    this.el.style.maxWidth = this.newWidth.toString()+'px';
+  // Image
+  private _animateImageIn(): void {
+    this.el.style.maxHeight = this.newHeight.toString() + 'px';
+    this.el.style.maxWidth = this.newWidth.toString() + 'px';
+    const duration = this.options.inDuration;
+    // from
+    this.el.style.transition = 'none';
+    this.el.style.height = this.originalHeight + 'px';
+    this.el.style.width = this.originalWidth + 'px';
+    setTimeout(() => {
+      // easeOutQuad
+      this.el.style.transition = `height ${duration}ms ease,
+        width ${duration}ms ease,
+        left ${duration}ms ease,
+        top ${duration}ms ease
+      `;
+      // to
+      this.el.style.height = this.newHeight + 'px';
+      this.el.style.width = this.newWidth + 'px';
+      this.el.style.left = (Utils.getDocumentScrollLeft() +
+        this.windowWidth / 2 -
+        this._offset(this.placeholder).left -
+        this.newWidth / 2) + 'px';
 
-    const animOptions = {
+      this.el.style.top = (Utils.getDocumentScrollTop() +
+        this.windowHeight / 2 -
+        this._offset(this.placeholder).top -
+        this.newHeight / 2) + 'px';
+    }, 1);
+
+    setTimeout(() => {
+      this.doneAnimating = true;
+      if (typeof this.options.onOpenEnd === 'function') this.options.onOpenEnd.call(this, this.el);
+    }, duration);
+
+    /*
+    anim({
       targets: this.el, // image
       height: [this.originalHeight, this.newHeight],
       width: [this.originalWidth, this.newWidth],
@@ -197,65 +232,110 @@ export class Materialbox extends Component<MaterialboxOptions> {
         this.windowHeight / 2 -
         this._offset(this.placeholder).top -
         this.newHeight / 2,
+
       duration: this.options.inDuration,
       easing: 'easeOutQuad',
       complete: () => {
         this.doneAnimating = true;
-        // onOpenEnd callback
-        if (typeof this.options.onOpenEnd === 'function') {
-          this.options.onOpenEnd.call(this, this.el);
-        }
+        if (typeof this.options.onOpenEnd === 'function') this.options.onOpenEnd.call(this, this.el);        
       }
-    };
-    // Override max-width or max-height if needed
-    //const elStyle = this.el.style;
-    //console.log('mh', elStyle.maxHeight, '->', this.newHeight);
-    //console.log('mw', elStyle.maxWidth, '->', this.newWidth);
-    //if (elStyle.maxWidth !== 'none') animOptions.maxWidth = this.newWidth;
-    //if (elStyle.maxHeight !== 'none') animOptions.maxHeight = this.newHeight;
-    //console.log('>>> animate');
-    //console.log(JSON.stringify(animOptions));
-    anim(animOptions);
+    });
+    */
+  }
+  private _animateImageOut(): void {
+    const duration = this.options.outDuration;
+    // easeOutQuad
+    this.el.style.transition = `height ${duration}ms ease,
+      width ${duration}ms ease,
+      left ${duration}ms ease,
+      top ${duration}ms ease
+    `;
+    // to
+    this.el.style.height = this.originalWidth + 'px';
+    this.el.style.width = this.originalWidth + 'px';
+    this.el.style.left = '0';
+    this.el.style.top = '0';
+    setTimeout(() => {
+      this.placeholder.style.height = '';
+      this.placeholder.style.width = '';
+      this.placeholder.style.position = '';
+      this.placeholder.style.top = '';
+      this.placeholder.style.left = '';
+      // Revert to width or height attribute
+      if (this.attrWidth) this.el.setAttribute('width', this.attrWidth.toString());
+      if (this.attrHeight) this.el.setAttribute('height', this.attrHeight.toString());
+      this.el.removeAttribute('style');
+      this.originInlineStyles && this.el.setAttribute('style', this.originInlineStyles);
+      // Remove class
+      this.el.classList.remove('active');
+      this.doneAnimating = true;
+      // Remove overflow overrides on ancestors
+      this._changedAncestorList.forEach(anchestor => anchestor.style.overflow = '');
+      // onCloseEnd callback
+      if (typeof this.options.onCloseEnd === 'function') this.options.onCloseEnd.call(this, this.el);  
+    }, duration);
   }
 
-  _animateImageOut() {
-    const animOptions = {
-      targets: this.el,
-      width: this.originalWidth,
-      height: this.originalHeight,
-      left: 0,
-      top: 0,
-      duration: this.options.outDuration,
-      easing: 'easeOutQuad',
-      complete: () => {
-        this.placeholder.style.height = '';
-        this.placeholder.style.width = '';
-        this.placeholder.style.position = '';
-        this.placeholder.style.top = '';
-        this.placeholder.style.left = '';
-        // Revert to width or height attribute
-        if (this.attrWidth) this.el.setAttribute('width', this.attrWidth.toString());
-        if (this.attrHeight) this.el.setAttribute('height', this.attrHeight.toString());
-        this.el.removeAttribute('style');
-        this.originInlineStyles && this.el.setAttribute('style', this.originInlineStyles);
-        // Remove class
-        this.el.classList.remove('active');
-        this.doneAnimating = true;
-        // Remove overflow overrides on ancestors
-        this._changedAncestorList.forEach(anchestor => anchestor.style.overflow = '');
-        // onCloseEnd callback
-        if (typeof this.options.onCloseEnd === 'function') {
-          this.options.onCloseEnd.call(this, this.el);
-        }
-      }
-    };
-    anim(animOptions);
+  // Caption
+  private _addCaption(): void {
+    this._photoCaption = document.createElement('div');
+    this._photoCaption.classList.add('materialbox-caption');
+    this._photoCaption.innerText = this.caption;
+    document.body.append(this._photoCaption);
+    this._photoCaption.style.display = 'inline';
+    // Animate
+    this._photoCaption.style.transition = 'none';
+    this._photoCaption.style.opacity = '0'
+    const duration = this.options.inDuration;
+    setTimeout(() => {
+      this._photoCaption.style.transition = `opacity ${duration}ms ease`;
+      this._photoCaption.style.opacity = '1';
+    }, 1);
+  }
+  private _removeCaption(): void {
+    const duration = this.options.outDuration;
+    this._photoCaption.style.transition = `opacity ${duration}ms ease`;
+    this._photoCaption.style.opacity = '0';
+    setTimeout(() => {
+      this._photoCaption.remove();
+    }, duration);
   }
 
-  _updateVars() {
-    this.windowWidth = window.innerWidth;
-    this.windowHeight = window.innerHeight;
-    this.caption = this.el.getAttribute('data-caption') || '';
+  // Overlay
+  private _addOverlay(): void {
+    this._overlay = document.createElement('div');
+    this._overlay.id = 'materialbox-overlay';
+    this._overlay.addEventListener('click', e => {
+      if (this.doneAnimating) this.close();
+    }, {once: true});
+
+    // Put before in origin image to preserve z-index layering.
+    this.el.before(this._overlay);
+
+    // Set dimensions if needed
+    const overlayOffset = this._overlay.getBoundingClientRect();
+    this._overlay.style.width = this.windowWidth + 'px';
+    this._overlay.style.height = this.windowHeight + 'px';
+    this._overlay.style.left = -1 * overlayOffset.left + 'px';
+    this._overlay.style.top = -1 * overlayOffset.top + 'px';
+
+    // Animate
+    this._overlay.style.transition = 'none';
+    this._overlay.style.opacity = '0'
+    const duration = this.options.inDuration;
+    setTimeout(() => {
+      this._overlay.style.transition = `opacity ${duration}ms ease`;
+      this._overlay.style.opacity = '1';
+    }, 1);
+  }
+  private _removeOverlay(): void {
+    const duration = this.options.outDuration;
+    this._overlay.style.transition = `opacity ${duration}ms ease`;
+    this._overlay.style.opacity = '0';
+    setTimeout(() => {
+      this.overlayActive = false;
+      this._overlay.remove();
+    }, duration);
   }
 
   /**
@@ -270,12 +350,10 @@ export class Materialbox extends Component<MaterialboxOptions> {
     this.el.classList.add('active');
     this.overlayActive = true;
     // onOpenStart callback
-    if (typeof this.options.onOpenStart === 'function') {
-      this.options.onOpenStart.call(this, this.el);
-    }
+    if (typeof this.options.onOpenStart === 'function') this.options.onOpenStart.call(this, this.el);
     // Set positioning for placeholder
-    this.placeholder.style.width = this.placeholder.getBoundingClientRect().width+'px';
-    this.placeholder.style.height = this.placeholder.getBoundingClientRect().height+'px';
+    this.placeholder.style.width = this.placeholder.getBoundingClientRect().width + 'px';
+    this.placeholder.style.height = this.placeholder.getBoundingClientRect().height + 'px';
     this.placeholder.style.position = 'relative';
     this.placeholder.style.top = '0';
     this.placeholder.style.left = '0';
@@ -295,46 +373,9 @@ export class Materialbox extends Component<MaterialboxOptions> {
       this.el.style.width = this.attrHeight+'px';
       this.el.removeAttribute('height');
     }
-    // Add overlay
-    this._overlay = document.createElement('div');
-    this._overlay.id = 'materialbox-overlay';
-    this._overlay.style.opacity = '0';
-    this._overlay.addEventListener('click', e => {
-      if (this.doneAnimating) this.close();
-    }, {once: true});
-    // Put before in origin image to preserve z-index layering.
-    this.el.before(this._overlay);
-    // Set dimensions if needed
-    const overlayOffset = this._overlay.getBoundingClientRect();
-    this._overlay.style.width = this.windowWidth+'px';
-    this._overlay.style.height = this.windowHeight+'px';
-    this._overlay.style.left = -1 * overlayOffset.left+'px';
-    this._overlay.style.top = -1 * overlayOffset.top+'px';
-    anim.remove(this.el);
-    anim.remove(this._overlay);
-    // Animate Overlay
-    anim({
-      targets: this._overlay,
-      opacity: 1,
-      duration: this.options.inDuration,
-      easing: 'easeOutQuad'
-    });
+    this._addOverlay();
     // Add and animate caption if it exists
-    if (this.caption !== '') {
-      if (this._photoCaption) anim.remove(this._photoCaption);
-      this._photoCaption = document.createElement('div');
-      this._photoCaption.classList.add('materialbox-caption');
-      this._photoCaption.innerText = this.caption;
-      document.body.append(this._photoCaption);
-      this._photoCaption.style.display = 'inline';
-      anim({
-        targets: this._photoCaption,
-        opacity: 1,
-        duration: this.options.inDuration,
-        easing: 'easeOutQuad'
-      });
-    }
-
+    if (this.caption !== '') this._addCaption();
     // Resize Image
     const widthPercent = this.originalWidth / this.windowWidth;
     const heightPercent = this.originalHeight / this.windowHeight;
@@ -353,7 +394,6 @@ export class Materialbox extends Component<MaterialboxOptions> {
       this.newHeight = this.windowHeight * 0.9;
     }
     this._animateImageIn();
-
     // Handle Exit triggers
     window.addEventListener('scroll', this._handleWindowScroll);
     window.addEventListener('resize', this._handleWindowResize);
@@ -367,38 +407,16 @@ export class Materialbox extends Component<MaterialboxOptions> {
     this._updateVars();
     this.doneAnimating = false;
     // onCloseStart callback
-    if (typeof this.options.onCloseStart === 'function') {
-      this.options.onCloseStart.call(this, this.el);
-    }
-    anim.remove(this.el);
-    anim.remove(this._overlay);
-    if (this.caption !== '') anim.remove(this._photoCaption);
+    if (typeof this.options.onCloseStart === 'function') this.options.onCloseStart.call(this, this.el);
+    //anim.remove(this.el);
+    //anim.remove(this._overlay);
+    //if (this.caption !== '') anim.remove(this._photoCaption);
     // disable exit handlers
     window.removeEventListener('scroll', this._handleWindowScroll);
     window.removeEventListener('resize', this._handleWindowResize);
     window.removeEventListener('keyup', this._handleWindowEscape);
-    anim({
-      targets: this._overlay,
-      opacity: 0,
-      duration: this.options.outDuration,
-      easing: 'easeOutQuad',
-      complete: () => {
-        this.overlayActive = false;
-        this._overlay.remove();
-      }
-    });
+    this._removeOverlay();
     this._animateImageOut();
-    // Remove Caption + reset css settings on image
-    if (this.caption !== '') {
-      anim({
-        targets: this._photoCaption,
-        opacity: 0,
-        duration: this.options.outDuration,
-        easing: 'easeOutQuad',
-        complete: () => {
-          this._photoCaption.remove();
-        }
-      });
-    }
+    if (this.caption !== '') this._removeCaption();
   }
 }
