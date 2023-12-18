@@ -22,7 +22,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #292929;
+  background-color: var(--md-sys-color-background);
   z-index: 1000;
   will-change: opacity;
 }
@@ -30,7 +30,7 @@
 .materialbox-caption {
   position: fixed;
   display: none;
-  color: #fff;
+  color: var(--font-color-main);
   line-height: 50px;
   bottom: 0;
   left: 0;
