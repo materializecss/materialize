@@ -1,13 +1,15 @@
 .material-tooltip {
-  // font-family: var(--md-sys-typescale-body-small-font-family-name);
   padding: 0 8px;  
   border-radius: 4px;
   
   background-color: $tooltip-bg-color;
   color: $tooltip-font-color;
   
+  font-family: var(--md-sys-typescale-body-small-font-family-name);
   font-size: var(--md-sys-typescale-body-small-font-size);
-  line-height: vat(--md-sys-typescale-body-small-line-height);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+  font-weight: var(--md-sys-typescale-body-small-font-weight);
+
   min-height: 24px;
   opacity: 0;
   text-align: center;

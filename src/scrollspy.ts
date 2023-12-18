@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Utils } from "./utils";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
@@ -123,19 +121,10 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     const trigger = e.target;
     for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
       const scrollspy = ScrollSpy._elements[i];
-
       const x = document.querySelector('a[href="#'+scrollspy.el.id+'"]');
       if (trigger === x) {
         e.preventDefault();
-        const offset = ScrollSpy._offset(scrollspy.el).top + 1;
-
-        anim({
-          targets: [document.documentElement, document.body],
-          scrollTop: offset - scrollspy.options.scrollOffset,
-          duration: 400,
-          easing: 'easeOutCubic'
-        });
-
+        scrollspy.el.scrollIntoView({behavior: 'smooth'});
         break;
       }
     }
