@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
 export interface RangeOptions extends BaseOptions {};
@@ -136,18 +134,24 @@ export class Range extends Component<RangeOptions> {
   _handleRangeBlurMouseoutTouchleave = () => {
     if (!this._mousedown) {
       const paddingLeft = parseInt(getComputedStyle(this.el).paddingLeft);
-      const marginLeft = 7 + paddingLeft + 'px';
+      const marginLeftText = 7 + paddingLeft + 'px';
       if (this.thumb.classList.contains('active')) {
-        anim.remove(this.thumb);
-        anim({
-          targets: this.thumb,
-          height: 0,
-          width: 0,
-          top: 10,
-          easing: 'easeOutQuad',
-          marginLeft: marginLeft,
-          duration: 100
-        });
+        const duration = 100;
+        // from
+        this.thumb.style.transition = 'none';
+        setTimeout(() => {
+          this.thumb.style.transition = `
+            height ${duration}ms ease,
+            width ${duration}ms ease,
+            top ${duration}ms ease,
+            margin ${duration}ms ease
+          `;
+          // to          
+          this.thumb.style.height = '0';
+          this.thumb.style.width = '0';
+          this.thumb.style.top = '0';
+          this.thumb.style.marginLeft = marginLeftText;
+        }, 1);
       }
       this.thumb.classList.remove('active');
     }
@@ -168,17 +172,20 @@ export class Range extends Component<RangeOptions> {
 
   _showRangeBubble() {
     const paddingLeft = parseInt(getComputedStyle(this.thumb.parentElement).paddingLeft);
-    const marginLeft = -7 + paddingLeft + 'px'; // TODO: fix magic number?
-    anim.remove(this.thumb);
-    anim({
-      targets: this.thumb,
-      height: 30,
-      width: 30,
-      top: -30,
-      marginLeft: marginLeft,
-      duration: 300,
-      easing: 'easeOutQuint'
-    });
+    const marginLeftText = -7 + paddingLeft + 'px'; // TODO: fix magic number?
+    const duration = 300;
+    // easeOutQuint
+    this.thumb.style.transition = `
+      height ${duration}ms ease,
+      width ${duration}ms ease,
+      top ${duration}ms ease,
+      margin ${duration}ms ease
+    `;
+    // to
+    this.thumb.style.height = '30px';
+    this.thumb.style.width = '30px';
+    this.thumb.style.top = '-30px';
+    this.thumb.style.marginLeft = marginLeftText;
   }
 
   _calcRangeOffset(): number {
