@@ -47,7 +47,7 @@
 }
 
 .collapsible-body {
-  display: none;
+  max-height: 0;
   border-bottom: 1px solid $collapsible-border-color;
   box-sizing: border-box;
   padding: 0 2rem;

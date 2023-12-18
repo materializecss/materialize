@@ -65,13 +65,18 @@ export class Collapsible extends Component<CollapsibleOptions> {
     this._headers = Array.from(this.el.querySelectorAll('li > .collapsible-header'));
     this._headers.forEach(el => el.tabIndex = 0);
     this._setupEventHandlers();
-    // Open first active
+
+    // Open active
     const activeBodies: HTMLElement[] = Array.from(this.el.querySelectorAll('li.active > .collapsible-body'));
     if (this.options.accordion)
-      if (activeBodies.length > 0)
-        activeBodies[0].style.display = 'block'; // Accordion
-    else
-      activeBodies.forEach(el => el.style.display = 'block'); // Expandables
+      if (activeBodies.length > 0) {
+        // Accordion => open first active only
+        this._setExpanded(activeBodies[0]);
+      }
+    else {
+      // Expandables => all active
+      activeBodies.forEach(el => this._setExpanded(el));
+    }
   }
 
   static get defaults(): CollapsibleOptions {
@@ -141,15 +146,17 @@ export class Collapsible extends Component<CollapsibleOptions> {
     }
   }
 
+  private _setExpanded(li: HTMLElement): void {
+    li.style.maxHeight = li.scrollHeight + "px";
+  }
+
   _animateIn(index: number) {
     const li = <HTMLLIElement>this.el.children[index];
     if (!li) return;
     const body: HTMLElement = li.querySelector('.collapsible-body');
-    body.style.display = 'block';
-    body.style.maxHeight = '0';
     const duration = this.options.inDuration; // easeInOutCubic
     body.style.transition = `max-height ${duration}ms ease-out`;
-    body.style.maxHeight = body.scrollHeight + "px";
+    this._setExpanded(body);
     setTimeout(() => {
       if (typeof this.options.onOpenEnd === 'function') {
         this.options.onOpenEnd.call(this, li);

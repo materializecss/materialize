@@ -103,7 +103,6 @@ export class Modal extends Component<ModalOptions> {
     this.isOpen = false;
     this.id = this.el.id;
     this._openingTrigger = undefined;
-    console.log("create new overlay");
     this._overlay = document.createElement('div');
     this._overlay.classList.add('modal-overlay');
     this.el.tabIndex = 0;
