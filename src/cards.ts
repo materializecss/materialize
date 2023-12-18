@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 export class Cards {
 
   static Init() {
@@ -18,16 +16,13 @@ export class Cards {
         // Close Card
         const closeArea = cardReveal.querySelector('.card-reveal .card-title');
         if (trigger === closeArea || closeArea.contains(trigger)) {
-          anim({
-            targets: cardReveal,
-            translateY: 0,
-            duration: 225,
-            easing: 'easeInOutQuad',
-            complete: (anim) => {
-              cardReveal.style.display = 'none';
-              card.style.overflow = initialOverflow;
-            }
-          });
+          const duration = 225;
+          cardReveal.style.transition = `transform ${duration}ms ease`; //easeInOutQuad
+          cardReveal.style.transform = 'translateY(0)';            
+          setTimeout(() => {
+            cardReveal.style.display = 'none';
+            card.style.overflow = initialOverflow;
+          }, duration);
         };
 
         // Reveal Card
@@ -36,15 +31,13 @@ export class Cards {
           if (trigger === activator || activator.contains(trigger)) {
             card.style.overflow = 'hidden';
             cardReveal.style.display = 'block';
-            anim({
-              targets: cardReveal,
-              translateY: '-100%',
-              duration: 300,
-              easing: 'easeInOutQuad'
-            });
+            setTimeout(() => {
+              const duration = 300;
+              cardReveal.style.transition = `transform ${duration}ms ease`; //easeInOutQuad
+              cardReveal.style.transform = 'translateY(-100%)';              
+            }, 1);
           }
         });
-
 
       });
     });
