@@ -145,7 +145,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     this._overlay.parentNode.removeChild(this._overlay);
     this.dragTarget.parentNode.removeChild(this.dragTarget);
     (this.el as any).M_Sidenav = undefined;
-    (this.el as HTMLElement).style.transform = '';
+    this.el.style.transform = '';
     const index = Sidenav._sidenavs.indexOf(this);
     if (index >= 0) {
       Sidenav._sidenavs.splice(index, 1);
@@ -267,7 +267,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     // Calculate open/close percentage of sidenav, with open = 1 and close = 0
     this.percentOpen = Math.min(1, totalDeltaX / this._width);
     // Set transform and opacity styles
-    (this.el as HTMLElement).style.transform = `${transformPrefix} translateX(${transformX}px)`;
+    this.el.style.transform = `${transformPrefix} translateX(${transformX}px)`;
     this._overlay.style.opacity = this.percentOpen.toString();
   }
 
@@ -311,7 +311,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       // Calculate open/close percentage of sidenav, with open = 1 and close = 0
       this.percentOpen = Math.min(1, 1 - totalDeltaX / this._width);
       // Set transform and opacity styles
-      (this.el as HTMLElement).style.transform = `translateX(${transformX}px)`;
+      this.el.style.transform = `translateX(${transformX}px)`;
       this._overlay.style.opacity = this.percentOpen.toString();
     }
   }
@@ -422,7 +422,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     // Handle fixed Sidenav
     if (this._isCurrentlyFixed()) {
       const transformX = this.options.edge === 'left' ? '-105%' : '105%';
-      (this.el as HTMLElement).style.transform = `translateX(${transformX})`;
+      this.el.style.transform = `translateX(${transformX})`;
     }
     // Handle non-fixed Sidenav
     else {
