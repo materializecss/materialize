@@ -84,8 +84,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {
-    "animejs": "^3.2.1"
   }
 }
