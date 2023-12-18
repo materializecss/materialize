@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Utils } from "./utils";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
@@ -137,34 +135,11 @@ export class Slider extends Component<SliderOptions> {
       this._slides[0].style.visibility = 'visible';
       this._activeSlide = this._slides[0];
       this._animateSlide(this._slides[0], true);
-      /*anim({
-        targets: this._slides[0],
-        opacity: 1,
-        duration: this.options.duration,
-        easing: 'easeOutQuad'
-      });
-      */
       // Update indicators
       if (this.options.indicators) {
         this._indicators[this.activeIndex].children[0].classList.add('active');
       }
     }
-
-    // Adjust height to current slide
-    // TODO: ??? Code does not do what it says in comment
-    /*
-    this._activeSlide.querySelectorAll('img').forEach(el => {
-      anim({
-        targets: this._activeSlide.querySelector('.caption'),
-        opacity: 1,
-        translateX: 0,
-        translateY: 0,
-        duration: this.options.duration,
-        easing: 'easeOutQuad'
-      });
-    });
-    */
-
     this._setupEventHandlers();
     // auto scroll
     this.start();
@@ -206,7 +181,7 @@ export class Slider extends Component<SliderOptions> {
     (this.el as any).M_Slider = undefined;
   }
 
-  _setupEventHandlers() {
+  private _setupEventHandlers() {
     if (this.options.pauseOnFocus) {
       this.el.addEventListener('focusin', this._handleAutoPauseFocus);
       this.el.addEventListener('focusout', this._handleAutoStartFocus);
@@ -222,7 +197,7 @@ export class Slider extends Component<SliderOptions> {
     }
   }
 
-  _removeEventHandlers() {
+  private _removeEventHandlers() {
     if (this.options.pauseOnFocus) {
       this.el.removeEventListener('focusin', this._handleAutoPauseFocus);
       this.el.removeEventListener('focusout', this._handleAutoStartFocus);
@@ -238,42 +213,42 @@ export class Slider extends Component<SliderOptions> {
     }
   }
 
-  _handleIndicatorClick = (e: MouseEvent) => {
+  private _handleIndicatorClick = (e: MouseEvent) => {
     const el = (<HTMLElement>e.target).parentElement;
     const currIndex = [...el.parentNode.children].indexOf(el);
     this._focusCurrent = true;
     this.set(currIndex);
   }
 
-  _handleAutoPauseHover = () => {
+  private _handleAutoPauseHover = () => {
     this._hovered = true;
     if (this.interval != null) {
       this._pause(true);
     }
   }
 
-  _handleAutoPauseFocus = () => {
+  private _handleAutoPauseFocus = () => {
     this._focused = true;
     if (this.interval != null) {
       this._pause(true);
     }
   }
 
-  _handleAutoStartHover = () => {
+  private _handleAutoStartHover = () => {
     this._hovered = false;
     if (!(this.options.pauseOnFocus && this._focused) && this.eventPause) {
       this.start();
     }
   }
 
-  _handleAutoStartFocus = () => {
+  private _handleAutoStartFocus = () => {
     this._focused = false;
     if (!(this.options.pauseOnHover && this._hovered) && this.eventPause) {
       this.start();
     }
   }
 
-  _handleInterval = () => {
+  private _handleInterval = () => {
     const activeElem = this._slider.querySelector('.active');
     let newActiveIndex = [...activeElem.parentNode.children].indexOf(activeElem);
     if (this._slides.length === newActiveIndex + 1)
@@ -283,32 +258,33 @@ export class Slider extends Component<SliderOptions> {
     this.set(newActiveIndex);
   }
 
-  _animateSlide(slide: HTMLElement, isDirectionIn: boolean): void {
+  private _animateSlide(slide: HTMLElement, isDirectionIn: boolean): void {
     let dx = 0, dy = 0;
-    anim({
-      targets: slide,
-      opacity: isDirectionIn ? [0, 1] : [1, 0],
-      duration: this.options.duration,
-      easing: 'easeOutQuad'
-    });
-
-    const caption = slide.querySelector('.caption');
+    // from
+    slide.style.opacity = isDirectionIn ? '0' : '1';
+    setTimeout(() => {
+      slide.style.transition = `opacity ${this.options.duration}ms ease`;
+      // to
+      slide.style.opacity = isDirectionIn ? '1' : '0';
+    }, 1);
+    // Caption
+    const caption: HTMLElement = slide.querySelector('.caption');
     if (!caption) return;
     if (caption.classList.contains('center-align')) dy = -100;
     else if (caption.classList.contains('right-align')) dx = 100;
     else if (caption.classList.contains('left-align')) dx = -100;
-    anim({
-      targets: caption,
-      opacity: isDirectionIn ? [0, 1] : [1, 0],
-      translateX: isDirectionIn ? [dx, 0] : [0, dx],
-      translateY: isDirectionIn ? [dy, 0] : [0, dy],
-      duration: this.options.duration,
-      delay: this.options.duration,
-      easing: 'easeOutQuad'
-    });
+    // from
+    caption.style.opacity = isDirectionIn ? '0' : '1';
+    caption.style.transform = isDirectionIn ? `translate(${dx}px, ${dy}px)` : `translate(0, 0)`;
+    setTimeout(() => {
+      caption.style.transition = `opacity ${this.options.duration}ms ease, transform ${this.options.duration}ms ease`;
+      // to
+      caption.style.opacity = isDirectionIn ? '1' : '0';
+      caption.style.transform = isDirectionIn ? `translate(0, 0)` : `translate(${dx}px, ${dy}px)`;
+    }, this.options.duration); // delay
   }
 
-  _setSliderHeight() {
+  private _setSliderHeight() {
     // If fullscreen, do nothing
     if (!this.el.classList.contains('fullscreen')) {
       if (this.options.indicators) {
@@ -316,13 +292,13 @@ export class Slider extends Component<SliderOptions> {
         this.el.style.height = (this.options.height + 40)+'px'; //.css('height', this.options.height + 40 + 'px');
       }
       else {
-        this.el.style.height = this.options.height+'px';
+        this.el.style.height = this.options.height + 'px';
       }
-      this._slider.style.height = this.options.height+'px';
+      this._slider.style.height = this.options.height + 'px';
     }
   }
 
-  _setupIndicators() {
+  private _setupIndicators() {
     if (this.options.indicators) {
       const ul = document.createElement('ul');
       ul.classList.add('indicators');
@@ -344,7 +320,7 @@ export class Slider extends Component<SliderOptions> {
     }
   }
 
-  _removeIndicators() {
+  private _removeIndicators() {
     this.el.querySelector('ul.indicators').remove(); //find('ul.indicators').remove();
   }
 
@@ -364,28 +340,17 @@ export class Slider extends Component<SliderOptions> {
     this._slides.forEach(slide => slide.style.visibility = 'visible');
 
     //--- Hide active Slide + Caption
-    // TODO: What does this do?
-    anim({
-      targets: this._activeSlide,
-      opacity: 0,
-      duration: this.options.duration,
-      easing: 'easeOutQuad',
-      complete: () => {
-        this._slides.forEach(el => {
-          if (el.classList.contains('active')) return;
-          anim({
-            targets: el,
-            opacity: 0,
-            translateX: 0,
-            translateY: 0,
-            duration: 0, // Animation with duration 0... why use anim at all then?
-            easing: 'easeOutQuad'
-          });
-          // Disables invisible slides (for assistive technologies)
-          el.style.visibility = 'hidden';
-        });
-      }
-    });
+    this._activeSlide.style.opacity = '0';
+    setTimeout(() => {
+      this._slides.forEach(slide => {
+        if (slide.classList.contains('active')) return;
+        slide.style.opacity = '0';
+        slide.style.transform = 'translate(0, 0)';
+        // Disables invisible slides (for assistive technologies)
+        slide.style.visibility = 'hidden';
+      });
+
+    }, this.options.duration);
 
     // Hide active Caption
     //this._animateCaptionIn(_caption, this.options.duration);
@@ -405,17 +370,7 @@ export class Slider extends Component<SliderOptions> {
 
     //--- Show new Slide + Caption
     this._animateSlide(this._slides[index], true);
-
     this._slides[index].classList.add('active');
-
-    // TODO: Why focus? => causes uncontrollable page scroll
-    /*
-    if (this._focusCurrent) {
-      this._slides[index].focus();
-      this._focusCurrent = false;
-    }
-    */
-
     this.activeIndex = index;
 
     // Reset interval, if allowed. This check prevents autostart
