@@ -1,8 +1,8 @@
 {
   "name": "@materializecss/materialize",
-  "description": "Builds Materialize distribution packages",
-  "author": "Alvin Wang, Alan Chang",
-  "homepage": "https://materializecss.github.io/materialize/",
+  "description": "The responsive front-end library based on Material Design from Google.",
+  "author": "The Materialize Team",
+  "homepage": "https://materializeweb.com",
   "version": "2.0.3",
   "main": "dist/js/materialize.js",
   "module": "src/index.ts",
@@ -17,6 +17,16 @@
   "bugs": {
     "url": "https://github.com/materializecss/materialize/issues"
   },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/materializecss"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/materialize"
+    }
+  ],
   "scripts": {
     "dev": "grunt monitor",
     "test": "grunt test",
@@ -74,10 +84,7 @@
   },
   "files": [
     "dist",
-    "extras",
-    "src/**/*.ts",
     "sass/**/*.scss",
-    "Gruntfile.js",
     "LICENSE"
   ],
   "config": {
