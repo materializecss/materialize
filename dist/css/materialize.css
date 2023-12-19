@@ -1,5 +1,5 @@
 /*!
- * Materialize v2.0.3-beta (https://materializecss.github.io/materialize)
+ * Materialize v2.0.3 (https://materializecss.github.io/materialize)
  * Copyright 2014-2023 Materialize
  * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
  */
@@ -5564,23 +5564,33 @@ small {
   }
 }
 .material-tooltip {
-  padding: 10px 8px;
-  font-size: 1rem;
-  z-index: 2000;
-  border-radius: 2px;
-  color: var(--tooltip-font-color);
-  min-height: 36px;
-  line-height: 120%;
+  padding: 0 8px;
+  border-radius: 4px;
+  background-color: var(--md-sys-color-inverse-surface);
+  color: var(--md-sys-color-inverse-on-surface);
+  font-family: var(--md-sys-typescale-body-small-font-family-name);
+  font-size: var(--md-sys-typescale-body-small-font-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+  font-weight: var(--md-sys-typescale-body-small-font-weight);
+  min-height: 24px;
   opacity: 0;
-  position: absolute;
   text-align: center;
+  position: absolute;
   max-width: calc(100% - 4px);
   overflow: hidden;
   left: 0;
   top: 0;
   pointer-events: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   visibility: hidden;
-  background-color: var(--tooltip-background-color);
+  z-index: 2000;
 }
 
 .backdrop {
@@ -5589,7 +5599,7 @@ small {
   height: 7px;
   width: 14px;
   border-radius: 0 0 50% 50%;
-  background-color: var(--tooltip-background-color);
+  background-color: var(--md-sys-color-inverse-surface);
   z-index: -1;
   -webkit-transform-origin: 50% 0;
           transform-origin: 50% 0;
@@ -6157,16 +6167,28 @@ body.keyboard-focused .dropdown-content li:focus {
   margin-right: 1rem;
 }
 
+.collapsible-header::after {
+  content: "▾";
+  text-align: right;
+  margin-right: 0.25rem;
+  width: 100%;
+}
+
+.active .collapsible-header::after {
+  content: "▴";
+}
+
 .keyboard-focused .collapsible-header:focus {
   background-color: var(--focus-color);
 }
 
 .collapsible-body {
-  display: none;
+  max-height: 0;
   border-bottom: 1px solid var(--separator-color);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  padding: 2rem;
+  padding: 0 2rem;
+  overflow: hidden;
   background-color: var(--surface-color);
 }
 
@@ -6353,7 +6375,7 @@ body.keyboard-focused .dropdown-content li:focus {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #292929;
+  background-color: var(--md-sys-color-background);
   z-index: 1000;
   will-change: opacity;
 }
@@ -6361,7 +6383,7 @@ body.keyboard-focused .dropdown-content li:focus {
 .materialbox-caption {
   position: fixed;
   display: none;
-  color: #fff;
+  color: var(--font-color-main);
   line-height: 50px;
   bottom: 0;
   left: 0;

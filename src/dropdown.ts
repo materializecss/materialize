@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Utils } from "./utils";
 import { Component, BaseOptions, InitElements, MElement, Openable } from "./component";
 
@@ -504,47 +502,35 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
   }
 
   _animateIn() {
-    anim.remove(this.dropdownEl);
-    anim({
-      targets: this.dropdownEl,
-      opacity: {
-        value: [0, 1],
-        easing: 'easeOutQuad'
-      },
-      scaleX: [0.3, 1],
-      scaleY: [0.3, 1],
-      duration: this.options.inDuration,
-      easing: 'easeOutQuint',
-      complete: (anim) => {
-        if (this.options.autoFocus) this.dropdownEl.focus();
-        // onOpenEnd callback
-        if (typeof this.options.onOpenEnd === 'function') {
-          this.options.onOpenEnd.call(this, this.el);
-        }
-      }
-    });
+    const duration = this.options.inDuration;
+    this.dropdownEl.style.transition = 'none';
+    // from
+    this.dropdownEl.style.opacity = '0';
+    this.dropdownEl.style.transform = 'scale(0.3, 0.3)';
+    setTimeout(() => {
+      // easeOutQuad (opacity) & easeOutQuint    
+      this.dropdownEl.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
+      // to
+      this.dropdownEl.style.opacity = '1';
+      this.dropdownEl.style.transform = 'scale(1, 1)';
+    }, 1);      
+    setTimeout(() => {
+      if (this.options.autoFocus) this.dropdownEl.focus();
+      if (typeof this.options.onOpenEnd === 'function') this.options.onOpenEnd.call(this, this.el);      
+    }, duration);
   }
 
   _animateOut() {
-    anim.remove(this.dropdownEl);
-    anim({
-      targets: this.dropdownEl,
-      opacity: {
-        value: 0,
-        easing: 'easeOutQuint'
-      },
-      scaleX: 0.3,
-      scaleY: 0.3,
-      duration: this.options.outDuration,
-      easing: 'easeOutQuint',
-      complete: (anim) => {
-        this._resetDropdownStyles();
-        // onCloseEnd callback
-        if (typeof this.options.onCloseEnd === 'function') {
-          this.options.onCloseEnd.call(this, this.el);
-        }
-      }
-    });
+    const duration = this.options.outDuration;
+    // easeOutQuad (opacity) & easeOutQuint    
+    this.dropdownEl.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
+    // to
+    this.dropdownEl.style.opacity = '0';
+    this.dropdownEl.style.transform = 'scale(0.3, 0.3)';    
+    setTimeout(() => {
+      this._resetDropdownStyles();
+      if (typeof this.options.onCloseEnd === 'function') this.options.onCloseEnd.call(this, this.el);      
+    }, duration);
   }
 
   private _getClosestAncestor(el: HTMLElement, condition: Function): HTMLElement {

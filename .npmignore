@@ -45,3 +45,8 @@ yarn.lock
 # Compiled docs
 /docs/*.html
 !/docs/fab-toolbar-demo.html
+
+# Source Files
+src/
+
+Gruntfile.js

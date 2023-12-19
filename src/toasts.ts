@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { BaseOptions } from "./component";
 
 export interface ToastOptions extends BaseOptions {
@@ -8,6 +6,11 @@ export interface ToastOptions extends BaseOptions {
    * @default ""
    */
   text: string;
+  /**
+   * Element Id for the tooltip.
+   * @default ""
+   */
+  toastId?: string;
   /**
    * Length in ms the Toast stays before dismissal.
    * @default 4000
@@ -53,7 +56,7 @@ let _defaults: ToastOptions = {
 
 export class Toast {
   /** The toast element. */
-  el: HTMLDivElement;
+  el: HTMLElement;
   /**
    * The remaining amount of time in ms that the toast
    * will stay before dismissal.
@@ -199,34 +202,35 @@ export class Toast {
   }
 
   _createToast() {
-    const toast = document.createElement('div');
+    const toast = this.options.toastId 
+      ? document.getElementById(this.options.toastId)
+      : document.createElement('div');
     toast.classList.add('toast');
     toast.setAttribute('role', 'alert');
     toast.setAttribute('aria-live', 'assertive');
     toast.setAttribute('aria-atomic', 'true');
-
     // Add custom classes onto toast
     if (this.options.classes.length > 0) {
       toast.classList.add(...this.options.classes.split(' '));
     }
-
-    // Set text content
-    else toast.innerText = this.message;
-
-    // Append toast
+    if (this.message) toast.innerText = this.message;
     Toast._container.appendChild(toast);
     return toast;
   }
 
   _animateIn() {
     // Animate toast in
-    anim({
-      targets: this.el,
-      top: 0,
-      opacity: 1,
-      duration: this.options.inDuration,
-      easing: 'easeOutCubic'
-    });
+    this.el.style.display = "";
+    this.el.style.opacity = '0';
+    // easeOutCubic
+    this.el.style.transition = `
+      top ${this.options.inDuration}ms ease,
+      opacity ${this.options.inDuration}ms ease
+    `;
+    setTimeout(() => {
+      this.el.style.top = '0';
+      this.el.style.opacity = '1';      
+    }, 1); 
   }
 
   /**
@@ -261,25 +265,30 @@ export class Toast {
       this.el.style.opacity = '0';
     }
 
-    anim({
-      targets: this.el,
-      opacity: 0,
-      marginTop: -40,
-      duration: this.options.outDuration,
-      easing: 'easeOutExpo',
-      complete: () => {
-        // Call the optional callback
-        if (typeof this.options.completeCallback === 'function') {
-          this.options.completeCallback();
-        }
-        // Remove toast from DOM
+    // easeOutExpo
+    this.el.style.transition = `
+      margin ${this.options.outDuration}ms ease,
+      opacity ${this.options.outDuration}ms ease`;
+
+    setTimeout(() => {
+      this.el.style.opacity = '0';
+      this.el.style.marginTop = '-40px';      
+    }, 1);
+
+    setTimeout(() => {
+      // Call the optional callback
+      if (typeof this.options.completeCallback === 'function') {
+        this.options.completeCallback();
+      }
+      // Remove toast from DOM
+      if (!this.options.toastId) {
         this.el.remove();
         Toast._toasts.splice(Toast._toasts.indexOf(this), 1);
         if (Toast._toasts.length === 0) {
           Toast._removeContainer();
         }
       }
-    });
+    }, this.options.outDuration);
   }
 
   static {
