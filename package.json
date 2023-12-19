@@ -3,7 +3,7 @@
   "description": "Builds Materialize distribution packages",
   "author": "Alvin Wang, Alan Chang",
   "homepage": "https://materializecss.github.io/materialize/",
-  "version": "2.0.3-beta",
+  "version": "2.0.3",
   "main": "dist/js/materialize.js",
   "module": "src/index.ts",
   "style": "dist/css/materialize.css",
