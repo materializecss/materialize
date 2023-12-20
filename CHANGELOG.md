@@ -1,1 +1,0 @@
-https://github.com/materializecss/materialize/releases/tag/1.2.2
