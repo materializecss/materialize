@@ -253,9 +253,9 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
       target.closest('.dropdown-trigger') ||
       !target.closest('.dropdown-content')
     ) {
-      //setTimeout(() => {
+      setTimeout(() => {
       this.close();
-      //}, 0);
+       }, 0);
     }
     this.isTouchMoving = false;
   }
