@@ -202,9 +202,13 @@ export class Toast {
   }
 
   _createToast() {
-    const toast = this.options.toastId 
+    let toast: HTMLElement = this.options.toastId 
       ? document.getElementById(this.options.toastId)
       : document.createElement('div');
+    if (toast instanceof  HTMLTemplateElement) {
+      const node = (toast as HTMLTemplateElement).content.cloneNode(true);
+      toast = ((node as HTMLElement).firstElementChild as HTMLElement);             
+    }     
     toast.classList.add('toast');
     toast.setAttribute('role', 'alert');
     toast.setAttribute('aria-live', 'assertive');
@@ -281,7 +285,7 @@ export class Toast {
         this.options.completeCallback();
       }
       // Remove toast from DOM
-      if (!this.options.toastId) {
+      if (this.el.id != this.options.toastId) {
         this.el.remove();
         Toast._toasts.splice(Toast._toasts.indexOf(this), 1);
         if (Toast._toasts.length === 0) {
