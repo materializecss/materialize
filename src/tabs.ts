@@ -207,7 +207,8 @@ export class Tabs extends Component<TabsOptions> {
       this._index = Math.max(Array.from(this._tabLinks).indexOf(this._activeTabLink), 0);
       if (this._activeTabLink && this._activeTabLink.hash) {
         this._content = document.querySelector(this._activeTabLink.hash);
-        this._content.classList.add('active');
+        if (this._content) 
+          this._content.classList.add('active');
       }
     }
 
