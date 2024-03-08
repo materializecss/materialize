@@ -5,7 +5,6 @@
   "homepage": "https://materializeweb.com",
   "version": "2.0.3",
   "main": "dist/js/materialize.js",
-  "module": "src/index.ts",
   "style": "dist/css/materialize.css",
   "sass": "sass/materialize.scss",
   "typings": "dist/src/index.d.ts",
