@@ -200,12 +200,14 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     document.body.addEventListener('click', this._handleDocumentClick);
     document.body.addEventListener('touchmove', this._handleDocumentTouchmove);
     this.dropdownEl.addEventListener('keydown', this._handleDropdownKeydown);
+    window.addEventListener('resize', this._handleWindowResize);
   }
 
   _removeTemporaryEventHandlers() {
     document.body.removeEventListener('click', this._handleDocumentClick);
     document.body.removeEventListener('touchmove', this._handleDocumentTouchmove);
     this.dropdownEl.removeEventListener('keydown', this._handleDropdownKeydown);
+    window.removeEventListener('resize', this._handleWindowResize);
   }
 
   _handleClick = (e: MouseEvent) => {
@@ -355,6 +357,15 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     }
     this.filterTimeout = setTimeout(this._resetFilterQuery, 1000);
   }
+
+  _handleWindowResize = (e: Event) => {
+    // Only re-place the dropdown if it's still visible
+    // Accounts for elements hiding via media queries
+    if (this.el.offsetParent) {
+      this.recalculateDimensions();
+    }
+  }
+
 
   _resetFilterQuery = () => {
     this.filterQuery = [];
