@@ -1,40 +1,40 @@
-describe('Forms:', function() {
-  beforeEach(async function() {
+describe('Forms:', function () {
+  beforeEach(async function () {
     await XloadFixtures(['forms/formsFixture.html']);
-    M.CharacterCounter.init(document.querySelector("#character-counter"));
+    M.CharacterCounter.init(document.querySelector('#character-counter'));
   });
 
-  afterEach(function(){
+  afterEach(function () {
     XunloadFixtures();
   });
 
-  let inputs
+  let inputs;
 
-  beforeEach(function() {
+  beforeEach(function () {
     inputs = document.querySelectorAll('input');
     inputs.forEach((input) => {
       input.focus();
       input.blur();
     });
-    window.location.hash = "";
+    window.location.hash = '';
   });
 
-  describe("CharacterCounter", () => {
-    it("Should initialize", () => {
-      let el = document.querySelector("#character-counter");
+  describe('CharacterCounter', () => {
+    it('Should initialize', () => {
+      let el = document.querySelector('#character-counter');
       expect(() => M.CharacterCounter.getInstance(el)).not.toThrow();
       expect(M.CharacterCounter.getInstance(el)).toBeTruthy();
     });
 
-    it("Should exhibit counter", () => {
-      let counter = document.querySelector("#character-counter ~ .character-counter");
-      expect(counter.textContent).toBe("0/10");
-    });    
+    it('Should exhibit counter', () => {
+      let counter = document.querySelector('#character-counter ~ .character-counter');
+      expect(counter.textContent).toBe('0/10');
+    });
   });
 
   describe('TextArea Resize', () => {
-    it("Should resize", () => {
-      const el = document.querySelector("#textarea");
+    it('Should resize', () => {
+      const el = document.querySelector('#textarea');
       const pHeight = el.clientHeight;
       el.value = `
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend urna orci, vitae sagittis ligula maximus quis. Duis eleifend ipsum vitae facilisis tincidunt. Aliquam condimentum consequat ex, ut commodo purus tristique at. Donec malesuada fringilla libero vel sodales. Nulla finibus volutpat lectus a varius. Praesent consequat ornare pulvinar. Quisque nec massa diam.
@@ -60,5 +60,4 @@ describe('Forms:', function() {
     })
   });
   */
-
 });

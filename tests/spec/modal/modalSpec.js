@@ -1,7 +1,7 @@
-describe( 'Modal:', function() {
+describe('Modal:', function () {
   var trigger1, modal1;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     await XloadFixtures(['modal/modalFixture.html']);
     trigger1 = document.querySelector('.btn[href="#modal1"]');
     triggerIcon1 = document.querySelector('.btn[data-target="modal1"] i');
@@ -11,18 +11,18 @@ describe( 'Modal:', function() {
     modal2 = document.querySelector('#modal2');
     modal3 = document.querySelector('#modal3');
   });
-  afterEach(function(){
+  afterEach(function () {
     XunloadFixtures();
   });
 
-  describe('Modals', function() {
-    it('Should open and close correctly', function(done) {
+  describe('Modals', function () {
+    it('Should open and close correctly', function (done) {
       M.Modal.init(modal1);
       expect(modal1).toBeHidden('Modal should be hidden');
 
       click(trigger1);
 
-      setTimeout(function() {
+      setTimeout(function () {
         expect(modal1).toBeVisible('Modal should be shown');
         expect(modal1).toHaveClass('open', 'Modal should have class open');
 
@@ -32,7 +32,7 @@ describe( 'Modal:', function() {
         expect(overlayInDOM).toEqual(true, 'Overlay should be attached on open');
 
         click(overlay);
-        setTimeout(function() {
+        setTimeout(function () {
           expect(modal1).toNotHaveClass('open', 'Modal should have class open removed');
 
           let overlayInDOM = document.contains(overlay);
@@ -43,15 +43,15 @@ describe( 'Modal:', function() {
       }, 500);
     });
 
-    it('Should open and close correctly with children elements in trigger', function(done) {
-     M.Modal.init(modal1);
+    it('Should open and close correctly with children elements in trigger', function (done) {
+      M.Modal.init(modal1);
       expect(modal1).toBeHidden('Modal should be hidden');
 
       click(triggerIcon1);
 
-      setTimeout(function() {
+      setTimeout(function () {
         expect(modal1).toBeVisible('Modal should be shown');
-        expect(modal1).toHaveClass('open',  'Modal should have class open');
+        expect(modal1).toHaveClass('open', 'Modal should have class open');
 
         // Check overlay is attached
         let overlay = M.Modal.getInstance(modal1)._overlay;
@@ -59,7 +59,7 @@ describe( 'Modal:', function() {
         expect(overlayInDOM).toEqual(true, 'Overlay should be attached on open');
 
         click(overlay);
-        setTimeout(function() {
+        setTimeout(function () {
           expect(modal1).toNotHaveClass('open', 'Modal should have class open removed');
 
           let overlayInDOM = document.contains(overlay);
@@ -70,20 +70,20 @@ describe( 'Modal:', function() {
       }, 500);
     });
 
-    it('Should have a dismissible option', function(done) {
+    it('Should have a dismissible option', function (done) {
       M.Modal.init(modal1, {
         dismissible: false
       });
 
       click(trigger1);
-      setTimeout(function() {
+      setTimeout(function () {
         expect(modal1).toBeVisible('Modal should be shown');
         let overlay = M.Modal.getInstance(modal1)._overlay;
         let overlayInDOM = document.contains(overlay);
         expect(overlayInDOM).toEqual(true, 'Overlay should be attached on open');
 
         click(overlay);
-        setTimeout(function() {
+        setTimeout(function () {
           expect(modal1).toBeVisible('Modal should be shown');
           let overlayInDOM = document.contains(overlay);
           expect(overlayInDOM).toEqual(true, 'modal should not be dismissable');
@@ -93,14 +93,14 @@ describe( 'Modal:', function() {
       }, 500);
     });
 
-    it('Should have callbacks', function(done) {
+    it('Should have callbacks', function (done) {
       let readyTest = false;
       let completeTest = false;
       M.Modal.init(modal1, {
-        onOpenStart: function() {
+        onOpenStart: function () {
           readyTest = true;
         },
-        onCloseStart: function() {
+        onCloseStart: function () {
           completeTest = true;
         }
       });
@@ -109,13 +109,13 @@ describe( 'Modal:', function() {
       expect(completeTest).toEqual(false, 'callback not yet fired');
 
       click(trigger1);
-      setTimeout(function() {
+      setTimeout(function () {
         expect(readyTest).toEqual(true, 'callback fired');
         expect(completeTest).toEqual(false, 'callback not yet fired');
 
         let overlay = M.Modal.getInstance(modal1)._overlay;
         click(overlay);
-        setTimeout(function() {
+        setTimeout(function () {
           expect(readyTest).toEqual(true, 'callback fired');
           expect(completeTest).toEqual(true, 'callback fired');
 
@@ -124,5 +124,4 @@ describe( 'Modal:', function() {
       }, 500);
     });
   });
-
 });

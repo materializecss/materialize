@@ -2,19 +2,17 @@ const path = require('path');
 const sass = require('sass');
 const webpackConfig = require('./webpack.config.js');
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   // configure the tasks
   const config = {
     jasmine: {
       components: {
         src: ['bin/materialize.js'],
         options: {
-          vendor: ['node_modules/jquery/dist/jquery.min.js'],
           styles: 'bin/materialize.css',
           specs: 'tests/spec/**/*Spec.js',
           helpers: 'tests/spec/helper.js',
           keepRunner: true,
-          version: '3.8.0',
           page: {
             viewportSize: {
               width: 1400,
@@ -22,7 +20,7 @@ module.exports = function(grunt) {
             }
           },
           sandboxArgs: {
-            args: ['--headless', '--no-sandbox']
+            args: ['--no-sandbox']
           }
         }
       }
@@ -80,17 +78,7 @@ module.exports = function(grunt) {
 
     postcss: {
       options: {
-        processors: [
-          require('autoprefixer')({
-            browsers: [
-              'last 2 versions',
-              'Chrome >= 30',
-              'Firefox >= 30',
-              'ie >= 10',
-              'Safari >= 8'
-            ]
-          })
-        ]
+        processors: [require('autoprefixer')()]
       },
       expanded: {
         src: 'dist/css/materialize.css'
@@ -282,7 +270,7 @@ module.exports = function(grunt) {
           banner:
             '/*!\n * Materialize v' +
             grunt.option('newver') +
-            ' (https://materializecss.github.io/materialize)\n * Copyright 2014-' +
+            ' (https://materializeweb.com)\n * Copyright 2014-' +
             new Date().getFullYear() +
             ' Materialize\n * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)\n */',
           linebreak: true
@@ -315,8 +303,8 @@ module.exports = function(grunt) {
         options: {
           port: 9001,
           protocol: 'http',
-          middleware: function(connect, options, middlewares) {
-            middlewares.unshift(function(req, res, next) {
+          middleware: function (connect, options, middlewares) {
+            middlewares.unshift(function (req, res, next) {
               res.setHeader('Access-Control-Allow-Origin', '*');
               res.setHeader('Access-Control-Allow-Credentials', true);
               res.setHeader(
@@ -350,6 +338,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
 
   // define tasks
+  grunt.registerTask('monitor', ['concurrent:monitor']); // DEV
+  grunt.registerTask('sass_compile', ['sass:gh', 'sass:bin', 'postcss:bin']);
+  grunt.registerTask('jas_test', ['connect', 'jasmine']);
+  grunt.registerTask('test', ['webpack:dev', 'sass_compile', 'jas_test']);
   grunt.registerTask('release', [
     'replace:version', // before webpack
     'sass:expanded',
@@ -368,18 +360,4 @@ module.exports = function(grunt) {
     'rename:rename_src',
     'rename:rename_compiled'
   ]);
-
-  grunt.registerTask('sass_compile', ['sass:gh', 'sass:bin', 'postcss:bin']);
-  grunt.registerTask('monitor', ['concurrent:monitor']); // DEV
-  grunt.registerTask('test', ['webpack:dev', 'sass_compile', 'connect', 'jasmine']);
-  grunt.registerTask('jas_test', ['connect', 'jasmine']);
-
-  grunt.registerTask('test_repeat', function() {
-    const tasks = ['connect'];
-    const n = 30;
-    for (let i = 0; i < n; i++) {
-      tasks.push('jasmine');
-    }
-    grunt.task.run(tasks);
-  });
 };

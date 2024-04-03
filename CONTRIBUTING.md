@@ -36,7 +36,7 @@ patches and features.
 Before you now get lost in the repository, here are a few starting points for you to check out. You might find that others have had similar questions or that your question rather belongs in one place than another.
 
 * Chat: https://gitter.im/materializecss/materialize
-* Website: https://materializecss.github.io/materialize
+* Website: https://materializeweb.com
 * Github discussions: https://github.com/materializecss/materialize/discussions
 
 ## Using the issue tracker
@@ -169,7 +169,7 @@ If you want to help us translate the documentation into other languages, you can
 
 After `npm install`, you can run `npm test` and it will run the tests. If you get any errors and have not made any changes, it means you have not installed the proper dependencies.
 
-Materialize uses Jasmine as the testing framework. We also include a jQuery library which allows you to write tests using jQuery syntax.
+Materialize uses Jasmine as the testing framework.
 
 ### Starting Out
 
@@ -199,7 +199,7 @@ expect(toast.length).toBe(0, 'because toast should be removed by now');
 ```
 When this expect statement fails it will list the reason as “because toast should be removed by now”.
 
-Because our components are very front end heavy, familiarize yourself with jQuery ways of interacting with the dom and our components. You can use methods like [trigger](http://api.jquery.com/trigger/), to simulate certain events like the user clicking a button.
+Because our components are very front end heavy, familiarize yourself with jQuery ways of interacting with the dom and our components. Maybe use ```dispatch();``` to simulate certain events like the user clicking a button.
 
 We also understand that testing CSS properties is pretty tough so you’ll have to be creative when writing good tests that ensure the styling is still working. Try and cover as many cases as you can but don’t worry if there are some edge cases. You can add comments describing some problematic edge cases in TODOs so we know about them.
 

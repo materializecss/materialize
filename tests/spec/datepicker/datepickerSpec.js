@@ -1,20 +1,20 @@
-describe('Datepicker Plugin', function() {
-  beforeEach(async function() {
+describe('Datepicker Plugin', function () {
+  beforeEach(async function () {
     await XloadFixtures(['datepicker/datepickerFixture.html']);
     M.Datepicker.init(document.querySelectorAll('.datepicker'));
   });
-  afterEach(function() {
+  afterEach(function () {
     XunloadFixtures();
   });
 
-  describe('Datepicker', function() {
+  describe('Datepicker', function () {
     var normalDropdown;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // browserSelect = $('select.normal');
     });
 
-    it('should open and close programmatically', function(done) {
+    it('should open and close programmatically', function (done) {
       const input = document.querySelector('#datepickerInput');
       const modal = document.querySelector('.datepicker-modal');
 
@@ -22,14 +22,14 @@ describe('Datepicker Plugin', function() {
 
       M.Datepicker.getInstance(input).open();
 
-      setTimeout(function() {
+      setTimeout(function () {
         expect(modal).toHaveClass(
           'open',
           'Datepicker modal should be shown after datepicker input is focused.'
         );
         M.Datepicker.getInstance(input).close();
 
-        setTimeout(function() {
+        setTimeout(function () {
           expect(modal).toNotHaveClass(
             'open',
             'Datepicker modal should be hidden after datepicker input is focused.'
@@ -39,7 +39,7 @@ describe('Datepicker Plugin', function() {
       }, 400);
     });
 
-    it('can have a string format', function(done) {
+    it('can have a string format', function (done) {
       const input = document.querySelector('#datepickerInput');
 
       const today = new Date();
@@ -47,11 +47,11 @@ describe('Datepicker Plugin', function() {
       M.Datepicker.init(input, { format: 'mm/dd/yyyy' }).open();
       M.Datepicker.getInstance(input).open();
 
-      setTimeout(function() {
+      setTimeout(function () {
         const day1 = document.querySelector('.datepicker-modal button[data-day="1"]');
         day1.click();
 
-        setTimeout(function() {
+        setTimeout(function () {
           const year = today.getFullYear();
           let month = today.getMonth() + 1;
           month = month < 10 ? `0${month}` : month;
@@ -63,7 +63,7 @@ describe('Datepicker Plugin', function() {
       }, 400);
     });
 
-    it('can have a format function', function(done) {
+    it('can have a format function', function (done) {
       const input = document.querySelector('#datepickerInput');
 
       const today = new Date();
@@ -72,11 +72,11 @@ describe('Datepicker Plugin', function() {
       M.Datepicker.init(input, { format: formatFn }).open();
       M.Datepicker.getInstance(input).open();
 
-      setTimeout(function() {
+      setTimeout(function () {
         const day1 = document.querySelector('.datepicker-modal button[data-day="1"]');
         day1.click();
 
-        setTimeout(function() {
+        setTimeout(function () {
           const year = today.getFullYear() - 100;
           const month = today.getMonth() + 1;
 
