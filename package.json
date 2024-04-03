@@ -30,12 +30,7 @@
     "dev": "grunt monitor",
     "test": "grunt test",
     "release": "grunt release",
-    "watch": "webpack --watch",
-    "precommit": "lint-staged",
-    "commit": "npx cz",
-    "postinstall": "husky install",
-    "prepack": "pinst --disable",
-    "postpack": "pinst --enable"
+    "watch": "webpack --watch"
   },
   "lint-staged": {
     "js/*.js": [
