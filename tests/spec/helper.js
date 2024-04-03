@@ -178,11 +178,11 @@ function XunloadFixtures() {
   }
 }
 
-beforeEach(function() {
+beforeEach(function () {
   let matchers = {
-    toExist: function(util, customEqualityTesters) {
+    toExist: function (util, customEqualityTesters) {
       return {
-        compare: function(actual) {
+        compare: function (actual) {
           let result = {};
           result.pass = util.equals(!!actual, true, customEqualityTesters);
           return result;
@@ -190,9 +190,9 @@ beforeEach(function() {
       };
     },
 
-    hasMaxHeightZero: function(util, customEqualityTesters) {
+    hasMaxHeightZero: function (util, customEqualityTesters) {
       return {
-        compare: function(actual) {
+        compare: function (actual) {
           const style = getComputedStyle(actual);
           const result = {};
           result.pass = util.equals(
@@ -205,9 +205,9 @@ beforeEach(function() {
       };
     },
 
-    notHasMaxHeightZero: function(util, customEqualityTesters) {
+    notHasMaxHeightZero: function (util, customEqualityTesters) {
       return {
-        compare: function(actual) {
+        compare: function (actual) {
           const style = getComputedStyle(actual);
           const result = {};
           result.pass = !util.equals(
@@ -220,9 +220,9 @@ beforeEach(function() {
       };
     },
 
-    toBeHidden: function(util, customEqualityTesters) {
+    toBeHidden: function (util, customEqualityTesters) {
       return {
-        compare: function(actual) {
+        compare: function (actual) {
           const style = getComputedStyle(actual);
           let result = {};
           result.pass = util.equals(
@@ -235,9 +235,9 @@ beforeEach(function() {
       };
     },
 
-    toBeVisible: function(util, customEqualityTesters) {
+    toBeVisible: function (util, customEqualityTesters) {
       return {
-        compare: function(actual) {
+        compare: function (actual) {
           const style = getComputedStyle(actual);
           let result = {};
           result.pass = !util.equals(
@@ -258,9 +258,9 @@ beforeEach(function() {
         }
       };
     },
-    toHaveClass: function(util, customEqualityTesters) {
+    toHaveClass: function (util, customEqualityTesters) {
       return {
-        compare: function(actual, expected) {
+        compare: function (actual, expected) {
           let result = {};
           result.pass = util.equals(
             actual.classList.contains(expected),
@@ -272,9 +272,9 @@ beforeEach(function() {
         }
       };
     },
-    toNotHaveClass: function(util, customEqualityTesters) {
+    toNotHaveClass: function (util, customEqualityTesters) {
       return {
-        compare: function(actual, expected) {
+        compare: function (actual, expected) {
           let result = {};
           result.pass = util.equals(
             actual.classList.contains(expected),
@@ -293,7 +293,7 @@ beforeEach(function() {
   /**
    * Creates standard click event on DOM element
    */
-  window.click = function(elem) {
+  window.click = function (elem) {
     let evt = document.createEvent('MouseEvent');
     evt.initMouseEvent('click', {
       bubbles: true,
@@ -304,7 +304,7 @@ beforeEach(function() {
     elem.dispatchEvent(evt);
   };
 
-  window.mouseenter = function(el) {
+  window.mouseenter = function (el) {
     let ev = document.createEvent('MouseEvent');
     ev.initMouseEvent(
       'mouseenter',
@@ -326,7 +326,7 @@ beforeEach(function() {
     el.dispatchEvent(ev);
   };
 
-  window.mouseleave = function(el) {
+  window.mouseleave = function (el) {
     let ev = document.createEvent('MouseEvent');
     ev.initMouseEvent(
       'mouseleave',
@@ -348,7 +348,7 @@ beforeEach(function() {
     el.dispatchEvent(ev);
   };
 
-  window.keydown = function(targetElement, keycode) {
+  window.keydown = function (targetElement, keycode) {
     targetElement.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: KEYMAP[keycode],
@@ -358,7 +358,7 @@ beforeEach(function() {
     );
   };
 
-  window.keyup = function(targetElement, keycode) {
+  window.keyup = function (targetElement, keycode) {
     targetElement.dispatchEvent(
       new KeyboardEvent('keyup', {
         key: KEYMAP[keycode],
@@ -368,13 +368,13 @@ beforeEach(function() {
     );
   };
 
-  window.focus = function(el) {
+  window.focus = function (el) {
     let ev = document.createEvent('Events');
     ev.initEvent('focus', true, true);
     el.dispatchEvent(ev);
   };
 
-  window.blur = function(el) {
+  window.blur = function (el) {
     let ev = document.createEvent('Events');
     ev.initEvent('blur', true, true);
     el.dispatchEvent(ev);
