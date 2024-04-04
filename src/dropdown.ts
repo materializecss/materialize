@@ -197,22 +197,26 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
   }
 
   _setupTemporaryEventHandlers() {
-    // Use capture phase event handler to prevent click
-    document.body.addEventListener('click', this._handleDocumentClick, true);
+    document.body.addEventListener('click', this._handleDocumentClick);
     document.body.addEventListener('touchmove', this._handleDocumentTouchmove);
     this.dropdownEl.addEventListener('keydown', this._handleDropdownKeydown);
+    window.addEventListener('resize', this._handleWindowResize);
   }
 
   _removeTemporaryEventHandlers() {
-    // Use capture phase event handler to prevent click
-    document.body.removeEventListener('click', this._handleDocumentClick, true);
+    document.body.removeEventListener('click', this._handleDocumentClick);
     document.body.removeEventListener('touchmove', this._handleDocumentTouchmove);
     this.dropdownEl.removeEventListener('keydown', this._handleDropdownKeydown);
+    window.removeEventListener('resize', this._handleWindowResize);
   }
 
   _handleClick = (e: MouseEvent) => {
     e.preventDefault();
-    this.open();
+    if (this.isOpen) {
+        this.close();
+    } else {
+        this.open();
+    }
   }
 
   _handleMouseEnter = () => {
@@ -245,17 +249,18 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
       !this.isTouchMoving
     ) {
       // isTouchMoving to check if scrolling on mobile.
-      //setTimeout(() => {
       this.close();
-      //}, 0);
     }
     else if (
-      target.closest('.dropdown-trigger') ||
       !target.closest('.dropdown-content')
     ) {
-      //setTimeout(() => {
-      this.close();
-      //}, 0);
+      // Do this one frame later so that if the element clicked also triggers _handleClick
+      // For example, if a label for a select was clicked, that we don't close/open the dropdown
+      setTimeout(() => {
+        if (this.isOpen) {
+          this.close();
+        }
+      }, 0);
     }
     this.isTouchMoving = false;
   }
@@ -352,6 +357,15 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     }
     this.filterTimeout = setTimeout(this._resetFilterQuery, 1000);
   }
+
+  _handleWindowResize = (e: Event) => {
+    // Only re-place the dropdown if it's still visible
+    // Accounts for elements hiding via media queries
+    if (this.el.offsetParent) {
+      this.recalculateDimensions();
+    }
+  }
+
 
   _resetFilterQuery = () => {
     this.filterQuery = [];
@@ -592,7 +606,9 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     this.dropdownEl.style.display = 'block';
     this._placeDropdown();
     this._animateIn();
-    this._setupTemporaryEventHandlers();
+    // Do this one frame later so that we don't bind an event handler that's immediately
+    // called when the event bubbles up to the document and closes the dropdown
+    setTimeout(() => this._setupTemporaryEventHandlers(), 0);
   }
 
   /**

@@ -1,7 +1,7 @@
-describe('Collapsible Plugin', function() {
+describe('Collapsible Plugin', function () {
   let collapsible, accordion, popout, expandable, expandablePreselect;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     await XloadFixtures(['collapsible/collapsible.html']);
     collapsible = document.querySelectorAll('.collapsible');
     expandable = document.querySelector('.expandable');
@@ -12,12 +12,12 @@ describe('Collapsible Plugin', function() {
     M.Collapsible.init(expandable, { accordion: false });
     M.Collapsible.init(expandablePreselect, { accordion: false });
   });
-  afterEach(function() {
+  afterEach(function () {
     XunloadFixtures();
   });
 
-  describe('collapsible', function() {
-    it('should open all items, keeping all open', function(done) {
+  describe('collapsible', function () {
+    it('should open all items, keeping all open', function (done) {
       // Collapsible body height should be 0 on start when hidden.
       let headers = expandable.querySelectorAll('.collapsible-header');
       let bodies = expandable.querySelectorAll('.collapsible-body');
@@ -34,7 +34,7 @@ describe('Collapsible Plugin', function() {
         click(headers[i]);
       }
 
-      setTimeout(function() {
+      setTimeout(function () {
         for (let i = 0; i < bodies.length; i++) {
           expect(bodies[i]).notHasMaxHeightZero(
             'because collapsible bodies not visible after being opened.'
@@ -44,7 +44,7 @@ describe('Collapsible Plugin', function() {
       }, 400);
     });
 
-    it('should allow preopened sections', function() {
+    it('should allow preopened sections', function () {
       let bodies = expandablePreselect.querySelectorAll('.collapsible-body');
 
       for (let i = 0; i < bodies.length; i++) {
@@ -66,15 +66,15 @@ describe('Collapsible Plugin', function() {
       }
     });
 
-    it('should open and close programmatically with callbacks', function(done) {
+    it('should open and close programmatically with callbacks', function (done) {
       let openCallback = false;
       let closeCallback = false;
       M.Collapsible.init(expandable, {
         accordion: false,
-        onOpenStart: function() {
+        onOpenStart: function () {
           openCallback = true;
         },
-        onCloseStart: function() {
+        onCloseStart: function () {
           closeCallback = true;
         }
       });
@@ -94,7 +94,7 @@ describe('Collapsible Plugin', function() {
 
       expect(openCallback).toEqual(true, 'because open callback fired');
 
-      setTimeout(function() {
+      setTimeout(function () {
         for (let i = 0; i < bodies.length; i++) {
           expect(bodies[i]).notHasMaxHeightZero(
             'because collapsible bodies should be visible after being opened.'
@@ -103,7 +103,7 @@ describe('Collapsible Plugin', function() {
         }
         expect(closeCallback).toEqual(true, 'because close callback fired');
 
-        setTimeout(function() {
+        setTimeout(function () {
           for (let i = 0; i < bodies.length; i++) {
             expect(bodies[i]).hasMaxHeightZero(
               'because collapsible bodies should be hidden after close.'
@@ -116,8 +116,8 @@ describe('Collapsible Plugin', function() {
     });
   });
 
-  describe('accordion', function() {
-    it('should open first and second items, keeping only second open', function(done) {
+  describe('accordion', function () {
+    it('should open first and second items, keeping only second open', function (done) {
       // Collapsible body height should be 0 on start when hidden.
       let firstHeader = accordion.querySelector('.collapsible-header');
       let firstBody = accordion.querySelector('.collapsible-body');
@@ -130,13 +130,13 @@ describe('Collapsible Plugin', function() {
       // Collapsible body height should be > 0 after being opened.
       firstHeader.click();
 
-      setTimeout(function() {
+      setTimeout(function () {
         expect(firstBody).notHasMaxHeightZero(
           'because accordion bodies not visible after being opened.'
         );
         click(secondHeader);
 
-        setTimeout(function() {
+        setTimeout(function () {
           expect(firstBody).hasMaxHeightZero(
             'because accordion bodies should be hidden when another item is opened.'
           );
@@ -149,8 +149,8 @@ describe('Collapsible Plugin', function() {
     });
   });
 
-  describe('popout', function() {
-    it('should open first and popout', function(done) {
+  describe('popout', function () {
+    it('should open first and popout', function (done) {
       // Collapsible body height should be 0 on start when hidden.
       let listItems = popout.querySelectorAll('li');
       let firstHeader = popout.querySelector('.collapsible-header');
@@ -175,7 +175,7 @@ describe('Collapsible Plugin', function() {
 
       // expect margin to be 0 because popped out.
       click(firstHeader);
-      setTimeout(function() {
+      setTimeout(function () {
         let firstStyles = getComputedStyle(listItems[0]);
         let firstMarginLeft = parseInt(firstStyles.getPropertyValue('margin-left'));
         let firstMarginRight = parseInt(firstStyles.getPropertyValue('margin-right'));

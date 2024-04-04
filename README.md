@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://materializecss.github.io/materialize/">
+  <a href="https://materializeweb.com" target="_blank">
     <img src="https://materializeweb.com/images/materialize.svg" width="200">
   </a>
 </p>
@@ -9,7 +9,7 @@
 <p align="center">
   Materialize, a CSS Framework based on Material Design.
   <br>
-  <a href="https://materializecss.github.io/materialize/"><strong>-- Browse the docs --</strong></a>
+  <a target="_blank" href="https://materializeweb.com"><strong>[ Browse the docs ]</strong></a>
   <br>
   <br>
   <a href="https://github.com/materializecss/materialize/actions/">
@@ -30,33 +30,31 @@
 </p>
 
 ## Quickstart
-Read the [getting started guide](https://materializecss.github.io/materialize/getting-started.html) for more information on how to use materialize.
+Read the [getting started guide](https://materializeweb.com/getting-started.html) for more information on how to use materialize.
 
 - [Download the latest release](https://github.com/materializecss/materialize/releases/latest) of materialize directly from GitHub. ([Beta](https://github.com/materializecss/materialize/releases/))
 - Clone the repo: `git clone https://github.com/materializecss/materialize.git`
 - Include the files via [jsDelivr](https://www.jsdelivr.com/package/npm/@materializecss/materialize).
 - Install with [npm](https://www.npmjs.com): `npm install @materializecss/materialize` (Beta: `npm install @materializecss/materialize@next`)
 
-## Documentation
-The documentation can be found at <https://materializecss.github.io/materialize>. To run the documentation locally on your machine, you need [Node.js](https://nodejs.org/en/) installed on your computer.
+## Development
+The documentation can be found at <https://materializeweb.com>. To run the documentation locally on your machine, you need [Node.js](https://nodejs.org) installed on your computer.
 
-### Running documentation locally
-Run these commands to set up the documentation:
-
-```bash
-git clone https://github.com/materializecss/materialize
-cd materialize
+This is the core project with all the components. To see how they are used we recommend using an example project or go to the documentation.
+Otherwise, if you want to develop the components itself, the dev process of this core-repo works like this:
+```sh
 npm install
+npm run dev
 ```
 
-Then run `npm run dev` to compile the documentation. When it finishes, open a new browser window and navigate to `localhost:8000/docs`. We use [BrowserSync](https://www.browsersync.io/) to display the documentation.
+### Running documentation locally
+See [Materialize Docs Repo](https://github.com/materializecss/materialize-docs) to see Materialize in Action.
 
 ### Documentation for previous releases
-Previous releases and their documentation are available for [download](https://github.com/materializecss/materialize/releases).
+Previous releases are available [here](https://github.com/materializecss/materialize/releases).
 
-## Build
-If you want to build `materialize.css` or `materialize.js` from the latest commit, you can build the files with the following command after `npm install`. See `package.json` to check the current version like `1.0.0`.
-
+## Release
+If you want to release `materialize.css` or `materialize.js` from the latest commit, you can build the files with the following command after `npm install`. See `package.json` to check the current version like `1.0.0`.
 ```sh
 npm run release -- --oldver=<current_version> --newver=<new_version>
 ```
@@ -100,4 +98,4 @@ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com
 [![Backers](https://opencollective.com/materialize/backers.svg?width=890)](https://opencollective.com/materialize#backers)
 
 ## Copyright and license
-Code Copyright 2023 Materialize. Code released under the MIT license.
+Code Copyright 2024 Materialize. Code released under the MIT license.

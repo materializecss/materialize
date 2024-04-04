@@ -68,12 +68,12 @@ export class Collapsible extends Component<CollapsibleOptions> {
 
     // Open active
     const activeBodies: HTMLElement[] = Array.from(this.el.querySelectorAll('li.active > .collapsible-body'));
-    if (this.options.accordion)
+    if (this.options.accordion) {
       if (activeBodies.length > 0) {
         // Accordion => open first active only
         this._setExpanded(activeBodies[0]);
       }
-    else {
+    } else {
       // Expandables => all active
       activeBodies.forEach(el => this._setExpanded(el));
     }

@@ -154,12 +154,12 @@
 
     <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('select');
+        const elems = document.querySelectorAll('select');
 
         elems[0].addEventListener('change', e => console.log("First Select changed!"));
         elems[1].addEventListener('change', e => console.log("Second Select changed!"));
 
-        var instances = M.FormSelect.init(elems, {
+        const instances = M.FormSelect.init(elems, {
           // specify options here
         });
         // Methods

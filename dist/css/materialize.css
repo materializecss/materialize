@@ -1,6 +1,6 @@
 /*!
- * Materialize v2.0.3 (https://materializecss.github.io/materialize)
- * Copyright 2014-2023 Materialize
+ * Materialize v2.0.4 (https://materializeweb.com)
+ * Copyright 2014-2024 Materialize
  * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
  */
 @charset "UTF-8";
@@ -3457,7 +3457,7 @@ video.responsive-video {
     width: 100%;
   }
   .pagination li.prev,
-.pagination li.next {
+  .pagination li.next {
     width: 10%;
   }
   .pagination li.pages {
@@ -3716,7 +3716,7 @@ td, th {
     content: " ";
   }
   table.responsive-table th,
-table.responsive-table td {
+  table.responsive-table td {
     margin: 0;
     vertical-align: top;
   }
@@ -6418,6 +6418,9 @@ label {
 ::-moz-placeholder {
   color: var(--font-color-medium);
 }
+:-ms-input-placeholder {
+  color: var(--font-color-medium);
+}
 ::-ms-input-placeholder {
   color: var(--font-color-medium);
 }
@@ -6486,6 +6489,14 @@ textarea.materialize-textarea {
 .input-field input:focus:not([readonly]) + label, .input-field textarea:focus:not([readonly]) + label {
   color: var(--primary-color);
 }
+.input-field input:not(:-moz-placeholder-shown) + label, .input-field textarea:not(:-moz-placeholder-shown) + label {
+  transform: scale(0.75);
+  top: 8px;
+}
+.input-field input:not(:-ms-input-placeholder) + label, .input-field textarea:not(:-ms-input-placeholder) + label {
+  transform: scale(0.75);
+  top: 8px;
+}
 .input-field input:focus:not([readonly]) + label, .input-field input:not([placeholder=" "]) + label, .input-field input:not(:placeholder-shown) + label, .input-field textarea:focus:not([readonly]) + label, .input-field textarea:not([placeholder=" "]) + label, .input-field textarea:not(:placeholder-shown) + label {
   -webkit-transform: scale(0.75);
           transform: scale(0.75);
@@ -6501,6 +6512,10 @@ textarea.materialize-textarea {
 .input-field input::-moz-placeholder {
   -moz-user-select: none;
        user-select: none;
+}
+.input-field input:-ms-input-placeholder {
+  -ms-user-select: none;
+      user-select: none;
 }
 .input-field input::-ms-input-placeholder {
   -ms-user-select: none;
@@ -6590,6 +6605,20 @@ textarea.materialize-textarea {
 }
 .input-field.outlined input:focus:not([readonly]) + label, .input-field.outlined textarea:focus:not([readonly]) + label {
   color: var(--primary-color);
+}
+.input-field.outlined input:not(:-moz-placeholder-shown) + label, .input-field.outlined textarea:not(:-moz-placeholder-shown) + label {
+  top: -8px;
+  left: 16px;
+  margin-left: -4px;
+  padding: 0 4px;
+  background-color: var(--background-color);
+}
+.input-field.outlined input:not(:-ms-input-placeholder) + label, .input-field.outlined textarea:not(:-ms-input-placeholder) + label {
+  top: -8px;
+  left: 16px;
+  margin-left: -4px;
+  padding: 0 4px;
+  background-color: var(--background-color);
 }
 .input-field.outlined input:focus:not([readonly]) + label, .input-field.outlined input:not([placeholder=" "]) + label, .input-field.outlined input:not(:placeholder-shown) + label, .input-field.outlined textarea:focus:not([readonly]) + label, .input-field.outlined textarea:not([placeholder=" "]) + label, .input-field.outlined textarea:not(:placeholder-shown) + label {
   top: -8px;
@@ -7451,10 +7480,8 @@ input[type=range]::-moz-range-thumb {
   width: 14px;
   border-radius: 50%;
   background: var(--primary-color);
-  -webkit-transition: -webkit-box-shadow 0.3s;
-  transition: -webkit-box-shadow 0.3s;
+  -moz-transition: box-shadow 0.3s;
   transition: box-shadow 0.3s;
-  transition: box-shadow 0.3s, -webkit-box-shadow 0.3s;
   margin-top: -5px;
 }
 
@@ -7492,10 +7519,8 @@ input[type=range]::-ms-thumb {
   width: 14px;
   border-radius: 50%;
   background: var(--primary-color);
-  -webkit-transition: -webkit-box-shadow 0.3s;
-  transition: -webkit-box-shadow 0.3s;
+  -ms-transition: box-shadow 0.3s;
   transition: box-shadow 0.3s;
-  transition: box-shadow 0.3s, -webkit-box-shadow 0.3s;
 }
 
 .keyboard-focused input[type=range]:focus:not(.active)::-ms-thumb {
@@ -8893,8 +8918,8 @@ input[type=range]::-ms-thumb {
             flex: 0 1 270px;
   }
   .datepicker-controls,
-.datepicker-table,
-.datepicker-footer {
+  .datepicker-table,
+  .datepicker-footer {
     width: 320px;
   }
   .datepicker-day-button {
