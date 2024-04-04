@@ -3,7 +3,7 @@
   "description": "The responsive front-end library based on Material Design from Google.",
   "author": "The Materialize Team",
   "homepage": "https://materializeweb.com",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "main": "dist/js/materialize.js",
   "style": "dist/css/materialize.css",
   "sass": "sass/materialize.scss",

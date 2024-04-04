@@ -1,6 +1,6 @@
 /*!
- * Materialize v2.0.3 (https://materializecss.github.io/materialize)
- * Copyright 2014-2023 Materialize
+ * Materialize v2.0.4 (https://materializeweb.com)
+ * Copyright 2014-2024 Materialize
  * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -12,8 +12,8 @@
 		var a = factory();
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, () => {
-return /******/ (() => { // webpackBootstrap
+})(this, function() {
+return /******/ (function() { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
@@ -21,7 +21,7 @@ return /******/ (() => { // webpackBootstrap
 /*!*****************************!*\
   !*** ./src/autocomplete.ts ***!
   \*****************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -31,15 +31,15 @@ const dropdown_1 = __webpack_require__(/*! ./dropdown */ "./src/dropdown.ts");
 const component_1 = __webpack_require__(/*! ./component */ "./src/component.ts");
 ;
 let _defaults = {
-    data: [],
-    onAutocomplete: null,
+    data: [], // Autocomplete data set
+    onAutocomplete: null, // Callback for when autocompleted
     dropdownOptions: {
         // Default dropdown options
         autoFocus: false,
         closeOnClick: false,
         coverTrigger: false
     },
-    minLength: 1,
+    minLength: 1, // Min characters before autocomplete starts
     isMultiSelect: false,
     onSearch: (text, autocomplete) => {
         const normSearch = text.toLocaleLowerCase();
@@ -438,7 +438,7 @@ exports.Autocomplete = Autocomplete;
 /*!************************!*\
   !*** ./src/buttons.ts ***!
   \************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -635,7 +635,7 @@ exports.FloatingActionButton = FloatingActionButton;
 /*!**********************!*\
   !*** ./src/cards.ts ***!
   \**********************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -690,7 +690,7 @@ exports.Cards = Cards;
 /*!*************************!*\
   !*** ./src/carousel.ts ***!
   \*************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -698,14 +698,14 @@ exports.Carousel = void 0;
 const utils_1 = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 const component_1 = __webpack_require__(/*! ./component */ "./src/component.ts");
 let _defaults = {
-    duration: 200,
-    dist: -100,
-    shift: 0,
-    padding: 0,
-    numVisible: 5,
-    fullWidth: false,
-    indicators: false,
-    noWrap: false,
+    duration: 200, // ms
+    dist: -100, // zoom scale TODO: make this more intuitive as an option
+    shift: 0, // spacing for center image
+    padding: 0, // Padding between non center items
+    numVisible: 5, // Number of visible items in carousel
+    fullWidth: false, // Change to full width styles
+    indicators: false, // Toggle indicators
+    noWrap: false, // Don't wrap around and cycle through items.
     onCycleTo: null // Callback for when a new slide is cycled to.
 };
 class Carousel extends component_1.Component {
@@ -1246,7 +1246,7 @@ exports.Carousel = Carousel;
 /*!*********************************!*\
   !*** ./src/characterCounter.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -1333,7 +1333,7 @@ exports.CharacterCounter = CharacterCounter;
 /*!**********************!*\
   !*** ./src/chips.ts ***!
   \**********************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -1659,7 +1659,7 @@ exports.Chips = Chips;
 /*!****************************!*\
   !*** ./src/collapsible.ts ***!
   \****************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -1747,15 +1747,16 @@ class Collapsible extends component_1.Component {
         this._setupEventHandlers();
         // Open active
         const activeBodies = Array.from(this.el.querySelectorAll('li.active > .collapsible-body'));
-        if (this.options.accordion)
+        if (this.options.accordion) {
             if (activeBodies.length > 0) {
                 // Accordion => open first active only
                 this._setExpanded(activeBodies[0]);
             }
-            else {
-                // Expandables => all active
-                activeBodies.forEach(el => this._setExpanded(el));
-            }
+        }
+        else {
+            // Expandables => all active
+            activeBodies.forEach(el => this._setExpanded(el));
+        }
     }
     static get defaults() {
         return _defaults;
@@ -1824,7 +1825,7 @@ exports.Collapsible = Collapsible;
 /*!**************************!*\
   !*** ./src/component.ts ***!
   \**************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -1894,7 +1895,7 @@ exports.Component = Component;
 /*!***************************!*\
   !*** ./src/datepicker.ts ***!
   \***************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -2648,7 +2649,7 @@ exports.Datepicker = Datepicker;
 /*!*************************!*\
   !*** ./src/dropdown.ts ***!
   \*************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -2677,7 +2678,12 @@ class Dropdown extends component_1.Component {
         super(el, options, Dropdown);
         this._handleClick = (e) => {
             e.preventDefault();
-            this.open();
+            if (this.isOpen) {
+                this.close();
+            }
+            else {
+                this.open();
+            }
         };
         this._handleMouseEnter = () => {
             this.open();
@@ -2703,15 +2709,16 @@ class Dropdown extends component_1.Component {
                 target.closest('.dropdown-content') &&
                 !this.isTouchMoving) {
                 // isTouchMoving to check if scrolling on mobile.
-                //setTimeout(() => {
                 this.close();
-                //}, 0);
             }
-            else if (target.closest('.dropdown-trigger') ||
-                !target.closest('.dropdown-content')) {
-                //setTimeout(() => {
-                this.close();
-                //}, 0);
+            else if (!target.closest('.dropdown-content')) {
+                // Do this one frame later so that if the element clicked also triggers _handleClick
+                // For example, if a label for a select was clicked, that we don't close/open the dropdown
+                setTimeout(() => {
+                    if (this.isOpen) {
+                        this.close();
+                    }
+                }, 0);
             }
             this.isTouchMoving = false;
         };
@@ -2800,6 +2807,13 @@ class Dropdown extends component_1.Component {
             }
             this.filterTimeout = setTimeout(this._resetFilterQuery, 1000);
         };
+        this._handleWindowResize = (e) => {
+            // Only re-place the dropdown if it's still visible
+            // Accounts for elements hiding via media queries
+            if (this.el.offsetParent) {
+                this.recalculateDimensions();
+            }
+        };
         this._resetFilterQuery = () => {
             this.filterQuery = [];
         };
@@ -2819,7 +2833,9 @@ class Dropdown extends component_1.Component {
             this.dropdownEl.style.display = 'block';
             this._placeDropdown();
             this._animateIn();
-            this._setupTemporaryEventHandlers();
+            // Do this one frame later so that we don't bind an event handler that's immediately
+            // called when the event bubbles up to the document and closes the dropdown
+            setTimeout(() => this._setupTemporaryEventHandlers(), 0);
         };
         /**
          * Close dropdown.
@@ -2917,16 +2933,16 @@ class Dropdown extends component_1.Component {
         }
     }
     _setupTemporaryEventHandlers() {
-        // Use capture phase event handler to prevent click
-        document.body.addEventListener('click', this._handleDocumentClick, true);
+        document.body.addEventListener('click', this._handleDocumentClick);
         document.body.addEventListener('touchmove', this._handleDocumentTouchmove);
         this.dropdownEl.addEventListener('keydown', this._handleDropdownKeydown);
+        window.addEventListener('resize', this._handleWindowResize);
     }
     _removeTemporaryEventHandlers() {
-        // Use capture phase event handler to prevent click
-        document.body.removeEventListener('click', this._handleDocumentClick, true);
+        document.body.removeEventListener('click', this._handleDocumentClick);
         document.body.removeEventListener('touchmove', this._handleDocumentTouchmove);
         this.dropdownEl.removeEventListener('keydown', this._handleDropdownKeydown);
+        window.removeEventListener('resize', this._handleWindowResize);
     }
     _resetDropdownStyles() {
         this.dropdownEl.style.display = '';
@@ -3136,7 +3152,7 @@ Dropdown._dropdowns = [];
 /*!**********************!*\
   !*** ./src/forms.ts ***!
   \**********************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -3273,7 +3289,7 @@ exports.Forms = Forms;
 /*!****************************!*\
   !*** ./src/materialbox.ts ***!
   \****************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -3624,7 +3640,7 @@ exports.Materialbox = Materialbox;
 /*!**********************!*\
   !*** ./src/modal.ts ***!
   \**********************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -3866,7 +3882,7 @@ exports.Modal = Modal;
 /*!*************************!*\
   !*** ./src/parallax.ts ***!
   \*************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -3984,7 +4000,7 @@ Parallax._parallaxes = [];
 /*!************************!*\
   !*** ./src/pushpin.ts ***!
   \************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -4097,7 +4113,7 @@ exports.Pushpin = Pushpin;
 /*!**********************!*\
   !*** ./src/range.ts ***!
   \**********************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -4274,7 +4290,7 @@ exports.Range = Range;
 /*!**************************!*\
   !*** ./src/scrollspy.ts ***!
   \**************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -4284,7 +4300,7 @@ const component_1 = __webpack_require__(/*! ./component */ "./src/component.ts")
 ;
 let _defaults = {
     throttle: 100,
-    scrollOffset: 200,
+    scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
     activeClass: 'active',
     getActiveElement: (id) => { return 'a[href="#' + id + '"]'; }
 };
@@ -4458,7 +4474,7 @@ exports.ScrollSpy = ScrollSpy;
 /*!***********************!*\
   !*** ./src/select.ts ***!
   \***********************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -4874,7 +4890,7 @@ exports.FormSelect = FormSelect;
 /*!************************!*\
   !*** ./src/sidenav.ts ***!
   \************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -5297,7 +5313,7 @@ exports.Sidenav = Sidenav;
 /*!***********************!*\
   !*** ./src/slider.ts ***!
   \***********************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -5636,7 +5652,7 @@ exports.Slider = Slider;
 /*!*********************!*\
   !*** ./src/tabs.ts ***!
   \*********************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -5788,7 +5804,8 @@ class Tabs extends component_1.Component {
         this._index = Math.max(Array.from(this._tabLinks).indexOf(this._activeTabLink), 0);
         if (this._activeTabLink && this._activeTabLink.hash) {
             this._content = document.querySelector(this._activeTabLink.hash);
-            this._content.classList.add('active');
+            if (this._content)
+                this._content.classList.add('active');
         }
     }
     _setupSwipeableTabs() {
@@ -5912,7 +5929,7 @@ exports.Tabs = Tabs;
 /*!**************************!*\
   !*** ./src/tapTarget.ts ***!
   \**************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -6135,7 +6152,7 @@ exports.TapTarget = TapTarget;
 /*!***************************!*\
   !*** ./src/timepicker.ts ***!
   \***************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -6150,8 +6167,8 @@ let _defaults = {
     tickRadius: 20,
     duration: 350,
     container: null,
-    defaultTime: 'now',
-    fromNow: 0,
+    defaultTime: 'now', // default time, 'now' or '13:14' e.g.
+    fromNow: 0, // Millisecond offset from the defaultTime
     showClearBtn: false,
     // internationalization
     i18n: {
@@ -6159,9 +6176,9 @@ let _defaults = {
         clear: 'Clear',
         done: 'Ok'
     },
-    autoClose: false,
-    twelveHour: true,
-    vibrate: true,
+    autoClose: false, // auto close when minute is selected
+    twelveHour: true, // change to 12 hour AM/PM clock from 24 hour
+    vibrate: true, // vibrate the device when dragging clock hand
     // Callbacks
     onOpenStart: null,
     onOpenEnd: null,
@@ -6746,7 +6763,7 @@ exports.Timepicker = Timepicker;
 /*!***********************!*\
   !*** ./src/toasts.ts ***!
   \***********************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -6964,7 +6981,7 @@ exports.Toast = Toast;
 /*!************************!*\
   !*** ./src/tooltip.ts ***!
   \************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -7226,7 +7243,7 @@ exports.Tooltip = Tooltip;
 /*!**********************!*\
   !*** ./src/utils.ts ***!
   \**********************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -7469,7 +7486,7 @@ Utils.keys = {
 /*!**********************!*\
   !*** ./src/waves.ts ***!
   \**********************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
@@ -7560,7 +7577,7 @@ exports.Waves = Waves;
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
+!function() {
 var exports = __webpack_exports__;
 /*!***********************!*\
   !*** ./src/global.ts ***!
@@ -7641,7 +7658,7 @@ class M {
     }
 }
 exports.M = M;
-M.version = '2.0.3';
+M.version = '2.0.4';
 M.Autocomplete = autocomplete_1.Autocomplete;
 M.Tabs = tabs_1.Tabs;
 M.Carousel = carousel_1.Carousel;
@@ -7680,8 +7697,7 @@ M.Utils = utils_1.Utils;
     range_1.Range.Init();
 })();
 
-})();
-
+}();
 /******/ 	return __webpack_exports__;
 /******/ })()
 ;
