@@ -8,7 +8,7 @@ describe('Dropdown Plugin', function () {
   });
 
   describe('Dropdown', function () {
-    var normalDropdown;
+    let normalDropdown;
 
     beforeEach(function () {
       // browserSelect = $('select.normal');

@@ -1,7 +1,7 @@
 describe('Toasts:', function () {
-  var toastOutDuration = 375;
-  var toastInDuration = 300;
-  var toast;
+  const toastOutDuration = 375;
+  const toastInDuration = 300;
+  let toast;
 
   describe('Toast javascript functions', function () {
     // Toast out animation duration does not count as part of its timer.
