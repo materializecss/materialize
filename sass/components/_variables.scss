@@ -37,7 +37,7 @@ $surface-color: var(--surface-color) !default;
 $surface-hover-color-opaque: var(--hover-color) !default;
 $surface-focus-color-opaque: var(--focus-color) !default;
 
-$divider-color: var(--separator-color);
+$divider-color: var(--md-sys-color-outline-variant);
 
 // 2. Badges
 
@@ -183,7 +183,7 @@ $track-height: 3px !default;
 $range-track-color: var(--slider-track-color) !default;
 
 // Select
-$select-border: 1px solid var(--separator-color) !default;
+$select-border: 1px solid var(--md-sys-color-outline-variant) !default;
 $select-background: $surface-color !default;
 $select-focus: 1px solid $primary-color-when-focused-solid !default;
 $select-option-hover: $surface-hover-color-opaque !default;
