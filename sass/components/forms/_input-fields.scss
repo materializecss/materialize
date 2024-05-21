@@ -208,22 +208,22 @@ textarea.materialize-textarea {
   // Error
   &.error {
     input, textarea {
-      border-color: var(--error-color);
+      border-color: var(--md-sys-color-error);
     }
     input:focus:not([readonly]), textarea:focus:not([readonly]) {
-      border-color: var(--error-color);
+      border-color: var(--md-sys-color-error);
     }
     input:focus:not([readonly]) + label, textarea:focus:not([readonly]) + label {
-      color: var(--error-color);
+      color: var(--md-sys-color-error);
     }
     label {
-      color: var(--error-color);
+      color: var(--md-sys-color-error);
     }
     .supporting-text {
-      color: var(--error-color);
+      color: var(--md-sys-color-error);
     }
     .suffix {
-      color: var(--error-color);
+      color: var(--md-sys-color-error);
     }
   }
 }
