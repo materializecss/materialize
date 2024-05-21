@@ -1,78 +1,64 @@
 :root, :host {
+    color-scheme: light dark;
+
     --surface-color: var(--md-sys-color-surface);
     --background-color: var(--md-sys-color-background);
-
     --font-color-main: var(--md-sys-color-on-background);
     --font-color-medium: var(--md-sys-color-on-surface-variant);
     --font-color-disabled: var(--md-sys-color-on-surface);
-
     --font-on-primary-color-main: var(--md-sys-color-on-primary);
     --font-on-primary-color-dark-main: var(--md-sys-color-on-primary-dark);
     --font-on-primary-color-dark-medium: var(--md-sys-color-on-surface-variant-dark);
     --font-on-primary-color-medium:  var(--md-sys-color-on-surface-variant);
     --font-on-primary-color-disabled: rgba(255, 255, 255, 0.38);
     --font-on-secondary-color-main: var(--md-sys-color-on-secondary);
-
     --hover-color: rgba(0, 0, 0, 0.04);
     --focus-color: rgba(0, 0, 0, 0.12);
     --focus-color-solid: #E0E0E0;
-
     --background-color-disabled: rgba(0, 0, 0, 0.12);
     --background-color-level-4dp: rgba(0, 0, 0, 0.09);
     --background-color-level-16dp-solid: var(--surface-color);
     --background-color-slight-emphasis: rgba(0, 0, 0, 0.08);
     --background-color-card: var(--surface-color);
-
     --tooltip-background-color: #313033;
     --tooltip-font-color: rgba(255, 255, 255, 0.77);
-
     --separator-color: #DDDDDD; /* borders between components */
 
-    --error-color: #F44336;
+    --error-color: var(--md-sys-color-error);
 
     --slider-track-color: var(--md-sys-color-shadow-light);
     --switch-thumb-off-color: var(--md-ref-palette-primary100);
-
-    --carousel-indicator-color: rgba(255, 255, 255, 0.45);
+    --carousel-indicator-color: rgba(255, 255, 255, 0.45); // <--- TODO
     --carousel-indicator-active-color: var(--md-ref-palette-primary100);
-
     --primary-color: var(--md-sys-color-primary);
-    --primary-color-dark: var(--md-sys-color-primary-dark);    
+    --primary-color-dark: var(--md-sys-color-primary-dark);
     --primary-color-raised-hover-solid: var(--md-ref-palette-primary70);
     --primary-color-raised-focus-solid: var(--md-ref-palette-primary80);
     --primary-color-font-medium-color: rgba(var(--primary-color-numeric), 0.7);
     --primary-color-font-disabled-color: rgba(var(--primary-color-numeric), 0.4);
     --primary-color-hover-opaque: rgba(var(--primary-color-numeric), 0.06);
     --primary-color-focus-opaque: rgba(var(--primary-color-numeric), 0.18);
-
     --secondary-color: var(--md-sys-color-secondary);
     --secondary-color-hover-solid: var(--md-ref-palette-secondary70);
     --secondary-color-focus-solid:  var(--md-ref-palette-secondary80);
     --secondary-container-color: var(--md-sys-color-secondary-container);
     --font-on-secondary-container-color: var(--md-sys-color-on-secondary-container);
-
     --md_sys_color_on-surface: 28, 27, 31;
 }
 
-//important: when all variables are assigned this could be removed as will be no difference
+//important: when all variables are assigned this could be removed as well be no difference
+/*
 :root[theme='dark'] {
     --font-on-primary-color-disabled: rgba(0, 0, 0, 0.38);
-
     --hover-color: rgba(255, 255, 255, 0.04);
     --focus-color: rgba(255, 255, 255, 0.12);
     --focus-color-solid: #424242;
-
     --background-color-disabled: rgba(255, 255, 255, 0.12);
     --background-color-level-4dp: rgba(255, 255, 255, 0.09);
     --background-color-slight-emphasis: rgba(255, 255, 255, 0.05);
-
-    --separator-color: #424242; /* borders between components */
-
+    --separator-color: #424242;
     --error-color: #CF6679;
-
     --switch-thumb-off-color: #bababa;
-
     --md_sys_color_on-surface: 230, 225, 229;
 }
-
-
+*/
