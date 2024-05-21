@@ -3,7 +3,6 @@ const sass = require('sass');
 const webpackConfig = require('./webpack.config.js');
 
 module.exports = function (grunt) {
-  // configure the tasks
   const config = {
     jasmine: {
       components: {
@@ -50,17 +49,6 @@ module.exports = function (grunt) {
         },
         files: {
           'dist/css/materialize.min.css': 'sass/materialize.scss'
-        }
-      },
-
-      // Compile ghpages css
-      gh: {
-        options: {
-          outputStyle: 'compressed',
-          sourcemap: false
-        },
-        files: {
-          'docs/css/ghpages-materialize.css': 'sass/ghpages-materialize.scss'
         }
       },
 
@@ -157,62 +145,6 @@ module.exports = function (grunt) {
           { expand: true, cwd: 'src/', src: ['**/*'], dest: 'materialize-src/ts/' },
           { expand: true, cwd: 'dist/js/', src: ['**/*'], dest: 'materialize-src/js/bin/' },
           { expand: true, cwd: './', src: ['LICENSE', 'README.md'], dest: 'materialize-src/' }
-        ]
-      },
-
-      starter_template: {
-        options: {
-          archive: 'templates/starter-template.zip',
-          level: 6
-        },
-        files: [
-          { expand: true, cwd: 'dist/', src: ['**/*'], dest: 'starter-template/' },
-          {
-            expand: true,
-            cwd: 'templates/starter-template/',
-            src: ['index.html', 'LICENSE'],
-            dest: 'starter-template/'
-          },
-          {
-            expand: true,
-            cwd: 'templates/starter-template/css',
-            src: ['style.css'],
-            dest: 'starter-template/css'
-          },
-          {
-            expand: true,
-            cwd: 'templates/starter-template/js',
-            src: ['init.js'],
-            dest: 'starter-template/js'
-          }
-        ]
-      },
-
-      parallax_template: {
-        options: {
-          archive: 'templates/parallax-template.zip',
-          level: 6
-        },
-        files: [
-          { expand: true, cwd: 'dist/', src: ['**/*'], dest: 'parallax-template/' },
-          {
-            expand: true,
-            cwd: 'templates/parallax-template/',
-            src: ['index.html', 'LICENSE', 'background1.jpg', 'background2.jpg', 'background3.jpg'],
-            dest: 'parallax-template/'
-          },
-          {
-            expand: true,
-            cwd: 'templates/parallax-template/css',
-            src: ['style.css'],
-            dest: 'parallax-template/css'
-          },
-          {
-            expand: true,
-            cwd: 'templates/parallax-template/js',
-            src: ['init.js'],
-            dest: 'parallax-template/js'
-          }
         ]
       }
     },
@@ -338,7 +270,7 @@ module.exports = function (grunt) {
 
   // define tasks
   grunt.registerTask('monitor', ['concurrent:monitor']); // DEV
-  grunt.registerTask('sass_compile', ['sass:gh', 'sass:bin', 'postcss:bin']);
+  grunt.registerTask('sass_compile', ['sass:bin', 'postcss:bin']);
   grunt.registerTask('jas_test', ['connect', 'jasmine']);
   grunt.registerTask('test', ['webpack:dev', 'sass_compile', 'jas_test']);
   grunt.registerTask('release', [
@@ -352,8 +284,6 @@ module.exports = function (grunt) {
     'usebanner:release',
     'compress:main',
     'compress:src',
-    'compress:starter_template',
-    'compress:parallax_template',
     'replace:version', // again because of cdn
     'replace:package_json',
     'rename:rename_src',

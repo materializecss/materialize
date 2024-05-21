@@ -1,5 +1,5 @@
 describe('Modal:', function () {
-  var trigger1, modal1;
+  let trigger1, modal1;
 
   beforeEach(async function () {
     await XloadFixtures(['modal/modalFixture.html']);

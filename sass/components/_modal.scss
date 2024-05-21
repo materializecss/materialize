@@ -1,4 +1,7 @@
 .modal {
+  --modal-footer-height: 56px;
+  --modal-footer-divider-height: 1px;
+
   &:focus {
     outline: none;
   }
@@ -40,7 +43,7 @@
     border-radius: 0 0 2px 2px;
     background-color: $modal-background-color;
     padding: 4px 6px;
-    height: 56px;
+    height: var(--modal-footer-height);
     width: 100%;
     text-align: right;
 
@@ -71,16 +74,16 @@
 
   .modal-content {
     position: absolute;
-    height: calc(100% - 56px);
+    height: calc(100% - var(--modal-footer-height));
     max-height: 100%;
     width: 100%;
     overflow-y: auto;
   }
 
   .modal-footer {
-    border-top: 1px solid $divider-color;
+    border-top: var(--modal-footer-divider-height) solid $divider-color;
     position: absolute;
-    bottom: 0;
+    bottom: var(--modal-footer-divider-height);
   }
 }
 

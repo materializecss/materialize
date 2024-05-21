@@ -239,7 +239,7 @@ export class Utils {
    * @param wait Wait time.
    * @param options Additional options.
    */
-  public static throttle(func: Function, wait: number, options: Partial<{leading:boolean,trailing:boolean}> = null) {
+  static throttle(func: Function, wait: number, options: Partial<{leading:boolean,trailing:boolean}> = null) {
     let context: object, args: IArguments, result: any;
     let timeout = null;
     let previous = 0;

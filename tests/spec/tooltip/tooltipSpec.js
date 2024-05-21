@@ -1,5 +1,5 @@
 describe('Tooltip:', function () {
-  var tooltippedBtn, tooltip;
+  let tooltippedBtn, tooltip;
 
   beforeEach(async function () {
     await XloadFixtures(['tooltip/tooltipFixture.html']);

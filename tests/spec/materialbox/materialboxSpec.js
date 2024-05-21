@@ -1,5 +1,5 @@
 describe('Materialbox:', function () {
-  var transformMaterialbox;
+  let transformMaterialbox;
 
   beforeEach(async function () {
     await XloadFixtures(['materialbox/materialboxFixture.html']);
