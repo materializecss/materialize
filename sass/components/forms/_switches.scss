@@ -30,8 +30,8 @@
   // CHECKED
   // Track
   &:checked + .lever{
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: var(--md-sys-color-primary);
+    border-color:  var(--md-sys-color-primary);
   }
   // Dot
   &:checked + .lever {
@@ -58,7 +58,8 @@
   border-color: var(--md-sys-color-outline);
 
   //background-color: $switch-track-unchecked-bg;
-  @extend .surface-variant;
+  //@extend .surface-variant;
+  background-color: var(--md-sys-color-surface-variant);
 
   border-radius: $switch-radius;
   margin-right: 10px;

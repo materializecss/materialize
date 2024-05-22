@@ -130,7 +130,10 @@
   @extend .filled;
 
   &:hover {
-    background-color: $button-raised-background-hover;
+    // TODO: Use elevation Colors
+    background-color: var(--md-ref-palette-primary70); 
+    //var(--primary-color-raised-hover-solid);
+    // var(--md-sys-color-primary-container); // $button-raised-background-hover;
     @extend .z-depth-1-half;
   }
 

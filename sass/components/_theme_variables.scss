@@ -1,6 +1,5 @@
 :root, :host {
     color-scheme: light dark;
-
     --surface-color: var(--md-sys-color-surface);
     --background-color: var(--md-sys-color-background);
     --font-color-main: var(--md-sys-color-on-background);
@@ -22,7 +21,6 @@
     --background-color-card: var(--surface-color);
     --tooltip-background-color: #313033;
     --tooltip-font-color: rgba(255, 255, 255, 0.77);
-
     --slider-track-color: var(--md-sys-color-shadow-light);
     --switch-thumb-off-color: var(--md-ref-palette-primary100);
     --carousel-indicator-color: rgba(255, 255, 255, 0.45); // <--- TODO
