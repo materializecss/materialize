@@ -54,6 +54,8 @@ textarea.materialize-textarea {
 */
 
 .input-field {
+  --input-color: var(--md-sys-color-primary);
+
   position: relative;
   clear: both;
  
@@ -74,7 +76,7 @@ textarea.materialize-textarea {
     border-bottom-right-radius: 0;
    
     &:focus:not([readonly]) {
-      border-bottom: 2px solid $input-focus-color;
+      border-bottom: 2px solid var(--input-color);
       padding-top: 20px + 1px; // add border-width
     }
 
@@ -86,7 +88,7 @@ textarea.materialize-textarea {
 
     // Label
     &:focus:not([readonly]) + label {
-      color: $input-focus-color;
+      color: var(--input-color);
     }
     &:focus:not([readonly]) + label,
     &:not([placeholder=' ']) + label,
@@ -178,14 +180,14 @@ textarea.materialize-textarea {
       border-radius: 4px; // md.sys.shape.corner.extra-small
 
       &:focus:not([readonly]) {
-        border: 2px solid $input-focus-color;
+        border: 2px solid var(--input-color);
         padding-top: 0;
         margin-left: -1px; // subtract border-width
 
       }
       // Label
       &:focus:not([readonly]) + label {
-        color: $input-focus-color;
+        color: var(--input-color);
       }
       &:focus:not([readonly]) + label,
       &:not([placeholder=' ']) + label,

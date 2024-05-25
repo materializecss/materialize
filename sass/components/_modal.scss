@@ -1,6 +1,8 @@
 .modal {
   --modal-footer-height: 56px;
   --modal-footer-divider-height: 1px;
+  --modal-border-radius: 28px;
+  --modal-padding: 24px;
 
   &:focus {
     outline: none;
@@ -19,7 +21,7 @@
   margin: auto;
   overflow-y: auto;
 
-  border-radius: 2px;
+  border-radius: var(--modal-border-radius);
   will-change: top, opacity;
 
   @media #{$medium-and-down} {
@@ -31,7 +33,7 @@
   }
 
   .modal-content {
-    padding: 24px;
+    padding: var(--modal-padding);
     overflow-y: hidden;
   }
 
@@ -40,7 +42,7 @@
   }
 
   .modal-footer {
-    border-radius: 0 0 2px 2px;
+    border-radius: 0 0 var(--modal-border-radius) var(--modal-border-radius);
     background-color: $modal-background-color;
     padding: 4px 6px;
     height: var(--modal-footer-height);

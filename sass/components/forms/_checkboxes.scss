@@ -67,8 +67,8 @@
     height: 22px;
     border-top: 2px solid transparent;
     border-left: 2px solid transparent;
-    border-right: $radio-border;
-    border-bottom: $radio-border;
+    border-right: 2px solid var(--md-sys-color-primary);
+    border-bottom: 2px solid var(--md-sys-color-primary);
     transform: rotate(40deg);
     backface-visibility: hidden;
     transform-origin: 100% 100%;
@@ -89,7 +89,7 @@
     height: 22px;
     border-top: none;
     border-left: none;
-    border-right: $radio-border;
+    border-right: 2px solid var(--md-sys-color-primary);
     border-bottom: none;
     transform: rotate(90deg);
     backface-visibility: hidden;
@@ -159,8 +159,8 @@
       top: 0;
       width: 20px;
       height: 20px;
-      border: 2px solid $primary-color;
-      background-color: $primary-color;
+      border: 2px solid var(--md-sys-color-primary); //$primary-color;
+      background-color: var(--md-sys-color-primary); //$primary-color;
       z-index: 0;
     }
   }

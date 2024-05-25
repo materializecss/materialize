@@ -8,14 +8,15 @@
   transform: translateX(-100%);
   height: 100vh;
   padding: 0;
-  background-color: $sidenav-bg-color;
   z-index: 999;
   overflow-y: auto;
   will-change: transform;
   backface-visibility: hidden;
   transform: translateX(-105%); 
   user-select: none;
-
+  
+  color: var(--md-sys-color-on-secondary-container);
+  background-color: var(--md-sys-color-surface); //$sidenav-bg-color;
   @extend .z-depth-1;
 
   // Right Align
@@ -31,16 +32,19 @@
   }
 
   /* Hover only on top row */
-  a:hover {
-    background-color: $button-flat-hover-background-color;
-  }
+  /*a:hover {
+    //color: red;
+    //background-color: var(--md-sys-color-on-secondary-container); //$button-flat-hover-background-color;
+    //md.sys.color.on-secondary-container
+  }*/
   a:focus {
     background-color: $button-flat-focus-background-color;
   }
 
   li.active > a:not(.collapsible-header):not(.btn):not(.btn-large):not(.btn-small):not(.btn-flat):not(.btn-large):not(.btn-floating)  {
-    color: $font-on-secondary-container-color;
-    background-color: $secondary-container-color;
+    //color: var(--md-sys-color-on-secondary-container); //$font-on-secondary-container-color;
+    //background-color: $secondary-container-color;
+    background-color: color-mix(in srgb, var(--md-sys-color-secondary) 10%, transparent);
   }
 
   .collapsible-body > ul { padding-left: 10px; }
@@ -75,7 +79,13 @@
     border-radius: 100px;
 
     &:not(.btn):not(.btn-flat):not(.btn-large):not(.btn-floating) {
-      color: $sidenav-font-color;
+      color: var(--md-sys-color-on-secondary-container);
+      //color: $sidenav-font-color;
+      &:hover {
+        //color: var(--md-sys-color-on-secondary-container);
+        //md.sys.color.on-secondary-container
+        background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
+      }
     }
 
     &.btn, &.btn-large, &.btn-flat, &.btn-floating {
@@ -87,7 +97,7 @@
     & > .material-symbols-rounded, & > .material-symbols-sharp {
       display: inline-flex;
       vertical-align: middle;
-      color: $sidenav-icon-color;
+      //color: $sidenav-icon-color;
       margin-right: 12px;
     }
   }

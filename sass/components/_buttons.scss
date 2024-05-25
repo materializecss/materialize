@@ -1,33 +1,27 @@
 .btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
-  --font-size-icon: 16px;
-  --padding: 24px;
-  --padding-icon: 16px;
-  --gap-icon: 8px;
-  
-  height: $button-height;
-  
-  // line-height: $button-height;
-  border: $button-border;
-  border-radius: $button-radius;  
-  
-  // padding: $button-padding;
-  padding-left: var(--padding);
-  padding-right: var(--padding);
-  
-  color: $button-raised-color;
-  font-size: $button-font-size;
+  --btn-height: 40px;
+  --btn-font-size-icon: 16px;
+  --btn-padding: 24px;
+  --btn-padding-icon: 16px;
+  --btn-gap-icon: 8px;
+  --btn-border-radius: 4px;
+  --btn-font-size: 14px;
+
+  height: var(--btn-height);
+  border: none;
+  border-radius: var(--btn-border-radius);
+  padding-left: var(--btn-padding);
+  padding-right: var(--btn-padding);
+  font-size: ver(--btn-font-size);
   font-weight: 500;
   text-decoration: none;
-  
   display: inline-flex;
   align-items: center;
-  
   cursor: pointer;
   -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
   white-space: nowrap;
   outline: 0;
   user-select: none;
-  
   transition: background-color .2s ease-out;
 }
 
@@ -36,60 +30,46 @@
   position: relative;
 }
 .btn.icon-left {
-  padding-left: calc(var(--padding-icon) + var(--font-size-icon) + var(--gap-icon));
+  padding-left: calc(var(--btn-padding-icon) + var(--btn-font-size-icon) + var(--btn-gap-icon));
 }
 .btn.icon-right {
-  padding-right: calc(var(--padding-icon) + var(--font-size-icon) + var(--gap-icon)); 
+  padding-right: calc(var(--btn-padding-icon) + var(--btn-font-size-icon) + var(--btn-gap-icon)); 
 }
 .btn.icon-left i, .btn.icon-right i {
   position: absolute;
-  font-size: var(--font-size-icon);
+  font-size: var(--btn-font-size-icon);
 }
 .btn.icon-left i {
-  left: var(--padding-icon);
+  left: var(--btn-padding-icon);
 }
 .btn.icon-right i {
-  right: var(--padding-icon);
+  right: var(--btn-padding-icon);
 }
 
+//------------------ Enabled
 
-// Disabled shared style
-.btn.disabled,
-.btn-floating.disabled,
-.btn-large.disabled,
-.btn-small.disabled,
-.btn-flat.disabled,
-.btn:disabled,
-.btn-floating:disabled,
-.btn-large:disabled,
-.btn-small:disabled,
-.btn-flat:disabled,
-.btn[disabled],
-.btn-floating[disabled],
-.btn-large[disabled],
-.btn-small[disabled],
-.btn-flat[disabled] {
-  pointer-events: none;
-  background-color: $button-disabled-background !important;
-  box-shadow: none;
-  color: $button-disabled-color !important;
-  cursor: default;
-  &:hover {
-    background-color: $button-disabled-background !important;
-    color: $button-disabled-color !important;
-  }
-}
-
-//--- Filled Button
 .btn.filled {
+  color: var(--md-sys-color-on-primary);
   background-color: var(--md-sys-color-primary);
 }
-//--- Filled Tonal
+
 .btn.tonal {
-  background-color: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
+  background-color: var(--md-sys-color-secondary-container);
 }
-//--- Text-Button (Flat)
+
+.btn.elevated {
+  color: var(--md-sys-color-on-secondary-container);
+  background-color: var(--md-sys-color-secondary-container);
+  @extend .z-depth-1;
+}
+
+.btn.outlined {
+  background-color: transparent;
+  color: var(--md-sys-color-primary); //$button-raised-background;
+  border: 1px solid var(--md-sys-color-outline); //$button-raised-background;
+}
+
 .btn.text, .btn-flat {
   box-shadow: none;
   background-color: transparent;
@@ -111,41 +91,98 @@
     cursor: default;
   }
 }
-//--- Outlined-Button
-.btn.outlined {
-  background-color: transparent;
-  color: $button-raised-background;
-  border: 1px solid $button-raised-background;
+
+//------------------ Disabled
+
+.btn.disabled, .btn-floating.disabled, .btn-large.disabled, .btn-small.disabled, .btn-flat.disabled,
+.btn:disabled, .btn-floating:disabled, .btn-large:disabled, .btn-small:disabled, .btn-flat:disabled,
+.btn[disabled], .btn-floating[disabled], .btn-large[disabled], .btn-small[disabled], .btn-flat[disabled]
+{
+  @extend .z-depth-0;
+  color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 76%);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 24%);
+  
+  pointer-events: none;
+  box-shadow: none;
+  cursor: default;
 }
-//--- Elevated
-.btn.elevated {
-  @extend .tonal;
+
+//------------------ Hover
+
+.btn.elevated:hover {
+  @extend .z-depth-2;
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-on-secondary-container) 16%);
+}
+
+.btn.filled:hover {
   @extend .z-depth-1;
+  color: var(--md-sys-color-on-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary), var(--md-sys-color-on-primary) 16%);
 }
 
+.btn.tonal:hover {
+  @extend .z-depth-1;
+  color: var(--md-sys-color-on-secondary-container);
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-on-secondary-container) 16%);
+}
 
-//======================== States (Hover, Focused, ...)
+.btn.outlined:hover {
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 16%);
+}
 
-.btn {
-  @extend .filled;
+.btn.text:hover {
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 16%, transparent);
+}
 
-  &:hover {
-    // TODO: Use elevation Colors
-    background-color: var(--md-ref-palette-primary70); 
-    //var(--primary-color-raised-hover-solid);
-    // var(--md-sys-color-primary-container); // $button-raised-background-hover;
-    @extend .z-depth-1-half;
+//------------------ Focus
+
+.btn:focus.elevated {
+  @extend .z-depth-1;
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-primary) 20%);
+}
+
+.btn:focus.filled {
+  @extend .z-depth-0;
+  color: var(--md-sys-color-on-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary), var(--md-sys-color-on-primary) 20%);
+}
+
+.btn:focus.tonal {
+  @extend .z-depth-0;
+  color: var(--md-sys-color-on-secondary-container);
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-on-secondary-container) 20%);
+}
+
+.btn:focus.outlined {
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
+  border: 1px solid var(--md-sys-color-primary);
+}
+
+.btn:focus.text {
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
+}
+
+// Focus with Keyboard
+.btn:focus-visible {
+  &.filled,
+  &.elevated,
+  &.tonal,
+  &.outlined,
+  &.text
+    {
+    outline: 3px solid var(--md-sys-color-secondary);
+    outline-offset: 2px;
   }
-
-  &:focus {
-    background-color: $button-raised-background-focus;
-    @extend .z-depth-1-half;
-  }  
 }
-
-
 
 //----------
+
 // .btn-floating {
 //   border-radius: 16px;
 //   width: unset;
