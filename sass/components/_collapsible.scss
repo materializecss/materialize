@@ -20,7 +20,7 @@
   line-height: 1.5;
   padding: 1rem;
   border-bottom: 1px solid $collapsible-border-color;
-  background-color: $collapsible-bg-color;
+  //background-color: //$collapsible-bg-color;
 
   i {
     width: 2rem;
@@ -52,7 +52,7 @@
   box-sizing: border-box;
   padding: 0 2rem;
   overflow: hidden;
-  background-color: $collapsible-bg-color;
+  //background-color: $collapsible-bg-color;
 }
 
 // Popout Collapsible

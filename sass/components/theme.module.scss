@@ -1,6 +1,6 @@
 /* System Defaults */
-
-:root {
+:root, :host {
+  color-scheme: light;
   --md-sys-color-primary: var(--md-sys-color-primary-light);
   --md-sys-color-on-primary: var(--md-sys-color-on-primary-light);
   --md-sys-color-primary-container: var(--md-sys-color-primary-container-light);
@@ -34,7 +34,8 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root, :host {
+    color-scheme: dark;
     --md-sys-color-primary: var(--md-sys-color-primary-dark);
     --md-sys-color-on-primary: var(--md-sys-color-on-primary-dark);
     --md-sys-color-primary-container: var(--md-sys-color-primary-container-dark);
@@ -68,9 +69,10 @@
   }
 }
 
-/* Themes */
+/* ===================================================================== Themes */
 
 :root[theme='light'] {
+  color-scheme: light;
   --md-sys-color-primary: var(--md-sys-color-primary-light);
   --md-sys-color-on-primary: var(--md-sys-color-on-primary-light);
   --md-sys-color-primary-container: var(--md-sys-color-primary-container-light);
@@ -104,6 +106,7 @@
 }
  
 :root[theme='dark'] {
+  color-scheme: dark;
   --md-sys-color-primary: var(--md-sys-color-primary-dark);
   --md-sys-color-on-primary: var(--md-sys-color-on-primary-dark);
   --md-sys-color-primary-container: var(--md-sys-color-primary-container-dark);

@@ -1,7 +1,13 @@
 /* This should be an UL-Element*/
 .sidenav {
+  --sidenav-width: 300px;
+  --sidenav-font-size: 14px;
+  --sidenav-padding: 16px;
+  --sidenav-item-height: 48px;
+  --sidenav-line-height: var(--sidenav-item-height);
+
   position: fixed;
-  width: $sidenav-width;
+  width: var(--sidenav-width);
   left: 0;
   top: 0;
   margin: 0;
@@ -16,7 +22,7 @@
   user-select: none;
   
   color: var(--md-sys-color-on-secondary-container);
-  background-color: var(--md-sys-color-surface); //$sidenav-bg-color;
+  background-color: var(--md-sys-color-surface);
   @extend .z-depth-1;
 
   // Right Align
@@ -34,7 +40,7 @@
   /* Hover only on top row */
   /*a:hover {
     //color: red;
-    //background-color: var(--md-sys-color-on-secondary-container); //$button-flat-hover-background-color;
+    //background-color: var(--md-sys-color-on-secondary-container);
     //md.sys.color.on-secondary-container
   }*/
   a:focus {
@@ -56,11 +62,11 @@
   }
   li > a {
     /* https://stackoverflow.com/questions/5848090/full-width-hover-background-for-nested-lists */
-    //padding-left: calc(100% + $sidenav-padding);
+    //padding-left: calc(100% + var(--sidenav-padding));
     //margin-left: -100%;
     margin: 0 12px;
-    padding: 0 $sidenav-padding;
-    //padding-left: $sidenav-padding;
+    padding: 0 var(--sidenav-padding);
+    //padding-left: var(--sidenav-padding);
 
     // Truncate too long text
     /*
@@ -71,8 +77,8 @@
     */
 
     display: flex;
-    height: $sidenav-item-height;
-    font-size: $sidenav-font-size;
+    height: var(--sidenav-item-height);
+    font-size: var(--sidenav-font-size);
     font-weight: 500;
     align-items: center;
     overflow: hidden;
@@ -103,23 +109,23 @@
   }
 
   .divider {
-    margin: ($sidenav-padding * 0.5) 0 0 0;
+    margin: calc(var(--sidenav-padding) * 0.5) 0 0 0;
   }
 
   .subheader {
     cursor: initial;
     pointer-events: none;
-    color: $sidenav-subheader-color;
-    font-size: $sidenav-font-size;
+    color: red; //$sidenav-subheader-color;
+    font-size: var(--sidenav-font-size);
     font-weight: 500;
-    line-height: $sidenav-line-height;
+    line-height: var(--sidenav-line-height);
   }
 
   // Remove this? is very custom
   .user-view {
     position: relative;
-    padding: ($sidenav-padding * 2) ($sidenav-padding * 2) 0;
-    margin-bottom: $sidenav-padding * 0.5;
+    padding: calc(var(--sidenav-padding) * 2) calc(var(--sidenav-padding) * 2) 0;
+    margin-bottom: calc(var(--sidenav-padding) * 0.5);
 
     & > a {
       &:hover {
@@ -151,8 +157,8 @@
 
     .name,
     .email {
-      font-size: $sidenav-font-size;
-      line-height: $sidenav-line-height * 0.5;
+      font-size: var(--sidenav-font-size);
+      line-height: calc(var(--sidenav-line-height) * 0.5);
     }
 
     .name {
@@ -203,10 +209,10 @@
       }
     }
     > a {
-      padding: 0 $sidenav-padding;
+      padding: 0 var(--sidenav-padding);
     }
     .user-view {
-      padding: $sidenav-padding $sidenav-padding 0;
+      padding: var(--sidenav-padding) var(--sidenav-padding) 0;
     }
   }
 }

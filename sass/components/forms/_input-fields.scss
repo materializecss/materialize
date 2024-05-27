@@ -174,7 +174,7 @@ textarea.materialize-textarea {
     input, textarea {
       padding-top: 0;
 
-      background-color: var(--background-color);
+      background-color: var(--md-sys-color-background);
 
       border: 1px solid $input-border-color;
       border-radius: 4px; // md.sys.shape.corner.extra-small
@@ -196,7 +196,7 @@ textarea.materialize-textarea {
         left: 16px;
         margin-left: -4px;
         padding: 0 4px;
-        background-color: var(--background-color);
+        background-color: var(--md-sys-color-background);
       }
 
       &:disabled, &[readonly="readonly"] {
@@ -251,7 +251,7 @@ textarea.materialize-textarea {
 .searchbar.has-sidebar {
   margin-left: 0;
   @media #{$large-and-up} {
-    margin-left: $sidenav-width;
+    margin-left: 300px; //$sidenav-width;
   }
 }
 

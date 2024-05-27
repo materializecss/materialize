@@ -66,30 +66,14 @@
 
 .btn.outlined {
   background-color: transparent;
-  color: var(--md-sys-color-primary); //$button-raised-background;
-  border: 1px solid var(--md-sys-color-outline); //$button-raised-background;
+  color: var(--md-sys-color-primary);
+  border: 1px solid var(--md-sys-color-outline);
 }
 
 .btn.text, .btn-flat {
-  box-shadow: none;
-  background-color: transparent;
+  @extend .z-depth-0;
   color: var(--md-sys-color-primary);
-  cursor: pointer;
-  transition: background-color .2s;
-  &:focus,
-  &:hover {
-    box-shadow: none;
-    background-color: $button-flat-hover-background-color;
-  }
-  &:focus {
-    background-color: $button-flat-focus-background-color;
-  }
-  &.disabled,
-  &.btn.text[disabled], &.btn-flat[disabled] {
-    background-color: transparent !important;
-    color: $button-flat-disabled-color !important;
-    cursor: default;
-  }
+  background-color: transparent;
 }
 
 //------------------ Disabled
@@ -202,40 +186,38 @@
 //-----
 // Floating button
 .btn-floating {
-
   &:hover {
-    background-color: $button-floating-background-hover;
     @extend .z-depth-1-half;
+    background-color: color-mix(in srgb, var(--md-sys-color-primary-container), var(--md-sys-color-on-primary-container) 16%);//$button-floating-background-hover;
   }
-
   &:focus {
     background-color: $button-floating-background-focus;
     @extend .z-depth-1-half;
   }
-
   &:before {
     border-radius: 0;
   }
 
   &.btn-large {
     &.halfway-fab {
-      bottom: -$button-floating-large-size * 0.5;
+      bottom: -56px * 0.5;
     }
-    width: $button-floating-large-size;
-    height: $button-floating-large-size;
+    width: 56px;
+    height: 56px;
     padding: 0;
     // font-size: 
     // i {
-    //   // line-height: $button-floating-large-size;
+    //   // line-height: 56px;
     // }
   }
 
   &.btn-small {
+    --btn-small-height: calc(0.75 * var(--btn-height));
     &.halfway-fab {
-      bottom: -$button-floating-small-size * 0.5;
+      bottom: calc(var(--btn-small-height) * -0.5);
     }
-    width: $button-floating-small-size;
-    height: $button-floating-small-size;
+    width: var(--btn-small-height)e;
+    height: var(--btn-small-height);
     // i {
     //   line-height: $button-floating-small-size;
     // }
@@ -250,27 +232,21 @@
     right: 24px;
     bottom: -$button-floating-size * 0.5;
   }
-
   // FIXES
   // width: unset;  
   // padding: 16px !important;
   // padding-right: 24px !important; /* only with icon */
   // gap: 8px;
-
-  color: $button-floating-color;
-  
   width: $button-floating-size;
   height: $button-floating-size;
   // line-height: $button-floating-size;
-
-  background-color: $button-floating-background;
+  color: var(--md-sys-color-on-primary-container);
+  background-color: var(--md-sys-color-primary-container);
   border-radius: $button-floating-radius;
   padding: 0;
-
   display: grid;
   grid-auto-flow: column;
   align-items: center;
-
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -281,7 +257,7 @@
 
   i {
     color: $button-floating-color;
-    font-size: $button-large-icon-font-size;
+    font-size: 1.6rem;
     // line-height: $button-floating-size;
     width: inherit;
     display: inline-block;
@@ -290,7 +266,7 @@
 }
 // button fix
 button.btn-floating {
-  border: $button-border;
+  border: none;
 }
 // Fixed Action Button
 .fixed-action-btn {
@@ -352,7 +328,7 @@ button.btn-floating {
       }
     }
     padding: 0;
-    height: $button-floating-large-size;
+    height: 56px;
     ul {
       display: flex;
       top: 0;
@@ -373,9 +349,8 @@ button.btn-floating {
           background-color: transparent;
           box-shadow: none;
           color: $button-floating-color;
-          line-height: $button-floating-large-size;
+          line-height: 56px;
           z-index: 1;
-
           i {
             line-height: inherit;
           }
@@ -422,23 +397,21 @@ button.btn-floating {
 // Large button
 .btn-large {
   @extend .btn;
-  height: $button-large-height;
-  // line-height: $button-large-height;
-  font-size: $button-large-font-size;
+  height: calc(1.5 * var(--btn-height));
+  font-size: 18px;
   padding: 0 28px;
   i {
-    font-size: $button-large-icon-font-size;
+    font-size: 1.6rem;
   }
 }
 
 // Small button
 .btn-small {
   @extend .btn;
-  height: $button-small-height;
-  line-height: $button-small-height;
-  font-size: $button-small-font-size;
+  height: calc(0.75 * var(--btn-height));
+  font-size: 13px;
   i {
-    font-size: $button-small-icon-font-size;
+    font-size: 1.2rem;
   }
 }
 

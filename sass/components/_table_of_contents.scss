@@ -2,6 +2,8 @@
     Nav List
 ***************/
 .table-of-contents {
+  list-style: none;
+
   &.fixed {
     position: fixed;
   }
@@ -17,7 +19,7 @@
     padding-left: 16px;
     height: 2rem;
     line-height: 2rem;
-    border-left: 1px solid $divider-color;
+    border-left: 1px solid var(--md-sys-color-outline-variant);
     
     &:hover {
       color: $font-color-main;

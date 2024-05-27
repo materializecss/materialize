@@ -1,8 +1,8 @@
+/*
 :root, :host {
-    color-scheme: light dark;
     --surface-color: var(--md-sys-color-surface);
-    --background-color: var(--md-sys-color-background);
-    --font-color-main: var(--md-sys-color-on-background);
+    //--background-color: var(--md-sys-color-background);
+    //--font-color-main: var(--md-sys-color-on-background);
     --font-color-medium: var(--md-sys-color-on-surface-variant);
     --font-color-disabled: var(--md-sys-color-on-surface);
     --font-on-primary-color-main: var(--md-sys-color-on-primary);
@@ -40,6 +40,7 @@
     --font-on-secondary-container-color: var(--md-sys-color-on-secondary-container);
     --md_sys_color_on-surface: 28, 27, 31;
 }
+*/
 
 //important: when all variables are assigned this could be removed as well be no difference
 /*

@@ -143,26 +143,28 @@ select:disabled {
 .select-dropdown li.disabled > span,
 .select-dropdown li.optgroup {
   color: $select-disabled-color;
-  background-color: transparent;
+  //background-color: transparent;
 }
 
+/*
 body.keyboard-focused {
   .select-dropdown.dropdown-content li:focus {
-    background-color: $select-option-focus;
+    //background-color: $select-option-focus;
   }
 }
 
 .select-dropdown.dropdown-content {
   li {
     &:hover:not(.disabled) {
-      background-color: $select-option-hover;
+      //background-color: $select-option-hover;
     }
 
     &.selected:not(.disabled) {
-      background-color: $select-option-selected;
+      //background-color: $select-option-selected;
     }
   }
 }
+*/
 
 /*
 // Prefix Icons
@@ -206,4 +208,8 @@ body.keyboard-focused {
   & ~ li.optgroup-option {
     padding-left: 1rem;
   }
+}
+
+.select-dropdown .selected {
+  color: red;
 }

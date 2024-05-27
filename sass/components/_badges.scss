@@ -55,7 +55,7 @@ nav ul a span.badge {
 }
 
 .sidenav span.badge {
-  margin-top: calc(#{$sidenav-line-height * 0.5} - #{$badge-height * 0.5});
+  margin-top: calc(calc(var(--sidenav-line-height) * 0.5) - calc(22px * 0.5));
 }
 
 table span.badge {

@@ -87,7 +87,7 @@ a {
 .divider {
   height: 1px;
   overflow: hidden;
-  background-color: $divider-color;
+  background-color: var(--md-sys-color-outline-variant);
 }
 
 //  Blockquote
@@ -121,6 +121,13 @@ i {
   &.large {
     font-size: 6rem;
   }
+}
+
+// Modal
+html.noscroll {
+  position: fixed; 
+  overflow-y: scroll;
+  width: 100%;
 }
 
 // Images
