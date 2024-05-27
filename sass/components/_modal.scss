@@ -14,7 +14,7 @@
   position: fixed;
   left: 0;
   right: 0;
-  background-color: var(--md-sys-color-surface); //$modal-background-color;
+  background-color: var(--md-sys-color-surface);
   padding: 0;
   max-height: 70%;
   width: 55%;
@@ -43,7 +43,7 @@
 
   .modal-footer {
     border-radius: 0 0 var(--modal-border-radius) var(--modal-border-radius);
-    background-color: $modal-background-color;
+    background-color: var(--md-sys-color-surface);
     padding: 4px 6px;
     height: var(--modal-footer-height);
     width: 100%;

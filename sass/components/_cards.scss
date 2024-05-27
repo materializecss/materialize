@@ -6,14 +6,14 @@
   margin: $element-top-margin 0 $element-bottom-margin 0;
   border-radius: 12px;
   @extend .z-depth-1;
-  background-color: $card-bg-color;
+  background-color: var(--md-sys-color-surface);
 }
 
 .card {
   overflow: hidden;
   position: relative;
   //margin: $element-top-margin 0 $element-bottom-margin 0;
-  background-color: var(--md-sys-color-surface); //$card-bg-color;
+  background-color: var(--md-sys-color-surface);
   transition: box-shadow .25s;
   border-radius: 12px;
   @extend .z-depth-1;
@@ -129,7 +129,7 @@
     }
 
     .card-title {
-      color: $card-bg-color;
+      color: var(--md-sys-color-surface);
       position: absolute;
       bottom: 0;
       left: 0;
@@ -171,7 +171,7 @@
     }
 
     a:not(.btn):not(.btn-large):not(.btn-floating) {
-      color: $card-link-color;
+      color: var(--md-sys-color-primary);
       transition: color .3s ease;
 
       &:hover {
@@ -183,7 +183,7 @@
   .card-reveal {
     padding: $card-padding;
     position: absolute;
-    background-color: $card-bg-color;
+    background-color: var(--md-sys-color-surface);
     width: 100%;
     overflow-y: auto;
     left: 0;

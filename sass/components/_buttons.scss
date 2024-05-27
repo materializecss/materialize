@@ -188,7 +188,7 @@
 .btn-floating {
   &:hover {
     @extend .z-depth-1-half;
-    background-color: color-mix(in srgb, var(--md-sys-color-primary-container), var(--md-sys-color-on-primary-container) 16%);//$button-floating-background-hover;
+    background-color: color-mix(in srgb, var(--md-sys-color-primary-container), var(--md-sys-color-on-primary-container) 16%);
   }
   &:focus {
     background-color: $button-floating-background-focus;
@@ -233,13 +233,12 @@
     bottom: -$button-floating-size * 0.5;
   }
   // FIXES
-  // width: unset;  
+  // width: unset;
   // padding: 16px !important;
   // padding-right: 24px !important; /* only with icon */
   // gap: 8px;
   width: $button-floating-size;
   height: $button-floating-size;
-  // line-height: $button-floating-size;
   color: var(--md-sys-color-on-primary-container);
   background-color: var(--md-sys-color-primary-container);
   border-radius: $button-floating-radius;
@@ -258,7 +257,6 @@
   i {
     color: $button-floating-color;
     font-size: 1.6rem;
-    // line-height: $button-floating-size;
     width: inherit;
     display: inline-block;
     text-align: center;

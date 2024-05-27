@@ -58,8 +58,6 @@ $button-floating-radius: 16px !default;
 
 // 4. Cards
 $card-padding: 24px !default;
-$card-bg-color: var(--background-color-card) !default;
-$card-link-color: $primary-color !default;
 
 // 5. Carousel
 $carousel-height: 400px !default;
@@ -87,12 +85,9 @@ $timepicker-clock-color: var(--md-sys-color-on-background) !default;
 $timepicker-clock-plate-bg: var(--background-color-level-4dp) !default;
 
 // 8. Dropdown
-$dropdown-bg-color: $surface-color !default;
 $dropdown-hover-bg-color: $surface-hover-color-opaque !default;
 $dropdown-focus-bg-color: $surface-focus-color-opaque !default;
-$dropdown-color: $primary-color !default;
 $dropdown-item-height: 50px !default;
-
 
 // 9. Forms
 // Text Inputs + Textarea
@@ -161,7 +156,6 @@ $chip-selected-color: $primary-color !default;
 $chip-selected-font-color: $font-on-primary-color-main !default;
 $chip-margin: 5px !default;
 
-
 // 11. Global
 // Media Query Ranges
 $small-screen-up: 601px !default;
@@ -184,7 +178,6 @@ $gutter-width: 1.5rem !default;
 $element-top-margin: math.div($gutter-width, 3) !default;
 $element-bottom-margin: math.div($gutter-width*2, 3) !default;
 
-
 // 13. Navigation Bar
 $navbar-height: 64px !default;
 $navbar-line-height: $navbar-height !default;
@@ -196,26 +189,12 @@ $navbar-bg-color-focus: $primary-color-when-focused-solid !default;
 $navbar-bg-color-hover: $primary-color-when-hovered-solid !default;
 $navbar-brand-font-size: 2.1rem !default;
 
-// 14. Side Navigation
-//$sidenav-width: 300px !default;
-//$sidenav-font-size: 14px !default;
-//$sidenav-font-color: var(--font-color-main) !default;
-//$sidenav-bg-color: var(--background-color-level-16dp-solid) !default;
-//$sidenav-icon-color: var(--font-color-medium) !default;
-//$sidenav-subheader-color: var(--font-color-medium) !default;
-//$sidenav-padding: 16px !default;
-//$sidenav-item-height: 48px !default;
-//$sidenav-line-height: $sidenav-item-height !default;
-
 // 15. Photo Slider
 $slider-bg-color: $surface-color !default;
 $slider-indicator-color: var(--slider-track-color) !default;
 $slider-indicator-color-active: $primary-color !default;
 $slider-fullscreen-indicator-color: $carousel-indicator-color !default;
 $slider-fullscreen-indicator-color-active: $carousel-indicator-color-active !default;
-
-// 16. Spinners | Loaders
-$spinner-default-color: $primary-color !default;
 
 // 17. Tabs
 $tabs-text-active-color: $primary-color-font-emphasize-color !default;
@@ -227,16 +206,6 @@ $tabs-bg-color: $surface-color !default;
 // 18. Tables
 $table-border-color: var(--md-sys-color-outline-variant) !default;
 $table-striped-color: var(--background-color-slight-emphasis) !default;
-
-// 19. Toasts
-$toast-height: 48px !default;
-$toast-color: var(--tooltip-background-color) !default;
-$toast-text-color: var(--tooltip-font-color) !default;
-$toast-action-color: #eeff41;
-
-// 20. Tooltips
-$tooltip-bg-color: var(--md-sys-color-inverse-surface) !default;
-$tooltip-font-color: var(--md-sys-color-inverse-on-surface) !default;
 
 // 21. Typography
 $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !default;
@@ -275,6 +244,3 @@ $collection-avatar-circle-icon-color: #fff !default;
 // 25. Progress Bar
 $progress-bar-color: $primary-color !default;
 $progress-bar-track-color: rgba(var(--primary-color-numeric), 40%) !default;
-
-// 26. Modal
-$modal-background-color: var(--background-color-level-16dp-solid) !default;

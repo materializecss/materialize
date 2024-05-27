@@ -47,7 +47,7 @@
   overflow-y: hidden;
   height: 48px;
   width: 100%;
-  background-color: $tabs-bg-color;
+  background-color: var(--md-sys-color-surface);
   margin: 0 auto;
   white-space: nowrap;
 
@@ -98,7 +98,6 @@
       &:not(:focus) {
         background-color: transparent;
       }
-
       color: $tabs-text-disabled-color;
       cursor: default;
       background-color: transparent;
@@ -108,20 +107,20 @@
   .indicator {
     position: absolute;
     bottom: 0;
-    height: 2px;
-    background-color: $tabs-underline-color;
+    height: 3px;
+    background-color: var(--md-sys-color-primary);
     will-change: left, right;
+    border-radius: 3px 3px 0 0;
   }
 }
 
-// Fixed Sidenav hide on smaller
+/* Fixed Sidenav hide on smaller */
+
 @media #{$medium-and-down} {
   .tabs {
     display: flex;
-
     .tab {
       flex-grow: 1;
-
       a {
         padding: 0 12px;
       }

@@ -251,7 +251,7 @@ textarea.materialize-textarea {
 .searchbar.has-sidebar {
   margin-left: 0;
   @media #{$large-and-up} {
-    margin-left: 300px; //$sidenav-width;
+    margin-left: 300px;
   }
 }
 
