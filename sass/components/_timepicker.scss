@@ -19,7 +19,7 @@
 .timepicker-digital-display {
   width: 200px;
   flex: 1 auto;
-  background-color: $primary-color;
+  background-color: var(--md-sys-color-primary);;
   padding: 10px;
   font-weight: 300;
 }
@@ -141,7 +141,7 @@ input[type=text].text-primary {
   transition: opacity 175ms;
 
   line {
-    stroke: $primary-color;
+    stroke: var(--md-sys-color-primary);
     stroke-width: 4;
     stroke-linecap: round;
   }
@@ -153,12 +153,12 @@ input[type=text].text-primary {
 
 .timepicker-canvas-bearing {
   stroke: none;
-  fill: $primary-color;
+  fill: var(--md-sys-color-primary);
 }
 
 .timepicker-canvas-bg {
   stroke: none;
-  fill: $primary-color;
+  fill: var(--md-sys-color-primary);
 }
 
 
@@ -175,7 +175,7 @@ input[type=text].text-primary {
 }
 
 .timepicker-close {
-  color: $primary-color;
+  color: var(--md-sys-color-primary);
 }
 
 .timepicker-clear,

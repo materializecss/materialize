@@ -1,6 +1,3 @@
-/* Range
-   ========================================================================== */
-
 .range-field {
   position: relative;
 }
@@ -33,7 +30,7 @@ input[type=range] + .thumb {
   height: 0;
   width: 0;
   border-radius: 50%;
-  background-color: $radio-fill-color;
+  background-color: $primary-color;
   margin-left: 7px;
 
   transform-origin: 50% 50%;
@@ -43,7 +40,7 @@ input[type=range] + .thumb {
     display: block;
     width: 30px;
     text-align: center;
-    color: $radio-fill-color;
+    color: $primary-color;
     font-size: 0;
     transform: rotate(45deg);
   }
@@ -62,17 +59,17 @@ input[type=range] + .thumb {
 
 // Shared
 @mixin range-track {
-  height: $track-height;
+  height: 3px;
   @extend .surface-variant;
   border: none;
 }
 
 @mixin range-thumb {
   border: none;
-  height: $range-height;
-  width: $range-width;
+  height: 14px;
+  width: 14px;
   border-radius: 50%;
-  background: $radio-fill-color;
+  background: $primary-color;
   transition: box-shadow .3s;
 }
 
@@ -88,19 +85,18 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
   @include range-thumb;
   -webkit-appearance: none;
-  background-color: $radio-fill-color;
+  background-color: $primary-color;
   transform-origin: 50% 50%;
   margin: -5px 0 0 0;
 
 }
 
 .keyboard-focused input[type=range]:focus:not(.active)::-webkit-slider-thumb {
-  box-shadow: 0 0 0 10px $radio-focus-color;
+  box-shadow: 0 0 0 10px $primary-color-focus-opaque;
 }
 
 // FireFox
 input[type=range] {
-
   /*required for proper track sizing in FF*/
 }
 
@@ -124,38 +120,34 @@ input[type=range]:-moz-focusring {
 }
 
 .keyboard-focused input[type=range]:focus:not(.active)::-moz-range-thumb {
-  box-shadow: 0 0 0 10px $radio-focus-color;
+  box-shadow: 0 0 0 10px $primary-color-focus-opaque;
 }
 
+//------------------------------- Remove this?
 // IE 10+
 input[type=range]::-ms-track {
-  height: $track-height;
-
+  height: 3px;
   // remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead
   background: transparent;
-
   // leave room for the larger thumb to overflow with a transparent border */
   border-color: transparent;
   border-width: 6px 0;
-
   /*remove default tick marks*/
   color: transparent;
 }
-
 input[type=range]::-ms-fill-lower,
 input[type=range]::-moz-range-progress {
   background: $primary-color;
 }
-
 input[type=range]::-ms-fill-upper,
 input[type=range]::-moz-range-track {
-  background: $range-track-color;
+  background: var(--slider-track-color);
 }
-
 input[type=range]::-ms-thumb {
   @include range-thumb;
 }
+//--------------------------------
 
 .keyboard-focused input[type=range]:focus:not(.active)::-ms-thumb {
-  box-shadow: 0 0 0 10px $radio-focus-color;
+  box-shadow: 0 0 0 10px $primary-color-focus-opaque;
 }

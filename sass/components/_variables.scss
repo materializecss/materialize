@@ -37,13 +37,6 @@ $surface-color: var(--surface-color) !default;
 $surface-hover-color-opaque: var(--hover-color) !default;
 $surface-focus-color-opaque: var(--focus-color) !default;
 
-// 2. Badges
-$badge-bg-color: $primary-color !default;
-$badge-height: 22px !default;
-$badge-color: var(--font-color-medium) !default;
-$badge-color-active: var(--font-on-primary-color-main) !default;
-$badge-color-new: $font-on-primary-color-main !default;
-
 // 3. Buttons
 // Flat buttons
 $button-flat-color: var(--font-color-medium) !default;
@@ -56,21 +49,12 @@ $button-floating-color: $font-on-secondary-color-main !default;
 $button-floating-size: 40px !default;
 $button-floating-radius: 16px !default;
 
-// 4. Cards
-$card-padding: 24px !default;
-
 // 5. Carousel
 $carousel-height: 400px !default;
 $carousel-item-height: $carousel-height * 0.5 !default;
 $carousel-item-width: $carousel-item-height !default;
 $carousel-indicator-color: var(--carousel-indicator-color) !default;
 $carousel-indicator-color-active: var(--carousel-indicator-active-color) !default;
-
-// 6. Collapsible
-$collapsible-height: 3rem !default;
-$collapsible-line-height: $collapsible-height !default;
-$collapsible-border-color: var(--md-sys-color-outline-variant) !default;
-$collapsible-bg-color: $surface-color !default;
 
 // 7. Date + Time Picker
 $datepicker-display-font-size: 2.8rem;
@@ -113,18 +97,6 @@ $textfield_disabled_containercolor: rgba(var(--md_sys_color_on-surface), 0.04);
 $textfield_disabled_outlinecolor: rgba(var(--md_sys_color_on-surface), 0.12);
 $textfield_disabled_color: rgba(var(--md_sys_color_on-surface), 0.38);
 
-// Radio Buttons
-$radio-fill-color: $primary-color !default;
-$radio-focus-color: $primary-color-focus-opaque !default;
-$radio-empty-color: var(--font-color-medium) !default;
-$radio-border: 2px solid $radio-fill-color !default;
-
-// Range
-$range-height: 14px !default;
-$range-width: 14px !default;
-$track-height: 3px !default;
-$range-track-color: var(--slider-track-color) !default;
-
 // Select
 $select-border: 1px solid var(--md-sys-color-outline-variant) !default;
 $select-background: $surface-color !default;
@@ -148,14 +120,6 @@ $switch-track-checked-bg: rgba(var(--primary-color-numeric), 0.32) !default;
 $switch-track-unchecked-bg: var(--slider-track-color) !default;
 $switch-radius: 15px !default;
 
-// 10. Chips
-$chip-bg-color: var(--background-color-level-4dp) !default;
-$chip-border-color: $input-border-color !default;
-$chip-font-color: $font-color-medium !default;
-$chip-selected-color: $primary-color !default;
-$chip-selected-font-color: $font-on-primary-color-main !default;
-$chip-margin: 5px !default;
-
 // 11. Global
 // Media Query Ranges
 $small-screen-up: 601px !default;
@@ -174,6 +138,7 @@ $medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width 
 
 // 12. Grid
 $num-cols: 12 !default;
+
 $gutter-width: 1.5rem !default;
 $element-top-margin: math.div($gutter-width, 3) !default;
 $element-bottom-margin: math.div($gutter-width*2, 3) !default;
@@ -190,11 +155,8 @@ $navbar-bg-color-hover: $primary-color-when-hovered-solid !default;
 $navbar-brand-font-size: 2.1rem !default;
 
 // 15. Photo Slider
-$slider-bg-color: $surface-color !default;
-$slider-indicator-color: var(--slider-track-color) !default;
-$slider-indicator-color-active: $primary-color !default;
-$slider-fullscreen-indicator-color: $carousel-indicator-color !default;
-$slider-fullscreen-indicator-color-active: $carousel-indicator-color-active !default;
+$slider-fullscreen-indicator-color: var(--carousel-indicator-color) !default;
+$slider-fullscreen-indicator-color-active: var(--carousel-indicator-active-color) !default;
 
 // 17. Tabs
 $tabs-text-active-color: $primary-color-font-emphasize-color !default;
@@ -203,13 +165,10 @@ $tabs-text-disabled-color: $font-color-disabled !default;
 $tabs-underline-color: $tabs-text-active-color !default;
 $tabs-bg-color: $surface-color !default;
 
-// 18. Tables
-$table-border-color: var(--md-sys-color-outline-variant) !default;
-$table-striped-color: var(--background-color-slight-emphasis) !default;
-
 // 21. Typography
 $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !default;
 $text-color: var(--md-sys-color-on-background) !default;
+
 // Header Styles
 $h1-fontsize: 4.2rem !default;
 $h2-fontsize: 3.56rem !default;
@@ -228,19 +187,3 @@ $footer-copyright-bg-color: $primary-color-dark !default;
 $range: $large-screen - $small-screen !default;
 $intervals: 20 !default;
 $interval-size: math.div($range, $intervals) !default;
-
-// 24. Collections
-$collection-border-color: var(--md-sys-color-outline-variant) !default;
-$collection-bg-color: transparent !default;
-$collection-active-bg-color: $primary-color !default;
-$collection-active-color: $font-on-primary-color-main !default;
-$collection-hover-bg-color: $surface-hover-color-opaque !default;
-$collection-link-color: $primary-color !default;
-$collection-line-height: 1.5rem !default;
-$collection-border-radius: 2px !default;
-$collection-avatar-circle-bg-color: var(--slider-track-color) !default;
-$collection-avatar-circle-icon-color: #fff !default;
-
-// 25. Progress Bar
-$progress-bar-color: $primary-color !default;
-$progress-bar-track-color: rgba(var(--primary-color-numeric), 40%) !default;

@@ -1,8 +1,6 @@
-
-
 .card-panel {
   transition: box-shadow .25s;
-  padding: $card-padding;
+  padding: 24px;
   margin: $element-top-margin 0 $element-bottom-margin 0;
   border-radius: 12px;
   @extend .z-depth-1;
@@ -134,12 +132,12 @@
       bottom: 0;
       left: 0;
       max-width: 100%;
-      padding: $card-padding;
+      padding: 24px;
     }
   }
 
   .card-content {
-    padding: $card-padding;
+    padding: 24px;
     border-radius: 0 0 2px 2px;
 
     p {
@@ -166,7 +164,7 @@
     background-color: inherit;
 
     a {
-      padding: 16px $card-padding;
+      padding: 16px 24px;
       display: inline-block;
     }
 
@@ -181,7 +179,7 @@
   }
 
   .card-reveal {
-    padding: $card-padding;
+    padding: 24px;
     position: absolute;
     background-color: var(--md-sys-color-surface);
     width: 100%;

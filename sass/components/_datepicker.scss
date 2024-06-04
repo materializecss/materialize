@@ -69,7 +69,7 @@
 /* Date Display */
 .datepicker-date-display {
   flex: 1 auto;
-  background-color: $primary-color;
+  background-color: var(--primary-color);
   color: $font-on-primary-color-main;
   padding: 20px 22px;
   font-weight: 500;
@@ -122,11 +122,11 @@
     color: $datepicker-day-font-color;
 
     &.is-today {
-      color: $primary-color;
+      color: var(--primary-color);
     }
 
     &.is-selected {
-      background-color: $primary-color;
+      background-color: var(--primary-color);
       color: $font-on-primary-color-main;
     }
 
@@ -175,7 +175,7 @@
 .datepicker-clear,
 .datepicker-today,
 .datepicker-done {
-  color: $primary-color;
+  color: var(--primary-color);
   padding: 0 1rem;
 }
 

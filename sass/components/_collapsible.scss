@@ -2,9 +2,9 @@
   padding-left: 0;
   list-style-type: none;
 
-  border-top: 1px solid $collapsible-border-color;
-  border-right: 1px solid $collapsible-border-color;
-  border-left: 1px solid $collapsible-border-color;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  border-right: 1px solid var(--md-sys-color-outline-variant);
+  border-left: 1px solid var(--md-sys-color-outline-variant);
   margin: $element-top-margin 0 $element-bottom-margin 0;
   @extend .z-depth-1;
 }
@@ -19,8 +19,7 @@
   -webkit-tap-highlight-color: transparent;
   line-height: 1.5;
   padding: 1rem;
-  border-bottom: 1px solid $collapsible-border-color;
-  //background-color: //$collapsible-bg-color;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
 
   i {
     width: 2rem;
@@ -48,11 +47,10 @@
 
 .collapsible-body {
   max-height: 0;
-  border-bottom: 1px solid $collapsible-border-color;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
   box-sizing: border-box;
   padding: 0 2rem;
   overflow: hidden;
-  //background-color: $collapsible-bg-color;
 }
 
 // Popout Collapsible

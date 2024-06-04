@@ -14,23 +14,14 @@ textarea {
   font-family: $font-stack;
 }
 
-a {
-  color: $link-color;
-  text-decoration: none;
-  // Gets rid of tap active state
-  -webkit-tap-highlight-color: transparent;
+a { color: $link-color; text-decoration: none; 
+   -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
 }
 
 // Positioning
-.valign-wrapper {
-  display: flex;
-  align-items: center;
-}
+.valign-wrapper { display: flex; align-items: center; }
 
-// classic clearfix
-.clearfix {
-  clear: both;
-}
+.clearfix { clear: both; }
 
 // Z-levels
 .z-depth-0 {
@@ -91,11 +82,7 @@ a {
 }
 
 //  Blockquote
-blockquote {
-  margin: 20px 0;
-  padding-left: 1.5rem;
-  border-left: 5px solid $primary-color;
-}
+blockquote { margin: 20px 0; padding-left: 1.5rem; border-left: 5px solid var(--primary-color); }
 
 // Icon Styles
 i {
@@ -165,7 +152,7 @@ video.responsive-video {
 
     &.active,
     &.active:hover {
-      background-color: $primary-color;
+      background-color: var(--primary-color);
     }
 
     &.disabled a {
@@ -280,35 +267,22 @@ video.responsive-video {
   Transition Classes
 **********************/
 
-ul.staggered-list li {
-  opacity: 0;
-}
-
-.fade-in {
-  opacity: 0;
-  transform-origin: 0 50%;
-}
-
+ul.staggered-list li { opacity: 0; }
+.fade-in { opacity: 0; transform-origin: 0 50%; }
 
 /*********************
   Media Query Classes
 **********************/
 .hide-on-small-only, .hide-on-small-and-down {
-  @media #{$small-and-down} {
-    display: none !important;
-  }
+  @media #{$small-and-down} { display: none !important; }
 }
 
 .hide-on-med-and-down {
-  @media #{$medium-and-down} {
-    display: none !important;
-  }
+  @media #{$medium-and-down} { display: none !important; }
 }
 
 .hide-on-med-and-up {
-  @media #{$medium-and-up} {
-    display: none !important;
-  }
+  @media #{$medium-and-up} { display: none !important; }
 }
 
 .hide-on-med-only {
@@ -318,27 +292,19 @@ ul.staggered-list li {
 }
 
 .hide-on-large-only {
-  @media #{$large-and-up} {
-    display: none !important;
-  }
+  @media #{$large-and-up} { display: none !important; }
 }
 
 .hide-on-extra-large-only {
-  @media #{$extra-large-and-up} {
-    display: none !important;
-  }
+  @media #{$extra-large-and-up} { display: none !important; }
 }
 
 .show-on-extra-large {
-  @media #{$extra-large-and-up} {
-    display: block !important;
-  }
+  @media #{$extra-large-and-up} { display: block !important; }
 }
 
 .show-on-large {
-  @media #{$large-and-up} {
-    display: block !important;
-  }
+  @media #{$large-and-up} { display: block !important; }
 }
 
 .show-on-medium {
@@ -348,29 +314,21 @@ ul.staggered-list li {
 }
 
 .show-on-small {
-  @media #{$small-and-down} {
-    display: block !important;
-  }
+  @media #{$small-and-down} { display: block !important; }
 }
 
 .show-on-medium-and-up {
-  @media #{$medium-and-up} {
-    display: block !important;
-  }
+  @media #{$medium-and-up} { display: block !important; }
 }
 
 .show-on-medium-and-down {
-  @media #{$medium-and-down} {
-    display: block !important;
-  }
+  @media #{$medium-and-down} { display: block !important; }
 }
 
 
 // Center text on mobile
 .center-on-small-only {
-  @media #{$small-and-down} {
-    text-align: center;
-  }
+  @media #{$small-and-down} { text-align: center; }
 }
 
 // Footer
@@ -417,7 +375,7 @@ table {
       border-bottom: none;
     }
     tbody > tr:nth-child(odd) {
-      background-color: $table-striped-color;
+      background-color: var(--background-color-slight-emphasis);
     }
   }
 
@@ -441,7 +399,7 @@ table {
 }
 
 tr {
-  border-bottom: 1px solid $table-border-color;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
 }
 
 td, th {
@@ -465,17 +423,14 @@ td, th {
     td:empty:before {
       content: '\00a0';
     }
-
     th,
     td {
       margin: 0;
       vertical-align: top;
     }
-
     th {
       text-align: left;
     }
-
     thead {
       display: block;
       float: left;
@@ -489,7 +444,6 @@ td, th {
         }
       }
     }
-
     tbody {
       display: block;
       width: auto;
@@ -502,27 +456,23 @@ td, th {
         vertical-align: top;
       }
     }
-
     th {
       display: block;
       text-align: right;
     }
-
     td {
       display: block;
       min-height: 1.25em;
       text-align: left;
     }
-
     tr {
       border-bottom: none;
       padding: 0 10px;
     }
-
     /* sort out borders */
     thead {
       border: 0;
-      border-right: 1px solid $table-border-color;
+      border-right: 1px solid var(--md-sys-color-outline-variant);
     }
   }
 }
@@ -547,49 +497,23 @@ td, th {
   Utility Classes
 *******************/
 
-.hide {
-  display: none !important;
-}
+.hide { display: none !important; }
+
 // Text Align
-.left-align {
-  text-align: left;
-}
-.right-align {
-  text-align: right
-}
-.center, .center-align {
-  text-align: center;
-}
+.left-align { text-align: left; }
+.right-align { text-align: right }
+.center, .center-align { text-align: center; }
 
 // TODO: Remove this
-.left {
-  float: left !important;
-}
-.right {
-  float: right !important;
-}
+.left { float: left !important; }
+.right { float: right !important; }
 
 // No Text Select
-.no-select {
-  user-select: none;
-}
-.circle {
-  border-radius: 50%;
-}
-.center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.truncate {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.no-padding {
-  padding: 0 !important;
-}
+.no-select { user-select: none; }
+.circle { border-radius: 50%; }
+.center-block { display: block; margin-left: auto; margin-right: auto; }
+.truncate { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.no-padding { padding: 0 !important; }
 
 /**************************
   Utility Spacing Classes
@@ -604,18 +528,15 @@ $spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5
 @each $property, $shortcut in $spacing-shortcuts{
   @each $name, $value in $spacing-values{
     // All direction spacing
-
     .#{$shortcut}-#{$name}{
       #{$property}: $value !important;
     }
-
     // (t, b, r, l) spacing
     @each $direction, $suffix in $spacing-directions{
       .#{$shortcut}#{$suffix}-#{$name}{
         #{$property}-#{$direction}: $value !important 
       }
     }
-
     // x spacing
     @if $spacing-horizontal != null{
        .#{$shortcut}#{$spacing-horizontal}-#{$name}{
@@ -623,15 +544,12 @@ $spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5
          #{$property}-right: $value !important;
        }
     }
-
     // y spacing
     @if $spacing-vertical != null{
       .#{$shortcut}#{$spacing-vertical}-#{$name}{
         #{$property}-top: $value !important;
         #{$property}-bottom: $value !important;
-      }
-        
-    }
-      
+      }        
+    }      
   }
 } 

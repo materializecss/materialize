@@ -3,7 +3,8 @@
   --font-size-icon: 18px;
   --padding: 8px;
 
-  background-color: $chip-bg-color;
+  color: $font-color-medium;
+  background-color: var(--background-color-level-4dp);
 
   display: inline-flex;
   white-space: nowrap;
@@ -17,7 +18,6 @@
   
   font-size: var(--font-size);
   font-weight: 500;  
-  color: $chip-font-color;
   
   border-radius: 8px;
 
@@ -27,8 +27,8 @@
 
   &:focus {
     outline: none;
-    background-color: $chip-selected-color;
-    color: $chip-selected-font-color;
+    background-color: $primary-color;
+    color: $font-on-primary-color-main;
   }
 }
 
@@ -75,7 +75,7 @@
   flex-wrap: wrap;
 
   border: none;
-  border-bottom: 1px solid $chip-border-color;
+  border-bottom: 1px solid $input-border-color;
   box-shadow: none;
   margin: $input-margin;
 
@@ -86,8 +86,8 @@
   transition: all .3s;
 
   &.focus {
-    border-bottom: 1px solid $chip-selected-color;
-    box-shadow: 0 1px 0 0 $chip-selected-color;
+    border-bottom: 1px solid $primary-color;
+    box-shadow: 0 1px 0 0 $primary-color;
   }
 
   &:hover {

@@ -47,7 +47,7 @@
 
 [type="radio"]:not(:checked) + span:before,
 [type="radio"]:not(:checked) + span:after {
-  border: 2px solid $radio-empty-color;
+  border: 2px solid var(--font-color-medium);
 }
 
 [type="radio"]:not(:checked) + span:after {
@@ -62,12 +62,12 @@
 [type="radio"]:checked + span:after,
 [type="radio"].with-gap:checked + span:before,
 [type="radio"].with-gap:checked + span:after {
-  border: $radio-border;
+  border: 2px solid $primary-color;
 }
 
 [type="radio"]:checked + span:after,
 [type="radio"].with-gap:checked + span:after {
-  background-color: $radio-fill-color;
+  background-color: $primary-color;
 }
 
 [type="radio"]:checked + span:after {

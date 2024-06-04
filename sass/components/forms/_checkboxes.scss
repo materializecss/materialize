@@ -33,7 +33,7 @@
     width: 18px;
     height: 18px;
     z-index: 0;
-    border: 2px solid $radio-empty-color;
+    border: 2px solid var(--font-color-medium);
     border-radius: 1px;
     margin-top: 3px;
     transition: .2s;
@@ -135,7 +135,7 @@
     height: 20px;
     width: 20px;
     background-color: transparent;
-    border: 2px solid $radio-empty-color;
+    border: 2px solid var(--font-color-medium);
     top: 0px;
     z-index: 0;
   }
@@ -168,7 +168,7 @@
   // Focused styles
   &.tabbed:focus + span:not(.lever):after {
     border-radius: 2px;
-    border-color: $radio-empty-color;
+    border-color: var(--font-color-medium)r;
     background-color: $surface-focus-color-opaque;
   }
 

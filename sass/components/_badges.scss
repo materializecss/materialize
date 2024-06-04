@@ -1,21 +1,24 @@
-// Badges
+.badge {
+  --bagde-height: 22px;
+}
+
 span.badge {
   min-width: 3rem;
   padding: 0 6px;
   margin-left: 14px;
   text-align: center;
   font-size: 1rem;
-  line-height: $badge-height;
-  height: $badge-height;
-  color: $badge-color;
+  line-height: var(--bagde-height);
+  height: var(--bagde-height);
+  color: var(--font-color-medium);
   float: right;
   box-sizing: border-box;
 
   &.new {
     font-weight: 300;
     font-size: 0.8rem;
-    color: $badge-color-new;
-    background-color: $badge-bg-color;
+    color: $font-on-primary-color-main;
+    background-color: $primary-color;
     border-radius: 2px;
   }
   &.new:after {
@@ -28,22 +31,23 @@ span.badge {
 }
 
 .active span.badge {
-  color: $badge-color-active;
+  color: var(--font-on-primary-color-main);
 }
 
 // Special cases
+
 nav ul a span.badge {
   display: inline-block;
   float: none;
   margin-left: 4px;
-  line-height: $badge-height;
-  height: $badge-height;
+  line-height: var(--bagde-height);
+  height: var(--bagde-height);
   -webkit-font-smoothing: auto;
 }
 
 // Line height centering
 .collection-item span.badge {
-  margin-top: calc(#{$collection-line-height * 0.5} - #{$badge-height * 0.5});
+  margin-top: calc(#{1.5rem * 0.5} - #{var(--bagde-height) * 0.5});
 }
 
 .collapsible span.badge {
@@ -51,7 +55,7 @@ nav ul a span.badge {
 }
 
 .collapsible .active span.badge:not(.new) {
-  color: $badge-color;
+  color: var(--font-color-medium);
 }
 
 .sidenav span.badge {

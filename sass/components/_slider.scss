@@ -37,7 +37,7 @@
   }
 
   .slides {
-    background-color: $slider-bg-color;
+    background-color: $surface-color;
     margin: 0;
     height: 400px;
     padding-left: 0;
@@ -104,14 +104,14 @@
       top: 0;
       left: 0;
       cursor: pointer;
-      background-color: $slider-indicator-color;
+      background-color: var(--slider-track-color);
 
       transition: background-color .3s;
       border-radius: 50%;
       border-width: 0;
       
       &.active {
-        background-color: $slider-indicator-color-active;
+        background-color: $primary-color;
       }
 
       width: 100%;
