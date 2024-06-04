@@ -11,7 +11,7 @@
 }
 
 .text-primary {
-  color: $font-on-primary-color-main;
+  color:  var(--font-on-primary-color-main);
 }
 
 
@@ -28,7 +28,7 @@
   font-size: 4rem;
   font-weight: bold;
   text-align: center;
-  color: $font-on-primary-color-medium;
+  color: var(--font-on-primary-color-medium);
   font-weight: 400;
   position: relative;
   user-select: none;
@@ -75,11 +75,11 @@ input[type=text].text-primary {
 /* Analog Clock Display */
 .timepicker-analog-display {
   flex: 2.5 auto;
-  background-color: $timepicker-clock-bg;
+  background-color: var(--surface-color);
 }
 
 .timepicker-plate {
-  background-color: $timepicker-clock-plate-bg;
+  background-color: var(--background-color-level-4dp);
   border-radius: 50%;
   width: 270px;
   height: 270px;
@@ -106,7 +106,7 @@ input[type=text].text-primary {
 
 .timepicker-tick {
   border-radius: 50%;
-  color: $timepicker-clock-color;
+  color: var(--md-sys-color-on-background);
   line-height: 40px;
   text-align: center;
   width: 40px;
@@ -118,7 +118,7 @@ input[type=text].text-primary {
 
 .timepicker-tick.active,
 .timepicker-tick:hover {
-  background-color: $primary-color-hover-opaque;
+  background-color: var(--primary-color-hover-opaque);
 }
 
 .timepicker-dial {

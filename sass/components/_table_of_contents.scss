@@ -12,14 +12,14 @@
   a {
     display: inline-block;
     font-weight: 400;
-    color: var(--md-sys-color-secondary); //$font-color-medium;
+    color: var(--md-sys-color-secondary);
     padding-left: 16px;
     height: 2rem;
     line-height: 2rem;
     border-left: 1px solid var(--md-sys-color-outline-variant);
     
     &:hover {
-      color: $font-color-main;
+      color: var(--md-sys-color-on-background);
       padding-left: 15px;
     }
     &.active {

@@ -47,7 +47,7 @@
     }
 
     clear: both;
-    color: var(--md-sys-color-on-background); //$text-color;
+    color: var(--md-sys-color-on-background);
     cursor: pointer;
     min-height: $dropdown-item-height;
     line-height: 1.5rem;
@@ -58,7 +58,7 @@
 
 body.keyboard-focused {
   .dropdown-content li:focus {
-    background-color: $dropdown-focus-bg-color;
+    background-color: var(--focus-color);
   }
 }
 

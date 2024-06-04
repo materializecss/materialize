@@ -1,9 +1,15 @@
+// TODO: Make better wrapper class like .navbar
+:root {
+  --navbar-height: 64px;
+  --navbar-height-mobile: 56px;
+}
+
 nav {
   &.nav-extended {
     height: auto;
 
     .nav-wrapper {
-      min-height: $navbar-height-mobile;
+      min-height: var(--navbar-height-mobile);
       height: auto;
     }
 
@@ -13,16 +19,16 @@ nav {
     }
   }
 
-  color: $navbar-font-color;
+  color:  var(--font-on-primary-color-main);
   @extend .z-depth-1;
-  background-color: $secondary-container-color;
+  background-color: var(--secondary-container-color);
 
   width: 100%;
-  height: $navbar-height-mobile;
-  line-height: $navbar-line-height-mobile;
+  height: var(--navbar-height-mobile);
+  line-height: var(--navbar-height-mobile);
 
   a {
-    color: $navbar-font-color;
+    color:  var(--font-on-primary-color-main);
   }
 
   i,
@@ -31,8 +37,8 @@ nav {
   i.material-symbols-rounded, i.material-symbols-sharp {
     display: block;
     font-size: 24px;
-    height: $navbar-height-mobile;
-    line-height: $navbar-line-height-mobile;
+    height: var(--navbar-height-mobile);
+    line-height: var(--navbar-height-mobile);
   }
 
   .nav-wrapper {
@@ -51,21 +57,21 @@ nav {
     float: left;
     position: relative;
     z-index: 1;
-    height: $navbar-height-mobile;
+    height: var(--navbar-height-mobile);
     margin: 0 18px;
 
     i {
-      height: $navbar-height-mobile;
-      line-height: $navbar-line-height-mobile;
+      height: var(--navbar-height-mobile);
+      line-height: var(--navbar-height-mobile);
     }
   }
 
   // Logo
   .brand-logo {
     position: absolute;
-    color: $navbar-font-color;
+    color:  var(--font-on-primary-color-main);
     display: inline-block;
-    font-size: $navbar-brand-font-size;
+    font-size: 2.1rem;
     padding: 0;
 
     &.center {
@@ -126,18 +132,18 @@ nav {
 
       & > a {
         transition: background-color .3s;
-        font-size: $navbar-font-size;
-        color: $navbar-font-color;
+        font-size: 1rem;
+        color:  var(--font-on-primary-color-main);
         display: block;
         padding: 0 15px;
         cursor: pointer;
 
         &.active {
-          background-color: $navbar-bg-color-focus;
+          background-color: var(--primary-color-raised-focus-solid);
         }
 
         &:hover:not(.active) {
-          background-color: $navbar-bg-color-hover;
+          background-color: var(--primary-color-raised-hover-solid);
         }
 
         &.btn, &.btn-large, &.btn-flat, &.btn-floating {
@@ -174,7 +180,7 @@ nav {
       font-size: 1.2rem;
       border: none;
       padding-left: 2rem;
-      color: #888; //$navbar-font-color;
+      color:  var(--font-on-primary-color-main);
 
       &:focus, &[type=text]:valid, &[type=password]:valid,
       &[type=email]:valid, &[type=url]:valid, &[type=date]:valid {
@@ -188,12 +194,12 @@ nav {
       left: 0;
 
       i {
-        color: $font-on-primary-color-medium;
+        color: var(--font-on-primary-color-medium);
         transition: color .3s;
       }
 
       &.active i {
-        color: $navbar-font-color;
+        color:  var(--font-on-primary-color-main)
       }
     }
   }
@@ -202,7 +208,7 @@ nav {
 // Fixed Navbar
 .navbar-fixed {
   position: relative;
-  height: $navbar-height-mobile;
+  height: var(--navbar-height-mobile);
   z-index: 997;
 
   nav {
@@ -213,13 +219,13 @@ nav {
 
 @media #{$medium-and-up} {
   nav.nav-extended .nav-wrapper {
-    min-height: $navbar-height;
+    min-height: var(--navbar-height-mobile);
   }
   nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
-    height: $navbar-height;
-    line-height: $navbar-line-height;
+    height: var(--navbar-height);
+    line-height: var(--navbar-height)
   }
   .navbar-fixed {
-    height: $navbar-height;
+    height: var(--navbar-height);
   }
 }

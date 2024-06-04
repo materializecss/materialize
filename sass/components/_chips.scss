@@ -3,7 +3,7 @@
   --font-size-icon: 18px;
   --padding: 8px;
 
-  color: $font-color-medium;
+  color: var(--font-color-medium);
   background-color: var(--background-color-level-4dp);
 
   display: inline-flex;
@@ -27,8 +27,8 @@
 
   &:focus {
     outline: none;
-    background-color: $primary-color;
-    color: $font-on-primary-color-main;
+    background-color: var(--md-sys-color-primary);
+    color:  var(--font-on-primary-color-main);
   }
 }
 
@@ -75,9 +75,9 @@
   flex-wrap: wrap;
 
   border: none;
-  border-bottom: 1px solid $input-border-color;
+  border-bottom: 1px solid var(--font-color-medium);
   box-shadow: none;
-  margin: $input-margin;
+  margin: 0 0 8px 0;
 
   padding: 4px;
   // min-height: 45px;
@@ -86,8 +86,8 @@
   transition: all .3s;
 
   &.focus {
-    border-bottom: 1px solid $primary-color;
-    box-shadow: 0 1px 0 0 $primary-color;
+    border-bottom: 1px solid var(--md-sys-color-primary);
+    box-shadow: 0 1px 0 0 var(--md-sys-color-primary);
   }
 
   &:hover {
@@ -97,12 +97,11 @@
   input:not([type]):not(.browser-default).input {
     background: none;
     border: 0;
-    color: $input-color;
+    color: var(--md-sys-color-on-background);
     display: inline-block;
-    font-size: $input-font-size;
+    font-size: 16px;
 
     // height: 32px;
-    // height: $input-height;
     // line-height: 32px;
     height: 32px;
 

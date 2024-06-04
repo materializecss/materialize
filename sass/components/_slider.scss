@@ -26,10 +26,10 @@
       bottom: 30px;
 
       .indicator-item {
-        background-color: $slider-fullscreen-indicator-color;
+        background-color: var(--carousel-indicator-color);
 
         &.active {
-          background-color: $slider-fullscreen-indicator-color-active;
+          background-color: var(--carousel-indicator-active-color);
         }
       }
 
@@ -37,7 +37,7 @@
   }
 
   .slides {
-    background-color: $surface-color;
+    background-color: var(--surface-color);
     margin: 0;
     height: 400px;
     padding-left: 0;
@@ -111,7 +111,7 @@
       border-width: 0;
       
       &.active {
-        background-color: $primary-color;
+        background-color: var(--md-sys-color-primary);
       }
 
       width: 100%;

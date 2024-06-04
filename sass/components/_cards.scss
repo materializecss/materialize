@@ -173,7 +173,7 @@
       transition: color .3s ease;
 
       &:hover {
-        background-color: $primary-color-hover-opaque;
+        background-color: var(--primary-color-hover-opaque);
       }
     }
   }

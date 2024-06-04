@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   padding: 0;
-  background-color: $surface-color;
+  background-color: var(--surface-color);
 }
 
 .datepicker-controls {
@@ -54,7 +54,7 @@
 
   .month-prev > svg,
   .month-next > svg {
-    fill: $button-flat-color;
+    fill: var(--font-color-medium);
   }
 }
 
@@ -70,7 +70,7 @@
 .datepicker-date-display {
   flex: 1 auto;
   background-color: var(--primary-color);
-  color: $font-on-primary-color-main;
+  color:  var(--font-on-primary-color-main);
   padding: 20px 22px;
   font-weight: 500;
 
@@ -78,7 +78,7 @@
     display: block;
     font-size: 1.5rem;
     line-height: 25px;
-    color: $datepicker-year;
+    color:  var(--font-on-primary-color-main);
   }
 
   .date-text {
@@ -115,11 +115,11 @@
 
   abbr {
     text-decoration: none;
-    color: $datepicker-calendar-header-color;
+    color: var(--font-color-medium);
   }
 
   td {
-    color: $datepicker-day-font-color;
+    color: var(--md-sys-color-on-background);
 
     &.is-today {
       color: var(--primary-color);
@@ -127,12 +127,12 @@
 
     &.is-selected {
       background-color: var(--primary-color);
-      color: $font-on-primary-color-main;
+      color:  var(--font-on-primary-color-main);
     }
 
     &.is-outside-current-month,
     &.is-disabled {
-      color: $datepicker-day-font-color-disabled;
+      color: var(--font-color-disabled);
       pointer-events: none;
     }
 
@@ -153,11 +153,11 @@
   color: inherit;
 
   &:hover {
-    background-color: $datepicker-day-hover;
+    background-color: var(--primary-color-hover-opaque);
   }
 
   &:focus {
-    background-color: $datepicker-day-focus;
+    background-color: var(--primary-color-focus-opaque);
   }
 }
 

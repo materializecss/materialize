@@ -42,7 +42,7 @@
 
 
 .keyboard-focused .collapsible-header:focus {
-  background-color: $surface-focus-color-opaque;
+  background-color: var(--focus-color);
 }
 
 .collapsible-body {

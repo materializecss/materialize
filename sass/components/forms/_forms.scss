@@ -1,6 +1,6 @@
 // Remove Focus Boxes
 select:focus {
-  outline: $select-focus;
+  outline: 1px solid var(--primary-color-raised-focus-solid);
 }
 
 /*
@@ -11,8 +11,8 @@ button:focus {
 */
 
 label {
-  font-size: $label-font-size;
-  color: $input-border-color;
+  font-size: .8rem;
+  color: var(--font-color-medium);
 }
 
 @import 'input-fields';

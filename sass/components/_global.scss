@@ -135,7 +135,7 @@ video.responsive-video {
     height: 30px;
 
     a {
-      color: $font-color-medium;
+      color: var(--font-color-medium);
       display: inline-block;
       font-size: 1.2rem;
       padding: 0 10px;
@@ -143,11 +143,11 @@ video.responsive-video {
     }
 
     &:hover:not(.disabled) {
-      background-color: $primary-color-hover-opaque;
+      background-color: var(--primary-color-hover-opaque);
     }
 
     &.active a {
-      color: $font-on-primary-color-main;
+      color:  var(--font-on-primary-color-main);
     }
 
     &.active,
@@ -157,7 +157,7 @@ video.responsive-video {
 
     &.disabled a {
       cursor: default;
-      color: $font-color-disabled;
+      color: var(--font-color-disabled);
     }
 
     i {
@@ -193,7 +193,7 @@ video.responsive-video {
 .breadcrumb {
   display: inline-block;
   font-size: 18px;
-  color: $font-on-primary-color-medium;
+  color: var(--font-on-primary-color-medium);
 
   i,
   [class^="mdi-"], [class*="mdi-"],
@@ -206,7 +206,7 @@ video.responsive-video {
 
   &:before {
     content: '\E5CC';
-    color: $font-on-primary-color-medium;
+    color: var(--font-on-primary-color-medium);
     vertical-align: top;
     display: inline-block;
     font-family: 'Material Symbols Outlined', 'Material Symbols Rounded', 'Material Symbols Sharp', 'Material Icons';
@@ -223,7 +223,7 @@ video.responsive-video {
   }
 
   &:last-child {
-    color: $font-on-primary-color-main;
+    color:  var(--font-on-primary-color-main);
   }
 }
 
@@ -334,11 +334,11 @@ ul.staggered-list li { opacity: 0; }
 // Footer
 .page-footer {
   padding-top: 20px;
-  color: $footer-font-color;
-  background-color: $footer-bg-color;
+  color:  var(--font-on-primary-color-main);
+  background-color: var(--md-sys-color-primary);
 
   a {
-    color: $footer-font-color;
+    color:  var(--font-on-primary-color-main);
   }
 
   .footer-copyright,
@@ -349,8 +349,8 @@ ul.staggered-list li { opacity: 0; }
     align-items: center;
     justify-content: space-between;
     padding: 10px 0px;
-    color: $footer-copyright-font-color;
-    background-color: $footer-copyright-bg-color;
+    color: var(--font-on-primary-color-dark-medium);
+    background-color: var(--primary-color-dark);
   }
 }
 
@@ -383,12 +383,12 @@ table {
     transition: background-color .25s ease;
 
     &:hover {
-      background-color: $surface-hover-color-opaque;
+      background-color: var(--hover-color);
     }
   }
 
   thead {
-    color: $font-color-medium;
+    color: var(--font-color-medium);
   }
 
   &.centered {

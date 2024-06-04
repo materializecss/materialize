@@ -1,4 +1,5 @@
-.badge {
+// TODO: Make better structure
+:root {
   --bagde-height: 22px;
 }
 
@@ -17,8 +18,8 @@ span.badge {
   &.new {
     font-weight: 300;
     font-size: 0.8rem;
-    color: $font-on-primary-color-main;
-    background-color: $primary-color;
+    color:  var(--font-on-primary-color-main);
+    background-color: var(--md-sys-color-primary);
     border-radius: 2px;
   }
   &.new:after {
@@ -47,7 +48,7 @@ nav ul a span.badge {
 
 // Line height centering
 .collection-item span.badge {
-  margin-top: calc(#{1.5rem * 0.5} - #{var(--bagde-height) * 0.5});
+  margin-top: calc(calc(1.5rem * 0.5) - calc(var(--bagde-height) * 0.5));
 }
 
 .collapsible span.badge {

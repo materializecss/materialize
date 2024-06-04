@@ -64,11 +64,11 @@
     }
 
     &.active {
-      background-color: $primary-color;
-      color: $font-on-primary-color-main;
+      background-color: var(--md-sys-color-primary);
+      color:  var(--font-on-primary-color-main);
 
       .secondary-content {
-        color: $font-on-primary-color-main;
+        color:  var(--font-on-primary-color-main);
       }
     }
   }
@@ -76,11 +76,11 @@
   a.collection-item {
     display: block;
     transition: .25s;
-    color: $primary-color;
+    color: var(--md-sys-color-primary);
 
     &:not(.active) {
       &:hover {
-        background-color: $surface-hover-color-opaque;
+        background-color: var(--hover-color);
       }
     }
   }

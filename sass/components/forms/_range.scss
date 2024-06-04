@@ -30,7 +30,7 @@ input[type=range] + .thumb {
   height: 0;
   width: 0;
   border-radius: 50%;
-  background-color: $primary-color;
+  background-color: var(--md-sys-color-primary);
   margin-left: 7px;
 
   transform-origin: 50% 50%;
@@ -40,7 +40,7 @@ input[type=range] + .thumb {
     display: block;
     width: 30px;
     text-align: center;
-    color: $primary-color;
+    color: var(--md-sys-color-primary);
     font-size: 0;
     transform: rotate(45deg);
   }
@@ -49,7 +49,7 @@ input[type=range] + .thumb {
     border-radius: 50% 50% 50% 0;
 
     .value {
-      color: $font-on-primary-color-main;
+      color:  var(--font-on-primary-color-main);
       margin-left: -1px;
       margin-top: 8px;
       font-size: 10px;
@@ -69,7 +69,7 @@ input[type=range] + .thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: $primary-color;
+  background: var(--md-sys-color-primary);
   transition: box-shadow .3s;
 }
 
@@ -85,14 +85,14 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
   @include range-thumb;
   -webkit-appearance: none;
-  background-color: $primary-color;
+  background-color: var(--md-sys-color-primary);
   transform-origin: 50% 50%;
   margin: -5px 0 0 0;
 
 }
 
 .keyboard-focused input[type=range]:focus:not(.active)::-webkit-slider-thumb {
-  box-shadow: 0 0 0 10px $primary-color-focus-opaque;
+  box-shadow: 0 0 0 10px var(--primary-color-focus-opaque);
 }
 
 // FireFox
@@ -120,7 +120,7 @@ input[type=range]:-moz-focusring {
 }
 
 .keyboard-focused input[type=range]:focus:not(.active)::-moz-range-thumb {
-  box-shadow: 0 0 0 10px $primary-color-focus-opaque;
+  box-shadow: 0 0 0 10px var(--primary-color-focus-opaque);
 }
 
 //------------------------------- Remove this?
@@ -137,7 +137,7 @@ input[type=range]::-ms-track {
 }
 input[type=range]::-ms-fill-lower,
 input[type=range]::-moz-range-progress {
-  background: $primary-color;
+  background: var(--md-sys-color-primary);
 }
 input[type=range]::-ms-fill-upper,
 input[type=range]::-moz-range-track {
@@ -149,5 +149,5 @@ input[type=range]::-ms-thumb {
 //--------------------------------
 
 .keyboard-focused input[type=range]:focus:not(.active)::-ms-thumb {
-  box-shadow: 0 0 0 10px $primary-color-focus-opaque;
+  box-shadow: 0 0 0 10px var(--primary-color-focus-opaque);
 }
