@@ -333,9 +333,11 @@ ul.staggered-list li { opacity: 0; }
 
 // Footer
 .page-footer {
-  padding-top: 20px;
+  margin-top: 5rem;
+  padding-top: 5rem;
   color:  var(--font-on-primary-color-main);
-  background-color: var(--md-sys-color-primary);
+  //background-color: var(--md-sys-color-primary);
+  border-top: 1px dashed var(--md-sys-color-outline-variant);
 
   a {
     color:  var(--font-on-primary-color-main);
@@ -353,7 +355,6 @@ ul.staggered-list li { opacity: 0; }
     background-color: var(--primary-color-dark);
   }
 }
-
 .page-footer ul {
   padding-left: 0;
   list-style-type: none;
