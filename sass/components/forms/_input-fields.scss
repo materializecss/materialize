@@ -1,6 +1,6 @@
 /* Style Placeholders */
 ::placeholder {
-  color: var(--font-color-medium);
+  color: var(--md-sys-color-on-surface-variant);
 }
 
 /* Text inputs */
@@ -64,11 +64,11 @@ textarea.materialize-textarea {
     padding: 0 16px;
     padding-top: 20px;
 
-    background-color: var(--surface-color);
+    background-color: var(--md-sys-color-surface);
 
     border: none; // reset
     border-radius: 4px; // md.sys.shape.corner.extra-small.top
-    border-bottom: 1px solid var(--font-color-medium);
+    border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
    
@@ -106,7 +106,7 @@ textarea.materialize-textarea {
   }
 
   & > label {
-    color: var(--font-color-medium);
+    color: var(--md-sys-color-on-surface-variant);
     user-select: none;
     font-size: 16px;
     position: absolute;
@@ -124,14 +124,14 @@ textarea.materialize-textarea {
   // Sub-Infos
 
   .supporting-text {
-    color: var(--font-color-medium);
+    color: var(--md-sys-color-on-surface-variant);
     font-size: 12px;
     padding: 0 16px;
     margin-top: 4px;
   }
 
   .character-counter {
-    color: var(--font-color-medium);
+    color: var(--md-sys-color-on-surface-variant);
     font-size: 12px;
     float: right;
     padding: 0 16px;
@@ -173,7 +173,7 @@ textarea.materialize-textarea {
 
       background-color: var(--md-sys-color-background);
 
-      border: 1px solid var(--font-color-medium);
+      border: 1px solid var(--md-sys-color-on-surface-variant);
       border-radius: 4px; // md.sys.shape.corner.extra-small
 
       &:focus:not([readonly]) {

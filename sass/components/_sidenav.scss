@@ -44,12 +44,12 @@
     //md.sys.color.on-secondary-container
   }*/
   a:focus {
-    background-color: var(--focus-color);
+    background-color: rgba(0, 0, 0, 0.12);
   }
 
   li.active > a:not(.collapsible-header):not(.btn):not(.btn-large):not(.btn-small):not(.btn-flat):not(.btn-large):not(.btn-floating)  {
-    //color: var(--md-sys-color-on-secondary-container); //var(--font-on-secondary-container-color);
-    //background-color: var(--secondary-container-color);
+    //color: var(--md-sys-color-on-secondary-container); //var(--md-sys-color-on-secondary-container);
+    //background-color: var(--md-sys-color-secondary-container);
     background-color: color-mix(in srgb, var(--md-sys-color-secondary) 10%, transparent);
   }
 

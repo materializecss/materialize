@@ -49,7 +49,7 @@ input[type=range] + .thumb {
     border-radius: 50% 50% 50% 0;
 
     .value {
-      color:  var(--font-on-primary-color-main);
+      color:  var(--md-sys-color-on-primary);
       margin-left: -1px;
       margin-top: 8px;
       font-size: 10px;
@@ -92,7 +92,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .keyboard-focused input[type=range]:focus:not(.active)::-webkit-slider-thumb {
-  box-shadow: 0 0 0 10px var(--primary-color-focus-opaque);
+  box-shadow: 0 0 0 10px rgba(var(--md-sys-color-primary-numeric), 0.18);
 }
 
 // FireFox
@@ -120,7 +120,7 @@ input[type=range]:-moz-focusring {
 }
 
 .keyboard-focused input[type=range]:focus:not(.active)::-moz-range-thumb {
-  box-shadow: 0 0 0 10px var(--primary-color-focus-opaque);
+  box-shadow: 0 0 0 10px rgba(var(--md-sys-color-primary-numeric), 0.18);
 }
 
 //------------------------------- Remove this?
@@ -141,7 +141,7 @@ input[type=range]::-moz-range-progress {
 }
 input[type=range]::-ms-fill-upper,
 input[type=range]::-moz-range-track {
-  background: var(--slider-track-color);
+  background: var(--md-sys-color-shadow-light);
 }
 input[type=range]::-ms-thumb {
   @include range-thumb;
@@ -149,5 +149,5 @@ input[type=range]::-ms-thumb {
 //--------------------------------
 
 .keyboard-focused input[type=range]:focus:not(.active)::-ms-thumb {
-  box-shadow: 0 0 0 10px var(--primary-color-focus-opaque);
+  box-shadow: 0 0 0 10px rgba(var(--md-sys-color-primary-numeric), 0.18);
 }

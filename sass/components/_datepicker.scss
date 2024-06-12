@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   padding: 0;
-  background-color: var(--surface-color);
+  background-color: var(--md-sys-color-surface);
 }
 
 .datepicker-controls {
@@ -54,7 +54,7 @@
 
   .month-prev > svg,
   .month-next > svg {
-    fill: var(--font-color-medium);
+    fill: var(--md-sys-color-on-surface-variant);
   }
 }
 
@@ -69,8 +69,8 @@
 /* Date Display */
 .datepicker-date-display {
   flex: 1 auto;
-  background-color: var(--primary-color);
-  color:  var(--font-on-primary-color-main);
+  background-color: var(--md-sys-color-primary);
+  color:  var(--md-sys-color-on-primary);
   padding: 20px 22px;
   font-weight: 500;
 
@@ -78,7 +78,7 @@
     display: block;
     font-size: 1.5rem;
     line-height: 25px;
-    color:  var(--font-on-primary-color-main);
+    color:  var(--md-sys-color-on-primary);
   }
 
   .date-text {
@@ -115,24 +115,24 @@
 
   abbr {
     text-decoration: none;
-    color: var(--font-color-medium);
+    color: var(--md-sys-color-on-surface-variant);
   }
 
   td {
     color: var(--md-sys-color-on-background);
 
     &.is-today {
-      color: var(--primary-color);
+      color: var(--md-sys-color-primary);
     }
 
     &.is-selected {
-      background-color: var(--primary-color);
-      color:  var(--font-on-primary-color-main);
+      background-color: var(--md-sys-color-primary);
+      color:  var(--md-sys-color-on-primary);
     }
 
     &.is-outside-current-month,
     &.is-disabled {
-      color: var(--font-color-disabled);
+      color: var(--md-sys-color-on-surface);
       pointer-events: none;
     }
 
@@ -153,11 +153,11 @@
   color: inherit;
 
   &:hover {
-    background-color: var(--primary-color-hover-opaque);
+    background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
   }
 
   &:focus {
-    background-color: var(--primary-color-focus-opaque);
+    background-color: rgba(var(--md-sys-color-primary-numeric), 0.18);
   }
 }
 
@@ -175,7 +175,7 @@
 .datepicker-clear,
 .datepicker-today,
 .datepicker-done {
-  color: var(--primary-color);
+  color: var(--md-sys-color-primary);
   padding: 0 1rem;
 }
 

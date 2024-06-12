@@ -3,8 +3,8 @@
   --font-size-icon: 18px;
   --padding: 8px;
 
-  color: var(--font-color-medium);
-  background-color: var(--background-color-level-4dp);
+  color: var(--md-sys-color-on-surface-variant);
+  background-color: rgba(0, 0, 0, 0.09);
 
   display: inline-flex;
   white-space: nowrap;
@@ -28,7 +28,7 @@
   &:focus {
     outline: none;
     background-color: var(--md-sys-color-primary);
-    color:  var(--font-on-primary-color-main);
+    color:  var(--md-sys-color-on-primary);
   }
 }
 
@@ -75,7 +75,7 @@
   flex-wrap: wrap;
 
   border: none;
-  border-bottom: 1px solid var(--font-color-medium);
+  border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
   box-shadow: none;
   margin: 0 0 8px 0;
 

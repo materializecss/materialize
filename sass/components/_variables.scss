@@ -8,10 +8,10 @@ $success-color: color("green", "base") !default;
 $link-color: color("light-blue", "darken-1") !default;
 
 // Floating buttons
-$button-floating-background: var(--secondary-color) !default;
-$button-floating-background-hover: var(--secondary-color-hover-solid) !default;
-$button-floating-background-focus: var(--secondary-color-focus-solid) !default;
-$button-floating-color: var(--font-on-secondary-color-main) !default;
+$button-floating-background: var(--md-sys-color-secondary) !default;
+$button-floating-background-hover: var(--md-ref-palette-secondary70) !default;
+$button-floating-background-focus: var(--md-ref-palette-secondary80) !default;
+$button-floating-color: var(--md-sys-color-on-secondary) !default;
 $button-floating-size: 40px !default;
 $button-floating-radius: 16px !default;
 

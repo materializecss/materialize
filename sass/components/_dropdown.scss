@@ -58,7 +58,7 @@
 
 body.keyboard-focused {
   .dropdown-content li:focus {
-    background-color: var(--focus-color);
+    background-color: rgba(0, 0, 0, 0.12);
   }
 }
 

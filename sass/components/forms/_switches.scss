@@ -96,22 +96,22 @@ input[type=checkbox]:not(:disabled) ~ .lever:hover::before {
 }
 
 input[type=checkbox]:checked:not(:disabled) ~ .lever:hover::before {
-  background-color: var(--primary-color-hover-opaque);
+  background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
 }
 
 // Switch active style
 input[type=checkbox]:checked:not(:disabled) ~ .lever:active::before,
 input[type=checkbox]:checked:not(:disabled).tabbed:focus ~ .lever::before {
-  background-color: var(--primary-color-focus-opaque);
+  background-color: rgba(var(--md-sys-color-primary-numeric), 0.18);
 }
 
 input[type=checkbox]:not(:disabled) ~ .lever:hover::before {
-  background-color: var(--hover-color);
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 input[type=checkbox]:not(:disabled) ~ .lever:active:before,
 input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::before {
-  background-color: var(--focus-color);
+  background-color: rgba(0, 0, 0, 0.12);
 }
 
 // Disabled Styles

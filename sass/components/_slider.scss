@@ -26,10 +26,10 @@
       bottom: 30px;
 
       .indicator-item {
-        background-color: var(--carousel-indicator-color);
+        background-color: rgba(255, 255, 255, 0.45);
 
         &.active {
-          background-color: var(--carousel-indicator-active-color);
+          background-color: var(--md-ref-palette-primary100);
         }
       }
 
@@ -37,7 +37,7 @@
   }
 
   .slides {
-    background-color: var(--surface-color);
+    background-color: var(--md-sys-color-surface);
     margin: 0;
     height: 400px;
     padding-left: 0;
@@ -104,7 +104,7 @@
       top: 0;
       left: 0;
       cursor: pointer;
-      background-color: var(--slider-track-color);
+      background-color: var(--md-sys-color-shadow-light);
 
       transition: background-color .3s;
       border-radius: 50%;

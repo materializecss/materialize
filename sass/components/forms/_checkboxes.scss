@@ -33,7 +33,7 @@
     width: 18px;
     height: 18px;
     z-index: 0;
-    border: 2px solid var(--font-color-medium);
+    border: 2px solid var(--md-sys-color-on-surface-variant);
     border-radius: 1px;
     margin-top: 3px;
     transition: .2s;
@@ -46,7 +46,7 @@
 
   &:not(:checked):disabled + span:not(.lever):before {
     border: none;
-    background-color: var(--font-color-disabled);
+    background-color: var(--md-sys-color-on-surface);
   }
 
   // Focused styles
@@ -54,8 +54,8 @@
     transform: scale(1);
     border: 0;
     border-radius: 50%;
-    box-shadow: 0 0 0 10px var(--focus-color);
-    background-color: var(--focus-color);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.12);
+    background-color: rgba(0, 0, 0, 0.12);
   }
 }
 
@@ -75,8 +75,8 @@
   }
 
   &:disabled + span:before {
-    border-right: 2px solid var(--font-color-disabled);
-    border-bottom: 2px solid var(--font-color-disabled);
+    border-right: 2px solid var(--md-sys-color-on-surface);
+    border-bottom: 2px solid var(--md-sys-color-on-surface);
   }
 }
 
@@ -98,7 +98,7 @@
 
   // Disabled indeterminate
   &:disabled + span:not(.lever):before {
-    border-right: 2px solid var(--font-color-disabled);
+    border-right: 2px solid var(--md-sys-color-on-surface);
     background-color: transparent;
   }
 }
@@ -135,7 +135,7 @@
     height: 20px;
     width: 20px;
     background-color: transparent;
-    border: 2px solid var(--font-color-medium);
+    border: 2px solid var(--md-sys-color-on-surface-variant);
     top: 0px;
     z-index: 0;
   }
@@ -149,8 +149,8 @@
       height: 13px;
       border-top: 2px solid transparent;
       border-left: 2px solid transparent;
-      border-right: 2px solid  var(--font-on-primary-color-main);
-      border-bottom: 2px solid  var(--font-on-primary-color-main);
+      border-right: 2px solid  var(--md-sys-color-on-primary);
+      border-bottom: 2px solid  var(--md-sys-color-on-primary);
       transform: rotateZ(37deg);
       transform-origin: 100% 100%;
     }
@@ -168,8 +168,8 @@
   // Focused styles
   &.tabbed:focus + span:not(.lever):after {
     border-radius: 2px;
-    border-color: var(--font-color-medium)r;
-    background-color: var(--focus-color);
+    border-color: var(--md-sys-color-on-surface-variant)r;
+    background-color: rgba(0, 0, 0, 0.12);
   }
 
   &.tabbed:checked:focus + span:not(.lever):after {
@@ -186,7 +186,7 @@
 
   &:disabled:not(:checked) + span:not(.lever):after {
     border-color: transparent;
-    background-color: var(--font-color-disabled);
+    background-color: var(--md-sys-color-on-surface);
   }
 
   &:disabled:checked + span:not(.lever):before {
@@ -194,7 +194,7 @@
   }
 
   &:disabled:checked + span:not(.lever):after {
-    background-color: var(--font-color-disabled);
-    border-color: var(--font-color-disabled);
+    background-color: var(--md-sys-color-on-surface);
+    border-color: var(--md-sys-color-on-surface);
   }
 }

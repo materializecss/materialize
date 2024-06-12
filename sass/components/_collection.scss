@@ -37,7 +37,7 @@
         font-size: 18px;
         line-height: 42px;
         color: #fff;
-        background-color: var(--slider-track-color);
+        background-color: var(--md-sys-color-shadow-light);
         text-align: center;
       }
 
@@ -65,10 +65,10 @@
 
     &.active {
       background-color: var(--md-sys-color-primary);
-      color:  var(--font-on-primary-color-main);
+      color:  var(--md-sys-color-on-primary);
 
       .secondary-content {
-        color:  var(--font-on-primary-color-main);
+        color:  var(--md-sys-color-on-primary);
       }
     }
   }
@@ -80,7 +80,7 @@
 
     &:not(.active) {
       &:hover {
-        background-color: var(--hover-color);
+        background-color: rgba(0, 0, 0, 0.04);
       }
     }
   }
@@ -106,7 +106,7 @@
 // Made less specific to allow easier overriding
 .secondary-content {
   float: right;
-  color: var(--primary-color);
+  color: var(--md-sys-color-primary);
 }
 
 .collapsible .collection {

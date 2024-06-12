@@ -44,7 +44,7 @@
 
 [type="radio"]:not(:checked) + span:before,
 [type="radio"]:not(:checked) + span:after {
-  border: 2px solid var(--font-color-medium);
+  border: 2px solid var(--md-sys-color-on-surface-variant);
 }
 
 [type="radio"]:not(:checked) + span:after {
@@ -78,35 +78,35 @@
 
 /* Focused styles */
 [type="radio"].tabbed:focus + span:before {
-  box-shadow: 0 0 0 10px var(--primary-color-focus-opaque);
+  box-shadow: 0 0 0 10px rgba(var(--md-sys-color-primary-numeric), 0.18);
 }
 
 /* Disabled Radio With gap */
 [type="radio"].with-gap:disabled:checked + span:before {
-  border: 2px solid var(--font-color-disabled);
+  border: 2px solid var(--md-sys-color-on-surface);
 }
 
 [type="radio"].with-gap:disabled:checked + span:after {
   border: none;
-  background-color: var(--font-color-disabled);
+  background-color: var(--md-sys-color-on-surface);
 }
 
 /* Disabled style */
 [type="radio"]:disabled:not(:checked) + span:before,
 [type="radio"]:disabled:checked + span:before {
   background-color: transparent;
-  border-color: var(--font-color-disabled);
+  border-color: var(--md-sys-color-on-surface);
 }
 
 [type="radio"]:disabled + span {
-  color: var(--font-color-disabled);
+  color: var(--md-sys-color-on-surface);
 }
 
 [type="radio"]:disabled:not(:checked) + span:before {
-  border-color: var(--font-color-disabled);
+  border-color: var(--md-sys-color-on-surface);
 }
 
 [type="radio"]:disabled:checked + span:after {
-  background-color: var(--font-color-disabled);
-  border-color: var(--font-color-disabled);
+  background-color: var(--md-sys-color-on-surface);
+  border-color: var(--md-sys-color-on-surface);
 }

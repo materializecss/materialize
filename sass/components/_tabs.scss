@@ -12,11 +12,11 @@
     .tab.disabled a,
     .tab.disabled a:hover,
     .tab.disabled a:focus {
-      color: var(--font-on-primary-color-disabled);
+      color: rgba(255, 255, 255, 0.38);
     }
 
     .tab a:hover {
-      background-color: var(--hover-color);
+      background-color: rgba(0, 0, 0, 0.04);
     }
 
     .tab a.active,
@@ -27,11 +27,11 @@
     .tab a:hover,
     .tab a.active,
     .tab a:focus {
-      color:  var(--font-on-primary-color-main);
+      color:  var(--md-sys-color-on-primary);
     }
 
     .indicator {
-      background-color:  var(--font-on-primary-color-main);
+      background-color:  var(--md-sys-color-on-primary);
     }
   }
 
@@ -73,16 +73,16 @@
       }
 
       &:hover {
-        background-color: var(--primary-color-hover-opaque);
+        background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
       }
 
       &:focus,
       &.active {
-        background-color: var(--primary-color-focus-opaque);
+        background-color: rgba(var(--md-sys-color-primary-numeric), 0.18);
         outline: none;
       }
 
-      color: var(--font-color-medium);
+      color: var(--md-sys-color-on-surface-variant);
       display: block;
       width: 100%;
       height: 100%;
@@ -98,7 +98,7 @@
       &:not(:focus) {
         background-color: transparent;
       }
-      color: var(--font-color-disabled);
+      color: var(--md-sys-color-on-surface);
       cursor: default;
       background-color: transparent;
     }

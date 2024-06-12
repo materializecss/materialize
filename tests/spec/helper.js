@@ -123,15 +123,12 @@ const KEYMAP = {
 };
 
 async function XloadFixtures(fixtureUrls) {
-  // console.log(JSON.stringify(fixturesCache))
   //should save and restore the body element, not just the container
   let oldcontainer = document.getElementById(containerId);
-  // console.log("body before clear", document.body.innerHTML);
   if (oldcontainer) {
     oldcontainer.parentNode.removeChild(oldcontainer);
     oldcontainer = null;
   }
-  // console.log("body after clear", document.body.innerHTML);
   const htmlChunks = [];
   for (let i = 0; i < fixtureUrls.length; i++) {
     const url = fixturesPath + '/' + fixtureUrls[i];
@@ -144,20 +141,15 @@ async function XloadFixtures(fixtureUrls) {
   const container = document.createElement('div');
   container.id = containerId;
   container.innerHTML = htmlChunks.join('');
-
-  // console.log("body before append", document.body.innerHTML);
   document.body.appendChild(container);
-  // console.log("body after append", document.body.innerHTML);
 }
 
 function XunloadFixtures() {
   let oldcontainer = document.getElementById(containerId);
-  // console.log("body before clear", document.body.innerHTML);
   if (oldcontainer) {
     oldcontainer.parentNode.removeChild(oldcontainer);
     oldcontainer = null;
   }
-
   //the container leaks. Lots of code moves elements around to different parent containers. These must be cleaned up.
   let c = document.body.children;
   let scriptCount = 0;

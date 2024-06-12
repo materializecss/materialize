@@ -71,7 +71,7 @@
 
     .indicator-item {
       &.active {
-        background-color: var(--carousel-indicator-active-color);
+        background-color: var(--md-ref-palette-primary100);
       }
 
       display: inline-block;
@@ -80,7 +80,7 @@
       height: 8px;
       width: 8px;
       margin: 24px 4px;
-      background-color: var(--carousel-indicator-color);
+      background-color: rgba(255, 255, 255, 0.45);
 
       transition: background-color .3s;
       border-radius: 50%;

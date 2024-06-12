@@ -8,7 +8,7 @@ select.browser-default {
 
 select {
   opacity: 0;
-  background-color: var(--surface-color);
+  background-color: var(--md-sys-color-surface);
   width: 100%;
   padding: 5px;
   border: 1px solid var(--md-sys-color-outline-variant);
@@ -70,7 +70,7 @@ select {
     cursor: pointer;
     background-color: transparent;
     border: none;
-    border-bottom: 2px solid var(--font-color-medium);
+    border-bottom: 2px solid var(--md-sys-color-on-surface-variant);
     outline: none;
     height: 3rem;
     line-height: 3rem;
@@ -117,32 +117,32 @@ select {
 
 // Disabled styles
 select:disabled {
-  color: var(--font-color-disabled);
+  color: var(--md-sys-color-on-surface);
 }
 
 .select-wrapper.disabled {
   + label {
-    color: var(--font-color-disabled);
+    color: var(--md-sys-color-on-surface);
   }
   .caret {
-    fill: var(--font-color-disabled);
+    fill: var(--md-sys-color-on-surface);
   }
 }
 
 .select-wrapper input.select-dropdown:disabled {
-  color: var(--font-color-disabled);
+  color: var(--md-sys-color-on-surface);
   cursor: default;
   user-select: none;
 }
 
 .select-wrapper i {
-  color: var(--font-color-disabled);
+  color: var(--md-sys-color-on-surface);
 }
 
 .select-dropdown li.disabled,
 .select-dropdown li.disabled > span,
 .select-dropdown li.optgroup {
-  color: var(--font-color-disabled);
+  color: var(--md-sys-color-on-surface);
   //background-color: transparent;
 }
 
@@ -195,14 +195,14 @@ body.keyboard-focused {
 
 // Optgroup styles
 .select-dropdown li.optgroup {
-  border-top: 1px solid var(--hover-color);
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
 
   &.selected > span {
     color: var(--md-sys-color-on-background);
   }
 
   & > span {
-    color: var(--font-color-medium);
+    color: var(--md-sys-color-on-surface-variant);
   }
 
   & ~ li.optgroup-option {

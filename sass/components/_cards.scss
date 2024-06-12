@@ -173,7 +173,7 @@
       transition: color .3s ease;
 
       &:hover {
-        background-color: var(--primary-color-hover-opaque);
+        background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
       }
     }
   }

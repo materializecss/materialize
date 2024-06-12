@@ -36,8 +36,8 @@
   position: absolute;
   font-size: 1rem;
   border-radius: 50%;
-  background-color: var(--md-sys-color-surface);//var(--secondary-color);
-  color: var(--font-on-secondary-color-main);
+  background-color: var(--md-sys-color-surface);//var(--md-sys-color-secondary);
+  color: var(--md-sys-color-on-secondary);
   box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.14), 0 10px 50px 0 rgba(0, 0, 0, 0.12), 0 30px 10px -20px rgba(0, 0, 0, 0.2);
   width: 100%;
   height: 100%;
@@ -61,7 +61,7 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: var(--surface-color)
+    background-color: var(--md-sys-color-surface)
   }
   &::before {
     transform: scale(0);
