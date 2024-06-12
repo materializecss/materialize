@@ -338,15 +338,14 @@ ul.staggered-list li { opacity: 0; }
 // Footer
 .page-footer {
   margin-top: 5rem;
-  padding-top: 5rem;
-  color:  var(--md-sys-color-on-primary);
-  //background-color: var(--md-sys-color-primary);
+  padding-top: 3rem;
   border-top: 1px dashed var(--md-sys-color-outline-variant);
-
-  a {
-    color:  var(--md-sys-color-on-primary);
+  p {
+    color: var(--md-sys-color-outline-light);
   }
-
+  a {
+    color: var(--md-sys-color-primary);
+  }
   .footer-copyright,
   .footer-copyright a {
     overflow: hidden;
@@ -355,8 +354,6 @@ ul.staggered-list li { opacity: 0; }
     align-items: center;
     justify-content: space-between;
     padding: 10px 0px;
-    color: var(--md-sys-color-on-surface-variant-dark);
-    background-color: var(--md-sys-color-primary-dark);
   }
 }
 .page-footer ul {
