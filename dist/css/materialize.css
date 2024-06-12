@@ -778,6 +778,7 @@
   --md-sys-color-scrim: var(--md-sys-color-scrim-dark);
 }
 
+/*
 :root, :host {
   --surface-color: var(--md-sys-color-surface);
   --background-color: var(--md-sys-color-background);
@@ -800,7 +801,7 @@
   --background-color-card: var(--surface-color);
   --tooltip-background-color: #313033;
   --tooltip-font-color: rgba(255, 255, 255, 0.77);
-  --separator-color: #DDDDDD; /* borders between components */
+  --separator-color: #DDDDDD;
   --error-color: #F44336;
   --slider-track-color: var(--md-sys-color-shadow-light);
   --switch-thumb-off-color: var(--md-ref-palette-primary100);
@@ -821,6 +822,7 @@
   --font-on-secondary-container-color: var(--md-sys-color-on-secondary-container);
   --md_sys_color_on-surface: 28, 27, 31;
 }
+*/
 
 :root[theme=dark] {
   --font-on-primary-color-disabled: rgba(0, 0, 0, 0.38);
