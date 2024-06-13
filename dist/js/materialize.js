@@ -1,5 +1,5 @@
 /*!
- * Materialize v2.0.4 (https://materializeweb.com)
+ * Materialize v2.1.0 (https://materializeweb.com)
  * Copyright 2014-2024 Materialize
  * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
  */
@@ -3711,7 +3711,12 @@ class Modal extends component_1.Component {
                 this.options.onOpenStart.call(this, this.el, this._openingTrigger);
             }
             if (this.options.preventScrolling) {
-                document.body.style.overflow = 'hidden';
+                const hasVerticalScrollBar = document.documentElement.scrollHeight > document.documentElement.clientHeight;
+                if (hasVerticalScrollBar) {
+                    const scrollTop = document.documentElement.scrollTop;
+                    document.documentElement.style.top = '-' + scrollTop + "px";
+                    document.documentElement.classList.add('noscroll');
+                }
             }
             this.el.classList.add('open');
             this.el.insertAdjacentElement('afterend', this._overlay);
@@ -3740,7 +3745,10 @@ class Modal extends component_1.Component {
             this.el.classList.remove('open');
             // Enable body scrolling only if there are no more modals open.
             if (Modal._modalsOpen === 0) {
-                document.body.style.overflow = '';
+                const scrollTop = -parseInt(document.documentElement.style.top);
+                document.documentElement.style.removeProperty("top");
+                document.documentElement.classList.remove('noscroll');
+                document.documentElement.scrollTop = scrollTop;
             }
             if (this.options.dismissible) {
                 document.removeEventListener('keydown', this._handleKeydown);
@@ -4670,11 +4678,9 @@ class FormSelect extends component_1.Component {
         // Makes new element to assume HTML's select label and aria-attributes, if exists
         /*
         if (this.el.hasAttribute("aria-labelledby")){
-          console.log(1);
           this.labelEl = <HTMLLabelElement>document.getElementById(this.el.getAttribute("aria-labelledby"));
         }
         else if (this.el.id != ""){
-          console.log(2);
           const label = document.createElement('label');
           label.setAttribute('for', this.el.id);
           if (label){
@@ -6884,9 +6890,13 @@ class Toast {
         }
     }
     _createToast() {
-        const toast = this.options.toastId
+        let toast = this.options.toastId
             ? document.getElementById(this.options.toastId)
             : document.createElement('div');
+        if (toast instanceof HTMLTemplateElement) {
+            const node = toast.content.cloneNode(true);
+            toast = node.firstElementChild;
+        }
         toast.classList.add('toast');
         toast.setAttribute('role', 'alert');
         toast.setAttribute('aria-live', 'assertive');
@@ -6957,7 +6967,7 @@ class Toast {
                 this.options.completeCallback();
             }
             // Remove toast from DOM
-            if (!this.options.toastId) {
+            if (this.el.id != this.options.toastId) {
                 this.el.remove();
                 Toast._toasts.splice(Toast._toasts.indexOf(this), 1);
                 if (Toast._toasts.length === 0) {
@@ -7658,7 +7668,7 @@ class M {
     }
 }
 exports.M = M;
-M.version = '2.0.4';
+M.version = '2.1.0';
 M.Autocomplete = autocomplete_1.Autocomplete;
 M.Tabs = tabs_1.Tabs;
 M.Carousel = carousel_1.Carousel;
