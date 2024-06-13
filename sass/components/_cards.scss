@@ -1,19 +1,17 @@
-
-
 .card-panel {
   transition: box-shadow .25s;
-  padding: $card-padding;
+  padding: 24px;
   margin: $element-top-margin 0 $element-bottom-margin 0;
   border-radius: 12px;
   @extend .z-depth-1;
-  background-color: $card-bg-color;
+  background-color: var(--md-sys-color-surface);
 }
 
 .card {
   overflow: hidden;
   position: relative;
   //margin: $element-top-margin 0 $element-bottom-margin 0;
-  background-color: $card-bg-color;
+  background-color: var(--md-sys-color-surface);
   transition: box-shadow .25s;
   border-radius: 12px;
   @extend .z-depth-1;
@@ -129,17 +127,17 @@
     }
 
     .card-title {
-      color: $card-bg-color;
+      color: var(--md-sys-color-surface);
       position: absolute;
       bottom: 0;
       left: 0;
       max-width: 100%;
-      padding: $card-padding;
+      padding: 24px;
     }
   }
 
   .card-content {
-    padding: $card-padding;
+    padding: 24px;
     border-radius: 0 0 2px 2px;
 
     p {
@@ -161,29 +159,29 @@
       border-radius: 0 0 2px 2px;
     }
 
-    border-top: 1px solid $divider-color;
+    border-top: 1px solid var(--md-sys-color-outline-variant);
     position: relative;
     background-color: inherit;
 
     a {
-      padding: 16px $card-padding;
+      padding: 16px 24px;
       display: inline-block;
     }
 
     a:not(.btn):not(.btn-large):not(.btn-floating) {
-      color: $card-link-color;
+      color: var(--md-sys-color-primary);
       transition: color .3s ease;
 
       &:hover {
-        background-color: $primary-color-hover-opaque;
+        background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
       }
     }
   }
 
   .card-reveal {
-    padding: $card-padding;
+    padding: 24px;
     position: absolute;
-    background-color: $card-bg-color;
+    background-color: var(--md-sys-color-surface);
     width: 100%;
     overflow-y: auto;
     left: 0;

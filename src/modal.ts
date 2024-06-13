@@ -291,7 +291,12 @@ export class Modal extends Component<ModalOptions> {
       this.options.onOpenStart.call(this, this.el, this._openingTrigger);
     }
     if (this.options.preventScrolling) {
-      document.body.style.overflow = 'hidden';
+      const hasVerticalScrollBar = document.documentElement.scrollHeight > document.documentElement.clientHeight
+      if (hasVerticalScrollBar) {
+        const scrollTop = document.documentElement.scrollTop;
+        document.documentElement.style.top = '-' + scrollTop + "px";
+        document.documentElement.classList.add('noscroll');
+      }
     }
     this.el.classList.add('open');
     this.el.insertAdjacentElement('afterend', this._overlay);
@@ -320,7 +325,10 @@ export class Modal extends Component<ModalOptions> {
     this.el.classList.remove('open');
     // Enable body scrolling only if there are no more modals open.
     if (Modal._modalsOpen === 0) {
-      document.body.style.overflow = '';
+      const scrollTop = -parseInt(document.documentElement.style.top);
+      document.documentElement.style.removeProperty("top");
+      document.documentElement.classList.remove('noscroll');
+      document.documentElement.scrollTop = scrollTop;
     }
     if (this.options.dismissible) {
       document.removeEventListener('keydown', this._handleKeydown);

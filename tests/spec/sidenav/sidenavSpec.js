@@ -7,7 +7,7 @@ describe('Sidenav Plugin', function () {
   });
 
   describe('Sidenav', function () {
-    var normalActivator, normalSidenav;
+    let normalActivator, normalSidenav;
 
     beforeEach(function () {
       normalActivator = document.querySelector('.sidenav-trigger');

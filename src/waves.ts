@@ -22,7 +22,7 @@ export class Waves {
 
   // https://phoenix-dx.com/css-techniques-for-material-ripple-effect/
 
-  public static renderWaveEffect(targetElement: HTMLElement, position: Position|null = null, color: RGBColor|null = null): void {
+  static renderWaveEffect(targetElement: HTMLElement, position: Position|null = null, color: RGBColor|null = null): void {
     const isCentered = position === null;
     const duration = 500;
     let animationFrame: number, animationStart: number;

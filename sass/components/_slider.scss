@@ -26,10 +26,10 @@
       bottom: 30px;
 
       .indicator-item {
-        background-color: $slider-fullscreen-indicator-color;
+        background-color: rgba(255, 255, 255, 0.45);
 
         &.active {
-          background-color: $slider-fullscreen-indicator-color-active;
+          background-color: var(--md-ref-palette-primary100);
         }
       }
 
@@ -37,7 +37,7 @@
   }
 
   .slides {
-    background-color: $slider-bg-color;
+    background-color: var(--md-sys-color-surface);
     margin: 0;
     height: 400px;
     padding-left: 0;
@@ -104,14 +104,14 @@
       top: 0;
       left: 0;
       cursor: pointer;
-      background-color: $slider-indicator-color;
+      background-color: var(--md-sys-color-shadow-light);
 
       transition: background-color .3s;
       border-radius: 50%;
       border-width: 0;
       
       &.active {
-        background-color: $slider-indicator-color-active;
+        background-color: var(--md-sys-color-primary);
       }
 
       width: 100%;

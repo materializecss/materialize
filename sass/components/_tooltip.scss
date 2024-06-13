@@ -2,9 +2,9 @@
   padding: 0 8px;  
   border-radius: 4px;
   
-  background-color: $tooltip-bg-color;
-  color: $tooltip-font-color;
-  
+  color: var(--md-sys-color-inverse-on-surface);
+  background-color: var(--md-sys-color-inverse-surface);
+
   font-family: var(--md-sys-typescale-body-small-font-family-name);
   font-size: var(--md-sys-typescale-body-small-font-size);
   line-height: var(--md-sys-typescale-body-small-line-height);
@@ -12,10 +12,17 @@
 
   min-height: 24px;
   opacity: 0;
-  text-align: center;
+
+  padding-top: 6px;
+  padding-bottom: 6px;
+
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
   
   position: absolute;
-  max-width: calc(100% - 4px);
+  max-width: 300px;
   overflow: hidden;
   left: 0;
   top: 0;
@@ -34,7 +41,7 @@
   height: 7px;
   width: 14px;
   border-radius: 0 0 50% 50%;
-  background-color: $tooltip-bg-color;
+  background-color: var(--md-sys-color-inverse-surface);
   z-index: -1;
   transform-origin: 50% 0;
   visibility: hidden;

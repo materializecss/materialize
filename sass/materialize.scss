@@ -1,18 +1,20 @@
 @charset "UTF-8";
+
 @import "components/tokens.module";
+@import "components/theme.module";
+//@import "components/_theme_variables";
 @import "components/colors.module";
 @import "components/typography.module";
-@import "components/theme.light.module";
-@import "components/theme.dark.module";
-@import "components/_theme_variables";
 
 // Color
 @import "components/color-variables";
 @import "components/color-classes";
 // Variables;
 @import "components/variables";
+
 // Reset
 @import "components/normalize";
+
 // components
 @import "components/global";
 @import "components/collection";
@@ -28,6 +30,7 @@
 @import "components/tooltip";
 @import "components/buttons";
 @import "components/dropdown";
+
 @import "components/modal";
 @import "components/collapsible";
 @import "components/chips";

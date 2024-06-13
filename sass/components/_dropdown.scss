@@ -1,13 +1,8 @@
 .dropdown-content {
   padding-left: 0;
   list-style-type: none;
-
-  &:focus {
-    outline: 0;
-  }
-
   @extend .z-depth-1;
-  background-color: $dropdown-bg-color;
+  background-color: var(--md-sys-color-surface);
   margin: 0;
   display: none;
   min-width: 100px;
@@ -19,16 +14,10 @@
   z-index: 9999; // TODO: Check if this doesn't break other things
   transform-origin: 0 0;
 
-
   li {
     &:hover, &.active {
-      background-color: $dropdown-hover-bg-color;
+      background-color: color-mix(in srgb, var(--md-sys-color-surface), var(--md-sys-color-on-surface) 8%);
     }
-
-    &:focus {
-      outline: none;
-    }
-
     &.divider {
       min-height: 0;
       height: 1px;
@@ -36,7 +25,7 @@
 
     & > a, & > span {
       font-size: 16px;
-      color: $dropdown-color;
+      color: var(--md-sys-color-primary);
       display: block;
       line-height: 22px;
       padding: (($dropdown-item-height - 22) * 0.5) 16px;
@@ -57,9 +46,8 @@
       width: 24px;
     }
 
-
     clear: both;
-    color: $text-color;
+    color: var(--md-sys-color-on-background);
     cursor: pointer;
     min-height: $dropdown-item-height;
     line-height: 1.5rem;
@@ -70,7 +58,7 @@
 
 body.keyboard-focused {
   .dropdown-content li:focus {
-    background-color: $dropdown-focus-bg-color;
+    background-color: rgba(0, 0, 0, 0.12);
   }
 }
 

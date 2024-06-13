@@ -258,11 +258,9 @@ export class FormSelect extends Component<FormSelectOptions> {
     // Makes new element to assume HTML's select label and aria-attributes, if exists
     /*
     if (this.el.hasAttribute("aria-labelledby")){
-      console.log(1);
       this.labelEl = <HTMLLabelElement>document.getElementById(this.el.getAttribute("aria-labelledby"));
     }
     else if (this.el.id != ""){
-      console.log(2);
       const label = document.createElement('label');
       label.setAttribute('for', this.el.id);
       if (label){

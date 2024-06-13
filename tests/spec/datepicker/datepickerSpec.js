@@ -8,8 +8,6 @@ describe('Datepicker Plugin', function () {
   });
 
   describe('Datepicker', function () {
-    var normalDropdown;
-
     beforeEach(function () {
       // browserSelect = $('select.normal');
     });
@@ -41,7 +39,6 @@ describe('Datepicker Plugin', function () {
 
     it('can have a string format', function (done) {
       const input = document.querySelector('#datepickerInput');
-
       const today = new Date();
 
       M.Datepicker.init(input, { format: 'mm/dd/yyyy' }).open();
@@ -65,7 +62,6 @@ describe('Datepicker Plugin', function () {
 
     it('can have a format function', function (done) {
       const input = document.querySelector('#datepickerInput');
-
       const today = new Date();
       const formatFn = (date) => `${date.getFullYear() - 100}-${date.getMonth() + 1}-99`;
 

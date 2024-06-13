@@ -12,7 +12,7 @@ describe('Tabs Plugin', function () {
   });
 
   describe('Tabs', function () {
-    var normalTabs;
+    let normalTabs;
 
     beforeEach(function () {
       normalTabs = document.querySelector('.tabs.normal');
