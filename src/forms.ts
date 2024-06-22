@@ -94,7 +94,7 @@ export class Forms {
       });
 
       document.querySelectorAll('.materialize-textarea').forEach((textArea: HTMLTextAreaElement) => {
-          Forms.textareaAutoResize(textArea);
+          Forms.InitTextarea(textArea);
       });
 
       // File Input Path
