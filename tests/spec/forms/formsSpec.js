@@ -1,3 +1,5 @@
+const MULTILINE_TEXT = 'This is line 1.\nThis is line 2.\nThis is line 3.\nThis is line 4.\nThis is line 5.\nAnd this is line 6.';
+
 describe('Forms:', function () {
   beforeEach(async function () {
     await XloadFixtures(['forms/formsFixture.html']);
@@ -45,6 +47,26 @@ describe('Forms:', function () {
       `.trim();
       M.Forms.textareaAutoResize(el);
       expect(el.clientHeight).toBeGreaterThan(pHeight);
+    });
+
+    it('Programmatically initialized textarea resize', () => {
+      const element = document.querySelector('#textarea');
+      M.Forms.InitTextarea(element);
+      const textareaHeight = element.clientHeight;
+      element.value = MULTILINE_TEXT;
+      keydown(element, 13);
+      expect(element.clientHeight).toBeGreaterThan(textareaHeight);
+    });
+
+    it('Automatically initialized textarea resize', () => {
+      const event = new Event('DOMContentLoaded');
+      document.dispatchEvent(event);
+
+      const element = document.querySelector('#textarea');
+      const textareaHeight = element.clientHeight;
+      element.value = MULTILINE_TEXT;
+      keydown(element, 13);
+      expect(element.clientHeight).toBeGreaterThan(textareaHeight);
     });
   });
 
