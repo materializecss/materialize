@@ -809,9 +809,9 @@ export class Timepicker extends Component<TimepickerOptions> {
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
               <div class="timepicker-display-column">
-                <input type="text" maxlength="2" autofocus class="timepicker-input-hours text-primary" />
+                <input type="button" maxlength="2" autofocus class="timepicker-input-hours text-primary" />
                 :
-                <input type="text" maxlength="2" class="timepicker-input-minutes" />
+                <input type="button" maxlength="2" class="timepicker-input-minutes" />
               </div>
               <div class="timepicker-display-column timepicker-display-am-pm">
                 <div class="timepicker-span-am-pm"></div>
