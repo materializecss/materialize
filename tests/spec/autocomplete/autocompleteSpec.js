@@ -128,7 +128,93 @@ describe('Autocomplete Plugin', function () {
         });
       });
     });
+
+    it('destroy method should properly dispose autocomplete component', function () {
+      const normal = document.querySelector('#normal-autocomplete');
+      const limited = document.querySelector('#limited-autocomplete');
+
+      expect(normal.parentNode.querySelector('.autocomplete-content')).not.toBeNull();
+      expect(limited.parentNode.querySelector('.autocomplete-content')).not.toBeNull();
+
+      const normalInstance = M.Autocomplete.getInstance(normal);
+      const limitedInstance = M.Autocomplete.getInstance(limited);
+      normalInstance.destroy();
+      limitedInstance.destroy();
+
+      expect(normal.parentNode.querySelector('.autocomplete-content')).toBeNull();
+      expect(limited.parentNode.querySelector('.autocomplete-content')).toBeNull();
+    });
+
+    it('selectOption method should chose only from showed dropdown', function (done) {
+      const normal = document.querySelector('#normal-autocomplete');
+      const autocompleteInstance = resetAutocomplete(normal, [
+        { id: 'Value Q1' },
+        { id: 'Value Q' },
+        { id: 'Value R' }]);
+      const autocompleteEl = normal.parentNode.querySelector('.autocomplete-content');
+
+      focus(normal);
+      normal.value = 'Q';
+      keyup(normal, 81);
+
+      setTimeout(function () {
+        expect(autocompleteEl.children.length).toBe(2);
+        const dropdownAutocompleteIds = Array
+          .from(autocompleteEl.querySelectorAll('li'))
+          .map(liElement => liElement.getAttribute('data-id'));
+        expect(dropdownAutocompleteIds).toEqual(['Value Q1', 'Value Q']);
+
+        autocompleteInstance.selectOption('Value R');
+        expect(normal.value)
+          .withContext('Only options from dropdown can be selected through selectOption')
+          .toBe('Q');
+        autocompleteInstance.selectOption('Value Q');
+        expect(normal.value)
+          .withContext('Only options from dropdown can be selected through selectOption')
+          .toBe('Value Q');
+        done();
+      }, 200);
+    });
+
+    it('setValues method should chose from any init data entry', function (done) {
+      const normal = document.querySelector('#normal-autocomplete');
+      const autocompleteInstance = resetAutocomplete(normal, [
+        { id: 'Value Q1' },
+        { id: 'Value Q' },
+        { id: 'Value R' }]);
+      const autocompleteEl = normal.parentNode.querySelector('.autocomplete-content');
+
+      focus(normal);
+      normal.value = 'Q';
+      keyup(normal, 81);
+
+      setTimeout(function () {
+        expect(autocompleteEl.children.length).toBe(2);
+        const dropdownAutocompleteIds = Array
+          .from(autocompleteEl.querySelectorAll('li'))
+          .map(liElement => liElement.getAttribute('data-id'));
+        expect(dropdownAutocompleteIds).toEqual(['Value Q1', 'Value Q']);
+
+        autocompleteInstance.setValues([{ id: 'Value R' }]);
+        expect(normal.value)
+          .withContext('Any option from init data can be selected through setValues')
+          .toBe('Value R');
+        autocompleteInstance.setValues([{ id: 'Value Q' }]);
+        expect(normal.value)
+          .withContext('Any option from init data can be selected through setValues')
+          .toBe('Value Q');
+        done();
+      }, 200);
+    });
   });
+
+  function resetAutocomplete(autocompleteElement, data) {
+    M.Autocomplete.getInstance(autocompleteElement).destroy();
+    return M.Autocomplete.init(autocompleteElement, {
+      data: data,
+      minLength: 0
+    });
+  }
 
   function openDropdownAndSelectFirstOption(autocomplete, onFinish) {
     click(autocomplete);
