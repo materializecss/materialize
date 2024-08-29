@@ -1,8 +1,7 @@
 export class Cards {
 
   static Init() {
-
-    document.addEventListener("DOMContentLoaded", () => {
+    if (typeof document !== 'undefined') document.addEventListener("DOMContentLoaded", () => {
       document.body.addEventListener('click', e => {
         const trigger = <HTMLElement>e.target;
 

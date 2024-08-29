@@ -40,20 +40,14 @@
   }
 }
 
-.row {
+body {
   --gap-size: 1.5rem; // default
+}
 
+.row {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: var(--gap-size);
-
-  //--- Gap
-  .g-0 { gap: 0; }
-  .g-1 { gap: calc(0.25 * var(--gap-size)); }
-  .g-2 { gap: calc(0.5 * var(--gap-size));  }
-  .g-3 { gap: calc(1 * var(--gap-size));  }
-  .g-4 { gap: calc(1.5 * var(--gap-size)); }
-  .g-5 { gap: calc(3 * var(--gap-size)); }
 
   //--- S
   .s1  { grid-column: auto / span 1; }
@@ -166,3 +160,11 @@
   }
 
 }
+
+//--- Gap
+.g-0 { gap: 0; }
+.g-1 { gap: calc(0.25 * var(--gap-size)); }
+.g-2 { gap: calc(0.5 * var(--gap-size));  }
+.g-3 { gap: calc(1 * var(--gap-size));  }
+.g-4 { gap: calc(1.5 * var(--gap-size)); }
+.g-5 { gap: calc(3 * var(--gap-size)); }

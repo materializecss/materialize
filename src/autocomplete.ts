@@ -92,7 +92,6 @@ let _defaults: AutocompleteOptions = {
   allowUnsafeHTML: false
 };
 
-
 export class Autocomplete extends Component<AutocompleteOptions> {
   declare el: HTMLInputElement;
   /** If the autocomplete is open. */
@@ -111,7 +110,6 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   selectedValues: AutocompleteData[];
   menuItems: AutocompleteData[];
 
-
   constructor(el: HTMLInputElement, options: Partial<AutocompleteOptions>) {
     super(el, options, Autocomplete);
     (this.el as any).M_Autocomplete = this;
@@ -126,7 +124,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.activeIndex = -1;
     this.oldVal = "";
     this.selectedValues = [];
-    this.menuItems = [];
+    this.menuItems = this.options.data || [];
     this.$active = null;
     this._mousedown = false;
     this._setupDropdown();
@@ -218,6 +216,11 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.container.id = `autocomplete-options-${Utils.guid()}`;
     this.container.classList.add('autocomplete-content', 'dropdown-content');
     this.el.setAttribute('data-target', this.container.id);
+
+    this.menuItems.forEach(menuItem => {
+      const itemElement = this._createDropdownItem(menuItem);
+      this.container.append(itemElement);
+    });
 
     // ! Issue in Component Dropdown: _placeDropdown moves dom-position
     this.el.parentElement.appendChild(this.container);
@@ -486,7 +489,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     if (!this.dropdown.isOpen) {
       setTimeout(() => {
         this.dropdown.open();
-      }, 100);
+      }, 0); // TODO: why?
     }
     else this.dropdown.recalculateDimensions(); // Recalculate dropdown when its already open
   }
