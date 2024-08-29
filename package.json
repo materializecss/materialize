@@ -8,7 +8,6 @@
   "sass": "sass/materialize.scss",
   "typings": "dist/js/materialize.d.ts",
   "license": "MIT",
-
   "main": "dist/js/materialize.js",
   "module": "./dist/js/materialize.mjs",
   "exports": {
@@ -33,7 +32,7 @@
     }
   ],
   "scripts": {
-    "test": "grunt test",
+    "test": "npx jasmine-browser-runner runSpecs",
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
   },
   "lint-staged": {
@@ -53,10 +52,6 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.5.2",
-    "grunt": "^1.0.1",
-    "grunt-contrib-connect": "^4.0.0",
-    "grunt-contrib-jasmine": "^4.0.0",
-    "grunt-text-replace": "^0.4.0",
     "jasmine": "^5.1.0",
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.2.0",

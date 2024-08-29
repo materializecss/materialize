@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-describe('Slider Plugin', () => {
+describe('Slider Plugin:', () => {
   const fixture = `<div class="slider simple-slider">
   <ul class="slides">
     <li>
@@ -37,7 +37,7 @@ describe('Slider Plugin', () => {
   beforeEach(() => XloadHtml(fixture));
   afterEach(() => XunloadFixtures());
 
-  describe('Slider', () => {
+  describe('Slider:', () => {
     let slider;
 
     beforeEach(() => {
@@ -54,7 +54,7 @@ describe('Slider Plugin', () => {
       slider = null;
     });
 
-    it('Slider should change after first interval', (done) => {
+    it('should change after first interval', (done) => {
       const O_INDEX = slider.activeIndex;
       setTimeout(() => {
         expect(slider.activeIndex).not.toBe(O_INDEX);
@@ -62,7 +62,7 @@ describe('Slider Plugin', () => {
       }, 150);
     });
 
-    it('Slider should not change if paused', (done) => {
+    it('should not change if paused', (done) => {
       const O_INDEX = slider.activeIndex;
       slider.pause();
       setTimeout(() => {
@@ -71,7 +71,7 @@ describe('Slider Plugin', () => {
       }, 200);
     });
 
-    it('Slider should not change if focused', (done) => {
+    it('should not change if focused', (done) => {
       const O_INDEX = slider.activeIndex;
       slider.start();
       slider.el.dispatchEvent(new Event('focusin'));
@@ -83,7 +83,7 @@ describe('Slider Plugin', () => {
       }, 150);
     });
 
-    it("Label of indicators must start with 'Slide '", () => {
+    it("start with 'Slide ' in indicators labels ", () => {
       expect(
         Array.from(document.querySelectorAll('button')).map((btn) =>
           btn.getAttribute('aria-label').startsWith('Slide ')
@@ -91,7 +91,7 @@ describe('Slider Plugin', () => {
       ).toEqual([true, true, true, true]);
     });
 
-    it('Slider should change current index and focus its respective item on indicator click', () => {
+    it('should change index and focus its respective item on indicator click', () => {
       const IDX = 2;
       document.querySelectorAll('button')[IDX].click();
       expect(slider.activeIndex).toBe(IDX);

@@ -6,7 +6,6 @@ import dtsPlugin from 'rollup-plugin-dts';
 import scss from 'rollup-plugin-scss';
 import zip from 'rollup-plugin-zip';
 import copy from 'rollup-plugin-copy';
-import { assert } from 'console';
 
 import { readFileSync } from 'fs';
 const packageJson = JSON.parse(readFileSync('./package.json').toString());
@@ -119,6 +118,9 @@ const config: RollupOptions[] = [
       })
     ]
   }
+
+  // TODO: Set version text
+  // TODO: Compress as zip files
 
   //--- Compress
   /*

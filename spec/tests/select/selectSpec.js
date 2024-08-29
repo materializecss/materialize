@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-describe('Select Plugin', () => {
+describe('Select Plugin:', () => {
   const fixture = `<div class="row">
   <div class="input-field col s12">
     <select class="normal">
@@ -61,83 +61,114 @@ describe('Select Plugin', () => {
       dropdownOptions: { inDuration: 0, outDuration: 0 }
     });
   });
+
   afterEach(() => XunloadFixtures());
 
-  describe('Select', () => {
-    let browserSelect, normalInput, normalDropdown, selectInstance;
-
+  describe('Select:', () => {
     beforeEach(() => {
-      M.FormSelect.init(document.querySelectorAll('select'), {
-        dropdownOptions: { inDuration: 0, outDuration: 0 }
-      });
-      browserSelect = document.querySelector('select.normal');
-      selectInstance = M.FormSelect.getInstance(browserSelect);
+      const fixture1 = `<div class="row">
+        <div class="input-field col s12">
+          <select class="normal">
+            <option value="" disabled>Choose your option</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3" selected>Option 3</option>
+          </select>
+          <label>Materialize Select</label>
+        </div>
+        <div class="input-field col s12">
+          <select class="browser-default">
+            <option value="" disabled selected>Choose your option</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+          <label>Materialize Select</label>
+        </div>
+      </div>`;
+      XloadHtml(fixture1);
     });
+    afterEach(() => XunloadFixtures());
 
-    it('should open dropdown and select option', function (done) {
-      normalInput = selectInstance.wrapper.querySelector('input.select-dropdown');
-      normalDropdown = selectInstance.wrapper.querySelector('ul.select-dropdown');
-      expect(normalInput).toExist('Should dynamically generate select dropdown structure.');
-      expect(normalDropdown).toExist('Should dynamically generate select dropdown structure.');
-      expect(normalInput).toBeVisible('Should be visible before dropdown is opened.');
-      expect(normalDropdown).toBeHidden('Should be hidden before dropdown is opened.');
-      click(normalInput);
+    it('should open dropdown and select option', (done) => {
+      const browserSelect = document.querySelector('select.normal');
+      const selectInstance = M.FormSelect.getInstance(browserSelect);
+      const normalInput = selectInstance.wrapper.querySelector('input.select-dropdown');
+      const normalDropdown = selectInstance.wrapper.querySelector('ul.select-dropdown');
+
       setTimeout(() => {
-        expect(normalDropdown).toBeVisible('Should be visible after opening.');
-        let firstOption = normalDropdown.querySelector('li:not(.disabled)');
-        click(firstOption);
-        blur(normalInput);
+        expect(normalInput).toExist('Should dynamically generate select dropdown structure.');
+        expect(normalDropdown).toExist('Should dynamically generate select dropdown structure.');
+        expect(normalInput).toBeVisible('Should be visible before dropdown is opened.');
+        expect(normalDropdown).toBeHidden('Should be hidden before dropdown is opened.');
+
+        click(normalInput);
         setTimeout(() => {
-          expect(normalDropdown).toBeHidden('Should be hidden after choosing item.');
-          expect(normalInput.value).toEqual(
-            firstOption.innerText,
-            'Value should equal chosen option.'
-          );
-          expect(firstOption.getAttribute('aria-selected')).toBe(
-            'true',
-            'Item be selected to assistive technologies.'
-          );
-          done();
+          expect(normalDropdown).toBeVisible('Should be visible after opening.');
+          const firstOption = normalDropdown.querySelector('li:not(.disabled)');
+          click(firstOption);
+          blur(normalInput);
+          setTimeout(() => {
+            expect(normalDropdown).toBeHidden('Should be hidden after choosing item.');
+            expect(normalInput.value).toEqual(
+              firstOption.innerText,
+              'Value should equal chosen option.'
+            );
+            expect(firstOption.getAttribute('aria-selected')).toBe(
+              'true',
+              'Item be selected to assistive technologies.'
+            );
+            done();
+          }, 10);
         }, 10);
       }, 10);
     });
 
     it('should have pre-selected value', () => {
-      normalInput = selectInstance.wrapper.querySelector('input.select-dropdown');
-      normalDropdown = selectInstance.wrapper.querySelector('ul.select-dropdown');
-      let firstOption = browserSelect.querySelector('option[selected]');
-      expect(normalInput.value).toEqual(
-        firstOption.innerText,
-        'Value should be equal to preselected option.'
-      );
-      expect(
-        firstOption.getAttribute('aria-selected'),
-        'First item should be selected to assistive technologies.'
-      );
+      const elem = document.querySelector('select.normal');
+      const instance = M.FormSelect.getInstance(elem);
+      const input = instance.wrapper.querySelector('input.select-dropdown');
+      const firstOption = elem.querySelector('option[selected]');
+
+      setTimeout(() => {
+        expect(input.value).toEqual(
+          firstOption.innerText,
+          'Value should be equal to preselected option.'
+        );
+        expect(
+          firstOption.getAttribute('aria-selected'),
+          'First item should be selected to assistive technologies.'
+        );
+      }, 10);
     });
 
     it('should not initialize if browser default', () => {
-      browserDefault = document.querySelector('select.browser-default');
+      const browserDefault = document.querySelector('select.browser-default');
       expect(browserDefault.parentNode.classList.contains('select-wrapper')).toBeFalse(
         'Wrapper should not be made'
       );
     });
 
-    it('should getSelectedValues correctly', function (done) {
-      normalInput = selectInstance.wrapper.querySelector('input.select-dropdown');
-      normalDropdown = selectInstance.wrapper.querySelector('ul.select-dropdown');
-      expect(M.FormSelect.getInstance(browserSelect).getSelectedValues()).toEqual(
-        [browserSelect.value],
+    it('should getSelectedValues correctly', (done) => {
+      const elem = document.querySelector('select.normal');
+      const instance = M.FormSelect.getInstance(elem);
+      const normalInput = instance.wrapper.querySelector('input.select-dropdown');
+      const normalDropdown = instance.wrapper.querySelector('ul.select-dropdown');
+
+      expect(instance.getSelectedValues()).toEqual(
+        [elem.value],
         'Should equal initial selected value'
       );
+
       click(normalInput);
       setTimeout(() => {
-        let firstOption = normalDropdown.querySelector('li:not(.disabled)');
+        const firstOption = normalDropdown.querySelector('li:not(.disabled)');
         click(firstOption);
         blur(normalInput);
+
         setTimeout(() => {
-          expect(M.FormSelect.getInstance(browserSelect).getSelectedValues()).toEqual(
-            [browserSelect.value],
+          expect(instance.getSelectedValues()).toEqual(
+            [elem.value],
             'Should equal value of first option'
           );
           done();
@@ -146,51 +177,51 @@ describe('Select Plugin', () => {
     });
   });
 
-  describe('Multiple Select', () => {
-    let browserSelect, multipleInput, multipleDropdown, selectInstance;
-
-    beforeEach(() => {
-      browserSelect = document.querySelector('select.multiple');
-      selectInstance = M.FormSelect.getInstance(browserSelect);
-    });
-
+  describe('Multiselect:', () => {
     it('Dropdown should allow multiple selections to assistive technologies', () => {
-      expect(selectInstance.dropdownOptions.getAttribute('aria-multiselectable')).toBe('true');
+      const elem = document.querySelector('select.multiple');
+      const instance = M.FormSelect.getInstance(elem);
+      expect(instance.dropdownOptions.getAttribute('aria-multiselectable')).toBe('true');
     });
 
-    it('should open dropdown and select multiple options', function (done) {
-      multipleInput = selectInstance.wrapper.querySelector('input.select-dropdown');
-      multipleDropdown = selectInstance.wrapper.querySelector('ul.select-dropdown');
-      expect(multipleInput).toExist('Should dynamically generate select dropdown structure.');
-      expect(multipleDropdown).toExist('Should dynamically generate select dropdown structure.');
-      expect(multipleInput).toBeVisible('Should be visible before dropdown is opened.');
-      expect(multipleDropdown).toBeHidden('Should be hidden before dropdown is opened.');
-      click(multipleInput);
+    it('should open dropdown and select multiple options', (done) => {
+      const elem = document.querySelector('select.multiple');
+      const instance = M.FormSelect.getInstance(elem);
+      const input = instance.wrapper.querySelector('input.select-dropdown');
+      const dropdown = instance.wrapper.querySelector('ul.select-dropdown');
+
+      expect(input).toExist('Should dynamically generate select dropdown structure.');
+      expect(dropdown).toExist('Should dynamically generate select dropdown structure.');
+      expect(input).toBeVisible('Should be visible before dropdown is opened.');
+      expect(dropdown).toBeHidden('Should be hidden before dropdown is opened.');
+
+      click(input);
+
       setTimeout(() => {
-        expect(multipleDropdown).toBeVisible('Should be visible after opening.');
-        let firstOption = multipleDropdown.querySelector('li:not(.disabled)');
+        expect(dropdown).toBeVisible('Should be visible after opening.');
+
+        let firstOption = dropdown.querySelector('li:not(.disabled)');
         click(firstOption);
         click(document.body);
+
         setTimeout(() => {
-          firstOption = multipleDropdown.querySelector('li:not(.disabled)');
-          let secondOption = multipleDropdown.querySelectorAll('li:not(.disabled)')[1];
-          let thirdOption = multipleDropdown.querySelectorAll('li:not(.disabled)')[2];
-          let selectedVals = Array.prototype.slice
-            .call(browserSelect.querySelectorAll('option:checked'), 0)
-            .map(function (v) {
-              return v.value;
-            });
-          let selectedAria = Array.prototype.slice
-            .call(multipleDropdown.querySelectorAll('li.selected'), 0)
-            .map(function (v) {
-              return v.getAttribute('aria-selected');
-            });
-          let unselectedAria = Array.prototype.slice
-            .call(multipleDropdown.querySelectorAll('li:not(.selected)'), 0)
-            .map(function (v) {
-              return v.getAttribute('aria-selected');
-            });
-          expect(multipleDropdown).toBeHidden('Should be hidden after choosing item.');
+          firstOption = dropdown.querySelector('li:not(.disabled)');
+          const secondOption = dropdown.querySelectorAll('li:not(.disabled)')[1];
+          const thirdOption = dropdown.querySelectorAll('li:not(.disabled)')[2];
+
+          const selectedVals = Array.prototype.slice
+            .call(elem.querySelectorAll('option:checked'), 0)
+            .map((v) => v.value);
+
+          const selectedAria = Array.prototype.slice
+            .call(dropdown.querySelectorAll('li.selected'), 0)
+            .map((v) => v.getAttribute('aria-selected'));
+
+          const unselectedAria = Array.prototype.slice
+            .call(dropdown.querySelectorAll('li:not(.selected)'), 0)
+            .map((v) => v.getAttribute('aria-selected'));
+
+          expect(dropdown).toBeHidden('Should be hidden after choosing item.');
           expect(selectedVals).toEqual(
             ['1', '2', '3'],
             'Actual select should have correct selected values.'
@@ -203,7 +234,7 @@ describe('Select Plugin', () => {
             ['false'],
             'Unselected values should be checked to assistive technologies.'
           );
-          expect(multipleInput.value).toEqual(
+          expect(input.value).toEqual(
             firstOption.innerText + ', ' + secondOption.innerText + ', ' + thirdOption.innerText,
             'Value should equal chosen multiple options.'
           );
@@ -212,29 +243,34 @@ describe('Select Plugin', () => {
       }, 10);
     });
 
-    it('should open dropdown and deselect multiple options', function (done) {
-      multipleInput = selectInstance.wrapper.querySelector('input.select-dropdown');
-      multipleDropdown = selectInstance.wrapper.querySelector('ul.select-dropdown');
-      expect(multipleInput).toExist('Should dynamically generate select dropdown structure.');
-      expect(multipleDropdown).toExist('Should dynamically generate select dropdown structure.');
-      expect(multipleInput).toBeVisible('Should be hidden before dropdown is opened.');
-      expect(multipleDropdown).toBeHidden('Should be hidden before dropdown is opened.');
-      click(multipleInput);
+    it('should open dropdown and deselect multiple options', (done) => {
+      const elem = document.querySelector('select.multiple');
+      const instance = M.FormSelect.getInstance(elem);
+      const input = instance.wrapper.querySelector('input.select-dropdown');
+      const dropdown = instance.wrapper.querySelector('ul.select-dropdown');
+
+      expect(input).toExist('Should dynamically generate select dropdown structure.');
+      expect(dropdown).toExist('Should dynamically generate select dropdown structure.');
+      expect(input).toBeVisible('Should be hidden before dropdown is opened.');
+      expect(dropdown).toBeHidden('Should be hidden before dropdown is opened.');
+
+      click(input);
       setTimeout(() => {
-        expect(multipleDropdown).toBeVisible('Should be visible after opening.');
-        let disabledOption = multipleDropdown.querySelector('li.disabled');
-        let secondOption = multipleDropdown.querySelectorAll('li:not(.disabled)')[1];
-        let thirdOption = multipleDropdown.querySelectorAll('li:not(.disabled)')[2];
+        expect(dropdown).toBeVisible('Should be visible after opening.');
+        const disabledOption = dropdown.querySelector('li.disabled');
+        const secondOption = dropdown.querySelectorAll('li:not(.disabled)')[1];
+        const thirdOption = dropdown.querySelectorAll('li:not(.disabled)')[2];
         click(secondOption);
         click(thirdOption);
         click(document.body);
+
         setTimeout(() => {
-          expect(multipleDropdown).toBeHidden('Should be hidden after choosing item.');
-          expect(browserSelect.value).toEqual(
+          expect(dropdown).toBeHidden('Should be hidden after choosing item.');
+          expect(elem.value).toEqual(
             '',
             'Actual select element should be empty because none chosen.'
           );
-          expect(multipleInput.value).toEqual(
+          expect(input.value).toEqual(
             disabledOption.innerText,
             'Value should equal default because none chosen.'
           );
@@ -244,14 +280,15 @@ describe('Select Plugin', () => {
     });
 
     it('should have multiple pre-selected values', () => {
-      multipleInput = selectInstance.wrapper.querySelector('input.select-dropdown');
-      multipleDropdown = selectInstance.wrapper.querySelector('ul.select-dropdown');
-      let secondOption = browserSelect.querySelector('option[selected]');
-      let thirdOption = browserSelect.querySelectorAll('option[selected]')[1];
-      expect(multipleInput.value).toEqual(
-        secondOption.innerText + ', ' + thirdOption.innerText,
-        'Value should be equal to preselected option.'
-      );
+      const elem = document.querySelector('select.multiple');
+      const instance = M.FormSelect.getInstance(elem);
+      const input = instance.wrapper.querySelector('input.select-dropdown');
+      const text = Array.from(elem.querySelectorAll('option[selected]'))
+        .map((o) => o.textContent)
+        .join(', ');
+      setTimeout(() => {
+        expect(input.value).toEqual(text, 'Value should equal preselected options.');
+      }, 10);
     });
   });
 

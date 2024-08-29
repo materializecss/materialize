@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
 
-const { Modal } = require('@materializecss/materialize');
-
 describe('Modal:', () => {
   let trigger1, modal1;
 
@@ -49,12 +47,6 @@ describe('Modal:', () => {
   </div>
 </div>
 `;
-
-  Modal.init(el, {
-    inDuration: 12,
-    outDuration: 0
-  });
-
   beforeEach(() => {
     XloadHtml(fixture);
     trigger1 = document.querySelector('.btn[href="#modal1"]');

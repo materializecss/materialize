@@ -122,29 +122,14 @@ const KEYMAP = {
 };
 
 function XloadHtml(html) {
-  document.body.innerHTML = html;
+  const div = document.createElement('div');
+  div.classList.add('please-delete-me');
+  div.innerHTML = html;
+  document.body.appendChild(div);
 }
 
 function XunloadFixtures() {
-  //the container leaks. Lots of code moves elements around to different parent containers. These must be cleaned up.
-  /*
-  let c = document.body.children;
-  let scriptCount = 0;
-  for (let i = 0; i < c.length; i++) {
-    const elt = c[i];
-    if (elt.tagName === 'SCRIPT' || elt.classList[0] === 'jasmine_html-reporter') scriptCount++;
-  }
-  while (c.length > scriptCount) {
-    for (let i = 0; i < c.length; i++) {
-      const elt = c[i];
-      if (elt.tagName !== 'SCRIPT' && elt.classList[0] !== 'jasmine_html-reporter') {
-        document.body.removeChild(elt);
-      }
-    }
-    c = document.body.children;
-  }
-    */
-  document.body.innerHTML = '';
+  document.querySelectorAll('please-delete-me').forEach((el) => el.remove());
 }
 
 beforeEach(() => {
