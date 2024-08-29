@@ -33,7 +33,8 @@
   ],
   "scripts": {
     "test": "npx jasmine-browser-runner runSpecs",
-    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
+    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "release": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
   },
   "lint-staged": {
     "js/*.js": [
