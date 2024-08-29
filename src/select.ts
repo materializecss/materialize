@@ -169,10 +169,8 @@ export class FormSelect extends Component<FormSelectOptions> {
   }
 
   _setupDropdown() {
-    console.log('setup dropdown');
-    const labelQuery = '[for="'+this.el.id+'"]';
-    this.labelEl = document.querySelector(labelQuery);
-    this.labelEl.style.display = 'none';
+    this.labelEl = document.querySelector('[for="'+this.el.id+'"]');
+    if (this.labelEl) this.labelEl.style.display = 'none';
 
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('select-wrapper', 'input-field');

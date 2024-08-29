@@ -399,6 +399,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
 
   _makeDropdownFocusable() {
     if (!this.dropdownEl) return;
+    this.dropdownEl.popover = "";
     // Needed for arrow key navigation
     this.dropdownEl.tabIndex = 0;
     // Only set tabindex if it hasn't been set by user

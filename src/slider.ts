@@ -56,7 +56,7 @@ export class Slider extends Component<SliderOptions> {
   /** Index of current slide. */
   activeIndex: number;
   interval: string | number | NodeJS.Timeout;
-  eventPause: any;
+  eventPause: boolean;
   _slider: HTMLUListElement;
   _slides: HTMLLIElement[];
   _activeSlide: HTMLLIElement;
