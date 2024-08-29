@@ -119,18 +119,21 @@ export class Modal extends Component<ModalOptions> {
    * Initializes instance of Modal.
    * @param el HTML element.
    * @param options Component options.
+   * @returns {Modal}
    */
   static init(el: HTMLElement, options?: Partial<ModalOptions>): Modal;
   /**
    * Initializes instances of Modal.
    * @param els HTML elements.
    * @param options Component options.
+   * @returns {Modal[]}
    */
   static init(els: InitElements<MElement>, options?: Partial<ModalOptions>): Modal[];
   /**
    * Initializes instances of Modal.
    * @param els HTML elements.
    * @param options Component options.
+   * @returns {Modal | Modal[]}
    */
   static init(els: HTMLElement | InitElements<MElement>, options: Partial<ModalOptions> = {}): Modal | Modal[] {
     return super.init(els, options, Modal);
@@ -336,6 +339,20 @@ export class Modal extends Component<ModalOptions> {
     }
     this._animateOut();
     return this;
+  }
+
+  // Experimental!
+  // also note: https://stackoverflow.com/a/35385518/8830502
+  static create(children: string = ''): string {
+    return `<dialog id="modal1" class="modal">
+      <div class="modal-content">
+        <h4>${children}</h4>
+        <p>A bunch of text</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect btn-flat">Agree</a>
+      </div>
+    </dialog>`;
   }
 
   static{
