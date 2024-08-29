@@ -26,25 +26,17 @@ describe('Tabs Plugin', () => {
 
   beforeEach(() => {
     XloadHtml(fixture);
-
     const normalTabs = document.querySelector('.tabs.normal');
     M.Tabs.init(normalTabs, { duration: 0 });
     window.location.hash = '';
     //HACK the tabs init function not fully initializing. it restores state even after element has been removed from DOM, even after using tabInstance.destroy()
     M.Tabs.getInstance(normalTabs).select('test2');
   });
-
   afterEach(() => XunloadFixtures());
 
   describe('Tabs', () => {
-    let normalTabs;
-
-    beforeEach(() => {
-      normalTabs = document.querySelector('.tabs.normal');
-      //window.location.hash = '';
-    });
-
     it('should open to active tab', () => {
+      const normalTabs = document.querySelector('.tabs.normal');
       let activeTab = normalTabs.querySelector('.active');
       let activeTabHash = activeTab.getAttribute('href');
       let tabLinks = normalTabs.querySelectorAll('.tab a');
@@ -60,13 +52,13 @@ describe('Tabs Plugin', () => {
           ); //TODO replace with alternative for deprecated jasmine-jquery
         }
       }
-
       let indicator = normalTabs.querySelector('.indicator');
       expect(indicator).toExist('Indicator should be generated');
       // expect(Math.abs(indicator.offset().left - activeTab.offset().left)).toBeLessThan(1, 'Indicator should be at active tab by default.');
     });
 
-    it('should switch to clicked tab', function (done) {
+    it('should switch to clicked tab', (done) => {
+      const normalTabs = document.querySelector('.tabs.normal');
       let activeTab = normalTabs.querySelector('.active');
       let activeTabHash = activeTab.getAttribute('href');
       let disabledTab = normalTabs.querySelector('.disabled a');
@@ -74,12 +66,9 @@ describe('Tabs Plugin', () => {
       let firstTab = normalTabs.querySelector('.tab a');
       let firstTabHash = firstTab.getAttribute('href');
       let indicator = normalTabs.querySelector('.indicator');
-
       expect(indicator).toExist('Indicator should be generated');
       // expect(Math.abs(indicator.offset().left - activeTab.offset().left)).toBeLessThan(1, 'Indicator should be at active tab by default.');
-
       click(disabledTab);
-
       setTimeout(() => {
         expect(document.querySelector(activeTabHash)).toBeVisible(
           'Clicking disabled should not change tabs.'
@@ -106,15 +95,13 @@ describe('Tabs Plugin', () => {
       }, 10); // 400
     });
 
-    it("shouldn't hide active tab if clicked while active", function (done) {
+    it("shouldn't hide active tab if clicked while active", (done) => {
+      const normalTabs = document.querySelector('.tabs.normal');
       let activeTab = normalTabs.querySelector('.active');
       let activeTabHash = activeTab.getAttribute('href');
       let indicator = normalTabs.querySelector('.indicator');
-
       expect(indicator).toExist('Indicator should be generated');
-
       click(activeTab);
-
       setTimeout(() => {
         expect(document.querySelector(activeTabHash)).toBeVisible(
           'Clicking active tab while active should not hide it.'
@@ -123,8 +110,9 @@ describe('Tabs Plugin', () => {
       }, 5); // 400
     });
 
-    it('should horizontally scroll when too many tabs', function (done) {
+    it('should horizontally scroll when too many tabs', (done) => {
       let tabsScrollWidth = 0;
+      const normalTabs = document.querySelector('.tabs.normal');
       normalTabs.style.width = '400px';
       let tabs = normalTabs.querySelectorAll('.tab');
       for (let i = 0; i < tabs.length; i++) {
@@ -142,13 +130,13 @@ describe('Tabs Plugin', () => {
       }, 5); // 400
     });
 
-    it('should programmatically switch tabs', function (done) {
+    it('should programmatically switch tabs', (done) => {
+      const normalTabs = document.querySelector('.tabs.normal');
       let activeTab = normalTabs.querySelector('.active');
       let activeTabHash = activeTab.getAttribute('href');
       let firstTab = normalTabs.querySelector('li a');
       let firstTabHash = firstTab.getAttribute('href');
       let indicator = normalTabs.querySelector('.indicator');
-
       let tabs = normalTabs.querySelectorAll('.tab a');
       for (let i = 0; i < tabs.length; i++) {
         let tabHash = tabs[i].getAttribute('href');
@@ -180,12 +168,11 @@ describe('Tabs Plugin', () => {
       }, 5); // 400
     });
 
-    it("shouldn't error if tab has no associated content", function (done) {
+    it("shouldn't error if tab has no associated content", (done) => {
       document.querySelector('#test8').remove();
       let tabNoContent = document.querySelector('[href="#test8"]');
       expect(tabNoContent).toNotHaveClass('active', 'Tab should not be selected');
       click(tabNoContent);
-
       setTimeout(() => {
         expect(tabNoContent).toHaveClass('active', 'Tab should be selected even with no content');
         done();

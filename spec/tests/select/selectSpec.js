@@ -61,7 +61,6 @@ describe('Select Plugin:', () => {
       dropdownOptions: { inDuration: 0, outDuration: 0 }
     });
   });
-
   afterEach(() => XunloadFixtures());
 
   describe('Select:', () => {
@@ -124,7 +123,7 @@ describe('Select Plugin:', () => {
       }, 10);
     });
 
-    it('should have pre-selected value', () => {
+    it('should have pre-selected value', (done) => {
       const elem = document.querySelector('select.normal');
       const instance = M.FormSelect.getInstance(elem);
       const input = instance.wrapper.querySelector('input.select-dropdown');
@@ -139,6 +138,7 @@ describe('Select Plugin:', () => {
           firstOption.getAttribute('aria-selected'),
           'First item should be selected to assistive technologies.'
         );
+        done();
       }, 10);
     });
 
@@ -279,7 +279,7 @@ describe('Select Plugin:', () => {
       }, 10);
     });
 
-    it('should have multiple pre-selected values', () => {
+    it('should have multiple pre-selected values', (done) => {
       const elem = document.querySelector('select.multiple');
       const instance = M.FormSelect.getInstance(elem);
       const input = instance.wrapper.querySelector('input.select-dropdown');
@@ -288,6 +288,7 @@ describe('Select Plugin:', () => {
         .join(', ');
       setTimeout(() => {
         expect(input.value).toEqual(text, 'Value should equal preselected options.');
+        done();
       }, 10);
     });
   });

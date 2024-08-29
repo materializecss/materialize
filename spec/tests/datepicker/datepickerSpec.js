@@ -14,7 +14,7 @@ describe('Datepicker Plugin', () => {
   afterEach(() => XunloadFixtures());
 
   describe('Datepicker', () => {
-    it('should open and close programmatically', function (done) {
+    it('should open and close programmatically', (done) => {
       const input = document.querySelector('#datepickerInput');
       const modal = document.querySelector('.datepicker-modal');
       expect(modal).toBeHidden('Should be hidden before datepicker input is focused.');
@@ -36,7 +36,7 @@ describe('Datepicker Plugin', () => {
       }, 400);
     });
 
-    it('can have a string format', function (done) {
+    it('can have a string format', (done) => {
       const input = document.querySelector('#datepickerInput');
       const today = new Date();
       M.Datepicker.init(input, { format: 'mm/dd/yyyy' }).open();
@@ -55,7 +55,7 @@ describe('Datepicker Plugin', () => {
       }, 400);
     });
 
-    it('can have a format function', function (done) {
+    it('can have a format function', (done) => {
       const input = document.querySelector('#datepickerInput');
       const today = new Date();
       const formatFn = (date) => `${date.getFullYear() - 100}-${date.getMonth() + 1}-99`;

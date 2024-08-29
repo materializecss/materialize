@@ -9,12 +9,9 @@ describe('Toasts:', () => {
         displayLength: 100,
         outDuration: 20
       });
-
       const wrapperWasCreated = document.querySelectorAll('#toast-container').length === 1;
       expect(wrapperWasCreated).toEqual(true, 'because toast was created');
-
       const toast = instance.el;
-
       setTimeout(() => {
         // is visible?
         //const toasts = document.querySelectorAll('.toast');
@@ -25,7 +22,6 @@ describe('Toasts:', () => {
         expect(toast.getAttribute('aria-atomic')).toBe('true');
         expect(toast).toBeVisible();
         expect(toast.innerText).toBe('Test toast');
-
         setTimeout(() => {
           //const toasts = document.querySelectorAll('.toast');
           expect(toast).toBeVisible();
@@ -55,7 +51,6 @@ describe('Toasts:', () => {
     it('Toasts should call the callback function when dismissed', (done) => {
       let wasCalled = false;
       const callback = () => (wasCalled = true);
-
       const toast = new M.Toast({
         text: 'I am a toast',
         inDuration: 10,
@@ -63,7 +58,6 @@ describe('Toasts:', () => {
         outDuration: 10,
         completeCallback: callback
       });
-
       setTimeout(() => {
         expect(wasCalled).toBe(true, 'because the callback set it to true');
         done();

@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-describe('Collapsible Plugin', () => {
+describe('Collapsible Plugin:', () => {
   let collapsible, accordion, popout, expandable, expandablePreselect;
 
   const fixture = `<ul class="collapsible expandable" data-collapsible="expandable">
@@ -70,7 +70,6 @@ describe('Collapsible Plugin', () => {
     expandablePreselect = document.querySelector('.expandable-preselected');
     accordion = document.querySelector('.accordion');
     popout = document.querySelector('.popout');
-
     M.Collapsible.init(collapsible, { inDuration: 0, outDuration: 0 });
     M.Collapsible.init(expandable, { accordion: false, inDuration: 0, outDuration: 0 });
     M.Collapsible.init(expandablePreselect, { accordion: false, inDuration: 0, outDuration: 0 });
@@ -79,7 +78,7 @@ describe('Collapsible Plugin', () => {
   afterEach(() => XunloadFixtures());
 
   describe('collapsible', () => {
-    it('should open all items, keeping all open', function (done) {
+    it('should open all items, keeping all open', (done) => {
       // Collapsible body height should be 0 on start when hidden.
       let headers = expandable.querySelectorAll('.collapsible-header');
       let bodies = expandable.querySelectorAll('.collapsible-body');

@@ -8,7 +8,6 @@ describe('Chips', () => {
 
   beforeEach(() => {
     XloadHtml(fixture);
-
     M.Chips.init(document.querySelector('.chips'));
     M.Chips.init(document.querySelector('.chips-initial'), {
       data: [
@@ -36,7 +35,6 @@ describe('Chips', () => {
       }
     });
   });
-
   afterEach(() => XunloadFixtures());
 
   describe('chips plugin', () => {

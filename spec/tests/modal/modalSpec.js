@@ -57,7 +57,6 @@ describe('Modal:', () => {
     modal2 = document.querySelector('#modal2');
     modal3 = document.querySelector('#modal3');
   });
-
   afterEach(() => XunloadFixtures());
 
   describe('Modals', () => {
@@ -103,7 +102,7 @@ describe('Modal:', () => {
       }, 10);
     });
 
-    it('Should have a dismissible option', function (done) {
+    it('Should have a dismissible option', (done) => {
       M.Modal.init(modal1, {
         dismissible: false,
         inDuration: 0,
@@ -125,7 +124,7 @@ describe('Modal:', () => {
       }, 10);
     });
 
-    it('Should have callbacks', function (done) {
+    it('Should have callbacks', (done) => {
       let readyTest = false;
       let completeTest = false;
       M.Modal.init(modal1, {

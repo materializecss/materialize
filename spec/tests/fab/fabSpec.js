@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-describe('Fab', () => {
+describe('Fab Plugin:', () => {
   const fixture = `<div class="fixed-action-btn">
   <a class="btn-floating btn-large red">
     <i class="large material-icons">mode_edit</i>
@@ -42,24 +42,19 @@ describe('Fab', () => {
   afterEach(() => XunloadFixtures());
 
   describe('Floating Action Button', () => {
-    let normalFAB;
-    beforeEach(() => {
-      normalFAB = document.querySelector('.fixed-action-btn');
+    it('should open correctly', (done) => {
+      const normalFAB = document.querySelector('.fixed-action-btn');
       M.FloatingActionButton.init(normalFAB);
-    });
-
-    it('should open correctly', function (done) {
-      let ul = normalFAB.querySelector('ul');
-      let ulStyle = getComputedStyle(ul);
+      const ul = normalFAB.querySelector('ul');
+      const ulStyle = getComputedStyle(ul);
       expect(ulStyle.getPropertyValue('visibility')).toEqual(
         'hidden',
         'FAB menu div should be hidden initially'
       );
-
       setTimeout(() => {
         mouseenter(normalFAB);
         setTimeout(() => {
-          ulStyle = getComputedStyle(ul);
+          const ulStyle = getComputedStyle(ul);
           expect(ulStyle.getPropertyValue('visibility')).toEqual(
             'visible',
             'FAB menu did not appear after mouseenter.'

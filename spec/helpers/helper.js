@@ -129,7 +129,10 @@ function XloadHtml(html) {
 }
 
 function XunloadFixtures() {
-  document.querySelectorAll('please-delete-me').forEach((el) => el.remove());
+  document.querySelectorAll('.please-delete-me').forEach((el) => el.remove());
+  //
+  document.querySelectorAll('.material-tooltip').forEach((el) => el.remove());
+  document.querySelectorAll('.dropdown-content').forEach((el) => el.remove());
 }
 
 beforeEach(() => {

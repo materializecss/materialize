@@ -37,7 +37,6 @@ describe('Autocomplete Plugin', () => {
       ]
     });
   });
-
   afterEach(() => XunloadFixtures());
 
   describe('Autocomplete', () => {

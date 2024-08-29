@@ -65,7 +65,6 @@ describe('Forms:', () => {
   beforeEach(() => {
     XloadHtml(fixture);
     M.CharacterCounter.init(document.querySelector('#character-counter'));
-
     const inputs = document.querySelectorAll('input');
     inputs.forEach((input) => {
       //input.dispatchEvent(new Event('focus'));
@@ -74,7 +73,6 @@ describe('Forms:', () => {
       //input.blur();
     });
   });
-
   afterEach(() => XunloadFixtures());
 
   describe('CharacterCounter', () => {
@@ -105,24 +103,29 @@ describe('Forms:', () => {
       expect(el.clientHeight).toBeGreaterThan(pHeight);
     });
 
-    it('Programmatically initialized textarea resize', () => {
+    it('Programmatically initialized textarea resize', (done) => {
       const element = document.querySelector('#textarea');
       M.Forms.InitTextarea(element);
       const textareaHeight = element.clientHeight;
       element.value = MULTILINE_TEXT;
       keydown(element, 13);
-      expect(element.clientHeight).toBeGreaterThan(textareaHeight);
+      setTimeout(() => {
+        expect(element.clientHeight).toBeGreaterThan(textareaHeight);
+        done();
+      }, 10);
     });
 
-    it('Automatically initialized textarea resize', () => {
+    it('Automatically initialized textarea resize', (done) => {
       const event = new Event('DOMContentLoaded');
       document.dispatchEvent(event);
-
       const element = document.querySelector('#textarea');
       const textareaHeight = element.clientHeight;
       element.value = MULTILINE_TEXT;
       keydown(element, 13);
-      expect(element.clientHeight).toBeGreaterThan(textareaHeight);
+      setTimeout(() => {
+        expect(element.clientHeight).toBeGreaterThan(textareaHeight);
+        done();
+      }, 10);
     });
   });
 

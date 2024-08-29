@@ -1,8 +1,6 @@
 /* eslint-disable no-undef */
 
 describe('Tooltip:', () => {
-  let tooltippedBtn, tooltip;
-
   const fixture = `<a
   id="test"
   class="btn tooltipped"
@@ -49,9 +47,9 @@ describe('Tooltip:', () => {
   afterEach(() => XunloadFixtures());
 
   describe('opens and closes properly', () => {
-    it('shows tooltip on mouse enter', function (done) {
-      tooltippedBtn = document.querySelector('#test');
-      tooltip = M.Tooltip.getInstance(tooltippedBtn).tooltipEl;
+    it('shows tooltip on mouse enter', (done) => {
+      const tooltippedBtn = document.querySelector('#test');
+      const tooltip = M.Tooltip.getInstance(tooltippedBtn).tooltipEl;
       mouseenter(tooltippedBtn);
       setTimeout(() => {
         expect(tooltip).toBeVisible('because mouse entered tooltipped btn');
@@ -67,9 +65,9 @@ describe('Tooltip:', () => {
       }, 10);
     });
 
-    it('should place tooltips on the bottom within the screen bounds', function (done) {
-      tooltippedBtn = document.querySelector('#test1');
-      tooltip = M.Tooltip.getInstance(tooltippedBtn).tooltipEl;
+    it('should place tooltips on the bottom within the screen bounds', (done) => {
+      const tooltippedBtn = document.querySelector('#test1');
+      const tooltip = M.Tooltip.getInstance(tooltippedBtn).tooltipEl;
       mouseenter(tooltippedBtn);
       // tooltippedBtn.trigger('mouseenter');
       setTimeout(() => {
@@ -87,35 +85,34 @@ describe('Tooltip:', () => {
     });
 
     it('removes tooltip dom object', () => {
-      tooltippedBtn = document.querySelector('#test1');
+      const tooltippedBtn = document.querySelector('#test1');
       M.Tooltip.getInstance(tooltippedBtn).destroy();
       // Check DOM element is removed
-      let tooltipInstance = M.Tooltip.getInstance(tooltippedBtn);
+      const tooltipInstance = M.Tooltip.getInstance(tooltippedBtn);
       expect(tooltipInstance).toBe(undefined);
     });
 
-    it('changes position attribute dynamically and positions tooltips on the right correctly', function (done) {
-      tooltippedBtn = document.querySelector('#test');
+    it('changes position attribute dynamically and positions tooltips on the right correctly', (done) => {
+      const tooltippedBtn = document.querySelector('#test');
       tooltippedBtn.setAttribute('data-position', 'right');
-      tooltip = M.Tooltip.getInstance(tooltippedBtn).tooltipEl;
-      // Mouse enter
+      const tooltip = M.Tooltip.getInstance(tooltippedBtn).tooltipEl;
       mouseenter(tooltippedBtn);
       setTimeout(() => {
-        let tooltipRect = tooltip.getBoundingClientRect();
-        let tooltippedBtnRect = tooltippedBtn.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const tooltippedBtnRect = tooltippedBtn.getBoundingClientRect();
         expect(tooltipRect.left).toBeGreaterThan(tooltippedBtnRect.right);
         done();
       }, 10);
     });
 
-    it('accepts delay option from javascript initialization', function (done) {
-      tooltippedBtn = document.querySelector('#test');
+    it('accepts delay option from javascript initialization', (done) => {
+      const tooltippedBtn = document.querySelector('#test');
       tooltippedBtn.removeAttribute('data-delay');
       M.Tooltip.init(tooltippedBtn, { enterDelay: 200 });
-      tooltip = M.Tooltip.getInstance(tooltippedBtn).tooltipEl;
+      const tooltip = M.Tooltip.getInstance(tooltippedBtn).tooltipEl;
       mouseenter(tooltippedBtn);
       setTimeout(() => {
-        let tooltipVisibility = getComputedStyle(tooltip).getPropertyValue('visibility');
+        const tooltipVisibility = getComputedStyle(tooltip).getPropertyValue('visibility');
         expect(tooltipVisibility).toBe('hidden', 'because the delay is 200 seconds');
       }, 150);
       setTimeout(() => {
@@ -124,15 +121,15 @@ describe('Tooltip:', () => {
       }, 250);
     });
 
-    it('works with a fixed position parent', function (done) {
-      tooltippedBtn = document.querySelector('#test2');
-      tooltip = M.Tooltip.getInstance(tooltippedBtn).tooltipEl;
+    it('works with a fixed position parent', (done) => {
+      const tooltippedBtn = document.querySelector('#test2');
+      const tooltip = M.Tooltip.getInstance(tooltippedBtn).tooltipEl;
       mouseenter(tooltippedBtn);
       setTimeout(() => {
-        let tooltipRect = tooltip.getBoundingClientRect();
-        let tooltippedBtnRect = tooltippedBtn.getBoundingClientRect();
-        let verticalDiff = tooltipRect.top - tooltippedBtnRect.top;
-        let horizontalDiff =
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const tooltippedBtnRect = tooltippedBtn.getBoundingClientRect();
+        const verticalDiff = tooltipRect.top - tooltippedBtnRect.top;
+        const horizontalDiff =
           tooltipRect.left +
           tooltipRect.width / 2 -
           (tooltippedBtnRect.left + tooltippedBtnRect.width / 2);

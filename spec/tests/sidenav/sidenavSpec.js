@@ -53,7 +53,6 @@ describe('Sidenav Plugin', () => {
       const overlay = document.querySelectorAll('.sidenav-overlay');
       const dragTarget = document.querySelectorAll('.drag-target');
       let sidenavRect = normalSidenav.getBoundingClientRect();
-
       expect(dragTarget.length).toEqual(1, 'Should generate only one dragTarget.');
       expect(overlay.length).toEqual(1, 'Should generate only one overlay.');
       expect(sidenavRect.left).toEqual(
