@@ -1,25 +1,50 @@
-describe('Tabs Plugin', function () {
-  beforeEach(async function () {
-    await XloadFixtures(['tabs/tabsFixture.html']);
-    let normalTabs = document.querySelector('.tabs.normal');
-    M.Tabs.init(normalTabs, {});
+/* eslint-disable no-undef */
+
+describe('Tabs Plugin', () => {
+  const fixture = `<div class="row">
+  <div class="col s12">
+    <ul class="tabs normal">
+      <li class="tab col s3"><a href="#test1">Test 1</a></li>
+      <li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>
+      <li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>
+      <li class="tab col s3"><a href="#test4">Test 4</a></li>
+      <li class="tab col s3"><a href="#test5">Test 4</a></li>
+      <li class="tab col s3"><a href="#test6">Test 4</a></li>
+      <li class="tab col s3"><a href="#test7">Test 4</a></li>
+      <li class="tab col s3"><a href="#test8">Test 4</a></li>
+    </ul>
+  </div>
+  <div id="test1" class="col s12">Test 1</div>
+  <div id="test2" class="col s12">Test 2</div>
+  <div id="test3" class="col s12">Test 3</div>
+  <div id="test4" class="col s12">Test 4</div>
+  <div id="test5" class="col s12">Test 1</div>
+  <div id="test6" class="col s12">Test 2</div>
+  <div id="test7" class="col s12">Test 3</div>
+  <div id="test8" class="col s12">Test 4</div>
+</div>`;
+
+  beforeEach(() => {
+    XloadHtml(fixture);
+
+    const normalTabs = document.querySelector('.tabs.normal');
+    M.Tabs.init(normalTabs, { duration: 0 });
     window.location.hash = '';
     //HACK the tabs init function not fully initializing. it restores state even after element has been removed from DOM, even after using tabInstance.destroy()
     M.Tabs.getInstance(normalTabs).select('test2');
   });
-  afterEach(function () {
-    XunloadFixtures();
-  });
 
-  describe('Tabs', function () {
+  afterEach(() => XunloadFixtures());
+
+  describe('Tabs', () => {
     let normalTabs;
 
-    beforeEach(function () {
+    beforeEach(() => {
       normalTabs = document.querySelector('.tabs.normal');
-      window.location.hash = '';
+      //window.location.hash = '';
     });
 
-    it('should open to active tab', function () {
+    it('should open to active tab', () => {
       let activeTab = normalTabs.querySelector('.active');
       let activeTabHash = activeTab.getAttribute('href');
       let tabLinks = normalTabs.querySelectorAll('.tab a');
@@ -55,7 +80,7 @@ describe('Tabs Plugin', function () {
 
       click(disabledTab);
 
-      setTimeout(function () {
+      setTimeout(() => {
         expect(document.querySelector(activeTabHash)).toBeVisible(
           'Clicking disabled should not change tabs.'
         ); //TODO replace with alternative for deprecated jasmine-jquery
@@ -65,7 +90,7 @@ describe('Tabs Plugin', function () {
 
         click(firstTab);
 
-        setTimeout(function () {
+        setTimeout(() => {
           expect(document.querySelector(activeTabHash)).toBeHidden(
             'Clicking tab should switch to that tab.'
           ); //TODO replace with alternative for deprecated jasmine-jquery
@@ -77,8 +102,8 @@ describe('Tabs Plugin', function () {
             'Indicator should move to clicked tab.'
           );
           done();
-        }, 400);
-      }, 400);
+        }, 10); // 400
+      }, 10); // 400
     });
 
     it("shouldn't hide active tab if clicked while active", function (done) {
@@ -90,12 +115,12 @@ describe('Tabs Plugin', function () {
 
       click(activeTab);
 
-      setTimeout(function () {
+      setTimeout(() => {
         expect(document.querySelector(activeTabHash)).toBeVisible(
           'Clicking active tab while active should not hide it.'
         );
         done();
-      }, 400);
+      }, 5); // 400
     });
 
     it('should horizontally scroll when too many tabs', function (done) {
@@ -103,18 +128,18 @@ describe('Tabs Plugin', function () {
       normalTabs.style.width = '400px';
       let tabs = normalTabs.querySelectorAll('.tab');
       for (let i = 0; i < tabs.length; i++) {
-        setTimeout(function () {
+        setTimeout(() => {
           tabsScrollWidth += tabs[i].offsetWidth;
         }, 0);
       }
 
-      setTimeout(function () {
+      setTimeout(() => {
         expect(tabsScrollWidth).toBeGreaterThan(
           normalTabs.offsetWidth,
           'Scroll width should exceed tabs width'
         );
         done();
-      }, 400);
+      }, 5); // 400
     });
 
     it('should programmatically switch tabs', function (done) {
@@ -140,7 +165,7 @@ describe('Tabs Plugin', function () {
 
       M.Tabs.getInstance(normalTabs).select('test1');
 
-      setTimeout(function () {
+      setTimeout(() => {
         expect(document.querySelector(activeTabHash)).toBeHidden(
           'Clicking tab should switch to that tab.'
         ); //TODO replace with alternative for deprecated jasmine-jquery
@@ -152,7 +177,7 @@ describe('Tabs Plugin', function () {
           'Indicator should move to clicked tab.'
         );
         done();
-      }, 400);
+      }, 5); // 400
     });
 
     it("shouldn't error if tab has no associated content", function (done) {
@@ -161,10 +186,10 @@ describe('Tabs Plugin', function () {
       expect(tabNoContent).toNotHaveClass('active', 'Tab should not be selected');
       click(tabNoContent);
 
-      setTimeout(function () {
+      setTimeout(() => {
         expect(tabNoContent).toHaveClass('active', 'Tab should be selected even with no content');
         done();
-      }, 400);
+      }, 10); // 400
     });
   });
 });

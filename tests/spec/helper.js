@@ -1,6 +1,5 @@
-const fixturesCache = {};
-const containerId = 'xjasmine-fixtures';
-const fixturesPath = 'http://localhost:9001/tests/spec';
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 
 const KEYMAP = {
   '27': 'Escape',
@@ -122,42 +121,18 @@ const KEYMAP = {
   '105': '9'
 };
 
-async function XloadFixtures(fixtureUrls) {
-  //should save and restore the body element, not just the container
-  let oldcontainer = document.getElementById(containerId);
-  if (oldcontainer) {
-    oldcontainer.parentNode.removeChild(oldcontainer);
-    oldcontainer = null;
-  }
-  const htmlChunks = [];
-  for (let i = 0; i < fixtureUrls.length; i++) {
-    const url = fixturesPath + '/' + fixtureUrls[i];
-    if (fixturesCache[url] === undefined) {
-      const response = await fetch(url);
-      fixturesCache[url] = await response.text();
-    }
-    htmlChunks.push(fixturesCache[url]);
-  }
-  const container = document.createElement('div');
-  container.id = containerId;
-  container.innerHTML = htmlChunks.join('');
-  document.body.appendChild(container);
+function XloadHtml(html) {
+  document.body.innerHTML = html;
 }
 
 function XunloadFixtures() {
-  let oldcontainer = document.getElementById(containerId);
-  if (oldcontainer) {
-    oldcontainer.parentNode.removeChild(oldcontainer);
-    oldcontainer = null;
-  }
   //the container leaks. Lots of code moves elements around to different parent containers. These must be cleaned up.
+  /*
   let c = document.body.children;
   let scriptCount = 0;
   for (let i = 0; i < c.length; i++) {
     const elt = c[i];
-    if (elt.tagName === 'SCRIPT' || elt.classList[0] === 'jasmine_html-reporter') {
-      scriptCount++;
-    }
+    if (elt.tagName === 'SCRIPT' || elt.classList[0] === 'jasmine_html-reporter') scriptCount++;
   }
   while (c.length > scriptCount) {
     for (let i = 0; i < c.length; i++) {
@@ -168,23 +143,24 @@ function XunloadFixtures() {
     }
     c = document.body.children;
   }
+    */
+  document.body.innerHTML = '';
 }
 
-beforeEach(function () {
-  let matchers = {
-    toExist: function (util, customEqualityTesters) {
+beforeEach(() => {
+  const matchers = {
+    toExist: (util, customEqualityTesters) => {
       return {
-        compare: function (actual) {
+        compare: (actual) => {
           let result = {};
           result.pass = util.equals(!!actual, true, customEqualityTesters);
           return result;
         }
       };
     },
-
-    hasMaxHeightZero: function (util, customEqualityTesters) {
+    hasMaxHeightZero: (util, customEqualityTesters) => {
       return {
-        compare: function (actual) {
+        compare: (actual) => {
           const style = getComputedStyle(actual);
           const result = {};
           result.pass = util.equals(
@@ -196,10 +172,9 @@ beforeEach(function () {
         }
       };
     },
-
-    notHasMaxHeightZero: function (util, customEqualityTesters) {
+    notHasMaxHeightZero: (util, customEqualityTesters) => {
       return {
-        compare: function (actual) {
+        compare: (actual) => {
           const style = getComputedStyle(actual);
           const result = {};
           result.pass = !util.equals(
@@ -211,10 +186,9 @@ beforeEach(function () {
         }
       };
     },
-
-    toBeHidden: function (util, customEqualityTesters) {
+    toBeHidden: (util, customEqualityTesters) => {
       return {
-        compare: function (actual) {
+        compare: (actual) => {
           const style = getComputedStyle(actual);
           let result = {};
           result.pass = util.equals(
@@ -226,10 +200,9 @@ beforeEach(function () {
         }
       };
     },
-
-    toBeVisible: function (util, customEqualityTesters) {
+    toBeVisible: (util, customEqualityTesters) => {
       return {
-        compare: function (actual) {
+        compare: (actual) => {
           const style = getComputedStyle(actual);
           let result = {};
           result.pass = !util.equals(
@@ -237,7 +210,6 @@ beforeEach(function () {
             'none',
             customEqualityTesters
           );
-
           if (result.pass) {
             result.pass = util.equals(
               style.getPropertyValue('visibility'),
@@ -245,26 +217,24 @@ beforeEach(function () {
               customEqualityTesters
             );
           }
-
           return result;
         }
       };
     },
-    toHaveClass: function (util, customEqualityTesters) {
+    toHaveClass: (util, customEqualityTesters) => {
       return {
-        compare: function (actual, expected) {
+        compare: (actual, expected) => {
           let result = {};
           result.pass = util.equals(
             actual.classList.contains(expected),
             true,
             customEqualityTesters
           );
-
           return result;
         }
       };
     },
-    toNotHaveClass: function (util, customEqualityTesters) {
+    toNotHaveClass: (util, customEqualityTesters) => {
       return {
         compare: function (actual, expected) {
           let result = {};
@@ -273,7 +243,6 @@ beforeEach(function () {
             false,
             customEqualityTesters
           );
-
           return result;
         }
       };
@@ -285,19 +254,18 @@ beforeEach(function () {
   /**
    * Creates standard click event on DOM element
    */
-  window.click = function (elem) {
-    let evt = document.createEvent('MouseEvent');
+  window.click = (elem) => {
+    const evt = document.createEvent('MouseEvent');
     evt.initMouseEvent('click', {
       bubbles: true,
       cancelable: true,
       view: window
     });
-
     elem.dispatchEvent(evt);
   };
 
-  window.mouseenter = function (el) {
-    let ev = document.createEvent('MouseEvent');
+  window.mouseenter = (el) => {
+    const ev = document.createEvent('MouseEvent');
     ev.initMouseEvent(
       'mouseenter',
       true /* bubble */,
@@ -318,8 +286,8 @@ beforeEach(function () {
     el.dispatchEvent(ev);
   };
 
-  window.mouseleave = function (el) {
-    let ev = document.createEvent('MouseEvent');
+  window.mouseleave = (el) => {
+    const ev = document.createEvent('MouseEvent');
     ev.initMouseEvent(
       'mouseleave',
       true /* bubble */,
@@ -340,7 +308,7 @@ beforeEach(function () {
     el.dispatchEvent(ev);
   };
 
-  window.keydown = function (targetElement, keycode) {
+  window.keydown = (targetElement, keycode) => {
     targetElement.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: KEYMAP[keycode],
@@ -350,7 +318,7 @@ beforeEach(function () {
     );
   };
 
-  window.keyup = function (targetElement, keycode) {
+  window.keyup = (targetElement, keycode) => {
     targetElement.dispatchEvent(
       new KeyboardEvent('keyup', {
         key: KEYMAP[keycode],
@@ -360,14 +328,14 @@ beforeEach(function () {
     );
   };
 
-  window.focus = function (el) {
-    let ev = document.createEvent('Events');
+  window.focus = (el) => {
+    const ev = document.createEvent('Events');
     ev.initEvent('focus', true, true);
     el.dispatchEvent(ev);
   };
 
-  window.blur = function (el) {
-    let ev = document.createEvent('Events');
+  window.blur = (el) => {
+    const ev = document.createEvent('Events');
     ev.initEvent('blur', true, true);
     el.dispatchEvent(ev);
   };

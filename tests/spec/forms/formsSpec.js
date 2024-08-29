@@ -1,35 +1,91 @@
-const MULTILINE_TEXT = 'This is line 1.\nThis is line 2.\nThis is line 3.\nThis is line 4.\nThis is line 5.\nAnd this is line 6.';
+/* eslint-disable no-undef */
 
-describe('Forms:', function () {
-  beforeEach(async function () {
-    await XloadFixtures(['forms/formsFixture.html']);
+const MULTILINE_TEXT =
+  'This is line 1.\nThis is line 2.\nThis is line 3.\nThis is line 4.\nThis is line 5.\nAnd this is line 6.';
+
+describe('Forms:', () => {
+  const fixture = `<div class="input-field">
+  <label for="text-input">text</label>
+  <input id="text-input" type="text" />
+</div>
+<div class="input-field">
+  <label for="character-counter">character counter</label>
+  <input id="character-counter" type="text" maxlength="10" />
+</div>
+<div class="input-field">
+  <label for="no-type-attribute">no type attribute</label>
+  <input id="no-type-attribute" />
+</div>
+<div class="input-field">
+  <label for="password-input">password</label>
+  <input id="password-input" type="password" />
+</div>
+<div class="input-field">
+  <label for="email-input">email</label>
+  <input id="email-input" type="email" />
+</div>
+<div class="input-field">
+  <label for="url-input">url</label>
+  <input id="url-input" type="url" />
+</div>
+<div class="input-field">
+  <label for="tel-input">tel</label>
+  <input id="tel-input" type="tel" />
+</div>
+<div class="input-field">
+  <label for="number-input">number</label>
+  <input id="number-input" type="number" />
+</div>
+<div class="input-field">
+  <label for="search-input">search</label>
+  <input id="search-input" type="search" />
+</div>
+<div class="input-field">
+  <label for="date-input">date</label>
+  <input id="date-input" type="date" />
+</div>
+<div class="input-field">
+  <label for="time-input">time</label>
+  <input id="time-input" type="time" />
+</div>
+<div class="input-field">
+  <label for="month-input">month</label>
+  <input id="month-input" type="month" />
+</div>
+<div class="input-field">
+  <label for="datetime-input">datetime</label>
+  <input id="datetime-input" type="datetime-local" />
+</div>
+<div class="input-field">
+  <textarea id="textarea" class="materialize-textarea"></textarea>
+  <label for="textarea">Textarea</label>
+</div>
+`;
+
+  beforeEach(() => {
+    XloadHtml(fixture);
     M.CharacterCounter.init(document.querySelector('#character-counter'));
-  });
 
-  afterEach(function () {
-    XunloadFixtures();
-  });
-
-  let inputs;
-
-  beforeEach(function () {
-    inputs = document.querySelectorAll('input');
+    const inputs = document.querySelectorAll('input');
     inputs.forEach((input) => {
-      input.focus();
-      input.blur();
+      //input.dispatchEvent(new Event('focus'));
+      focus(input);
+      //input.focus();
+      //input.blur();
     });
-    window.location.hash = '';
   });
+
+  afterEach(() => XunloadFixtures());
 
   describe('CharacterCounter', () => {
     it('Should initialize', () => {
-      let el = document.querySelector('#character-counter');
+      const el = document.querySelector('#character-counter');
       expect(() => M.CharacterCounter.getInstance(el)).not.toThrow();
       expect(M.CharacterCounter.getInstance(el)).toBeTruthy();
     });
 
     it('Should exhibit counter', () => {
-      let counter = document.querySelector('#character-counter ~ .character-counter');
+      const counter = document.querySelector('#character-counter ~ .character-counter');
       expect(counter.textContent).toBe('0/10');
     });
   });
@@ -72,7 +128,7 @@ describe('Forms:', function () {
 
   // No active class added, because it is now a css feature only
   /*
-  it("should keep label active while focusing on input", function () {
+  it("should keep label active while focusing on input", () => {
     inputs.forEach(input => {
       expect(input.labels[0]).not.toHaveClass('active')
       input.focus()

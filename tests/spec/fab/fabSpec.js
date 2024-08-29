@@ -1,15 +1,49 @@
-describe('Fab', function () {
-  beforeEach(async function () {
-    await XloadFixtures(['fab/fabFixture.html']);
-  });
-  afterEach(function () {
-    XunloadFixtures();
-  });
+/* eslint-disable no-undef */
 
-  describe('Floating Action Button', function () {
+describe('Fab', () => {
+  const fixture = `<div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">mode_edit</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+    <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+  </ul>
+</div>
+
+<div class="fixed-action-btn horizontal">
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">mode_edit</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+    <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+  </ul>
+</div>
+
+<div class="fixed-action-btn click-to-toggle">
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">mode_edit</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+    <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+  </ul>
+</div>
+`;
+
+  beforeEach(() => XloadHtml(fixture));
+  afterEach(() => XunloadFixtures());
+
+  describe('Floating Action Button', () => {
     let normalFAB;
-
-    beforeEach(function () {
+    beforeEach(() => {
       normalFAB = document.querySelector('.fixed-action-btn');
       M.FloatingActionButton.init(normalFAB);
     });
@@ -22,56 +56,17 @@ describe('Fab', function () {
         'FAB menu div should be hidden initially'
       );
 
-      setTimeout(function () {
+      setTimeout(() => {
         mouseenter(normalFAB);
-
-        setTimeout(function () {
+        setTimeout(() => {
           ulStyle = getComputedStyle(ul);
           expect(ulStyle.getPropertyValue('visibility')).toEqual(
             'visible',
             'FAB menu did not appear after mouseenter.'
           );
-
           done();
         }, 400);
       }, 100);
     });
   });
-
-  /*
-  describe("FAB to toolbar", function () {
-    let toolbarFAB;
-
-    beforeEach(function() {
-      toolbarFAB = document.querySelector('.fixed-action-btn.toolbar');
-      M.FloatingActionButton.init(toolbarFAB, {
-        toolbarEnabled: true
-      });
-    });
-
-    it("should open correctly", function (done) {
-      let ul = toolbarFAB.querySelector('ul');
-      let ulStyle = getComputedStyle(ul);
-      expect(ulStyle.getPropertyValue('visibility')).toEqual('hidden', 'FAB menu div should be hidden initially');
-
-
-      setTimeout(function() {
-        click(toolbarFAB);
-
-        setTimeout(function() {
-          ulStyle = getComputedStyle(ul);
-          expect(ulStyle.getPropertyValue('visibility')).toEqual('visible', 'FAB menu did not appear after mouseenter.');
-          click(document.body);
-
-          setTimeout(function() {
-            ulStyle = getComputedStyle(ul);
-            expect(ulStyle.getPropertyValue('visibility')).toEqual('hidden', 'FAB menu div should be hidden after close');
-
-            done();
-          }, 400);
-        }, 400);
-      }, 100);
-    });
-  });
-  */
 });

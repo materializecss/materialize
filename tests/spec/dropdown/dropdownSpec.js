@@ -1,88 +1,121 @@
-describe('Dropdown Plugin', function () {
-  beforeEach(async function () {
-    await XloadFixtures(['dropdown/dropdownFixture.html']);
-    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
-  });
-  afterEach(function () {
-    XunloadFixtures();
+/* eslint-disable no-undef */
+
+describe('Dropdown Plugin', () => {
+  const fixture = `<div class="row">
+    <div class="input-field col s12">
+      <!-- Dropdown Trigger -->
+      <a id="dropdownActivator" class='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!</a>
+
+      <!-- Dropdown Structure -->
+      <ul id='dropdown1' class='dropdown-content'>
+        <li><a href="#!">one</a></li>
+        <li><a href="#!">two</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">three</a></li>
+      </ul>
+
+      <!-- Dropdown Trigger -->
+      <a id="dropdownBubble" class='dropdown-trigger btn' href='#' data-target='dropdown2'>
+        <i class="material-icons left">arrow_drop_down</i>
+        <span>Event Bubble!</span>
+      </a>
+
+      <!-- Dropdown Structure -->
+      <ul id='dropdown2' class='dropdown-content'>
+        <li><a href="#!">one</a></li>
+        <li><a href="#!">two</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">three</a></li>
+      </ul>
+
+      <!-- Dropdown Trigger -->
+      <a id="dropdownDestroyTrigger" class='dropdown-trigger btn' href='#' data-target='dropdownDestroy'>
+        <i class="material-icons left">arrow_drop_down</i>
+        <span>Drop Me!</span>
+      </a>
+
+      <!-- Dropdown Destroy  -->
+      <ul id='dropdownDestroy' class='dropdown-content'>
+        <li><a href="#!">one</a></li>
+        <li><a href="#!">two</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">three</a></li>
+      </ul>
+    </div>
+  </div>`;
+
+  beforeEach(() => {
+    XloadHtml(fixture);
+    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'), {
+      inDuration: 0,
+      outDuration: 0
+    });
   });
 
-  describe('Dropdown', function () {
+  afterEach(() => XunloadFixtures());
+
+  describe('Dropdown', () => {
     let normalDropdown;
 
-    beforeEach(function () {
-      // browserSelect = $('select.normal');
+    // beforeEach(() => {
+    //   // browserSelect = $('select.normal');
+    // });
+
+    it('should open and close programmatically', (done) => {
+      const dropdown1 = document.querySelector('#dropdown1');
+      normalDropdown = document.querySelector('#dropdownActivator');
+      expect(dropdown1).toBeHidden('Should be hidden before dropdown is opened.');
+      M.Dropdown.getInstance(normalDropdown).open();
+      //setTimeout(() => {
+      expect(dropdown1).toBeVisible('Should be shown after dropdown is opened.');
+      M.Dropdown.getInstance(normalDropdown).close();
+      setTimeout(() => {
+        expect(dropdown1).toBeHidden('Should be hidden after dropdown is closed.');
+        done();
+      }, 5); // 400
+      //}, 400);
     });
 
-    it('should open and close programmatically', function (done) {
-      let dropdown1 = document.querySelector('#dropdown1');
+    it('should close dropdown on document click if programmatically opened', (done) => {
+      const dropdown1 = document.querySelector('#dropdown1');
       normalDropdown = document.querySelector('#dropdownActivator');
-
       expect(dropdown1).toBeHidden('Should be hidden before dropdown is opened.');
-
       M.Dropdown.getInstance(normalDropdown).open();
-
-      setTimeout(function () {
-        expect(dropdown1).toBeVisible('Should be shown after dropdown is opened.');
-        M.Dropdown.getInstance(normalDropdown).close();
-
-        setTimeout(function () {
-          expect(dropdown1).toBeHidden('Should be hidden after dropdown is closed.');
-          done();
-        }, 400);
-      }, 400);
-    });
-
-    it('should close dropdown on document click if programmatically opened', function (done) {
-      let dropdown1 = document.querySelector('#dropdown1');
-      normalDropdown = document.querySelector('#dropdownActivator');
-
-      expect(dropdown1).toBeHidden('Should be hidden before dropdown is opened.');
-
-      M.Dropdown.getInstance(normalDropdown).open();
-
-      setTimeout(function () {
+      setTimeout(() => {
         expect(dropdown1).toBeVisible('Should be shown after dropdown is opened.');
         click(document.body);
-
-        setTimeout(function () {
+        setTimeout(() => {
           expect(dropdown1).toBeHidden('Should be hidden after dropdown is closed.');
           done();
-        }, 400);
-      }, 400);
+        }, 5); // 400
+      }, 5); // 400
     });
 
-    it('should bubble events correctly', function (done) {
-      let dropdown2 = document.querySelector('#dropdown2');
+    it('should bubble events correctly', (done) => {
+      const dropdown2 = document.querySelector('#dropdown2');
       normalDropdown = document.querySelector('#dropdownBubble');
-
       expect(dropdown2).toBeHidden('Should be hidden before dropdown is opened.');
-
       click(normalDropdown.querySelector('i'));
-
-      setTimeout(function () {
+      setTimeout(() => {
         expect(dropdown2).toBeVisible('Should be shown after dropdown is opened.');
         click(document.body);
-
-        setTimeout(function () {
+        setTimeout(() => {
           expect(dropdown2).toBeHidden('Should be hidden after dropdown is closed.');
           done();
-        }, 400);
-      }, 400);
+        }, 5); // 400
+      }, 5); // 400
     });
 
-    it('hovered should destroy itself', function (done) {
-      let dropdownTrigger = document.querySelector('#dropdownDestroyTrigger');
+    it('hovered should destroy itself', (done) => {
+      const dropdownTrigger = document.querySelector('#dropdownDestroyTrigger');
       M.Dropdown.getInstance(dropdownTrigger).destroy();
       M.Dropdown.init(dropdownTrigger, { hover: true });
-
-      expect(function () {
+      expect(() => {
         M.Dropdown.getInstance(dropdownTrigger).destroy();
       }).not.toThrow();
-
-      setTimeout(function () {
-        done();
-      }, 400);
+      //setTimeout(() => {
+      done();
+      //}, 400);
     });
   });
 });

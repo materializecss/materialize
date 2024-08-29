@@ -1,17 +1,49 @@
+/* eslint-disable no-undef */
+
 describe('Slider Plugin', () => {
-  beforeEach(async () => {
-    await XloadFixtures(['slider/sliderFixture.html']);
-  });
-  afterEach(() => {
-    XunloadFixtures();
-  });
+  const fixture = `<div class="slider simple-slider">
+  <ul class="slides">
+    <li>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="First slide">
+      <div class="caption center-align">
+          <h3>This is our big Tagline!</h3>
+          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+      </div>
+    </li>
+    <li>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Second slide">
+      <div class="caption left-align">
+          <h3>Left Aligned Caption</h3>
+          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+      </div>
+    </li>
+    <li>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Third slide">
+      <div class="caption right-align">
+          <h3>Right Aligned Caption</h3>
+          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+      </div>
+    </li>
+    <li>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Fourth slide">
+      <div class="caption center-align">
+          <h3>This is our big Tagline!</h3>
+          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+       </div>
+    </li>
+  </ul>
+</div>`;
+
+  beforeEach(() => XloadHtml(fixture));
+  afterEach(() => XunloadFixtures());
 
   describe('Slider', () => {
     let slider;
 
     beforeEach(() => {
       slider = M.Slider.init(document.querySelector('.slider'), {
-        interval: 1000,
+        interval: 100,
+        duration: 0, // transition
         pauseOnFocus: true,
         indicatorLabelFunc: (idx) => 'Slide ' + idx
       });
@@ -22,39 +54,33 @@ describe('Slider Plugin', () => {
       slider = null;
     });
 
-    it('Slider should change after 1 second', (done) => {
+    it('Slider should change after first interval', (done) => {
       const O_INDEX = slider.activeIndex;
       setTimeout(() => {
-        setTimeout(() => {
-          expect(slider.activeIndex).not.toBe(O_INDEX);
-          done();
-        }, 1500);
-      }, 1);
+        expect(slider.activeIndex).not.toBe(O_INDEX);
+        done();
+      }, 150);
     });
 
     it('Slider should not change if paused', (done) => {
       const O_INDEX = slider.activeIndex;
       slider.pause();
       setTimeout(() => {
-        setTimeout(() => {
-          expect(slider.activeIndex).toBe(O_INDEX);
-          done();
-        }, 2000);
-      }, 1);
+        expect(slider.activeIndex).toBe(O_INDEX);
+        done();
+      }, 200);
     });
 
     it('Slider should not change if focused', (done) => {
       const O_INDEX = slider.activeIndex;
       slider.start();
-      slider.el.querySelector('li').focus();
-
+      slider.el.dispatchEvent(new Event('focusin'));
+      //focus(slider.el);
       setTimeout(() => {
-        setTimeout(() => {
-          expect(slider.eventPause).toBe(true);
-          expect(slider.activeIndex).toBe(O_INDEX);
-          done();
-        }, 2000);
-      }, 1);
+        expect(slider.eventPause).toBe(true);
+        expect(slider.activeIndex).toBe(O_INDEX);
+        done();
+      }, 150);
     });
 
     it("Label of indicators must start with 'Slide '", () => {
@@ -68,7 +94,6 @@ describe('Slider Plugin', () => {
     it('Slider should change current index and focus its respective item on indicator click', () => {
       const IDX = 2;
       document.querySelectorAll('button')[IDX].click();
-
       expect(slider.activeIndex).toBe(IDX);
       //expect(document.activeElement).toBe(document.querySelectorAll(".slides > li")[IDX]);
     });

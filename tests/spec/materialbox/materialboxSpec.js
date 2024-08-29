@@ -1,35 +1,39 @@
-describe('Materialbox:', function () {
-  let transformMaterialbox;
+/* eslint-disable no-undef */
 
-  beforeEach(async function () {
-    await XloadFixtures(['materialbox/materialboxFixture.html']);
-  });
-  afterEach(function () {
-    XunloadFixtures();
-  });
+describe('Materialbox:', () => {
+  const fixture = `<div id="transformTest" style="transform: translate3d(1px,1px,1px)">
+  <img
+    class="materialboxed"
+    width="650"
+    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==">
+</div>`;
 
-  describe('Materialbox opens correctly with transformed ancestor', function () {
-    it('Opens a correctly placed overlay when clicked', function (done) {
-      transformMaterialbox = document.querySelector('#transformTest');
-      M.Materialbox.init(document.querySelector('.materialboxed'));
+  beforeEach(() => XloadHtml(fixture));
+  afterEach(() => XunloadFixtures());
 
+  describe('Materialbox opens correctly with transformed ancestor', () => {
+    it('Opens a correctly placed overlay when clicked', (done) => {
+      const transformMaterialbox = document.querySelector('#transformTest');
+      M.Materialbox.init(document.querySelector('.materialboxed'), {
+        inDuration: 0,
+        outDuration: 0
+      });
       // Mouse click
       click(transformMaterialbox.querySelector('.materialboxed'));
-      setTimeout(function () {
+      setTimeout(() => {
         // Check overlay is attached
-        let overlay = transformMaterialbox.querySelector('#materialbox-overlay');
-        let overlayRect = overlay.getBoundingClientRect();
-        let windowWidth = window.innerWidth;
-        let windowHeight = window.innerHeight;
+        const overlay = transformMaterialbox.querySelector('#materialbox-overlay');
+        const overlayRect = overlay.getBoundingClientRect();
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
         expect(overlay).toExist('because it is generated on init');
         expect(overlay).toBeVisible('because materialbox was clicked');
         expect(overlayRect.top).toEqual(0);
         expect(overlayRect.left).toEqual(0);
         expect(overlayRect.width).toEqual(windowWidth);
         expect(overlayRect.height).toEqual(windowHeight);
-
         done();
-      }, 1000);
+      }, 10);
     });
   });
 });
