@@ -1,6 +1,4 @@
 node_modules/
 package.json
 package.json.lock
-bin/
 dist/
-css/
