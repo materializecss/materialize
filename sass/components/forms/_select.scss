@@ -1,6 +1,3 @@
-/* Select Field
-   ========================================================================== */
-
 select.browser-default {
   opacity: 1;
   color: var(--md-sys-color-on-background);
@@ -15,11 +12,6 @@ select {
   border-radius: 2px;
   height: 3rem;
 }
-
-// .select-label {
-//   position: absolute;
-// }
-
 
 .select-wrapper {
   /*
@@ -57,8 +49,6 @@ select {
   }
   */
 
-
-
   position: relative;
 
   /*
@@ -95,14 +85,6 @@ select {
     fill: var(--md-sys-color-on-background);
   }
 
-  /*
-  & + label {
-    position: absolute;
-    top: -26px;
-    font-size: .8rem;
-  }
-  */
-
   // Hide select with overflow hidden instead of using display none
   // (this prevents form validation errors with hidden form elements)
   .hide-select {
@@ -115,7 +97,6 @@ select {
   }
 }
 
-// Disabled styles
 select:disabled {
   color: var(--md-sys-color-on-surface);
 }
@@ -196,20 +177,19 @@ body.keyboard-focused {
 // Optgroup styles
 .select-dropdown li.optgroup {
   border-top: 1px solid rgba(0, 0, 0, 0.04);
-
   &.selected > span {
     color: var(--md-sys-color-on-background);
   }
-
   & > span {
     color: var(--md-sys-color-on-surface-variant);
   }
-
   & ~ li.optgroup-option {
     padding-left: 1rem;
   }
 }
 
+/*
 .select-dropdown .selected {
   color: red;
 }
+*/
