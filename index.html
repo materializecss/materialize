@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground</title>
+  <link rel="stylesheet" href="/dist/css/materialize.min.css">
+  <script src="/dist/js/materialize.min.js"></script>
+  <style>
+    .row .s12 {
+      background-color: #fa08;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="container mt-5">
+    <div class="mb-5">
+    <button class="btn tonal" onclick="M.AutoInit()">Init</button>
+    <button class="btn tonal" onclick="alert(formselect1.value)">Read</button>
+  </div>
+    <!-- HTML -->
+    <div class="input-field outlined s12">
+      <select id="formselect1" multiple>
+        <option value="" disabled>Choose your option</option>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+      </select>
+      <label for="formselect1">Materialize Select</label>
+    </div>
+
+    <div class="row mt-5 g-1">
+      <div class="s12 m6 l3">a</div>
+      <div class="s12 m6 l3">b</div>
+      <div class="s12 m6 l3">c</div>
+      <div class="s12 m6 l3">d</div>
+    </div>
+  </main>
+</body>
+</html>

@@ -29,7 +29,7 @@ To fully release a new version, you need to have access to the @materializecss o
 
 4. Verify that the version is correctly replaced and files were generated in:
    * package.json
-   * src/global.ts
+   * src/index.ts
    * dist/js
    * dist/css
 

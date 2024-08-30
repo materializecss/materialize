@@ -200,6 +200,7 @@ export class Range extends Component<RangeOptions> {
    * Initializes every range input in the current document.
    */
   static Init(){
-    Range.init((document.querySelectorAll('input[type=range]')) as NodeListOf<HTMLInputElement>, {});
+    if (typeof document !== 'undefined') 
+      Range.init((document?.querySelectorAll('input[type=range]')) as NodeListOf<HTMLInputElement>, {});
   }
 }

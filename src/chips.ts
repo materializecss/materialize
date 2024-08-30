@@ -421,6 +421,7 @@ export class Chips extends Component<ChipsOptions> {
   }
 
   static Init(){
+    if (typeof document !== 'undefined')
     document.addEventListener("DOMContentLoaded", () => {
       // Handle removal of static chips.
       document.body.addEventListener('click', e => {
