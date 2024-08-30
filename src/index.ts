@@ -52,7 +52,7 @@ export { Tooltip } from './tooltip';
 export { Waves } from './waves';
 export { Range } from './range';
 
-export const version = '2.1.0';
+export const version = '2.1.1';
 
 export const Grid = (children: any = '') => {
   return `<div class="row">${children}</row>`;
