@@ -34,7 +34,9 @@
   "scripts": {
     "test": "npx jasmine-browser-runner runSpecs",
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "release": " npm run build && node ci/compress.js"
+    "release": " npm run build && node ci/compress.js",
+    "preversion": "npm run build && npm test",
+    "version": "npm run build && node ci/compress.js && git add -A dist"
   },
   "lint-staged": {
     "js/*.js": [
@@ -53,6 +55,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.5.2",
+    "archiver": "^7.0.1",
     "jasmine": "^5.1.0",
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.2.0",
@@ -69,8 +72,5 @@
     "dist",
     "sass/**/*.scss",
     "LICENSE"
-  ],
-  "dependencies": {
-    "archiver": "^7.0.1"
-  }
+  ]
 }
