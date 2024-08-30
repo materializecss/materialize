@@ -26,8 +26,6 @@ import { Range } from './range';
 import { Utils } from './utils';
 import { Component } from './component';
 
-//export * from './global';
-
 export { Autocomplete } from './autocomplete';
 export { FloatingActionButton } from './buttons';
 export { Cards } from './cards';

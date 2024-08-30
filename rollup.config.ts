@@ -21,6 +21,31 @@ const bannerText = `/*!
 */`;
 
 const config: RollupOptions[] = [
+  //--- Replace version in index.ts
+  {
+    input: './ci/empty.js',
+    plugins: [
+      copy({
+        targets: [
+          {
+            src: `src/index.ts`,
+            dest: `src`,
+            transform: (contents) =>
+              contents
+                .toString()
+                .replace(
+                  new RegExp(/export const version = '.*/),
+                  `export const version = '${version}';`
+                )
+          }
+        ]
+      })
+    ],
+    onwarn: (warning, defaultHandler) => {
+      if (warning.code !== 'EMPTY_BUNDLE') defaultHandler(warning);
+    }
+  },
+
   //--- JS
   {
     input: 'src/index.ts',
@@ -28,6 +53,7 @@ const config: RollupOptions[] = [
     output: [
       {
         file: `${outputPath}.cjs.js`,
+        banner: bannerText,
         format: 'cjs'
       }
     ]
@@ -38,6 +64,7 @@ const config: RollupOptions[] = [
     output: [
       {
         file: `${outputPath}.mjs`,
+        banner: bannerText,
         format: 'esm'
       }
     ]
@@ -49,12 +76,14 @@ const config: RollupOptions[] = [
       {
         name: 'M',
         file: `${outputPath}.js`,
+        banner: bannerText,
         format: 'iife'
       },
       {
         name: 'M',
         file: `${outputPath}.min.js`,
         format: 'iife',
+        banner: bannerText,
         plugins: [terserPlugin()]
       }
     ]
@@ -74,6 +103,7 @@ const config: RollupOptions[] = [
   //--- CSS
   {
     input: 'sass/materialize.scss',
+    output: [{ file: 'dist/css/materialize.min.css' }], // overwritten
     plugins: [
       scss({
         fileName: 'materialize.min.css',
@@ -81,21 +111,28 @@ const config: RollupOptions[] = [
         sourceMap: true
       })
     ],
-    output: [{ file: 'dist/css/materialize.min.css' }] // gets overwritten
+    onwarn: (warning, defaultHandler) => {
+      if (!(warning.code === 'FILE_NAME_CONFLICT' || warning.code === 'EMPTY_BUNDLE'))
+        defaultHandler(warning);
+    }
   },
   {
     input: 'sass/materialize.scss',
+    output: [{ file: 'dist/css/materialize.css' }], // overwritten
     plugins: [
       scss({
         fileName: 'materialize.css'
       })
     ],
-    output: [{ file: 'dist/css/materialize.css' }] // gets overwritten
+    onwarn: (warning, defaultHandler) => {
+      if (!(warning.code === 'FILE_NAME_CONFLICT' || warning.code === 'EMPTY_BUNDLE'))
+        defaultHandler(warning);
+    }
   },
 
-  //--- Banner
+  //--- CSS Banners
   {
-    input: './empty.js',
+    input: './ci/empty.js',
     plugins: [
       copy({
         targets: [
@@ -107,32 +144,17 @@ const config: RollupOptions[] = [
           {
             src: `dist/css/*.min.css`,
             dest: `dist/css`,
-            transform: (contents) => [bannerText, contents.toString().substring(1)].join('\n')
-          }, // bug => workaround
-          {
-            src: `dist/js/*.js`,
-            dest: `dist/js`,
-            transform: (contents) => [bannerText, contents].join('\n')
+            transform: (contents) => [bannerText, contents.toString().substring(1)].join('\n') // bug => workaround
           }
         ]
       })
-    ]
+    ],
+    onwarn: (warning, defaultHandler) => {
+      if (warning.code !== 'EMPTY_BUNDLE') defaultHandler(warning);
+    }
   }
 
-  // TODO: Set version text
   // TODO: Compress as zip files
-
-  //--- Compress
-  /*
-  {
-    input: 'dist/js/materialize.js',
-    output: {
-      dir: 'dist',
-      format: 'es'
-    },
-    plugins: [zip()]
-  }
-    */
 
   // compress: {
   //   main: {
