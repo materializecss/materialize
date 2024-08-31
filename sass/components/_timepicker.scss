@@ -1,6 +1,7 @@
 /* Timepicker Containers */
 .timepicker-modal {
   max-width: 325px;
+  min-width: 300px;
   max-height: none;
 }
 
@@ -17,9 +18,8 @@
 
 /* Clock Digital Display */
 .timepicker-digital-display {
-  width: 200px;
   flex: 1 auto;
-  background-color: var(--md-sys-color-primary);;
+  background-color: var(--md-sys-color-primary);
   padding: 10px;
   font-weight: 300;
 }
@@ -33,12 +33,29 @@
   position: relative;
   user-select: none;
 
-  input[type=text]{
-    height: 4rem;
+  .timepicker-display-column {
+    display: flex;
+    justify-content: center;
     color: rgba(255, 255, 255, 0.6);
-    border-bottom: 0px;
-    font-size: 4rem;
-    direction: ltr;
+
+    input[type=button] {
+      color: rgba(255, 255, 255, 0.6);
+      background-color: rgba(0, 0, 0, 0);
+      border-bottom: 0px;
+      font-size: 4rem;
+      direction: ltr;
+      text-align: center;
+      border: none;
+      outline: none;
+    }
+
+    input[type=button].text-primary {
+      color: rgba(255, 255, 255, 1);
+    }
+
+    input[type=button]:hover {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
   }
 }
 
@@ -46,21 +63,6 @@
 .timepicker-input-minutes,
 .timepicker-span-am-pm div {
   cursor: pointer;
-}
-
-input[type=text].timepicker-input-hours {
-  text-align: right;
-  width: 28%;
-  margin-right: 3px;
-}
-
-input[type=text].timepicker-input-minutes {
-  width: 33%;
-  margin-left: 3px;
-}
-
-input[type=text].text-primary {
-  color: rgba(255, 255, 255, 1);
 }
 
 .timepicker-display-am-pm {
