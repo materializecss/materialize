@@ -56,7 +56,7 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     this.tickId = -1;
     this.id = ScrollSpy._increment;
     this._setupEventHandlers();
-    this._handleWindowScroll();
+    ScrollSpy._handleWindowScroll();
   }
 
   static get defaults(): ScrollSpyOptions {
@@ -88,49 +88,7 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     return (el as any).M_ScrollSpy;
   }
 
-  destroy() {
-    ScrollSpy._elements.splice(ScrollSpy._elements.indexOf(this), 1);
-    ScrollSpy._elementsInView.splice(ScrollSpy._elementsInView.indexOf(this), 1);
-    ScrollSpy._visibleElements.splice(ScrollSpy._visibleElements.indexOf(this.el), 1);
-    ScrollSpy._count--;
-    this._removeEventHandlers();
-    const actElem = document.querySelector(this.options.getActiveElement(this.el.id));
-    actElem.classList.remove(this.options.activeClass);
-    (this.el as any).M_ScrollSpy = undefined;
-  }
-
-  _setupEventHandlers() {
-    if (ScrollSpy._count === 1) {
-      window.addEventListener('scroll', this._handleWindowScroll);
-      window.addEventListener('resize', this._handleThrottledResize);
-      document.body.addEventListener('click', this._handleTriggerClick);
-    }
-  }
-
-  _removeEventHandlers() {
-    if (ScrollSpy._count === 0) {
-      window.removeEventListener('scroll', this._handleWindowScroll);
-      window.removeEventListener('resize', this._handleThrottledResize);
-      document.body.removeEventListener('click', this._handleTriggerClick);
-    }
-  }
-
-  _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleWindowScroll(); }, 200).bind(this); 
-
-  _handleTriggerClick = (e: MouseEvent) => {
-    const trigger = e.target;
-    for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
-      const scrollspy = ScrollSpy._elements[i];
-      const x = document.querySelector('a[href="#'+scrollspy.el.id+'"]');
-      if (trigger === x) {
-        e.preventDefault();
-        scrollspy.el.scrollIntoView({behavior: 'smooth'});
-        break;
-      }
-    }
-  }
-
-  _handleWindowScroll = () => {
+  private static _handleWindowScroll() {
     // unique tick id
     ScrollSpy._ticks++;
 
@@ -165,6 +123,48 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
     // remember elements in view for next tick
     ScrollSpy._elementsInView = intersections;
+  }
+
+  private static _handleThrottledResize = Utils.throttle(function () { ScrollSpy._handleWindowScroll(); }, 200);
+
+  private static _handleTriggerClick(e: MouseEvent) {
+    const trigger = e.target;
+    for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
+      const scrollspy = ScrollSpy._elements[i];
+      const x = document.querySelector('a[href="#' + scrollspy.el.id + '"]');
+      if (trigger === x) {
+        e.preventDefault();
+        scrollspy.el.scrollIntoView({ behavior: 'smooth' });
+        break;
+      }
+    }
+  }
+
+  destroy() {
+    ScrollSpy._elements.splice(ScrollSpy._elements.indexOf(this), 1);
+    ScrollSpy._elementsInView.splice(ScrollSpy._elementsInView.indexOf(this), 1);
+    ScrollSpy._visibleElements.splice(ScrollSpy._visibleElements.indexOf(this.el), 1);
+    ScrollSpy._count--;
+    this._removeEventHandlers();
+    const actElem = document.querySelector(this.options.getActiveElement(this.el.id));
+    actElem.classList.remove(this.options.activeClass);
+    (this.el as any).M_ScrollSpy = undefined;
+  }
+
+  _setupEventHandlers() {
+    if (ScrollSpy._count === 1) {
+      window.addEventListener('scroll', ScrollSpy._handleWindowScroll);
+      window.addEventListener('resize', ScrollSpy._handleThrottledResize);
+      document.body.addEventListener('click', ScrollSpy._handleTriggerClick);
+    }
+  }
+
+  _removeEventHandlers() {
+    if (ScrollSpy._count === 0) {
+      window.removeEventListener('scroll', ScrollSpy._handleWindowScroll);
+      window.removeEventListener('resize', ScrollSpy._handleThrottledResize);
+      document.body.removeEventListener('click', ScrollSpy._handleTriggerClick);
+    }
   }
 
   static _offset(el) {

@@ -121,11 +121,23 @@ const KEYMAP = {
   '105': '9'
 };
 
-function XloadHtml(html) {
+function XloadHtml(html, options) {
+  options = options ? options : {};
+  const defaultOptions = { insertionType: 'append' };
+  options = {
+    ...defaultOptions,
+    ...options
+  };
+
   const div = document.createElement('div');
   div.classList.add('please-delete-me');
   div.innerHTML = html;
-  document.body.appendChild(div);
+
+  if (options.insertionType === 'append') {
+    document.body.appendChild(div);
+  } else if (options.insertionType === 'prepend') {
+    document.body.prepend(div);
+  }
 }
 
 function XunloadFixtures() {
