@@ -27,7 +27,7 @@ export interface ScrollSpyOptions extends BaseOptions {
    * scrollbar goes outside of scrollspy elements.
    * 
    * If there is no last top element,
-   * then the active one will be first element.
+   * then the active one will be the first element.
    * 
    * @default false
    */
