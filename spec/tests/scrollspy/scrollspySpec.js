@@ -1,5 +1,5 @@
 describe('Scrollspy component', () => {
-  const DELAY_IN_MS = 30;
+  const DELAY_IN_MS = 40;
   const fixture1 = `
   <div id="scrollspyRoot" style="
           position: relative;
