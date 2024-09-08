@@ -4620,20 +4620,17 @@ var M = (function (exports) {
         throttle: 100,
         scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
         activeClass: 'active',
-        getActiveElement: (id) => { return 'a[href="#' + id + '"]'; },
-        keepTopElementActive: false,
-        animationDuration: null,
+        getActiveElement: (id) => { return 'a[href="#' + id + '"]'; }
     };
     class ScrollSpy extends Component {
         static _elements;
         static _count;
         static _increment;
+        tickId;
+        id;
         static _elementsInView;
         static _visibleElements;
         static _ticks;
-        static _keptTopActiveElement = null;
-        tickId;
-        id;
         constructor(el, options) {
             super(el, options, ScrollSpy);
             this.el.M_ScrollSpy = this;
@@ -4695,12 +4692,7 @@ var M = (function (exports) {
                 const x = document.querySelector('a[href="#' + scrollspy.el.id + '"]');
                 if (trigger === x) {
                     e.preventDefault();
-                    if (!scrollspy.el.M_ScrollSpy.options.animationDuration) {
-                        scrollspy.el.scrollIntoView({ behavior: 'smooth' });
-                    }
-                    else {
-                        smoothScrollIntoView(scrollspy.el, scrollspy.el.M_ScrollSpy.options.animationDuration);
-                    }
+                    scrollspy.el.scrollIntoView({ behavior: 'smooth' });
                     break;
                 }
             }
@@ -4733,26 +4725,6 @@ var M = (function (exports) {
             }
             // remember elements in view for next tick
             ScrollSpy._elementsInView = intersections;
-            if (ScrollSpy._elements.length) {
-                const options = ScrollSpy._elements[0].el.M_ScrollSpy.options;
-                if (options.keepTopElementActive && ScrollSpy._visibleElements.length === 0) {
-                    this._resetKeptTopActiveElementIfNeeded();
-                    const topElements = ScrollSpy._elements.filter(value => getDistanceToViewport(value.el) <= 0)
-                        .sort((a, b) => {
-                        const distanceA = getDistanceToViewport(a.el);
-                        const distanceB = getDistanceToViewport(b.el);
-                        if (distanceA < distanceB)
-                            return -1;
-                        if (distanceA > distanceB)
-                            return 1;
-                        return 0;
-                    });
-                    const nearestTopElement = topElements.length ? topElements[topElements.length - 1] : ScrollSpy._elements[0];
-                    const actElem = document.querySelector(options.getActiveElement(nearestTopElement.el.id));
-                    actElem?.classList.add(options.activeClass);
-                    ScrollSpy._keptTopActiveElement = actElem;
-                }
-            }
         };
         static _offset(el) {
             const box = el.getBoundingClientRect();
@@ -4795,10 +4767,8 @@ var M = (function (exports) {
             else {
                 ScrollSpy._visibleElements.push(this.el);
             }
-            this._resetKeptTopActiveElementIfNeeded();
             const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
             document.querySelector(selector)?.classList.add(this.options.activeClass);
-            this._resetKeptTopActiveElementIfNeeded();
         }
         _exit() {
             ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(value => value.getBoundingClientRect().height !== 0);
@@ -4810,14 +4780,7 @@ var M = (function (exports) {
                     // Check if empty
                     const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
                     document.querySelector(selector)?.classList.add(this.options.activeClass);
-                    this._resetKeptTopActiveElementIfNeeded();
                 }
-            }
-        }
-        _resetKeptTopActiveElementIfNeeded() {
-            if (ScrollSpy._keptTopActiveElement) {
-                ScrollSpy._keptTopActiveElement.classList.remove(this.options.activeClass);
-                ScrollSpy._keptTopActiveElement = null;
             }
         }
         static {
@@ -4828,30 +4791,6 @@ var M = (function (exports) {
             ScrollSpy._increment = 0;
             ScrollSpy._ticks = 0;
         }
-    }
-    function getDistanceToViewport(element) {
-        const rect = element.getBoundingClientRect();
-        const distance = rect.top;
-        return distance;
-    }
-    function smoothScrollIntoView(element, duration = 300) {
-        const targetPosition = element.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
-        const startPosition = (window.scrollY || window.pageYOffset);
-        const distance = targetPosition - startPosition;
-        const startTime = performance.now();
-        function scrollStep(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const scrollY = startPosition + distance * progress;
-            if (progress < 1) {
-                window.scrollTo(0, scrollY);
-                requestAnimationFrame(scrollStep);
-            }
-            else {
-                window.scrollTo(0, targetPosition);
-            }
-        }
-        requestAnimationFrame(scrollStep);
     }
 
     const _defaults$8 = {

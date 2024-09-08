@@ -34,7 +34,7 @@ export interface ScrollSpyOptions extends BaseOptions {
   keepTopElementActive: boolean;
   /**
    * Used to set scroll animation duration in milliseconds.
-   * @default browser's native animation implementation/duration
+   * @default null (browser's native animation implementation/duration)
    */
   animationDuration: number | null;
 };
@@ -134,13 +134,13 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
   }
 
-  _handleThrottledResize: () => void = Utils.throttle(function () { this._handleWindowScroll(); }, 200).bind(this);
+  _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleWindowScroll(); }, 200).bind(this); 
 
   _handleTriggerClick = (e: MouseEvent) => {
     const trigger = e.target;
     for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
       const scrollspy = ScrollSpy._elements[i];
-      const x = document.querySelector('a[href="#' + scrollspy.el.id + '"]');
+      const x = document.querySelector('a[href="#'+scrollspy.el.id+'"]');
       if (trigger === x) {
         e.preventDefault();
 
@@ -265,7 +265,6 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     this._resetKeptTopActiveElementIfNeeded();
     const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
     document.querySelector(selector)?.classList.add(this.options.activeClass);
-    this._resetKeptTopActiveElementIfNeeded();
   }
 
   _exit() {
