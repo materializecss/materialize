@@ -32,7 +32,8 @@
     }
   ],
   "scripts": {
-    "test": "npx jasmine-browser-runner runSpecs",
+    "test": "jasmine-browser-runner serve",
+    "originalTest": "jasmine-browser-runner runSpecs",
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "release": " npm run build && node ci/compress.js",
     "preversion": "npm test",

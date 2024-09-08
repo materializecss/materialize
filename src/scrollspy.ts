@@ -22,24 +22,43 @@ export interface ScrollSpyOptions extends BaseOptions {
    * @default id => 'a[href="#' + id + '"]'
    */
   getActiveElement: (id: string) => string;
+  /**
+   * Used to keep last top element active even if
+   * scrollbar goes outside of scrollspy elements.
+   * 
+   * If there is no last top element,
+   * then the active one will be first element.
+   * 
+   * @default false
+   */
+  keepTopElementActive: boolean;
+  /**
+   * Used to set scroll animation duration in milliseconds.
+   * @default browser's native animation implementation/duration
+   */
+  animationDuration: number | null;
 };
 
 let _defaults: ScrollSpyOptions = {
   throttle: 100,
   scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
   activeClass: 'active',
-  getActiveElement: (id: string): string => { return 'a[href="#'+id+'"]'; }
+  getActiveElement: (id: string): string => { return 'a[href="#' + id + '"]'; },
+  keepTopElementActive: false,
+  animationDuration: null,
 };
 
 export class ScrollSpy extends Component<ScrollSpyOptions> {
   static _elements: ScrollSpy[];
   static _count: number;
   static _increment: number;
-  tickId: number;
-  id: any;
   static _elementsInView: ScrollSpy[];
   static _visibleElements: any[];
   static _ticks: number;
+  static _keptTopActiveElement: HTMLElement | null = null;
+
+  private tickId: number;
+  private id: any;
 
   constructor(el: HTMLElement, options: Partial<ScrollSpyOptions>) {
     super(el, options, ScrollSpy);
@@ -115,16 +134,21 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
   }
 
-  _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleWindowScroll(); }, 200).bind(this); 
+  _handleThrottledResize: () => void = Utils.throttle(function () { this._handleWindowScroll(); }, 200).bind(this);
 
   _handleTriggerClick = (e: MouseEvent) => {
     const trigger = e.target;
     for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
       const scrollspy = ScrollSpy._elements[i];
-      const x = document.querySelector('a[href="#'+scrollspy.el.id+'"]');
+      const x = document.querySelector('a[href="#' + scrollspy.el.id + '"]');
       if (trigger === x) {
         e.preventDefault();
-        scrollspy.el.scrollIntoView({behavior: 'smooth'});
+
+        if (!(scrollspy.el as any).M_ScrollSpy.options.animationDuration) {
+          scrollspy.el.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          smoothScrollIntoView(scrollspy.el, (scrollspy.el as any).M_ScrollSpy.options.animationDuration);
+        }
         break;
       }
     }
@@ -165,6 +189,24 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
     // remember elements in view for next tick
     ScrollSpy._elementsInView = intersections;
+    if (ScrollSpy._elements.length) {
+      const options = (ScrollSpy._elements[0].el as any).M_ScrollSpy.options;
+      if (options.keepTopElementActive && ScrollSpy._visibleElements.length === 0) {
+        this._resetKeptTopActiveElementIfNeeded();
+        const topElements = ScrollSpy._elements.filter(value => getDistanceToViewport(value.el) <= 0)
+          .sort((a, b) => {
+            const distanceA = getDistanceToViewport(a.el);
+            const distanceB = getDistanceToViewport(b.el);
+            if (distanceA < distanceB) return -1;
+            if (distanceA > distanceB) return 1;
+            return 0;
+          });
+        const nearestTopElement = topElements.length ? topElements[topElements.length - 1] : ScrollSpy._elements[0];
+        const actElem = document.querySelector(options.getActiveElement(nearestTopElement.el.id));
+        actElem?.classList.add(options.activeClass);
+        ScrollSpy._keptTopActiveElement = actElem as HTMLElement;
+      }
+    }
   }
 
   static _offset(el) {
@@ -220,8 +262,10 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     else {
       ScrollSpy._visibleElements.push(this.el);
     }
+    this._resetKeptTopActiveElementIfNeeded();
     const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
     document.querySelector(selector)?.classList.add(this.options.activeClass);
+    this._resetKeptTopActiveElementIfNeeded();
   }
 
   _exit() {
@@ -237,7 +281,15 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
         // Check if empty
         const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
         document.querySelector(selector)?.classList.add(this.options.activeClass);
+        this._resetKeptTopActiveElementIfNeeded();
       }
+    }
+  }
+
+  private _resetKeptTopActiveElementIfNeeded() {
+    if (ScrollSpy._keptTopActiveElement) {
+      ScrollSpy._keptTopActiveElement.classList.remove(this.options.activeClass);
+      ScrollSpy._keptTopActiveElement = null;
     }
   }
 
@@ -249,4 +301,31 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     ScrollSpy._increment = 0;
     ScrollSpy._ticks = 0;
   }
+}
+
+function getDistanceToViewport(element) {
+  const rect = element.getBoundingClientRect();
+  const distance = rect.top;
+  return distance;
+}
+
+function smoothScrollIntoView(element, duration = 300) {
+  const targetPosition = element.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+  const startPosition = (window.scrollY || window.pageYOffset);
+  const distance = targetPosition - startPosition;
+  const startTime = performance.now();
+
+  function scrollStep(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const scrollY = startPosition + distance * progress;
+
+    if (progress < 1) {
+      window.scrollTo(0, scrollY);
+      requestAnimationFrame(scrollStep);
+    } else {
+      window.scrollTo(0, targetPosition);
+    }
+  }
+  requestAnimationFrame(scrollStep);
 }
