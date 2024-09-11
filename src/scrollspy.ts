@@ -144,10 +144,10 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
       if (trigger === x) {
         e.preventDefault();
 
-        if (!(scrollspy.el as any).M_ScrollSpy.options.animationDuration) {
-          scrollspy.el.scrollIntoView({ behavior: 'smooth' });
+        if ((scrollspy.el as any).M_ScrollSpy.options.animationDuration) {
+          ScrollSpy._smoothScrollIntoView(scrollspy.el, (scrollspy.el as any).M_ScrollSpy.options.animationDuration);
         } else {
-          smoothScrollIntoView(scrollspy.el, (scrollspy.el as any).M_ScrollSpy.options.animationDuration);
+          scrollspy.el.scrollIntoView({ behavior: 'smooth' });
         }
         break;
       }
@@ -193,10 +193,10 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
       const options = (ScrollSpy._elements[0].el as any).M_ScrollSpy.options;
       if (options.keepTopElementActive && ScrollSpy._visibleElements.length === 0) {
         this._resetKeptTopActiveElementIfNeeded();
-        const topElements = ScrollSpy._elements.filter(value => getDistanceToViewport(value.el) <= 0)
+        const topElements = ScrollSpy._elements.filter(value => ScrollSpy._getDistanceToViewport(value.el) <= 0)
           .sort((a, b) => {
-            const distanceA = getDistanceToViewport(a.el);
-            const distanceB = getDistanceToViewport(b.el);
+            const distanceA = ScrollSpy._getDistanceToViewport(a.el);
+            const distanceB = ScrollSpy._getDistanceToViewport(b.el);
             if (distanceA < distanceB) return -1;
             if (distanceA > distanceB) return 1;
             return 0;
@@ -292,6 +292,33 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
   }
 
+  private static _getDistanceToViewport(element) {
+    const rect = element.getBoundingClientRect();
+    const distance = rect.top;
+    return distance;
+  }
+
+  private static _smoothScrollIntoView(element, duration = 300) {
+    const targetPosition = element.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+    const startPosition = (window.scrollY || window.pageYOffset);
+    const distance = targetPosition - startPosition;
+    const startTime = performance.now();
+
+    function scrollStep(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const scrollY = startPosition + distance * progress;
+
+      if (progress < 1) {
+        window.scrollTo(0, scrollY);
+        requestAnimationFrame(scrollStep);
+      } else {
+        window.scrollTo(0, targetPosition);
+      }
+    }
+    requestAnimationFrame(scrollStep);
+  }
+
   static {
     ScrollSpy._elements = [];
     ScrollSpy._elementsInView = [];
@@ -302,29 +329,6 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
   }
 }
 
-function getDistanceToViewport(element) {
-  const rect = element.getBoundingClientRect();
-  const distance = rect.top;
-  return distance;
-}
 
-function smoothScrollIntoView(element, duration = 300) {
-  const targetPosition = element.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
-  const startPosition = (window.scrollY || window.pageYOffset);
-  const distance = targetPosition - startPosition;
-  const startTime = performance.now();
 
-  function scrollStep(currentTime) {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const scrollY = startPosition + distance * progress;
 
-    if (progress < 1) {
-      window.scrollTo(0, scrollY);
-      requestAnimationFrame(scrollStep);
-    } else {
-      window.scrollTo(0, targetPosition);
-    }
-  }
-  requestAnimationFrame(scrollStep);
-}
