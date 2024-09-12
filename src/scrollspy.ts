@@ -328,7 +328,3 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     ScrollSpy._ticks = 0;
   }
 }
-
-
-
-
