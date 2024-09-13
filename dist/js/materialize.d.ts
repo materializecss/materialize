@@ -423,10 +423,6 @@ declare class FloatingActionButton extends Component<FloatingActionButtonOptions
     _animateInToolbar(): void;
 }
 
-declare class Cards {
-    static Init(): void;
-}
-
 interface CarouselOptions extends BaseOptions {
     /**
      * Transition duration in milliseconds.
@@ -554,41 +550,6 @@ declare class Carousel extends Component<CarouselOptions> {
      * @param callback "onCycleTo" optional callback.
      */
     set(n: number, callback?: CarouselOptions["onCycleTo"]): void;
-}
-
-interface CharacterCounterOptions extends BaseOptions {
-}
-type InputElement = HTMLInputElement | HTMLTextAreaElement;
-declare class CharacterCounter extends Component<{}> {
-    el: InputElement;
-    /** Stores the reference to the counter HTML element. */
-    counterEl: HTMLSpanElement;
-    /** Specifies whether the input is valid or not. */
-    isInvalid: boolean;
-    /** Specifies whether the input text has valid length or not. */
-    isValidLength: boolean;
-    constructor(el: HTMLInputElement | HTMLTextAreaElement, options: Partial<CharacterCounterOptions>);
-    static get defaults(): CharacterCounterOptions;
-    /**
-     * Initializes instance of CharacterCounter.
-     * @param el HTML element.
-     * @param options Component options.
-     */
-    static init(el: InputElement, options?: Partial<CharacterCounterOptions>): CharacterCounter;
-    /**
-     * Initializes instances of CharacterCounter.
-     * @param els HTML elements.
-     * @param options Component options.
-     */
-    static init(els: InitElements<InputElement | MElement>, options?: Partial<CharacterCounterOptions>): CharacterCounter[];
-    static getInstance(el: InputElement): CharacterCounter;
-    destroy(): void;
-    _setupEventHandlers(): void;
-    _removeEventHandlers(): void;
-    _setupCounter(): void;
-    _removeCounter(): void;
-    updateCounter: () => void;
-    _validateInput(): void;
 }
 
 interface ChipData {
@@ -1161,18 +1122,6 @@ declare class Datepicker extends Component<DatepickerOptions> {
     close: () => this;
 }
 
-declare class Forms {
-    /**
-     * Resizes the given TextArea after updating the
-     *  value content dynamically.
-     * @param textarea TextArea to be resized
-     */
-    static textareaAutoResize(textarea: HTMLTextAreaElement): void;
-    static Init(): void;
-    static InitTextarea(textarea: HTMLTextAreaElement): void;
-    static InitFileInputPath(fileInput: HTMLInputElement): void;
-}
-
 interface MaterialboxOptions extends BaseOptions {
     /**
      * Transition in duration in milliseconds.
@@ -1614,107 +1563,6 @@ declare class Sidenav extends Component<SidenavOptions> implements Openable {
     private _animateOverlayOut;
 }
 
-interface SliderOptions extends BaseOptions {
-    /**
-     * Set to false to hide slide indicators.
-     * @default true
-     */
-    indicators: boolean;
-    /**
-     * Set height of slider.
-     * @default 400
-     */
-    height: number;
-    /**
-     * Set the duration of the transition animation in ms.
-     * @default 500
-     */
-    duration: number;
-    /**
-     * Set the duration between transitions in ms.
-     * @default 6000
-     */
-    interval: number;
-    /**
-     * If slider should pause when keyboard focus is received.
-     * @default true
-     */
-    pauseOnFocus: boolean;
-    /**
-     * If slider should pause when is hovered by a pointer.
-     * @default true
-     */
-    pauseOnHover: boolean;
-    /**
-     * Optional function used to generate ARIA label to indicators (for accessibility purposes).
-     * @param index Current index, starting from "1".
-     * @param current A which indicates whether it is the current element or not
-     * @returns a string to be used as label indicator.
-     * @default null
-     */
-    indicatorLabelFunc: (index: number, current: boolean) => string;
-}
-declare class Slider extends Component<SliderOptions> {
-    /** Index of current slide. */
-    activeIndex: number;
-    interval: string | number | NodeJS.Timeout;
-    eventPause: boolean;
-    _slider: HTMLUListElement;
-    _slides: HTMLLIElement[];
-    _activeSlide: HTMLLIElement;
-    _indicators: HTMLLIElement[];
-    _hovered: boolean;
-    _focused: boolean;
-    _focusCurrent: boolean;
-    _sliderId: string;
-    constructor(el: HTMLElement, options: Partial<SliderOptions>);
-    static get defaults(): SliderOptions;
-    /**
-     * Initializes instance of Slider.
-     * @param el HTML element.
-     * @param options Component options.
-     */
-    static init(el: HTMLElement, options?: Partial<SliderOptions>): Slider;
-    /**
-     * Initializes instances of Slider.
-     * @param els HTML elements.
-     * @param options Component options.
-     */
-    static init(els: InitElements<MElement>, options?: Partial<SliderOptions>): Slider[];
-    static getInstance(el: HTMLElement): Slider;
-    destroy(): void;
-    private _setupEventHandlers;
-    private _removeEventHandlers;
-    private _handleIndicatorClick;
-    private _handleAutoPauseHover;
-    private _handleAutoPauseFocus;
-    private _handleAutoStartHover;
-    private _handleAutoStartFocus;
-    private _handleInterval;
-    private _animateSlide;
-    private _setSliderHeight;
-    private _setupIndicators;
-    private _removeIndicators;
-    set(index: number): void;
-    _pause(fromEvent: boolean): void;
-    /**
-     * Pause slider autoslide.
-     */
-    pause: () => void;
-    /**
-     * Start slider autoslide.
-     */
-    start: () => void;
-    /**
-     * Move to next slider.
-     */
-    next: () => void;
-    /**
-     * Move to prev slider.
-     */
-    prev: () => void;
-}
-
 interface TabsOptions extends BaseOptions {
     /**
      * Transition duration in milliseconds.
@@ -2056,99 +1904,6 @@ declare class Timepicker extends Component<TimepickerOptions> {
     clear: () => void;
 }
 
-interface ToastOptions extends BaseOptions {
-    /**
-     * The content of the Toast.
-     * @default ""
-     */
-    text: string;
-    /**
-     * Element Id for the tooltip.
-     * @default ""
-     */
-    toastId?: string;
-    /**
-     * Length in ms the Toast stays before dismissal.
-     * @default 4000
-     */
-    displayLength: number;
-    /**
-     * Transition in duration in milliseconds.
-     * @default 300
-     */
-    inDuration: number;
-    /**
-     * Transition out duration in milliseconds.
-     * @default 375
-     */
-    outDuration: number;
-    /**
-     * Classes to be added to the toast element.
-     * @default ""
-     */
-    classes: string;
-    /**
-     * Callback function called when toast is dismissed.
-     * @default null
-     */
-    completeCallback: () => void;
-    /**
-     * The percentage of the toast's width it takes fora drag
-     * to dismiss a Toast.
-     * @default 0.8
-     */
-    activationPercent: number;
-}
-declare class Toast {
-    /** The toast element. */
-    el: HTMLElement;
-    /**
-     * The remaining amount of time in ms that the toast
-     * will stay before dismissal.
-     */
-    timeRemaining: number;
-    /**
-     * Describes the current pan state of the Toast.
-     */
-    panning: boolean;
-    options: ToastOptions;
-    message: string;
-    counterInterval: NodeJS.Timeout;
-    wasSwiped: boolean;
-    startingXPos: number;
-    xPos: number;
-    time: number;
-    deltaX: number;
-    velocityX: number;
-    static _toasts: Toast[];
-    static _container: any;
-    static _draggedToast: Toast;
-    constructor(options: Partial<ToastOptions>);
-    static get defaults(): ToastOptions;
-    static getInstance(el: HTMLElement): Toast;
-    static _createContainer(): void;
-    static _removeContainer(): void;
-    static _onDragStart(e: TouchEvent | MouseEvent): void;
-    static _onDragMove(e: TouchEvent | MouseEvent): void;
-    static _onDragEnd(): void;
-    static _xPos(e: TouchEvent | MouseEvent): number;
-    /**
-     * dismiss all toasts.
-     */
-    static dismissAll(): void;
-    _createToast(): HTMLElement;
-    _animateIn(): void;
-    /**
-     * Create setInterval which automatically removes toast when timeRemaining >= 0
-     * has been reached.
-     */
-    _setTimer(): void;
-    /**
-     * Dismiss toast with animation.
-     */
-    dismiss(): void;
-}
-
 type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 interface TooltipOptions extends BaseOptions {
     /**
@@ -2266,6 +2021,251 @@ declare class Tooltip extends Component<TooltipOptions> {
     _getAttributeOptions(): Partial<TooltipOptions>;
 }
 
+declare class Cards {
+    static Init(): void;
+}
+
+interface CharacterCounterOptions extends BaseOptions {
+}
+type InputElement = HTMLInputElement | HTMLTextAreaElement;
+declare class CharacterCounter extends Component<{}> {
+    el: InputElement;
+    /** Stores the reference to the counter HTML element. */
+    counterEl: HTMLSpanElement;
+    /** Specifies whether the input is valid or not. */
+    isInvalid: boolean;
+    /** Specifies whether the input text has valid length or not. */
+    isValidLength: boolean;
+    constructor(el: HTMLInputElement | HTMLTextAreaElement, options: Partial<CharacterCounterOptions>);
+    static get defaults(): CharacterCounterOptions;
+    /**
+     * Initializes instance of CharacterCounter.
+     * @param el HTML element.
+     * @param options Component options.
+     */
+    static init(el: InputElement, options?: Partial<CharacterCounterOptions>): CharacterCounter;
+    /**
+     * Initializes instances of CharacterCounter.
+     * @param els HTML elements.
+     * @param options Component options.
+     */
+    static init(els: InitElements<InputElement | MElement>, options?: Partial<CharacterCounterOptions>): CharacterCounter[];
+    static getInstance(el: InputElement): CharacterCounter;
+    destroy(): void;
+    _setupEventHandlers(): void;
+    _removeEventHandlers(): void;
+    _setupCounter(): void;
+    _removeCounter(): void;
+    updateCounter: () => void;
+    _validateInput(): void;
+}
+
+declare class Forms {
+    /**
+     * Resizes the given TextArea after updating the
+     *  value content dynamically.
+     * @param textarea TextArea to be resized
+     */
+    static textareaAutoResize(textarea: HTMLTextAreaElement): void;
+    static Init(): void;
+    static InitTextarea(textarea: HTMLTextAreaElement): void;
+    static InitFileInputPath(fileInput: HTMLInputElement): void;
+}
+
+interface SliderOptions extends BaseOptions {
+    /**
+     * Set to false to hide slide indicators.
+     * @default true
+     */
+    indicators: boolean;
+    /**
+     * Set height of slider.
+     * @default 400
+     */
+    height: number;
+    /**
+     * Set the duration of the transition animation in ms.
+     * @default 500
+     */
+    duration: number;
+    /**
+     * Set the duration between transitions in ms.
+     * @default 6000
+     */
+    interval: number;
+    /**
+     * If slider should pause when keyboard focus is received.
+     * @default true
+     */
+    pauseOnFocus: boolean;
+    /**
+     * If slider should pause when is hovered by a pointer.
+     * @default true
+     */
+    pauseOnHover: boolean;
+    /**
+     * Optional function used to generate ARIA label to indicators (for accessibility purposes).
+     * @param index Current index, starting from "1".
+     * @param current A which indicates whether it is the current element or not
+     * @returns a string to be used as label indicator.
+     * @default null
+     */
+    indicatorLabelFunc: (index: number, current: boolean) => string;
+}
+declare class Slider extends Component<SliderOptions> {
+    /** Index of current slide. */
+    activeIndex: number;
+    interval: string | number | NodeJS.Timeout;
+    eventPause: boolean;
+    _slider: HTMLUListElement;
+    _slides: HTMLLIElement[];
+    _activeSlide: HTMLLIElement;
+    _indicators: HTMLLIElement[];
+    _hovered: boolean;
+    _focused: boolean;
+    _focusCurrent: boolean;
+    _sliderId: string;
+    constructor(el: HTMLElement, options: Partial<SliderOptions>);
+    static get defaults(): SliderOptions;
+    /**
+     * Initializes instance of Slider.
+     * @param el HTML element.
+     * @param options Component options.
+     */
+    static init(el: HTMLElement, options?: Partial<SliderOptions>): Slider;
+    /**
+     * Initializes instances of Slider.
+     * @param els HTML elements.
+     * @param options Component options.
+     */
+    static init(els: InitElements<MElement>, options?: Partial<SliderOptions>): Slider[];
+    static getInstance(el: HTMLElement): Slider;
+    destroy(): void;
+    private _setupEventHandlers;
+    private _removeEventHandlers;
+    private _handleIndicatorClick;
+    private _handleAutoPauseHover;
+    private _handleAutoPauseFocus;
+    private _handleAutoStartHover;
+    private _handleAutoStartFocus;
+    private _handleInterval;
+    private _animateSlide;
+    private _setSliderHeight;
+    private _setupIndicators;
+    private _removeIndicators;
+    set(index: number): void;
+    _pause(fromEvent: boolean): void;
+    /**
+     * Pause slider autoslide.
+     */
+    pause: () => void;
+    /**
+     * Start slider autoslide.
+     */
+    start: () => void;
+    /**
+     * Move to next slider.
+     */
+    next: () => void;
+    /**
+     * Move to prev slider.
+     */
+    prev: () => void;
+}
+
+interface ToastOptions extends BaseOptions {
+    /**
+     * The content of the Toast.
+     * @default ""
+     */
+    text: string;
+    /**
+     * Element Id for the tooltip.
+     * @default ""
+     */
+    toastId?: string;
+    /**
+     * Length in ms the Toast stays before dismissal.
+     * @default 4000
+     */
+    displayLength: number;
+    /**
+     * Transition in duration in milliseconds.
+     * @default 300
+     */
+    inDuration: number;
+    /**
+     * Transition out duration in milliseconds.
+     * @default 375
+     */
+    outDuration: number;
+    /**
+     * Classes to be added to the toast element.
+     * @default ""
+     */
+    classes: string;
+    /**
+     * Callback function called when toast is dismissed.
+     * @default null
+     */
+    completeCallback: () => void;
+    /**
+     * The percentage of the toast's width it takes fora drag
+     * to dismiss a Toast.
+     * @default 0.8
+     */
+    activationPercent: number;
+}
+declare class Toast {
+    /** The toast element. */
+    el: HTMLElement;
+    /**
+     * The remaining amount of time in ms that the toast
+     * will stay before dismissal.
+     */
+    timeRemaining: number;
+    /**
+     * Describes the current pan state of the Toast.
+     */
+    panning: boolean;
+    options: ToastOptions;
+    message: string;
+    counterInterval: NodeJS.Timeout;
+    wasSwiped: boolean;
+    startingXPos: number;
+    xPos: number;
+    time: number;
+    deltaX: number;
+    velocityX: number;
+    static _toasts: Toast[];
+    static _container: any;
+    static _draggedToast: Toast;
+    constructor(options: Partial<ToastOptions>);
+    static get defaults(): ToastOptions;
+    static getInstance(el: HTMLElement): Toast;
+    static _createContainer(): void;
+    static _removeContainer(): void;
+    static _onDragStart(e: TouchEvent | MouseEvent): void;
+    static _onDragMove(e: TouchEvent | MouseEvent): void;
+    static _onDragEnd(): void;
+    static _xPos(e: TouchEvent | MouseEvent): number;
+    /**
+     * dismiss all toasts.
+     */
+    static dismissAll(): void;
+    _createToast(): HTMLElement;
+    _animateIn(): void;
+    /**
+     * Create setInterval which automatically removes toast when timeRemaining >= 0
+     * has been reached.
+     */
+    _setTimer(): void;
+    /**
+     * Dismiss toast with animation.
+     */
+    dismiss(): void;
+}
+
 type RGBColor = {
     r: number;
     g: number;
@@ -2324,10 +2324,31 @@ declare class Range extends Component<RangeOptions> {
 declare const version = "2.1.1";
 declare const Grid: (children?: any) => string;
 declare function Button(children?: any): string;
+interface AutoInitOptions {
+    Autocomplete?: Partial<AutocompleteOptions>;
+    Carousel?: Partial<CarouselOptions>;
+    Chips?: Partial<ChipsOptions>;
+    Collapsible?: Partial<CollapsibleOptions>;
+    Datepicker?: Partial<DatepickerOptions>;
+    Dropdown?: Partial<DropdownOptions>;
+    Materialbox?: Partial<MaterialboxOptions>;
+    Modal?: Partial<ModalOptions>;
+    Parallax?: Partial<ParallaxOptions>;
+    Pushpin?: Partial<PushpinOptions>;
+    ScrollSpy?: Partial<ScrollSpyOptions>;
+    FormSelect?: Partial<FormSelectOptions>;
+    Sidenav?: Partial<SidenavOptions>;
+    Tabs?: Partial<TabsOptions>;
+    TapTarget?: Partial<TapTargetOptions>;
+    Timepicker?: Partial<TimepickerOptions>;
+    Tooltip?: Partial<TooltipOptions>;
+    FloatingActionButton?: Partial<FloatingActionButtonOptions>;
+}
 /**
  * Automatically initialize components.
  * @param context Root element to initialize. Defaults to `document.body`.
+ * @param options Options for each component.
  */
-declare function AutoInit(context?: HTMLElement): void;
+declare function AutoInit(context?: HTMLElement, options?: Partial<AutoInitOptions>): void;
 
-export { AutoInit, Autocomplete, Button, Cards, Carousel, CharacterCounter, Chips, Collapsible, Datepicker, Dropdown, FloatingActionButton, FormSelect, Forms, Grid, Materialbox, Modal, Parallax, Pushpin, Range, ScrollSpy, Sidenav, Slider, Tabs, TapTarget, Timepicker, Toast, Tooltip, Waves, version };
+export { AutoInit, type AutoInitOptions, Autocomplete, Button, Cards, Carousel, CharacterCounter, Chips, Collapsible, Datepicker, Dropdown, FloatingActionButton, FormSelect, Forms, Grid, Materialbox, Modal, Parallax, Pushpin, Range, ScrollSpy, Sidenav, Slider, Tabs, TapTarget, Timepicker, Toast, Tooltip, Waves, version };
