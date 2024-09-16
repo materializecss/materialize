@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement, Openable } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement, Openable } from './component';
 
 export interface TapTargetOptions extends BaseOptions {
   /**
@@ -12,7 +12,7 @@ export interface TapTargetOptions extends BaseOptions {
    * @default null
    */
   onClose: (origin: HTMLElement) => void;
-};
+}
 
 let _defaults: TapTargetOptions = {
   onOpen: null,
@@ -69,7 +69,10 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<TapTargetOptions> = {}): TapTarget | TapTarget[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<TapTargetOptions> = {}
+  ): TapTarget | TapTarget[] {
     return super.init(els, options, TapTarget);
   }
 
@@ -95,19 +98,21 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     window.removeEventListener('resize', this._handleThrottledResize);
   }
 
-  _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleResize(); }, 200).bind(this);
+  _handleThrottledResize: () => void = Utils.throttle(function () {
+    this._handleResize();
+  }, 200).bind(this);
 
   _handleTargetClick = () => {
     this.open();
-  }
+  };
 
   _handleOriginClick = () => {
     this.close();
-  }
+  };
 
   _handleResize = () => {
     this._calculatePositioning();
-  }
+  };
 
   _handleDocumentClick = (e: MouseEvent | TouchEvent) => {
     if (!(e.target as HTMLElement).closest('.tap-target-wrapper')) {
@@ -115,7 +120,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
       e.preventDefault();
       e.stopPropagation();
     }
-  }
+  };
 
   _setup() {
     // Creating tap target
@@ -165,7 +170,6 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     // Element or parent is fixed position?
     let isFixed = getComputedStyle(this._origin).position === 'fixed';
     if (!isFixed) {
-
       let currentElem: any = this._origin;
       const parents = [];
       while ((currentElem = currentElem.parentNode) && currentElem !== document)
@@ -179,8 +183,12 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     // Calculating origin
     const originWidth = this._origin.offsetWidth;
     const originHeight = this._origin.offsetHeight;
-    const originTop = isFixed ? this._offset(this._origin).top - Utils.getDocumentScrollTop() : this._offset(this._origin).top;
-    const originLeft = isFixed ? this._offset(this._origin).left - Utils.getDocumentScrollLeft() : this._offset(this._origin).left;
+    const originTop = isFixed
+      ? this._offset(this._origin).top - Utils.getDocumentScrollTop()
+      : this._offset(this._origin).top;
+    const originLeft = isFixed
+      ? this._offset(this._origin).left - Utils.getDocumentScrollLeft()
+      : this._offset(this._origin).left;
 
     // Calculating screen
     const windowWidth = window.innerWidth;
@@ -219,8 +227,12 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
 
     // Setting tap target
     this.wrapper.style.top = isTop ? tapTargetTop + 'px' : '';
-    this.wrapper.style.right = isRight ? windowWidth - tapTargetLeft - tapTargetWidth - scrollBarWidth + 'px' : '';
-    this.wrapper.style.bottom = isBottom ? windowHeight - tapTargetTop - tapTargetHeight + 'px' : '';
+    this.wrapper.style.right = isRight
+      ? windowWidth - tapTargetLeft - tapTargetWidth - scrollBarWidth + 'px'
+      : '';
+    this.wrapper.style.bottom = isBottom
+      ? windowHeight - tapTargetTop - tapTargetHeight + 'px'
+      : '';
     this.wrapper.style.left = isLeft ? tapTargetLeft + 'px' : '';
     this.wrapper.style.position = tapTargetPosition;
 
@@ -235,10 +247,10 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     this.contentEl.style.verticalAlign = tapTargetTextAlign;
 
     // Setting wave
-    this.waveEl.style.top = tapTargetWaveTop+'px';
-    this.waveEl.style.left = tapTargetWaveLeft+'px';
-    this.waveEl.style.width = tapTargetWaveWidth+'px';
-    this.waveEl.style.height = tapTargetWaveHeight+'px';
+    this.waveEl.style.top = tapTargetWaveTop + 'px';
+    this.waveEl.style.left = tapTargetWaveLeft + 'px';
+    this.waveEl.style.width = tapTargetWaveWidth + 'px';
+    this.waveEl.style.height = tapTargetWaveHeight + 'px';
   }
 
   /**

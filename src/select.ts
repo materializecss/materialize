@@ -1,6 +1,6 @@
-import { Utils } from "./utils";
-import { Dropdown, DropdownOptions } from "./dropdown";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Dropdown, DropdownOptions } from './dropdown';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface FormSelectOptions extends BaseOptions {
   /**
@@ -21,9 +21,9 @@ let _defaults: FormSelectOptions = {
 };
 
 type ValueStruct = {
-  el: HTMLOptionElement,
-  optionEl: HTMLElement,
-}
+  el: HTMLOptionElement;
+  optionEl: HTMLElement;
+};
 
 export class FormSelect extends Component<FormSelectOptions> {
   declare el: HTMLSelectElement;
@@ -42,7 +42,7 @@ export class FormSelect extends Component<FormSelectOptions> {
   dropdown: Dropdown;
   /** The select wrapper element. */
   wrapper: HTMLDivElement;
-  selectOptions: (HTMLOptionElement|HTMLOptGroupElement)[];
+  selectOptions: (HTMLOptionElement | HTMLOptGroupElement)[];
   private _values: ValueStruct[];
 
   constructor(el: HTMLSelectElement, options: FormSelectOptions) {
@@ -54,7 +54,7 @@ export class FormSelect extends Component<FormSelectOptions> {
       ...FormSelect.defaults,
       ...options
     };
-    
+
     this.isMultiple = this.el.multiple;
     this.el.tabIndex = -1;
     this._values = [];
@@ -77,13 +77,19 @@ export class FormSelect extends Component<FormSelectOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InitElements<HTMLSelectElement | MElement>, options?: Partial<FormSelectOptions>): FormSelect[];
+  static init(
+    els: InitElements<HTMLSelectElement | MElement>,
+    options?: Partial<FormSelectOptions>
+  ): FormSelect[];
   /**
    * Initializes instances of FormSelect.
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLSelectElement | InitElements<HTMLSelectElement | MElement>, options: Partial<FormSelectOptions> = {}): FormSelect | FormSelect[] {
+  static init(
+    els: HTMLSelectElement | InitElements<HTMLSelectElement | MElement>,
+    options: Partial<FormSelectOptions> = {}
+  ): FormSelect | FormSelect[] {
     return super.init(els, options, FormSelect);
   }
 
@@ -101,7 +107,7 @@ export class FormSelect extends Component<FormSelectOptions> {
     this.dropdownOptions.querySelectorAll('li:not(.optgroup)').forEach((el) => {
       el.addEventListener('click', this._handleOptionClick);
       el.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.key === " " || e.key === "Enter") this._handleOptionClick(e);
+        if (e.key === ' ' || e.key === 'Enter') this._handleOptionClick(e);
       });
     });
     this.el.addEventListener('change', this._handleSelectChange);
@@ -118,16 +124,16 @@ export class FormSelect extends Component<FormSelectOptions> {
 
   _handleSelectChange = () => {
     this._setValueToInput();
-  }
+  };
 
   _handleOptionClick = (e: MouseEvent | KeyboardEvent) => {
     e.preventDefault();
     const virtualOption = (e.target as HTMLLIElement).closest('li');
     this._selectOptionElement(virtualOption);
     e.stopPropagation();
-  }
+  };
 
-  _arraysEqual<T, E>(a: T[], b: (E|T)[]) {
+  _arraysEqual<T, E>(a: T[], b: (E | T)[]) {
     if (a === b) return true;
     if (a == null || b == null) return false;
     if (a.length !== b.length) return false;
@@ -136,14 +142,16 @@ export class FormSelect extends Component<FormSelectOptions> {
   }
 
   _selectOptionElement(virtualOption: HTMLElement) {
-    if (!virtualOption.classList.contains('disabled') && !virtualOption.classList.contains('optgroup')) {
+    if (
+      !virtualOption.classList.contains('disabled') &&
+      !virtualOption.classList.contains('optgroup')
+    ) {
       const value = this._values.find((value) => value.optionEl === virtualOption);
       const previousSelectedValues = this.getSelectedValues();
       if (this.isMultiple) {
         // Multi-Select
         this._toggleEntryFromArray(value);
-      }
-      else {
+      } else {
         // Single-Select
         this._deselectAll();
         this._selectValue(value);
@@ -152,11 +160,11 @@ export class FormSelect extends Component<FormSelectOptions> {
       this._setValueToInput();
       // Trigger Change-Event only when data is different
       const actualSelectedValues = this.getSelectedValues();
-      const selectionHasChanged = !this._arraysEqual(
-        previousSelectedValues,
-        actualSelectedValues
-      );
-      if (selectionHasChanged) this.el.dispatchEvent(new Event('change',{bubbles:true, cancelable:true, composed:true})); // trigger('change');
+      const selectionHasChanged = !this._arraysEqual(previousSelectedValues, actualSelectedValues);
+      if (selectionHasChanged)
+        this.el.dispatchEvent(
+          new Event('change', { bubbles: true, cancelable: true, composed: true })
+        ); // trigger('change');
     }
     if (!this.isMultiple) this.dropdown.close();
   }
@@ -166,10 +174,10 @@ export class FormSelect extends Component<FormSelectOptions> {
       this._setValueToInput();
       this._setSelectedStates();
     }
-  }
+  };
 
   _setupDropdown() {
-    this.labelEl = document.querySelector('[for="'+this.el.id+'"]');
+    this.labelEl = document.querySelector('[for="' + this.el.id + '"]');
     if (this.labelEl) this.labelEl.style.display = 'none';
 
     this.wrapper = document.createElement('div');
@@ -187,7 +195,9 @@ export class FormSelect extends Component<FormSelectOptions> {
 
     if (this.el.disabled) this.wrapper.classList.add('disabled');
 
-    this.selectOptions = <(HTMLOptGroupElement|HTMLOptionElement)[]>Array.from(this.el.children).filter(el => ['OPTION','OPTGROUP'].includes(el.tagName));
+    this.selectOptions = <(HTMLOptGroupElement | HTMLOptionElement)[]>(
+      Array.from(this.el.children).filter((el) => ['OPTION', 'OPTGROUP'].includes(el.tagName))
+    );
 
     // Create dropdown
     this.dropdownOptions = document.createElement('ul');
@@ -202,12 +212,14 @@ export class FormSelect extends Component<FormSelectOptions> {
       this.selectOptions.forEach((realOption) => {
         if (realOption.tagName === 'OPTION') {
           // Option
-          const virtualOption = this._createAndAppendOptionWithIcon(realOption, this.isMultiple ? 'multiple' : undefined);
+          const virtualOption = this._createAndAppendOptionWithIcon(
+            realOption,
+            this.isMultiple ? 'multiple' : undefined
+          );
           this._addOptionToValues(realOption as HTMLOptionElement, virtualOption);
-        }
-        else if (realOption.tagName === 'OPTGROUP') {
+        } else if (realOption.tagName === 'OPTGROUP') {
           // Optgroup
-          const groupId = "opt-group-"+Utils.guid();
+          const groupId = 'opt-group-' + Utils.guid();
           const groupParent = document.createElement('li');
           groupParent.classList.add('optgroup');
           groupParent.tabIndex = -1;
@@ -217,15 +229,20 @@ export class FormSelect extends Component<FormSelectOptions> {
           this.dropdownOptions.append(groupParent);
 
           const groupChildren = [];
-          const selectOptions = <HTMLOptionElement[]>Array.from(realOption.children).filter(el => el.tagName === 'OPTION');
-          selectOptions.forEach(realOption => {
-            const virtualOption = this._createAndAppendOptionWithIcon(realOption, 'optgroup-option');
-            const childId = "opt-child-"+Utils.guid();
+          const selectOptions = <HTMLOptionElement[]>(
+            Array.from(realOption.children).filter((el) => el.tagName === 'OPTION')
+          );
+          selectOptions.forEach((realOption) => {
+            const virtualOption = this._createAndAppendOptionWithIcon(
+              realOption,
+              'optgroup-option'
+            );
+            const childId = 'opt-child-' + Utils.guid();
             virtualOption.id = childId;
             groupChildren.push(childId);
             this._addOptionToValues(realOption, virtualOption);
           });
-          groupParent.setAttribute("aria-owns", groupChildren.join(" "));
+          groupParent.setAttribute('aria-owns', groupChildren.join(' '));
         }
       });
     }
@@ -233,28 +250,27 @@ export class FormSelect extends Component<FormSelectOptions> {
 
     // Add input dropdown
     this.input = document.createElement('input');
-    this.input.id = "m_select-input-" + Utils.guid();
+    this.input.id = 'm_select-input-' + Utils.guid();
     this.input.classList.add('select-dropdown', 'dropdown-trigger');
     this.input.type = 'text';
     this.input.readOnly = true;
     this.input.setAttribute('data-target', this.dropdownOptions.id);
     this.input.ariaReadOnly = 'true';
-    this.input.ariaRequired = this.el.hasAttribute("required").toString(); //setAttribute("aria-required", this.el.hasAttribute("required"));
+    this.input.ariaRequired = this.el.hasAttribute('required').toString(); //setAttribute("aria-required", this.el.hasAttribute("required"));
     if (this.el.disabled) this.input.disabled = true; // 'true');
 
     const attrs = this.el.attributes;
-    for (let i = 0; i < attrs.length; ++i){
+    for (let i = 0; i < attrs.length; ++i) {
       const attr = attrs[i];
-      if (attr.name.startsWith("aria-"))
-        this.input.setAttribute(attr.name, attr.value);
+      if (attr.name.startsWith('aria-')) this.input.setAttribute(attr.name, attr.value);
     }
 
     // Adds aria-attributes to input element
     this.input.setAttribute('role', 'combobox');
     this.input.ariaExpanded = 'false';
-    this.input.setAttribute("aria-owns", this.dropdownOptions.id);
-    this.input.setAttribute("aria-controls", this.dropdownOptions.id);
-    this.input.placeholder = " ";
+    this.input.setAttribute('aria-owns', this.dropdownOptions.id);
+    this.input.setAttribute('aria-controls', this.dropdownOptions.id);
+    this.input.placeholder = ' ';
 
     this.wrapper.prepend(this.input);
     this._setValueToInput();
@@ -271,7 +287,7 @@ export class FormSelect extends Component<FormSelectOptions> {
 
     // Initialize dropdown
     if (!this.el.disabled) {
-      const dropdownOptions = {...this.options.dropdownOptions}; // TODO:
+      const dropdownOptions = { ...this.options.dropdownOptions }; // TODO:
       dropdownOptions.coverTrigger = false;
       const userOnOpenEnd = dropdownOptions.onOpenEnd;
       const userOnCloseEnd = dropdownOptions.onCloseEnd;
@@ -281,7 +297,9 @@ export class FormSelect extends Component<FormSelectOptions> {
         if (selectedOption) {
           // Focus selected option in dropdown
           Utils.keyDown = true;
-          this.dropdown.focusedIndex = [...selectedOption.parentNode.children].indexOf(selectedOption);
+          this.dropdown.focusedIndex = [...selectedOption.parentNode.children].indexOf(
+            selectedOption
+          );
           this.dropdown._focusFocusedItem();
           Utils.keyDown = false;
           // Handle scrolling to selected option
@@ -333,10 +351,13 @@ export class FormSelect extends Component<FormSelectOptions> {
     this.wrapper.remove();
   }
 
-  _createAndAppendOptionWithIcon(realOption: HTMLOptionElement|HTMLOptGroupElement, type: string) {
+  _createAndAppendOptionWithIcon(
+    realOption: HTMLOptionElement | HTMLOptGroupElement,
+    type: string
+  ) {
     const li = document.createElement('li');
     li.setAttribute('role', 'option');
-    if (realOption.disabled){
+    if (realOption.disabled) {
       li.classList.add('disabled');
       li.ariaDisabled = 'true';
     }
@@ -382,7 +403,7 @@ export class FormSelect extends Component<FormSelectOptions> {
   }
 
   _deselectAll() {
-    this._values.forEach(value => this._deselectValue(value));
+    this._values.forEach((value) => this._deselectValue(value));
   }
 
   _isValueSelected(value: ValueStruct) {
@@ -391,23 +412,28 @@ export class FormSelect extends Component<FormSelectOptions> {
   }
 
   _toggleEntryFromArray(value: ValueStruct) {
-    if (this._isValueSelected(value))
-      this._deselectValue(value);
-    else
-      this._selectValue(value);
+    if (this._isValueSelected(value)) this._deselectValue(value);
+    else this._selectValue(value);
   }
 
   _getSelectedOptions(): HTMLOptionElement[] {
     // remove null, false, ... values
-    return Array.prototype.filter.call(this.el.selectedOptions, (realOption: HTMLOptionElement) => realOption);
+    return Array.prototype.filter.call(
+      this.el.selectedOptions,
+      (realOption: HTMLOptionElement) => realOption
+    );
   }
 
   _setValueToInput() {
     const selectedRealOptions = this._getSelectedOptions();
-    const selectedOptionPairs = this._values.filter((value) => selectedRealOptions.indexOf(value.el) >= 0);
+    const selectedOptionPairs = this._values.filter(
+      (value) => selectedRealOptions.indexOf(value.el) >= 0
+    );
     // Filter not disabled
-    const notDisabledOptionPairs = selectedOptionPairs.filter(op => !op.el.disabled);
-    const texts = notDisabledOptionPairs.map((value) => value.optionEl.querySelector('span').innerText.trim());
+    const notDisabledOptionPairs = selectedOptionPairs.filter((op) => !op.el.disabled);
+    const texts = notDisabledOptionPairs.map((value) =>
+      value.optionEl.querySelector('span').innerText.trim()
+    );
     // Set input-text to first Option with empty value which indicates a description like "choose your option"
     if (texts.length === 0) {
       const firstDisabledOption = <HTMLOptionElement>this.el.querySelector('option:disabled');
@@ -426,8 +452,7 @@ export class FormSelect extends Component<FormSelectOptions> {
       if (cb) cb.checked = optionIsSelected;
       if (optionIsSelected) {
         this._activateOption(this.dropdownOptions, value.optionEl);
-      }
-      else {
+      } else {
         value.optionEl.classList.remove('selected');
         value.optionEl.ariaSelected = 'false'; // attr("aria-selected", 'false');
       }
@@ -436,7 +461,8 @@ export class FormSelect extends Component<FormSelectOptions> {
 
   _activateOption(ul: HTMLElement, li: HTMLElement) {
     if (!li) return;
-    if (!this.isMultiple) ul.querySelectorAll('li.selected').forEach(li => li.classList.remove('selected'));
+    if (!this.isMultiple)
+      ul.querySelectorAll('li.selected').forEach((li) => li.classList.remove('selected'));
     li.classList.add('selected');
     li.ariaSelected = 'true';
   }

@@ -1,7 +1,7 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
-export interface CarouselOptions extends BaseOptions{
+export interface CarouselOptions extends BaseOptions {
   /**
    * Transition duration in milliseconds.
    * @default 200
@@ -140,8 +140,7 @@ export class Carousel extends Component<CarouselOptions> {
       }
     });
 
-    if (this.showIndicators)
-      this.el.appendChild(this._indicators);
+    if (this.showIndicators) this.el.appendChild(this._indicators);
 
     this.count = this.images.length;
 
@@ -184,7 +183,10 @@ export class Carousel extends Component<CarouselOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<CarouselOptions> = {}): Carousel | Carousel[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<CarouselOptions> = {}
+  ): Carousel | Carousel[] {
     return super.init(els, options, Carousel);
   }
 
@@ -236,7 +238,13 @@ export class Carousel extends Component<CarouselOptions> {
     window.removeEventListener('resize', this._handleThrottledResize);
   }
 
-  _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleResize(); }, 200, null).bind(this);
+  _handleThrottledResize: () => void = Utils.throttle(
+    function () {
+      this._handleResize();
+    },
+    200,
+    null
+  ).bind(this);
 
   _handleCarouselTap = (e: MouseEvent | TouchEvent) => {
     // Fixes firefox draggable image bug
@@ -254,7 +262,7 @@ export class Carousel extends Component<CarouselOptions> {
     this.timestamp = Date.now();
     clearInterval(this.ticker);
     this.ticker = setInterval(this._track, 100);
-  }
+  };
 
   _handleCarouselDrag = (e: MouseEvent | TouchEvent) => {
     let x: number, y: number, delta: number, deltaY: number;
@@ -286,7 +294,7 @@ export class Carousel extends Component<CarouselOptions> {
       e.stopPropagation();
       return false;
     }
-  }
+  };
 
   _handleCarouselRelease = (e: MouseEvent | TouchEvent) => {
     if (this.pressed) {
@@ -317,7 +325,7 @@ export class Carousel extends Component<CarouselOptions> {
       e.stopPropagation();
     }
     return false;
-  }
+  };
 
   _handleCarouselClick = (e: MouseEvent | TouchEvent) => {
     // Disable clicks if carousel was dragged.
@@ -325,8 +333,7 @@ export class Carousel extends Component<CarouselOptions> {
       e.preventDefault();
       e.stopPropagation();
       return false;
-    }
-    else if (!this.options.fullWidth) {
+    } else if (!this.options.fullWidth) {
       const clickedElem = (<HTMLElement>e.target).closest('.carousel-item');
       if (!clickedElem) return;
       const clickedIndex = [...clickedElem.parentNode.children].indexOf(clickedElem);
@@ -339,7 +346,10 @@ export class Carousel extends Component<CarouselOptions> {
       // fixes https://github.com/materializecss/materialize/issues/180
       if (clickedIndex < 0) {
         // relative X position > center of carousel = clicked at the right part of the carousel
-        if ((e as MouseEvent).clientX - (e.target as HTMLElement).getBoundingClientRect().left > this.el.clientWidth / 2) {
+        if (
+          (e as MouseEvent).clientX - (e.target as HTMLElement).getBoundingClientRect().left >
+          this.el.clientWidth / 2
+        ) {
           this.next();
         } else {
           this.prev();
@@ -348,7 +358,7 @@ export class Carousel extends Component<CarouselOptions> {
         this._cycleTo(clickedIndex);
       }
     }
-  }
+  };
 
   _handleIndicatorClick = (e: Event) => {
     e.stopPropagation();
@@ -357,7 +367,7 @@ export class Carousel extends Component<CarouselOptions> {
       const index = [...indicator.parentNode.children].indexOf(indicator);
       this._cycleTo(index);
     }
-  }
+  };
 
   _handleResize = () => {
     if (this.options.fullWidth) {
@@ -367,11 +377,10 @@ export class Carousel extends Component<CarouselOptions> {
       this.offset = this.center * 2 * this.itemWidth;
       this.target = this.offset;
       this._setCarouselHeight(true);
-    }
-    else {
+    } else {
       this._scroll();
     }
-  }
+  };
 
   _setCarouselHeight(imageOnly: boolean = false) {
     const firstSlide = this.el.querySelector('.carousel-item.active')
@@ -384,31 +393,29 @@ export class Carousel extends Component<CarouselOptions> {
         // If image won't trigger the load event
         const imageHeight = firstImage.clientHeight;
         if (imageHeight > 0) {
-          this.el.style.height = imageHeight+'px';
-        }
-        else {
+          this.el.style.height = imageHeight + 'px';
+        } else {
           // If image still has no height, use the natural dimensions to calculate
           const naturalWidth = firstImage.naturalWidth;
           const naturalHeight = firstImage.naturalHeight;
           const adjustedHeight = (this.el.clientWidth / naturalWidth) * naturalHeight;
-          this.el.style.height = adjustedHeight+'px';
+          this.el.style.height = adjustedHeight + 'px';
         }
       } else {
         // Get height when image is loaded normally
         firstImage.addEventListener('load', () => {
-          this.el.style.height = firstImage.offsetHeight+'px';
+          this.el.style.height = firstImage.offsetHeight + 'px';
         });
       }
-    }
-    else if (!imageOnly) {
+    } else if (!imageOnly) {
       const slideHeight = firstSlide.clientHeight;
-      this.el.style.height = slideHeight+'px';
+      this.el.style.height = slideHeight + 'px';
     }
   }
 
   _xpos(e: MouseEvent | TouchEvent) {
     // touch event
-    if (e.type.startsWith("touch") && (e as TouchEvent).targetTouches.length >= 1) {
+    if (e.type.startsWith('touch') && (e as TouchEvent).targetTouches.length >= 1) {
       return (e as TouchEvent).targetTouches[0].clientX;
     }
     // mouse event
@@ -417,7 +424,7 @@ export class Carousel extends Component<CarouselOptions> {
 
   _ypos(e: MouseEvent | TouchEvent) {
     // touch event
-    if (e.type.startsWith("touch") && (e as TouchEvent).targetTouches.length >= 1) {
+    if (e.type.startsWith('touch') && (e as TouchEvent).targetTouches.length >= 1) {
       return (e as TouchEvent).targetTouches[0].clientY;
     }
     // mouse event
@@ -425,11 +432,7 @@ export class Carousel extends Component<CarouselOptions> {
   }
 
   _wrap(x: number) {
-    return x >= this.count
-      ? x % this.count
-      : x < 0
-      ? this._wrap(this.count + (x % this.count))
-      : x;
+    return x >= this.count ? x % this.count : x < 0 ? this._wrap(this.count + (x % this.count)) : x;
   }
 
   _track = () => {
@@ -441,7 +444,7 @@ export class Carousel extends Component<CarouselOptions> {
     this.frame = this.offset;
     v = (1000 * delta) / (1 + elapsed);
     this.velocity = 0.8 * v + 0.2 * this.velocity;
-  }
+  };
 
   _autoScroll = () => {
     let elapsed: number, delta: number;
@@ -455,7 +458,7 @@ export class Carousel extends Component<CarouselOptions> {
         this._scroll(this.target);
       }
     }
-  }
+  };
 
   _scroll(x: number = 0) {
     // Track scrolling state
@@ -494,8 +497,7 @@ export class Carousel extends Component<CarouselOptions> {
     if (this.options.fullWidth) {
       alignment = 'translateX(0)';
       centerTweenedOpacity = 1;
-    }
-    else {
+    } else {
       alignment = 'translateX(' + (this.el.clientWidth - this.itemWidth) / 2 + 'px) ';
       alignment += 'translateY(' + (this.el.clientHeight - this.itemHeight) / 2 + 'px)';
       centerTweenedOpacity = 1 - numVisibleOffset * tween;
@@ -505,7 +507,9 @@ export class Carousel extends Component<CarouselOptions> {
     if (this.showIndicators) {
       const diff = this.center % this.count;
       const activeIndicator = this._indicators.querySelector('.indicator-item.active');
-      const activeIndicatorIndex = [...activeIndicator.parentNode.children].indexOf(activeIndicator);
+      const activeIndicatorIndex = [...activeIndicator.parentNode.children].indexOf(
+        activeIndicator
+      );
       if (activeIndicatorIndex !== diff) {
         activeIndicator.classList.remove('active');
         const pos = diff < 0 ? this.count + diff : diff;
@@ -524,10 +528,9 @@ export class Carousel extends Component<CarouselOptions> {
         el.classList.add('active');
       }
 
-      let transformString = `${alignment} translateX(${-delta / 2}px) translateX(${dir *
-        this.options.shift *
-        tween *
-        i}px) translateZ(${this.options.dist * tween}px)`;
+      let transformString = `${alignment} translateX(${-delta / 2}px) translateX(${
+        dir * this.options.shift * tween * i
+      }px) translateZ(${this.options.dist * tween}px)`;
       this._updateItemStyle(el, centerTweenedOpacity, 0, transformString);
     }
 
@@ -543,8 +546,9 @@ export class Carousel extends Component<CarouselOptions> {
       // Don't show wrapped items.
       if (!this.noWrap || this.center + i < this.count) {
         el = this.images[this._wrap(this.center + i)];
-        let transformString = `${alignment} translateX(${this.options.shift +
-          (this.dim * i - delta) / 2}px) translateZ(${zTranslation}px)`;
+        let transformString = `${alignment} translateX(${
+          this.options.shift + (this.dim * i - delta) / 2
+        }px) translateZ(${zTranslation}px)`;
         this._updateItemStyle(el, tweenedOpacity, -i, transformString);
       }
       // left side
@@ -558,8 +562,9 @@ export class Carousel extends Component<CarouselOptions> {
       // Don't show wrapped items.
       if (!this.noWrap || this.center - i >= 0) {
         el = this.images[this._wrap(this.center - i)];
-        let transformString = `${alignment} translateX(${-this.options.shift +
-          (-this.dim * i - delta) / 2}px) translateZ(${zTranslation}px)`;
+        let transformString = `${alignment} translateX(${
+          -this.options.shift + (-this.dim * i - delta) / 2
+        }px) translateZ(${zTranslation}px)`;
         this._updateItemStyle(el, tweenedOpacity, -i, transformString);
       }
     }
@@ -567,9 +572,9 @@ export class Carousel extends Component<CarouselOptions> {
     // Don't show wrapped items.
     if (!this.noWrap || (this.center >= 0 && this.center < this.count)) {
       el = this.images[this._wrap(this.center)];
-      let transformString = `${alignment} translateX(${-delta / 2}px) translateX(${dir *
-        this.options.shift *
-        tween}px) translateZ(${this.options.dist * tween}px)`;
+      let transformString = `${alignment} translateX(${-delta / 2}px) translateX(${
+        dir * this.options.shift * tween
+      }px) translateZ(${this.options.dist * tween}px)`;
       this._updateItemStyle(el, centerTweenedOpacity, 0, transformString);
     }
     // onCycleTo callback
@@ -592,7 +597,7 @@ export class Carousel extends Component<CarouselOptions> {
     el.style.visibility = 'visible';
   }
 
-  _cycleTo(n: number, callback: CarouselOptions["onCycleTo"] = null) {
+  _cycleTo(n: number, callback: CarouselOptions['onCycleTo'] = null) {
     let diff = (this.center % this.count) - n;
     // Account for wraparound.
     if (!this.noWrap) {
@@ -663,7 +668,7 @@ export class Carousel extends Component<CarouselOptions> {
    * @param n Index of slide.
    * @param callback "onCycleTo" optional callback.
    */
-  set(n: number, callback?: CarouselOptions["onCycleTo"]) {
+  set(n: number, callback?: CarouselOptions['onCycleTo']) {
     if (n === undefined || isNaN(n)) {
       n = 0;
     }

@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface SliderOptions extends BaseOptions {
   /**
@@ -39,7 +39,7 @@ export interface SliderOptions extends BaseOptions {
    * @returns a string to be used as label indicator.
    * @default null
    */
-  indicatorLabelFunc: (index: number, current: boolean) => string
+  indicatorLabelFunc: (index: number, current: boolean) => string;
 }
 
 let _defaults: SliderOptions = {
@@ -85,7 +85,7 @@ export class Slider extends Component<SliderOptions> {
     // setup
     this._slider = this.el.querySelector('.slides');
     this._slides = Array.from(this._slider.querySelectorAll('li'));
-    this.activeIndex = this._slides.findIndex(li => li.classList.contains('active'));
+    this.activeIndex = this._slides.findIndex((li) => li.classList.contains('active'));
 
     if (this.activeIndex !== -1) {
       this._activeSlide = this._slides[this.activeIndex];
@@ -94,16 +94,16 @@ export class Slider extends Component<SliderOptions> {
     this._setSliderHeight();
 
     // Sets element id if it does not have one
-    if (this._slider.hasAttribute('id'))
-      this._sliderId = this._slider.getAttribute('id');
+    if (this._slider.hasAttribute('id')) this._sliderId = this._slider.getAttribute('id');
     else {
       this._sliderId = 'slider-' + Utils.guid();
       this._slider.setAttribute('id', this._sliderId);
     }
 
-    const placeholderBase64 = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    const placeholderBase64 =
+      'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
     // Set initial positions of captions
-    this._slides.forEach(slide => {
+    this._slides.forEach((slide) => {
       // Caption
       //const caption = <HTMLElement|null>slide.querySelector('.caption');
       //if (caption) this._animateCaptionIn(caption, 0);
@@ -111,13 +111,12 @@ export class Slider extends Component<SliderOptions> {
       const img = slide.querySelector('img');
       if (img) {
         if (img.src !== placeholderBase64) {
-          img.style.backgroundImage = 'url('+ img.src +')';
+          img.style.backgroundImage = 'url(' + img.src + ')';
           img.src = placeholderBase64;
         }
       }
       // Sets slide as focusable by code
-      if (!slide.hasAttribute('tabindex'))
-        slide.setAttribute('tabindex', '-1');
+      if (!slide.hasAttribute('tabindex')) slide.setAttribute('tabindex', '-1');
       // Removes initial visibility from "inactive" slides
       slide.style.visibility = 'hidden';
     });
@@ -128,8 +127,7 @@ export class Slider extends Component<SliderOptions> {
     if (this._activeSlide) {
       this._activeSlide.style.display = 'block';
       this._activeSlide.style.visibility = 'visible';
-    }
-    else {
+    } else {
       this.activeIndex = 0;
       this._slides[0].classList.add('active');
       this._slides[0].style.visibility = 'visible';
@@ -166,7 +164,10 @@ export class Slider extends Component<SliderOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<SliderOptions> = {}): Slider | Slider[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<SliderOptions> = {}
+  ): Slider | Slider[] {
     return super.init(els, options, Slider);
   }
 
@@ -218,48 +219,48 @@ export class Slider extends Component<SliderOptions> {
     const currIndex = [...el.parentNode.children].indexOf(el);
     this._focusCurrent = true;
     this.set(currIndex);
-  }
+  };
 
   private _handleAutoPauseHover = () => {
     this._hovered = true;
     if (this.interval != null) {
       this._pause(true);
     }
-  }
+  };
 
   private _handleAutoPauseFocus = () => {
     this._focused = true;
     if (this.interval != null) {
       this._pause(true);
     }
-  }
+  };
 
   private _handleAutoStartHover = () => {
     this._hovered = false;
     if (!(this.options.pauseOnFocus && this._focused) && this.eventPause) {
       this.start();
     }
-  }
+  };
 
   private _handleAutoStartFocus = () => {
     this._focused = false;
     if (!(this.options.pauseOnHover && this._hovered) && this.eventPause) {
       this.start();
     }
-  }
+  };
 
   private _handleInterval = () => {
     const activeElem = this._slider.querySelector('.active');
     let newActiveIndex = [...activeElem.parentNode.children].indexOf(activeElem);
     if (this._slides.length === newActiveIndex + 1)
       newActiveIndex = 0; // loop to start
-    else
-      newActiveIndex += 1;
+    else newActiveIndex += 1;
     this.set(newActiveIndex);
-  }
+  };
 
   private _animateSlide(slide: HTMLElement, isDirectionIn: boolean): void {
-    let dx = 0, dy = 0;
+    let dx = 0,
+      dy = 0;
     // from
     slide.style.opacity = isDirectionIn ? '0' : '1';
     setTimeout(() => {
@@ -289,9 +290,8 @@ export class Slider extends Component<SliderOptions> {
     if (!this.el.classList.contains('fullscreen')) {
       if (this.options.indicators) {
         // Add height if indicators are present
-        this.el.style.height = (this.options.height + 40)+'px'; //.css('height', this.options.height + 40 + 'px');
-      }
-      else {
+        this.el.style.height = this.options.height + 40 + 'px'; //.css('height', this.options.height + 40 + 'px');
+      } else {
         this.el.style.height = this.options.height + 'px';
       }
       this._slider.style.height = this.options.height + 'px';
@@ -333,23 +333,22 @@ export class Slider extends Component<SliderOptions> {
     if (this.activeIndex === index) return;
 
     this._activeSlide = this._slides[this.activeIndex];
-    const _caption = <HTMLElement|null>this._activeSlide.querySelector('.caption');
+    const _caption = <HTMLElement | null>this._activeSlide.querySelector('.caption');
 
     this._activeSlide.classList.remove('active');
     // Enables every slide
-    this._slides.forEach(slide => slide.style.visibility = 'visible');
+    this._slides.forEach((slide) => (slide.style.visibility = 'visible'));
 
     //--- Hide active Slide + Caption
     this._activeSlide.style.opacity = '0';
     setTimeout(() => {
-      this._slides.forEach(slide => {
+      this._slides.forEach((slide) => {
         if (slide.classList.contains('active')) return;
         slide.style.opacity = '0';
         slide.style.transform = 'translate(0, 0)';
         // Disables invisible slides (for assistive technologies)
         slide.style.visibility = 'hidden';
       });
-
     }, this.options.duration);
 
     // Hide active Caption
@@ -362,8 +361,12 @@ export class Slider extends Component<SliderOptions> {
       const nextIndicator = this._indicators[index].children[0];
       activeIndicator.classList.remove('active');
       nextIndicator.classList.add('active');
-      if (typeof this.options.indicatorLabelFunc === "function"){
-        activeIndicator.ariaLabel = this.options.indicatorLabelFunc.call(this, this.activeIndex, false);
+      if (typeof this.options.indicatorLabelFunc === 'function') {
+        activeIndicator.ariaLabel = this.options.indicatorLabelFunc.call(
+          this,
+          this.activeIndex,
+          false
+        );
         nextIndicator.ariaLabel = this.options.indicatorLabelFunc.call(this, index, true);
       }
     }
@@ -391,7 +394,7 @@ export class Slider extends Component<SliderOptions> {
    */
   pause = () => {
     this._pause(false);
-  }
+  };
 
   /**
    * Start slider autoslide.
@@ -403,7 +406,7 @@ export class Slider extends Component<SliderOptions> {
       this.options.duration + this.options.interval
     );
     this.eventPause = false;
-  }
+  };
 
   /**
    * Move to next slider.
@@ -414,7 +417,7 @@ export class Slider extends Component<SliderOptions> {
     if (newIndex >= this._slides.length) newIndex = 0;
     else if (newIndex < 0) newIndex = this._slides.length - 1;
     this.set(newIndex);
-  }
+  };
 
   /**
    * Move to prev slider.
@@ -425,5 +428,5 @@ export class Slider extends Component<SliderOptions> {
     if (newIndex >= this._slides.length) newIndex = 0;
     else if (newIndex < 0) newIndex = this._slides.length - 1;
     this.set(newIndex);
-  }
+  };
 }

@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface ScrollSpyOptions extends BaseOptions {
   /**
@@ -22,13 +22,15 @@ export interface ScrollSpyOptions extends BaseOptions {
    * @default id => 'a[href="#' + id + '"]'
    */
   getActiveElement: (id: string) => string;
-};
+}
 
 let _defaults: ScrollSpyOptions = {
   throttle: 100,
   scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
   activeClass: 'active',
-  getActiveElement: (id: string): string => { return 'a[href="#'+id+'"]'; }
+  getActiveElement: (id: string): string => {
+    return 'a[href="#' + id + '"]';
+  }
 };
 
 export class ScrollSpy extends Component<ScrollSpyOptions> {
@@ -80,7 +82,10 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<ScrollSpyOptions> = {}): ScrollSpy | ScrollSpy[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<ScrollSpyOptions> = {}
+  ): ScrollSpy | ScrollSpy[] {
     return super.init(els, options, ScrollSpy);
   }
 
@@ -115,20 +120,22 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
   }
 
-  _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleWindowScroll(); }, 200).bind(this); 
+  _handleThrottledResize: () => void = Utils.throttle(function () {
+    this._handleWindowScroll();
+  }, 200).bind(this);
 
   _handleTriggerClick = (e: MouseEvent) => {
     const trigger = e.target;
     for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
       const scrollspy = ScrollSpy._elements[i];
-      const x = document.querySelector('a[href="#'+scrollspy.el.id+'"]');
+      const x = document.querySelector('a[href="#' + scrollspy.el.id + '"]');
       if (trigger === x) {
         e.preventDefault();
-        scrollspy.el.scrollIntoView({behavior: 'smooth'});
+        scrollspy.el.scrollIntoView({ behavior: 'smooth' });
         break;
       }
     }
-  }
+  };
 
   _handleWindowScroll = () => {
     // unique tick id
@@ -165,7 +172,7 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
     // remember elements in view for next tick
     ScrollSpy._elementsInView = intersections;
-  }
+  };
 
   static _offset(el) {
     const box = el.getBoundingClientRect();
@@ -204,20 +211,25 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
   }
 
   _enter() {
-    ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(value => value.getBoundingClientRect().height !== 0);
+    ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(
+      (value) => value.getBoundingClientRect().height !== 0
+    );
 
     if (ScrollSpy._visibleElements[0]) {
-      const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
+      const actElem = document.querySelector(
+        this.options.getActiveElement(ScrollSpy._visibleElements[0].id)
+      );
       actElem?.classList.remove(this.options.activeClass);
 
-      if (ScrollSpy._visibleElements[0].M_ScrollSpy && this.id < ScrollSpy._visibleElements[0].M_ScrollSpy.id) {
+      if (
+        ScrollSpy._visibleElements[0].M_ScrollSpy &&
+        this.id < ScrollSpy._visibleElements[0].M_ScrollSpy.id
+      ) {
         ScrollSpy._visibleElements.unshift(this.el);
-      }
-      else {
+      } else {
         ScrollSpy._visibleElements.push(this.el);
       }
-    }
-    else {
+    } else {
       ScrollSpy._visibleElements.push(this.el);
     }
     const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
@@ -225,10 +237,14 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
   }
 
   _exit() {
-    ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(value => value.getBoundingClientRect().height !== 0);
+    ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(
+      (value) => value.getBoundingClientRect().height !== 0
+    );
 
     if (ScrollSpy._visibleElements[0]) {
-      const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
+      const actElem = document.querySelector(
+        this.options.getActiveElement(ScrollSpy._visibleElements[0].id)
+      );
       actElem?.classList.remove(this.options.activeClass);
 
       ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((x) => x.id != this.el.id);

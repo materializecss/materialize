@@ -22,7 +22,7 @@ export class Utils {
     ARROW_DOWN: ['ArrowDown', 'Down'],
     ARROW_LEFT: ['ArrowLeft', 'Left'],
     ARROW_RIGHT: ['ArrowRight', 'Right'],
-    DELETE: ['Delete', 'Del'],
+    DELETE: ['Delete', 'Del']
   };
 
   /**
@@ -73,7 +73,7 @@ export class Utils {
       return Math.floor((1 + Math.random()) * 0x10000)
         .toString(16)
         .substring(1);
-    }
+    };
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 
@@ -137,16 +137,21 @@ export class Utils {
    * @param bounding Bounding rect.
    * @param offset Element offset.
    */
-  static checkPossibleAlignments(el: HTMLElement, container: HTMLElement, bounding: Bounding, offset: number) {
+  static checkPossibleAlignments(
+    el: HTMLElement,
+    container: HTMLElement,
+    bounding: Bounding,
+    offset: number
+  ) {
     let canAlign: {
-      top: boolean,
-      right: boolean,
-      bottom: boolean,
-      left: boolean,
-      spaceOnTop: number,
-      spaceOnRight: number,
-      spaceOnBottom: number
-      spaceOnLeft: number
+      top: boolean;
+      right: boolean;
+      bottom: boolean;
+      left: boolean;
+      spaceOnTop: number;
+      spaceOnRight: number;
+      spaceOnBottom: number;
+      spaceOnLeft: number;
     } = {
       top: true,
       right: true,
@@ -224,7 +229,7 @@ export class Utils {
    */
   static getDocumentScrollTop(): number {
     return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-  };
+  }
 
   /**
    * Retrieves document scroll postion from left.
@@ -239,18 +244,22 @@ export class Utils {
    * @param wait Wait time.
    * @param options Additional options.
    */
-  static throttle(func: Function, wait: number, options: Partial<{leading:boolean,trailing:boolean}> = null) {
+  static throttle(
+    func: Function,
+    wait: number,
+    options: Partial<{ leading: boolean; trailing: boolean }> = null
+  ) {
     let context: object, args: IArguments, result: any;
     let timeout = null;
     let previous = 0;
     options || (options = {});
-    let later = function() {
+    let later = function () {
       previous = options.leading === false ? 0 : new Date().getTime();
       timeout = null;
       result = func.apply(context, args);
       context = args = null;
     };
-    return function() {
+    return function () {
       let now = new Date().getTime();
       if (!previous && options.leading === false) previous = now;
       let remaining = wait - (now - previous);
