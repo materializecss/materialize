@@ -1,4 +1,4 @@
-import { BaseOptions } from "./component";
+import { BaseOptions } from './component';
 
 export interface ToastOptions extends BaseOptions {
   /**
@@ -174,8 +174,7 @@ export class Toast {
         toast.wasSwiped = true;
         toast.dismiss();
         // Animate toast back to original position
-      }
-      else {
+      } else {
         toast.el.style.transition = 'transform .2s, opacity .2s';
         toast.el.style.transform = '';
         toast.el.style.opacity = '';
@@ -185,7 +184,7 @@ export class Toast {
   }
 
   static _xPos(e: TouchEvent | MouseEvent) {
-    if (e.type.startsWith("touch") && (e as TouchEvent).targetTouches.length >= 1) {
+    if (e.type.startsWith('touch') && (e as TouchEvent).targetTouches.length >= 1) {
       return (e as TouchEvent).targetTouches[0].clientX;
     }
     // mouse event
@@ -202,13 +201,13 @@ export class Toast {
   }
 
   _createToast() {
-    let toast: HTMLElement = this.options.toastId 
+    let toast: HTMLElement = this.options.toastId
       ? document.getElementById(this.options.toastId)
       : document.createElement('div');
-    if (toast instanceof  HTMLTemplateElement) {
+    if (toast instanceof HTMLTemplateElement) {
       const node = (toast as HTMLTemplateElement).content.cloneNode(true);
-      toast = ((node as HTMLElement).firstElementChild as HTMLElement);             
-    }     
+      toast = (node as HTMLElement).firstElementChild as HTMLElement;
+    }
     toast.classList.add('toast');
     toast.setAttribute('role', 'alert');
     toast.setAttribute('aria-live', 'assertive');
@@ -224,7 +223,7 @@ export class Toast {
 
   _animateIn() {
     // Animate toast in
-    this.el.style.display = "";
+    this.el.style.display = '';
     this.el.style.opacity = '0';
     // easeOutCubic
     this.el.style.transition = `
@@ -233,8 +232,8 @@ export class Toast {
     `;
     setTimeout(() => {
       this.el.style.top = '0';
-      this.el.style.opacity = '1';      
-    }, 1); 
+      this.el.style.opacity = '1';
+    }, 1);
   }
 
   /**
@@ -276,7 +275,7 @@ export class Toast {
 
     setTimeout(() => {
       this.el.style.opacity = '0';
-      this.el.style.marginTop = '-40px';      
+      this.el.style.marginTop = '-40px';
     }, 1);
 
     setTimeout(() => {

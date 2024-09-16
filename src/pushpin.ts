@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface PushpinOptions extends BaseOptions {
   /**
@@ -24,7 +24,7 @@ export interface PushpinOptions extends BaseOptions {
    * You are provided with a position string.
    * @default null
    */
-  onPositionChange: (position: "pinned" | "pin-top" | "pin-bottom") => void;
+  onPositionChange: (position: 'pinned' | 'pin-top' | 'pin-bottom') => void;
 }
 
 let _defaults = {
@@ -74,7 +74,10 @@ export class Pushpin extends Component<PushpinOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<PushpinOptions> = {}): Pushpin | Pushpin[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<PushpinOptions> = {}
+  ): Pushpin | Pushpin[] {
     return super.init(els, options, Pushpin);
   }
 

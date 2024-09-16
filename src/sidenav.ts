@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement, Openable } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement, Openable } from './component';
 
 export interface SidenavOptions extends BaseOptions {
   /**
@@ -131,7 +131,10 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<SidenavOptions> = {}): Sidenav | Sidenav[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<SidenavOptions> = {}
+  ): Sidenav | Sidenav[] {
     return super.init(els, options, Sidenav);
   }
 
@@ -269,7 +272,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     // Set transform and opacity styles
     this.el.style.transform = `${transformPrefix} translateX(${transformX}px)`;
     this._overlay.style.opacity = this.percentOpen.toString();
-  }
+  };
 
   private _handleDragTargetRelease = () => {
     if (this.isDragged) {
@@ -281,7 +284,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       this.isDragged = false;
       this._verticallyScrolling = false;
     }
-  }
+  };
 
   private _handleCloseDrag = (e) => {
     if (this.isOpen) {
@@ -314,7 +317,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       this.el.style.transform = `translateX(${transformX}px)`;
       this._overlay.style.opacity = this.percentOpen.toString();
     }
-  }
+  };
 
   private _handleCloseRelease = () => {
     if (this.isOpen && this.isDragged) {
@@ -326,7 +329,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       this.isDragged = false;
       this._verticallyScrolling = false;
     }
-  }
+  };
 
   // Handles closing of Sidenav when element with class .sidenav-close
   private _handleCloseTriggerClick = (e) => {
@@ -334,7 +337,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     if (closeTrigger && !this._isCurrentlyFixed()) {
       this.close();
     }
-  }
+  };
 
   private _handleWindowResize = () => {
     // Only handle horizontal resizes
@@ -347,7 +350,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     }
     this.lastWindowWidth = window.innerWidth;
     this.lastWindowHeight = window.innerHeight;
-  }
+  };
 
   private _setupClasses() {
     if (this.options.edge === 'right') {
@@ -407,7 +410,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       if (this.options.preventScrolling) this._preventBodyScrolling();
       if (!this.isDragged || this.percentOpen != 1) this._animateIn();
     }
-  }
+  };
 
   /**
    * Closes Sidenav.
@@ -433,7 +436,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
         this._overlay.style.display = 'none';
       }
     }
-  }
+  };
 
   private _animateIn() {
     this._animateSidenavIn();
@@ -456,7 +459,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     const duration = this.options.inDuration;
     // from
     this.el.style.transition = 'none';
-    this.el.style.transform = 'translateX(' + (slideOutPercent * 100) + '%)';
+    this.el.style.transform = 'translateX(' + slideOutPercent * 100 + '%)';
     setTimeout(() => {
       this.el.style.transition = `transform ${duration}ms ease`; // easeOutQuad
       // to
@@ -480,18 +483,17 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     const duration = this.options.outDuration;
     this.el.style.transition = `transform ${duration}ms ease`; // easeOutQuad
     // to
-    this.el.style.transform = 'translateX(' + (endPercent * 100) + '%)';
+    this.el.style.transform = 'translateX(' + endPercent * 100 + '%)';
     setTimeout(() => {
-      if (typeof this.options.onCloseEnd === 'function') this.options.onCloseEnd.call(this, this.el);
+      if (typeof this.options.onCloseEnd === 'function')
+        this.options.onCloseEnd.call(this, this.el);
     }, duration);
   }
 
   private _animateOverlayIn() {
     let start = 0;
-    if (this.isDragged) 
-      start = this.percentOpen;
-    else
-      this._overlay.style.display = 'block';
+    if (this.isDragged) start = this.percentOpen;
+    else this._overlay.style.display = 'block';
     // Animation
     const duration = this.options.inDuration;
     // from
@@ -501,7 +503,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     setTimeout(() => {
       this._overlay.style.transition = `opacity ${duration}ms ease`;
       // to
-      this._overlay.style.opacity = '1';      
+      this._overlay.style.opacity = '1';
     }, 1);
   }
 
@@ -510,13 +512,13 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     // easeOutQuad
     this._overlay.style.transition = `opacity ${duration}ms ease`;
     // to
-    this._overlay.style.opacity = '0';  
+    this._overlay.style.opacity = '0';
     setTimeout(() => {
       this._overlay.style.display = 'none';
     }, duration);
   }
 
-  static  {
+  static {
     Sidenav._sidenavs = [];
   }
 }

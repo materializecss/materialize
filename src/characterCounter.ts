@@ -1,13 +1,12 @@
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
-export interface CharacterCounterOptions extends BaseOptions {};
+export interface CharacterCounterOptions extends BaseOptions {}
 
 const _defaults = Object.freeze({});
 
 type InputElement = HTMLInputElement | HTMLTextAreaElement;
 
 export class CharacterCounter extends Component<{}> {
-  
   declare el: InputElement;
   /** Stores the reference to the counter HTML element. */
   counterEl: HTMLSpanElement;
@@ -16,7 +15,10 @@ export class CharacterCounter extends Component<{}> {
   /** Specifies whether the input text has valid length or not. */
   isValidLength: boolean;
 
-  constructor(el: HTMLInputElement | HTMLTextAreaElement, options: Partial<CharacterCounterOptions>) {
+  constructor(
+    el: HTMLInputElement | HTMLTextAreaElement,
+    options: Partial<CharacterCounterOptions>
+  ) {
     super(el, {}, CharacterCounter);
     (this.el as any).M_CharacterCounter = this;
 
@@ -27,7 +29,7 @@ export class CharacterCounter extends Component<{}> {
 
     this.isInvalid = false;
     this.isValidLength = false;
-    
+
     this._setupCounter();
     this._setupEventHandlers();
   }
@@ -47,13 +49,19 @@ export class CharacterCounter extends Component<{}> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InitElements<InputElement | MElement>, options?: Partial<CharacterCounterOptions>): CharacterCounter[];
+  static init(
+    els: InitElements<InputElement | MElement>,
+    options?: Partial<CharacterCounterOptions>
+  ): CharacterCounter[];
   /**
    * Initializes instances of CharacterCounter.
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InputElement | InitElements<InputElement | MElement>, options: Partial<CharacterCounterOptions> = {}): CharacterCounter | CharacterCounter[] {
+  static init(
+    els: InputElement | InitElements<InputElement | MElement>,
+    options: Partial<CharacterCounterOptions> = {}
+  ): CharacterCounter | CharacterCounter[] {
     return super.init(els, options, CharacterCounter);
   }
 
@@ -101,14 +109,13 @@ export class CharacterCounter extends Component<{}> {
       this._validateInput();
     }
     this.counterEl.innerHTML = counterString;
-  }
+  };
 
   _validateInput() {
     if (this.isValidLength && this.isInvalid) {
       this.isInvalid = false;
       this.el.classList.remove('invalid');
-    }
-    else if (!this.isValidLength && !this.isInvalid) {
+    } else if (!this.isValidLength && !this.isInvalid) {
       this.isInvalid = true;
       this.el.classList.remove('valid');
       this.el.classList.add('invalid');

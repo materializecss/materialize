@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface ModalOptions extends BaseOptions {
   /**
@@ -74,10 +74,9 @@ const _defaults = {
 };
 
 export class Modal extends Component<ModalOptions> {
-
   static _modalsOpen: number;
   static _count: number;
-  
+
   /**
    * ID of the modal element.
    */
@@ -86,7 +85,7 @@ export class Modal extends Component<ModalOptions> {
    * If the modal is open.
    */
   isOpen: boolean;
-  
+
   private _openingTrigger: any;
   private _overlay: HTMLDivElement;
   private _nthModalOpened: number;
@@ -99,7 +98,7 @@ export class Modal extends Component<ModalOptions> {
       ...Modal.defaults,
       ...options
     };
-    
+
     this.isOpen = false;
     this.id = this.el.id;
     this._openingTrigger = undefined;
@@ -135,7 +134,10 @@ export class Modal extends Component<ModalOptions> {
    * @param options Component options.
    * @returns {Modal | Modal[]}
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<ModalOptions> = {}): Modal | Modal[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<ModalOptions> = {}
+  ): Modal | Modal[] {
     return super.init(els, options, Modal);
   }
 
@@ -174,33 +176,33 @@ export class Modal extends Component<ModalOptions> {
     const modalInstance = (document.getElementById(modalId) as any).M_Modal;
     if (modalInstance) modalInstance.open(trigger);
     e.preventDefault();
-  }
+  };
 
   _handleOverlayClick = () => {
     if (this.options.dismissible) this.close();
-  }
+  };
 
   _handleModalCloseClick = (e: MouseEvent) => {
     const closeTrigger = (e.target as HTMLElement).closest('.modal-close');
     if (closeTrigger) this.close();
-  }
+  };
 
   _handleKeydown = (e: KeyboardEvent) => {
     if (Utils.keys.ESC.includes(e.key) && this.options.dismissible) this.close();
-  }
+  };
 
   _handleFocus = (e: FocusEvent) => {
     // Only trap focus if this modal is the last model opened (prevents loops in nested modals).
     if (!this.el.contains(e.target as HTMLElement) && this._nthModalOpened === Modal._modalsOpen) {
       this.el.focus();
     }
-  }
+  };
 
   _animateIn() {
     // Set initial styles
     this._overlay.style.display = 'block';
     this._overlay.style.opacity = '0';
-    this.el.style.display = 'block';    
+    this.el.style.display = 'block';
     this.el.style.opacity = '0';
 
     const duration = this.options.inDuration;
@@ -225,9 +227,8 @@ export class Modal extends Component<ModalOptions> {
       this.el.style.opacity = '1';
       if (isBottomSheet) {
         this.el.style.bottom = '0';
-      }
-      else {
-        this.el.style.top = this.options.endingTop;    
+      } else {
+        this.el.style.top = this.options.endingTop;
         this.el.style.transform = 'scaleX(1) scaleY(1)';
       }
       setTimeout(() => {
@@ -261,9 +262,8 @@ export class Modal extends Component<ModalOptions> {
       this.el.style.opacity = '0';
       if (isBottomSheet) {
         this.el.style.bottom = '-100%';
-      }
-      else {
-        this.el.style.top = this.options.startingTop;    
+      } else {
+        this.el.style.top = this.options.startingTop;
         this.el.style.transform = 'scaleX(0.9) scaleY(0.9)';
       }
       setTimeout(() => {
@@ -294,10 +294,11 @@ export class Modal extends Component<ModalOptions> {
       this.options.onOpenStart.call(this, this.el, this._openingTrigger);
     }
     if (this.options.preventScrolling) {
-      const hasVerticalScrollBar = document.documentElement.scrollHeight > document.documentElement.clientHeight
+      const hasVerticalScrollBar =
+        document.documentElement.scrollHeight > document.documentElement.clientHeight;
       if (hasVerticalScrollBar) {
         const scrollTop = document.documentElement.scrollTop;
-        document.documentElement.style.top = '-' + scrollTop + "px";
+        document.documentElement.style.top = '-' + scrollTop + 'px';
         document.documentElement.classList.add('noscroll');
       }
     }
@@ -311,7 +312,7 @@ export class Modal extends Component<ModalOptions> {
     // Focus modal
     this.el.focus();
     return this;
-  }
+  };
 
   /**
    * Close modal.
@@ -329,7 +330,7 @@ export class Modal extends Component<ModalOptions> {
     // Enable body scrolling only if there are no more modals open.
     if (Modal._modalsOpen === 0) {
       const scrollTop = -parseInt(document.documentElement.style.top);
-      document.documentElement.style.removeProperty("top");
+      document.documentElement.style.removeProperty('top');
       document.documentElement.classList.remove('noscroll');
       document.documentElement.scrollTop = scrollTop;
     }
@@ -339,7 +340,7 @@ export class Modal extends Component<ModalOptions> {
     }
     this._animateOut();
     return this;
-  }
+  };
 
   // Experimental!
   // also note: https://stackoverflow.com/a/35385518/8830502
@@ -355,7 +356,7 @@ export class Modal extends Component<ModalOptions> {
     </dialog>`;
   }
 
-  static{
+  static {
     Modal._modalsOpen = 0;
     Modal._count = 0;
   }

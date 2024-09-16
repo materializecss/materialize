@@ -1,12 +1,12 @@
-import { Utils } from "./utils";
-import { Autocomplete, AutocompleteOptions } from "./autocomplete";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Autocomplete, AutocompleteOptions } from './autocomplete';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface ChipData {
   /**
    * Unique identifier.
    */
-  id: number|string;
+  id: number | string;
   /**
    * Chip text. If not specified, "id" will be used.
    */
@@ -17,7 +17,7 @@ export interface ChipData {
   image?: string;
 }
 
-export interface ChipsOptions extends BaseOptions{
+export interface ChipsOptions extends BaseOptions {
   /**
    * Set the chip data.
    * @default []
@@ -116,8 +116,7 @@ export class Chips extends Component<ChipsOptions> {
     this.hasAutocomplete = Object.keys(this.options.autocompleteOptions).length > 0;
 
     // Set input id
-    if (!this._input.getAttribute('id'))
-      this._input.setAttribute('id', Utils.guid());
+    if (!this._input.getAttribute('id')) this._input.setAttribute('id', Utils.guid());
 
     // Render initial chips
     if (this.options.data.length) {
@@ -152,7 +151,10 @@ export class Chips extends Component<ChipsOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<ChipsOptions> = {}): Chips | Chips[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<ChipsOptions> = {}
+  ): Chips | Chips[] {
     return super.init(els, options, Chips);
   }
 
@@ -166,7 +168,7 @@ export class Chips extends Component<ChipsOptions> {
 
   destroy() {
     this._removeEventHandlers();
-    this._chips.forEach(c => c.remove());
+    this._chips.forEach((c) => c.remove());
     this._chips = [];
     (this.el as any).M_Chips = undefined;
   }
@@ -199,16 +201,14 @@ export class Chips extends Component<ChipsOptions> {
       if (clickedClose) {
         this.deleteChip(index);
         this._input.focus();
-      }
-      else {
+      } else {
         this.selectChip(index);
       }
       // Default handle click to focus on input
-    }
-    else {
+    } else {
       this._input.focus();
     }
-  }
+  };
 
   static _handleChipsKeydown(e: KeyboardEvent) {
     Chips._keydown = true;
@@ -231,25 +231,19 @@ export class Chips extends Component<ChipsOptions> {
         // Make sure selectIndex doesn't go negative
         selectIndex = Math.max(index - 1, 0);
       }
-      if (currChips.chipsData.length)
-        currChips.selectChip(selectIndex);
-      else
-        currChips._input.focus();
-    }
-    else if (Utils.keys.ARROW_LEFT.includes(e.key)) {
+      if (currChips.chipsData.length) currChips.selectChip(selectIndex);
+      else currChips._input.focus();
+    } else if (Utils.keys.ARROW_LEFT.includes(e.key)) {
       if (currChips._selectedChip) {
         const selectIndex = gGetIndex(currChips._selectedChip) - 1;
         if (selectIndex < 0) return;
         currChips.selectChip(selectIndex);
       }
-    }
-    else if (Utils.keys.ARROW_RIGHT.includes(e.key)) {
+    } else if (Utils.keys.ARROW_RIGHT.includes(e.key)) {
       if (currChips._selectedChip) {
         const selectIndex = gGetIndex(currChips._selectedChip) + 1;
-        if (selectIndex >= currChips.chipsData.length)
-          currChips._input.focus();
-        else
-          currChips.selectChip(selectIndex);
+        if (selectIndex >= currChips.chipsData.length) currChips._input.focus();
+        else currChips.selectChip(selectIndex);
       }
     }
   }
@@ -268,11 +262,11 @@ export class Chips extends Component<ChipsOptions> {
 
   _handleInputFocus = () => {
     this.el.classList.add('focus');
-  }
+  };
 
   _handleInputBlur = () => {
     this.el.classList.remove('focus');
-  }
+  };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
     Chips._keydown = true;
@@ -283,11 +277,10 @@ export class Chips extends Component<ChipsOptions> {
       }
       e.preventDefault();
       if (!this.hasAutocomplete || (this.hasAutocomplete && !this.options.autocompleteOnly)) {
-        this.addChip({id: this._input.value});
+        this.addChip({ id: this._input.value });
       }
       this._input.value = '';
-    }
-    else if (      
+    } else if (
       (Utils.keys.BACKSPACE.includes(e.key) || Utils.keys.ARROW_LEFT.includes(e.key)) &&
       this._input.value === '' &&
       this.chipsData.length
@@ -295,14 +288,14 @@ export class Chips extends Component<ChipsOptions> {
       e.preventDefault();
       this.selectChip(this.chipsData.length - 1);
     }
-  }
+  };
 
   _renderChip(chip: ChipData): HTMLDivElement {
     if (!chip.id) return;
     const renderedChip = document.createElement('div');
     renderedChip.classList.add('chip');
     renderedChip.innerText = chip.text || <string>chip.id;
-    renderedChip.setAttribute('tabindex', "0");
+    renderedChip.setAttribute('tabindex', '0');
     const closeIcon = document.createElement('i');
     closeIcon.classList.add(this.options.closeIconClass, 'close');
     closeIcon.innerText = 'close';
@@ -329,11 +322,12 @@ export class Chips extends Component<ChipsOptions> {
 
   _setupAutocomplete() {
     this.options.autocompleteOptions.onAutocomplete = (items) => {
-      if (items.length > 0) this.addChip({
-        id: items[0].id,
-        text: items[0].text,
-        image: items[0].image
-      });
+      if (items.length > 0)
+        this.addChip({
+          id: items[0].id,
+          text: items[0].text,
+          image: items[0].image
+        });
       this._input.value = '';
       this._input.focus();
     };
@@ -357,8 +351,7 @@ export class Chips extends Component<ChipsOptions> {
   _setPlaceholder() {
     if (this.chipsData !== undefined && !this.chipsData.length && this.options.placeholder) {
       this._input.placeholder = this.options.placeholder;
-    }
-    else if (
+    } else if (
       (this.chipsData === undefined || !!this.chipsData.length) &&
       this.options.secondaryPlaceholder
     ) {
@@ -368,7 +361,7 @@ export class Chips extends Component<ChipsOptions> {
 
   _isValidAndNotExist(chip: ChipData) {
     const isValid = !!chip.id;
-    const doesNotExist = !this.chipsData.some(item => item.id == chip.id);
+    const doesNotExist = !this.chipsData.some((item) => item.id == chip.id);
     return isValid && doesNotExist;
   }
 
@@ -420,18 +413,18 @@ export class Chips extends Component<ChipsOptions> {
     }
   }
 
-  static Init(){
+  static Init() {
     if (typeof document !== 'undefined')
-    document.addEventListener("DOMContentLoaded", () => {
-      // Handle removal of static chips.
-      document.body.addEventListener('click', e => {
-        if ((<HTMLElement>e.target).closest('.chip .close')) {
-          const chips = (<HTMLElement>e.target).closest('.chips');
-          if (chips && (chips as any).M_Chips == undefined) return;
-          (<HTMLElement>e.target).closest('.chip').remove();
-        }
+      document.addEventListener('DOMContentLoaded', () => {
+        // Handle removal of static chips.
+        document.body.addEventListener('click', (e) => {
+          if ((<HTMLElement>e.target).closest('.chip .close')) {
+            const chips = (<HTMLElement>e.target).closest('.chips');
+            if (chips && (chips as any).M_Chips == undefined) return;
+            (<HTMLElement>e.target).closest('.chip').remove();
+          }
+        });
       });
-    });
   }
 
   static {

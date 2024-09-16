@@ -18,7 +18,7 @@ export default [
 
       // TODO: to improve because the basic rules cause
       // thousands of errors, for this reason, they have been marked as WARN
-      'prettier/prettier': 'warn',
+      'prettier/prettier': 'error',
 
       'prefer-const': 'warn',
       'prefer-rest-params': 'warn',
