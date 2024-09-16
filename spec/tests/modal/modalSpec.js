@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Modal:', () => {
   let trigger1, modal1;
 

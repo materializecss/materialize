@@ -67,7 +67,7 @@ export function Button(children: any = '') {
  * @param context Root element to initialize. Defaults to `document.body`.
  */
 export function AutoInit(context: HTMLElement = document.body) {
-  let registry = {
+  const registry = {
     Autocomplete: context.querySelectorAll('.autocomplete:not(.no-autoinit)'),
     Carousel: context.querySelectorAll('.carousel:not(.no-autoinit)'),
     Chips: context.querySelectorAll('.chips:not(.no-autoinit)'),

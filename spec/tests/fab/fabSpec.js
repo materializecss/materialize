@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Fab Plugin:', () => {
   const fixture = `<div class="fixed-action-btn">
   <a class="btn-floating btn-large red">

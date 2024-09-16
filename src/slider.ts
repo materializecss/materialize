@@ -42,7 +42,7 @@ export interface SliderOptions extends BaseOptions {
   indicatorLabelFunc: (index: number, current: boolean) => string;
 }
 
-let _defaults: SliderOptions = {
+const _defaults: SliderOptions = {
   indicators: true,
   height: 400,
   duration: 500,

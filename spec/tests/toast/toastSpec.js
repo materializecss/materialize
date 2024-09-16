@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Toasts:', () => {
   describe('Toast javascript functions', () => {
     it('should display and remove a toast', (done) => {

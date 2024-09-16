@@ -97,7 +97,7 @@ export interface TimepickerOptions extends BaseOptions {
   onSelect: (hour: number, minute: number) => void;
 }
 
-let _defaults: TimepickerOptions = {
+const _defaults: TimepickerOptions = {
   dialRadius: 135,
   outerRadius: 105,
   innerRadius: 70,
@@ -231,7 +231,7 @@ export class Timepicker extends Component<TimepickerOptions> {
   }
 
   static _createSVGEl(name: string) {
-    let svgNS = 'http://www.w3.org/2000/svg';
+    const svgNS = 'http://www.w3.org/2000/svg';
     return document.createElementNS(svgNS, name);
   }
 
@@ -292,13 +292,13 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _handleClockClickStart = (e) => {
     e.preventDefault();
-    let clockPlateBR = this.plate.getBoundingClientRect();
-    let offset = { x: clockPlateBR.left, y: clockPlateBR.top };
+    const clockPlateBR = this.plate.getBoundingClientRect();
+    const offset = { x: clockPlateBR.left, y: clockPlateBR.top };
 
     this.x0 = offset.x + this.options.dialRadius;
     this.y0 = offset.y + this.options.dialRadius;
     this.moved = false;
-    let clickPos = Timepicker._Pos(e);
+    const clickPos = Timepicker._Pos(e);
     this.dx = clickPos.x - this.x0;
     this.dy = clickPos.y - this.y0;
 
@@ -314,9 +314,9 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _handleDocumentClickMove = (e) => {
     e.preventDefault();
-    let clickPos = Timepicker._Pos(e);
-    let x = clickPos.x - this.x0;
-    let y = clickPos.y - this.y0;
+    const clickPos = Timepicker._Pos(e);
+    const x = clickPos.x - this.x0;
+    const y = clickPos.y - this.y0;
     this.moved = true;
     this.setHand(x, y, false);
   };
@@ -325,9 +325,9 @@ export class Timepicker extends Component<TimepickerOptions> {
     e.preventDefault();
     document.removeEventListener('mouseup', this._handleDocumentClickEnd);
     document.removeEventListener('touchend', this._handleDocumentClickEnd);
-    let clickPos = Timepicker._Pos(e);
-    let x = clickPos.x - this.x0;
-    let y = clickPos.y - this.y0;
+    const clickPos = Timepicker._Pos(e);
+    const x = clickPos.x - this.x0;
+    const y = clickPos.y - this.y0;
     if (this.moved && x === this.dx && y === this.dy) {
       this.setHand(x, y);
     }
@@ -453,24 +453,24 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _buildSVGClock() {
     // Draw clock hands and others
-    let dialRadius = this.options.dialRadius;
-    let tickRadius = this.options.tickRadius;
-    let diameter = dialRadius * 2;
-    let svg = Timepicker._createSVGEl('svg');
+    const dialRadius = this.options.dialRadius;
+    const tickRadius = this.options.tickRadius;
+    const diameter = dialRadius * 2;
+    const svg = Timepicker._createSVGEl('svg');
     svg.setAttribute('class', 'timepicker-svg');
     svg.setAttribute('width', diameter.toString());
     svg.setAttribute('height', diameter.toString());
-    let g = Timepicker._createSVGEl('g');
+    const g = Timepicker._createSVGEl('g');
     g.setAttribute('transform', 'translate(' + dialRadius + ',' + dialRadius + ')');
-    let bearing = Timepicker._createSVGEl('circle');
+    const bearing = Timepicker._createSVGEl('circle');
     bearing.setAttribute('class', 'timepicker-canvas-bearing');
     bearing.setAttribute('cx', '0');
     bearing.setAttribute('cy', '0');
     bearing.setAttribute('r', '4');
-    let hand = Timepicker._createSVGEl('line');
+    const hand = Timepicker._createSVGEl('line');
     hand.setAttribute('x1', '0');
     hand.setAttribute('y1', '0');
-    let bg = Timepicker._createSVGEl('circle');
+    const bg = Timepicker._createSVGEl('circle');
     bg.setAttribute('class', 'timepicker-canvas-bg');
     bg.setAttribute('r', tickRadius.toString());
     g.appendChild(hand);
@@ -570,7 +570,7 @@ export class Timepicker extends Component<TimepickerOptions> {
       value[1] = value[1].replace('AM', '').replace('PM', '');
     }
     if (value[0] === 'now') {
-      let now = new Date(+new Date() + this.options.fromNow);
+      const now = new Date(+new Date() + this.options.fromNow);
       value = [now.getHours().toString(), now.getMinutes().toString()];
       if (this.options.twelveHour) {
         this.amOrPm = parseInt(value[0]) >= 12 && parseInt(value[0]) < 24 ? 'PM' : 'AM';
@@ -592,7 +592,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     if (view === 'minutes' && getComputedStyle(this.hoursView).visibility === 'visible') {
       // raiseCallback(this.options.beforeHourSelect);
     }
-    let isHours = view === 'hours',
+    const isHours = view === 'hours',
       nextView = isHours ? this.hoursView : this.minutesView,
       hideView = isHours ? this.minutesView : this.hoursView;
     this.currentView = view;
@@ -621,7 +621,7 @@ export class Timepicker extends Component<TimepickerOptions> {
   };
 
   resetClock(delay) {
-    let view = this.currentView,
+    const view = this.currentView,
       value = this[view],
       isHours = view === 'hours',
       unit = Math.PI / (isHours ? 6 : 30),
@@ -677,7 +677,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     if (this.options.twelveHour) {
       radius = this.options.outerRadius;
     }
-    let cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
+    const cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
       cy1 = -Math.cos(radian) * (radius - this.options.tickRadius),
       cx2 = Math.sin(radian) * radius,
       cy2 = -Math.cos(radian) * radius;
@@ -688,12 +688,12 @@ export class Timepicker extends Component<TimepickerOptions> {
   }
 
   setHand(x, y, roundBy5: boolean = false) {
-    let radian = Math.atan2(x, -y),
-      isHours = this.currentView === 'hours',
-      unit = Math.PI / (isHours || roundBy5 ? 6 : 30),
-      z = Math.sqrt(x * x + y * y),
-      inner = isHours && z < (this.options.outerRadius + this.options.innerRadius) / 2,
-      radius = inner ? this.options.innerRadius : this.options.outerRadius;
+    let radian = Math.atan2(x, -y);
+    const isHours = this.currentView === 'hours';
+    const unit = Math.PI / (isHours || roundBy5 ? 6 : 30);
+    const z = Math.sqrt(x * x + y * y);
+    const inner = isHours && z < (this.options.outerRadius + this.options.innerRadius) / 2;
+    let radius = inner ? this.options.innerRadius : this.options.outerRadius;
 
     if (this.options.twelveHour) {
       radius = this.options.outerRadius;
@@ -755,7 +755,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     }
 
     // Set clock hand and others' position
-    let cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
+    const cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
       cy1 = -Math.cos(radian) * (radius - this.options.tickRadius),
       cx2 = Math.sin(radian) * radius,
       cy2 = -Math.cos(radian) * radius;
@@ -787,7 +787,7 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   done = (e = null, clearValue = null) => {
     // Set input value
-    let last = this.el.value;
+    const last = this.el.value;
     let value = clearValue
       ? ''
       : Timepicker._addLeadingZero(this.hours) + ':' + Timepicker._addLeadingZero(this.minutes);

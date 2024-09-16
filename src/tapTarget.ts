@@ -14,7 +14,7 @@ export interface TapTargetOptions extends BaseOptions {
   onClose: (origin: HTMLElement) => void;
 }
 
-let _defaults: TapTargetOptions = {
+const _defaults: TapTargetOptions = {
   onOpen: null,
   onClose: null
 };

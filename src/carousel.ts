@@ -49,7 +49,7 @@ export interface CarouselOptions extends BaseOptions {
   onCycleTo: (current: Element, dragged: boolean) => void;
 }
 
-let _defaults: CarouselOptions = {
+const _defaults: CarouselOptions = {
   duration: 200, // ms
   dist: -100, // zoom scale TODO: make this more intuitive as an option
   shift: 0, // spacing for center image
@@ -150,7 +150,7 @@ export class Carousel extends Component<CarouselOptions> {
     // Setup cross browser string
     this.xform = 'transform';
     ['webkit', 'Moz', 'O', 'ms'].every((prefix) => {
-      var e = prefix + 'Transform';
+      const e = prefix + 'Transform';
       if (typeof document.body.style[e] !== 'undefined') {
         this.xform = e;
         return false;
@@ -436,13 +436,12 @@ export class Carousel extends Component<CarouselOptions> {
   }
 
   _track = () => {
-    let now: number, elapsed: number, delta: number, v: number;
-    now = Date.now();
-    elapsed = now - this.timestamp;
+    const now = Date.now();
+    const elapsed = now - this.timestamp;
     this.timestamp = now;
-    delta = this.offset - this.frame;
+    const delta = this.offset - this.frame;
     this.frame = this.offset;
-    v = (1000 * delta) / (1 + elapsed);
+    const v = (1000 * delta) / (1 + elapsed);
     this.velocity = 0.8 * v + 0.2 * this.velocity;
   };
 
@@ -474,25 +473,21 @@ export class Carousel extends Component<CarouselOptions> {
 
     // Start actual scroll
     let i: number,
-      half: number,
-      delta: number,
-      dir: number,
-      tween: number,
       el: HTMLElement,
       alignment: string,
       zTranslation: number,
       tweenedOpacity: number,
       centerTweenedOpacity: number;
-    let lastCenter = this.center;
-    let numVisibleOffset = 1 / this.options.numVisible;
+    const lastCenter = this.center;
+    const numVisibleOffset = 1 / this.options.numVisible;
 
     this.offset = typeof x === 'number' ? x : this.offset;
     this.center = Math.floor((this.offset + this.dim / 2) / this.dim);
 
-    delta = this.offset - this.center * this.dim;
-    dir = delta < 0 ? 1 : -1;
-    tween = (-dir * delta * 2) / this.dim;
-    half = this.count >> 1;
+    const delta = this.offset - this.center * this.dim;
+    const dir = delta < 0 ? 1 : -1;
+    const tween = (-dir * delta * 2) / this.dim;
+    const half = this.count >> 1;
 
     if (this.options.fullWidth) {
       alignment = 'translateX(0)';
@@ -528,7 +523,7 @@ export class Carousel extends Component<CarouselOptions> {
         el.classList.add('active');
       }
 
-      let transformString = `${alignment} translateX(${-delta / 2}px) translateX(${
+      const transformString = `${alignment} translateX(${-delta / 2}px) translateX(${
         dir * this.options.shift * tween * i
       }px) translateZ(${this.options.dist * tween}px)`;
       this._updateItemStyle(el, centerTweenedOpacity, 0, transformString);
@@ -546,7 +541,7 @@ export class Carousel extends Component<CarouselOptions> {
       // Don't show wrapped items.
       if (!this.noWrap || this.center + i < this.count) {
         el = this.images[this._wrap(this.center + i)];
-        let transformString = `${alignment} translateX(${
+        const transformString = `${alignment} translateX(${
           this.options.shift + (this.dim * i - delta) / 2
         }px) translateZ(${zTranslation}px)`;
         this._updateItemStyle(el, tweenedOpacity, -i, transformString);
@@ -562,7 +557,7 @@ export class Carousel extends Component<CarouselOptions> {
       // Don't show wrapped items.
       if (!this.noWrap || this.center - i >= 0) {
         el = this.images[this._wrap(this.center - i)];
-        let transformString = `${alignment} translateX(${
+        const transformString = `${alignment} translateX(${
           -this.options.shift + (-this.dim * i - delta) / 2
         }px) translateZ(${zTranslation}px)`;
         this._updateItemStyle(el, tweenedOpacity, -i, transformString);
@@ -572,7 +567,7 @@ export class Carousel extends Component<CarouselOptions> {
     // Don't show wrapped items.
     if (!this.noWrap || (this.center >= 0 && this.center < this.count)) {
       el = this.images[this._wrap(this.center)];
-      let transformString = `${alignment} translateX(${-delta / 2}px) translateX(${
+      const transformString = `${alignment} translateX(${-delta / 2}px) translateX(${
         dir * this.options.shift * tween
       }px) translateZ(${this.options.dist * tween}px)`;
       this._updateItemStyle(el, centerTweenedOpacity, 0, transformString);

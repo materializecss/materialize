@@ -99,7 +99,7 @@ export class CharacterCounter extends Component<{}> {
   }
 
   updateCounter = () => {
-    let maxLength = parseInt(this.el.getAttribute('maxlength')),
+    const maxLength = parseInt(this.el.getAttribute('maxlength')),
       actualLength = (this.el as HTMLInputElement).value.length;
 
     this.isValidLength = actualLength <= maxLength;

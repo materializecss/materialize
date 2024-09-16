@@ -26,7 +26,7 @@ export interface TabsOptions extends BaseOptions {
   responsiveThreshold: number;
 }
 
-let _defaults: TabsOptions = {
+const _defaults: TabsOptions = {
   duration: 300,
   onShow: null,
   swipeable: false,

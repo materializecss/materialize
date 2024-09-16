@@ -15,7 +15,7 @@ export interface FormSelectOptions extends BaseOptions {
   dropdownOptions: Partial<DropdownOptions>;
 }
 
-let _defaults: FormSelectOptions = {
+const _defaults: FormSelectOptions = {
   classes: '',
   dropdownOptions: {}
 };

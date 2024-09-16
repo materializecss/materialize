@@ -166,7 +166,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     if (Sidenav._sidenavs.length === 0) {
       document.body.addEventListener('click', this._handleTriggerClick);
     }
-    var passiveIfSupported: boolean = null;
+    const passiveIfSupported: boolean = null;
     this.dragTarget.addEventListener('touchmove', this._handleDragTargetDrag, passiveIfSupported);
     this.dragTarget.addEventListener('touchend', this._handleDragTargetRelease);
     this._overlay.addEventListener('touchmove', this._handleCloseDrag, passiveIfSupported);
@@ -301,7 +301,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       // Calculate raw deltaX
       let totalDeltaX = this._xPos - this._startingXpos;
       // dragDirection is the attempted user drag direction
-      let dragDirection = totalDeltaX > 0 ? 'right' : 'left';
+      const dragDirection = totalDeltaX > 0 ? 'right' : 'left';
       // Don't allow totalDeltaX to exceed Sidenav width or be dragged in the opposite direction
       totalDeltaX = Math.min(this._width, Math.abs(totalDeltaX));
       if (this.options.edge !== dragDirection) {

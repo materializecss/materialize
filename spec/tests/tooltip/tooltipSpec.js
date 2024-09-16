@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Tooltip:', () => {
   const fixture = `<a
   id="test"

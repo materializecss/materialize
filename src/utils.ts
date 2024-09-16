@@ -84,25 +84,25 @@ export class Utils {
    * @param offset Element offset.
    */
   static checkWithinContainer(container: HTMLElement, bounding: Bounding, offset: number): Edges {
-    let edges = {
+    const edges = {
       top: false,
       right: false,
       bottom: false,
       left: false
     };
 
-    let containerRect = container.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
     // If body element is smaller than viewport, use viewport height instead.
-    let containerBottom =
+    const containerBottom =
       container === document.body
         ? Math.max(containerRect.bottom, window.innerHeight)
         : containerRect.bottom;
 
-    let scrollLeft = container.scrollLeft;
-    let scrollTop = container.scrollTop;
+    const scrollLeft = container.scrollLeft;
+    const scrollTop = container.scrollTop;
 
-    let scrolledX = bounding.left - scrollLeft;
-    let scrolledY = bounding.top - scrollTop;
+    const scrolledX = bounding.left - scrollLeft;
+    const scrolledY = bounding.top - scrollTop;
 
     // Check for container and viewport for each edge
     if (scrolledX < containerRect.left + offset || scrolledX < offset) {
@@ -143,7 +143,7 @@ export class Utils {
     bounding: Bounding,
     offset: number
   ) {
-    let canAlign: {
+    const canAlign: {
       top: boolean;
       right: boolean;
       bottom: boolean;
@@ -163,18 +163,18 @@ export class Utils {
       spaceOnLeft: null
     };
 
-    let containerAllowsOverflow = getComputedStyle(container).overflow === 'visible';
-    let containerRect = container.getBoundingClientRect();
-    let containerHeight = Math.min(containerRect.height, window.innerHeight);
-    let containerWidth = Math.min(containerRect.width, window.innerWidth);
-    let elOffsetRect = el.getBoundingClientRect();
+    const containerAllowsOverflow = getComputedStyle(container).overflow === 'visible';
+    const containerRect = container.getBoundingClientRect();
+    const containerHeight = Math.min(containerRect.height, window.innerHeight);
+    const containerWidth = Math.min(containerRect.width, window.innerWidth);
+    const elOffsetRect = el.getBoundingClientRect();
 
-    let scrollLeft = container.scrollLeft;
-    let scrollTop = container.scrollTop;
+    const scrollLeft = container.scrollLeft;
+    const scrollTop = container.scrollTop;
 
-    let scrolledX = bounding.left - scrollLeft;
-    let scrolledYTopEdge = bounding.top - scrollTop;
-    let scrolledYBottomEdge = bounding.top + elOffsetRect.height - scrollTop;
+    const scrolledX = bounding.left - scrollLeft;
+    const scrolledYTopEdge = bounding.top - scrollTop;
+    const scrolledYBottomEdge = bounding.top + elOffsetRect.height - scrollTop;
 
     // Check for container and viewport for left
     canAlign.spaceOnRight = !containerAllowsOverflow
@@ -253,16 +253,16 @@ export class Utils {
     let timeout = null;
     let previous = 0;
     options || (options = {});
-    let later = function () {
+    const later = function () {
       previous = options.leading === false ? 0 : new Date().getTime();
       timeout = null;
       result = func.apply(context, args);
       context = args = null;
     };
     return function () {
-      let now = new Date().getTime();
+      const now = new Date().getTime();
       if (!previous && options.leading === false) previous = now;
-      let remaining = wait - (now - previous);
+      const remaining = wait - (now - previous);
       context = this;
       args = arguments;
       if (remaining <= 0) {

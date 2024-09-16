@@ -9,7 +9,7 @@ export interface ParallaxOptions extends BaseOptions {
   responsiveThreshold: number;
 }
 
-let _defaults: ParallaxOptions = {
+const _defaults: ParallaxOptions = {
   responsiveThreshold: 0 // breakpoint for swipeable
 };
 
@@ -78,14 +78,14 @@ export class Parallax extends Component<ParallaxOptions> {
 
   static _handleScroll() {
     for (let i = 0; i < Parallax._parallaxes.length; i++) {
-      let parallaxInstance = Parallax._parallaxes[i];
+      const parallaxInstance = Parallax._parallaxes[i];
       parallaxInstance._updateParallax.call(parallaxInstance);
     }
   }
 
   static _handleWindowResize() {
     for (let i = 0; i < Parallax._parallaxes.length; i++) {
-      let parallaxInstance = Parallax._parallaxes[i];
+      const parallaxInstance = Parallax._parallaxes[i];
       parallaxInstance._enabled = window.innerWidth > parallaxInstance.options.responsiveThreshold;
     }
   }

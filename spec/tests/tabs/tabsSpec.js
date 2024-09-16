@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Tabs Plugin', () => {
   const fixture = `<div class="row">
   <div class="col s12">

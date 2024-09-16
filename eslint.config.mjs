@@ -20,9 +20,7 @@ export default [
       // thousands of errors, for this reason, they have been marked as WARN
       'prettier/prettier': 'error',
 
-      'prefer-const': 'warn',
       'prefer-rest-params': 'warn',
-      'no-var': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-unused-expressions': 'warn',
