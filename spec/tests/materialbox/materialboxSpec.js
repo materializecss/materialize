@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Materialbox:', () => {
   const fixture = `<div id="transformTest" style="transform: translate3d(1px,1px,1px)">
   <img

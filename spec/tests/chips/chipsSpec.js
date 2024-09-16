@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Chips', () => {
   const fixture = `<div class="chips"><input></div>
 <div class="chips chips-initial"><input></div>

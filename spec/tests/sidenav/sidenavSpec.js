@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Sidenav Plugin', () => {
   const fixture = `<ul id="slide-out" class="sidenav">
   <li><div class="user-view">

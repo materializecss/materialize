@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface ScrollSpyOptions extends BaseOptions {
   /**
@@ -22,13 +22,15 @@ export interface ScrollSpyOptions extends BaseOptions {
    * @default id => 'a[href="#' + id + '"]'
    */
   getActiveElement: (id: string) => string;
-};
+}
 
-let _defaults: ScrollSpyOptions = {
+const _defaults: ScrollSpyOptions = {
   throttle: 100,
   scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
   activeClass: 'active',
-  getActiveElement: (id: string): string => { return 'a[href="#'+id+'"]'; }
+  getActiveElement: (id: string): string => {
+    return 'a[href="#' + id + '"]';
+  }
 };
 
 export class ScrollSpy extends Component<ScrollSpyOptions> {
@@ -80,7 +82,10 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<ScrollSpyOptions> = {}): ScrollSpy | ScrollSpy[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<ScrollSpyOptions> = {}
+  ): ScrollSpy | ScrollSpy[] {
     return super.init(els, options, ScrollSpy);
   }
 
@@ -115,36 +120,38 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
   }
 
-  _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleWindowScroll(); }, 200).bind(this); 
+  _handleThrottledResize: () => void = Utils.throttle(function () {
+    this._handleWindowScroll();
+  }, 200).bind(this);
 
   _handleTriggerClick = (e: MouseEvent) => {
     const trigger = e.target;
     for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
       const scrollspy = ScrollSpy._elements[i];
-      const x = document.querySelector('a[href="#'+scrollspy.el.id+'"]');
+      const x = document.querySelector('a[href="#' + scrollspy.el.id + '"]');
       if (trigger === x) {
         e.preventDefault();
-        scrollspy.el.scrollIntoView({behavior: 'smooth'});
+        scrollspy.el.scrollIntoView({ behavior: 'smooth' });
         break;
       }
     }
-  }
+  };
 
   _handleWindowScroll = () => {
     // unique tick id
     ScrollSpy._ticks++;
 
     // viewport rectangle
-    let top = Utils.getDocumentScrollTop(),
+    const top = Utils.getDocumentScrollTop(),
       left = Utils.getDocumentScrollLeft(),
       right = left + window.innerWidth,
       bottom = top + window.innerHeight;
 
     // determine which elements are in view
-    let intersections = ScrollSpy._findElements(top, right, bottom, left);
+    const intersections = ScrollSpy._findElements(top, right, bottom, left);
     for (let i = 0; i < intersections.length; i++) {
-      let scrollspy = intersections[i];
-      let lastTick = scrollspy.tickId;
+      const scrollspy = intersections[i];
+      const lastTick = scrollspy.tickId;
       if (lastTick < 0) {
         // entered into view
         scrollspy._enter();
@@ -155,8 +162,8 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
 
     for (let i = 0; i < ScrollSpy._elementsInView.length; i++) {
-      let scrollspy = ScrollSpy._elementsInView[i];
-      let lastTick = scrollspy.tickId;
+      const scrollspy = ScrollSpy._elementsInView[i];
+      const lastTick = scrollspy.tickId;
       if (lastTick >= 0 && lastTick !== ScrollSpy._ticks) {
         // exited from view
         scrollspy._exit();
@@ -165,7 +172,7 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
     // remember elements in view for next tick
     ScrollSpy._elementsInView = intersections;
-  }
+  };
 
   static _offset(el) {
     const box = el.getBoundingClientRect();
@@ -177,18 +184,18 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
   }
 
   static _findElements(top: number, right: number, bottom: number, left: number): ScrollSpy[] {
-    let hits = [];
+    const hits = [];
     for (let i = 0; i < ScrollSpy._elements.length; i++) {
-      let scrollspy = ScrollSpy._elements[i];
-      let currTop = top + scrollspy.options.scrollOffset || 200;
+      const scrollspy = ScrollSpy._elements[i];
+      const currTop = top + scrollspy.options.scrollOffset || 200;
 
       if (scrollspy.el.getBoundingClientRect().height > 0) {
-        let elTop = ScrollSpy._offset(scrollspy.el).top,
+        const elTop = ScrollSpy._offset(scrollspy.el).top,
           elLeft = ScrollSpy._offset(scrollspy.el).left,
           elRight = elLeft + scrollspy.el.getBoundingClientRect().width,
           elBottom = elTop + scrollspy.el.getBoundingClientRect().height;
 
-        let isIntersect = !(
+        const isIntersect = !(
           elLeft > right ||
           elRight < left ||
           elTop > bottom ||
@@ -204,20 +211,25 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
   }
 
   _enter() {
-    ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(value => value.getBoundingClientRect().height !== 0);
+    ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(
+      (value) => value.getBoundingClientRect().height !== 0
+    );
 
     if (ScrollSpy._visibleElements[0]) {
-      const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
+      const actElem = document.querySelector(
+        this.options.getActiveElement(ScrollSpy._visibleElements[0].id)
+      );
       actElem?.classList.remove(this.options.activeClass);
 
-      if (ScrollSpy._visibleElements[0].M_ScrollSpy && this.id < ScrollSpy._visibleElements[0].M_ScrollSpy.id) {
+      if (
+        ScrollSpy._visibleElements[0].M_ScrollSpy &&
+        this.id < ScrollSpy._visibleElements[0].M_ScrollSpy.id
+      ) {
         ScrollSpy._visibleElements.unshift(this.el);
-      }
-      else {
+      } else {
         ScrollSpy._visibleElements.push(this.el);
       }
-    }
-    else {
+    } else {
       ScrollSpy._visibleElements.push(this.el);
     }
     const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
@@ -225,10 +237,14 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
   }
 
   _exit() {
-    ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(value => value.getBoundingClientRect().height !== 0);
+    ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(
+      (value) => value.getBoundingClientRect().height !== 0
+    );
 
     if (ScrollSpy._visibleElements[0]) {
-      const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
+      const actElem = document.querySelector(
+        this.options.getActiveElement(ScrollSpy._visibleElements[0].id)
+      );
       actElem?.classList.remove(this.options.activeClass);
 
       ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((x) => x.id != this.el.id);

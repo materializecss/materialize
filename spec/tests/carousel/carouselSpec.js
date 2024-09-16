@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Carousel', () => {
   const fixture = `<div class="carousel carousel-slider" id="slider-no-wrap">
   <div class="carousel-item">

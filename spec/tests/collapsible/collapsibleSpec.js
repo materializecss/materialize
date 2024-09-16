@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Collapsible Plugin:', () => {
   let collapsible, accordion, popout, expandable, expandablePreselect;
 
