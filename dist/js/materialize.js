@@ -7509,8 +7509,9 @@ var M = (function (exports) {
     /**
      * Automatically initialize components.
      * @param context Root element to initialize. Defaults to `document.body`.
+     * @param options Options for each component.
      */
-    function AutoInit(context = document.body) {
+    function AutoInit(context = document.body, options) {
         let registry = {
             Autocomplete: context.querySelectorAll('.autocomplete:not(.no-autoinit)'),
             Carousel: context.querySelectorAll('.carousel:not(.no-autoinit)'),
@@ -7531,24 +7532,24 @@ var M = (function (exports) {
             Tooltip: context.querySelectorAll('.tooltipped:not(.no-autoinit)'),
             FloatingActionButton: context.querySelectorAll('.fixed-action-btn:not(.no-autoinit)')
         };
-        Autocomplete.init(registry.Autocomplete, {});
-        Carousel.init(registry.Carousel, {});
-        Chips.init(registry.Chips, {});
-        Collapsible.init(registry.Collapsible, {});
-        Datepicker.init(registry.Datepicker, {});
-        Dropdown.init(registry.Dropdown, {});
-        Materialbox.init(registry.Materialbox, {});
-        Modal.init(registry.Modal, {});
-        Parallax.init(registry.Parallax, {});
-        Pushpin.init(registry.Pushpin, {});
-        ScrollSpy.init(registry.ScrollSpy, {});
-        FormSelect.init(registry.FormSelect, {});
-        Sidenav.init(registry.Sidenav, {});
-        Tabs.init(registry.Tabs, {});
-        TapTarget.init(registry.TapTarget, {});
-        Timepicker.init(registry.Timepicker, {});
-        Tooltip.init(registry.Tooltip, {});
-        FloatingActionButton.init(registry.FloatingActionButton, {});
+        Autocomplete.init(registry.Autocomplete, options?.Autocomplete ?? {});
+        Carousel.init(registry.Carousel, options?.Carousel ?? {});
+        Chips.init(registry.Chips, options?.Chips ?? {});
+        Collapsible.init(registry.Collapsible, options?.Collapsible ?? {});
+        Datepicker.init(registry.Datepicker, options?.Datepicker ?? {});
+        Dropdown.init(registry.Dropdown, options?.Dropdown ?? {});
+        Materialbox.init(registry.Materialbox, options?.Materialbox ?? {});
+        Modal.init(registry.Modal, options?.Modal ?? {});
+        Parallax.init(registry.Parallax, options?.Parallax ?? {});
+        Pushpin.init(registry.Pushpin, options?.Pushpin ?? {});
+        ScrollSpy.init(registry.ScrollSpy, options?.ScrollSpy ?? {});
+        FormSelect.init(registry.FormSelect, options?.FormSelect ?? {});
+        Sidenav.init(registry.Sidenav, options?.Sidenav ?? {});
+        Tabs.init(registry.Tabs, options?.Tabs ?? {});
+        TapTarget.init(registry.TapTarget, options?.TapTarget ?? {});
+        Timepicker.init(registry.Timepicker, options?.Timepicker ?? {});
+        Tooltip.init(registry.Tooltip, options?.Tooltip ?? {});
+        FloatingActionButton.init(registry.FloatingActionButton, options?.FloatingActionButton ?? {});
     }
     // Init
     if (typeof document !== 'undefined') {
