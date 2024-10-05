@@ -109,6 +109,9 @@
     margin: 0;
     padding: 0;
     width: 120px;
+    width: fit-content;
+    min-width: 100px;
+    max-width: 200px;
 
 
     &:focus {
