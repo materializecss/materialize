@@ -1612,6 +1612,8 @@ declare class Sidenav extends Component<SidenavOptions> implements Openable {
     private _animateSidenavOut;
     private _animateOverlayIn;
     private _animateOverlayOut;
+    private _setAriaHidden;
+    private _setTabIndex;
 }
 
 interface SliderOptions extends BaseOptions {

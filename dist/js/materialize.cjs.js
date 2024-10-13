@@ -4895,6 +4895,9 @@ class Sidenav extends Component {
         if (this.isFixed) {
             window.addEventListener('resize', this._handleWindowResize);
         }
+        /* Set aria-hidden state */
+        this._setAriaHidden();
+        this._setTabIndex();
     }
     _removeEventHandlers() {
         if (Sidenav._sidenavs.length === 1) {
@@ -5114,6 +5117,9 @@ class Sidenav extends Component {
                 this._preventBodyScrolling();
             if (!this.isDragged || this.percentOpen != 1)
                 this._animateIn();
+            /* Set aria-hidden state */
+            this._setAriaHidden();
+            this._setTabIndex();
         }
     };
     /**
@@ -5141,6 +5147,9 @@ class Sidenav extends Component {
             else {
                 this._overlay.style.display = 'none';
             }
+            /* Set aria-hidden state */
+            this._setAriaHidden();
+            this._setTabIndex();
         }
     };
     _animateIn() {
@@ -5217,6 +5226,20 @@ class Sidenav extends Component {
             this._overlay.style.display = 'none';
         }, duration);
     }
+    _setAriaHidden = () => {
+        this.el.ariaHidden = this.isOpen ? 'false' : 'true';
+        const navWrapper = document.querySelector('.nav-wrapper ul');
+        if (navWrapper)
+            navWrapper.ariaHidden = this.isOpen;
+    };
+    _setTabIndex = () => {
+        const navLinks = document.querySelectorAll('.nav-wrapper ul li a');
+        const sideNavLinks = document.querySelectorAll('.sidenav li a');
+        if (navLinks)
+            navLinks.forEach((navLink) => { navLink.tabIndex = this.isOpen ? -1 : 0; });
+        if (sideNavLinks)
+            sideNavLinks.forEach((sideNavLink) => { sideNavLink.tabIndex = this.isOpen ? 0 : -1; });
+    };
     static {
         Sidenav._sidenavs = [];
     }
