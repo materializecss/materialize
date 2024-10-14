@@ -125,6 +125,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     this.isTouchMoving = false;
     this.focusedIndex = -1;
     this.filterQuery = [];
+    this.el.ariaExpanded = 'false'
 
     // Move dropdown-content after dropdown-trigger
     this._moveDropdown();
@@ -610,6 +611,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     // Do this one frame later so that we don't bind an event handler that's immediately
     // called when the event bubbles up to the document and closes the dropdown
     setTimeout(() => this._setupTemporaryEventHandlers(), 0);
+    this.el.ariaExpanded = 'true'
   }
 
   /**
@@ -628,6 +630,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     if (this.options.autoFocus) {
       this.el.focus();
     }
+    this.el.ariaExpanded = 'false'
   }
 
   /**
