@@ -17,7 +17,7 @@
 
 /* Clock Digital Display */
 .timepicker-digital-display {
-  width: 200px;
+  width: auto;
   flex: 1 auto;
   background-color: var(--md-sys-color-primary);;
   padding: 10px;
@@ -27,11 +27,12 @@
 .timepicker-text-container {
   font-size: 4rem;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
   color: var(--font-on-primary-color-medium);
   font-weight: 400;
   position: relative;
   user-select: none;
+  padding: 1rem 1rem 1.5rem 1rem;
 
   input[type=text]{
     height: 4rem;
@@ -55,7 +56,7 @@ input[type=text].timepicker-input-hours {
 }
 
 input[type=text].timepicker-input-minutes {
-  width: 33%;
+  width: 36%;
   margin-left: 3px;
 }
 
@@ -66,11 +67,21 @@ input[type=text].text-primary {
 .timepicker-display-am-pm {
   font-size: 1.3rem;
   position: absolute;
+  top: 1.2rem;
   right: 1rem;
-  bottom: 1rem;
   font-weight: 400;
+  bottom: auto;
 }
 
+.timepicker-modal .am-btn {
+  .timepicker-modal .pm-btn {
+    width: 3.6rem;
+    height: 2rem;
+    line-height: 2rem;
+    vertical-align: middle;
+    text-align: center;
+  }
+}
 
 /* Analog Clock Display */
 .timepicker-analog-display {
