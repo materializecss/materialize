@@ -35,7 +35,7 @@
 
   input[type=text]{
     height: 4rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--md-sys-color-secondary);
     border-bottom: 0px;
     font-size: 4rem;
     direction: ltr;
@@ -60,7 +60,7 @@ input[type=text].timepicker-input-minutes {
 }
 
 input[type=text].text-primary {
-  color: rgba(255, 255, 255, 1);
+  color: var(--md-sys-color-on-background);
 }
 
 .timepicker-display-am-pm {
