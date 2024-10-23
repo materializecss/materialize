@@ -56,7 +56,7 @@ input[type=text].timepicker-input-hours {
 }
 
 input[type=text].timepicker-input-minutes {
-  width: 36%;
+  width: 33%;
   margin-left: 3px;
 }
 
@@ -217,12 +217,8 @@ input[type=text].text-primary {
     margin-top: 1.2rem;
   }
 
-  .timepicker-digital-display {
-    width: inherit;
-  }
-
   input[type=text].timepicker-input-minutes {
-    width: 36%;
+    min-width: 5.3rem;
   }
 
   .timepicker-modal .am-btn,
