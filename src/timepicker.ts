@@ -253,9 +253,10 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.el.addEventListener('keydown', this._handleInputKeydown);
     this.plate.addEventListener('mousedown', this._handleClockClickStart);
     this.plate.addEventListener('touchstart', this._handleClockClickStart);
-    this.digitalClock.addEventListener('keyup', this._inputFromTextField);
-    this.inputHours.addEventListener('click', () => this.showView('hours'));
-    this.inputMinutes.addEventListener('click', () => this.showView('minutes'));
+    this.digitalClock.addEventListener('change', this._inputFromTextField);
+    this.inputHours.addEventListener('focus', () => this.showView('hours'));
+    this.inputMinutes.addEventListener('focus', () => this.showView('minutes'));
+    this.inputMinutes.addEventListener('focusout', () => this.formatMinutes());
   }
 
   _removeEventHandlers() {
@@ -567,7 +568,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.hours = +value[0] || 0;
     this.minutes = +value[1] || 0;
     this.inputHours.value = this.hours;
-    this.inputMinutes.value = Timepicker._addLeadingZero(this.minutes);
+    this.inputMinutes.value = this.minutes;
 
     this._updateAmPmView();
   }
@@ -639,9 +640,7 @@ export class Timepicker extends Component<TimepickerOptions> {
       const value = parseInt(this.inputHours.value);
       if (value > 0 && value < 13) {
         this.drawClockFromTimeInput(value, isHours);
-        this.showView('minutes', this.options.duration / 2);
         this.hours = value;
-        this.inputMinutes.focus();
       }
       else {
         const hour = new Date().getHours();
@@ -651,10 +650,9 @@ export class Timepicker extends Component<TimepickerOptions> {
     else {
       const value = parseInt(this.inputMinutes.value);
       if (value >= 0 && value < 60) {
-        this.inputMinutes.value = Timepicker._addLeadingZero(value);
+        this.inputMinutes.value = String(value);
         this.drawClockFromTimeInput(value, isHours);
         this.minutes = value;
-        (<HTMLElement>this.modalEl.querySelector('.confirmation-btns :nth-child(2)')).focus();
       }
       else {
         const minutes = new Date().getMinutes();
@@ -759,6 +757,10 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.bg.setAttribute('cy', cy2.toString());
   }
 
+  formatMinutes() {
+    this.inputMinutes.value = Timepicker._addLeadingZero(Number(this.inputMinutes.value));
+  }
+
   /**
    * Open timepicker.
    */
@@ -809,9 +811,9 @@ export class Timepicker extends Component<TimepickerOptions> {
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
               <div class="timepicker-display-column">
-                <input type="text" maxlength="2" autofocus class="timepicker-input-hours text-primary" />
+                <input type="number" maxlength="2" autofocus class="timepicker-input-hours text-primary" min="1" max="12"/>
                 :
-                <input type="text" maxlength="2" class="timepicker-input-minutes" />
+                <input type="number" maxlength="2" class="timepicker-input-minutes" min="0" max="59"/>
               </div>
               <div class="timepicker-display-column timepicker-display-am-pm">
                 <div class="timepicker-span-am-pm"></div>
