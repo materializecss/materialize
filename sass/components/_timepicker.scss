@@ -34,10 +34,10 @@
   user-select: none;
   padding: 1rem 1rem 1.5rem 1rem;
 
-  input[type=text]{
+  input[type=number] {
     height: 4rem;
     color: var(--md-sys-color-secondary);
-    border-bottom: 0px;
+    border-bottom: 0;
     font-size: 4rem;
     direction: ltr;
   }
@@ -49,18 +49,18 @@
   cursor: pointer;
 }
 
-input[type=text].timepicker-input-hours {
+input[type=number].timepicker-input-hours {
   text-align: right;
   width: 28%;
   margin-right: 3px;
 }
 
-input[type=text].timepicker-input-minutes {
+input[type=number].timepicker-input-minutes {
   width: 33%;
   margin-left: 3px;
 }
 
-input[type=text].text-primary {
+input[type=number].text-primary {
   color: var(--md-sys-color-on-background);
 }
 
@@ -217,8 +217,12 @@ input[type=text].text-primary {
     margin-top: 1.2rem;
   }
 
-  input[type=text].timepicker-input-minutes {
-    min-width: 5.3rem;
+  input[type=number].timepicker-input-hours {
+    min-width: 6rem;
+  }
+
+  input[type=number].timepicker-input-minutes {
+    min-width: 6.5rem;
   }
 
   .timepicker-modal .am-btn,

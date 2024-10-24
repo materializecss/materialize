@@ -639,25 +639,33 @@ export class Timepicker extends Component<TimepickerOptions> {
     if (isHours) {
       const value = parseInt(this.inputHours.value);
       if (value > 0 && value < 13) {
-        this.drawClockFromTimeInput(value, isHours);
         this.hours = value;
       }
-      else {
-        const hour = new Date().getHours();
-        this.inputHours.value = (hour % 12).toString();
+      else if(value == 0) {
+        this.hours = 12;
+        this.inputHours.value = this.hours.toString();
       }
+      else {
+        this.hours = 1;
+        this.inputHours.value = this.hours.toString();
+      }
+      this.drawClockFromTimeInput(this.hours, isHours);
     }
     else {
       const value = parseInt(this.inputMinutes.value);
       if (value >= 0 && value < 60) {
-        this.inputMinutes.value = String(value);
-        this.drawClockFromTimeInput(value, isHours);
+        this.inputMinutes.value = Timepicker._addLeadingZero(value);
         this.minutes = value;
       }
-      else {
-        const minutes = new Date().getMinutes();
-        this.inputMinutes.value = Timepicker._addLeadingZero(minutes);
+      else if(value == -1) {
+        this.minutes = 59;
+        this.inputMinutes.value = Timepicker._addLeadingZero(this.minutes.toString());
       }
+      else {
+        this.minutes = 0;
+        this.inputMinutes.value = Timepicker._addLeadingZero(this.minutes);
+      }
+      this.drawClockFromTimeInput(value, isHours);
     }
   }
 
@@ -811,9 +819,9 @@ export class Timepicker extends Component<TimepickerOptions> {
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
               <div class="timepicker-display-column">
-                <input type="number" maxlength="2" autofocus class="timepicker-input-hours text-primary" min="1" max="12"/>
+                <input type="number" maxlength="2" autofocus class="timepicker-input-hours text-primary"/>
                 :
-                <input type="number" maxlength="2" class="timepicker-input-minutes" min="0" max="59"/>
+                <input type="number" maxlength="2" class="timepicker-input-minutes"/>
               </div>
               <div class="timepicker-display-column timepicker-display-am-pm">
                 <div class="timepicker-span-am-pm"></div>
