@@ -131,8 +131,16 @@ export class Tabs extends Component<TabsOptions> {
   }
 
   _handleTabClick = (e: MouseEvent) => {
-    const tabLink = e.target as HTMLAnchorElement;
-    const tab = tabLink.parentElement;
+    let tabLink = e.target as HTMLAnchorElement;
+
+    if (!tabLink)
+      return;
+    var tab = tabLink.parentElement;  
+    while (tab && !tab.classList.contains('tab')) {
+      tabLink = tabLink.parentElement as HTMLAnchorElement;
+      tab = tab.parentElement;
+    }
+    
     // Handle click on tab link only
     if (!tabLink || !tab.classList.contains('tab')) return;
     // is disabled?
