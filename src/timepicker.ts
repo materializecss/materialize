@@ -366,7 +366,7 @@ export class Timepicker extends Component<TimepickerOptions> {
           this.options.onOpenStart.call(this);
         }
         this.modalEl.querySelectorAll('.btn').forEach((e: HTMLButtonElement) => {
-          if (e.style.visibility !== 'hidden') e.setAttribute('tabindex', '0');
+          if (e.style.visibility !== 'hidden') e.tabIndex = 0;
         });
       },
       onOpenEnd: this.options.onOpenEnd,
@@ -375,7 +375,7 @@ export class Timepicker extends Component<TimepickerOptions> {
           this.options.onCloseStart.call(this);
         }
         this.modalEl.querySelectorAll('.btn').forEach((e: HTMLButtonElement) => {
-          e.setAttribute('tabindex', '-1');
+          e.tabIndex = -1;
         });
       },
       onCloseEnd: () => {
