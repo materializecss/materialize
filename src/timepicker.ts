@@ -255,6 +255,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.plate.addEventListener('touchstart', this._handleClockClickStart);
     this.digitalClock.addEventListener('keyup', this._inputFromTextField);
     this.inputHours.addEventListener('focus', () => this.showView('hours'));
+    this.inputHours.addEventListener('focusout', () => this.formatHours());
     this.inputMinutes.addEventListener('focus', () => this.showView('minutes'));
     this.inputMinutes.addEventListener('focusout', () => this.formatMinutes());
   }
@@ -636,36 +637,26 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _inputFromTextField = () => {
     const isHours = this.currentView === 'hours';
-    if (isHours) {
+    if (isHours && this.inputHours.value !== '') {
       const value = parseInt(this.inputHours.value);
-      if (value > 0 && value < 13) {
+      if (value > 0 && value < (this.options.twelveHour ? 13 : 24)) {
         this.hours = value;
       }
-      else if(value == 0) {
-        this.hours = 12;
-        this.inputHours.value = this.hours.toString();
-      }
       else {
-        this.hours = 1;
-        this.inputHours.value = this.hours.toString();
+        this.setHoursDefault();
       }
       this.drawClockFromTimeInput(this.hours, isHours);
     }
-    else {
+    else if(!isHours && this.inputMinutes.value !== '') {
       const value = parseInt(this.inputMinutes.value);
       if (value >= 0 && value < 60) {
-        this.inputMinutes.value = Timepicker._addLeadingZero(value);
         this.minutes = value;
       }
-      else if(value == -1) {
-        this.minutes = 59;
-        this.inputMinutes.value = Timepicker._addLeadingZero(this.minutes.toString());
-      }
       else {
-        this.minutes = 0;
-        this.inputMinutes.value = Timepicker._addLeadingZero(this.minutes);
+        this.minutes = new Date().getMinutes();
+        this.inputMinutes.value = this.minutes;
       }
-      this.drawClockFromTimeInput(value, isHours);
+      this.drawClockFromTimeInput(this.minutes, isHours);
     }
   }
 
@@ -673,17 +664,8 @@ export class Timepicker extends Component<TimepickerOptions> {
     const unit = Math.PI / (isHours ? 6 : 30);
     const radian = value * unit;
     let radius;
-    if (this.options.twelveHour) {
-      radius = this.options.outerRadius;
-    }
-    let cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
-      cy1 = -Math.cos(radian) * (radius - this.options.tickRadius),
-      cx2 = Math.sin(radian) * radius,
-      cy2 = -Math.cos(radian) * radius;
-    this.hand.setAttribute('x2', cx1.toString());
-    this.hand.setAttribute('y2', cy1.toString());
-    this.bg.setAttribute('cx', cx2.toString());
-    this.bg.setAttribute('cy', cy2.toString());
+    radius = isHours && value > 0 && value < 13 ? this.options.innerRadius : this.options.outerRadius;
+    this.setClockAttributes(radian, radius);
   }
 
   setHand(x, y, roundBy5: boolean = false) {
@@ -755,6 +737,10 @@ export class Timepicker extends Component<TimepickerOptions> {
     }
 
     // Set clock hand and others' position
+    this.setClockAttributes(radian, radius);
+  }
+
+  setClockAttributes(radian: number, radius: number) {
     let cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
       cy1 = -Math.cos(radian) * (radius - this.options.tickRadius),
       cx2 = Math.sin(radian) * radius,
@@ -765,8 +751,19 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.bg.setAttribute('cy', cy2.toString());
   }
 
+  formatHours() {
+    if (this.inputHours.value == '') this.setHoursDefault();
+    this.inputHours.value = Timepicker._addLeadingZero(Number(this.inputHours.value));
+  }
+
   formatMinutes() {
+    if (this.inputMinutes.value == '') this.minutes = new Date().getMinutes();
     this.inputMinutes.value = Timepicker._addLeadingZero(Number(this.inputMinutes.value));
+  }
+
+  setHoursDefault() {
+    this.hours = new Date().getHours();
+    this.inputHours.value = (this.hours % (this.options.twelveHour ? 12 : 24)).toString();
   }
 
   /**
