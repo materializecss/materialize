@@ -361,9 +361,23 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _setupModal() {
     this.modal = Modal.init(this.modalEl, {
-      onOpenStart: this.options.onOpenStart,
+      onOpenStart: () => {
+        if (typeof this.options.onOpenStart === 'function') {
+          this.options.onOpenStart.call(this);
+        }
+        this.modalEl.querySelectorAll('.btn').forEach((e: HTMLButtonElement) => {
+          if (e.style.visibility !== 'hidden') e.setAttribute('tabindex', '0');
+        });
+      },
       onOpenEnd: this.options.onOpenEnd,
-      onCloseStart: this.options.onCloseStart,
+      onCloseStart: () => {
+        if (typeof this.options.onCloseStart === 'function') {
+          this.options.onCloseStart.call(this);
+        }
+        this.modalEl.querySelectorAll('.btn').forEach((e: HTMLButtonElement) => {
+          e.setAttribute('tabindex', '-1');
+        });
+      },
       onCloseEnd: () => {
         if (typeof this.options.onCloseEnd === 'function') {
           this.options.onCloseEnd.call(this);
@@ -394,10 +408,10 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   private _createButton(text: string, visibility: string): HTMLButtonElement {
     const button = document.createElement('button');
-    button.classList.add('btn-flat', 'waves-effect');
+    button.classList.add('btn', 'btn-flat', 'waves-effect', 'text');
     button.style.visibility = visibility;
     button.type = 'button';
-    button.tabIndex = this.options.twelveHour ? 3 : 1;
+    button.tabIndex = -1;
     button.innerText = text;
     return button;
   }
