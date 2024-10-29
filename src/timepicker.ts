@@ -664,7 +664,11 @@ export class Timepicker extends Component<TimepickerOptions> {
     const unit = Math.PI / (isHours ? 6 : 30);
     const radian = value * unit;
     let radius;
-    radius = isHours && value > 0 && value < 13 ? this.options.innerRadius : this.options.outerRadius;
+    if (this.options.twelveHour) {
+      radius = this.options.outerRadius;
+    } else {
+      radius = isHours && value > 0 && value < 13 ? this.options.innerRadius : this.options.outerRadius;
+    }
     this.setClockAttributes(radian, radius);
   }
 
