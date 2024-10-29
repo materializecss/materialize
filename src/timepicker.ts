@@ -253,7 +253,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.el.addEventListener('keydown', this._handleInputKeydown);
     this.plate.addEventListener('mousedown', this._handleClockClickStart);
     this.plate.addEventListener('touchstart', this._handleClockClickStart);
-    this.digitalClock.addEventListener('change', this._inputFromTextField);
+    this.digitalClock.addEventListener('keyup', this._inputFromTextField);
     this.inputHours.addEventListener('focus', () => this.showView('hours'));
     this.inputMinutes.addEventListener('focus', () => this.showView('minutes'));
     this.inputMinutes.addEventListener('focusout', () => this.formatMinutes());
@@ -568,7 +568,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.hours = +value[0] || 0;
     this.minutes = +value[1] || 0;
     this.inputHours.value = this.hours;
-    this.inputMinutes.value = this.minutes;
+    this.inputMinutes.value = Timepicker._addLeadingZero(this.minutes);
 
     this._updateAmPmView();
   }
@@ -819,9 +819,9 @@ export class Timepicker extends Component<TimepickerOptions> {
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
               <div class="timepicker-display-column">
-                <input type="number" maxlength="2" autofocus class="timepicker-input-hours text-primary" min="1" max="12"/>
+                <input type="text" maxlength="2" autofocus class="timepicker-input-hours text-primary" />
                 :
-                <input type="number" maxlength="2" class="timepicker-input-minutes" min="0" max="59"/>
+                <input type="text" maxlength="2" class="timepicker-input-minutes" />
               </div>
               <div class="timepicker-display-column timepicker-display-am-pm">
                 <div class="timepicker-span-am-pm"></div>
