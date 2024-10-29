@@ -568,7 +568,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     }
     this.hours = +value[0] || 0;
     this.minutes = +value[1] || 0;
-    this.inputHours.value = this.hours;
+    this.inputHours.value = Timepicker._addLeadingZero(this.hours);
     this.inputMinutes.value = Timepicker._addLeadingZero(this.minutes);
 
     this._updateAmPmView();
@@ -734,7 +734,7 @@ export class Timepicker extends Component<TimepickerOptions> {
 
     this[this.currentView] = value;
     if (isHours) {
-      this.inputHours.value = value.toString();
+      this.inputHours.value = Timepicker._addLeadingZero(value);
     }
     else {
       this.inputMinutes.value = Timepicker._addLeadingZero(value);
