@@ -16,19 +16,14 @@ export class Forms {
     let lenAttr = parseInt(textfield.getAttribute('data-length'));
     let len = textfield.value.length;
 
-    if (len === 0 && textfield.validity.badInput === false && !textfield.required ) {
-      if (textfield.classList.contains('validate')) {
+    if (len === 0 && textfield.validity.badInput === false && !textfield.required && textfield.classList.contains('validate')) {
+      textfield.classList.remove('invalid');
+    } else if (textfield.classList.contains('validate')) {
+      // Check for character counter attributes
+      if (((textfield.validity.valid) && hasLength && len <= lenAttr) || textfield.validity.valid && !hasLength) {
         textfield.classList.remove('invalid');
-      }
-    } else {
-
-      if (textfield.classList.contains('validate')) {
-        // Check for character counter attributes
-        if (((textfield.validity.valid) && hasLength && len <= lenAttr) || textfield.validity.valid && !hasLength) {
-          textfield.classList.remove('invalid');
-        } else {
-          textfield.classList.add('invalid');
-        }
+      } else {
+        textfield.classList.add('invalid');
       }
     }
   }
