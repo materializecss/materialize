@@ -1,6 +1,3 @@
-/* Switch
-   ========================================================================== */
-
 .switch {
   --track-height: 32px;
   --track-width: 52px;
@@ -30,8 +27,8 @@
   // CHECKED
   // Track
   &:checked + .lever{
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: var(--md-sys-color-primary);
+    border-color:  var(--md-sys-color-primary);
   }
   // Dot
   &:checked + .lever {
@@ -57,10 +54,10 @@
   border-width: 2px;
   border-color: var(--md-sys-color-outline);
 
-  //background-color: $switch-track-unchecked-bg;
-  @extend .surface-variant;
+  //@extend .surface-variant;
+  background-color: var(--md-sys-color-surface-variant);
 
-  border-radius: $switch-radius;
+  border-radius: 15px;
   margin-right: 10px;
   transition: background 0.3s ease;
   vertical-align: middle;
@@ -99,22 +96,22 @@ input[type=checkbox]:not(:disabled) ~ .lever:hover::before {
 }
 
 input[type=checkbox]:checked:not(:disabled) ~ .lever:hover::before {
-  background-color: $switch-reaction-checked-hover-color;
+  background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
 }
 
 // Switch active style
 input[type=checkbox]:checked:not(:disabled) ~ .lever:active::before,
 input[type=checkbox]:checked:not(:disabled).tabbed:focus ~ .lever::before {
-  background-color: $switch-reaction-checked-focus-color;
+  background-color: rgba(var(--md-sys-color-primary-numeric), 0.18);
 }
 
 input[type=checkbox]:not(:disabled) ~ .lever:hover::before {
-  background-color: $switch-reaction-unchecked-hover-color;
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 input[type=checkbox]:not(:disabled) ~ .lever:active:before,
 input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::before {
-  background-color: $switch-reaction-unchecked-focus-color;
+  background-color: rgba(0, 0, 0, 0.12);
 }
 
 // Disabled Styles

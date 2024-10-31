@@ -22,7 +22,7 @@ export class Waves {
 
   // https://phoenix-dx.com/css-techniques-for-material-ripple-effect/
 
-  public static renderWaveEffect(targetElement: HTMLElement, position: Position|null = null, color: RGBColor|null = null): void {
+  static renderWaveEffect(targetElement: HTMLElement, position: Position|null = null, color: RGBColor|null = null): void {
     const isCentered = position === null;
     const duration = 500;
     let animationFrame: number, animationStart: number;
@@ -48,23 +48,23 @@ export class Waves {
   }
 
   static Init() {
-    document.addEventListener("DOMContentLoaded", () => {
-      document.body.addEventListener('click', e => {
-        const trigger = <HTMLElement>e.target;
-        const el = <HTMLElement>trigger.closest('.waves-effect');
-        if (el && el.contains(trigger)) {
-          const isCircular = el.classList.contains('waves-circle');
-          const x = e.pageX - Waves._offset(el).left;
-          const y = e.pageY - Waves._offset(el).top;
+    if (typeof document !== 'undefined') 
+      document?.addEventListener("DOMContentLoaded", () => {
+        document.body.addEventListener('click', e => {
+          const trigger = <HTMLElement>e.target;
+          const el = <HTMLElement>trigger.closest('.waves-effect');
+          if (el && el.contains(trigger)) {
+            const isCircular = el.classList.contains('waves-circle');
+            const x = e.pageX - Waves._offset(el).left;
+            const y = e.pageY - Waves._offset(el).top;
 
-          let color = null;
-          if (el.classList.contains('waves-light'))
-            color = {r:255, g:255, b:255};
+            let color = null;
+            if (el.classList.contains('waves-light'))
+              color = {r:255, g:255, b:255};
 
-          Waves.renderWaveEffect(el, isCircular ? null : {x, y}, color);
-        }
+            Waves.renderWaveEffect(el, isCircular ? null : {x, y}, color);
+          }
+        });
       });
-    });
-
   }
 }

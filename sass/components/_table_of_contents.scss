@@ -1,7 +1,6 @@
-/***************
-    Nav List
-***************/
 .table-of-contents {
+  list-style: none;
+
   &.fixed {
     position: fixed;
   }
@@ -13,21 +12,21 @@
   a {
     display: inline-block;
     font-weight: 400;
-    color: $font-color-medium;
+    color: var(--md-sys-color-secondary);
     padding-left: 16px;
     height: 2rem;
     line-height: 2rem;
-    border-left: 1px solid $divider-color;
+    border-left: 1px solid var(--md-sys-color-outline-variant);
     
     &:hover {
-      color: $font-color-main;
+      color: var(--md-sys-color-on-background);
       padding-left: 15px;
     }
     &.active {
-      color: $primary-color;
+      color: var(--md-sys-color-primary);
       font-weight: 500;
       padding-left: 14px;
-      border-left: 2px solid $primary-color;
+      border-left: 2px solid var(--md-sys-color-primary);
     }
   }
 }

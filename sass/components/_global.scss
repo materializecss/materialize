@@ -6,6 +6,11 @@ html {
   box-sizing: inherit;
 }
 
+body {
+  background-color: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+}
+
 button,
 input,
 optgroup,
@@ -14,23 +19,14 @@ textarea {
   font-family: $font-stack;
 }
 
-a {
-  color: $link-color;
-  text-decoration: none;
-  // Gets rid of tap active state
-  -webkit-tap-highlight-color: transparent;
+a { color: $link-color; text-decoration: none; 
+   -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
 }
 
 // Positioning
-.valign-wrapper {
-  display: flex;
-  align-items: center;
-}
+.valign-wrapper { display: flex; align-items: center; }
 
-// classic clearfix
-.clearfix {
-  clear: both;
-}
+.clearfix { clear: both; }
 
 // Z-levels
 .z-depth-0 {
@@ -87,15 +83,11 @@ a {
 .divider {
   height: 1px;
   overflow: hidden;
-  background-color: $divider-color;
+  background-color: var(--md-sys-color-outline-variant);
 }
 
 //  Blockquote
-blockquote {
-  margin: 20px 0;
-  padding-left: 1.5rem;
-  border-left: 5px solid $primary-color;
-}
+blockquote { margin: 20px 0; padding-left: 1.5rem; border-left: 5px solid var(--md-sys-color-primary); }
 
 // Icon Styles
 i {
@@ -123,6 +115,13 @@ i {
   }
 }
 
+// Modal
+html.noscroll {
+  position: fixed; 
+  overflow-y: scroll;
+  width: 100%;
+}
+
 // Images
 img.responsive-img,
 video.responsive-video {
@@ -141,7 +140,7 @@ video.responsive-video {
     height: 30px;
 
     a {
-      color: $font-color-medium;
+      color: var(--md-sys-color-on-surface-variant);
       display: inline-block;
       font-size: 1.2rem;
       padding: 0 10px;
@@ -149,21 +148,21 @@ video.responsive-video {
     }
 
     &:hover:not(.disabled) {
-      background-color: $primary-color-hover-opaque;
+      background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
     }
 
     &.active a {
-      color: $font-on-primary-color-main;
+      color:  var(--md-sys-color-on-primary);
     }
 
     &.active,
     &.active:hover {
-      background-color: $primary-color;
+      background-color: var(--md-sys-color-primary);
     }
 
     &.disabled a {
       cursor: default;
-      color: $font-color-disabled;
+      color: var(--md-sys-color-on-surface);
     }
 
     i {
@@ -199,7 +198,7 @@ video.responsive-video {
 .breadcrumb {
   display: inline-block;
   font-size: 18px;
-  color: $font-on-primary-color-medium;
+  color: var(--font-on-primary-color-medium);
 
   i,
   [class^="mdi-"], [class*="mdi-"],
@@ -212,7 +211,7 @@ video.responsive-video {
 
   &:before {
     content: '\E5CC';
-    color: $font-on-primary-color-medium;
+    color: var(--font-on-primary-color-medium);
     vertical-align: top;
     display: inline-block;
     font-family: 'Material Symbols Outlined', 'Material Symbols Rounded', 'Material Symbols Sharp', 'Material Icons';
@@ -229,7 +228,7 @@ video.responsive-video {
   }
 
   &:last-child {
-    color: $font-on-primary-color-main;
+    color:  var(--md-sys-color-on-primary);
   }
 }
 
@@ -273,35 +272,22 @@ video.responsive-video {
   Transition Classes
 **********************/
 
-ul.staggered-list li {
-  opacity: 0;
-}
-
-.fade-in {
-  opacity: 0;
-  transform-origin: 0 50%;
-}
-
+ul.staggered-list li { opacity: 0; }
+.fade-in { opacity: 0; transform-origin: 0 50%; }
 
 /*********************
   Media Query Classes
 **********************/
 .hide-on-small-only, .hide-on-small-and-down {
-  @media #{$small-and-down} {
-    display: none !important;
-  }
+  @media #{$small-and-down} { display: none !important; }
 }
 
 .hide-on-med-and-down {
-  @media #{$medium-and-down} {
-    display: none !important;
-  }
+  @media #{$medium-and-down} { display: none !important; }
 }
 
 .hide-on-med-and-up {
-  @media #{$medium-and-up} {
-    display: none !important;
-  }
+  @media #{$medium-and-up} { display: none !important; }
 }
 
 .hide-on-med-only {
@@ -311,27 +297,19 @@ ul.staggered-list li {
 }
 
 .hide-on-large-only {
-  @media #{$large-and-up} {
-    display: none !important;
-  }
+  @media #{$large-and-up} { display: none !important; }
 }
 
 .hide-on-extra-large-only {
-  @media #{$extra-large-and-up} {
-    display: none !important;
-  }
+  @media #{$extra-large-and-up} { display: none !important; }
 }
 
 .show-on-extra-large {
-  @media #{$extra-large-and-up} {
-    display: block !important;
-  }
+  @media #{$extra-large-and-up} { display: block !important; }
 }
 
 .show-on-large {
-  @media #{$large-and-up} {
-    display: block !important;
-  }
+  @media #{$large-and-up} { display: block !important; }
 }
 
 .show-on-medium {
@@ -341,41 +319,34 @@ ul.staggered-list li {
 }
 
 .show-on-small {
-  @media #{$small-and-down} {
-    display: block !important;
-  }
+  @media #{$small-and-down} { display: block !important; }
 }
 
 .show-on-medium-and-up {
-  @media #{$medium-and-up} {
-    display: block !important;
-  }
+  @media #{$medium-and-up} { display: block !important; }
 }
 
 .show-on-medium-and-down {
-  @media #{$medium-and-down} {
-    display: block !important;
-  }
+  @media #{$medium-and-down} { display: block !important; }
 }
 
 
 // Center text on mobile
 .center-on-small-only {
-  @media #{$small-and-down} {
-    text-align: center;
-  }
+  @media #{$small-and-down} { text-align: center; }
 }
 
 // Footer
 .page-footer {
-  padding-top: 20px;
-  color: $footer-font-color;
-  background-color: $footer-bg-color;
-
-  a {
-    color: $footer-font-color;
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px dashed var(--md-sys-color-outline-variant);
+  p {
+    color: var(--md-sys-color-outline-light);
   }
-
+  a {
+    color: var(--md-sys-color-primary);
+  }
   .footer-copyright,
   .footer-copyright a {
     overflow: hidden;
@@ -384,11 +355,8 @@ ul.staggered-list li {
     align-items: center;
     justify-content: space-between;
     padding: 10px 0px;
-    color: $footer-copyright-font-color;
-    background-color: $footer-copyright-bg-color;
   }
 }
-
 .page-footer ul {
   padding-left: 0;
   list-style-type: none;
@@ -410,7 +378,7 @@ table {
       border-bottom: none;
     }
     tbody > tr:nth-child(odd) {
-      background-color: $table-striped-color;
+      background-color: rgba(0, 0, 0, 0.08);
     }
   }
 
@@ -418,12 +386,12 @@ table {
     transition: background-color .25s ease;
 
     &:hover {
-      background-color: $surface-hover-color-opaque;
+      background-color: rgba(0, 0, 0, 0.04);
     }
   }
 
   thead {
-    color: $font-color-medium;
+    color: var(--md-sys-color-on-surface-variant);
   }
 
   &.centered {
@@ -434,7 +402,7 @@ table {
 }
 
 tr {
-  border-bottom: 1px solid $table-border-color;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
 }
 
 td, th {
@@ -458,17 +426,14 @@ td, th {
     td:empty:before {
       content: '\00a0';
     }
-
     th,
     td {
       margin: 0;
       vertical-align: top;
     }
-
     th {
       text-align: left;
     }
-
     thead {
       display: block;
       float: left;
@@ -482,7 +447,6 @@ td, th {
         }
       }
     }
-
     tbody {
       display: block;
       width: auto;
@@ -495,27 +459,23 @@ td, th {
         vertical-align: top;
       }
     }
-
     th {
       display: block;
       text-align: right;
     }
-
     td {
       display: block;
       min-height: 1.25em;
       text-align: left;
     }
-
     tr {
       border-bottom: none;
       padding: 0 10px;
     }
-
     /* sort out borders */
     thead {
       border: 0;
-      border-right: 1px solid $table-border-color;
+      border-right: 1px solid var(--md-sys-color-outline-variant);
     }
   }
 }
@@ -540,49 +500,23 @@ td, th {
   Utility Classes
 *******************/
 
-.hide {
-  display: none !important;
-}
+.hide { display: none !important; }
+
 // Text Align
-.left-align {
-  text-align: left;
-}
-.right-align {
-  text-align: right
-}
-.center, .center-align {
-  text-align: center;
-}
+.left-align { text-align: left; }
+.right-align { text-align: right }
+.center, .center-align { text-align: center; }
 
 // TODO: Remove this
-.left {
-  float: left !important;
-}
-.right {
-  float: right !important;
-}
+.left { float: left !important; }
+.right { float: right !important; }
 
 // No Text Select
-.no-select {
-  user-select: none;
-}
-.circle {
-  border-radius: 50%;
-}
-.center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.truncate {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.no-padding {
-  padding: 0 !important;
-}
+.no-select { user-select: none; }
+.circle { border-radius: 50%; }
+.center-block { display: block; margin-left: auto; margin-right: auto; }
+.truncate { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.no-padding { padding: 0 !important; }
 
 /**************************
   Utility Spacing Classes
@@ -597,18 +531,15 @@ $spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5
 @each $property, $shortcut in $spacing-shortcuts{
   @each $name, $value in $spacing-values{
     // All direction spacing
-
     .#{$shortcut}-#{$name}{
       #{$property}: $value !important;
     }
-
     // (t, b, r, l) spacing
     @each $direction, $suffix in $spacing-directions{
       .#{$shortcut}#{$suffix}-#{$name}{
         #{$property}-#{$direction}: $value !important 
       }
     }
-
     // x spacing
     @if $spacing-horizontal != null{
        .#{$shortcut}#{$spacing-horizontal}-#{$name}{
@@ -616,15 +547,12 @@ $spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5
          #{$property}-right: $value !important;
        }
     }
-
     // y spacing
     @if $spacing-vertical != null{
       .#{$shortcut}#{$spacing-vertical}-#{$name}{
         #{$property}-top: $value !important;
         #{$property}-bottom: $value !important;
-      }
-        
-    }
-      
+      }        
+    }      
   }
 } 

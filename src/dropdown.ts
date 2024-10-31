@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Utils } from "./utils";
 import { Component, BaseOptions, InitElements, MElement, Openable } from "./component";
 
@@ -199,22 +197,26 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
   }
 
   _setupTemporaryEventHandlers() {
-    // Use capture phase event handler to prevent click
-    document.body.addEventListener('click', this._handleDocumentClick, true);
+    document.body.addEventListener('click', this._handleDocumentClick);
     document.body.addEventListener('touchmove', this._handleDocumentTouchmove);
     this.dropdownEl.addEventListener('keydown', this._handleDropdownKeydown);
+    window.addEventListener('resize', this._handleWindowResize);
   }
 
   _removeTemporaryEventHandlers() {
-    // Use capture phase event handler to prevent click
-    document.body.removeEventListener('click', this._handleDocumentClick, true);
+    document.body.removeEventListener('click', this._handleDocumentClick);
     document.body.removeEventListener('touchmove', this._handleDocumentTouchmove);
     this.dropdownEl.removeEventListener('keydown', this._handleDropdownKeydown);
+    window.removeEventListener('resize', this._handleWindowResize);
   }
 
   _handleClick = (e: MouseEvent) => {
     e.preventDefault();
-    this.open();
+    if (this.isOpen) {
+        this.close();
+    } else {
+        this.open();
+    }
   }
 
   _handleMouseEnter = () => {
@@ -247,17 +249,18 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
       !this.isTouchMoving
     ) {
       // isTouchMoving to check if scrolling on mobile.
-      //setTimeout(() => {
       this.close();
-      //}, 0);
     }
     else if (
-      target.closest('.dropdown-trigger') ||
       !target.closest('.dropdown-content')
     ) {
-      //setTimeout(() => {
-      this.close();
-      //}, 0);
+      // Do this one frame later so that if the element clicked also triggers _handleClick
+      // For example, if a label for a select was clicked, that we don't close/open the dropdown
+      setTimeout(() => {
+        if (this.isOpen) {
+          this.close();
+        }
+      }, 0);
     }
     this.isTouchMoving = false;
   }
@@ -355,6 +358,15 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     this.filterTimeout = setTimeout(this._resetFilterQuery, 1000);
   }
 
+  _handleWindowResize = (e: Event) => {
+    // Only re-place the dropdown if it's still visible
+    // Accounts for elements hiding via media queries
+    if (this.el.offsetParent) {
+      this.recalculateDimensions();
+    }
+  }
+
+
   _resetFilterQuery = () => {
     this.filterQuery = [];
   }
@@ -387,6 +399,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
 
   _makeDropdownFocusable() {
     if (!this.dropdownEl) return;
+    this.dropdownEl.popover = "";
     // Needed for arrow key navigation
     this.dropdownEl.tabIndex = 0;
     // Only set tabindex if it hasn't been set by user
@@ -504,47 +517,35 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
   }
 
   _animateIn() {
-    anim.remove(this.dropdownEl);
-    anim({
-      targets: this.dropdownEl,
-      opacity: {
-        value: [0, 1],
-        easing: 'easeOutQuad'
-      },
-      scaleX: [0.3, 1],
-      scaleY: [0.3, 1],
-      duration: this.options.inDuration,
-      easing: 'easeOutQuint',
-      complete: (anim) => {
-        if (this.options.autoFocus) this.dropdownEl.focus();
-        // onOpenEnd callback
-        if (typeof this.options.onOpenEnd === 'function') {
-          this.options.onOpenEnd.call(this, this.el);
-        }
-      }
-    });
+    const duration = this.options.inDuration;
+    this.dropdownEl.style.transition = 'none';
+    // from
+    this.dropdownEl.style.opacity = '0';
+    this.dropdownEl.style.transform = 'scale(0.3, 0.3)';
+    setTimeout(() => {
+      // easeOutQuad (opacity) & easeOutQuint    
+      this.dropdownEl.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
+      // to
+      this.dropdownEl.style.opacity = '1';
+      this.dropdownEl.style.transform = 'scale(1, 1)';
+    }, 1);      
+    setTimeout(() => {
+      if (this.options.autoFocus) this.dropdownEl.focus();
+      if (typeof this.options.onOpenEnd === 'function') this.options.onOpenEnd.call(this, this.el);      
+    }, duration);
   }
 
   _animateOut() {
-    anim.remove(this.dropdownEl);
-    anim({
-      targets: this.dropdownEl,
-      opacity: {
-        value: 0,
-        easing: 'easeOutQuint'
-      },
-      scaleX: 0.3,
-      scaleY: 0.3,
-      duration: this.options.outDuration,
-      easing: 'easeOutQuint',
-      complete: (anim) => {
-        this._resetDropdownStyles();
-        // onCloseEnd callback
-        if (typeof this.options.onCloseEnd === 'function') {
-          this.options.onCloseEnd.call(this, this.el);
-        }
-      }
-    });
+    const duration = this.options.outDuration;
+    // easeOutQuad (opacity) & easeOutQuint    
+    this.dropdownEl.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
+    // to
+    this.dropdownEl.style.opacity = '0';
+    this.dropdownEl.style.transform = 'scale(0.3, 0.3)';    
+    setTimeout(() => {
+      this._resetDropdownStyles();
+      if (typeof this.options.onCloseEnd === 'function') this.options.onCloseEnd.call(this, this.el);      
+    }, duration);
   }
 
   private _getClosestAncestor(el: HTMLElement, condition: Function): HTMLElement {
@@ -606,7 +607,9 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     this.dropdownEl.style.display = 'block';
     this._placeDropdown();
     this._animateIn();
-    this._setupTemporaryEventHandlers();
+    // Do this one frame later so that we don't bind an event handler that's immediately
+    // called when the event bubbles up to the document and closes the dropdown
+    setTimeout(() => this._setupTemporaryEventHandlers(), 0);
   }
 
   /**

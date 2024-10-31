@@ -1,4 +1,9 @@
 .modal {
+  --modal-footer-height: 56px;
+  --modal-footer-divider-height: 1px;
+  --modal-border-radius: 28px;
+  --modal-padding: 24px;
+
   &:focus {
     outline: none;
   }
@@ -9,14 +14,14 @@
   position: fixed;
   left: 0;
   right: 0;
-  background-color: $modal-background-color;
+  background-color: var(--md-sys-color-surface);
   padding: 0;
   max-height: 70%;
   width: 55%;
   margin: auto;
   overflow-y: auto;
 
-  border-radius: 2px;
+  border-radius: var(--modal-border-radius);
   will-change: top, opacity;
 
   @media #{$medium-and-down} {
@@ -28,7 +33,7 @@
   }
 
   .modal-content {
-    padding: 24px;
+    padding: var(--modal-padding);
     overflow-y: hidden;
   }
 
@@ -37,10 +42,10 @@
   }
 
   .modal-footer {
-    border-radius: 0 0 2px 2px;
-    background-color: $modal-background-color;
+    border-radius: 0 0 var(--modal-border-radius) var(--modal-border-radius);
+    background-color: var(--md-sys-color-surface);
     padding: 4px 6px;
-    height: 56px;
+    height: var(--modal-footer-height);
     width: 100%;
     text-align: right;
 
@@ -61,7 +66,6 @@
   width: 100%;
   background: #000;
   display: none;
-
   will-change: opacity;
 }
 
@@ -72,16 +76,16 @@
 
   .modal-content {
     position: absolute;
-    height: calc(100% - 56px);
+    height: calc(100% - var(--modal-footer-height));
     max-height: 100%;
     width: 100%;
     overflow-y: auto;
   }
 
   .modal-footer {
-    border-top: 1px solid $divider-color;
+    border-top: var(--modal-footer-divider-height) solid var(--md-sys-color-outline-variant);
     position: absolute;
-    bottom: 0;
+    bottom: var(--modal-footer-divider-height);
   }
 }
 

@@ -1,21 +1,38 @@
 .material-tooltip {
-  padding: 10px 8px;
-  font-size: 1rem;
-  z-index: 2000;
-  border-radius: 2px;
-  color: $tooltip-font-color;
-  min-height: 36px;
-  line-height: 120%;
+  padding: 0 8px;  
+  border-radius: 4px;
+  
+  color: var(--md-sys-color-inverse-on-surface);
+  background-color: var(--md-sys-color-inverse-surface);
+
+  font-family: var(--md-sys-typescale-body-small-font-family-name);
+  font-size: var(--md-sys-typescale-body-small-font-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+  font-weight: var(--md-sys-typescale-body-small-font-weight);
+
+  min-height: 24px;
   opacity: 0;
+
+  padding-top: 6px;
+  padding-bottom: 6px;
+
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  
   position: absolute;
-  text-align: center;
-  max-width: calc(100% - 4px);
+  max-width: 300px;
   overflow: hidden;
   left: 0;
   top: 0;
   pointer-events: none;
+
+  display: flex;
+  align-items: center;
+  
   visibility: hidden;
-  background-color: $tooltip-bg-color;
+  z-index: 2000;
 }
 
 .backdrop {
@@ -24,7 +41,7 @@
   height: 7px;
   width: 14px;
   border-radius: 0 0 50% 50%;
-  background-color: $tooltip-bg-color;
+  background-color: var(--md-sys-color-inverse-surface);
   z-index: -1;
   transform-origin: 50% 0;
   visibility: hidden;

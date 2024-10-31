@@ -58,8 +58,6 @@ export class FormSelect extends Component<FormSelectOptions> {
     this.isMultiple = this.el.multiple;
     this.el.tabIndex = -1;
     this._values = [];
-    //this.labelEl = null;
-    //this._labelFor = false;
     this._setupDropdown();
     this._setupEventHandlers();
   }
@@ -94,8 +92,6 @@ export class FormSelect extends Component<FormSelectOptions> {
   }
 
   destroy() {
-    // Returns label to its original owner
-    //if (this._labelFor) this.labelEl.setAttribute("for", this.el.id);
     this._removeEventHandlers();
     this._removeDropdown();
     (this.el as any).M_FormSelect = undefined;
@@ -173,10 +169,9 @@ export class FormSelect extends Component<FormSelectOptions> {
   }
 
   _setupDropdown() {
-    // Get Label
-    this.labelEl = this.el.parentElement.querySelector('label');
+    this.labelEl = document.querySelector('[for="'+this.el.id+'"]');
+    if (this.labelEl) this.labelEl.style.display = 'none';
 
-    // Create Wrapper
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('select-wrapper', 'input-field');
     if (this.options.classes.length > 0) {
@@ -185,10 +180,10 @@ export class FormSelect extends Component<FormSelectOptions> {
     this.el.before(this.wrapper);
 
     // Move actual select element into overflow hidden wrapper
-    const hideSelect = document.createElement('div');
-    hideSelect.classList.add('hide-select');
-    this.wrapper.append(hideSelect);
-    hideSelect.appendChild(this.el);
+    const hiddenDiv = document.createElement('div');
+    hiddenDiv.classList.add('hide-select');
+    this.wrapper.append(hiddenDiv);
+    hiddenDiv.appendChild(this.el);
 
     if (this.el.disabled) this.wrapper.classList.add('disabled');
 
@@ -246,45 +241,6 @@ export class FormSelect extends Component<FormSelectOptions> {
     this.input.ariaReadOnly = 'true';
     this.input.ariaRequired = this.el.hasAttribute("required").toString(); //setAttribute("aria-required", this.el.hasAttribute("required"));
     if (this.el.disabled) this.input.disabled = true; // 'true');
-
-    // Place Label after input
-    if (this.labelEl) {
-      this.input.after(this.labelEl);
-      this.labelEl.setAttribute('for', this.input.id);
-      this.labelEl.id = "m_select-label-" + Utils.guid();
-      this.dropdownOptions.setAttribute("aria-labelledby", this.labelEl.id);
-    }
-
-    // Makes new element to assume HTML's select label and aria-attributes, if exists
-    /*
-    if (this.el.hasAttribute("aria-labelledby")){
-      console.log(1);
-      this.labelEl = <HTMLLabelElement>document.getElementById(this.el.getAttribute("aria-labelledby"));
-    }
-    else if (this.el.id != ""){
-      console.log(2);
-      const label = document.createElement('label');
-      label.setAttribute('for', this.el.id);
-      if (label){
-        this.labelEl = label;
-        this.labelEl.removeAttribute("for");
-        this._labelFor = true;
-      }
-    }
-    */
-    // Tries to find a valid label in parent element
-    // if (!this.labelEl) {
-    //   this.labelEl = this.el.parentElement.querySelector('label');
-    // }
-    // if (this.labelEl && this.labelEl.id == "") {
-    //   this.labelEl.id = "m_select-label-" + Utils.guid();
-    // }
-    // if (this.labelEl) {
-    //   this.labelEl.setAttribute("for", this.input.id);
-    //   this.dropdownOptions.setAttribute("aria-labelledby", this.labelEl.id);
-    // }
-    // else
-    //   this.dropdownOptions.ariaLabel = '';
 
     const attrs = this.el.attributes;
     for (let i = 0; i < attrs.length; ++i){
@@ -356,8 +312,13 @@ export class FormSelect extends Component<FormSelectOptions> {
     // Add initial selections
     this._setSelectedStates();
 
-    // ! Workaround for Label: move label up again
-    if (this.labelEl) this.input.after(this.labelEl);
+    // Add Label
+    if (this.labelEl) {
+      const label = document.createElement('label');
+      label.htmlFor = this.input.id;
+      label.innerText = this.labelEl.innerText;
+      this.input.after(label);
+    }
   }
 
   _addOptionToValues(realOption: HTMLOptionElement, virtualOption: HTMLElement) {
@@ -372,7 +333,7 @@ export class FormSelect extends Component<FormSelectOptions> {
     this.wrapper.remove();
   }
 
-  _createAndAppendOptionWithIcon(realOption, type: string) {
+  _createAndAppendOptionWithIcon(realOption: HTMLOptionElement|HTMLOptGroupElement, type: string) {
     const li = document.createElement('li');
     li.setAttribute('role', 'option');
     if (realOption.disabled){
@@ -380,21 +341,21 @@ export class FormSelect extends Component<FormSelectOptions> {
       li.ariaDisabled = 'true';
     }
     if (type === 'optgroup-option') li.classList.add(type);
+
     // Text / Checkbox
     const span = document.createElement('span');
-    if (this.isMultiple)
-      span.innerHTML = `<label><input type="checkbox"${
-        realOption.disabled ? ' disabled="disabled"' : ''
-      }><span>${realOption.innerHTML}</span></label>`;
-    else
-      span.innerHTML = realOption.innerHTML;
+    span.innerHTML = realOption.innerHTML;
+    if (this.isMultiple && !realOption.disabled) {
+      span.innerHTML = `<label><input type="checkbox"><span>${realOption.innerHTML}</span></label>`;
+    }
     li.appendChild(span);
+
     // add Icon
     const iconUrl = realOption.getAttribute('data-icon');
-    const classes = realOption.getAttribute('class')?.split();
+    const classes = realOption.getAttribute('class')?.split(' ');
     if (iconUrl) {
       const img = document.createElement('img');
-      if (classes) img.classList.add(classes);
+      if (classes) img.classList.add(...classes);
       img.src = iconUrl;
       img.ariaHidden = 'true';
       li.prepend(img);
@@ -442,9 +403,11 @@ export class FormSelect extends Component<FormSelectOptions> {
   }
 
   _setValueToInput() {
-    const realOptions = this._getSelectedOptions();
-    const values = this._values.filter((value) => realOptions.indexOf(value.el) >= 0);
-    const texts = values.map((value) => value.optionEl.querySelector('span').innerText.trim());
+    const selectedRealOptions = this._getSelectedOptions();
+    const selectedOptionPairs = this._values.filter((value) => selectedRealOptions.indexOf(value.el) >= 0);
+    // Filter not disabled
+    const notDisabledOptionPairs = selectedOptionPairs.filter(op => !op.el.disabled);
+    const texts = notDisabledOptionPairs.map((value) => value.optionEl.querySelector('span').innerText.trim());
     // Set input-text to first Option with empty value which indicates a description like "choose your option"
     if (texts.length === 0) {
       const firstDisabledOption = <HTMLOptionElement>this.el.querySelector('option:disabled');

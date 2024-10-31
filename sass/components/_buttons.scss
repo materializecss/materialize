@@ -1,33 +1,27 @@
 .btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
-  --font-size-icon: 16px;
-  --padding: 24px;
-  --padding-icon: 16px;
-  --gap-icon: 8px;
-  
-  height: $button-height;
-  
-  // line-height: $button-height;
-  border: $button-border;
-  border-radius: $button-radius;  
-  
-  // padding: $button-padding;
-  padding-left: var(--padding);
-  padding-right: var(--padding);
-  
-  color: $button-raised-color;
-  font-size: $button-font-size;
+  --btn-height: 40px;
+  --btn-font-size-icon: 16px;
+  --btn-padding: 24px;
+  --btn-padding-icon: 16px;
+  --btn-gap-icon: 8px;
+  --btn-border-radius: 4px;
+  --btn-font-size: 14px;
+
+  height: var(--btn-height);
+  border: none;
+  border-radius: var(--btn-border-radius);
+  padding-left: var(--btn-padding);
+  padding-right: var(--btn-padding);
+  font-size: ver(--btn-font-size);
   font-weight: 500;
   text-decoration: none;
-  
   display: inline-flex;
   align-items: center;
-  
   cursor: pointer;
   -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
   white-space: nowrap;
   outline: 0;
   user-select: none;
-  
   transition: background-color .2s ease-out;
 }
 
@@ -36,113 +30,143 @@
   position: relative;
 }
 .btn.icon-left {
-  padding-left: calc(var(--padding-icon) + var(--font-size-icon) + var(--gap-icon));
+  padding-left: calc(var(--btn-padding-icon) + var(--btn-font-size-icon) + var(--btn-gap-icon));
 }
 .btn.icon-right {
-  padding-right: calc(var(--padding-icon) + var(--font-size-icon) + var(--gap-icon)); 
+  padding-right: calc(var(--btn-padding-icon) + var(--btn-font-size-icon) + var(--btn-gap-icon)); 
 }
 .btn.icon-left i, .btn.icon-right i {
   position: absolute;
-  font-size: var(--font-size-icon);
+  font-size: var(--btn-font-size-icon);
 }
 .btn.icon-left i {
-  left: var(--padding-icon);
+  left: var(--btn-padding-icon);
 }
 .btn.icon-right i {
-  right: var(--padding-icon);
+  right: var(--btn-padding-icon);
 }
 
+//------------------ Enabled
 
-// Disabled shared style
-.btn.disabled,
-.btn-floating.disabled,
-.btn-large.disabled,
-.btn-small.disabled,
-.btn-flat.disabled,
-.btn:disabled,
-.btn-floating:disabled,
-.btn-large:disabled,
-.btn-small:disabled,
-.btn-flat:disabled,
-.btn[disabled],
-.btn-floating[disabled],
-.btn-large[disabled],
-.btn-small[disabled],
-.btn-flat[disabled] {
-  pointer-events: none;
-  background-color: $button-disabled-background !important;
-  box-shadow: none;
-  color: $button-disabled-color !important;
-  cursor: default;
-  &:hover {
-    background-color: $button-disabled-background !important;
-    color: $button-disabled-color !important;
-  }
-}
-
-//--- Filled Button
 .btn.filled {
+  color: var(--md-sys-color-on-primary);
   background-color: var(--md-sys-color-primary);
 }
-//--- Filled Tonal
+
 .btn.tonal {
-  background-color: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
+  background-color: var(--md-sys-color-secondary-container);
 }
-//--- Text-Button (Flat)
-.btn.text, .btn-flat {
-  box-shadow: none;
-  background-color: transparent;
-  color: var(--md-sys-color-primary);
-  cursor: pointer;
-  transition: background-color .2s;
-  &:focus,
-  &:hover {
-    box-shadow: none;
-    background-color: $button-flat-hover-background-color;
-  }
-  &:focus {
-    background-color: $button-flat-focus-background-color;
-  }
-  &.disabled,
-  &.btn.text[disabled], &.btn-flat[disabled] {
-    background-color: transparent !important;
-    color: $button-flat-disabled-color !important;
-    cursor: default;
-  }
-}
-//--- Outlined-Button
-.btn.outlined {
-  background-color: transparent;
-  color: $button-raised-background;
-  border: 1px solid $button-raised-background;
-}
-//--- Elevated
+
 .btn.elevated {
-  @extend .tonal;
+  color: var(--md-sys-color-on-secondary-container);
+  background-color: var(--md-sys-color-secondary-container);
   @extend .z-depth-1;
 }
 
-
-//======================== States (Hover, Focused, ...)
-
-.btn {
-  @extend .filled;
-
-  &:hover {
-    background-color: $button-raised-background-hover;
-    @extend .z-depth-1-half;
-  }
-
-  &:focus {
-    background-color: $button-raised-background-focus;
-    @extend .z-depth-1-half;
-  }  
+.btn.outlined {
+  background-color: transparent;
+  color: var(--md-sys-color-primary);
+  border: 1px solid var(--md-sys-color-outline);
 }
 
+.btn.text, .btn-flat {
+  @extend .z-depth-0;
+  color: var(--md-sys-color-primary);
+  background-color: transparent;
+}
 
+//------------------ Disabled
+
+.btn.disabled, .btn-floating.disabled, .btn-large.disabled, .btn-small.disabled, .btn-flat.disabled,
+.btn:disabled, .btn-floating:disabled, .btn-large:disabled, .btn-small:disabled, .btn-flat:disabled,
+.btn[disabled], .btn-floating[disabled], .btn-large[disabled], .btn-small[disabled], .btn-flat[disabled]
+{
+  @extend .z-depth-0;
+  color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 76%);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 24%);
+  
+  pointer-events: none;
+  box-shadow: none;
+  cursor: default;
+}
+
+//------------------ Hover
+
+.btn.elevated:hover {
+  @extend .z-depth-2;
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-on-secondary-container) 16%);
+}
+
+.btn.filled:hover {
+  @extend .z-depth-1;
+  color: var(--md-sys-color-on-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary), var(--md-sys-color-on-primary) 16%);
+}
+
+.btn.tonal:hover {
+  @extend .z-depth-1;
+  color: var(--md-sys-color-on-secondary-container);
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-on-secondary-container) 16%);
+}
+
+.btn.outlined:hover {
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 16%);
+}
+
+.btn.text:hover {
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 16%, transparent);
+}
+
+//------------------ Focus
+
+.btn:focus.elevated {
+  @extend .z-depth-1;
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-primary) 20%);
+}
+
+.btn:focus.filled {
+  @extend .z-depth-0;
+  color: var(--md-sys-color-on-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary), var(--md-sys-color-on-primary) 20%);
+}
+
+.btn:focus.tonal {
+  @extend .z-depth-0;
+  color: var(--md-sys-color-on-secondary-container);
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-on-secondary-container) 20%);
+}
+
+.btn:focus.outlined {
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
+  border: 1px solid var(--md-sys-color-primary);
+}
+
+.btn:focus.text {
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
+}
+
+// Focus with Keyboard
+.btn:focus-visible {
+  &.filled,
+  &.elevated,
+  &.tonal,
+  &.outlined,
+  &.text
+    {
+    outline: 3px solid var(--md-sys-color-secondary);
+    outline-offset: 2px;
+  }
+}
 
 //----------
+
 // .btn-floating {
 //   border-radius: 16px;
 //   width: unset;
@@ -162,40 +186,38 @@
 //-----
 // Floating button
 .btn-floating {
-
   &:hover {
-    background-color: $button-floating-background-hover;
     @extend .z-depth-1-half;
+    background-color: color-mix(in srgb, var(--md-sys-color-primary-container), var(--md-sys-color-on-primary-container) 16%);
   }
-
   &:focus {
     background-color: $button-floating-background-focus;
     @extend .z-depth-1-half;
   }
-
   &:before {
     border-radius: 0;
   }
 
   &.btn-large {
     &.halfway-fab {
-      bottom: -$button-floating-large-size * 0.5;
+      bottom: -56px * 0.5;
     }
-    width: $button-floating-large-size;
-    height: $button-floating-large-size;
+    width: 56px;
+    height: 56px;
     padding: 0;
     // font-size: 
     // i {
-    //   // line-height: $button-floating-large-size;
+    //   // line-height: 56px;
     // }
   }
 
   &.btn-small {
+    --btn-small-height: calc(0.75 * var(--btn-height));
     &.halfway-fab {
-      bottom: -$button-floating-small-size * 0.5;
+      bottom: calc(var(--btn-small-height) * -0.5);
     }
-    width: $button-floating-small-size;
-    height: $button-floating-small-size;
+    width: var(--btn-small-height)e;
+    height: var(--btn-small-height);
     // i {
     //   line-height: $button-floating-small-size;
     // }
@@ -210,27 +232,20 @@
     right: 24px;
     bottom: -$button-floating-size * 0.5;
   }
-
   // FIXES
-  // width: unset;  
+  // width: unset;
   // padding: 16px !important;
   // padding-right: 24px !important; /* only with icon */
   // gap: 8px;
-
-  color: $button-floating-color;
-  
   width: $button-floating-size;
   height: $button-floating-size;
-  // line-height: $button-floating-size;
-
-  background-color: $button-floating-background;
+  color: var(--md-sys-color-on-primary-container);
+  background-color: var(--md-sys-color-primary-container);
   border-radius: $button-floating-radius;
   padding: 0;
-
   display: grid;
   grid-auto-flow: column;
   align-items: center;
-
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -241,8 +256,7 @@
 
   i {
     color: $button-floating-color;
-    font-size: $button-large-icon-font-size;
-    // line-height: $button-floating-size;
+    font-size: 1.6rem;
     width: inherit;
     display: inline-block;
     text-align: center;
@@ -250,7 +264,7 @@
 }
 // button fix
 button.btn-floating {
-  border: $button-border;
+  border: none;
 }
 // Fixed Action Button
 .fixed-action-btn {
@@ -312,7 +326,7 @@ button.btn-floating {
       }
     }
     padding: 0;
-    height: $button-floating-large-size;
+    height: 56px;
     ul {
       display: flex;
       top: 0;
@@ -333,9 +347,8 @@ button.btn-floating {
           background-color: transparent;
           box-shadow: none;
           color: $button-floating-color;
-          line-height: $button-floating-large-size;
+          line-height: 56px;
           z-index: 1;
-
           i {
             line-height: inherit;
           }
@@ -382,23 +395,21 @@ button.btn-floating {
 // Large button
 .btn-large {
   @extend .btn;
-  height: $button-large-height;
-  // line-height: $button-large-height;
-  font-size: $button-large-font-size;
+  height: calc(1.5 * var(--btn-height));
+  font-size: 18px;
   padding: 0 28px;
   i {
-    font-size: $button-large-icon-font-size;
+    font-size: 1.6rem;
   }
 }
 
 // Small button
 .btn-small {
   @extend .btn;
-  height: $button-small-height;
-  line-height: $button-small-height;
-  font-size: $button-small-font-size;
+  height: calc(0.75 * var(--btn-height));
+  font-size: 13px;
   i {
-    font-size: $button-small-icon-font-size;
+    font-size: 1.2rem;
   }
 }
 

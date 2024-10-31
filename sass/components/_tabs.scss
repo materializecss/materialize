@@ -6,17 +6,17 @@
     background-color: transparent;
 
     .tab a {
-      color: $font-on-primary-color-medium;
+      color: var(--font-on-primary-color-medium);
     }
 
     .tab.disabled a,
     .tab.disabled a:hover,
     .tab.disabled a:focus {
-      color: $font-on-primary-color-disabled;
+      color: rgba(255, 255, 255, 0.38);
     }
 
     .tab a:hover {
-      background-color: $surface-hover-color-opaque;
+      background-color: rgba(0, 0, 0, 0.04);
     }
 
     .tab a.active,
@@ -27,11 +27,11 @@
     .tab a:hover,
     .tab a.active,
     .tab a:focus {
-      color: $font-on-primary-color-main;
+      color:  var(--md-sys-color-on-primary);
     }
 
     .indicator {
-      background-color: $font-on-primary-color-main;
+      background-color:  var(--md-sys-color-on-primary);
     }
   }
 
@@ -47,7 +47,7 @@
   overflow-y: hidden;
   height: 48px;
   width: 100%;
-  background-color: $tabs-bg-color;
+  background-color: var(--md-sys-color-surface);
   margin: 0 auto;
   white-space: nowrap;
 
@@ -69,20 +69,20 @@
       &.active,
       &:focus,
       &:hover {
-        color: $tabs-text-active-color;
+        color: var(--md-sys-color-primary);
       }
 
       &:hover {
-        background-color: $primary-color-hover-opaque;
+        background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
       }
 
       &:focus,
       &.active {
-        background-color: $primary-color-focus-opaque;
+        background-color: rgba(var(--md-sys-color-primary-numeric), 0.18);
         outline: none;
       }
 
-      color: $tabs-text-inactive-color;
+      color: var(--md-sys-color-on-surface-variant);
       display: block;
       width: 100%;
       height: 100%;
@@ -98,8 +98,7 @@
       &:not(:focus) {
         background-color: transparent;
       }
-
-      color: $tabs-text-disabled-color;
+      color: var(--md-sys-color-on-surface);
       cursor: default;
       background-color: transparent;
     }
@@ -108,20 +107,20 @@
   .indicator {
     position: absolute;
     bottom: 0;
-    height: 2px;
-    background-color: $tabs-underline-color;
+    height: 3px;
+    background-color: var(--md-sys-color-primary);
     will-change: left, right;
+    border-radius: 3px 3px 0 0;
   }
 }
 
-// Fixed Sidenav hide on smaller
+/* Fixed Sidenav hide on smaller */
+
 @media #{$medium-and-down} {
   .tabs {
     display: flex;
-
     .tab {
       flex-grow: 1;
-
       a {
         padding: 0 12px;
       }

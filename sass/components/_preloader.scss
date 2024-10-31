@@ -4,24 +4,23 @@
   height: 4px;
   display: block;
   width: 100%;
-
   @extend .surface-variant;
-
-  border-radius: 2px;
+  border-radius: 4px;
   margin: $element-top-margin 0 $element-bottom-margin 0;
   overflow: hidden;
+  background-color: var(--md-sys-color-secondary-container);
 
   .determinate {
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
-    background-color: $progress-bar-color;
+    background-color: var(--md-sys-color-primary);
     transition: width .3s linear;
   }
 
   .indeterminate {
-    background-color: $progress-bar-color;
+    background-color: var(--md-sys-color-primary);
 
     &:before {
       content: '';
@@ -148,7 +147,7 @@
   width: 100%;
   height: 100%;
   opacity: 0;
-  border-color: $spinner-default-color;
+  border-color: var(--md-sys-color-primary);
 }
 
 .spinner-blue,

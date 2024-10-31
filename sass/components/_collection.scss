@@ -3,17 +3,17 @@
   padding-left: 0;
   list-style-type: none;
   margin: $element-top-margin 0 $element-bottom-margin 0;
-  border: 1px solid $collection-border-color;
-  border-radius: $collection-border-radius;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 2px;
   overflow: hidden;
   position: relative;
 
   .collection-item {
-    background-color: $collection-bg-color;
-    line-height: $collection-line-height;
+    background-color: transparent;
+    line-height: 1.5rem;
     padding: 10px 20px;
     margin: 0;
-    border-bottom: 1px solid $collection-border-color;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
 
     // Avatar Collection
     &.avatar {
@@ -36,8 +36,8 @@
       i.circle {
         font-size: 18px;
         line-height: 42px;
-        color: $collection-avatar-circle-icon-color;
-        background-color: $collection-avatar-circle-bg-color;
+        color: #fff;
+        background-color: var(--md-sys-color-shadow-light);
         text-align: center;
       }
 
@@ -64,11 +64,11 @@
     }
 
     &.active {
-      background-color: $collection-active-bg-color;
-      color: $collection-active-color;
+      background-color: var(--md-sys-color-primary);
+      color:  var(--md-sys-color-on-primary);
 
       .secondary-content {
-        color: $font-on-primary-color-main;
+        color:  var(--md-sys-color-on-primary);
       }
     }
   }
@@ -76,19 +76,19 @@
   a.collection-item {
     display: block;
     transition: .25s;
-    color: $collection-link-color;
+    color: var(--md-sys-color-primary);
 
     &:not(.active) {
       &:hover {
-        background-color: $collection-hover-bg-color;
+        background-color: rgba(0, 0, 0, 0.04);
       }
     }
   }
 
   &.with-header {
     .collection-header {
-      background-color: $collection-bg-color;
-      border-bottom: 1px solid $collection-border-color;
+      background-color: transparent;
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
       padding: 10px 20px;
     }
 
@@ -106,7 +106,7 @@
 // Made less specific to allow easier overriding
 .secondary-content {
   float: right;
-  color: $primary-color;
+  color: var(--md-sys-color-primary);
 }
 
 .collapsible .collection {

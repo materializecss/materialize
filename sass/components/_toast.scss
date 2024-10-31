@@ -20,28 +20,35 @@
 }
 
 .toast {
-  @extend .z-depth-1;
-  border-radius: 2px;
+  @extend .z-depth-3;
+  border-radius: 4px;
   top: 35px;
   width: auto;
   margin-top: 10px;
   position: relative;
   max-width: 100%;
   height: auto;
-  min-height: $toast-height;
-  line-height: 1.5em;
-  background-color: $toast-color;
-  padding: 10px 25px;
-  font-size: 1rem;
-  font-weight: 400;
-  color: $toast-text-color;
+  min-height: 48px;
+  
+  //line-height: 1.5em;
+  //padding: 10px 25px;
+  padding-left: 16px;
+  padding-right: 12px;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+
+  color: var(--md-sys-color-inverse-on-surface);
+  background-color: var(--md-sys-color-inverse-surface);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: default;
 
   .toast-action {
-    color: $toast-action-color;
+    color: var(--md-sys-color-inverse-primary);
     font-weight: 500;
     margin-right: -25px;
     margin-left: 3rem;

@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Utils } from "./utils";
 import { Bounding } from "./bounding";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
@@ -299,18 +297,28 @@ export class Tooltip extends Component<TooltipOptions> {
   _animateIn() {
     this._positionTooltip();
     this.tooltipEl.style.visibility = 'visible';
-    anim.remove(this.tooltipEl);
-    anim({
-      targets: this.tooltipEl,
-      opacity: this.options.opacity || 1,
-      translateX: this.xMovement,
-      translateY: this.yMovement,
-      duration: this.options.inDuration,
-      easing: 'easeOutCubic'
-    });
+    const duration = this.options.inDuration;
+    // easeOutCubic
+    this.tooltipEl.style.transition = `
+      transform ${duration}ms ease-out,
+      opacity ${duration}ms ease-out`;
+    setTimeout(() => {
+      this.tooltipEl.style.transform = `translateX(${this.xMovement}px) translateY(${this.yMovement}px)`;
+      this.tooltipEl.style.opacity = (this.options.opacity || 1).toString();
+    }, 1);
   }
 
   _animateOut() {
+    const duration = this.options.outDuration;
+    // easeOutCubic
+    this.tooltipEl.style.transition = `
+      transform ${duration}ms ease-out,
+      opacity ${duration}ms ease-out`;
+    setTimeout(() => {
+      this.tooltipEl.style.transform = `translateX(0px) translateY(0px)`;
+      this.tooltipEl.style.opacity = '0';
+    }, 1);
+    /*
     anim.remove(this.tooltipEl);
     anim({
       targets: this.tooltipEl,
@@ -320,6 +328,7 @@ export class Tooltip extends Component<TooltipOptions> {
       duration: this.options.outDuration,
       easing: 'easeOutCubic'
     });
+    */
   }
 
   _handleMouseEnter = () => {

@@ -23,7 +23,7 @@ export class Forms {
         textarea.classList.remove('invalid');
       }
     } else {
-      
+
       if (textarea.classList.contains('validate')) {
         // Check for character counter attributes
         if (((textarea.validity.valid) && hasLength && len <= lenAttr) || textarea.validity.valid && !hasLength) {
@@ -114,44 +114,44 @@ export class Forms {
   };
 
   static Init(){
-    document.addEventListener("DOMContentLoaded", () => {
-
-      document.addEventListener('change', (e: KeyboardEvent) => {
-        const target = <HTMLInputElement>e.target;
-        if (target instanceof HTMLInputElement) {
-          if (target.value.length !== 0 || target.getAttribute('placeholder') !== null) {
-            for (const child of target.parentNode.children) {
-              if (child.tagName == "label") {
-                child.classList.add("active");
+    if (typeof document !== 'undefined')
+      document?.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener('change', (e: KeyboardEvent) => {
+          const target = <HTMLInputElement>e.target;
+          if (target instanceof HTMLInputElement) {
+            if (target.value.length !== 0 || target.getAttribute('placeholder') !== null) {
+              for (const child of target.parentNode.children) {
+                if (child.tagName == "label") {
+                  child.classList.add("active");
+                }
               }
             }
+            Forms.validate_field(target);
           }
-          Forms.validate_field(target);
-        }
-      })
+        })
 
-      document.addEventListener('keyup', (e: KeyboardEvent) => {
-        const target = <HTMLInputElement>e.target;
-        // Radio and Checkbox focus class
-        if (target instanceof HTMLInputElement && ['radio','checkbox'].includes(target.type)) {
-          // TAB, check if tabbing to radio or checkbox.
-          if (Utils.keys.TAB.includes(e.key)) {
-            target.classList.add('tabbed');
-            target.addEventListener('blur', e => target.classList.remove('tabbed'), {once: true});
+        document.addEventListener('keyup', (e: KeyboardEvent) => {
+          const target = <HTMLInputElement>e.target;
+          // Radio and Checkbox focus class
+          if (target instanceof HTMLInputElement && ['radio','checkbox'].includes(target.type)) {
+            // TAB, check if tabbing to radio or checkbox.
+            if (Utils.keys.TAB.includes(e.key)) {
+              target.classList.add('tabbed');
+              target.addEventListener('blur', e => target.classList.remove('tabbed'), {once: true});
+            }
           }
-        }
-      });
+        });
 
-      document.querySelectorAll('.materialize-textarea').forEach((textArea: HTMLTextAreaElement) => {
-          Forms.textareaAutoResize(textArea);
-      });
+        document.querySelectorAll('.materialize-textarea').forEach((textArea: HTMLTextAreaElement) => {
+            Forms.InitTextarea(textArea);
+        });
 
-      // File Input Path
-      document.querySelectorAll('.file-field input[type="file"]').forEach((fileInput: HTMLInputElement) => {
-          Forms.InitFileInputPath(fileInput);
-      });
+        // File Input Path
+        document.querySelectorAll('.file-field input[type="file"]').forEach((fileInput: HTMLInputElement) => {
+            Forms.InitFileInputPath(fileInput);
+        });
 
-    });
+      });
   }
 
   static InitTextarea(textarea: HTMLTextAreaElement){
@@ -177,5 +177,5 @@ export class Forms {
           pathInput.dispatchEvent(new Event('change',{bubbles:true, cancelable:true, composed:true}));
         });
   }
-  
+
 }

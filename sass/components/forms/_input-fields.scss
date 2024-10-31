@@ -1,9 +1,6 @@
-/* Text Inputs + Textarea
-   ========================================================================== */
-
 /* Style Placeholders */
 ::placeholder {
-  color: $placeholder-text-color;
+  color: var(--md-sys-color-on-surface-variant);
 }
 
 /* Text inputs */
@@ -20,82 +17,45 @@ input[type=month]:not(.browser-default),
 input[type=tel]:not(.browser-default),
 input[type=number]:not(.browser-default),
 input[type=search]:not(.browser-default),
-textarea.materialize-textarea { 
+textarea.materialize-textarea {
   outline: none;
-  color: $input-color;
-  width: 100%;  
-  font-size: $md_sys_typescale_body-large_size; //$input-font-size; // => 16 dp
-  height: 56px; // 56dp $input-height;
-
-  // Hide helper text on data message
-  &.valid ~ .supporting-text[data-success],
-  &:focus.valid ~ .supporting-text[data-success],
-  &.invalid ~ .supporting-text[data-error],
-  &:focus.invalid~.supporting-text[data-error] {
-    @extend %hidden-text;
-  }
-
-  // Valid Input Style
-  &.valid,
-  &:focus.valid {
-    @extend %valid-input-style;
-  }
-
-  // Custom Success Message
-  &.valid ~ .supporting-text:before,
-  &:focus.valid ~ .supporting-text:before {
-    @extend %custom-success-message;
-  }
-
-  &:focus.valid ~ label {
-    color: $input-success-color;
-  }
-
-  // Invalid Input Style
-  &.invalid,
-  &:focus.invalid {
-    @extend %invalid-input-style;
-  }
-
-  // Custom Error message
-  &.invalid ~ .supporting-text:before,
-  &:focus.invalid ~ .supporting-text:before {
-    @extend %custom-error-message;
-  }
-  &:focus.invalid ~ label {
-    color: $input-error-color;
-  }
+  color: var(--md-sys-color-on-background);
+  width: 100%;
+  font-size: $md_sys_typescale_body-large_size; //16px; // => 16 dp
+  height: 56px; // 56dp
 }
 
 /* Validation Sass Placeholders */
 %valid-input-style {
-  border-bottom: 1px solid $input-success-color;
-  box-shadow: 0 1px 0 0 $input-success-color;
+  border-bottom: 1px solid $success-color;
+  box-shadow: 0 1px 0 0 $success-color;
 }
 %invalid-input-style {
-  border-bottom: $input-invalid-border;
-  box-shadow: 0 1px 0 0 $input-error-color;
+  border-bottom: 2px solid var(--md-sys-color-error);
+  box-shadow: 0 1px 0 0 var(--md-sys-color-error);
 }
 %hidden-text {
   color: transparent;
   user-select: none;
   pointer-events: none;
 }
-
+/*
 %custom-success-message {
   content: attr(data-success);
-  color: $input-success-color;
+  color: $success-color;
 }
-
 %custom-error-message {
   content: attr(data-error);
-  color: $input-error-color;
+  color: var(--md-sys-color-error);
 }
+*/
 
 .input-field {
+  --input-color: var(--md-sys-color-primary);
+
   position: relative;
   clear: both;
- 
+
   // Default
 
   input, textarea {
@@ -104,28 +64,28 @@ textarea.materialize-textarea {
     padding: 0 16px;
     padding-top: 20px;
 
-    background-color: $surface-color;
+    background-color: var(--md-sys-color-surface);
 
     border: none; // reset
     border-radius: 4px; // md.sys.shape.corner.extra-small.top
-    border-bottom: 1px solid $input-border-color;
+    border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-   
+
     &:focus:not([readonly]) {
-      border-bottom: 2px solid $input-focus-color;
+      border-bottom: 2px solid var(--input-color);
       padding-top: 20px + 1px; // add border-width
     }
 
     &:disabled, &[readonly="readonly"] {
-      color: $textfield_disabled_color;
-      border-color: $textfield_disabled_outlinecolor;
-      background-color: $textfield_disabled_containercolor;
+      color: rgba(var(--md_sys_color_on-surface), 0.38);
+      border-color: rgba(var(--md_sys_color_on-surface), 0.12);
+      background-color: rgba(var(--md_sys_color_on-surface), 0.04);
     }
 
     // Label
     &:focus:not([readonly]) + label {
-      color: $input-focus-color;
+      color: var(--input-color);
     }
     &:focus:not([readonly]) + label,
     &:not([placeholder=' ']) + label,
@@ -137,7 +97,7 @@ textarea.materialize-textarea {
     }
 
     &:disabled + label, &[readonly="readonly"] + label {
-      color: $textfield_disabled_color;
+      color: rgba(var(--md_sys_color_on-surface), 0.38);
     }
   }
 
@@ -146,7 +106,7 @@ textarea.materialize-textarea {
   }
 
   & > label {
-    color: $input-border-color;
+    color: var(--md-sys-color-on-surface-variant);
     user-select: none;
     font-size: 16px;
     position: absolute;
@@ -164,14 +124,14 @@ textarea.materialize-textarea {
   // Sub-Infos
 
   .supporting-text {
-    color: $input-border-color;
+    color: var(--md-sys-color-on-surface-variant);
     font-size: 12px;
     padding: 0 16px;
     margin-top: 4px;
   }
 
   .character-counter {
-    color: $input-border-color;
+    color: var(--md-sys-color-on-surface-variant);
     font-size: 12px;
     float: right;
     padding: 0 16px;
@@ -190,7 +150,7 @@ textarea.materialize-textarea {
   .suffix {
     position: absolute;
     right: 12px;
-    top: 16px;    
+    top: 16px;
     user-select: none;
   }
 
@@ -211,20 +171,20 @@ textarea.materialize-textarea {
     input, textarea {
       padding-top: 0;
 
-      background-color: var(--background-color);
+      background-color: var(--md-sys-color-background);
 
-      border: 1px solid $input-border-color;
+      border: 1px solid var(--md-sys-color-on-surface-variant);
       border-radius: 4px; // md.sys.shape.corner.extra-small
 
       &:focus:not([readonly]) {
-        border: 2px solid $input-focus-color;
+        border: 2px solid var(--input-color);
         padding-top: 0;
         margin-left: -1px; // subtract border-width
 
       }
       // Label
       &:focus:not([readonly]) + label {
-        color: $input-focus-color;
+        color: var(--input-color);
       }
       &:focus:not([readonly]) + label,
       &:not([placeholder=' ']) + label,
@@ -233,42 +193,42 @@ textarea.materialize-textarea {
         left: 16px;
         margin-left: -4px;
         padding: 0 4px;
-        background-color: var(--background-color);
+        background-color: var(--md-sys-color-background);
       }
 
       &:disabled, &[readonly="readonly"] {
-        color: $textfield_disabled_color;
-        border-color: $textfield_disabled_outlinecolor;
+        color: rgba(var(--md_sys_color_on-surface), 0.38);
+        border-color: rgba(var(--md_sys_color_on-surface), 0.12);
       }
-      
+
     }
   }
 
   // Error
   &.error {
     input, textarea {
-      border-color: var(--error-color);
+      border-color: var(--md-sys-color-error);
     }
     input:focus:not([readonly]), textarea:focus:not([readonly]) {
-      border-color: var(--error-color);
+      border-color: var(--md-sys-color-error);
     }
     input:focus:not([readonly]) + label, textarea:focus:not([readonly]) + label {
-      color: var(--error-color);
+      color: var(--md-sys-color-error);
     }
     label {
-      color: var(--error-color);
+      color: var(--md-sys-color-error);
     }
     .supporting-text {
-      color: var(--error-color);
+      color: var(--md-sys-color-error);
     }
     .suffix {
-      color: var(--error-color);
+      color: var(--md-sys-color-error);
     }
   }
 }
 
 /* Search Field */
-.searchbar {  
+.searchbar {
   .prefix {
     position: absolute;
     //left: 12px;
@@ -288,7 +248,7 @@ textarea.materialize-textarea {
 .searchbar.has-sidebar {
   margin-left: 0;
   @media #{$large-and-up} {
-    margin-left: $sidenav-width;
+    margin-left: 300px;
   }
 }
 
@@ -319,7 +279,7 @@ textarea.materialize-textarea {
 // Default textarea
 textarea {
   width: 100%;
-  height: $input-height;
+  height: 3rem;
   background-color: transparent;
 
   &.materialize-textarea {
@@ -328,7 +288,7 @@ textarea {
     line-height: normal;
     overflow-y: hidden; /* prevents scroll bar flash */
     resize: none;
-    min-height: $input-height;
+    min-height: 3rem;
     box-sizing: border-box;
   }
 }
@@ -350,7 +310,7 @@ textarea {
 /* Autocomplete Items */
 .autocomplete-content {
   li {
-    .highlight { color: $font-color-main; }
+    .highlight { color: var(--md-sys-color-on-background); }
     img {
       height: $dropdown-item-height - 10;
       width: $dropdown-item-height - 10;

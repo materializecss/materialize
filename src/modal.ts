@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Utils } from "./utils";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
@@ -90,7 +88,7 @@ export class Modal extends Component<ModalOptions> {
   isOpen: boolean;
   
   private _openingTrigger: any;
-  private _overlay: HTMLElement;
+  private _overlay: HTMLDivElement;
   private _nthModalOpened: number;
 
   constructor(el: HTMLElement, options: Partial<ModalOptions>) {
@@ -121,18 +119,21 @@ export class Modal extends Component<ModalOptions> {
    * Initializes instance of Modal.
    * @param el HTML element.
    * @param options Component options.
+   * @returns {Modal}
    */
   static init(el: HTMLElement, options?: Partial<ModalOptions>): Modal;
   /**
    * Initializes instances of Modal.
    * @param els HTML elements.
    * @param options Component options.
+   * @returns {Modal[]}
    */
   static init(els: InitElements<MElement>, options?: Partial<ModalOptions>): Modal[];
   /**
    * Initializes instances of Modal.
    * @param els HTML elements.
    * @param options Component options.
+   * @returns {Modal | Modal[]}
    */
   static init(els: HTMLElement | InitElements<MElement>, options: Partial<ModalOptions> = {}): Modal | Modal[] {
     return super.init(els, options, Modal);
@@ -197,80 +198,82 @@ export class Modal extends Component<ModalOptions> {
 
   _animateIn() {
     // Set initial styles
-    this.el.style.display = 'block';
-    this.el.style.opacity = '0';
     this._overlay.style.display = 'block';
     this._overlay.style.opacity = '0';
-    // Animate overlay
-    anim({
-      targets: this._overlay,
-      opacity: this.options.opacity,
-      duration: this.options.inDuration,
-      easing: 'easeOutQuad'
-    });
-    // Define modal animation options
-    const enterAnimOptions = {
-      targets: this.el,
-      duration: this.options.inDuration,
-      easing: 'easeOutCubic',
-      // Handle modal onOpenEnd callback
-      complete: () => {
+    this.el.style.display = 'block';    
+    this.el.style.opacity = '0';
+
+    const duration = this.options.inDuration;
+    const isBottomSheet = this.el.classList.contains('bottom-sheet');
+
+    if (!isBottomSheet) {
+      this.el.style.top = this.options.startingTop;
+      this.el.style.transform = 'scaleX(0.9) scaleY(0.9)';
+    }
+    // Overlay
+    this._overlay.style.transition = `opacity ${duration}ms ease-out`; // v1: easeOutQuad
+    // Modal
+    this.el.style.transition = `
+      top ${duration}ms ease-out,
+      bottom ${duration}ms ease-out,
+      opacity ${duration}ms ease-out,
+      transform ${duration}ms ease-out
+    `;
+
+    setTimeout(() => {
+      this._overlay.style.opacity = this.options.opacity.toString();
+      this.el.style.opacity = '1';
+      if (isBottomSheet) {
+        this.el.style.bottom = '0';
+      }
+      else {
+        this.el.style.top = this.options.endingTop;    
+        this.el.style.transform = 'scaleX(1) scaleY(1)';
+      }
+      setTimeout(() => {
         if (typeof this.options.onOpenEnd === 'function') {
           this.options.onOpenEnd.call(this, this.el, this._openingTrigger);
         }
-      }
-    };
-    // Bottom sheet animation
-    if (this.el.classList.contains('bottom-sheet')) {
-      enterAnimOptions['bottom'] = 0;
-      enterAnimOptions['opacity'] = 1;
-    }
-    // Normal modal animation
-    else {
-      enterAnimOptions['top'] = [this.options.startingTop, this.options.endingTop];
-      enterAnimOptions['opacity'] = 1;
-      enterAnimOptions['scaleX'] = [0.8, 1];
-      enterAnimOptions['scaleY'] = [0.8, 1];
-    }
-    anim(enterAnimOptions);
+      }, duration);
+    }, 1);
   }
 
   _animateOut() {
-    // Animate overlay
-    anim({
-      targets: this._overlay,
-      opacity: 0,
-      duration: this.options.outDuration,
-      easing: 'easeOutQuart'
-    });
-    // Define modal animation options
-    const exitAnimOptions = {
-      targets: this.el,
-      duration: this.options.outDuration,
-      easing: 'easeOutCubic',
-      // Handle modal ready callback
-      complete: () => {
+    const duration = this.options.outDuration;
+    const isBottomSheet = this.el.classList.contains('bottom-sheet');
+    if (!isBottomSheet) {
+      this.el.style.top = this.options.endingTop;
+    }
+
+    // Overlay
+    this._overlay.style.transition = `opacity ${duration}ms ease-out`; // v1: easeOutQuart
+
+    // Modal // easeOutCubic
+    this.el.style.transition = `
+      top ${duration}ms ease-out,
+      bottom ${duration}ms ease-out,
+      opacity ${duration}ms ease-out,
+      transform ${duration}ms ease-out
+    `;
+
+    setTimeout(() => {
+      this._overlay.style.opacity = '0';
+      this.el.style.opacity = '0';
+      if (isBottomSheet) {
+        this.el.style.bottom = '-100%';
+      }
+      else {
+        this.el.style.top = this.options.startingTop;    
+        this.el.style.transform = 'scaleX(0.9) scaleY(0.9)';
+      }
+      setTimeout(() => {
         this.el.style.display = 'none';
         this._overlay.remove();
-        // Call onCloseEnd callback
         if (typeof this.options.onCloseEnd === 'function') {
           this.options.onCloseEnd.call(this, this.el);
         }
-      }
-    };
-    // Bottom sheet animation
-    if (this.el.classList.contains('bottom-sheet')) {
-      exitAnimOptions['bottom'] = '-100%';
-      exitAnimOptions['opacity'] = 0;
-    }
-    // Normal modal animation
-    else {
-      exitAnimOptions['top'] = [this.options.endingTop, this.options.startingTop];
-      exitAnimOptions['opacity'] = 0;
-      exitAnimOptions['scaleX'] = 0.8;
-      exitAnimOptions['scaleY'] = 0.8;
-    }
-    anim(exitAnimOptions);
+      }, duration);
+    }, 1);
   }
 
   /**
@@ -291,7 +294,12 @@ export class Modal extends Component<ModalOptions> {
       this.options.onOpenStart.call(this, this.el, this._openingTrigger);
     }
     if (this.options.preventScrolling) {
-      document.body.style.overflow = 'hidden';
+      const hasVerticalScrollBar = document.documentElement.scrollHeight > document.documentElement.clientHeight
+      if (hasVerticalScrollBar) {
+        const scrollTop = document.documentElement.scrollTop;
+        document.documentElement.style.top = '-' + scrollTop + "px";
+        document.documentElement.classList.add('noscroll');
+      }
     }
     this.el.classList.add('open');
     this.el.insertAdjacentElement('afterend', this._overlay);
@@ -299,8 +307,6 @@ export class Modal extends Component<ModalOptions> {
       document.addEventListener('keydown', this._handleKeydown);
       document.addEventListener('focus', this._handleFocus, true);
     }
-    anim.remove(this.el);
-    anim.remove(this._overlay);
     this._animateIn();
     // Focus modal
     this.el.focus();
@@ -322,16 +328,31 @@ export class Modal extends Component<ModalOptions> {
     this.el.classList.remove('open');
     // Enable body scrolling only if there are no more modals open.
     if (Modal._modalsOpen === 0) {
-      document.body.style.overflow = '';
+      const scrollTop = -parseInt(document.documentElement.style.top);
+      document.documentElement.style.removeProperty("top");
+      document.documentElement.classList.remove('noscroll');
+      document.documentElement.scrollTop = scrollTop;
     }
     if (this.options.dismissible) {
       document.removeEventListener('keydown', this._handleKeydown);
       document.removeEventListener('focus', this._handleFocus, true);
     }
-    anim.remove(this.el);
-    anim.remove(this._overlay);
     this._animateOut();
     return this;
+  }
+
+  // Experimental!
+  // also note: https://stackoverflow.com/a/35385518/8830502
+  static create(children: string = ''): string {
+    return `<dialog id="modal1" class="modal">
+      <div class="modal-content">
+        <h4>${children}</h4>
+        <p>A bunch of text</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect btn-flat">Agree</a>
+      </div>
+    </dialog>`;
   }
 
   static{

@@ -1,5 +1,3 @@
-import anim from "animejs";
-
 import { Carousel } from "./carousel";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
@@ -38,7 +36,7 @@ let _defaults: TabsOptions = {
 export class Tabs extends Component<TabsOptions> {
   _tabLinks: NodeListOf<HTMLAnchorElement>;
   _index: number;
-  _indicator: any;
+  _indicator: HTMLLIElement;
   _tabWidth: number;
   _tabsWidth: number;
   _tabsCarousel: any;
@@ -209,7 +207,8 @@ export class Tabs extends Component<TabsOptions> {
       this._index = Math.max(Array.from(this._tabLinks).indexOf(this._activeTabLink), 0);
       if (this._activeTabLink && this._activeTabLink.hash) {
         this._content = document.querySelector(this._activeTabLink.hash);
-        this._content.classList.add('active');
+        if (this._content) 
+          this._content.classList.add('active');
       }
     }
 
@@ -314,26 +313,19 @@ export class Tabs extends Component<TabsOptions> {
   _animateIndicator(prevIndex) {
     let leftDelay = 0, rightDelay = 0;
 
-    if (this._index - prevIndex >= 0)
+    const isMovingLeftOrStaying = (this._index - prevIndex >= 0);
+    if (isMovingLeftOrStaying)
       leftDelay = 90;
     else
       rightDelay = 90;
 
-    const animOptions = {
-      targets: this._indicator,
-      left: {
-        value: this._calcLeftPos(this._activeTabLink),
-        delay: leftDelay
-      },
-      right: {
-        value: this._calcRightPos(this._activeTabLink),
-        delay: rightDelay
-      },
-      duration: this.options.duration,
-      easing: 'easeOutQuad'
-    };
-    anim.remove(this._indicator);
-    anim(animOptions);
+    // in v1: easeOutQuad
+    this._indicator.style.transition = `
+      left ${this.options.duration}ms ease-out ${leftDelay}ms,
+      right ${this.options.duration}ms ease-out ${rightDelay}ms`;
+
+    this._indicator.style.left = this._calcLeftPos(this._activeTabLink) + 'px';
+    this._indicator.style.right = this._calcRightPos(this._activeTabLink) + 'px';
   }
 
   /**
