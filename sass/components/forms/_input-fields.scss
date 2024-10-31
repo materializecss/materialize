@@ -25,30 +25,17 @@ textarea.materialize-textarea {
   height: 56px; // 56dp
 }
 
-/* Validation Sass Placeholders */
-%valid-input-style {
-  border-bottom: 1px solid $success-color;
-  box-shadow: 0 1px 0 0 $success-color;
-}
 %invalid-input-style {
   border-bottom: 2px solid var(--md-sys-color-error);
   box-shadow: 0 1px 0 0 var(--md-sys-color-error);
 }
-%hidden-text {
-  color: transparent;
-  user-select: none;
-  pointer-events: none;
-}
-/*
-%custom-success-message {
-  content: attr(data-success);
-  color: $success-color;
+%hidden-text > span {
+  display: none
 }
 %custom-error-message {
   content: attr(data-error);
   color: var(--md-sys-color-error);
 }
-*/
 
 .input-field {
   --input-color: var(--md-sys-color-primary);
@@ -98,6 +85,26 @@ textarea.materialize-textarea {
 
     &:disabled + label, &[readonly="readonly"] + label {
       color: rgba(var(--md_sys_color_on-surface), 0.38);
+    }
+
+    // Hide helper text on data message
+    &.invalid ~ .supporting-text[data-error] {
+      @extend %hidden-text;
+    }
+
+    // Invalid Input Style
+    &.invalid {
+      @extend %invalid-input-style;
+    }
+
+    // Custom Error message
+    &.invalid ~ .supporting-text:after {
+      @extend %custom-error-message;
+    }
+
+    &.invalid ~ label,
+    &:focus.invalid ~ label {
+      color: var(--md-sys-color-error);
     }
   }
 

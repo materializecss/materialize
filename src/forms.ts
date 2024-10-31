@@ -4,34 +4,30 @@ export class Forms {
   /**
    * Checks if the label has validation and apply
    * the correct class and styles
-   * @params textarea Textarea to be checked
+   * @param textfield
    */
-  static validate_field(textarea: HTMLInputElement) {
-    // Checks if textarea is exist
-    if (!textarea) {
-      console.error('No textarea element found');
+  static validateField(textfield: HTMLInputElement) {
+    if (!textfield) {
+      console.error('No text field element found');
       return;
     }
 
-    let hasLength = textarea.getAttribute('data-length') !== null;
-    let lenAttr = parseInt(textarea.getAttribute('data-length'));
-    let len = textarea.value.length;
+    let hasLength = textfield.getAttribute('data-length') !== null;
+    let lenAttr = parseInt(textfield.getAttribute('data-length'));
+    let len = textfield.value.length;
 
-    if (len === 0 && textarea.validity.badInput === false && !textarea.required ) {
-      if (textarea.classList.contains('validate')) {
-        textarea.classList.remove('valid');
-        textarea.classList.remove('invalid');
+    if (len === 0 && textfield.validity.badInput === false && !textfield.required ) {
+      if (textfield.classList.contains('validate')) {
+        textfield.classList.remove('invalid');
       }
     } else {
 
-      if (textarea.classList.contains('validate')) {
+      if (textfield.classList.contains('validate')) {
         // Check for character counter attributes
-        if (((textarea.validity.valid) && hasLength && len <= lenAttr) || textarea.validity.valid && !hasLength) {
-          textarea.classList.remove('invalid');
-          textarea.classList.add('valid');
+        if (((textfield.validity.valid) && hasLength && len <= lenAttr) || textfield.validity.valid && !hasLength) {
+          textfield.classList.remove('invalid');
         } else {
-          textarea.classList.remove('valid');
-          textarea.classList.add('invalid');
+          textfield.classList.add('invalid');
         }
       }
     }
@@ -126,7 +122,7 @@ export class Forms {
                 }
               }
             }
-            Forms.validate_field(target);
+            Forms.validateField(target);
           }
         })
 
