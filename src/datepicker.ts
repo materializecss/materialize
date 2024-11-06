@@ -301,6 +301,11 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.gotoDate(new Date());
     }
     this.isOpen = false;
+
+    // HTML5 input date field support
+    if(this.el.type == 'date') {
+      this.el.classList.add('datepicker-date-input');
+    }
   }
 
   static get defaults() {
@@ -417,6 +422,10 @@ export class Datepicker extends Component<DatepickerOptions> {
     if (typeof format === 'function') return format(this.date);
     if (!Datepicker._isDate(this.date)) return '';
     // String Format
+    return this.formatDate(format);
+  }
+
+  formatDate(format) {
     const formatArray = format.split(/(d{1,4}|m{1,4}|y{4}|yy|!.)/g);
     const formattedDate = formatArray
       .map(label => this.formats[label] ? this.formats[label]() : label)
@@ -459,10 +468,22 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   /**
+   * Sets the data-date attribute on the date input field
+   */
+  setDataDate() {
+    this.el.setAttribute('data-date', this.toString())
+  }
+
+  /**
    * Sets current date as the input value.
    */
   setInputValue() {
-    this.el.value = this.toString();
+    if(this.el.type == 'date') {
+      this.setDataDate()
+      this.el.value = this.formatDate('yyyy-mm-dd')
+    } else {
+      this.el.value = this.toString();
+    }
     this.el.dispatchEvent(new CustomEvent('change', {bubbles:true, cancelable:true, composed:true, detail: {firedBy: this}}));
   }
 
@@ -925,7 +946,11 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.calendarEl.removeEventListener('click', this._handleCalendarClick);
   }
 
-  _handleInputClick = () => {
+  _handleInputClick = (e) => {
+    // Prevents default browser datepicker modal rendering
+    if(this.el.type == 'date') {
+      e.preventDefault()
+    }
     this.open();
   }
 
@@ -1008,7 +1033,12 @@ export class Datepicker extends Component<DatepickerOptions> {
     else {
       date = new Date(Date.parse(this.el.value));
     }
-    if (Datepicker._isDate(date)) this.setDate(date);
+    if (Datepicker._isDate(date)) {
+      this.setDate(date);
+      if (this.el.type == 'date') {
+        this.setDataDate();
+      }
+    }
   }
 
   renderDayName(opts, day, abbr: boolean = false) {
