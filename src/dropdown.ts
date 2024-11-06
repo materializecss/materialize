@@ -213,6 +213,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
 
   _handleClick = (e: MouseEvent) => {
     e.preventDefault();
+    this._moveDropdown((<HTMLElement>e.target).closest('li'));
     if (this.isOpen) {
         this.close();
     } else {
@@ -220,7 +221,8 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     }
   }
 
-  _handleMouseEnter = () => {
+  _handleMouseEnter = (e) => {
+    this._moveDropdown((<HTMLElement>e.target).closest('li'));
     this.open();
   }
 
