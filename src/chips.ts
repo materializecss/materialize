@@ -131,6 +131,8 @@ export class Chips extends Component<ChipsOptions> {
       this.el.classList.add('input-field');
       this._setupInput();
       this._setupEventHandlers();
+      // move input to end
+      this.el.append(this._input);
     }
   }
 
@@ -307,17 +309,19 @@ export class Chips extends Component<ChipsOptions> {
     const renderedChip = document.createElement('div');
     renderedChip.classList.add('chip');
     renderedChip.innerText = chip.text || <string>chip.id;
-    renderedChip.setAttribute('tabindex', "0");
-    const closeIcon = document.createElement('i');
-    closeIcon.classList.add(this.options.closeIconClass, 'close');
-    closeIcon.innerText = 'close';
     // attach image if needed
     if (chip.image) {
       const img = document.createElement('img');
       img.setAttribute('src', chip.image);
       renderedChip.insertBefore(img, renderedChip.firstChild);
     }
-    renderedChip.appendChild(closeIcon);
+    if(this.options.allowUserInput) {
+      renderedChip.setAttribute('tabindex', '0');
+      const closeIcon = document.createElement('i');
+      closeIcon.classList.add(this.options.closeIconClass, 'close');
+      closeIcon.innerText = 'close';
+      renderedChip.appendChild(closeIcon);
+    }
     return renderedChip;
   }
 
@@ -327,10 +331,6 @@ export class Chips extends Component<ChipsOptions> {
       const chipElem = this._renderChip(this.chipsData[i]);
       this.el.appendChild(chipElem);
       this._chips.push(chipElem);
-    }
-    if(this.options.allowUserInput) {
-      // move input to end
-      this.el.append(this._input);
     }
   }
 
