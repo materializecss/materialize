@@ -75,7 +75,6 @@
   flex-wrap: wrap;
 
   border: none;
-  border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
   box-shadow: none;
   margin: 0 0 8px 0;
 
@@ -90,8 +89,12 @@
     box-shadow: 0 1px 0 0 var(--md-sys-color-primary);
   }
 
-  &:hover {
-    cursor: text;
+  &.input-field {
+    border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
+
+    &:hover {
+      cursor: text;
+    }
   }
 
   input:not([type]):not(.browser-default).input {
