@@ -124,19 +124,12 @@ export class Chips extends Component<ChipsOptions> {
       this.chipsData = this.options.data;
       this._renderChips();
     }
-    this._setPlaceholder();
     this._setupLabel();
 
     // Render input element, setup event handlers
     if(this.options.allowUserInput) {
       this.el.classList.add('input-field');
       this._setupInput();
-      this.hasAutocomplete = Object.keys(this.options.autocompleteOptions).length > 0;
-      // Setup autocomplete if needed
-      if (this.hasAutocomplete) this._setupAutocomplete();
-      // Set input id
-      if (!this._input.getAttribute('id'))
-        this._input.setAttribute('id', Utils.guid());
       this._setupEventHandlers();
     }
   }
@@ -361,6 +354,13 @@ export class Chips extends Component<ChipsOptions> {
       this.el.append(this._input);
     }
     this._input.classList.add('input');
+    this.hasAutocomplete = Object.keys(this.options.autocompleteOptions).length > 0;
+    // Setup autocomplete if needed
+    if (this.hasAutocomplete) this._setupAutocomplete();
+    this._setPlaceholder();
+    // Set input id
+    if (!this._input.getAttribute('id'))
+      this._input.setAttribute('id', Utils.guid());
   }
 
   _setupLabel() {
