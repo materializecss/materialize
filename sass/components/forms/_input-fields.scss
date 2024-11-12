@@ -318,3 +318,26 @@ textarea {
     }
   }
 }
+
+/* Datepicker date input fields */
+.datepicker-date-input {
+  position: relative;
+  text-indent: -9999px;
+
+  &::after {
+    display: block;
+    position: absolute;
+    top: 1.10rem;
+    content: attr(data-date);
+    color: var(--input-color);
+    text-indent: 0;
+  }
+
+  &:focus-visible {
+    text-indent: 0;
+  }
+
+  &:focus-visible:after {
+    text-indent: -9999px;
+  }
+}
