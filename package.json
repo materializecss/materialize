@@ -33,7 +33,7 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "test": "npx jasmine-browser-runner runSpecs",
+    "test": "npm run build && jasmine-browser-runner runSpecs",
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "release": "npm run lint && npm run build && node ci/compress.js",
     "preversion": "npm run lint && npm test",
