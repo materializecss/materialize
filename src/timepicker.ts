@@ -254,8 +254,10 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.plate.addEventListener('mousedown', this._handleClockClickStart);
     this.plate.addEventListener('touchstart', this._handleClockClickStart);
     this.digitalClock.addEventListener('keyup', this._inputFromTextField);
-    this.inputHours.addEventListener('click', () => this.showView('hours'));
-    this.inputMinutes.addEventListener('click', () => this.showView('minutes'));
+    this.inputHours.addEventListener('focus', () => this.showView('hours'));
+    this.inputHours.addEventListener('focusout', () => this.formatHours());
+    this.inputMinutes.addEventListener('focus', () => this.showView('minutes'));
+    this.inputMinutes.addEventListener('focusout', () => this.formatMinutes());
   }
 
   _removeEventHandlers() {
@@ -359,9 +361,23 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _setupModal() {
     this.modal = Modal.init(this.modalEl, {
-      onOpenStart: this.options.onOpenStart,
+      onOpenStart: () => {
+        if (typeof this.options.onOpenStart === 'function') {
+          this.options.onOpenStart.call(this);
+        }
+        this.modalEl.querySelectorAll('.btn').forEach((e: HTMLButtonElement) => {
+          if (e.style.visibility !== 'hidden') e.tabIndex = 0;
+        });
+      },
       onOpenEnd: this.options.onOpenEnd,
-      onCloseStart: this.options.onCloseStart,
+      onCloseStart: () => {
+        if (typeof this.options.onCloseStart === 'function') {
+          this.options.onCloseStart.call(this);
+        }
+        this.modalEl.querySelectorAll('.btn').forEach((e: HTMLButtonElement) => {
+          e.tabIndex = -1;
+        });
+      },
       onCloseEnd: () => {
         if (typeof this.options.onCloseEnd === 'function') {
           this.options.onCloseEnd.call(this);
@@ -392,10 +408,10 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   private _createButton(text: string, visibility: string): HTMLButtonElement {
     const button = document.createElement('button');
-    button.classList.add('btn-flat', 'waves-effect');
+    button.classList.add('btn', 'btn-flat', 'waves-effect', 'text');
     button.style.visibility = visibility;
     button.type = 'button';
-    button.tabIndex = this.options.twelveHour ? 3 : 1;
+    button.tabIndex = -1;
     button.innerText = text;
     return button;
   }
@@ -566,7 +582,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     }
     this.hours = +value[0] || 0;
     this.minutes = +value[1] || 0;
-    this.inputHours.value = this.hours;
+    this.inputHours.value = Timepicker._addLeadingZero(this.hours);
     this.inputMinutes.value = Timepicker._addLeadingZero(this.minutes);
 
     this._updateAmPmView();
@@ -635,31 +651,26 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _inputFromTextField = () => {
     const isHours = this.currentView === 'hours';
-    if (isHours) {
+    if (isHours && this.inputHours.value !== '') {
       const value = parseInt(this.inputHours.value);
-      if (value > 0 && value < 13) {
-        this.drawClockFromTimeInput(value, isHours);
-        this.showView('minutes', this.options.duration / 2);
+      if (value > 0 && value < (this.options.twelveHour ? 13 : 24)) {
         this.hours = value;
-        this.inputMinutes.focus();
       }
       else {
-        const hour = new Date().getHours();
-        this.inputHours.value = (hour % 12).toString();
+        this.setHoursDefault();
       }
+      this.drawClockFromTimeInput(this.hours, isHours);
     }
-    else {
+    else if(!isHours && this.inputMinutes.value !== '') {
       const value = parseInt(this.inputMinutes.value);
       if (value >= 0 && value < 60) {
-        this.inputMinutes.value = Timepicker._addLeadingZero(value);
-        this.drawClockFromTimeInput(value, isHours);
         this.minutes = value;
-        (<HTMLElement>this.modalEl.querySelector('.confirmation-btns :nth-child(2)')).focus();
       }
       else {
-        const minutes = new Date().getMinutes();
-        this.inputMinutes.value = Timepicker._addLeadingZero(minutes);
+        this.minutes = new Date().getMinutes();
+        this.inputMinutes.value = this.minutes;
       }
+      this.drawClockFromTimeInput(this.minutes, isHours);
     }
   }
 
@@ -669,15 +680,10 @@ export class Timepicker extends Component<TimepickerOptions> {
     let radius;
     if (this.options.twelveHour) {
       radius = this.options.outerRadius;
+    } else {
+      radius = isHours && value > 0 && value < 13 ? this.options.innerRadius : this.options.outerRadius;
     }
-    let cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
-      cy1 = -Math.cos(radian) * (radius - this.options.tickRadius),
-      cx2 = Math.sin(radian) * radius,
-      cy2 = -Math.cos(radian) * radius;
-    this.hand.setAttribute('x2', cx1.toString());
-    this.hand.setAttribute('y2', cy1.toString());
-    this.bg.setAttribute('cx', cx2.toString());
-    this.bg.setAttribute('cy', cy2.toString());
+    this.setClockAttributes(radian, radius);
   }
 
   setHand(x, y, roundBy5: boolean = false) {
@@ -742,13 +748,17 @@ export class Timepicker extends Component<TimepickerOptions> {
 
     this[this.currentView] = value;
     if (isHours) {
-      this.inputHours.value = value.toString();
+      this.inputHours.value = Timepicker._addLeadingZero(value);
     }
     else {
       this.inputMinutes.value = Timepicker._addLeadingZero(value);
     }
 
     // Set clock hand and others' position
+    this.setClockAttributes(radian, radius);
+  }
+
+  setClockAttributes(radian: number, radius: number) {
     let cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
       cy1 = -Math.cos(radian) * (radius - this.options.tickRadius),
       cx2 = Math.sin(radian) * radius,
@@ -757,6 +767,21 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.hand.setAttribute('y2', cy1.toString());
     this.bg.setAttribute('cx', cx2.toString());
     this.bg.setAttribute('cy', cy2.toString());
+  }
+
+  formatHours() {
+    if (this.inputHours.value == '') this.setHoursDefault();
+    this.inputHours.value = Timepicker._addLeadingZero(Number(this.inputHours.value));
+  }
+
+  formatMinutes() {
+    if (this.inputMinutes.value == '') this.minutes = new Date().getMinutes();
+    this.inputMinutes.value = Timepicker._addLeadingZero(Number(this.inputMinutes.value));
+  }
+
+  setHoursDefault() {
+    this.hours = new Date().getHours();
+    this.inputHours.value = (this.hours % (this.options.twelveHour ? 12 : 24)).toString();
   }
 
   /**

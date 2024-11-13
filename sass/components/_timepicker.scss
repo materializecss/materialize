@@ -17,7 +17,7 @@
 
 /* Clock Digital Display */
 .timepicker-digital-display {
-  width: 200px;
+  width: auto;
   flex: 1 auto;
   background-color: var(--md-sys-color-primary);;
   padding: 10px;
@@ -27,15 +27,16 @@
 .timepicker-text-container {
   font-size: 4rem;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
   color: var(--font-on-primary-color-medium);
   font-weight: 400;
   position: relative;
   user-select: none;
+  padding: 1rem 1rem 1.5rem 1rem;
 
   input[type=text]{
     height: 4rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--md-sys-color-secondary);
     border-bottom: 0px;
     font-size: 4rem;
     direction: ltr;
@@ -60,17 +61,26 @@ input[type=text].timepicker-input-minutes {
 }
 
 input[type=text].text-primary {
-  color: rgba(255, 255, 255, 1);
+  color: var(--md-sys-color-on-background);
 }
 
 .timepicker-display-am-pm {
   font-size: 1.3rem;
   position: absolute;
+  top: 1.2rem;
   right: 1rem;
-  bottom: 1rem;
+  bottom: auto;
   font-weight: 400;
 }
 
+.timepicker-modal .am-btn,
+.timepicker-modal .pm-btn {
+  width: 3.6rem;
+  height: 2rem;
+  line-height: 2rem;
+  vertical-align: middle;
+  text-align: center;
+}
 
 /* Analog Clock Display */
 .timepicker-analog-display {
@@ -85,9 +95,8 @@ input[type=text].text-primary {
   height: 270px;
   overflow: visible;
   position: relative;
-  margin: auto;
-  margin-top: 25px;
-  margin-bottom: 5px;
+  margin: 30px 14px 14px;
+  padding: 10px;
   user-select: none;
 }
 
@@ -195,13 +204,29 @@ input[type=text].text-primary {
 
   .timepicker-text-container {
     top: 32%;
+    padding: 0;
+    text-align: center;
   }
 
   .timepicker-display-am-pm {
     position: relative;
+    top: auto;
     right: auto;
     bottom: auto;
     text-align: center;
     margin-top: 1.2rem;
+  }
+
+  input[type=text].timepicker-input-minutes {
+    min-width: 5.3rem;
+  }
+
+  .timepicker-modal .am-btn,
+  .timepicker-modal .pm-btn {
+    width: auto;
+    height: auto;
+    line-height: inherit;
+    vertical-align: top;
+    text-align: inherit;
   }
 }
