@@ -441,13 +441,13 @@ export class Timepicker extends Component<TimepickerOptions> {
     if (this.options.twelveHour) {
       // AM Button
       this._amBtn = document.createElement('div');
-      this._amBtn.classList.add('am-btn');
+      this._amBtn.classList.add('am-btn', 'btn');
       this._amBtn.innerText = 'AM';
       this._amBtn.addEventListener('click', this._handleAmPmClick);
       this.spanAmPm.appendChild(this._amBtn);
       // PM Button
       this._pmBtn = document.createElement('div');
-      this._pmBtn.classList.add('pm-btn');
+      this._pmBtn.classList.add('pm-btn', 'btn');
       this._pmBtn.innerText = 'PM';
       this._pmBtn.addEventListener('click', this._handleAmPmClick);
       this.spanAmPm.appendChild(this._pmBtn);
@@ -552,12 +552,12 @@ export class Timepicker extends Component<TimepickerOptions> {
   _updateAmPmView() {
     if (this.options.twelveHour) {
       if (this.amOrPm === 'PM') {
-        this._amBtn.classList.remove('text-primary');
-        this._pmBtn.classList.add('text-primary');
+        this._amBtn.classList.remove('filled');
+        this._pmBtn.classList.add('filled');
       }
       else if (this.amOrPm === 'AM') {
-        this._amBtn.classList.add('text-primary');
-        this._pmBtn.classList.remove('text-primary');
+        this._amBtn.classList.add('filled');
+        this._pmBtn.classList.remove('filled');
       }
     }
   }
@@ -834,9 +834,15 @@ export class Timepicker extends Component<TimepickerOptions> {
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
               <div class="timepicker-display-column">
-                <input type="text" maxlength="2" autofocus class="timepicker-input-hours text-primary" />
-                :
-                <input type="text" maxlength="2" class="timepicker-input-minutes" />
+                <div class="timepicker-input-hours-wrapper">
+                  <input type="text" maxlength="2" autofocus class="timepicker-input-hours text-primary" />
+                </div>
+                <div class="timepicker-input-divider-wrapper">
+                  <span class="timepicker-input-divider">:</span>
+                </div>
+                <div class="timepicker-input-minutes-wrapper">
+                  <input type="text" maxlength="2" class="timepicker-input-minutes" />
+                </div>
               </div>
               <div class="timepicker-display-column timepicker-display-am-pm">
                 <div class="timepicker-span-am-pm"></div>
