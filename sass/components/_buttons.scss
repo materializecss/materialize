@@ -12,7 +12,7 @@
   border-radius: var(--btn-border-radius);
   padding-left: var(--btn-padding);
   padding-right: var(--btn-padding);
-  font-size: ver(--btn-font-size);
+  font-size: var(--btn-font-size);
   font-weight: 500;
   text-decoration: none;
   display: inline-flex;
@@ -29,19 +29,24 @@
 .btn.icon-left, .btn.icon-right {
   position: relative;
 }
+
 .btn.icon-left {
   padding-left: calc(var(--btn-padding-icon) + var(--btn-font-size-icon) + var(--btn-gap-icon));
 }
+
 .btn.icon-right {
-  padding-right: calc(var(--btn-padding-icon) + var(--btn-font-size-icon) + var(--btn-gap-icon)); 
+  padding-right: calc(var(--btn-padding-icon) + var(--btn-font-size-icon) + var(--btn-gap-icon));
 }
+
 .btn.icon-left i, .btn.icon-right i {
   position: absolute;
   font-size: var(--btn-font-size-icon);
 }
+
 .btn.icon-left i {
   left: var(--btn-padding-icon);
 }
+
 .btn.icon-right i {
   right: var(--btn-padding-icon);
 }
@@ -80,12 +85,10 @@
 
 .btn.disabled, .btn-floating.disabled, .btn-large.disabled, .btn-small.disabled, .btn-flat.disabled,
 .btn:disabled, .btn-floating:disabled, .btn-large:disabled, .btn-small:disabled, .btn-flat:disabled,
-.btn[disabled], .btn-floating[disabled], .btn-large[disabled], .btn-small[disabled], .btn-flat[disabled]
-{
+.btn[disabled], .btn-floating[disabled], .btn-large[disabled], .btn-small[disabled], .btn-flat[disabled] {
   @extend .z-depth-0;
   color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 76%);
   background-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 24%);
-  
   pointer-events: none;
   box-shadow: none;
   cursor: default;
@@ -158,8 +161,7 @@
   &.elevated,
   &.tonal,
   &.outlined,
-  &.text
-    {
+  &.text {
     outline: 3px solid var(--md-sys-color-secondary);
     outline-offset: 2px;
   }
@@ -190,10 +192,12 @@
     @extend .z-depth-1-half;
     background-color: color-mix(in srgb, var(--md-sys-color-primary-container), var(--md-sys-color-on-primary-container) 16%);
   }
+
   &:focus {
     background-color: $button-floating-background-focus;
     @extend .z-depth-1-half;
   }
+
   &:before {
     border-radius: 0;
   }
@@ -202,10 +206,11 @@
     &.halfway-fab {
       bottom: -56px * 0.5;
     }
+
     width: 56px;
     height: 56px;
     padding: 0;
-    // font-size: 
+    // font-size:
     // i {
     //   // line-height: 56px;
     // }
@@ -213,10 +218,12 @@
 
   &.btn-small {
     --btn-small-height: calc(0.75 * var(--btn-height));
+
     &.halfway-fab {
       bottom: calc(var(--btn-small-height) * -0.5);
     }
-    width: var(--btn-small-height)e;
+
+    width: var(--btn-small-height) e;
     height: var(--btn-small-height);
     // i {
     //   line-height: $button-floating-small-size;
@@ -228,10 +235,12 @@
       right: auto;
       left: 24px;
     }
+
     position: absolute;
     right: 24px;
     bottom: -$button-floating-size * 0.5;
   }
+
   // FIXES
   // width: unset;
   // padding: 16px !important;
@@ -262,17 +271,19 @@
     text-align: center;
   }
 }
+
 // button fix
 button.btn-floating {
   border: none;
 }
+
 // Fixed Action Button
 .fixed-action-btn {
   &.active {
     ul {
       visibility: visible;
       padding-left: 0;
-      list-style-type: none;    
+      list-style-type: none;
     }
   }
 
@@ -280,6 +291,7 @@ button.btn-floating {
   &.direction-left,
   &.direction-right {
     padding: 0 0 0 15px;
+
     ul {
       text-align: right;
       right: 64px;
@@ -289,55 +301,67 @@ button.btn-floating {
       left: auto;
       /*width 100% only goes to width of button container */
       width: 500px;
+
       li {
         display: inline-block;
         margin: 7.5px 15px 0 0;
       }
     }
   }
+
   &.direction-right {
     padding: 0 15px 0 0;
+
     ul {
       text-align: left;
       direction: rtl;
       left: 64px;
       right: auto;
+
       li {
         margin: 7.5px 0 0 15px;
       }
     }
   }
+
   &.direction-bottom {
     padding: 0 0 15px 0;
+
     ul {
       top: 64px;
       bottom: auto;
       display: flex;
       flex-direction: column-reverse;
+
       li {
         margin: 15px 0 0 0;
       }
     }
   }
+
   &.toolbar {
     &.active {
-      &>a i {
+      & > a i {
         opacity: 0;
       }
     }
+
     padding: 0;
     height: 56px;
+
     ul {
       display: flex;
       top: 0;
       bottom: 0;
       z-index: 1;
+
       li {
         flex: 1;
         display: inline-block;
         margin: 0;
         height: 100%;
         transition: none;
+
         a {
           display: block;
           overflow: hidden;
@@ -349,6 +373,7 @@ button.btn-floating {
           color: $button-floating-color;
           line-height: 56px;
           z-index: 1;
+
           i {
             line-height: inherit;
           }
@@ -356,12 +381,14 @@ button.btn-floating {
       }
     }
   }
+
   position: fixed;
   right: 23px;
   bottom: 23px;
   padding-top: 15px;
   margin-bottom: 0;
   z-index: 997;
+
   ul {
     left: 0;
     right: 0;
@@ -370,13 +397,16 @@ button.btn-floating {
     bottom: 64px;
     margin: 0;
     visibility: hidden;
+
     li {
       margin-bottom: 15px;
     }
+
     a.btn-floating {
       opacity: 0;
     }
   }
+
   .fab-backdrop {
     position: absolute;
     top: 0;
@@ -398,6 +428,7 @@ button.btn-floating {
   height: calc(1.5 * var(--btn-height));
   font-size: 18px;
   padding: 0 28px;
+
   i {
     font-size: 1.6rem;
   }
@@ -408,6 +439,7 @@ button.btn-floating {
   @extend .btn;
   height: calc(0.75 * var(--btn-height));
   font-size: 13px;
+
   i {
     font-size: 1.2rem;
   }
