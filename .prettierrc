@@ -1,6 +1,6 @@
 {
   "printWidth": 100,
-  "parser": "flow",
+  "parser": "typescript",
   "tabWidth": 2,
   "useTabs": false,
   "semi": true,
