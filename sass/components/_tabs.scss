@@ -51,6 +51,41 @@
   margin: 0 auto;
   white-space: nowrap;
 
+  &.tabs-vertical {
+    height: 64px;
+    .tab {
+      height: 64px;
+
+      i.material-icons {
+        position: relative;
+        top: 8px;
+        vertical-align: middle;  
+      }
+
+      a {
+        display: flex;
+        flex-direction: column;        
+      }
+
+    
+
+      span {
+        height: 24px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  &.tabs-horizontal .tab {    
+    i.material-icons {
+      padding: 0 4px;
+      position: relative;
+      top: -2px;
+      vertical-align: middle;
+    
+    }
+  }
+
   .tab {
     padding-left: 0;
     list-style-type: none;
@@ -60,6 +95,11 @@
     height: 48px;
     padding: 0;
     margin: 0;
+
+    i.material-icons {
+      position: relative;
+      top: 4px;      
+    }
 
     a {
       &.active {
