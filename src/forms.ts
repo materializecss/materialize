@@ -1,6 +1,32 @@
 import { Utils } from "./utils";
 
 export class Forms {
+  /**
+   * Checks if the label has validation and apply
+   * the correct class and styles
+   * @param textfield
+   */
+  static validateField(textfield: HTMLInputElement) {
+    if (!textfield) {
+      console.error('No text field element found');
+      return;
+    }
+
+    let hasLength = textfield.getAttribute('data-length') !== null;
+    let lenAttr = parseInt(textfield.getAttribute('data-length'));
+    let len = textfield.value.length;
+
+    if (len === 0 && textfield.validity.badInput === false && !textfield.required && textfield.classList.contains('validate')) {
+      textfield.classList.remove('invalid');
+    } else if (textfield.classList.contains('validate')) {
+      // Check for character counter attributes
+      if (((textfield.validity.valid) && hasLength && len <= lenAttr) || textfield.validity.valid && !hasLength) {
+        textfield.classList.remove('invalid');
+      } else {
+        textfield.classList.add('invalid');
+      }
+    }
+  }
 
   /**
    * Resizes the given TextArea after updating the
@@ -79,8 +105,22 @@ export class Forms {
   };
 
   static Init(){
-    if (typeof document !== 'undefined') 
+    if (typeof document !== 'undefined')
       document?.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener('change', (e: KeyboardEvent) => {
+          const target = <HTMLInputElement>e.target;
+          if (target instanceof HTMLInputElement) {
+            if (target.value.length !== 0 || target.getAttribute('placeholder') !== null) {
+              for (const child of target.parentNode.children) {
+                if (child.tagName == "label") {
+                  child.classList.add("active");
+                }
+              }
+            }
+            Forms.validateField(target);
+          }
+        })
+
         document.addEventListener('keyup', (e: KeyboardEvent) => {
           const target = <HTMLInputElement>e.target;
           // Radio and Checkbox focus class
@@ -128,5 +168,5 @@ export class Forms {
           pathInput.dispatchEvent(new Event('change',{bubbles:true, cancelable:true, composed:true}));
         });
   }
-  
+
 }
