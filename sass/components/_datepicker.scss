@@ -38,6 +38,11 @@
     }
   }
 
+  .select-dropdown {
+    padding: 0;
+    vertical-align: middle;
+  }
+
   .select-year input {
     width: 50px;
   }
@@ -59,6 +64,7 @@
 }
 
 .month-prev, .month-next {
+  height: 49px;
   margin-top: 4px;
   cursor: pointer;
   background-color: transparent;
