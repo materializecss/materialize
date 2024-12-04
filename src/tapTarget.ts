@@ -26,7 +26,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
   isOpen: boolean;
 
   private wrapper: HTMLElement;
-  private _origin: HTMLElement;
+  // private _origin: HTMLElement;
   private originEl: HTMLElement;
   private waveEl: HTMLElement & Element & Node;
   private contentEl: HTMLElement;
@@ -34,6 +34,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
   constructor(el: HTMLElement, options: Partial<TapTargetOptions>) {
     super(el, options, TapTarget);
     (this.el as any).M_TapTarget = this;
+    console.debug('this.el', this.el);
 
     this.options = {
       ...TapTarget.defaults,
@@ -42,7 +43,8 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
 
     this.isOpen = false;
     // setup
-    this._origin = document.querySelector(`#${el.dataset.target}`);
+    this.originEl = document.querySelector(`#${el.dataset.target}`);
+
     this._setup();
     this._calculatePositioning();
     this._setupEventHandlers();
@@ -83,27 +85,27 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
   }
 
   _setupEventHandlers() {
-    this.el.addEventListener('click', this._handleTargetClick);
-    this.originEl.addEventListener('click', this._handleOriginClick);
+    this.originEl.addEventListener('click', this._handleTargetClick);
+    // this.originEl.addEventListener('click', this._handleOriginClick);
     // Resize
     window.addEventListener('resize', this._handleThrottledResize);
   }
 
   _removeEventHandlers() {
-    this.el.removeEventListener('click', this._handleTargetClick);
-    this.originEl.removeEventListener('click', this._handleOriginClick);
+    this.originEl.removeEventListener('click', this._handleTargetClick);
+    // this.originEl.removeEventListener('click', this._handleOriginClick);
     window.removeEventListener('resize', this._handleThrottledResize);
   }
 
   _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleResize(); }, 200).bind(this);
 
   _handleTargetClick = () => {
-    this.open();
+    !this.isOpen ? this.open() : this.close()
   }
 
-  _handleOriginClick = () => {
+  /*_handleOriginClick = () => {
     this.close();
-  }
+  }*/
 
   _handleResize = () => {
     this._calculatePositioning();
@@ -121,7 +123,8 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     // Creating tap target
     this.wrapper = this.el.parentElement;
     this.waveEl = this.wrapper.querySelector('.tap-target-wave');
-    this.originEl = this.wrapper.querySelector('.tap-target-origin');
+    this.originEl.parentElement.style.zIndex = '10002';
+    // this.originEl = this.wrapper.querySelector('.tap-target-origin');
     this.contentEl = this.el.querySelector('.tap-target-content');
     // Creating wrapper
     if (!this.wrapper.classList.contains('.tap-target-wrapper')) {
@@ -141,13 +144,13 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
       this.waveEl = document.createElement('div');
       this.waveEl.classList.add('tap-target-wave');
       // Creating origin
-      if (!this.originEl) {
+      /*if (!this.originEl) {
         this.originEl = <HTMLElement>this._origin.cloneNode(true); // .clone(true, true);
         this.originEl.classList.add('tap-target-origin');
         this.originEl.removeAttribute('id');
         this.originEl.removeAttribute('style');
         this.waveEl.append(this.originEl);
-      }
+      }*/
       this.wrapper.append(this.waveEl);
     }
   }
@@ -163,10 +166,10 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
 
   _calculatePositioning() {
     // Element or parent is fixed position?
-    let isFixed = getComputedStyle(this._origin).position === 'fixed';
+    let isFixed = getComputedStyle(this.originEl).position === 'fixed';
     if (!isFixed) {
 
-      let currentElem: any = this._origin;
+      let currentElem: any = this.originEl;
       const parents = [];
       while ((currentElem = currentElem.parentNode) && currentElem !== document)
         parents.push(currentElem);
@@ -177,10 +180,10 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
       }
     }
     // Calculating origin
-    const originWidth = this._origin.offsetWidth;
-    const originHeight = this._origin.offsetHeight;
-    const originTop = isFixed ? this._offset(this._origin).top - Utils.getDocumentScrollTop() : this._offset(this._origin).top;
-    const originLeft = isFixed ? this._offset(this._origin).left - Utils.getDocumentScrollLeft() : this._offset(this._origin).left;
+    const originWidth = this.originEl.offsetWidth;
+    const originHeight = this.originEl.offsetHeight;
+    const originTop = isFixed ? this._offset(this.originEl).top - Utils.getDocumentScrollTop() : this._offset(this.originEl).top;
+    const originLeft = isFixed ? this._offset(this.originEl).left - Utils.getDocumentScrollLeft() : this._offset(this.originEl).left;
 
     // Calculating screen
     const windowWidth = window.innerWidth;
@@ -248,7 +251,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     if (this.isOpen) return;
     // onOpen callback
     if (typeof this.options.onOpen === 'function') {
-      this.options.onOpen.call(this, this._origin);
+      this.options.onOpen.call(this, this.originEl);
     }
     this.isOpen = true;
     this.wrapper.classList.add('open');
@@ -263,7 +266,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     if (!this.isOpen) return;
     // onClose callback
     if (typeof this.options.onClose === 'function') {
-      this.options.onClose.call(this, this._origin);
+      this.options.onClose.call(this, this.originEl);
     }
     this.isOpen = false;
     this.wrapper.classList.remove('open');
