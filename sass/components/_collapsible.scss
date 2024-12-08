@@ -34,15 +34,20 @@
   content: '▾';
   text-align: right;
   margin-right: 0.25rem;
-  width: 100%;
+  width: auto;
+  align-self: end;
 }
+
 .active .collapsible-header::after {
   content: "▴";
 }
 
-
 .keyboard-focused .collapsible-header:focus {
   background-color: rgba(0, 0, 0, 0.12);
+}
+
+.collapsible-header-content {
+  flex-grow: 1;
 }
 
 .collapsible-body {
@@ -51,6 +56,10 @@
   box-sizing: border-box;
   padding: 0 2rem;
   overflow: hidden;
+}
+
+.collapsible-body-content {
+  padding: 2rem 0;
 }
 
 // Popout Collapsible
