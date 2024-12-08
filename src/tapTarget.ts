@@ -44,6 +44,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     this.isOpen = false;
     // setup
     this.originEl = document.querySelector(`#${el.dataset.target}`);
+    this.originEl.tabIndex = 0;
 
     this._setup();
     this._calculatePositioning();
@@ -85,21 +86,27 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
   }
 
   _setupEventHandlers() {
-    this.originEl.addEventListener('click', this._handleTargetClick);
+    this.originEl.addEventListener('click', this._handleTargetToggle);
+    this.originEl.addEventListener('keypress', (e) => {
+      if(e.keyCode === 13) {
+        this._handleTargetToggle();
+      }
+    });
     // this.originEl.addEventListener('click', this._handleOriginClick);
     // Resize
     window.addEventListener('resize', this._handleThrottledResize);
   }
 
   _removeEventHandlers() {
-    this.originEl.removeEventListener('click', this._handleTargetClick);
+    this.originEl.removeEventListener('click', this._handleTargetToggle);
+    this.originEl.removeEventListener('keypress', this._handleTargetToggle);
     // this.originEl.removeEventListener('click', this._handleOriginClick);
     window.removeEventListener('resize', this._handleThrottledResize);
   }
 
   _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleResize(); }, 200).bind(this);
 
-  _handleTargetClick = () => {
+  _handleTargetToggle = () => {
     !this.isOpen ? this.open() : this.close()
   }
 
