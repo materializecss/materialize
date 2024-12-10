@@ -101,7 +101,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
 
   _removeEventHandlers() {
     this.originEl.removeEventListener('click', this._handleTargetToggle);
-    this.originEl.removeEventListener('keypress', this._handleTargetToggle);
+    this.originEl.removeEventListener('keypress', this._handleKeyboardInteraction, true);
     // this.originEl.removeEventListener('click', this._handleOriginClick);
     window.removeEventListener('resize', this._handleThrottledResize);
   }
