@@ -25,6 +25,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
    */
   isOpen: boolean;
 
+  static _taptargets: TapTarget[];
   private wrapper: HTMLElement;
   // private _origin: HTMLElement;
   private originEl: HTMLElement;
@@ -48,6 +49,8 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     this._setup();
     this._calculatePositioning();
     this._setupEventHandlers();
+
+    TapTarget._taptargets.push(this);
   }
 
   static get defaults(): TapTargetOptions {
@@ -82,6 +85,10 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
   destroy() {
     this._removeEventHandlers();
     (this.el as any).TapTarget = undefined;
+    const index = TapTarget._taptargets.indexOf(this);
+    if (index >= 0) {
+      TapTarget._taptargets.splice(index, 1);
+    }
   }
 
   _setupEventHandlers() {
@@ -289,4 +296,8 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     document.body.removeEventListener('keypress', this._handleDocumentClick, true);
     document.body.removeEventListener('touchend', this._handleDocumentClick);
   };
+
+  static {
+    TapTarget._taptargets = [];
+  }
 }
