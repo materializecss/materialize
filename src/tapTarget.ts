@@ -34,7 +34,6 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
   constructor(el: HTMLElement, options: Partial<TapTargetOptions>) {
     super(el, options, TapTarget);
     (this.el as any).M_TapTarget = this;
-    console.debug('this.el', this.el);
 
     this.options = {
       ...TapTarget.defaults,
@@ -87,11 +86,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
 
   _setupEventHandlers() {
     this.originEl.addEventListener('click', this._handleTargetToggle);
-    this.originEl.addEventListener('keypress', (e) => {
-      if(e.keyCode === 13) {
-        this._handleTargetToggle();
-      }
-    });
+    this.originEl.addEventListener('keypress', this._handleKeyboardInteraction, true);
     // this.originEl.addEventListener('click', this._handleOriginClick);
     // Resize
     window.addEventListener('resize', this._handleThrottledResize);
@@ -106,8 +101,14 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
 
   _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleResize(); }, 200).bind(this);
 
+  _handleKeyboardInteraction = (e: KeyboardEvent) => {
+    if (e.keyCode === 13) {
+      this._handleTargetToggle();
+    }
+  }
+
   _handleTargetToggle = () => {
-    !this.isOpen ? this.open() : this.close()
+    !this.isOpen ? this.open() : this.close();
   }
 
   /*_handleOriginClick = () => {
@@ -118,11 +119,14 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     this._calculatePositioning();
   }
 
-  _handleDocumentClick = (e: MouseEvent | TouchEvent) => {
-    if (!(e.target as HTMLElement).closest('.tap-target-wrapper')) {
+  _handleDocumentClick = (e: MouseEvent | TouchEvent | KeyboardEvent) => {
+    if (
+      (e.target as HTMLElement).closest(`#${this.el.dataset.target}`) !== this.originEl &&
+      !(e.target as HTMLElement).closest('.tap-target-wrapper')
+    ) {
       this.close();
-      e.preventDefault();
-      e.stopPropagation();
+      // e.preventDefault();
+      // e.stopPropagation();
     }
   }
 
@@ -130,7 +134,8 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     // Creating tap target
     this.wrapper = this.el.parentElement;
     this.waveEl = this.wrapper.querySelector('.tap-target-wave');
-    this.originEl.parentElement.style.zIndex = '10002';
+    this.el.parentElement.ariaExpanded = 'false';
+    this.originEl.style.zIndex = '1002';
     // this.originEl = this.wrapper.querySelector('.tap-target-origin');
     this.contentEl = this.el.querySelector('.tap-target-content');
     // Creating wrapper
@@ -262,7 +267,9 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     }
     this.isOpen = true;
     this.wrapper.classList.add('open');
+    this.wrapper.ariaExpanded = 'true'
     document.body.addEventListener('click', this._handleDocumentClick, true);
+    document.body.addEventListener('keypress', this._handleDocumentClick, true);
     document.body.addEventListener('touchend', this._handleDocumentClick);
   };
 
@@ -277,7 +284,9 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     }
     this.isOpen = false;
     this.wrapper.classList.remove('open');
+    this.wrapper.ariaExpanded = 'false'
     document.body.removeEventListener('click', this._handleDocumentClick, true);
+    document.body.removeEventListener('keypress', this._handleDocumentClick, true);
     document.body.removeEventListener('touchend', this._handleDocumentClick);
   };
 }
