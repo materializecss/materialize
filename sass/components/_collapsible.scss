@@ -31,15 +31,17 @@
 }
 
 .collapsible-header::after {
-  content: '▾';
-  text-align: right;
-  margin-right: 0.25rem;
-  width: auto;
-  align-self: end;
+  content: '\e5cf';
+  align-self: flex-end;
+  margin-left: .5rem;
+  font-family: 'Material Symbols Outlined', 'Material Symbols Rounded', 'Material Symbols Sharp', 'Material Icons';
+  font-size: 25px;
+  line-height: .9;
+  -webkit-font-smoothing: antialiased;
 }
 
 .active .collapsible-header::after {
-  content: "▴";
+  content: '\e5ce';
 }
 
 .keyboard-focused .collapsible-header:focus {
@@ -56,10 +58,6 @@
   box-sizing: border-box;
   padding: 0 2rem;
   overflow: hidden;
-}
-
-.collapsible-body-content {
-  padding: 2rem 0;
 }
 
 // Popout Collapsible
