@@ -54,8 +54,9 @@ nav ul a span.badge {
 .collapsible span.badge {
   margin-left: auto;
 
-  & + .material-icons {
-    margin-left: 7px;
+  &.leading {
+    margin-right: 7px;
+    order: -1;
   }
 }
 
