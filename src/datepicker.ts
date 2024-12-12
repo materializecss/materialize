@@ -394,6 +394,10 @@ export class Datepicker extends Component<DatepickerOptions> {
     return day.getTime() > date.getTime() && day.getTime() < dateEnd.getTime();
   }
 
+  static _comparePastDate(a: Date, b: Date) {
+    return a.getTime() < b.getTime()
+  }
+
   static getInstance(el: HTMLElement): Datepicker {
     return (el as any).M_Datepicker;
   }
@@ -424,10 +428,11 @@ export class Datepicker extends Component<DatepickerOptions> {
     }
 
     if (this.options.isDateRange) {
-      this.endDateEl = <HTMLElement>this.el.cloneNode(true);
+      this.endDateEl = <HTMLInputElement>this.el.cloneNode(true);
       this.endDateEl.classList.add('datepicker-end-date');
       this.endDateEl.addEventListener('click', this._handleInputClick);
       this.endDateEl.addEventListener('keypress', this._handleInputKeydown);
+      this.endDateEl.addEventListener('change', this._handleInputChange);
       this.el.parentElement.appendChild(this.endDateEl);
     }
 
@@ -460,9 +465,9 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   /**
-   * Gets a string representation of the selected date.
+   * Gets a string representation of the given date.
    */
-  toString(date: Date, format: string | ((d: Date) => string) = null): string {
+  toString(date: Date = this.date, format: string | ((d: Date) => string) = null): string {
     format = format || this.options.format;
     if (typeof format === 'function') return format(date);
     if (!Datepicker._isDate(date)) return '';
@@ -1030,8 +1035,9 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.el.removeEventListener('change', this._handleInputChange);
     this.calendarEl.removeEventListener('click', this._handleCalendarClick);
     if (this.options.isDateRange) {
-      this.endDateEl.addEventListener('click', this._handleInputClick);
-      this.endDateEl.addEventListener('keypress', this._handleInputKeydown);
+      this.endDateEl.removeEventListener('click', this._handleInputClick);
+      this.endDateEl.removeEventListener('keypress', this._handleInputKeydown);
+      this.endDateEl.removeEventListener('change', this._handleInputChange);
     }
   }
 
@@ -1067,6 +1073,14 @@ export class Datepicker extends Component<DatepickerOptions> {
         );
 
         if (this.endDate == null || !Datepicker._compareDates(selectedDate,  this.endDate)) {
+          if (
+            Datepicker._isDate(this.date) &&
+            this.options.isDateRange &&
+            Datepicker._comparePastDate(selectedDate, this.date)
+          ) {
+            return;
+          }
+
           this.setDate(
             selectedDate,
             false,
@@ -1136,18 +1150,19 @@ export class Datepicker extends Component<DatepickerOptions> {
     // Prevent change event from being fired when triggered by the plugin
     if (e['detail']?.firedBy === this) return;
     if (this.options.parse) {
-      date = this.options.parse(this.el.value,
+      date = this.options.parse((e.target as HTMLInputElement).value,
         typeof this.options.format === "function"
           ? this.options.format(new Date(this.el.value))
           : this.options.format);
     }
     else {
-      date = new Date(Date.parse(this.el.value));
+      date = new Date(Date.parse((e.target as HTMLInputElement).value));
     }
     if (Datepicker._isDate(date)) {
       this.setDate(date, false, (e.target as HTMLElement) == this.endDateEl);
       if (e.type == 'date') {
         this.setDataDate(e, date);
+        this.setInputValues();
       }
     }
   }
