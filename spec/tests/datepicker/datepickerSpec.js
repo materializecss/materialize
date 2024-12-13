@@ -87,7 +87,7 @@ describe('Datepicker Plugin', () => {
       const day = 11;
       input.value = `${month < 10 ? `0${month}` : month}/${day}/${year}`;
       input.dispatchEvent(
-        new Event('change', { bubbles: true, cancelable: true })
+        new KeyboardEvent('change', { bubbles: true, cancelable: true })
       );
       keydown(input, 13);
       setTimeout(() => {
@@ -98,8 +98,8 @@ describe('Datepicker Plugin', () => {
         const selectMonthElem = document.querySelector('.datepicker-select.orig-select-month');
         const selectYearElem = document.querySelector('.datepicker-select.orig-select-year');
         const selectedDayElem = document.querySelector(`.datepicker-row td[data-day="${day}"]`);
-        expect(selectMonthElem.querySelector('option[selected="selected"]').value === (month -1).toString()).toEqual(true, `selected month should be ${month}, given value ${selectMonthElem.querySelector('option[selected="selected"]').value}`)
-        expect(selectYearElem.querySelector('option[selected="selected"]').value === year.toString()).toEqual(true, `selected year should be ${year}, given value ${selectYearElem.querySelector('option[selected="selected"]').value}`)
+        expect(selectMonthElem.querySelector('option[selected="selected"]').value === (month - 1).toString()).toEqual(true, `selected month should be ${month}, given value ${selectMonthElem.querySelector('option[selected="selected"]').value}`);
+        expect(selectYearElem.querySelector('option[selected="selected"]').value === year.toString()).toEqual(true, `selected year should be ${year}, given value ${selectYearElem.querySelector('option[selected="selected"]').value}`);
         expect(selectedDayElem.classList.contains('is-selected')).toEqual(true, `selected day should be ${day}, given value ${selectedDayElem.classList}`);
         done();
       }, 10);
