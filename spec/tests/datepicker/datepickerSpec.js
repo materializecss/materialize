@@ -41,7 +41,7 @@ describe('Datepicker Plugin', () => {
     it('can have a string format', (done) => {
       const input = document.querySelector('#datepickerInput');
       const today = new Date();
-      M.Datepicker.init(input, { format: 'mm/dd/yyyy' }).open();
+      M.Datepicker.init(input, { format: 'mm/dd/yyyy' });
       const datepicker = M.Datepicker.getInstance(input);
       datepicker.open();
       setTimeout(() => {
@@ -50,10 +50,9 @@ describe('Datepicker Plugin', () => {
         document.querySelector('.datepicker-done').click();
         setTimeout(() => {
           const year = today.getFullYear();
-          let month = today.getMonth() + 1;
-          month = month < 10 ? `0${month}` : month;
+          const month = today.getMonth() + 1;
           const value = datepicker.toString();
-          expect(value).toEqual(`${month}/01/${year}`);
+          expect(value).toEqual(`${month < 10 ? `0${month}` : month}/01/${year}`);
           done();
         }, 400);
       }, 400);
@@ -63,7 +62,7 @@ describe('Datepicker Plugin', () => {
       const input = document.querySelector('#datepickerInput');
       const today = new Date();
       const formatFn = `${today.getFullYear() - 100}-${today.getMonth() + 1}-99`;
-      M.Datepicker.init(input, { format: formatFn }).open();
+      M.Datepicker.init(input, { format: formatFn });
       const datepicker = M.Datepicker.getInstance(input);
       datepicker.open();
       setTimeout(() => {
@@ -73,7 +72,7 @@ describe('Datepicker Plugin', () => {
         setTimeout(() => {
           const year = today.getFullYear() - 100;
           const month = today.getMonth() + 1;
-          expect(datepicker.toString()).toEqual(`${year}-${month}-99`);
+          expect(datepicker.toString()).toEqual(`${year}-${month < 10 ? `0${month}` : month}-99`);
           done();
         }, 400);
       }, 400);
