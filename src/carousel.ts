@@ -359,7 +359,7 @@ export class Carousel extends Component<CarouselOptions> {
 
   _handleIndicatorKeyPress = (e: KeyboardEvent) => {
     e.stopPropagation();
-    if (e.keyCode === 13) {
+    if (Utils.keys.ENTER.includes(e.key)) {
       this._handleIndicatorInteraction(e);
     }
   }
