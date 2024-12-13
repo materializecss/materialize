@@ -109,7 +109,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
   _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleResize(); }, 200).bind(this);
 
   _handleKeyboardInteraction = (e: KeyboardEvent) => {
-    if (e.keyCode === 13) {
+    if (Utils.keys.ENTER.includes(e.key)) {
       this._handleTargetToggle();
     }
   }
