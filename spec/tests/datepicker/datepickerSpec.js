@@ -104,5 +104,14 @@ describe('Datepicker Plugin', () => {
         done();
       }, 10);
     });
+
+    it('should have a date range input field if date range option is enabled', (done) => {
+      const input = document.querySelector('#datepickerInput');
+      M.Datepicker.init(input, { isDateRange: true });
+      setTimeout(() => {
+        expect(document.querySelector('.datepicker-end-date')).toExist('end date input should exist');
+        done();
+      }, 10);
+    });
   });
 });
