@@ -133,6 +133,7 @@ export class Carousel extends Component<CarouselOptions> {
       if (this.showIndicators) {
         const indicator = document.createElement('li');
         indicator.classList.add('indicator-item');
+        indicator.tabIndex = 0;
         if (i === 0) {
           indicator.classList.add('active');
         }
@@ -211,6 +212,7 @@ export class Carousel extends Component<CarouselOptions> {
     if (this.showIndicators && this._indicators) {
       this._indicators.querySelectorAll('.indicator-item').forEach((el) => {
         el.addEventListener('click', this._handleIndicatorClick);
+        el.addEventListener('keypress', this._handleIndicatorKeyPress);
       });
     }
     // Resize
@@ -352,6 +354,17 @@ export class Carousel extends Component<CarouselOptions> {
 
   _handleIndicatorClick = (e: Event) => {
     e.stopPropagation();
+    this._handleIndicatorInteraction(e);
+  }
+
+  _handleIndicatorKeyPress = (e: KeyboardEvent) => {
+    e.stopPropagation();
+    if (Utils.keys.ENTER.includes(e.key)) {
+      this._handleIndicatorInteraction(e);
+    }
+  }
+
+  _handleIndicatorInteraction = (e: Event) => {
     const indicator = (<HTMLElement>e.target).closest('.indicator-item');
     if (indicator) {
       const index = [...indicator.parentNode.children].indexOf(indicator);

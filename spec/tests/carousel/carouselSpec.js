@@ -20,6 +20,10 @@ describe('Carousel', () => {
   afterEach(() => XunloadFixtures());
 
   describe('carousel plugin', () => {
+    afterEach(() => {
+      M.Carousel.getInstance(document.querySelector('.carousel')).destroy();
+    });
+
     it('No wrap next and prev should not overflow', (done) => {
       const noWrap = M.Carousel.init(document.querySelector('#slider-no-wrap'), {
         duration: 10,
@@ -39,5 +43,19 @@ describe('Carousel', () => {
         }, 30);
       }, 50);
     });
+
+    it('should change index and focus its respective item on indicator click', (done) => {
+      const carousel = M.Carousel.init(document.querySelector('.carousel'), {
+        duration: 10,
+        indicators: true
+      });
+
+      document.querySelectorAll('.indicator-item')[1].click();
+      setTimeout(() => {
+        expect(carousel.center).toEqual(1, 'carousel item was not visible after indicator interaction');
+        done();
+      }, 30);
+    });
+
   });
 });
