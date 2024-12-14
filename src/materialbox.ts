@@ -135,23 +135,26 @@ export class Materialbox extends Component<MaterialboxOptions> {
 
   private _removeEventHandlers() {
     this.el.removeEventListener('click', this._handleMaterialboxClick);
+    this.el.removeEventListener('keypress', this._handleMaterialboxKeypress);
   }
 
   private _handleMaterialboxClick = () => {
     this._handleMaterialboxToggle();
   };
+
   private _handleMaterialboxKeypress = (e: KeyboardEvent) => {
     if (Utils.keys.ENTER.includes(e.key)) {
       this._handleMaterialboxToggle();
     }
   };
+
   private _handleMaterialboxToggle = () => {
     // If already modal, return to original
     if (this.doneAnimating === false || (this.overlayActive && this.doneAnimating))
       this.close();
     else
       this.open();
-  }
+  };
 
   private _handleWindowScroll = () => {
     if (this.overlayActive) this.close();
