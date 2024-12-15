@@ -3,7 +3,7 @@ import { Dropdown, DropdownOptions } from "./dropdown";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
 export interface AutocompleteData {
-  /** 
+  /**
    * A primitive value that can be converted to string.
    * If "text" is not provided, it will also be used as "option text" as well
    */
@@ -82,7 +82,7 @@ let _defaults: AutocompleteOptions = {
   onSearch: (text: string, autocomplete: Autocomplete) => {
     const normSearch = text.toLocaleLowerCase();
     autocomplete.setMenuItems(
-      autocomplete.options.data.filter((option) => 
+      autocomplete.options.data.filter((option) =>
         option.id.toString().toLocaleLowerCase().includes(normSearch)
           || option.text?.toLocaleLowerCase().includes(normSearch)
       )
@@ -118,7 +118,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       ...Autocomplete.defaults,
       ...options
     };
-    
+
     this.isOpen = false;
     this.count = 0;
     this.activeIndex = -1;
@@ -215,6 +215,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.container.style.maxHeight = this.options.maxDropDownHeight;
     this.container.id = `autocomplete-options-${Utils.guid()}`;
     this.container.classList.add('autocomplete-content', 'dropdown-content');
+    this.container.ariaExpanded = 'true';
     this.el.setAttribute('data-target', this.container.id);
 
     this.menuItems.forEach(menuItem => {
@@ -260,6 +261,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   }
 
   _removeDropdown() {
+    this.container.ariaExpanded = 'false';
     this.container.parentNode.removeChild(this.container);
   }
 
@@ -368,6 +370,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       'style',
       'display:grid; grid-auto-flow: column; user-select: none; align-items: center;'
     );
+    item.tabIndex = 0;
     // Checkbox
     if (this.options.isMultiSelect) {
       item.innerHTML = `
