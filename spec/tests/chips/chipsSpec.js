@@ -1,10 +1,12 @@
 /* eslint-disable no-undef */
 
 describe('Chips', () => {
-  const fixture = `<div class="chips"><input></div>
-<div class="chips chips-initial"><input></div>
-<div class="chips chips-placeholder"><input></div>
-<div class="chips chips-autocomplete"><input></div>`;
+  const fixture = `<div class="chips"></div>
+<div class="chips chips-initial"></div>
+<div class="chips input-field"><input></div>
+<div class="chips chips-initial input-field"><input></div>
+<div class="chips chips-placeholder input-field"><input></div>
+<div class="chips chips-autocomplete input-field"><input></div>`;
 
   beforeEach(() => {
     XloadHtml(fixture);
@@ -21,11 +23,29 @@ describe('Chips', () => {
         }
       ]
     });
-    M.Chips.init(document.querySelector('.chips-placeholder'), {
+    M.Chips.init(document.querySelector('.chips.input-field'), {
+      allowUserInput: true
+    });
+    M.Chips.init(document.querySelector('.chips-initial.input-field'), {
+      allowUserInput: true,
+      data: [
+        { id: 12, text: 'Apple' },
+        { id: 13, text: 'Microsoft' },
+        {
+          id: 42,
+          text: 'Google',
+          image:
+            'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='
+        }
+      ]
+    });
+    M.Chips.init(document.querySelector('.chips-placeholder.input-field'), {
+      allowUserInput: true,
       placeholder: 'Enter a tag',
       secondaryPlaceholder: '+Tag'
     });
-    M.Chips.init(document.querySelector('.chips-autocomplete'), {
+    M.Chips.init(document.querySelector('.chips-autocomplete.input-field'), {
+      allowUserInput: true,
       autocompleteOptions: {
         data: [
           { id: 12, text: 'Apple' },
@@ -38,20 +58,21 @@ describe('Chips', () => {
   afterEach(() => XunloadFixtures());
 
   describe('chips plugin', () => {
-    let chips, input;
+    let chips, chipsUserInput, input;
 
     it('should work with multiple initializations', () => {
       chips = document.querySelector('.chips');
       M.Chips.init(chips);
       M.Chips.init(chips);
       M.Chips.init(chips);
-      M.Chips.init(chips);
-      input = chips.querySelectorAll('input');
+      chipsUserInput = document.querySelector('.chips.input-field');
+      M.Chips.init(chips, {allowUserInput: true});
+      input = chipsUserInput.querySelectorAll('input');
       expect(input.length).toEqual(1, 'Should dynamically generate chips structure.');
     });
 
     it('should be able to add chip', (done) => {
-      chips = document.querySelector('.chips');
+      chips = document.querySelector('.chips.input-field');
       input = chips.querySelector('input');
       input.value = 'one';
       keydown(input, 13);
@@ -68,11 +89,12 @@ describe('Chips', () => {
     });
 
     it('should be able to delete chip', (done) => {
-      chips = document.querySelector('.chips.chips-initial');
-      input = chips.querySelector('input');
+      chips = document.querySelector('.chips.chips-initial.input-field');
       let numChips = chips.querySelectorAll('.chip').length;
       expect(numChips).toEqual(3, '3 initial chips should have been added');
-      click(chips.querySelector('.chip .close'));
+      let chipCloseButton = chips.querySelectorAll('.chip .close');
+      expect(chipCloseButton.length).toEqual(3, 'expected all chips to have close button');
+      click(chipCloseButton[0]);
       setTimeout(() => {
         numChips = chips.querySelectorAll('.chip').length;
         expect(numChips).toEqual(2, 'one chip should have been deleted');
@@ -81,7 +103,7 @@ describe('Chips', () => {
     });
 
     it('should have working callbacks', (done) => {
-      chips = document.querySelector('.chips');
+      chips = document.querySelector('.chips.input-field');
       let chipWasAdded = false;
       let chipAddedElem = null;
       let chipSelect = false;
@@ -90,6 +112,7 @@ describe('Chips', () => {
       let chipDeleted = null;
 
       M.Chips.init(chips, {
+        allowUserInput: true,
         data: [{ id: 'One' }, { id: 'Two' }, { id: 'Three' }],
         onChipAdd: (chipsEl, chipEl) => {
           chipAddedElem = chipEl;
