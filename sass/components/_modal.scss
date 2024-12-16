@@ -16,15 +16,13 @@ dialog::backdrop {
   padding: 0;
   max-height: 70%;
   width: 55%;
-  overflow-y: auto;
   border-radius: var(--modal-border-radius);
   will-change: top, opacity;
 
   // Dialog open
   &[open] {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: min-content auto min-content;
+    display: flex;
+    flex-direction: column;
   }
 
   // Background
@@ -37,6 +35,7 @@ dialog::backdrop {
   .modal-header {
     padding: var(--modal-padding);
     padding-bottom: var(--modal-padding-bottom);
+    flex-shrink: 0;
   }
   .modal-content {
     padding: 0 var(--modal-padding);
@@ -46,6 +45,7 @@ dialog::backdrop {
     border-radius: 0 0 var(--modal-border-radius) var(--modal-border-radius);
     padding: var(--modal-padding);
     text-align: right;
+    flex-shrink: 0;
   }
 
   .modal-close {
@@ -53,44 +53,8 @@ dialog::backdrop {
   }
 
   // todo: remove maybe
-  h1,h2,h3,h4 {
+  h1,h2,h3,h4,h5,h6 {
     margin: 0;
-  }
-}
-
-// backdrop
-// .modal-overlay {
-//   //position: fixed;
-//   //top: -25%;
-//   //left: 0;
-//   //bottom: 0;
-//   //right: 0;
-//   //height: 125%;
-//   //width: 100%;
-//   //display: none;
-//   z-index: 999;
-//   background: #000;
-//   will-change: opacity;
-// }
-
-// Modal with fixed action footer
-.modal.modal-fixed-footer {
-  padding: 0;
-  //max-height: 70%;
-
-  .modal-content {
-    //position: absolute;
-    //height: calc(100% - var(--modal-footer-height));
-    //max-height: 100%;
-    height: 100%;
-    //width: 100%;
-    overflow-y: auto;
-  }
-
-  .modal-footer {
-    //border-top: var(--modal-footer-divider-height) solid var(--md-sys-color-outline-variant);
-    //position: absolute;
-    bottom: var(--modal-footer-divider-height);
   }
 }
 
