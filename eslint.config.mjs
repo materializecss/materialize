@@ -1,9 +1,10 @@
 import typescriptEslint from 'typescript-eslint';
 
 export default [
+  { files: ['src/**/*.{ts,js,mjs}'] },
   {
-    files: ['src/**/*.{ts,js,mjs}'],
-    ignores: ['dist', 'node_modules']
+    // https://eslint.org/docs/latest/use/configure/configuration-files
+    ignores: ['dist', 'tsconfig.json', 'node_modules']
   },
   ...typescriptEslint.configs.recommended,
   {
