@@ -1,7 +1,7 @@
-import { Modal } from "./modal";
-import { Utils } from "./utils";
-import { FormSelect } from "./select";
-import { BaseOptions, Component, InitElements, MElement, I18nOptions } from "./component";
+import { Modal } from './modal';
+import { Utils } from './utils';
+import { FormSelect } from './select';
+import { BaseOptions, Component, I18nOptions, InitElements, MElement } from './component';
 
 export interface DateI18nOptions extends I18nOptions {
   previousMonth: string;
@@ -485,10 +485,9 @@ export class Datepicker extends Component<DatepickerOptions> {
    */
   formatDate(date: Date, format: string) {
     const formatArray = format.split(/(d{1,4}|m{1,4}|y{4}|yy|!.)/g);
-    const formattedDate = formatArray
+    return formatArray
       .map(label => this.formats[label] ? this.formats[label](date) : label)
       .join('');
-    return formattedDate;
   }
 
   /**
@@ -674,7 +673,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     for (let i = 0, r = 0; i < cells; i++) {
       let day = new Date(year, month, 1 + (i - before)),
         isToday = Datepicker._compareDates(day, now),
-        hasEvent = opts.events.indexOf(day.toDateString()) !== -1 ? true : false,
+        hasEvent = opts.events.indexOf(day.toDateString()) !== -1,
         isEmpty = i < before || i >= days + before,
         dayNumber = 1 + (i - before),
         monthNumber = month,
@@ -1058,8 +1057,8 @@ export class Datepicker extends Component<DatepickerOptions> {
     if(e.type == 'date') {
       e.preventDefault()
     }
-    this.open();
     this.setDateFromInput(e.target as HTMLInputElement);
+    this.open();
     this.gotoDate(<HTMLElement>(e.target) === this.el ? this.date : this.endDate);
   }
 
