@@ -1,5 +1,5 @@
-const fs = require('fs');
-const archiver = require('archiver');
+import fs from 'fs';
+import archiver from 'archiver';
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json').toString());
 
