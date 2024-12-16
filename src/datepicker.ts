@@ -261,6 +261,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   id: string;
   /** If the picker is open. */
   isOpen: boolean;
+  multiple: boolean = false;
   modal: Modal;
   calendarEl: HTMLElement;
   /** CLEAR button instance. */
@@ -324,6 +325,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.gotoDate(new Date());
     }
     if (this.options.isDateRange) {
+      this.multiple = true;
       let defEndDate = this.options.defaultEndDate;
       if(Datepicker._isDate(defEndDate))
       {
@@ -370,6 +372,9 @@ export class Datepicker extends Component<DatepickerOptions> {
     return day === 0 || day === 6;
   }
 
+  /**
+   * @deprecated since it does nothing as it's only updating the encapsulated variable (no return/global param change)
+   */
   static _setToStartOfDay(date) {
     if (Datepicker._isDate(date)) date.setHours(0, 0, 0, 0);
   }
@@ -487,6 +492,14 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   /**
+   * Sets date from input field.
+   */
+  setDateFromInput(el: HTMLInputElement) {
+    const date = new Date(Date.parse(el.value));
+    this.setDate(date, false, el == this.endDateEl);
+  }
+
+  /**
    * Set a date on the datepicker.
    * @param date Date to set on the datepicker.
    * @param preventOnSelect Undocumented as of 5 March 2018.
@@ -574,7 +587,6 @@ export class Datepicker extends Component<DatepickerOptions> {
   /**
    * Change date view to a specific date on the datepicker.
    * @param date Date to show on the datepicker.
-   * @param endDate
    */
   gotoDate(date: Date) {
     let newCalendar = true;
@@ -1047,12 +1059,14 @@ export class Datepicker extends Component<DatepickerOptions> {
       e.preventDefault()
     }
     this.open();
+    this.setDateFromInput(e.target as HTMLInputElement);
     this.gotoDate(<HTMLElement>(e.target) === this.el ? this.date : this.endDate);
   }
 
   _handleInputKeydown = (e: KeyboardEvent) => {
     if (Utils.keys.ENTER.includes(e.key)) {
       e.preventDefault();
+      this.setDateFromInput(e.target as HTMLInputElement);
       this.open();
     }
   }
@@ -1072,34 +1086,17 @@ export class Datepicker extends Component<DatepickerOptions> {
           e.target.getAttribute('data-day')
         );
 
-        if (this.endDate == null || !Datepicker._compareDates(selectedDate,  this.endDate)) {
-          if (
-            Datepicker._isDate(this.date) &&
-            this.options.isDateRange &&
-            Datepicker._comparePastDate(selectedDate, this.date)
-          ) {
-            return;
-          }
-
-          this.setDate(
-            selectedDate,
-            false,
-            Datepicker._isDate(this.date) && this.options.isDateRange
-          );
-
-          if (this.options.autoClose) {
-            this._finishSelection();
-          }
-
-          return;
+        if (!this.multiple) {
+          this._handleSingleDateCalendarClick(selectedDate);
         }
 
-        if (!this.options.isDateRange) {
-          return;
+        if (this.options.isDateRange) {
+          this._handleDateRangeCalendarClick(selectedDate);
         }
 
-        this._clearDates();
-        this.draw();
+        if (this.options.autoClose) {
+          this._finishSelection();
+        }
       }
       else if (target.closest('.month-prev')) {
         this.prevMonth();
@@ -1108,6 +1105,24 @@ export class Datepicker extends Component<DatepickerOptions> {
         this.nextMonth();
       }
     }
+  }
+
+  _handleSingleDateCalendarClick = (date: Date) => {
+    this.setDate(date);
+  }
+
+  _handleDateRangeCalendarClick = (date: Date) => {
+    if (this.endDate == null || !Datepicker._compareDates(date,  this.endDate)) {
+      if (Datepicker._isDate(this.date) && Datepicker._comparePastDate(date, this.date)) {
+        return;
+      }
+
+      this.setDate(date, false, Datepicker._isDate(this.date));
+      return;
+    }
+
+    this._clearDates();
+    this.draw();
   }
 
   _handleClearClick = () => {
