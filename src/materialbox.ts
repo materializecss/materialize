@@ -74,7 +74,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
       ...Materialbox.defaults,
       ...options
     };
-    
+
     this.overlayActive = false;
     this.doneAnimating = true;
     this.placeholder = document.createElement('div');
@@ -83,6 +83,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
     this.originalHeight = 0;
     this.originInlineStyles = this.el.getAttribute('style');
     this.caption = this.el.getAttribute('data-caption') || '';
+    this.el.tabIndex = 0;
     // Wrap
     this.el.before(this.placeholder);
     this.placeholder.append(this.el);
@@ -129,19 +130,31 @@ export class Materialbox extends Component<MaterialboxOptions> {
 
   private _setupEventHandlers() {
     this.el.addEventListener('click', this._handleMaterialboxClick);
+    this.el.addEventListener('keypress', this._handleMaterialboxKeypress);
   }
 
   private _removeEventHandlers() {
     this.el.removeEventListener('click', this._handleMaterialboxClick);
+    this.el.removeEventListener('keypress', this._handleMaterialboxKeypress);
   }
 
   private _handleMaterialboxClick = () => {
+    this._handleMaterialboxToggle();
+  };
+
+  private _handleMaterialboxKeypress = (e: KeyboardEvent) => {
+    if (Utils.keys.ENTER.includes(e.key)) {
+      this._handleMaterialboxToggle();
+    }
+  };
+
+  private _handleMaterialboxToggle = () => {
     // If already modal, return to original
     if (this.doneAnimating === false || (this.overlayActive && this.doneAnimating))
       this.close();
     else
       this.open();
-  }
+  };
 
   private _handleWindowScroll = () => {
     if (this.overlayActive) this.close();
@@ -237,7 +250,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
       easing: 'easeOutQuad',
       complete: () => {
         this.doneAnimating = true;
-        if (typeof this.options.onOpenEnd === 'function') this.options.onOpenEnd.call(this, this.el);        
+        if (typeof this.options.onOpenEnd === 'function') this.options.onOpenEnd.call(this, this.el);
       }
     });
     */
@@ -272,7 +285,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
       // Remove overflow overrides on ancestors
       this._changedAncestorList.forEach(anchestor => anchestor.style.overflow = '');
       // onCloseEnd callback
-      if (typeof this.options.onCloseEnd === 'function') this.options.onCloseEnd.call(this, this.el);  
+      if (typeof this.options.onCloseEnd === 'function') this.options.onCloseEnd.call(this, this.el);
     }, duration);
   }
 
