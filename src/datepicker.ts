@@ -244,8 +244,6 @@ let _defaults: DatepickerOptions = {
 export class Datepicker extends Component<DatepickerOptions> {
   declare el: HTMLInputElement;
   id: string;
-  /** If the picker is open. */
-  isOpen: boolean;
   multiple: boolean = false;
   calendarEl: HTMLElement;
   /** CLEAR button instance. */
@@ -315,7 +313,6 @@ export class Datepicker extends Component<DatepickerOptions> {
         }
       }
     }
-    this.isOpen = false;
   }
 
   static get defaults() {
@@ -443,15 +440,6 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.el.parentElement.appendChild(this.modalEl);
     }
   }
-
-  // _setupModal() {
-  //   this.modalEl.id = 'modal-' + this.id;
-  //   this.modal = Modal.init(this.modalEl, {
-  //     onCloseEnd: () => {
-  //       this.isOpen = false;
-  //     }
-  //   });
-  // }
 
   /**
    * Gets a string representation of the given date.
@@ -901,7 +889,7 @@ export class Datepicker extends Component<DatepickerOptions> {
 
   // refresh HTML
   draw(force: boolean = false) {
-    if (!this.isOpen && !force) return;
+    if (!force) return;
     let opts = this.options,
       minYear = opts.minYear,
       maxYear = opts.maxYear,
@@ -977,7 +965,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.el.addEventListener('keydown', this._handleInputKeydown);
     this.el.addEventListener('change', this._handleInputChange);
     this.calendarEl.addEventListener('click', this._handleCalendarClick);
-    this.doneBtn.addEventListener('click', this._finishSelection);
+    this.doneBtn.addEventListener('click', this.setInputValues);
     this.cancelBtn.addEventListener('click', this.close);
 
     if (this.options.showClearBtn) {
@@ -988,6 +976,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   _setupVariables() {
     const template = document.createElement('template');
     template.innerHTML = Datepicker._template.trim();
+
     this.modalEl = <HTMLElement>template.content.firstChild;
 
     this.calendarEl = this.modalEl.querySelector('.datepicker-calendar');
@@ -996,6 +985,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     if (this.options.showClearBtn) {
       this.clearBtn = this.modalEl.querySelector('.datepicker-clear');
     }
+    // TODO: This should not be part of the datepicker
     this.doneBtn = this.modalEl.querySelector('.datepicker-done');
     this.cancelBtn = this.modalEl.querySelector('.datepicker-cancel');
 
@@ -1053,7 +1043,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       e.preventDefault();
     }
     this.setDateFromInput(e.target as HTMLInputElement);
-    this.open();
+    this.draw();
     this.gotoDate(<HTMLElement>e.target === this.el ? this.date : this.endDate);
   };
 
@@ -1061,12 +1051,11 @@ export class Datepicker extends Component<DatepickerOptions> {
     if (Utils.keys.ENTER.includes(e.key)) {
       e.preventDefault();
       this.setDateFromInput(e.target as HTMLInputElement);
-      this.open();
+      this.draw();
     }
   };
 
   _handleCalendarClick = (e) => {
-    if (!this.isOpen) return;
     const target = <HTMLElement>e.target;
     if (!target.classList.contains('is-disabled')) {
       if (
@@ -1079,18 +1068,9 @@ export class Datepicker extends Component<DatepickerOptions> {
           e.target.getAttribute('data-month'),
           e.target.getAttribute('data-day')
         );
-
-        if (!this.multiple) {
-          this._handleSingleDateCalendarClick(selectedDate);
-        }
-
-        if (this.options.isDateRange) {
-          this._handleDateRangeCalendarClick(selectedDate);
-        }
-
-        //if (this.options.autoClose) {
-        this._finishSelection();
-        //}
+        if (!this.multiple) this._handleSingleDateCalendarClick(selectedDate);
+        if (this.options.isDateRange) this._handleDateRangeCalendarClick(selectedDate);
+        this.setInputValues();
       } else if (target.closest('.month-prev')) {
         this.prevMonth();
       } else if (target.closest('.month-next')) {
@@ -1120,7 +1100,6 @@ export class Datepicker extends Component<DatepickerOptions> {
   _handleClearClick = () => {
     this._clearDates();
     this.setInputValues();
-    this.close();
   };
 
   _clearDates = () => {
@@ -1186,33 +1165,21 @@ export class Datepicker extends Component<DatepickerOptions> {
     return abbr ? opts.i18n.weekdaysAbbrev[day] : opts.i18n.weekdays[day];
   }
 
-  // Set input value to the selected date and close Datepicker
-  _finishSelection = () => {
-    this.setInputValues();
-    //this.close();
-  };
-
-  /**
-   * Open datepicker.
-   */
+  // TODO: remove
   open = () => {
-    this.draw();
-    //this.modalEl.show();
+    console.warn('Datepicker.open() is deprecated. Remove this method and wrap in modal yourself.');
     return this;
   };
-
-  /**
-   * Close datepicker.
-   */
   close = () => {
-    //this.modalEl.close();
+    console.warn(
+      'Datepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
+    );
     return this;
   };
 
   static {
-    // TODO: Remove modal-class
     Datepicker._template = `
-      <div class="modal datepicker-modal">
+      <dialog class="modal datepicker-modal" open>
         <div class="modal-content datepicker-container">
           <div class="datepicker-date-display">
             <span class="year-text"></span>
@@ -1229,6 +1196,6 @@ export class Datepicker extends Component<DatepickerOptions> {
             </div>
           </div>
         </div>
-      </div>`;
+      </dialog>`;
   }
 }
