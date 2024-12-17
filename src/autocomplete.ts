@@ -68,7 +68,7 @@ export interface AutocompleteOptions extends BaseOptions {
   dropdownOptions: Partial<DropdownOptions>;
 };
 
-let _defaults: AutocompleteOptions = {
+const _defaults: AutocompleteOptions = {
   data: [], // Autocomplete data set
   onAutocomplete: null, // Callback for when autocompleted
   dropdownOptions: {
@@ -226,11 +226,11 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.el.parentElement.appendChild(this.container);
 
     // Initialize dropdown
-    let dropdownOptions = {
+    const dropdownOptions = {
       ...Autocomplete.defaults.dropdownOptions,
       ...this.options.dropdownOptions
     };
-    let userOnItemClick = dropdownOptions.onItemClick;
+    const userOnItemClick = dropdownOptions.onItemClick;
     // Ensuring the select Option call when user passes custom onItemClick function to dropdown
     dropdownOptions.onItemClick = (li) => {
       if (!li) return;

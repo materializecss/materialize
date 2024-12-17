@@ -44,7 +44,7 @@ export interface ToastOptions extends BaseOptions {
   activationPercent: number;
 }
 
-let _defaults: ToastOptions = {
+const _defaults: ToastOptions = {
   text: '',
   displayLength: 4000,
   inDuration: 300,
@@ -93,7 +93,7 @@ export class Toast {
     }
     // Create new toast
     Toast._toasts.push(this);
-    let toastElement = this._createToast();
+    const toastElement = this._createToast();
     (toastElement as any).M_Toast = this;
     this.el = toastElement;
     this._animateIn();
@@ -161,13 +161,13 @@ export class Toast {
 
   static _onDragEnd() {
     if (!!Toast._draggedToast) {
-      let toast = Toast._draggedToast;
+      const toast = Toast._draggedToast;
       toast.panning = false;
       toast.el.classList.remove('panning');
 
-      let totalDeltaX = toast.xPos - toast.startingXPos;
-      let activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
-      let shouldBeDismissed = Math.abs(totalDeltaX) > activationDistance || toast.velocityX > 1;
+      const totalDeltaX = toast.xPos - toast.startingXPos;
+      const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
+      const shouldBeDismissed = Math.abs(totalDeltaX) > activationDistance || toast.velocityX > 1;
 
       // Remove toast
       if (shouldBeDismissed) {
@@ -196,7 +196,7 @@ export class Toast {
    * dismiss all toasts.
    */
   static dismissAll() {
-    for (let toastIndex in Toast._toasts) {
+    for (const toastIndex in Toast._toasts) {
       Toast._toasts[toastIndex].dismiss();
     }
   }
@@ -261,7 +261,7 @@ export class Toast {
    */
   dismiss() {
     window.clearInterval(this.counterInterval);
-    let activationDistance = this.el.offsetWidth * this.options.activationPercent;
+    const activationDistance = this.el.offsetWidth * this.options.activationPercent;
 
     if (this.wasSwiped) {
       this.el.style.transition = 'transform .05s, opacity .05s';

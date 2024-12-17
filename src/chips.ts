@@ -75,7 +75,7 @@ export interface ChipsOptions extends BaseOptions{
   onChipDelete: (element: HTMLElement, chip: HTMLElement) => void;
 }
 
-let _defaults: ChipsOptions = {
+const _defaults: ChipsOptions = {
   data: [],
   placeholder: '',
   secondaryPlaceholder: '',

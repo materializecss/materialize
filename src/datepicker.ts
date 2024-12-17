@@ -164,7 +164,7 @@ export interface DatepickerOptions extends BaseOptions {
   endRange?: any;
 }
 
-let _defaults: DatepickerOptions = {
+const _defaults: DatepickerOptions = {
   // Close when date is selected
   autoClose: false,
   // the default output format for the input field value
@@ -311,7 +311,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.options.defaultDate = new Date(Date.parse(this.el.value));
     }
 
-    let defDate = this.options.defaultDate;
+    const defDate = this.options.defaultDate;
     if (Datepicker._isDate(defDate)) {
       if (this.options.setDefaultDate) {
         this.setDate(defDate, true);
@@ -326,7 +326,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     }
     if (this.options.isDateRange) {
       this.multiple = true;
-      let defEndDate = this.options.defaultEndDate;
+      const defEndDate = this.options.defaultEndDate;
       if(Datepicker._isDate(defEndDate))
       {
         if (this.options.setDefaultEndDate) {
@@ -368,7 +368,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   static _isWeekend(date) {
-    let day = date.getDay();
+    const day = date.getDay();
     return day === 0 || day === 6;
   }
 
@@ -416,11 +416,11 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   destroySelects() {
-    let oldYearSelect = this.calendarEl.querySelector('.orig-select-year');
+    const oldYearSelect = this.calendarEl.querySelector('.orig-select-year');
     if (oldYearSelect) {
       FormSelect.getInstance(oldYearSelect as HTMLElement).destroy();
     }
-    let oldMonthSelect = this.calendarEl.querySelector('.orig-select-month');
+    const oldMonthSelect = this.calendarEl.querySelector('.orig-select-month');
     if (oldMonthSelect) {
       FormSelect.getInstance(oldMonthSelect as HTMLElement).destroy();
     }
@@ -517,7 +517,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     if (!Datepicker._isDate(date)) {
       return;
     }
-    let min = this.options.minDate,
+    const min = this.options.minDate,
       max = this.options.maxDate;
     if (Datepicker._isDate(min) && date < min) {
       date = min;
@@ -593,7 +593,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       return;
     }
     if (this.calendars) {
-      let firstVisibleDate = new Date(this.calendars[0].year, this.calendars[0].month, 1),
+      const firstVisibleDate = new Date(this.calendars[0].year, this.calendars[0].month, 1),
         lastVisibleDate = new Date(
           this.calendars[this.calendars.length - 1].year,
           this.calendars[this.calendars.length - 1].month,
@@ -658,7 +658,7 @@ export class Datepicker extends Component<DatepickerOptions> {
         before += 7;
       }
     }
-    let previousMonth = month === 0 ? 11 : month - 1,
+    const previousMonth = month === 0 ? 11 : month - 1,
       nextMonth = month === 11 ? 0 : month + 1,
       yearOfPreviousMonth = month === 0 ? year - 1 : year,
       yearOfNextMonth = month === 11 ? year + 1 : year,
@@ -710,7 +710,7 @@ export class Datepicker extends Component<DatepickerOptions> {
         }
       }
 
-      let dayConfig = {
+      const dayConfig = {
         day: dayNumber,
         month: monthNumber,
         year: yearNumber,
@@ -739,7 +739,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   renderDay(opts) {
-    let arr = [];
+    const arr = [];
     let ariaSelected = 'false';
     if (opts.isEmpty) {
       if (opts.showDaysInNextAndPreviousMonths) {
@@ -873,7 +873,7 @@ export class Datepicker extends Component<DatepickerOptions> {
 
     yearHtml = `<select class="datepicker-select orig-select-year" tabindex="-1">${arr.join('')}</select>`;
 
-    let leftArrow =
+    const leftArrow =
       '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/><path d="M0-.5h24v24H0z" fill="none"/></svg>';
     html += `<button class="month-prev${
       prev ? '' : ' is-disabled'
@@ -895,7 +895,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       next = false;
     }
 
-    let rightArrow =
+    const rightArrow =
       '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/><path d="M0-.25h24v24H0z" fill="none"/></svg>';
     html += `<button class="month-next${
       next ? '' : ' is-disabled'
@@ -957,8 +957,8 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.calendarEl.innerHTML = html;
 
     // Init Materialize Select
-    let yearSelect = this.calendarEl.querySelector('.orig-select-year') as HTMLSelectElement;
-    let monthSelect = this.calendarEl.querySelector('.orig-select-month') as HTMLSelectElement;
+    const yearSelect = this.calendarEl.querySelector('.orig-select-year') as HTMLSelectElement;
+    const monthSelect = this.calendarEl.querySelector('.orig-select-month') as HTMLSelectElement;
     FormSelect.init(yearSelect, {
       classes: 'select-year',
       dropdownOptions: { container: document.body, constrainWidth: false }
@@ -1009,7 +1009,7 @@ export class Datepicker extends Component<DatepickerOptions> {
         return date.getDate();
       },
       dd: (date: Date) => {
-        let d = date.getDate();
+        const d = date.getDate();
         return (d < 10 ? '0' : '') + d;
       },
       ddd: (date: Date) => {
@@ -1022,7 +1022,7 @@ export class Datepicker extends Component<DatepickerOptions> {
         return date.getMonth() + 1;
       },
       mm: (date: Date) => {
-        let m = date.getMonth() + 1;
+        const m = date.getMonth() + 1;
         return (m < 10 ? '0' : '') + m;
       },
       mmm: (date: Date) => {

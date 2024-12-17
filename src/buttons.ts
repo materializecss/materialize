@@ -18,7 +18,7 @@ export interface FloatingActionButtonOptions extends BaseOptions {
   toolbarEnabled: boolean;
 };
 
-let _defaults: FloatingActionButtonOptions = {
+const _defaults: FloatingActionButtonOptions = {
   direction: 'top',
   hoverEnabled: true,
   toolbarEnabled: false
@@ -199,9 +199,9 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
 
   _animateInToolbar() {
     let scaleFactor;
-    let windowWidth = window.innerWidth;
-    let windowHeight = window.innerHeight;
-    let btnRect = this.el.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const btnRect = this.el.getBoundingClientRect();
 
     const backdrop =  document.createElement('div');
     backdrop.classList.add('fab-backdrop'); //  $('<div class="fab-backdrop"></div>');

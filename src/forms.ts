@@ -12,9 +12,9 @@ export class Forms {
       return;
     }
 
-    let hasLength = textfield.getAttribute('data-length') !== null;
-    let lenAttr = parseInt(textfield.getAttribute('data-length'));
-    let len = textfield.value.length;
+    const hasLength = textfield.getAttribute('data-length') !== null;
+    const lenAttr = parseInt(textfield.getAttribute('data-length'));
+    const len = textfield.value.length;
 
     if (len === 0 && textfield.validity.badInput === false && !textfield.required && textfield.classList.contains('validate')) {
       textfield.classList.remove('invalid');
