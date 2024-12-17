@@ -101,7 +101,6 @@ type Point = {
 export class Timepicker extends Component<TimepickerOptions> {
   declare el: HTMLInputElement;
   id: string;
-  //modal: Modal;
   modalEl: HTMLElement;
   plate: any;
   digitalClock: any;
@@ -147,12 +146,10 @@ export class Timepicker extends Component<TimepickerOptions> {
   constructor(el: HTMLInputElement, options: Partial<TimepickerOptions>) {
     super(el, options, Timepicker);
     (this.el as any).M_Timepicker = this;
-
     this.options = {
       ...Timepicker.defaults,
       ...options
     };
-
     this.id = Utils.guid();
     this._insertHTMLIntoDOM();
     this._setupVariables();
@@ -218,7 +215,6 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   destroy() {
     this._removeEventHandlers();
-    //this.modal.destroy();
     this.modalEl.remove();
     (this.el as any).M_Timepicker = undefined;
   }
