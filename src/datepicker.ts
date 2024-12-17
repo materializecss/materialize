@@ -1,4 +1,3 @@
-import { Modal } from './modal';
 import { Utils } from './utils';
 import { FormSelect } from './select';
 import { BaseOptions, Component, I18nOptions, InitElements, MElement } from './component';
@@ -14,11 +13,6 @@ export interface DateI18nOptions extends I18nOptions {
 }
 
 export interface DatepickerOptions extends BaseOptions {
-  /**
-   * Automatically close picker when date is selected.
-   * @default false
-   */
-  autoClose: boolean;
   /**
    * The date output format for the input field value
    * or a function taking the date and outputting the
@@ -135,15 +129,10 @@ export interface DatepickerOptions extends BaseOptions {
    */
   onSelect: ((selectedDate: Date) => void) | null;
   /**
-   * Callback function when Datepicker is opened.
-   * @default null
-   */
-  onOpen: (() => void) | null;
-  /**
    * Callback function when Datepicker is closed.
    * @default null
    */
-  onClose: (() => void) | null;
+  //onClose: (() => void) | null; // TODO: Remove
   /**
    * Callback function when Datepicker HTML is refreshed.
    * @default null
@@ -165,8 +154,6 @@ export interface DatepickerOptions extends BaseOptions {
 }
 
 let _defaults: DatepickerOptions = {
-  // Close when date is selected
-  autoClose: false,
   // the default output format for the input field value
   format: 'mmm dd, yyyy',
   // Used to create date object from current input string
@@ -251,8 +238,6 @@ let _defaults: DatepickerOptions = {
   events: [],
   // callback function
   onSelect: null,
-  onOpen: null,
-  onClose: null,
   onDraw: null
 };
 
@@ -262,14 +247,13 @@ export class Datepicker extends Component<DatepickerOptions> {
   /** If the picker is open. */
   isOpen: boolean;
   multiple: boolean = false;
-  modal: Modal;
   calendarEl: HTMLElement;
   /** CLEAR button instance. */
   clearBtn: HTMLElement;
   /** DONE button instance */
   doneBtn: HTMLElement;
   cancelBtn: HTMLElement;
-  modalEl: HTMLElement;
+  modalEl: HTMLDialogElement;
   yearTextEl: HTMLElement;
   dateTextEl: HTMLElement;
   endDateEl: HTMLInputElement;
@@ -304,7 +288,6 @@ export class Datepicker extends Component<DatepickerOptions> {
 
     this._setupVariables();
     this._insertHTMLIntoDOM();
-    this._setupModal();
     this._setupEventHandlers();
 
     if (!this.options.defaultDate) {
@@ -412,7 +395,6 @@ export class Datepicker extends Component<DatepickerOptions> {
 
   destroy() {
     this._removeEventHandlers();
-    this.modal.destroy();
     this.modalEl.remove();
     this.destroySelects();
     (this.el as any).M_Datepicker = undefined;
@@ -462,14 +444,14 @@ export class Datepicker extends Component<DatepickerOptions> {
     }
   }
 
-  _setupModal() {
-    this.modalEl.id = 'modal-' + this.id;
-    this.modal = Modal.init(this.modalEl, {
-      onCloseEnd: () => {
-        this.isOpen = false;
-      }
-    });
-  }
+  // _setupModal() {
+  //   this.modalEl.id = 'modal-' + this.id;
+  //   this.modal = Modal.init(this.modalEl, {
+  //     onCloseEnd: () => {
+  //       this.isOpen = false;
+  //     }
+  //   });
+  // }
 
   /**
    * Gets a string representation of the given date.
@@ -1106,9 +1088,9 @@ export class Datepicker extends Component<DatepickerOptions> {
           this._handleDateRangeCalendarClick(selectedDate);
         }
 
-        if (this.options.autoClose) {
-          this._finishSelection();
-        }
+        //if (this.options.autoClose) {
+        this._finishSelection();
+        //}
       } else if (target.closest('.month-prev')) {
         this.prevMonth();
       } else if (target.closest('.month-next')) {
@@ -1207,20 +1189,15 @@ export class Datepicker extends Component<DatepickerOptions> {
   // Set input value to the selected date and close Datepicker
   _finishSelection = () => {
     this.setInputValues();
-    this.close();
+    //this.close();
   };
 
   /**
    * Open datepicker.
    */
   open = () => {
-    if (this.isOpen) return;
-    this.isOpen = true;
-    if (typeof this.options.onOpen === 'function') {
-      this.options.onOpen.call(this);
-    }
     this.draw();
-    this.modal.open();
+    //this.modalEl.show();
     return this;
   };
 
@@ -1228,16 +1205,12 @@ export class Datepicker extends Component<DatepickerOptions> {
    * Close datepicker.
    */
   close = () => {
-    if (!this.isOpen) return;
-    this.isOpen = false;
-    if (typeof this.options.onClose === 'function') {
-      this.options.onClose.call(this);
-    }
-    this.modal.close();
+    //this.modalEl.close();
     return this;
   };
 
   static {
+    // TODO: Remove modal-class
     Datepicker._template = `
       <div class="modal datepicker-modal">
         <div class="modal-content datepicker-container">
