@@ -1,4 +1,3 @@
-import { Modal } from './modal';
 import { Utils } from './utils';
 import { Component, BaseOptions, InitElements, MElement, I18nOptions } from './component';
 
@@ -56,11 +55,6 @@ export interface TimepickerOptions extends BaseOptions {
    */
   i18n: Partial<I18nOptions>;
   /**
-   * Automatically close picker when minute is selected.
-   * @default false;
-   */
-  autoClose: boolean;
-  /**
    * Use 12 hour AM/PM clock instead of 24 hour clock.
    * @default true
    */
@@ -70,26 +64,6 @@ export interface TimepickerOptions extends BaseOptions {
    * @default true
    */
   vibrate: boolean;
-  /**
-   * Callback function called before modal is opened.
-   * @default null
-   */
-  onOpenStart: (el: HTMLElement) => void;
-  /**
-   * Callback function called after modal is opened.
-   * @default null
-   */
-  onOpenEnd: (el: HTMLElement) => void;
-  /**
-   * Callback function called before modal is closed.
-   * @default null
-   */
-  onCloseStart: (el: HTMLElement) => void;
-  /**
-   * Callback function called after modal is closed.
-   * @default null
-   */
-  onCloseEnd: (el: HTMLElement) => void;
   /**
    * Callback function when a time is selected.
    * @default null
@@ -113,14 +87,9 @@ let _defaults: TimepickerOptions = {
     clear: 'Clear',
     done: 'Ok'
   },
-  autoClose: false, // auto close when minute is selected
   twelveHour: true, // change to 12 hour AM/PM clock from 24 hour
   vibrate: true, // vibrate the device when dragging clock hand
   // Callbacks
-  onOpenStart: null,
-  onOpenEnd: null,
-  onCloseStart: null,
-  onCloseEnd: null,
   onSelect: null
 };
 
@@ -132,7 +101,7 @@ type Point = {
 export class Timepicker extends Component<TimepickerOptions> {
   declare el: HTMLInputElement;
   id: string;
-  modal: Modal;
+  //modal: Modal;
   modalEl: HTMLElement;
   plate: any;
   digitalClock: any;
@@ -160,8 +129,6 @@ export class Timepicker extends Component<TimepickerOptions> {
    */
   amOrPm: 'AM' | 'PM';
   static _template: any;
-  /** If the picker is open. */
-  isOpen: boolean;
   /** Vibrate device when dragging clock hand. */
   vibrate: 'vibrate' | 'webkitVibrate' | null;
   _canvas: HTMLElement;
@@ -188,7 +155,6 @@ export class Timepicker extends Component<TimepickerOptions> {
 
     this.id = Utils.guid();
     this._insertHTMLIntoDOM();
-    this._setupModal();
     this._setupVariables();
     this._setupEventHandlers();
     this._clockSetup();
@@ -252,7 +218,7 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   destroy() {
     this._removeEventHandlers();
-    this.modal.destroy();
+    //this.modal.destroy();
     this.modalEl.remove();
     (this.el as any).M_Timepicker = undefined;
   }
@@ -333,14 +299,16 @@ export class Timepicker extends Component<TimepickerOptions> {
     if (this.moved && x === this.dx && y === this.dy) {
       this.setHand(x, y);
     }
+
     if (this.currentView === 'hours') {
       this.showView('minutes', this.options.duration / 2);
-    } else if (this.options.autoClose) {
+    } else {
       this.minutesView.classList.add('timepicker-dial-out');
       setTimeout(() => {
         this.done();
       }, this.options.duration / 2);
     }
+
     if (typeof this.options.onSelect === 'function') {
       this.options.onSelect.call(this, this.hours, this.minutes);
     }
@@ -352,6 +320,7 @@ export class Timepicker extends Component<TimepickerOptions> {
   _insertHTMLIntoDOM() {
     const template = document.createElement('template');
     template.innerHTML = Timepicker._template.trim();
+
     this.modalEl = <HTMLElement>template.content.firstChild;
     this.modalEl.id = 'modal-' + this.id;
 
@@ -364,34 +333,6 @@ export class Timepicker extends Component<TimepickerOptions> {
     } else {
       this.el.parentElement.appendChild(this.modalEl);
     }
-  }
-
-  _setupModal() {
-    this.modal = Modal.init(this.modalEl, {
-      onOpenStart: () => {
-        if (typeof this.options.onOpenStart === 'function') {
-          this.options.onOpenStart.call(this);
-        }
-        this.modalEl.querySelectorAll('.btn').forEach((e: HTMLButtonElement) => {
-          if (e.style.visibility !== 'hidden') e.tabIndex = 0;
-        });
-      },
-      onOpenEnd: this.options.onOpenEnd,
-      onCloseStart: () => {
-        if (typeof this.options.onCloseStart === 'function') {
-          this.options.onCloseStart.call(this);
-        }
-        this.modalEl.querySelectorAll('.btn').forEach((e: HTMLButtonElement) => {
-          e.tabIndex = -1;
-        });
-      },
-      onCloseEnd: () => {
-        if (typeof this.options.onCloseEnd === 'function') {
-          this.options.onCloseEnd.call(this);
-        }
-        this.isOpen = false;
-      }
-    });
   }
 
   _setupVariables() {
@@ -791,28 +732,6 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.inputHours.value = (this.hours % (this.options.twelveHour ? 12 : 24)).toString();
   }
 
-  open() {
-    // if (this.isOpen) return;
-    // this.isOpen = true;
-    // this._updateTimeFromInput();
-    // this.showView('hours');
-    // this.modal.open();
-    console.warn(
-      'Timepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
-    );
-    return this;
-  }
-
-  close() {
-    // if (!this.isOpen) return;
-    // this.isOpen = false;
-    // this.modal.close();
-    console.warn(
-      'Timepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
-    );
-    return this;
-  }
-
   done = (e = null, clearValue = null) => {
     // Set input value
     let last = this.el.value;
@@ -837,6 +756,23 @@ export class Timepicker extends Component<TimepickerOptions> {
   clear = () => {
     this.done(null, true);
   };
+
+  // deprecated
+  open() {
+    // this._updateTimeFromInput();
+    // this.showView('hours');
+    console.warn(
+      'Timepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
+    );
+    return this;
+  }
+
+  close() {
+    console.warn(
+      'Timepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
+    );
+    return this;
+  }
 
   static {
     Timepicker._template = `
