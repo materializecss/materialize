@@ -977,7 +977,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     const template = document.createElement('template');
     template.innerHTML = Datepicker._template.trim();
 
-    this.modalEl = <HTMLElement>template.content.firstChild;
+    this.modalEl = <HTMLDialogElement>template.content.firstChild;
 
     this.calendarEl = this.modalEl.querySelector('.datepicker-calendar');
     this.yearTextEl = this.modalEl.querySelector('.year-text');
