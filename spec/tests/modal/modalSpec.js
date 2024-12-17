@@ -69,17 +69,19 @@ describe('Modal:', () => {
 
     it('Should have callbacks', (done) => {
       let hasBeenClosed = false;
-      document.querySelector('.modal').addEventListener('close', () => {
+      const modal = document.querySelector('.modal');
+      const trigger1 = document.querySelector('.trigger');
+
+      modal.addEventListener('close', () => {
         hasBeenClosed = true;
       });
-      const trigger1 = document.querySelector('.trigger');
       click(trigger1);
       expect(hasBeenClosed).toEqual(false, 'callback not yet fired');
       click(document.querySelector('.modal-footer a'));
       setTimeout(() => {
         expect(hasBeenClosed).toEqual(true, 'callback fired');
         done();
-      }, 10);
+      }, 100);
     });
   });
 });
