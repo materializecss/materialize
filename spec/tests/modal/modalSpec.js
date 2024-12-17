@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Modal:', () => {
   const fixture = `<a class="btn tonal trigger waves-effect waves-light" href="#" onclick="modal1.showModal(); return false;">Modal</a>
 <button class="btn btn-floating fixed-action-btn" onclick="modal1.showModal()"><i class="material-icons">menu</i></button>
@@ -17,9 +15,7 @@ describe('Modal:', () => {
 </dialog>
 `;
 
-  beforeEach(() => {
-    XloadHtml(fixture);
-  });
+  beforeEach(() => XloadHtml(fixture));
   afterEach(() => XunloadFixtures());
 
   describe('Modals', () => {
