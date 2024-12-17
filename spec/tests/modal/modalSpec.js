@@ -41,7 +41,7 @@ describe('Modal:', () => {
       }, 10);
     });
 
-    // Modals should not be dismissible, use a Popover then
+    // use a Popover or use show() instead of showModal()
 
     /*
     it('Should have a dismissible option', (done) => {
