@@ -791,25 +791,27 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.inputHours.value = (this.hours % (this.options.twelveHour ? 12 : 24)).toString();
   }
 
-  /**
-   * Open timepicker.
-   */
-  open = () => {
-    if (this.isOpen) return;
-    this.isOpen = true;
-    this._updateTimeFromInput();
-    this.showView('hours');
-    this.modal.open();
-  };
+  open() {
+    // if (this.isOpen) return;
+    // this.isOpen = true;
+    // this._updateTimeFromInput();
+    // this.showView('hours');
+    // this.modal.open();
+    console.warn(
+      'Timepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
+    );
+    return this;
+  }
 
-  /**
-   * Close timepicker.
-   */
-  close = () => {
-    if (!this.isOpen) return;
-    this.isOpen = false;
-    this.modal.close();
-  };
+  close() {
+    // if (!this.isOpen) return;
+    // this.isOpen = false;
+    // this.modal.close();
+    console.warn(
+      'Timepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
+    );
+    return this;
+  }
 
   done = (e = null, clearValue = null) => {
     // Set input value
@@ -838,7 +840,7 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   static {
     Timepicker._template = `
-      <div class="modal timepicker-modal">
+      <dialog class="modal timepicker-modal" open>
         <div class="modal-content timepicker-container">
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
@@ -867,6 +869,6 @@ export class Timepicker extends Component<TimepickerOptions> {
             <div class="timepicker-footer"></div>
           </div>
         </div>
-      </div`;
+      </dialog`;
   }
 }
