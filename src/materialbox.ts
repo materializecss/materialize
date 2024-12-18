@@ -185,8 +185,8 @@ export class Materialbox extends Component<MaterialboxOptions> {
     const box = el.getBoundingClientRect();
     const docElem = document.documentElement;
     return {
-      top: box.top + window.pageYOffset - docElem.clientTop,
-      left: box.left + window.pageXOffset - docElem.clientLeft
+      top: box.top + window.scrollY - docElem.clientTop,
+      left: box.left + window.scrollX - docElem.clientLeft
     };
   }
   private _updateVars(): void {
@@ -278,7 +278,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
       if (this.attrWidth) this.el.setAttribute('width', this.attrWidth.toString());
       if (this.attrHeight) this.el.setAttribute('height', this.attrHeight.toString());
       this.el.removeAttribute('style');
-      this.originInlineStyles && this.el.setAttribute('style', this.originInlineStyles);
+      if (this.originInlineStyles) this.el.setAttribute('style', this.originInlineStyles);
       // Remove class
       this.el.classList.remove('active');
       this.doneAnimating = true;
@@ -318,7 +318,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
   private _addOverlay(): void {
     this._overlay = document.createElement('div');
     this._overlay.id = 'materialbox-overlay';
-    this._overlay.addEventListener('click', e => {
+    this._overlay.addEventListener('click', () => {
       if (this.doneAnimating) this.close();
     }, {once: true});
 
