@@ -54,7 +54,7 @@ export class FormSelect extends Component<FormSelectOptions> {
       ...FormSelect.defaults,
       ...options
     };
-    
+
     this.isMultiple = this.el.multiple;
     this.el.tabIndex = -1;
     this._values = [];
@@ -276,7 +276,7 @@ export class FormSelect extends Component<FormSelectOptions> {
       const userOnOpenEnd = dropdownOptions.onOpenEnd;
       const userOnCloseEnd = dropdownOptions.onCloseEnd;
       // Add callback for centering selected option when dropdown content is scrollable
-      dropdownOptions.onOpenEnd = (el) => {
+      dropdownOptions.onOpenEnd = () => {
         const selectedOption = this.dropdownOptions.querySelector('.selected');
         if (selectedOption) {
           // Focus selected option in dropdown
@@ -299,7 +299,7 @@ export class FormSelect extends Component<FormSelectOptions> {
           userOnOpenEnd.call(this.dropdown, this.el);
       };
       // Add callback for reseting "expanded" state
-      dropdownOptions.onCloseEnd = (el) => {
+      dropdownOptions.onCloseEnd = () => {
         this.input.ariaExpanded = 'false';
         // Handle user declared onOpenEnd if needed
         if (userOnCloseEnd && typeof userOnCloseEnd === 'function')
