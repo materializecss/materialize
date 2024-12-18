@@ -35,8 +35,8 @@ const _defaults = {
 };
 
 export class Pushpin extends Component<PushpinOptions> {
-  static _pushpins: any[];
-  originalOffset: any;
+  static _pushpins: Pushpin[];
+  originalOffset: number;
 
   constructor(el: HTMLElement, options: Partial<PushpinOptions>) {
     super(el, options, Pushpin);
