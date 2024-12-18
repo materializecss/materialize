@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement, Openable } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement, Openable } from './component';
 
 export interface SidenavOptions extends BaseOptions {
   /**
@@ -163,12 +163,12 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     if (Sidenav._sidenavs.length === 0) {
       document.body.addEventListener('click', this._handleTriggerClick);
     }
-    var passiveIfSupported: boolean = null;
+    const passiveIfSupported: boolean = null;
     this.dragTarget.addEventListener('touchmove', this._handleDragTargetDrag, passiveIfSupported);
     this.dragTarget.addEventListener('touchend', this._handleDragTargetRelease);
     this._overlay.addEventListener('touchmove', this._handleCloseDrag, passiveIfSupported);
     this._overlay.addEventListener('touchend', this._handleCloseRelease);
-    this.el.addEventListener('touchmove', this._handleCloseDrag, passiveIfSupported);
+    this.el.addEventListener('touchmove', this._handleCloseDrag);  // , passiveIfSupported);
     this.el.addEventListener('touchend', this._handleCloseRelease);
     this.el.addEventListener('click', this._handleCloseTriggerClick);
     // Add resize for side nav fixed
@@ -204,7 +204,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       const sidenavId = Utils.getIdFromTrigger(trigger);
       const sidenavInstance = (document.getElementById(sidenavId) as any).M_Sidenav;
       if (sidenavInstance) {
-        sidenavInstance.open(trigger);
+        sidenavInstance.open();
       }
       e.preventDefault();
     }
@@ -238,18 +238,8 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
 
   private _handleDragTargetDrag = (e) => {
     // Check if draggable
-    if (!this.options.draggable || this._isCurrentlyFixed() || this._verticallyScrolling) {
-      return;
-    }
-    // If not being dragged, set initial drag start variables
-    if (!this.isDragged) {
-      this._startDrag(e);
-    }
-    // Run touchmove updates
-    this._dragMoveUpdate(e);
-    // Calculate raw deltaX
-    let totalDeltaX = this._xPos - this._startingXpos;
-    // dragDirection is the attempted user drag direction
+    if (!this._isDraggable()) return;
+    let totalDeltaX = this._calculateDelta(e);
     const dragDirection = totalDeltaX > 0 ? 'right' : 'left';
     // Don't allow totalDeltaX to exceed Sidenav width or be dragged in the opposite direction
     totalDeltaX = Math.min(this._width, Math.abs(totalDeltaX));
@@ -272,7 +262,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     // Set transform and opacity styles
     this.el.style.transform = `${transformPrefix} translateX(${transformX}px)`;
     this._overlay.style.opacity = this.percentOpen.toString();
-  }
+  };
 
   private _handleDragTargetRelease = () => {
     if (this.isDragged) {
@@ -284,40 +274,39 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       this.isDragged = false;
       this._verticallyScrolling = false;
     }
-  }
+  };
 
   private _handleCloseDrag = (e) => {
-    if (this.isOpen) {
-      // Check if draggable
-      if (!this.options.draggable || this._isCurrentlyFixed() || this._verticallyScrolling) {
-        return;
-      }
-      // If not being dragged, set initial drag start variables
-      if (!this.isDragged) {
-        this._startDrag(e);
-      }
-      // Run touchmove updates
-      this._dragMoveUpdate(e);
-      // Calculate raw deltaX
-      let totalDeltaX = this._xPos - this._startingXpos;
-      // dragDirection is the attempted user drag direction
-      let dragDirection = totalDeltaX > 0 ? 'right' : 'left';
-      // Don't allow totalDeltaX to exceed Sidenav width or be dragged in the opposite direction
-      totalDeltaX = Math.min(this._width, Math.abs(totalDeltaX));
-      if (this.options.edge !== dragDirection) {
-        totalDeltaX = 0;
-      }
-      let transformX = -totalDeltaX;
-      if (this.options.edge === 'right') {
-        transformX = -transformX;
-      }
-      // Calculate open/close percentage of sidenav, with open = 1 and close = 0
-      this.percentOpen = Math.min(1, 1 - totalDeltaX / this._width);
-      // Set transform and opacity styles
-      this.el.style.transform = `translateX(${transformX}px)`;
-      this._overlay.style.opacity = this.percentOpen.toString();
+    // Check if open and draggable
+    if (!this.isOpen || !this._isDraggable()) return;
+    let totalDeltaX = this._calculateDelta(e);
+    // dragDirection is the attempted user drag direction
+    const dragDirection = totalDeltaX > 0 ? 'right' : 'left';
+    totalDeltaX = Math.min(this._width, Math.abs(totalDeltaX));
+    if (this.options.edge !== dragDirection) {
+      totalDeltaX = 0;
     }
-  }
+    let transformX = -totalDeltaX;
+    if (this.options.edge === 'right') {
+      transformX = -transformX;
+    }
+    // Calculate open/close percentage of sidenav, with open = 1 and close = 0
+    this.percentOpen = Math.min(1, 1 - totalDeltaX / this._width);
+    // Set transform and opacity styles
+    this.el.style.transform = `translateX(${transformX}px)`;
+    this._overlay.style.opacity = this.percentOpen.toString();
+  };
+
+  private _calculateDelta = (e) => {
+    // If not being dragged, set initial drag start variables
+    if (!this.isDragged) {
+      this._startDrag(e);
+    }
+    // Run touchmove updates
+    this._dragMoveUpdate(e);
+    // Calculate raw deltaX
+    return this._xPos - this._startingXpos;
+  };
 
   private _handleCloseRelease = () => {
     if (this.isOpen && this.isDragged) {
@@ -329,7 +318,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       this.isDragged = false;
       this._verticallyScrolling = false;
     }
-  }
+  };
 
   // Handles closing of Sidenav when element with class .sidenav-close
   private _handleCloseTriggerClick = (e) => {
@@ -337,7 +326,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     if (closeTrigger && !this._isCurrentlyFixed()) {
       this.close();
     }
-  }
+  };
 
   private _handleWindowResize = () => {
     // Only handle horizontal resizes
@@ -350,7 +339,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     }
     this.lastWindowWidth = window.innerWidth;
     this.lastWindowHeight = window.innerHeight;
-  }
+  };
 
   private _setupClasses() {
     if (this.options.edge === 'right') {
@@ -366,6 +355,10 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
 
   private _setupFixed() {
     if (this._isCurrentlyFixed()) this.open();
+  }
+
+  private _isDraggable() {
+    return this.options.draggable && !this._isCurrentlyFixed() && !this._verticallyScrolling;
   }
 
   private _isCurrentlyFixed() {
@@ -413,7 +406,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       this._setAriaHidden();
       this._setTabIndex();
     }
-  }
+  };
 
   /**
    * Closes Sidenav.
@@ -442,7 +435,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       this._setAriaHidden();
       this._setTabIndex();
     }
-  }
+  };
 
   private _animateIn() {
     this._animateSidenavIn();
@@ -480,6 +473,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     const endPercent = this.options.edge === 'left' ? -1 : 1;
     let slideOutPercent = 0;
     if (this.isDragged) {
+      // @todo unused variable
       slideOutPercent =
         this.options.edge === 'left'
           ? endPercent + this.percentOpen
@@ -527,20 +521,24 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
 
   private _setAriaHidden = () => {
     this.el.ariaHidden = this.isOpen ? 'false' : 'true';
-    const navWrapper = document.querySelector('.nav-wrapper ul') as any;
-    if (navWrapper) navWrapper.ariaHidden = this.isOpen;
-  }
+    const navWrapper = document.querySelector('.nav-wrapper ul') as HTMLUListElement;
+    if (navWrapper) navWrapper.ariaHidden = this.isOpen.toString();
+  };
 
   private _setTabIndex = () => {
     const navLinks = document.querySelectorAll('.nav-wrapper ul li a');
     const sideNavLinks = document.querySelectorAll('.sidenav li a');
     if (navLinks)
-      navLinks.forEach((navLink: HTMLAnchorElement) => { navLink.tabIndex = this.isOpen ? -1 : 0});
+      navLinks.forEach((navLink: HTMLAnchorElement) => {
+        navLink.tabIndex = this.isOpen ? -1 : 0;
+      });
     if (sideNavLinks)
-      sideNavLinks.forEach((sideNavLink: HTMLAnchorElement) => { sideNavLink.tabIndex = this.isOpen ? 0 : -1;});
-  }
+      sideNavLinks.forEach((sideNavLink: HTMLAnchorElement) => {
+        sideNavLink.tabIndex = this.isOpen ? 0 : -1;
+      });
+  };
 
-  static  {
+  static {
     Sidenav._sidenavs = [];
   }
 }
