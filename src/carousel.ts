@@ -72,15 +72,15 @@ export class Carousel extends Component<CarouselOptions> {
   offset: number;
   target: number;
   images: HTMLElement[];
-  itemWidth: any;
-  itemHeight: any;
+  itemWidth: number;
+  itemHeight: number;
   dim: number;
-  _indicators: any;
+  _indicators: HTMLUListElement;
   count: number;
   xform: string;
   verticalDragged: boolean;
-  reference: any;
-  referenceY: any;
+  reference: number;
+  referenceY: number;
   velocity: number;
   frame: number;
   timestamp: number;
@@ -88,7 +88,7 @@ export class Carousel extends Component<CarouselOptions> {
   amplitude: number;
   /** The index of the center carousel item. */
   center: number = 0;
-  imageHeight: any;
+  imageHeight: number;
   scrollingTimeout: any;
   oneTimeCallback: any;
 
@@ -446,13 +446,16 @@ export class Carousel extends Component<CarouselOptions> {
   }
 
   _track = () => {
-    let now: number, elapsed: number, delta: number, v: number;
-    now = Date.now();
-    elapsed = now - this.timestamp;
+    const now: number = Date.now(),
+      elapsed: number = now - this.timestamp,
+      delta: number = this.offset - this.frame,
+      v: number = (1000 * delta) / (1 + elapsed);
+    // now = Date.now();
+    // elapsed = now - this.timestamp;
     this.timestamp = now;
-    delta = this.offset - this.frame;
+    // delta = this.offset - this.frame;
     this.frame = this.offset;
-    v = (1000 * delta) / (1 + elapsed);
+    // v = (1000 * delta) / (1 + elapsed);
     this.velocity = 0.8 * v + 0.2 * this.velocity;
   }
 
@@ -483,11 +486,14 @@ export class Carousel extends Component<CarouselOptions> {
     }, this.options.duration);
 
     // Start actual scroll
+    this.offset = typeof x === 'number' ? x : this.offset;
+    this.center = Math.floor((this.offset + this.dim / 2) / this.dim);
+
+    const half: number = this.count >> 1,
+      delta: number = this.offset - this.center * this.dim,
+      dir: number = delta < 0 ? 1 : -1,
+      tween: number = (-dir * delta * 2) / this.dim;
     let i: number,
-      half: number,
-      delta: number,
-      dir: number,
-      tween: number,
       el: HTMLElement,
       alignment: string,
       zTranslation: number,
@@ -496,13 +502,10 @@ export class Carousel extends Component<CarouselOptions> {
     const lastCenter = this.center;
     const numVisibleOffset = 1 / this.options.numVisible;
 
-    this.offset = typeof x === 'number' ? x : this.offset;
-    this.center = Math.floor((this.offset + this.dim / 2) / this.dim);
-
-    delta = this.offset - this.center * this.dim;
-    dir = delta < 0 ? 1 : -1;
-    tween = (-dir * delta * 2) / this.dim;
-    half = this.count >> 1;
+    // delta = this.offset - this.center * this.dim;
+    // dir = delta < 0 ? 1 : -1;
+    // tween = (-dir * delta * 2) / this.dim;
+    // half = this.count >> 1;
 
     if (this.options.fullWidth) {
       alignment = 'translateX(0)';
