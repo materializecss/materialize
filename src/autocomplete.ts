@@ -3,7 +3,7 @@ import { Dropdown, DropdownOptions } from "./dropdown";
 import { Component, BaseOptions, InitElements, MElement } from "./component";
 
 export interface AutocompleteData {
-  /** 
+  /**
    * A primitive value that can be converted to string.
    * If "text" is not provided, it will also be used as "option text" as well
    */
@@ -66,7 +66,7 @@ export interface AutocompleteOptions extends BaseOptions {
    * @default {}
    */
   dropdownOptions: Partial<DropdownOptions>;
-};
+}
 
 const _defaults: AutocompleteOptions = {
   data: [], // Autocomplete data set
@@ -82,7 +82,7 @@ const _defaults: AutocompleteOptions = {
   onSearch: (text: string, autocomplete: Autocomplete) => {
     const normSearch = text.toLocaleLowerCase();
     autocomplete.setMenuItems(
-      autocomplete.options.data.filter((option) => 
+      autocomplete.options.data.filter((option) =>
         option.id.toString().toLocaleLowerCase().includes(normSearch)
           || option.text?.toLocaleLowerCase().includes(normSearch)
       )
@@ -118,7 +118,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       ...Autocomplete.defaults,
       ...options
     };
-    
+
     this.isOpen = false;
     this.count = 0;
     this.activeIndex = -1;
@@ -230,6 +230,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       ...Autocomplete.defaults.dropdownOptions,
       ...this.options.dropdownOptions
     };
+    // @todo shouldn't we conditionally check if dropdownOptions.onItemClick is set in first place?
     const userOnItemClick = dropdownOptions.onItemClick;
     // Ensuring the select Option call when user passes custom onItemClick function to dropdown
     dropdownOptions.onItemClick = (li) => {
@@ -270,6 +271,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     }
   }
 
+  // @todo FocusEvent not having e.key parameter, should we split up this method for Keyup/Focus?
   _handleInputKeyupAndFocus = (e: KeyboardEvent) => {
     if (e.type === 'keyup') Autocomplete._keydown = false;
     this.count = 0;
