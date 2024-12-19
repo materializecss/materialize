@@ -437,17 +437,19 @@ export class Chips extends Component<ChipsOptions> {
 
   static Init(){
     if (typeof document !== 'undefined')
-    document.addEventListener("DOMContentLoaded", () => {
-      // @todo chip would require a chips wrapper (@see https://github.com/materializecss/materialize/issues/527) then we could add the event listener on the wrapper instead of on document
       // Handle removal of static chips.
-      document.body.addEventListener('click', e => {
-        if ((<HTMLElement>e.target).closest('.chip .close')) {
-          const chips = (<HTMLElement>e.target).closest('.chips');
-          if (chips && (chips as any).M_Chips == undefined) return;
-          (<HTMLElement>e.target).closest('.chip').remove();
-        }
+      document.addEventListener('DOMContentLoaded', () => {
+        const chips = document.querySelectorAll('.chips');
+        chips.forEach((el) => {
+          // if (el && (el as any).M_Chips == undefined) return;
+          el.addEventListener('click', (e) => {
+            if ((<HTMLElement>e.target).classList.contains('close')) {
+              const chip = (<HTMLElement>e.target).closest('.chip');
+              if (chip) chip.remove();
+            }
+          });
+        });
       });
-    });
   }
 
   static {
