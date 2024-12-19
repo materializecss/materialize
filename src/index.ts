@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Autocomplete, AutocompleteOptions } from './autocomplete';
 import { FloatingActionButton, FloatingActionButtonOptions } from './buttons';
 import { Cards } from './cards';
@@ -25,6 +26,7 @@ import { Waves } from './waves';
 import { Range } from './range';
 import { Utils } from './utils';
 import { Component } from './component';
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export { Autocomplete } from './autocomplete';
 export { FloatingActionButton } from './buttons';

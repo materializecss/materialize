@@ -51,6 +51,8 @@ export class Utils {
    * Detects when document is focused.
    * @param e Event instance.
    */
+  /* eslint-disabled as of required event type condition check */
+  /* eslint-disable-next-line */
   static docHandleFocus(e: FocusEvent) {
     if (Utils.keyDown) {
       document.body.classList.add('keyboard-focused');
@@ -61,6 +63,8 @@ export class Utils {
    * Detects when document is not focused.
    * @param e Event instance.
    */
+  /* eslint-disabled as of required event type condition check */
+  /* eslint-disable-next-line */
   static docHandleBlur(e: FocusEvent) {
     document.body.classList.remove('keyboard-focused');
   }
