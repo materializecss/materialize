@@ -168,8 +168,8 @@ export class Autocomplete extends Component<AutocompleteOptions> {
 
   _setupEventHandlers() {
     this.el.addEventListener('blur', this._handleInputBlur);
-    this.el.addEventListener('keyup', this._handleInputKeyupAndFocus);
-    this.el.addEventListener('focus', this._handleInputKeyupAndFocus);
+    this.el.addEventListener('keyup', this._handleInputKeyup);
+    this.el.addEventListener('focus', this._handleInputFocus);
     this.el.addEventListener('keydown', this._handleInputKeydown);
     this.el.addEventListener('click', this._handleInputClick);
     this.container.addEventListener(
@@ -188,8 +188,8 @@ export class Autocomplete extends Component<AutocompleteOptions> {
 
   _removeEventHandlers() {
     this.el.removeEventListener('blur', this._handleInputBlur);
-    this.el.removeEventListener('keyup', this._handleInputKeyupAndFocus);
-    this.el.removeEventListener('focus', this._handleInputKeyupAndFocus);
+    this.el.removeEventListener('keyup', this._handleInputKeyup);
+    this.el.removeEventListener('focus', this._handleInputFocus);
     this.el.removeEventListener('keydown', this._handleInputKeydown);
     this.el.removeEventListener('click', this._handleInputClick);
     this.container.removeEventListener(
@@ -271,8 +271,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     }
   }
 
-  // @todo FocusEvent not having e.key parameter, should we split up this method for Keyup/Focus?
-  _handleInputKeyupAndFocus = (e: KeyboardEvent) => {
+  _handleInputKeyup = (e: KeyboardEvent) => {
     if (e.type === 'keyup') Autocomplete._keydown = false;
     this.count = 0;
     const actualValue = this.el.value.toLocaleLowerCase();
@@ -280,11 +279,21 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     if (Utils.keys.ENTER.includes(e.key) || Utils.keys.ARROW_UP.includes(e.key) || Utils.keys.ARROW_DOWN.includes(e.key)) return;
     // Check if the input isn't empty
     // Check if focus triggered by tab
-    if (this.oldVal !== actualValue && (Utils.tabPressed || e.type !== 'focus')) {
+    if (this.oldVal !== actualValue && (Utils.tabPressed)) {
       this.open();
     }
+    this._inputChangeDetection(actualValue);
+  };
+
+  _handleInputFocus = () => {
+    this.count = 0;
+    const actualValue = this.el.value.toLocaleLowerCase();
+    this._inputChangeDetection(actualValue);
+  }
+
+  _inputChangeDetection = (value: string) => {
     // Value has changed!
-    if (this.oldVal !== actualValue) {
+    if (this.oldVal !== value) {
       this._setStatusLoading();
       this.options.onSearch(this.el.value, this);
     }
@@ -293,8 +302,8 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       this.selectedValues = [];
       this._triggerChanged();
     }
-    this.oldVal = actualValue;
-  }
+    this.oldVal = value;
+  };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
     Autocomplete._keydown = true;
