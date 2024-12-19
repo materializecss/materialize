@@ -89,8 +89,8 @@ export class Carousel extends Component<CarouselOptions> {
   /** The index of the center carousel item. */
   center: number = 0;
   imageHeight: number;
-  scrollingTimeout: any;
-  oneTimeCallback: any;
+  scrollingTimeout: number | NodeJS.Timeout;
+  oneTimeCallback: (current: Element, dragged: boolean) => void | null;
 
   constructor(el: HTMLElement, options: Partial<CarouselOptions>) {
     super(el, options, Carousel);
@@ -479,9 +479,9 @@ export class Carousel extends Component<CarouselOptions> {
       this.el.classList.add('scrolling');
     }
     if (this.scrollingTimeout != null) {
-      window.clearTimeout(this.scrollingTimeout);
+      clearTimeout(this.scrollingTimeout);
     }
-    this.scrollingTimeout = window.setTimeout(() => {
+    this.scrollingTimeout = setTimeout(() => {
       this.el.classList.remove('scrolling');
     }, this.options.duration);
 
