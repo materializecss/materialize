@@ -3,7 +3,7 @@ import { Autocomplete, AutocompleteOptions } from './autocomplete';
 import { FloatingActionButton, FloatingActionButtonOptions } from './buttons';
 import { Cards } from './cards';
 import { Carousel, CarouselOptions } from './carousel';
-import { CharacterCounter, CharacterCounterOptions } from './characterCounter';
+import { CharacterCounter/*, CharacterCounterOptions*/ } from './characterCounter';
 import { Chips, ChipsOptions } from './chips';
 import { Collapsible, CollapsibleOptions } from './collapsible';
 import { Datepicker, DatepickerOptions } from './datepicker';
