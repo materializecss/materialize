@@ -68,7 +68,7 @@ export class Toast {
   panning: boolean;
   options: ToastOptions;
   message: string;
-  counterInterval: NodeJS.Timeout;
+  counterInterval: NodeJS.Timeout | number;
   wasSwiped: boolean;
   startingXPos: number;
   xPos: number;
@@ -77,7 +77,7 @@ export class Toast {
   velocityX: number;
 
   static _toasts: Toast[];
-  static _container: any;
+  static _container: HTMLElement;
   static _draggedToast: Toast;
 
   constructor(options: Partial<ToastOptions>) {
@@ -260,7 +260,7 @@ export class Toast {
    * Dismiss toast with animation.
    */
   dismiss() {
-    window.clearInterval(this.counterInterval);
+    clearInterval(this.counterInterval);
     const activationDistance = this.el.offsetWidth * this.options.activationPercent;
 
     if (this.wasSwiped) {
