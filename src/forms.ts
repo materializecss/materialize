@@ -31,13 +31,14 @@ export class Forms {
   /**
    * Resizes the given TextArea after updating the
    *  value content dynamically.
-   * @param textarea TextArea to be resized
+   * @param e EventTarget
    */
-  static textareaAutoResize(textarea: HTMLTextAreaElement){
-    if (!textarea) {
-      console.error('No textarea element found');
-      return;
-    }
+  static textareaAutoResize(e: EventTarget){
+    const textarea = (e as HTMLTextAreaElement);
+    // if (!textarea) {
+    //   console.error('No textarea element found');
+    //   return;
+    // }
     // Textarea Auto Resize
     let hiddenDiv: HTMLDivElement = document.querySelector('.hiddendiv');
     if (!hiddenDiv) {
@@ -74,9 +75,7 @@ export class Forms {
     }
 
     hiddenDiv.innerText = textarea.value + '\n';
-
-    const content = hiddenDiv.innerHTML.replace(/\n/g, '<br>');
-    hiddenDiv.innerHTML = content;
+    hiddenDiv.innerHTML = hiddenDiv.innerHTML.replace(/\n/g, '<br>');
 
     // When textarea is hidden, width goes crazy.
     // Approximate with half of window size
@@ -128,7 +127,7 @@ export class Forms {
             // TAB, check if tabbing to radio or checkbox.
             if (Utils.keys.TAB.includes(e.key)) {
               target.classList.add('tabbed');
-              target.addEventListener('blur', e => target.classList.remove('tabbed'), {once: true});
+              target.addEventListener('blur', () => target.classList.remove('tabbed'), {once: true});
             }
           }
         });
@@ -151,12 +150,12 @@ export class Forms {
         textarea.setAttribute('previous-length', textarea.value.length.toString());
         Forms.textareaAutoResize(textarea);
 
-        textarea.addEventListener('keyup', e => Forms.textareaAutoResize(textarea));
-        textarea.addEventListener('keydown', e => Forms.textareaAutoResize(textarea));
+        textarea.addEventListener('keyup', (e) => Forms.textareaAutoResize(e.target));
+        textarea.addEventListener('keydown', (e) => Forms.textareaAutoResize(e.target));
   }
 
   static InitFileInputPath(fileInput: HTMLInputElement){
-        fileInput.addEventListener('change', e => {
+        fileInput.addEventListener('change', () => {
           const fileField = fileInput.closest('.file-field');
           const pathInput = <HTMLInputElement>fileField.querySelector('input.file-path');
           const files = fileInput.files;
