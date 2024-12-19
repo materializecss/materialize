@@ -239,11 +239,12 @@ export class Utils {
    * @param wait Wait time.
    * @param options Additional options.
    */
-  static throttle(func: Function, wait: number, options: Partial<{leading:boolean,trailing:boolean}> = null) {
-    let context: object, args: IArguments, result: any;
-    let timeout = null;
-    let previous = 0;
-    options || (options = {});
+  static throttle(func: (Function: object) => void, wait: number, options: Partial<{leading:boolean,trailing:boolean}> = {}) {
+    let context: object,
+      args: IArguments,
+      result,
+      timeout = null,
+      previous = 0;
     const later = function() {
       previous = options.leading === false ? 0 : new Date().getTime();
       timeout = null;
