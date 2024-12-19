@@ -230,7 +230,8 @@ export class Tooltip extends Component<TooltipOptions> {
       tooltipWidth = tooltip.offsetWidth,
       margin = this.options.margin;
 
-    (this.xMovement = 0), (this.yMovement = 0);
+    this.xMovement = 0;
+    this.yMovement = 0;
 
     let targetTop = origin.getBoundingClientRect().top + Utils.getDocumentScrollTop();
     let targetLeft = origin.getBoundingClientRect().left + Utils.getDocumentScrollLeft();
