@@ -89,7 +89,7 @@ export interface AutoInitOptions {
  * @param options Options for each component.
  */
 export function AutoInit(context: HTMLElement = document.body, options?: Partial<AutoInitOptions>) {
-  let registry = {
+  const registry = {
     Autocomplete: context.querySelectorAll('.autocomplete:not(.no-autoinit)'),
     Carousel: context.querySelectorAll('.carousel:not(.no-autoinit)'),
     Chips: context.querySelectorAll('.chips:not(.no-autoinit)'),
