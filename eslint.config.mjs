@@ -16,7 +16,7 @@ export default [
       '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/no-unused-expressions': 'error',
       '@typescript-eslint/no-this-alias': 'warn',
-      '@typescript-eslint/no-empty-object-type': 'error',
+      '@typescript-eslint/no-empty-object-type': ['error' , { allowWithName: 'BaseOptions$' }],
       '@typescript-eslint/no-require-imports': 'error',
       '@typescript-eslint/no-unsafe-function-type': 'error'
     }
