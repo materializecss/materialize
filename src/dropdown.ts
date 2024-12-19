@@ -555,7 +555,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     }, duration);
   }
 
-  private _getClosestAncestor(el: HTMLElement, condition: (Function: any) => boolean): HTMLElement {
+  private _getClosestAncestor(el: HTMLElement, condition: (Function) => boolean): HTMLElement {
     let ancestor = el.parentNode;
     while (ancestor !== null && ancestor !== document) {
       if (condition(ancestor)) {
