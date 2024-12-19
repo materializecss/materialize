@@ -151,17 +151,17 @@ export interface DatepickerOptions extends BaseOptions {
   onDraw: (() => void) | null;
 
   /** Field used for internal calculations DO NOT CHANGE IT */
-  minYear?: any;
+  minYear?: number;
   /** Field used for internal calculations DO NOT CHANGE IT */
-  maxYear?: any;
+  maxYear?: number;
   /** Field used for internal calculations DO NOT CHANGE IT */
-  minMonth?: any;
+  minMonth?: number;
   /** Field used for internal calculations DO NOT CHANGE IT */
-  maxMonth?: any;
+  maxMonth?: number;
   /** Field used for internal calculations DO NOT CHANGE IT */
-  startRange?: any;
+  startRange?: Date;
   /** Field used for internal calculations DO NOT CHANGE IT */
-  endRange?: any;
+  endRange?: Date;
 }
 
 const _defaults: DatepickerOptions = {
@@ -276,10 +276,10 @@ export class Datepicker extends Component<DatepickerOptions> {
   /** The selected Date. */
   date: Date;
   endDate: null|Date;
-  formats: any;
-  calendars: any;
-  private _y: any;
-  private _m: any;
+  formats: object;
+  calendars: [{ month: number; year: number }];
+  private _y: number;
+  private _m: number;
   static _template: string;
 
   constructor(el: HTMLInputElement, options: Partial<DatepickerOptions>) {
@@ -645,15 +645,14 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   render(year, month, randId) {
-    let opts = this.options,
-      now = new Date(),
+    const now = new Date(),
       days = Datepicker._getDaysInMonth(year, month),
-      before = new Date(year, month, 1).getDay(),
-      data = [],
+      data = [];
+    let before = new Date(year, month, 1).getDay(),
       row = [];
     Datepicker._setToStartOfDay(now);
-    if (opts.firstDay > 0) {
-      before -= opts.firstDay;
+    if (this.options.firstDay > 0) {
+      before -= this.options.firstDay;
       if (before < 0) {
         before += 7;
       }
@@ -671,23 +670,23 @@ export class Datepicker extends Component<DatepickerOptions> {
     cells += 7 - after;
     let isWeekSelected = false;
     for (let i = 0, r = 0; i < cells; i++) {
-      let day = new Date(year, month, 1 + (i - before)),
+      const day = new Date(year, month, 1 + (i - before)),
         isToday = Datepicker._compareDates(day, now),
-        hasEvent = opts.events.indexOf(day.toDateString()) !== -1,
+        hasEvent = this.options.events.indexOf(day.toDateString()) !== -1,
         isEmpty = i < before || i >= days + before,
-        dayNumber = 1 + (i - before),
-        monthNumber = month,
-        yearNumber = year,
-        isStartRange = opts.startRange && Datepicker._compareDates(opts.startRange, day),
-        isEndRange = opts.endRange && Datepicker._compareDates(opts.endRange, day),
+        isStartRange = this.options.startRange && Datepicker._compareDates(this.options.startRange, day),
+        isEndRange = this.options.endRange && Datepicker._compareDates(this.options.endRange, day),
         isInRange =
-          opts.startRange && opts.endRange && opts.startRange < day && day < opts.endRange,
+          this.options.startRange && this.options.endRange && this.options.startRange < day && day < this.options.endRange,
         isDisabled =
-          (opts.minDate && day < opts.minDate) ||
-          (opts.maxDate && day > opts.maxDate) ||
-          (opts.disableWeekends && Datepicker._isWeekend(day)) ||
-          (opts.disableDayFn && opts.disableDayFn(day)),
-        isDateRange = opts.isDateRange && Datepicker._isDate(this.endDate) && Datepicker._compareWithinRange(day, this.date, this.endDate);
+          (this.options.minDate && day < this.options.minDate) ||
+          (this.options.maxDate && day > this.options.maxDate) ||
+          (this.options.disableWeekends && Datepicker._isWeekend(day)) ||
+          (this.options.disableDayFn && this.options.disableDayFn(day)),
+        isDateRange = this.options.isDateRange && Datepicker._isDate(this.endDate) && Datepicker._compareWithinRange(day, this.date, this.endDate);
+      let dayNumber = 1 + (i - before),
+        monthNumber = month,
+        yearNumber = year;
 
       let isSelected = false;
       if (Datepicker._isDate(this.date)) {
@@ -722,20 +721,20 @@ export class Datepicker extends Component<DatepickerOptions> {
         isStartRange: isStartRange,
         isEndRange: isEndRange,
         isInRange: isInRange,
-        showDaysInNextAndPreviousMonths: opts.showDaysInNextAndPreviousMonths,
+        showDaysInNextAndPreviousMonths: this.options.showDaysInNextAndPreviousMonths,
         isDateRange: isDateRange,
       };
 
       row.push(this.renderDay(dayConfig));
 
       if (++r === 7) {
-        data.push(this.renderRow(row, opts.isRTL, isWeekSelected));
+        data.push(this.renderRow(row, this.options.isRTL, isWeekSelected));
         row = [];
         r = 0;
         isWeekSelected = false;
       }
     }
-    return this.renderTable(opts, data, randId);
+    return this.renderTable(this.options, data, randId);
   }
 
   renderDay(opts) {
@@ -749,6 +748,8 @@ export class Datepicker extends Component<DatepickerOptions> {
         return '<td class="is-empty"></td>';
       }
     }
+
+    // @todo wouldn't it be better defining opts class mapping and looping trough opts?
     if (opts.isDisabled) {
       arr.push('is-disabled');
     }
@@ -756,22 +757,33 @@ export class Datepicker extends Component<DatepickerOptions> {
     if (opts.isToday) {
       arr.push('is-today');
     }
+
     if (opts.isSelected) {
       arr.push('is-selected');
       ariaSelected = 'true';
     }
+
+    // @todo should we create this additional css class?
     if (opts.hasEvent) {
       arr.push('has-event');
     }
+
+    // @todo should we create this additional css class?
     if (opts.isInRange) {
       arr.push('is-inrange');
     }
+
+    // @todo should we create this additional css class?
     if (opts.isStartRange) {
       arr.push('is-startrange');
     }
+
+    // @todo should we create this additional css class?
     if (opts.isEndRange) {
       arr.push('is-endrange');
     }
+
+    // @todo create additional css class
     if (opts.isDateRange) {
       arr.push('is-daterange');
     }
@@ -804,8 +816,8 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   renderHead(opts) {
-    let i,
-      arr = [];
+    const arr = [];
+    let i
     for (i = 0; i < 7; i++) {
       arr.push(
         `<th scope="col"><abbr title="${this.renderDayName(opts, i)}">${this.renderDayName(
@@ -823,22 +835,20 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   renderTitle(instance, c, year, month, refYear, randId) {
+    const opts = this.options,
+      isMinYear = year === opts.minYear,
+      isMaxYear = year === opts.maxYear;
     let i,
       j,
-      arr,
-      opts = this.options,
-      isMinYear = year === opts.minYear,
-      isMaxYear = year === opts.maxYear,
+      arr = [],
       html =
         '<div id="' +
         randId +
         '" class="datepicker-controls" role="heading" aria-live="assertive">',
-      monthHtml,
-      yearHtml,
       prev = true,
       next = true;
 
-    for (arr = [], i = 0; i < 12; i++) {
+    for (i = 0; i < 12; i++) {
       arr.push(
         '<option value="' +
           (year === refYear ? i - c : 12 + i - c) +
@@ -853,7 +863,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       );
     }
 
-    monthHtml = '<select class="datepicker-select orig-select-month" tabindex="-1">'+arr.join('')+'</select>';
+    const monthHtml = '<select class="datepicker-select orig-select-month" tabindex="-1">'+arr.join('')+'</select>';
 
     if (Array.isArray(opts.yearRange)) {
       i = opts.yearRange[0];
@@ -871,7 +881,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     }
     if (opts.yearRangeReverse) arr.reverse();
 
-    yearHtml = `<select class="datepicker-select orig-select-year" tabindex="-1">${arr.join('')}</select>`;
+    const yearHtml = `<select class="datepicker-select orig-select-year" tabindex="-1">${arr.join('')}</select>`;
 
     const leftArrow =
       '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/><path d="M0-.5h24v24H0z" fill="none"/></svg>';
@@ -907,13 +917,12 @@ export class Datepicker extends Component<DatepickerOptions> {
   // refresh HTML
   draw(force: boolean = false) {
     if (!this.isOpen && !force) return;
-    let opts = this.options,
+    const opts = this.options,
       minYear = opts.minYear,
       maxYear = opts.maxYear,
       minMonth = opts.minMonth,
-      maxMonth = opts.maxMonth,
-      html = '',
-      randId;
+      maxMonth = opts.maxMonth;
+    let html = '';
 
     if (this._y <= minYear) {
       this._y = minYear;
@@ -928,7 +937,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       }
     }
 
-    randId =
+    const randId =
       'datepicker-title-' +
       Math.random()
         .toString(36)
