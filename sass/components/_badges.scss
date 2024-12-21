@@ -53,6 +53,11 @@ nav ul a span.badge {
 
 .collapsible span.badge {
   margin-left: auto;
+
+  &.leading {
+    margin-right: 7px;
+    order: -1;
+  }
 }
 
 .collapsible .active span.badge:not(.new) {
