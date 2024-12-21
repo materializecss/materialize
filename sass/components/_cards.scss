@@ -19,9 +19,6 @@
   .card-title {
     font-size: 24px;
     font-weight: 300;
-    &.activator {
-      cursor: pointer;
-    }
   }
 
   // Card Sizes
@@ -32,13 +29,16 @@
       max-height: 60%;
       overflow: hidden;
     }
+
     .card-image + .card-content {
       max-height: 40%;
     }
+
     .card-content {
       max-height: 100%;
       overflow: hidden;
     }
+
     .card-action {
       position: absolute;
       bottom: 0;
@@ -77,6 +77,7 @@
 
     .card-image {
       max-width: 50%;
+
       img {
         border-radius: 2px 0 0 2px;
         max-width: 100%;
@@ -108,9 +109,6 @@
     }
   }
 
-
-
-
   .card-image {
     position: relative;
 
@@ -134,6 +132,15 @@
       max-width: 100%;
       padding: 24px;
     }
+
+    .activator {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top:0;
+      bottom: 0;
+      cursor: pointer;
+    }
   }
 
   .card-content {
@@ -143,6 +150,7 @@
     p {
       margin: 0;
     }
+
     .card-title {
       display: block;
       line-height: 32px;
@@ -150,6 +158,10 @@
 
       i {
         line-height: 32px;
+      }
+
+      &.activator {
+        cursor: pointer;
       }
     }
   }

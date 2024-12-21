@@ -1,6 +1,6 @@
 import { Autocomplete, AutocompleteOptions } from './autocomplete';
 import { FloatingActionButton, FloatingActionButtonOptions } from './buttons';
-import { Cards } from './cards';
+import { Cards, CardsOptions } from './cards';
 import { Carousel, CarouselOptions } from './carousel';
 import { CharacterCounter, CharacterCounterOptions } from './characterCounter';
 import { Chips, ChipsOptions } from './chips';
@@ -64,6 +64,7 @@ export function Button(children: any = '') {
 
 export interface AutoInitOptions {
   Autocomplete?: Partial<AutocompleteOptions>
+  Cards?: Partial<CardsOptions>
   Carousel?: Partial<CarouselOptions>
   Chips?: Partial<ChipsOptions>
   Collapsible?: Partial<CollapsibleOptions>
@@ -91,6 +92,7 @@ export interface AutoInitOptions {
 export function AutoInit(context: HTMLElement = document.body, options?: Partial<AutoInitOptions>) {
   let registry = {
     Autocomplete: context.querySelectorAll('.autocomplete:not(.no-autoinit)'),
+    Cards: context.querySelectorAll('.cards:not(.no-autoinit)'),
     Carousel: context.querySelectorAll('.carousel:not(.no-autoinit)'),
     Chips: context.querySelectorAll('.chips:not(.no-autoinit)'),
     Collapsible: context.querySelectorAll('.collapsible:not(.no-autoinit)'),
@@ -110,6 +112,7 @@ export function AutoInit(context: HTMLElement = document.body, options?: Partial
     FloatingActionButton: context.querySelectorAll('.fixed-action-btn:not(.no-autoinit)')
   };
   Autocomplete.init(registry.Autocomplete, options?.Autocomplete ?? {});
+  Cards.init(registry.Cards, options?.Cards ?? {})
   Carousel.init(registry.Carousel, options?.Carousel ?? {});
   Chips.init(registry.Chips, options?.Chips ?? {});
   Collapsible.init(registry.Collapsible, options?.Collapsible ?? {});
@@ -137,7 +140,6 @@ if (typeof document !== 'undefined') {
   document.addEventListener('focus', Utils.docHandleFocus, true);
   document.addEventListener('blur', Utils.docHandleBlur, true);
 }
-Cards.Init();
 Forms.Init();
 Chips.Init();
 Waves.Init();
