@@ -113,5 +113,24 @@ describe('Datepicker Plugin', () => {
         done();
       }, 10);
     });
+
+    it('should have multiple input fields if multiple select option is enabled and multiple dates are selected', (done) => {
+      const input = document.querySelector('#datepickerInput');
+      M.Datepicker.init(input, { isMultipleSelection: true });
+      const datepicker = M.Datepicker.getInstance(input);
+      datepicker.open();
+      setTimeout(() => {
+        for (let i = 1; i < 4; i++) {
+          setTimeout(() => {
+            document.querySelector(`.datepicker-modal button[data-day="${i}"]`).click();
+          }, i * 10);
+        }
+        setTimeout(() => {
+          document.querySelector('.datepicker-done').click();
+          expect(document.querySelectorAll('.datepicker').length === 3).toEqual(true);
+          done();
+        }, 40);
+      }, 10);
+    });
   });
 });
