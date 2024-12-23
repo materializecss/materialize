@@ -215,6 +215,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.container.style.maxHeight = this.options.maxDropDownHeight;
     this.container.id = `autocomplete-options-${Utils.guid()}`;
     this.container.classList.add('autocomplete-content', 'dropdown-content');
+    this.container.ariaExpanded = 'true';
     this.el.setAttribute('data-target', this.container.id);
 
     this.menuItems.forEach(menuItem => {
@@ -261,6 +262,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   }
 
   _removeDropdown() {
+    this.container.ariaExpanded = 'false';
     this.container.parentNode.removeChild(this.container);
   }
 
@@ -379,6 +381,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       'style',
       'display:grid; grid-auto-flow: column; user-select: none; align-items: center;'
     );
+    item.tabIndex = 0;
     // Checkbox
     if (this.options.isMultiSelect) {
       item.innerHTML = `
