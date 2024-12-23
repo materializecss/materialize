@@ -39,7 +39,7 @@ export interface ScrollSpyOptions extends BaseOptions {
   animationDuration: number | null;
 };
 
-let _defaults: ScrollSpyOptions = {
+const _defaults: ScrollSpyOptions = {
   throttle: 100,
   scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
   activeClass: 'active',
@@ -159,16 +159,16 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     ScrollSpy._ticks++;
 
     // viewport rectangle
-    let top = Utils.getDocumentScrollTop(),
+    const top = Utils.getDocumentScrollTop(),
       left = Utils.getDocumentScrollLeft(),
       right = left + window.innerWidth,
       bottom = top + window.innerHeight;
 
     // determine which elements are in view
-    let intersections = ScrollSpy._findElements(top, right, bottom, left);
+    const intersections = ScrollSpy._findElements(top, right, bottom, left);
     for (let i = 0; i < intersections.length; i++) {
-      let scrollspy = intersections[i];
-      let lastTick = scrollspy.tickId;
+      const scrollspy = intersections[i];
+      const lastTick = scrollspy.tickId;
       if (lastTick < 0) {
         // entered into view
         scrollspy._enter();
@@ -179,8 +179,8 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     }
 
     for (let i = 0; i < ScrollSpy._elementsInView.length; i++) {
-      let scrollspy = ScrollSpy._elementsInView[i];
-      let lastTick = scrollspy.tickId;
+      const scrollspy = ScrollSpy._elementsInView[i];
+      const lastTick = scrollspy.tickId;
       if (lastTick >= 0 && lastTick !== ScrollSpy._ticks) {
         // exited from view
         scrollspy._exit();
@@ -219,18 +219,18 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
   }
 
   static _findElements(top: number, right: number, bottom: number, left: number): ScrollSpy[] {
-    let hits = [];
+    const hits = [];
     for (let i = 0; i < ScrollSpy._elements.length; i++) {
-      let scrollspy = ScrollSpy._elements[i];
-      let currTop = top + scrollspy.options.scrollOffset || 200;
+      const scrollspy = ScrollSpy._elements[i];
+      const currTop = top + scrollspy.options.scrollOffset || 200;
 
       if (scrollspy.el.getBoundingClientRect().height > 0) {
-        let elTop = ScrollSpy._offset(scrollspy.el).top,
+        const elTop = ScrollSpy._offset(scrollspy.el).top,
           elLeft = ScrollSpy._offset(scrollspy.el).left,
           elRight = elLeft + scrollspy.el.getBoundingClientRect().width,
           elBottom = elTop + scrollspy.el.getBoundingClientRect().height;
 
-        let isIntersect = !(
+        const isIntersect = !(
           elLeft > right ||
           elRight < left ||
           elTop > bottom ||

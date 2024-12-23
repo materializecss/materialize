@@ -18,7 +18,7 @@ export interface FloatingActionButtonOptions extends BaseOptions {
   toolbarEnabled: boolean;
 };
 
-let _defaults: FloatingActionButtonOptions = {
+const _defaults: FloatingActionButtonOptions = {
   direction: 'top',
   hoverEnabled: true,
   toolbarEnabled: false
@@ -132,7 +132,7 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
 
   _handleDocumentClick = (e: MouseEvent) => {
     const elem = e.target;
-    if (elem !== this._menu) this.close;
+    if (elem !== this._menu) this.close();
   }
 
   /**
@@ -166,7 +166,7 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
     this.el.classList.add('active');
     const delayIncrement = 40;
     const duration = 275;
-    
+
     this._floatingBtnsReverse.forEach((el, index) => {
       const delay = delayIncrement * index;
       el.style.transition = 'none';
@@ -198,21 +198,19 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
   }
 
   _animateInToolbar() {
-    let scaleFactor;
-    let windowWidth = window.innerWidth;
-    let windowHeight = window.innerHeight;
-    let btnRect = this.el.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const btnRect = this.el.getBoundingClientRect();
 
-    const backdrop =  document.createElement('div');
+    const backdrop =  document.createElement('div'),
+    scaleFactor = windowWidth / backdrop[0].clientWidth,
+    fabColor = getComputedStyle(this._anchor).backgroundColor; // css('background-color');
     backdrop.classList.add('fab-backdrop'); //  $('<div class="fab-backdrop"></div>');
-
-    const fabColor = getComputedStyle(this._anchor).backgroundColor; // css('background-color');
-
+    backdrop.style.backgroundColor = fabColor;
     this._anchor.append(backdrop);
 
     this.offsetX = btnRect.left - windowWidth / 2 + btnRect.width / 2;
     this.offsetY = windowHeight - btnRect.bottom;
-    scaleFactor = windowWidth / backdrop[0].clientWidth;
     this.btnBottom = btnRect.bottom;
     this.btnLeft = btnRect.left;
     this.btnWidth = btnRect.width;
@@ -228,8 +226,6 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
 
     this._anchor.style.transform = `translateY(${this.offsetY}px`;
     this._anchor.style.transition = 'none';
-
-    backdrop.style.backgroundColor = fabColor;
 
     setTimeout(() => {
       this.el.style.transform = '';

@@ -72,7 +72,7 @@ export interface DropdownOptions extends BaseOptions {
    * @default null
    */
   onItemClick: (el: HTMLLIElement) => void;
-};
+}
 
 const _defaults: DropdownOptions = {
   alignment: 'left',
@@ -104,8 +104,8 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
   isTouchMoving: boolean;
   /** The index of the item focused. */
   focusedIndex: number;
-  filterQuery: any[];
-  filterTimeout: NodeJS.Timeout;
+  filterQuery: string[];
+  filterTimeout: NodeJS.Timeout | number;
 
   constructor(el: HTMLElement, options: Partial<DropdownOptions>) {
     super(el, options, Dropdown);
@@ -308,7 +308,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
         newFocusedIndex = newFocusedIndex + direction;
         if (
           !!this.dropdownEl.children[newFocusedIndex] &&
-          (<any>this.dropdownEl.children[newFocusedIndex]).tabIndex !== -1
+          (<HTMLLIElement>this.dropdownEl.children[newFocusedIndex]).tabIndex !== -1
         ) {
           hasFoundNewIndex = true;
           break;
@@ -361,7 +361,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     this.filterTimeout = setTimeout(this._resetFilterQuery, 1000);
   }
 
-  _handleWindowResize = (e: Event) => {
+  _handleWindowResize = () => {
     // Only re-place the dropdown if it's still visible
     // Accounts for elements hiding via media queries
     if (this.el.offsetParent) {
@@ -376,13 +376,17 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
 
   _resetDropdownStyles() {
     this.dropdownEl.style.display = '';
+    this._resetDropdownPositioningStyles();
+    this.dropdownEl.style.transform = '';
+    this.dropdownEl.style.opacity = '';
+  }
+
+  _resetDropdownPositioningStyles() {
     this.dropdownEl.style.width = '';
     this.dropdownEl.style.height = '';
     this.dropdownEl.style.left = '';
     this.dropdownEl.style.top = '';
     this.dropdownEl.style.transformOrigin = '';
-    this.dropdownEl.style.transform = '';
-    this.dropdownEl.style.opacity = '';
   }
 
   // Move dropdown after container or trigger
@@ -430,7 +434,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
   }
 
   _getDropdownPosition(closestOverflowParent: HTMLElement) {
-    const offsetParentBRect = this.el.offsetParent.getBoundingClientRect();
+    // const offsetParentBRect = this.el.offsetParent.getBoundingClientRect();
     const triggerBRect = this.el.getBoundingClientRect();
     const dropdownBRect = this.dropdownEl.getBoundingClientRect();
 
@@ -526,32 +530,32 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     this.dropdownEl.style.opacity = '0';
     this.dropdownEl.style.transform = 'scale(0.3, 0.3)';
     setTimeout(() => {
-      // easeOutQuad (opacity) & easeOutQuint    
+      // easeOutQuad (opacity) & easeOutQuint
       this.dropdownEl.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
       // to
       this.dropdownEl.style.opacity = '1';
       this.dropdownEl.style.transform = 'scale(1, 1)';
-    }, 1);      
+    }, 1);
     setTimeout(() => {
       if (this.options.autoFocus) this.dropdownEl.focus();
-      if (typeof this.options.onOpenEnd === 'function') this.options.onOpenEnd.call(this, this.el);      
+      if (typeof this.options.onOpenEnd === 'function') this.options.onOpenEnd.call(this, this.el);
     }, duration);
   }
 
   _animateOut() {
     const duration = this.options.outDuration;
-    // easeOutQuad (opacity) & easeOutQuint    
+    // easeOutQuad (opacity) & easeOutQuint
     this.dropdownEl.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
     // to
     this.dropdownEl.style.opacity = '0';
-    this.dropdownEl.style.transform = 'scale(0.3, 0.3)';    
+    this.dropdownEl.style.transform = 'scale(0.3, 0.3)';
     setTimeout(() => {
       this._resetDropdownStyles();
-      if (typeof this.options.onCloseEnd === 'function') this.options.onCloseEnd.call(this, this.el);      
+      if (typeof this.options.onCloseEnd === 'function') this.options.onCloseEnd.call(this, this.el);
     }, duration);
   }
 
-  private _getClosestAncestor(el: HTMLElement, condition: Function): HTMLElement {
+  private _getClosestAncestor(el: HTMLElement, condition: (Function) => boolean): HTMLElement {
     let ancestor = el.parentNode;
     while (ancestor !== null && ancestor !== document) {
       if (condition(ancestor)) {
@@ -640,13 +644,8 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
    */
   recalculateDimensions = () => {
     if (this.isOpen) {
-      this.dropdownEl.style.width = '';
-      this.dropdownEl.style.height = '';
-      this.dropdownEl.style.left = '';
-      this.dropdownEl.style.top = '';
-      this.dropdownEl.style.transformOrigin = '';
+      this._resetDropdownPositioningStyles();
       this._placeDropdown();
     }
   }
-
 }
