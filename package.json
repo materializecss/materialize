@@ -65,7 +65,6 @@
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-scss": "^4.0.0",
-    "rollup-plugin-zip": "^1.0.3",
     "sass": "^1.77.8",
     "tslib": "^2.6.3",
     "typescript": "^5.4.3",
