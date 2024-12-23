@@ -745,8 +745,7 @@ export class Timepicker extends Component<TimepickerOptions> {
         new Event('change', { bubbles: true, cancelable: true, composed: true })
       );
     }
-    this.close();
-    this.el.focus();
+    //this.el.focus();
   };
 
   clear = () => {
@@ -772,7 +771,7 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   static {
     Timepicker._template = `
-      <dialog class="modal timepicker-modal" open>
+      <div class="modal timepicker-modal">
         <div class="modal-content timepicker-container">
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
@@ -801,6 +800,6 @@ export class Timepicker extends Component<TimepickerOptions> {
             <div class="timepicker-footer"></div>
           </div>
         </div>
-      </dialog`;
+      </div>`;
   }
 }

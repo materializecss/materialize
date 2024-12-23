@@ -253,12 +253,14 @@ export class Datepicker extends Component<DatepickerOptions> {
   id: string;
   multiple: boolean = false;
   calendarEl: HTMLElement;
+
   /** CLEAR button instance. */
   clearBtn: HTMLElement;
   /** DONE button instance */
   doneBtn: HTMLElement;
   cancelBtn: HTMLElement;
-  modalEl: HTMLDialogElement;
+
+  modalEl: HTMLElement;
   yearTextEl: HTMLElement;
   dateTextEl: HTMLElement;
   endDateEl: HTMLInputElement;
@@ -568,9 +570,9 @@ export class Datepicker extends Component<DatepickerOptions> {
    * Sets dates on the input values.
    */
   setInputValues() {
-    if (!this.options.isMultipleSelection) {
+    if (!this.options?.isMultipleSelection) {
       this.setInputValue(this.el, this.date);
-      if (this.options.isDateRange) {
+      if (this.options?.isDateRange) {
         this.setInputValue(this.endDateEl, this.endDate);
       }
       return;
@@ -601,6 +603,7 @@ export class Datepicker extends Component<DatepickerOptions> {
    * Sets given date as the input value on the given element.
    */
   setInputValue(el, date) {
+    console.log('setinputvalue');
     if (el.type == 'date') {
       this.setDataDate(el, date);
       el.value = this.formatDate(date, 'yyyy-mm-dd');
@@ -982,8 +985,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   // refresh HTML
-  draw(force: boolean = false) {
-    if (!force) return;
+  draw() {
     const opts = this.options,
       minYear = opts.minYear,
       maxYear = opts.maxYear,
@@ -1058,7 +1060,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.el.addEventListener('keydown', this._handleInputKeydown);
     this.el.addEventListener('change', this._handleInputChange);
     this.calendarEl.addEventListener('click', this._handleCalendarClick);
-    this.doneBtn.addEventListener('click', this.setInputValues);
+    this.doneBtn.addEventListener('click', () => this.setInputValues());
     this.cancelBtn.addEventListener('click', this.close);
 
     if (this.options.showClearBtn) {
@@ -1070,7 +1072,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     const template = document.createElement('template');
     template.innerHTML = Datepicker._template.trim();
 
-    this.modalEl = <HTMLDialogElement>template.content.firstChild;
+    this.modalEl = <HTMLElement>template.content.firstChild;
 
     this.calendarEl = this.modalEl.querySelector('.datepicker-calendar');
     this.yearTextEl = this.modalEl.querySelector('.year-text');
@@ -1278,23 +1280,21 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.close();
   };
 
-  /**
-   * Open datepicker.
-   */
-  open = () => {
+  // deprecated
+  open() {
     console.warn('Datepicker.open() is deprecated. Remove this method and wrap in modal yourself.');
     return this;
-  };
-  close = () => {
+  }
+  close() {
     console.warn(
       'Datepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
     );
     return this;
-  };
+  }
 
   static {
     Datepicker._template = `
-      <dialog class="modal datepicker-modal" open>
+      <div class="datepicker-modal">
         <div class="modal-content datepicker-container">
           <div class="datepicker-date-display">
             <span class="year-text"></span>
@@ -1311,6 +1311,6 @@ export class Datepicker extends Component<DatepickerOptions> {
             </div>
           </div>
         </div>
-      </dialog>`;
+      </div>`;
   }
 }
