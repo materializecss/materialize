@@ -44,7 +44,7 @@ export class Component<O extends BaseOptions>{
       console.error(Error(el + ' is not an HTML Element'));
     }
     // If exists, destroy and reinitialize in child
-    let ins = classDef.getInstance(el);
+    const ins = classDef.getInstance(el);
     if (!!ins) {
       ins.destroy();
     }

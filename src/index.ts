@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Autocomplete, AutocompleteOptions } from './autocomplete';
 import { FloatingActionButton, FloatingActionButtonOptions } from './buttons';
 import { Cards, CardsOptions } from './cards';
 import { Carousel, CarouselOptions } from './carousel';
-import { CharacterCounter, CharacterCounterOptions } from './characterCounter';
+import { CharacterCounter/*, CharacterCounterOptions*/ } from './characterCounter';
 import { Chips, ChipsOptions } from './chips';
 import { Collapsible, CollapsibleOptions } from './collapsible';
 import { Datepicker, DatepickerOptions } from './datepicker';
@@ -25,6 +26,7 @@ import { Waves } from './waves';
 import { Range } from './range';
 import { Utils } from './utils';
 import { Component } from './component';
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export { Autocomplete } from './autocomplete';
 export { FloatingActionButton } from './buttons';
@@ -90,7 +92,7 @@ export interface AutoInitOptions {
  * @param options Options for each component.
  */
 export function AutoInit(context: HTMLElement = document.body, options?: Partial<AutoInitOptions>) {
-  let registry = {
+  const registry = {
     Autocomplete: context.querySelectorAll('.autocomplete:not(.no-autoinit)'),
     Cards: context.querySelectorAll('.cards:not(.no-autoinit)'),
     Carousel: context.querySelectorAll('.carousel:not(.no-autoinit)'),

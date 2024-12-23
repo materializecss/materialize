@@ -26,7 +26,7 @@ export interface TabsOptions extends BaseOptions {
   responsiveThreshold: number;
 };
 
-let _defaults: TabsOptions = {
+const _defaults: TabsOptions = {
   duration: 300,
   onShow: null,
   swipeable: false,
@@ -39,9 +39,9 @@ export class Tabs extends Component<TabsOptions> {
   _indicator: HTMLLIElement;
   _tabWidth: number;
   _tabsWidth: number;
-  _tabsCarousel: any;
-  _activeTabLink: any;
-  _content: any;
+  _tabsCarousel: Carousel;
+  _activeTabLink: HTMLAnchorElement;
+  _content: HTMLElement;
 
   constructor(el: HTMLElement, options: Partial<TabsOptions>) {
     super(el, options, Tabs);
@@ -135,12 +135,12 @@ export class Tabs extends Component<TabsOptions> {
 
     if (!tabLink)
       return;
-    var tab = tabLink.parentElement;  
+    let tab = tabLink.parentElement;
     while (tab && !tab.classList.contains('tab')) {
       tabLink = tabLink.parentElement as HTMLAnchorElement;
       tab = tab.parentElement;
     }
-    
+
     // Handle click on tab link only
     if (!tabLink || !tab.classList.contains('tab')) return;
     // is disabled?
@@ -204,10 +204,11 @@ export class Tabs extends Component<TabsOptions> {
     this._activeTabLink = Array.from(this._tabLinks).find((a: HTMLAnchorElement) => a.getAttribute('href') === location.hash);
     // If no match is found, use the first link or any with class 'active' as the initial active tab.
     if (!this._activeTabLink) {
-      this._activeTabLink = this.el.querySelector('li.tab a.active');
-    }
-    if (this._activeTabLink.length === 0) {
-      this._activeTabLink = this.el.querySelector('li.tab a');
+      let activeTabLink = this.el.querySelector('li.tab a.active');
+      if (!activeTabLink) {
+        activeTabLink = this.el.querySelector('li.tab a');
+      }
+      this._activeTabLink = (activeTabLink as HTMLAnchorElement);
     }
     Array.from(this._tabLinks).forEach((a: HTMLAnchorElement) => a.classList.remove('active'));
     this._activeTabLink.classList.add('active');
@@ -215,7 +216,7 @@ export class Tabs extends Component<TabsOptions> {
       this._index = Math.max(Array.from(this._tabLinks).indexOf(this._activeTabLink), 0);
       if (this._activeTabLink && this._activeTabLink.hash) {
         this._content = document.querySelector(this._activeTabLink.hash);
-        if (this._content) 
+        if (this._content)
           this._content.classList.add('active');
       }
     }
@@ -230,7 +231,7 @@ export class Tabs extends Component<TabsOptions> {
         if (a.hash) {
           const currContent = document.querySelector(a.hash);
           currContent.classList.add('carousel-item');
-          tabsContent.push(currContent);  
+          tabsContent.push(currContent);
         }
       });
 
@@ -271,7 +272,7 @@ export class Tabs extends Component<TabsOptions> {
     const tabsWrapper = this._tabsCarousel.el;
     this._tabsCarousel.destroy();
     // Unwrap
-    tabsWrapper.after(tabsWrapper.children);
+    tabsWrapper.append(tabsWrapper.parentElement);
     tabsWrapper.remove();
   }
 

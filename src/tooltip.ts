@@ -230,7 +230,8 @@ export class Tooltip extends Component<TooltipOptions> {
       tooltipWidth = tooltip.offsetWidth,
       margin = this.options.margin;
 
-    (this.xMovement = 0), (this.yMovement = 0);
+    this.xMovement = 0;
+    this.yMovement = 0;
 
     let targetTop = origin.getBoundingClientRect().top + Utils.getDocumentScrollTop();
     let targetLeft = origin.getBoundingClientRect().left + Utils.getDocumentScrollLeft();
@@ -356,7 +357,7 @@ export class Tooltip extends Component<TooltipOptions> {
   }
 
   _getAttributeOptions(): Partial<TooltipOptions> {    
-    let attributeOptions: Partial<TooltipOptions> = { };
+    const attributeOptions: Partial<TooltipOptions> = { };
     const tooltipTextOption = this.el.getAttribute('data-tooltip');
     const tooltipId = this.el.getAttribute('data-tooltip-id');
     const positionOption = this.el.getAttribute('data-position');

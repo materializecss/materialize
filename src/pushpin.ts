@@ -27,7 +27,7 @@ export interface PushpinOptions extends BaseOptions {
   onPositionChange: (position: "pinned" | "pin-top" | "pin-bottom") => void;
 }
 
-let _defaults = {
+const _defaults = {
   top: 0,
   bottom: Infinity,
   offset: 0,
@@ -35,8 +35,8 @@ let _defaults = {
 };
 
 export class Pushpin extends Component<PushpinOptions> {
-  static _pushpins: any[];
-  originalOffset: any;
+  static _pushpins: Pushpin[];
+  originalOffset: number;
 
   constructor(el: HTMLElement, options: Partial<PushpinOptions>) {
     super(el, options, Pushpin);
@@ -86,7 +86,7 @@ export class Pushpin extends Component<PushpinOptions> {
     (this.el as HTMLElement).style.top = null;
     this._removePinClasses();
     // Remove pushpin Inst
-    let index = Pushpin._pushpins.indexOf(this);
+    const index = Pushpin._pushpins.indexOf(this);
     Pushpin._pushpins.splice(index, 1);
     if (Pushpin._pushpins.length === 0) {
       this._removeEventHandlers();
@@ -95,8 +95,8 @@ export class Pushpin extends Component<PushpinOptions> {
   }
 
   static _updateElements() {
-    for (let elIndex in Pushpin._pushpins) {
-      let pInstance = Pushpin._pushpins[elIndex];
+    for (const elIndex in Pushpin._pushpins) {
+      const pInstance = Pushpin._pushpins[elIndex];
       pInstance._updatePosition();
     }
   }
@@ -110,7 +110,7 @@ export class Pushpin extends Component<PushpinOptions> {
   }
 
   _updatePosition() {
-    let scrolled = Utils.getDocumentScrollTop() + this.options.offset;
+    const scrolled = Utils.getDocumentScrollTop() + this.options.offset;
 
     if (
       this.options.top <= scrolled &&

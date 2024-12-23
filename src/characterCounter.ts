@@ -1,13 +1,13 @@
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Component, InitElements, MElement } from './component';
 
-export interface CharacterCounterOptions extends BaseOptions {};
+export interface BaseOptions {}
 
 const _defaults = Object.freeze({});
 
 type InputElement = HTMLInputElement | HTMLTextAreaElement;
 
-export class CharacterCounter extends Component<{}> {
-  
+export class CharacterCounter extends Component<object> {
+
   declare el: InputElement;
   /** Stores the reference to the counter HTML element. */
   counterEl: HTMLSpanElement;
@@ -16,7 +16,7 @@ export class CharacterCounter extends Component<{}> {
   /** Specifies whether the input text has valid length or not. */
   isValidLength: boolean;
 
-  constructor(el: HTMLInputElement | HTMLTextAreaElement, options: Partial<CharacterCounterOptions>) {
+  constructor(el: HTMLInputElement | HTMLTextAreaElement, options: Partial<BaseOptions>) {
     super(el, {}, CharacterCounter);
     (this.el as any).M_CharacterCounter = this;
 
@@ -32,7 +32,7 @@ export class CharacterCounter extends Component<{}> {
     this._setupEventHandlers();
   }
 
-  static get defaults(): CharacterCounterOptions {
+  static get defaults(): BaseOptions {
     return _defaults;
   }
 
@@ -41,19 +41,19 @@ export class CharacterCounter extends Component<{}> {
    * @param el HTML element.
    * @param options Component options.
    */
-  static init(el: InputElement, options?: Partial<CharacterCounterOptions>): CharacterCounter;
+  static init(el: InputElement, options?: Partial<BaseOptions>): CharacterCounter;
   /**
    * Initializes instances of CharacterCounter.
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InitElements<InputElement | MElement>, options?: Partial<CharacterCounterOptions>): CharacterCounter[];
+  static init(els: InitElements<InputElement | MElement>, options?: Partial<BaseOptions>): CharacterCounter[];
   /**
    * Initializes instances of CharacterCounter.
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InputElement | InitElements<InputElement | MElement>, options: Partial<CharacterCounterOptions> = {}): CharacterCounter | CharacterCounter[] {
+  static init(els: InputElement | InitElements<InputElement | MElement>, options: Partial<BaseOptions> = {}): CharacterCounter | CharacterCounter[] {
     return super.init(els, options, CharacterCounter);
   }
 
@@ -91,7 +91,7 @@ export class CharacterCounter extends Component<{}> {
   }
 
   updateCounter = () => {
-    let maxLength = parseInt(this.el.getAttribute('maxlength')),
+    const maxLength = parseInt(this.el.getAttribute('maxlength')),
       actualLength = (this.el as HTMLInputElement).value.length;
 
     this.isValidLength = actualLength <= maxLength;

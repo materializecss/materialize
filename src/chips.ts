@@ -75,7 +75,7 @@ export interface ChipsOptions extends BaseOptions{
   onChipDelete: (element: HTMLElement, chip: HTMLElement) => void;
 }
 
-let _defaults: ChipsOptions = {
+const _defaults: ChipsOptions = {
   data: [],
   placeholder: '',
   secondaryPlaceholder: '',
@@ -101,10 +101,10 @@ export class Chips extends Component<ChipsOptions> {
   /** Autocomplete instance, if any. */
   autocomplete: Autocomplete;
   _input: HTMLInputElement;
-  _label: any;
+  _label: HTMLLabelElement;
   _chips: HTMLElement[];
   static _keydown: boolean;
-  private _selectedChip: any;
+  private _selectedChip: HTMLElement;
 
   constructor(el: HTMLElement, options: Partial<ChipsOptions>) {
     super(el, options, Chips);
@@ -145,7 +145,7 @@ export class Chips extends Component<ChipsOptions> {
    * @param el HTML element.
    * @param options Component options.
    */
-  static init(el: InitElements<MElement>, options?: Partial<ChipsOptions>): Chips;
+  static init(el: HTMLElement, options?: Partial<ChipsOptions>): Chips;
   /**
    * Initializes instances of Chips.
    * @param els HTML elements.
@@ -180,6 +180,7 @@ export class Chips extends Component<ChipsOptions> {
 
   _setupEventHandlers() {
     this.el.addEventListener('click', this._handleChipClick);
+    // @todo why do we need this as document event listener, shouldn't we apply it to the element wrapper itself?
     document.addEventListener('keydown', Chips._handleChipsKeydown);
     document.addEventListener('keyup', Chips._handleChipsKeyup);
     this.el.addEventListener('blur', Chips._handleChipsBlur, true);
@@ -261,7 +262,7 @@ export class Chips extends Component<ChipsOptions> {
     }
   }
 
-  static _handleChipsKeyup(e: Event) {
+  static _handleChipsKeyup() {
     Chips._keydown = false;
   }
 
@@ -294,7 +295,7 @@ export class Chips extends Component<ChipsOptions> {
       }
       this._input.value = '';
     }
-    else if (      
+    else if (
       (Utils.keys.BACKSPACE.includes(e.key) || Utils.keys.ARROW_LEFT.includes(e.key)) &&
       this._input.value === '' &&
       this.chipsData.length
@@ -436,16 +437,19 @@ export class Chips extends Component<ChipsOptions> {
 
   static Init(){
     if (typeof document !== 'undefined')
-    document.addEventListener("DOMContentLoaded", () => {
       // Handle removal of static chips.
-      document.body.addEventListener('click', e => {
-        if ((<HTMLElement>e.target).closest('.chip .close')) {
-          const chips = (<HTMLElement>e.target).closest('.chips');
-          if (chips && (chips as any).M_Chips == undefined) return;
-          (<HTMLElement>e.target).closest('.chip').remove();
-        }
+      document.addEventListener('DOMContentLoaded', () => {
+        const chips = document.querySelectorAll('.chips');
+        chips.forEach((el) => {
+          // if (el && (el as any).M_Chips == undefined) return;
+          el.addEventListener('click', (e) => {
+            if ((<HTMLElement>e.target).classList.contains('close')) {
+              const chip = (<HTMLElement>e.target).closest('.chip');
+              if (chip) chip.remove();
+            }
+          });
+        });
       });
-    });
   }
 
   static {
