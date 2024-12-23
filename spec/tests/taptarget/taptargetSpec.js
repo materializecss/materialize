@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('TapTarget', () => {
   const fixture = `<div class="tap-target-container">
   <a id="tap-target-link" class="waves-effect waves-light btn btn-floating toggle-tap-target"><i class="material-icons">menu</i></a>
@@ -26,7 +24,10 @@ describe('TapTarget', () => {
     it('should be able to initialize', (done) => {
       expect(M.TapTarget._taptargets.length).toEqual(0, 'no tap targets initialized');
       M.TapTarget.init(document.querySelectorAll('.tap-target'));
-      expect(M.TapTarget._taptargets.length).toEqual(1, 'there should be 1 tap target initialization');
+      expect(M.TapTarget._taptargets.length).toEqual(
+        1,
+        'there should be 1 tap target initialization'
+      );
       done();
     });
 
@@ -73,7 +74,7 @@ describe('TapTarget', () => {
         },
         onClose: () => {
           closed = true;
-        },
+        }
       });
       click(toggleTapTargetElem);
       expect(opened).toEqual(true, 'opened variable should be true after method callback');
@@ -84,11 +85,14 @@ describe('TapTarget', () => {
       done();
     });
 
-    it('should destroy correctly', function(done) {
+    it('should destroy correctly', function (done) {
       const tapTargetElem = document.querySelector('.tap-target');
       expect(M.TapTarget._taptargets.length).toEqual(0, 'no tap targets initialized');
       M.TapTarget.init(tapTargetElem);
-      expect(M.TapTarget._taptargets.length).toEqual(1, 'there should be 1 tap target initialization');
+      expect(M.TapTarget._taptargets.length).toEqual(
+        1,
+        'there should be 1 tap target initialization'
+      );
       M.TapTarget.getInstance(tapTargetElem).destroy();
       setTimeout(() => {
         expect(M.TapTarget._taptargets.length).toEqual(0, 'no tap targets initialized');

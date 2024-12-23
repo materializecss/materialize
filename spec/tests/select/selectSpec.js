@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Select Plugin:', () => {
   const fixture = `<div class="row">
   <div class="input-field col s12">
@@ -304,8 +302,8 @@ describe('Select Plugin:', () => {
     it('Option groups should behave as such for assistive technologies', () => {
       optInput = selectInstance.wrapper.querySelector('input.select-dropdown');
       optDropdown = selectInstance.wrapper.querySelector('ul.select-dropdown');
-      let optgroups = optDropdown.querySelectorAll('li.optgroup');
-      let browerSelectOptgroups = browserSelect.querySelectorAll('optgroup');
+      const optgroups = optDropdown.querySelectorAll('li.optgroup');
+      const browerSelectOptgroups = browserSelect.querySelectorAll('optgroup');
       for (let i = 0; i < optgroups.length; i++) {
         expect(optgroups[i].getAttribute('role')).toBe('group', 'Should behave as group.');
       }
@@ -320,8 +318,8 @@ describe('Select Plugin:', () => {
     it('should open dropdown and select options', (done) => {
       optInput = selectInstance.wrapper.querySelector('input.select-dropdown');
       optDropdown = selectInstance.wrapper.querySelector('ul.select-dropdown');
-      let optgroups = optDropdown.querySelectorAll('li.optgroup');
-      let browerSelectOptgroups = browserSelect.querySelectorAll('optgroup');
+      const optgroups = optDropdown.querySelectorAll('li.optgroup');
+      const browerSelectOptgroups = browserSelect.querySelectorAll('optgroup');
       for (let i = 0; i < browerSelectOptgroups.length; i++) {
         expect(browerSelectOptgroups[i].label).toEqual(
           optgroups[i].innerText,
@@ -335,7 +333,7 @@ describe('Select Plugin:', () => {
       click(optInput);
       setTimeout(() => {
         expect(optDropdown).toBeVisible('Should be visible after opening.');
-        let secondOption = optDropdown.querySelectorAll('li:not(.disabled):not(.optgroup)')[1];
+        const secondOption = optDropdown.querySelectorAll('li:not(.disabled):not(.optgroup)')[1];
         click(secondOption);
         blur(optInput);
         setTimeout(() => {
@@ -362,9 +360,9 @@ describe('Select Plugin:', () => {
     it('should not do anything when optgroup li clicked', function (done) {
       optInput = selectInstance.wrapper.querySelector('input.select-dropdown');
       optDropdown = selectInstance.wrapper.querySelector('ul.select-dropdown');
-      let originalVal = optInput.value;
-      let optgroups = optDropdown.querySelectorAll('li.optgroup');
-      let browerSelectOptgroups = browserSelect.querySelectorAll('optgroup');
+      const originalVal = optInput.value;
+      const optgroups = optDropdown.querySelectorAll('li.optgroup');
+      const browerSelectOptgroups = browserSelect.querySelectorAll('optgroup');
       for (let i = 0; i < browerSelectOptgroups.length; i++) {
         expect(browerSelectOptgroups[i].label).toEqual(
           optgroups[i].innerText,
@@ -378,7 +376,7 @@ describe('Select Plugin:', () => {
       click(optInput);
       setTimeout(() => {
         expect(optDropdown).toBeVisible('Should be visible after opening.');
-        let optgroup = optDropdown.querySelector('li.optgroup');
+        const optgroup = optDropdown.querySelector('li.optgroup');
         click(optgroup);
         blur(optInput);
         setTimeout(() => {

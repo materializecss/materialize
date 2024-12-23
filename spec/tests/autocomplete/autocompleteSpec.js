@@ -96,7 +96,7 @@ describe('Autocomplete Plugin', () => {
       }
       const limitedInstance = M.Autocomplete.getInstance(limited);
       const limit = 20;
-      limitedInstance.options.onSearch = (text) => {
+      limitedInstance.options.onSearch = () => {
         const filteredItems = data.slice(0, limit);
         limitedInstance.setMenuItems(filteredItems);
       };
@@ -114,8 +114,8 @@ describe('Autocomplete Plugin', () => {
     });
 
     it('should open correctly from typing', (done) => {
-      let normal = document.querySelector('#normal-autocomplete');
-      let autocompleteEl = normal.parentNode.querySelector('.autocomplete-content');
+      const normal = document.querySelector('#normal-autocomplete');
+      const autocompleteEl = normal.parentNode.querySelector('.autocomplete-content');
       focus(normal);
       normal.value = 'e';
       keyup(normal, 69);
@@ -129,8 +129,8 @@ describe('Autocomplete Plugin', () => {
     });
 
     it('should open correctly from keyboard focus', (done) => {
-      let normal = document.querySelector('#normal-autocomplete');
-      let autocompleteEl = normal.parentNode.querySelector('.autocomplete-content');
+      const normal = document.querySelector('#normal-autocomplete');
+      const autocompleteEl = normal.parentNode.querySelector('.autocomplete-content');
       normal.value = 'e';
       keyup(normal, 9);
       focus(normal);

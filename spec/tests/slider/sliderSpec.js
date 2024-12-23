@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Slider Plugin:', () => {
   const fixture = `<div class="slider simple-slider">
   <ul class="slides">

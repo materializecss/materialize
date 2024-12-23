@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Datepicker Plugin', () => {
   const fixture = `<div class="row">
   <div class="input-field col s12">

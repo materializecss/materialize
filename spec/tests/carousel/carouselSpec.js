@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Carousel', () => {
   const fixture = `<div class="carousel carousel-slider" id="slider-no-wrap">
   <div class="carousel-item">
@@ -52,10 +50,12 @@ describe('Carousel', () => {
 
       document.querySelectorAll('.indicator-item')[1].click();
       setTimeout(() => {
-        expect(carousel.center).toEqual(1, 'carousel item was not visible after indicator interaction');
+        expect(carousel.center).toEqual(
+          1,
+          'carousel item was not visible after indicator interaction'
+        );
         done();
       }, 30);
     });
-
   });
 });
