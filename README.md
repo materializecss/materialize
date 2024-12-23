@@ -52,11 +52,6 @@ See [Materialize Docs Repo](https://github.com/materializecss/materialize-docs) 
 ### Releases
 Previous releases are available [here](https://github.com/materializecss/materialize/releases).
 
-If you want to release `materialize.css` or `materialize.js` from the latest commit, you can build the files with the following command after `npm install`. See `package.json` to check the current version like `1.0.0`.
-```sh
-npm run release -- --oldver=<current_version> --newver=<new_version>
-```
-
 ## Supported Browsers:
 Materialize is compatible with:
 
