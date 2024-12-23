@@ -1,8 +1,3 @@
-// custom backdrop blur
-dialog::backdrop {
-  backdrop-filter: blur(1px);
-}
-
 // use with dialog html element
 .modal {
   --modal-footer-divider-height: 1px;
@@ -30,6 +25,11 @@ dialog::backdrop {
 
   @media #{$medium-and-down} {
     width: 80%;
+  }
+
+  // custom backdrop blur
+  &::backdrop {
+    backdrop-filter: blur(1px);
   }
 
   .modal-header {
