@@ -1172,9 +1172,7 @@ export class Datepicker extends Component<DatepickerOptions> {
           this._handleDateRangeCalendarClick(selectedDate);
         }
 
-        if (this.options.autoClose) {
-          this._finishSelection();
-        }
+        this._finishSelection();
       } else if (target.closest('.month-prev')) {
         this.prevMonth();
       } else if (target.closest('.month-next')) {

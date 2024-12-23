@@ -41,31 +41,27 @@ describe('Modal:', () => {
       }, 10);
     });
 
-    // use a Popover or use show() instead of showModal()
-
-    /*
-    it('Should have a dismissible option', (done) => {
-      // M.Modal.init(modal1, {
-      //   dismissible: false,
-      //   inDuration: 0,
-      //   outDuration: 0
-      // });
-      click(trigger1);
-      setTimeout(() => {
-        expect(modal1).toBeVisible('Modal should be shown');
-        let overlay = M.Modal.getInstance(modal1)._overlay;
-        let overlayInDOM = document.contains(overlay);
-        expect(overlayInDOM).toEqual(true, 'Overlay should be attached on open');
-        click(overlay);
-        setTimeout(() => {
-          expect(modal1).toBeVisible('Modal should be shown');
-          let overlayInDOM = document.contains(overlay);
-          expect(overlayInDOM).toEqual(true, 'modal should not be dismissable');
-          done();
-        }, 10);
-      }, 10);
-    });
-    */
+    // it('Should have a dismissible option', (done) => {
+    //   // M.Modal.init(modal1, {
+    //   //   dismissible: false,
+    //   //   inDuration: 0,
+    //   //   outDuration: 0
+    //   // });
+    //   click(trigger1);
+    //   setTimeout(() => {
+    //     expect(modal1).toBeVisible('Modal should be shown');
+    //     let overlay = M.Modal.getInstance(modal1)._overlay;
+    //     let overlayInDOM = document.contains(overlay);
+    //     expect(overlayInDOM).toEqual(true, 'Overlay should be attached on open');
+    //     click(overlay);
+    //     setTimeout(() => {
+    //       expect(modal1).toBeVisible('Modal should be shown');
+    //       let overlayInDOM = document.contains(overlay);
+    //       expect(overlayInDOM).toEqual(true, 'modal should not be dismissable');
+    //       done();
+    //     }, 10);
+    //   }, 10);
+    // });
 
     it('Should have callbacks', (done) => {
       let hasBeenClosed = false;

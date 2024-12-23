@@ -59,7 +59,7 @@ describe('Datepicker Plugin', () => {
       const input = document.querySelector('#datepickerInput');
       M.Datepicker.init(input, { format: 'mm/dd/yyyy' });
       const today = new Date();
-      let month = today.getMonth();
+      const month = today.getMonth();
       const year = today.getFullYear() - 44;
       const day = 11;
       input.value = `${month < 10 ? `0${month}` : month}/${day}/${year}`;

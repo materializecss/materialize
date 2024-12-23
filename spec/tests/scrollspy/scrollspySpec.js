@@ -1,4 +1,4 @@
-describe('Scrollspy component', () => {
+describe('Scrollspy', () => {
   const DELAY_IN_MS = 40;
   const fixture1 = `
   <div id="scrollspyRoot" style="
