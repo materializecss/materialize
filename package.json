@@ -71,7 +71,8 @@
     "typescript-eslint": "^8.6.0"
   },
   "files": [
-    "dist",
+    "dist/css",
+    "dist/js",
     "sass/**/*.scss",
     "LICENSE"
   ]
