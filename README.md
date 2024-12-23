@@ -29,7 +29,7 @@
   </a>
 </p>
 
-## Quickstart
+## Getting started
 Read the [getting started guide](https://materializeweb.com/getting-started.html) for more information on how to use materialize.
 
 - [Download the latest release](https://github.com/materializecss/materialize/releases/latest) of materialize directly from GitHub. ([Beta](https://github.com/materializecss/materialize/releases/))
@@ -37,23 +37,21 @@ Read the [getting started guide](https://materializeweb.com/getting-started.html
 - Include the files via [jsDelivr](https://www.jsdelivr.com/package/npm/@materializecss/materialize).
 - Install with [npm](https://www.npmjs.com): `npm install @materializecss/materialize` (Beta: `npm install @materializecss/materialize@next`)
 
+## Testing
+To run tests locally you first have to build the files and then run the tests. This can be done with the command `npm test`;
+To get more info and debug information you can do the following:
+run `npx jasmine-browser-runner` then go to the url via browser `http://localhost:8888`. The tests will then run and show detailed feedback.
+
 ## Development
 The documentation can be found at <https://materializeweb.com>. To run the documentation locally on your machine, you need [Node.js](https://nodejs.org) installed on your computer.
-
 This is the core project with all the components. To see how they are used we recommend using an example project or go to the documentation.
-Otherwise, if you want to develop the components itself, the dev process of this core-repo works like this:
-```sh
-npm install
-npm run dev
-```
 
 ### Running documentation locally
 See [Materialize Docs Repo](https://github.com/materializecss/materialize-docs) to see Materialize in Action.
 
-### Documentation for previous releases
+### Releases
 Previous releases are available [here](https://github.com/materializecss/materialize/releases).
 
-## Release
 If you want to release `materialize.css` or `materialize.js` from the latest commit, you can build the files with the following command after `npm install`. See `package.json` to check the current version like `1.0.0`.
 ```sh
 npm run release -- --oldver=<current_version> --newver=<new_version>

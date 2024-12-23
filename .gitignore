@@ -25,6 +25,7 @@ yarn-error.log*
 # Dependency directories
 node_modules/
 
+dist
 dist/**/*.*
 !dist/css/*.css
 !dist/css/*.css.map

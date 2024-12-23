@@ -4,7 +4,6 @@ import typescriptPlugin from '@rollup/plugin-typescript';
 import terserPlugin from '@rollup/plugin-terser';
 import dtsPlugin from 'rollup-plugin-dts';
 import scss from 'rollup-plugin-scss';
-import zip from 'rollup-plugin-zip';
 import copy from 'rollup-plugin-copy';
 
 import { readFileSync } from 'fs';

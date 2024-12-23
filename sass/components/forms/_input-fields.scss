@@ -17,45 +17,32 @@ input[type=month]:not(.browser-default),
 input[type=tel]:not(.browser-default),
 input[type=number]:not(.browser-default),
 input[type=search]:not(.browser-default),
-textarea.materialize-textarea { 
+textarea.materialize-textarea {
   outline: none;
   color: var(--md-sys-color-on-background);
-  width: 100%;  
+  width: 100%;
   font-size: $md_sys_typescale_body-large_size; //16px; // => 16 dp
   height: 56px; // 56dp
 }
 
-/* Validation Sass Placeholders */
-%valid-input-style {
-  border-bottom: 1px solid $success-color;
-  box-shadow: 0 1px 0 0 $success-color;
-}
 %invalid-input-style {
   border-bottom: 2px solid var(--md-sys-color-error);
   box-shadow: 0 1px 0 0 var(--md-sys-color-error);
 }
-%hidden-text {
-  color: transparent;
-  user-select: none;
-  pointer-events: none;
-}
-/*
-%custom-success-message {
-  content: attr(data-success);
-  color: $success-color;
+%hidden-text > span {
+  display: none
 }
 %custom-error-message {
   content: attr(data-error);
   color: var(--md-sys-color-error);
 }
-*/
 
 .input-field {
   --input-color: var(--md-sys-color-primary);
 
   position: relative;
   clear: both;
- 
+
   // Default
 
   input, textarea {
@@ -71,7 +58,7 @@ textarea.materialize-textarea {
     border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-   
+
     &:focus:not([readonly]) {
       border-bottom: 2px solid var(--input-color);
       padding-top: 20px + 1px; // add border-width
@@ -98,6 +85,26 @@ textarea.materialize-textarea {
 
     &:disabled + label, &[readonly="readonly"] + label {
       color: rgba(var(--md_sys_color_on-surface), 0.38);
+    }
+
+    // Hide helper text on data message
+    &.invalid ~ .supporting-text[data-error] {
+      @extend %hidden-text;
+    }
+
+    // Invalid Input Style
+    &.invalid {
+      @extend %invalid-input-style;
+    }
+
+    // Custom Error message
+    &.invalid ~ .supporting-text:after {
+      @extend %custom-error-message;
+    }
+
+    &.invalid ~ label,
+    &:focus.invalid ~ label {
+      color: var(--md-sys-color-error);
     }
   }
 
@@ -150,7 +157,7 @@ textarea.materialize-textarea {
   .suffix {
     position: absolute;
     right: 12px;
-    top: 16px;    
+    top: 16px;
     user-select: none;
   }
 
@@ -200,7 +207,7 @@ textarea.materialize-textarea {
         color: rgba(var(--md_sys_color_on-surface), 0.38);
         border-color: rgba(var(--md_sys_color_on-surface), 0.12);
       }
-      
+
     }
   }
 
@@ -228,7 +235,7 @@ textarea.materialize-textarea {
 }
 
 /* Search Field */
-.searchbar {  
+.searchbar {
   .prefix {
     position: absolute;
     //left: 12px;
@@ -316,5 +323,28 @@ textarea {
       width: $dropdown-item-height - 10;
       margin: 5px 15px;
     }
+  }
+}
+
+/* Datepicker date input fields */
+.datepicker-date-input {
+  position: relative;
+  text-indent: -9999px;
+
+  &::after {
+    display: block;
+    position: absolute;
+    top: 1.10rem;
+    content: attr(data-date);
+    color: var(--input-color);
+    text-indent: 0;
+  }
+
+  &:focus-visible {
+    text-indent: 0;
+  }
+
+  &:focus-visible:after {
+    text-indent: -9999px;
   }
 }

@@ -1,8 +1,7 @@
-import { Modal } from "./modal";
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement, I18nOptions } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement, I18nOptions } from './component';
 
-export type Views = "hours" | "minutes";
+export type Views = 'hours' | 'minutes';
 
 export interface TimepickerOptions extends BaseOptions {
   /**
@@ -56,11 +55,6 @@ export interface TimepickerOptions extends BaseOptions {
    */
   i18n: Partial<I18nOptions>;
   /**
-   * Automatically close picker when minute is selected.
-   * @default false;
-   */
-  autoClose: boolean;
-  /**
    * Use 12 hour AM/PM clock instead of 24 hour clock.
    * @default true
    */
@@ -70,26 +64,6 @@ export interface TimepickerOptions extends BaseOptions {
    * @default true
    */
   vibrate: boolean;
-  /**
-   * Callback function called before modal is opened.
-   * @default null
-   */
-  onOpenStart: (el: HTMLElement) => void;
-  /**
-   * Callback function called after modal is opened.
-   * @default null
-   */
-  onOpenEnd: (el: HTMLElement) => void;
-  /**
-   * Callback function called before modal is closed.
-   * @default null
-   */
-  onCloseStart: (el: HTMLElement) => void;
-  /**
-   * Callback function called after modal is closed.
-   * @default null
-   */
-  onCloseEnd: (el: HTMLElement) => void;
   /**
    * Callback function when a time is selected.
    * @default null
@@ -113,26 +87,20 @@ let _defaults: TimepickerOptions = {
     clear: 'Clear',
     done: 'Ok'
   },
-  autoClose: false, // auto close when minute is selected
   twelveHour: true, // change to 12 hour AM/PM clock from 24 hour
   vibrate: true, // vibrate the device when dragging clock hand
   // Callbacks
-  onOpenStart: null,
-  onOpenEnd: null,
-  onCloseStart: null,
-  onCloseEnd: null,
   onSelect: null
 };
 
 type Point = {
-  x: number,
-  y: number
+  x: number;
+  y: number;
 };
 
 export class Timepicker extends Component<TimepickerOptions> {
   declare el: HTMLInputElement;
   id: string;
-  modal: Modal;
   modalEl: HTMLElement;
   plate: any;
   digitalClock: any;
@@ -158,12 +126,10 @@ export class Timepicker extends Component<TimepickerOptions> {
    * If the time is AM or PM on twelve-hour clock.
    * @default 'PM'
    */
-  amOrPm: "AM" | "PM";
+  amOrPm: 'AM' | 'PM';
   static _template: any;
-  /** If the picker is open. */
-  isOpen: boolean;
   /** Vibrate device when dragging clock hand. */
-  vibrate: "vibrate" | "webkitVibrate" | null;
+  vibrate: 'vibrate' | 'webkitVibrate' | null;
   _canvas: HTMLElement;
   hoursView: any;
   spanAmPm: HTMLSpanElement;
@@ -180,15 +146,12 @@ export class Timepicker extends Component<TimepickerOptions> {
   constructor(el: HTMLInputElement, options: Partial<TimepickerOptions>) {
     super(el, options, Timepicker);
     (this.el as any).M_Timepicker = this;
-
     this.options = {
       ...Timepicker.defaults,
       ...options
     };
-
     this.id = Utils.guid();
     this._insertHTMLIntoDOM();
-    this._setupModal();
     this._setupVariables();
     this._setupEventHandlers();
     this._clockSetup();
@@ -210,13 +173,19 @@ export class Timepicker extends Component<TimepickerOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InitElements<HTMLInputElement | MElement>, options?: Partial<TimepickerOptions>): Timepicker[];
+  static init(
+    els: InitElements<HTMLInputElement | MElement>,
+    options?: Partial<TimepickerOptions>
+  ): Timepicker[];
   /**
    * Initializes instances of Timepicker.
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLInputElement | InitElements<HTMLInputElement | MElement>, options: Partial<TimepickerOptions> = {}): Timepicker | Timepicker[] {
+  static init(
+    els: HTMLInputElement | InitElements<HTMLInputElement | MElement>,
+    options: Partial<TimepickerOptions> = {}
+  ): Timepicker | Timepicker[] {
     return super.init(els, options, Timepicker);
   }
 
@@ -230,8 +199,11 @@ export class Timepicker extends Component<TimepickerOptions> {
   }
 
   static _Pos(e: TouchEvent | MouseEvent): Point {
-    if (e.type.startsWith("touch") && (e as TouchEvent).targetTouches.length >= 1) {
-      return { x: (e as TouchEvent).targetTouches[0].clientX, y: (e as TouchEvent).targetTouches[0].clientY };
+    if (e.type.startsWith('touch') && (e as TouchEvent).targetTouches.length >= 1) {
+      return {
+        x: (e as TouchEvent).targetTouches[0].clientX,
+        y: (e as TouchEvent).targetTouches[0].clientY
+      };
     }
     // mouse event
     return { x: (e as MouseEvent).clientX, y: (e as MouseEvent).clientY };
@@ -243,7 +215,6 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   destroy() {
     this._removeEventHandlers();
-    this.modal.destroy();
     this.modalEl.remove();
     (this.el as any).M_Timepicker = undefined;
   }
@@ -254,8 +225,10 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.plate.addEventListener('mousedown', this._handleClockClickStart);
     this.plate.addEventListener('touchstart', this._handleClockClickStart);
     this.digitalClock.addEventListener('keyup', this._inputFromTextField);
-    this.inputHours.addEventListener('click', () => this.showView('hours'));
-    this.inputMinutes.addEventListener('click', () => this.showView('minutes'));
+    this.inputHours.addEventListener('focus', () => this.showView('hours'));
+    this.inputHours.addEventListener('focusout', () => this.formatHours());
+    this.inputMinutes.addEventListener('focus', () => this.showView('minutes'));
+    this.inputMinutes.addEventListener('focusout', () => this.formatMinutes());
   }
 
   _removeEventHandlers() {
@@ -265,21 +238,21 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _handleInputClick = () => {
     this.open();
-  }
+  };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
     if (Utils.keys.ENTER.includes(e.key)) {
       e.preventDefault();
       this.open();
     }
-  }
+  };
 
   _handleTimeInputEnterKey = (e: KeyboardEvent) => {
     if (Utils.keys.ENTER.includes(e.key)) {
       e.preventDefault();
       this._inputFromTextField();
     }
-  }
+  };
 
   _handleClockClickStart = (e) => {
     e.preventDefault();
@@ -301,7 +274,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     // Mouseup on document
     document.addEventListener('mouseup', this._handleDocumentClickEnd);
     document.addEventListener('touchend', this._handleDocumentClickEnd);
-  }
+  };
 
   _handleDocumentClickMove = (e) => {
     e.preventDefault();
@@ -310,7 +283,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     let y = clickPos.y - this.y0;
     this.moved = true;
     this.setHand(x, y, false);
-  }
+  };
 
   _handleDocumentClickEnd = (e) => {
     e.preventDefault();
@@ -322,26 +295,28 @@ export class Timepicker extends Component<TimepickerOptions> {
     if (this.moved && x === this.dx && y === this.dy) {
       this.setHand(x, y);
     }
+
     if (this.currentView === 'hours') {
       this.showView('minutes', this.options.duration / 2);
-    }
-    else if (this.options.autoClose) {
+    } else {
       this.minutesView.classList.add('timepicker-dial-out');
       setTimeout(() => {
         this.done();
       }, this.options.duration / 2);
     }
+
     if (typeof this.options.onSelect === 'function') {
       this.options.onSelect.call(this, this.hours, this.minutes);
     }
     // Unbind mousemove event
     document.removeEventListener('mousemove', this._handleDocumentClickMove);
     document.removeEventListener('touchmove', this._handleDocumentClickMove);
-  }
+  };
 
   _insertHTMLIntoDOM() {
     const template = document.createElement('template');
     template.innerHTML = Timepicker._template.trim();
+
     this.modalEl = <HTMLElement>template.content.firstChild;
     this.modalEl.id = 'modal-' + this.id;
 
@@ -351,24 +326,9 @@ export class Timepicker extends Component<TimepickerOptions> {
 
     if (this.options.container && !!containerEl) {
       containerEl.append(this.modalEl);
-    }
-    else {
+    } else {
       this.el.parentElement.appendChild(this.modalEl);
     }
-  }
-
-  _setupModal() {
-    this.modal = Modal.init(this.modalEl, {
-      onOpenStart: this.options.onOpenStart,
-      onOpenEnd: this.options.onOpenEnd,
-      onCloseStart: this.options.onCloseStart,
-      onCloseEnd: () => {
-        if (typeof this.options.onCloseEnd === 'function') {
-          this.options.onCloseEnd.call(this);
-        }
-        this.isOpen = false;
-      }
-    });
   }
 
   _setupVariables() {
@@ -376,8 +336,8 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.vibrate = navigator.vibrate
       ? 'vibrate'
       : (navigator as any).webkitVibrate
-      ? 'webkitVibrate'
-      : null;
+        ? 'webkitVibrate'
+        : null;
     this._canvas = this.modalEl.querySelector('.timepicker-canvas');
     this.plate = this.modalEl.querySelector('.timepicker-plate');
     this.digitalClock = this.modalEl.querySelector('.timepicker-display-column');
@@ -392,16 +352,19 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   private _createButton(text: string, visibility: string): HTMLButtonElement {
     const button = document.createElement('button');
-    button.classList.add('btn-flat', 'waves-effect');
+    button.classList.add('btn', 'btn-flat', 'waves-effect', 'text');
     button.style.visibility = visibility;
     button.type = 'button';
-    button.tabIndex = this.options.twelveHour ? 3 : 1;
+    button.tabIndex = -1;
     button.innerText = text;
     return button;
   }
 
   _pickerSetup() {
-    const clearButton = this._createButton(this.options.i18n.clear, this.options.showClearBtn ? '' : 'hidden');
+    const clearButton = this._createButton(
+      this.options.i18n.clear,
+      this.options.showClearBtn ? '' : 'hidden'
+    );
     clearButton.classList.add('timepicker-clear');
     clearButton.addEventListener('click', this.clear);
     this.footer.appendChild(clearButton);
@@ -425,13 +388,13 @@ export class Timepicker extends Component<TimepickerOptions> {
     if (this.options.twelveHour) {
       // AM Button
       this._amBtn = document.createElement('div');
-      this._amBtn.classList.add('am-btn');
+      this._amBtn.classList.add('am-btn', 'btn');
       this._amBtn.innerText = 'AM';
       this._amBtn.addEventListener('click', this._handleAmPmClick);
       this.spanAmPm.appendChild(this._amBtn);
       // PM Button
       this._pmBtn = document.createElement('div');
-      this._pmBtn.classList.add('pm-btn');
+      this._pmBtn.classList.add('pm-btn', 'btn');
       this._pmBtn.innerText = 'PM';
       this._pmBtn.addEventListener('click', this._handleAmPmClick);
       this.spanAmPm.appendChild(this._pmBtn);
@@ -483,21 +446,24 @@ export class Timepicker extends Component<TimepickerOptions> {
         const tick = <HTMLElement>$tick.cloneNode(true);
         const radian = (i / 6) * Math.PI;
         const radius = this.options.outerRadius;
-        tick.style.left = this.options.dialRadius + Math.sin(radian) * radius - this.options.tickRadius + 'px';
-        tick.style.top = this.options.dialRadius - Math.cos(radian) * radius - this.options.tickRadius + 'px';
+        tick.style.left =
+          this.options.dialRadius + Math.sin(radian) * radius - this.options.tickRadius + 'px';
+        tick.style.top =
+          this.options.dialRadius - Math.cos(radian) * radius - this.options.tickRadius + 'px';
         tick.innerHTML = i === 0 ? '00' : i.toString();
         this.hoursView.appendChild(tick);
         // tick.on(mousedownEvent, mousedown);
       }
-    }
-    else {
+    } else {
       for (let i = 0; i < 24; i += 1) {
         const tick = <HTMLElement>$tick.cloneNode(true);
         const radian = (i / 6) * Math.PI;
         const inner = i > 0 && i < 13;
         const radius = inner ? this.options.innerRadius : this.options.outerRadius;
-        tick.style.left = this.options.dialRadius + Math.sin(radian) * radius - this.options.tickRadius + 'px';
-        tick.style.top = this.options.dialRadius - Math.cos(radian) * radius - this.options.tickRadius + 'px';
+        tick.style.left =
+          this.options.dialRadius + Math.sin(radian) * radius - this.options.tickRadius + 'px';
+        tick.style.top =
+          this.options.dialRadius - Math.cos(radian) * radius - this.options.tickRadius + 'px';
         tick.innerHTML = i === 0 ? '00' : i.toString();
         this.hoursView.appendChild(tick);
         // tick.on(mousedownEvent, mousedown);
@@ -518,10 +484,10 @@ export class Timepicker extends Component<TimepickerOptions> {
         this.options.tickRadius +
         'px';
       tick.style.top =
-          this.options.dialRadius -
-          Math.cos(radian) * this.options.outerRadius -
-          this.options.tickRadius +
-          'px';
+        this.options.dialRadius -
+        Math.cos(radian) * this.options.outerRadius -
+        this.options.tickRadius +
+        'px';
       tick.innerHTML = Timepicker._addLeadingZero(i);
       this.minutesView.appendChild(tick);
     }
@@ -531,17 +497,16 @@ export class Timepicker extends Component<TimepickerOptions> {
     const btnClicked = <HTMLElement>e.target;
     this.amOrPm = btnClicked.classList.contains('am-btn') ? 'AM' : 'PM';
     this._updateAmPmView();
-  }
+  };
 
   _updateAmPmView() {
     if (this.options.twelveHour) {
       if (this.amOrPm === 'PM') {
-        this._amBtn.classList.remove('text-primary');
-        this._pmBtn.classList.add('text-primary');
-      }
-      else if (this.amOrPm === 'AM') {
-        this._amBtn.classList.add('text-primary');
-        this._pmBtn.classList.remove('text-primary');
+        this._amBtn.classList.remove('filled');
+        this._pmBtn.classList.add('filled');
+      } else if (this.amOrPm === 'AM') {
+        this._amBtn.classList.add('filled');
+        this._pmBtn.classList.remove('filled');
       }
     }
   }
@@ -566,7 +531,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     }
     this.hours = +value[0] || 0;
     this.minutes = +value[1] || 0;
-    this.inputHours.value = this.hours;
+    this.inputHours.value = Timepicker._addLeadingZero(this.hours);
     this.inputMinutes.value = Timepicker._addLeadingZero(this.minutes);
 
     this._updateAmPmView();
@@ -588,8 +553,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     if (isHours) {
       this.inputHours.classList.add('text-primary');
       this.inputMinutes.classList.remove('text-primary');
-    }
-    else {
+    } else {
       this.inputHours.classList.remove('text-primary');
       this.inputMinutes.classList.add('text-primary');
     }
@@ -607,7 +571,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.toggleViewTimer = setTimeout(() => {
       hideView.style.visibility = 'hidden';
     }, this.options.duration);
-  }
+  };
 
   resetClock(delay) {
     let view = this.currentView,
@@ -627,41 +591,32 @@ export class Timepicker extends Component<TimepickerOptions> {
         self.canvas?.classList.remove('timepicker-canvas-out');
         self.setHand(x, y);
       }, delay);
-    }
-    else {
+    } else {
       this.setHand(x, y);
     }
   }
 
   _inputFromTextField = () => {
     const isHours = this.currentView === 'hours';
-    if (isHours) {
+    if (isHours && this.inputHours.value !== '') {
       const value = parseInt(this.inputHours.value);
-      if (value > 0 && value < 13) {
-        this.drawClockFromTimeInput(value, isHours);
-        this.showView('minutes', this.options.duration / 2);
+      if (value > 0 && value < (this.options.twelveHour ? 13 : 24)) {
         this.hours = value;
-        this.inputMinutes.focus();
+      } else {
+        this.setHoursDefault();
       }
-      else {
-        const hour = new Date().getHours();
-        this.inputHours.value = (hour % 12).toString();
-      }
-    }
-    else {
+      this.drawClockFromTimeInput(this.hours, isHours);
+    } else if (!isHours && this.inputMinutes.value !== '') {
       const value = parseInt(this.inputMinutes.value);
       if (value >= 0 && value < 60) {
-        this.inputMinutes.value = Timepicker._addLeadingZero(value);
-        this.drawClockFromTimeInput(value, isHours);
         this.minutes = value;
-        (<HTMLElement>this.modalEl.querySelector('.confirmation-btns :nth-child(2)')).focus();
+      } else {
+        this.minutes = new Date().getMinutes();
+        this.inputMinutes.value = this.minutes;
       }
-      else {
-        const minutes = new Date().getMinutes();
-        this.inputMinutes.value = Timepicker._addLeadingZero(minutes);
-      }
+      this.drawClockFromTimeInput(this.minutes, isHours);
     }
-  }
+  };
 
   drawClockFromTimeInput(value, isHours) {
     const unit = Math.PI / (isHours ? 6 : 30);
@@ -669,15 +624,11 @@ export class Timepicker extends Component<TimepickerOptions> {
     let radius;
     if (this.options.twelveHour) {
       radius = this.options.outerRadius;
+    } else {
+      radius =
+        isHours && value > 0 && value < 13 ? this.options.innerRadius : this.options.outerRadius;
     }
-    let cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
-      cy1 = -Math.cos(radian) * (radius - this.options.tickRadius),
-      cx2 = Math.sin(radian) * radius,
-      cy2 = -Math.cos(radian) * radius;
-    this.hand.setAttribute('x2', cx1.toString());
-    this.hand.setAttribute('y2', cy1.toString());
-    this.bg.setAttribute('cx', cx2.toString());
-    this.bg.setAttribute('cy', cy2.toString());
+    this.setClockAttributes(radian, radius);
   }
 
   setHand(x, y, roundBy5: boolean = false) {
@@ -742,13 +693,16 @@ export class Timepicker extends Component<TimepickerOptions> {
 
     this[this.currentView] = value;
     if (isHours) {
-      this.inputHours.value = value.toString();
-    }
-    else {
+      this.inputHours.value = Timepicker._addLeadingZero(value);
+    } else {
       this.inputMinutes.value = Timepicker._addLeadingZero(value);
     }
 
     // Set clock hand and others' position
+    this.setClockAttributes(radian, radius);
+  }
+
+  setClockAttributes(radian: number, radius: number) {
     let cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
       cy1 = -Math.cos(radian) * (radius - this.options.tickRadius),
       cx2 = Math.sin(radian) * radius,
@@ -759,24 +713,19 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.bg.setAttribute('cy', cy2.toString());
   }
 
-  /**
-   * Open timepicker.
-   */
-  open = () => {
-    if (this.isOpen) return;
-    this.isOpen = true;
-    this._updateTimeFromInput();
-    this.showView('hours');
-    this.modal.open(undefined);
+  formatHours() {
+    if (this.inputHours.value == '') this.setHoursDefault();
+    this.inputHours.value = Timepicker._addLeadingZero(Number(this.inputHours.value));
   }
 
-  /**
-   * Close timepicker.
-   */
-  close = () => {
-    if (!this.isOpen) return;
-    this.isOpen = false;
-    this.modal.close();
+  formatMinutes() {
+    if (this.inputMinutes.value == '') this.minutes = new Date().getMinutes();
+    this.inputMinutes.value = Timepicker._addLeadingZero(Number(this.inputMinutes.value));
+  }
+
+  setHoursDefault() {
+    this.hours = new Date().getHours();
+    this.inputHours.value = (this.hours % (this.options.twelveHour ? 12 : 24)).toString();
   }
 
   done = (e = null, clearValue = null) => {
@@ -792,14 +741,32 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.el.value = value;
     // Trigger change event
     if (value !== last) {
-      this.el.dispatchEvent(new Event('change',{bubbles:true, cancelable:true, composed:true}));
+      this.el.dispatchEvent(
+        new Event('change', { bubbles: true, cancelable: true, composed: true })
+      );
     }
-    this.close();
-    this.el.focus();
-  }
+    //this.el.focus();
+  };
 
   clear = () => {
     this.done(null, true);
+  };
+
+  // deprecated
+  open() {
+    // this._updateTimeFromInput();
+    // this.showView('hours');
+    console.warn(
+      'Timepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
+    );
+    return this;
+  }
+
+  close() {
+    console.warn(
+      'Timepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
+    );
+    return this;
   }
 
   static {
@@ -809,9 +776,15 @@ export class Timepicker extends Component<TimepickerOptions> {
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
               <div class="timepicker-display-column">
-                <input type="text" maxlength="2" autofocus class="timepicker-input-hours text-primary" />
-                :
-                <input type="text" maxlength="2" class="timepicker-input-minutes" />
+                <div class="timepicker-input-hours-wrapper">
+                  <input type="text" maxlength="2" autofocus class="timepicker-input-hours text-primary" />
+                </div>
+                <div class="timepicker-input-divider-wrapper">
+                  <span class="timepicker-input-divider">:</span>
+                </div>
+                <div class="timepicker-input-minutes-wrapper">
+                  <input type="text" maxlength="2" class="timepicker-input-minutes" />
+                </div>
               </div>
               <div class="timepicker-display-column timepicker-display-am-pm">
                 <div class="timepicker-span-am-pm"></div>
@@ -827,6 +800,6 @@ export class Timepicker extends Component<TimepickerOptions> {
             <div class="timepicker-footer"></div>
           </div>
         </div>
-      </div`;
+      </div>`;
   }
 }

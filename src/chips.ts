@@ -54,6 +54,11 @@ export interface ChipsOptions extends BaseOptions{
    */
   closeIconClass: string;
   /**
+   *  Specifies option to render user input field
+   *  @default false;
+   */
+  allowUserInput: boolean;
+  /**
    * Callback for chip add.
    * @default null
    */
@@ -78,6 +83,7 @@ let _defaults: ChipsOptions = {
   autocompleteOptions: {},
   autocompleteOnly: false,
   limit: Infinity,
+  allowUserInput: false,
   onChipAdd: null,
   onChipSelect: null,
   onChipDelete: null
@@ -109,26 +115,25 @@ export class Chips extends Component<ChipsOptions> {
       ...options
     };
 
-    this.el.classList.add('chips', 'input-field');
+    this.el.classList.add('chips');
     this.chipsData = [];
     this._chips = [];
-    this._setupInput();
-    this.hasAutocomplete = Object.keys(this.options.autocompleteOptions).length > 0;
-
-    // Set input id
-    if (!this._input.getAttribute('id'))
-      this._input.setAttribute('id', Utils.guid());
 
     // Render initial chips
     if (this.options.data.length) {
       this.chipsData = this.options.data;
       this._renderChips();
     }
-    // Setup autocomplete if needed
-    if (this.hasAutocomplete) this._setupAutocomplete();
-    this._setPlaceholder();
     this._setupLabel();
-    this._setupEventHandlers();
+
+    // Render input element, setup event handlers
+    if(this.options.allowUserInput) {
+      this.el.classList.add('input-field');
+      this._setupInput();
+      this._setupEventHandlers();
+      // move input to end
+      this.el.append(this._input);
+    }
   }
 
   static get defaults() {
@@ -165,7 +170,9 @@ export class Chips extends Component<ChipsOptions> {
   }
 
   destroy() {
-    this._removeEventHandlers();
+    if(this.options.allowUserInput) {
+      this._removeEventHandlers();
+    }
     this._chips.forEach(c => c.remove());
     this._chips = [];
     (this.el as any).M_Chips = undefined;
@@ -302,17 +309,19 @@ export class Chips extends Component<ChipsOptions> {
     const renderedChip = document.createElement('div');
     renderedChip.classList.add('chip');
     renderedChip.innerText = chip.text || <string>chip.id;
-    renderedChip.setAttribute('tabindex', "0");
-    const closeIcon = document.createElement('i');
-    closeIcon.classList.add(this.options.closeIconClass, 'close');
-    closeIcon.innerText = 'close';
     // attach image if needed
     if (chip.image) {
       const img = document.createElement('img');
       img.setAttribute('src', chip.image);
       renderedChip.insertBefore(img, renderedChip.firstChild);
     }
-    renderedChip.appendChild(closeIcon);
+    if(this.options.allowUserInput) {
+      renderedChip.setAttribute('tabindex', '0');
+      const closeIcon = document.createElement('i');
+      closeIcon.classList.add(this.options.closeIconClass, 'close');
+      closeIcon.innerText = 'close';
+      renderedChip.appendChild(closeIcon);
+    }
     return renderedChip;
   }
 
@@ -323,8 +332,6 @@ export class Chips extends Component<ChipsOptions> {
       this.el.appendChild(chipElem);
       this._chips.push(chipElem);
     }
-    // move input to end
-    this.el.append(this._input);
   }
 
   _setupAutocomplete() {
@@ -347,6 +354,13 @@ export class Chips extends Component<ChipsOptions> {
       this.el.append(this._input);
     }
     this._input.classList.add('input');
+    this.hasAutocomplete = Object.keys(this.options.autocompleteOptions).length > 0;
+    // Setup autocomplete if needed
+    if (this.hasAutocomplete) this._setupAutocomplete();
+    this._setPlaceholder();
+    // Set input id
+    if (!this._input.getAttribute('id'))
+      this._input.setAttribute('id', Utils.guid());
   }
 
   _setupLabel() {

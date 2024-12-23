@@ -175,6 +175,9 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     if (this.isFixed) {
       window.addEventListener('resize', this._handleWindowResize);
     }
+    /* Set aria-hidden state */
+    this._setAriaHidden();
+    this._setTabIndex();
   }
 
   private _removeEventHandlers() {
@@ -406,6 +409,9 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     else {
       if (this.options.preventScrolling) this._preventBodyScrolling();
       if (!this.isDragged || this.percentOpen != 1) this._animateIn();
+      /* Set aria-hidden state */
+      this._setAriaHidden();
+      this._setTabIndex();
     }
   }
 
@@ -432,6 +438,9 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
       } else {
         this._overlay.style.display = 'none';
       }
+      /* Set aria-hidden state */
+      this._setAriaHidden();
+      this._setTabIndex();
     }
   }
 
@@ -488,7 +497,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
 
   private _animateOverlayIn() {
     let start = 0;
-    if (this.isDragged) 
+    if (this.isDragged)
       start = this.percentOpen;
     else
       this._overlay.style.display = 'block';
@@ -501,7 +510,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     setTimeout(() => {
       this._overlay.style.transition = `opacity ${duration}ms ease`;
       // to
-      this._overlay.style.opacity = '1';      
+      this._overlay.style.opacity = '1';
     }, 1);
   }
 
@@ -510,10 +519,25 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     // easeOutQuad
     this._overlay.style.transition = `opacity ${duration}ms ease`;
     // to
-    this._overlay.style.opacity = '0';  
+    this._overlay.style.opacity = '0';
     setTimeout(() => {
       this._overlay.style.display = 'none';
     }, duration);
+  }
+
+  private _setAriaHidden = () => {
+    this.el.ariaHidden = this.isOpen ? 'false' : 'true';
+    const navWrapper = document.querySelector('.nav-wrapper ul') as any;
+    if (navWrapper) navWrapper.ariaHidden = this.isOpen;
+  }
+
+  private _setTabIndex = () => {
+    const navLinks = document.querySelectorAll('.nav-wrapper ul li a');
+    const sideNavLinks = document.querySelectorAll('.sidenav li a');
+    if (navLinks)
+      navLinks.forEach((navLink: HTMLAnchorElement) => { navLink.tabIndex = this.isOpen ? -1 : 0});
+    if (sideNavLinks)
+      sideNavLinks.forEach((sideNavLink: HTMLAnchorElement) => { sideNavLink.tabIndex = this.isOpen ? 0 : -1;});
   }
 
   static  {
