@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface PushpinOptions extends BaseOptions {
   /**
@@ -24,7 +24,7 @@ export interface PushpinOptions extends BaseOptions {
    * You are provided with a position string.
    * @default null
    */
-  onPositionChange: (position: "pinned" | "pin-top" | "pin-bottom") => void;
+  onPositionChange: (position: 'pinned' | 'pin-top' | 'pin-bottom') => void;
 }
 
 const _defaults = {
@@ -40,7 +40,7 @@ export class Pushpin extends Component<PushpinOptions> {
 
   constructor(el: HTMLElement, options: Partial<PushpinOptions>) {
     super(el, options, Pushpin);
-    (this.el as any).M_Pushpin = this;
+    this.el['M_Pushpin'] = this;
 
     this.options = {
       ...Pushpin.defaults,
@@ -74,12 +74,15 @@ export class Pushpin extends Component<PushpinOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<PushpinOptions> = {}): Pushpin | Pushpin[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<PushpinOptions> = {}
+  ): Pushpin | Pushpin[] {
     return super.init(els, options, Pushpin);
   }
 
   static getInstance(el: HTMLElement): Pushpin {
-    return (el as any).M_Pushpin;
+    return el['M_Pushpin'];
   }
 
   destroy() {
@@ -91,7 +94,7 @@ export class Pushpin extends Component<PushpinOptions> {
     if (Pushpin._pushpins.length === 0) {
       this._removeEventHandlers();
     }
-    (this.el as any).M_Pushpin = undefined;
+    this.el['M_Pushpin'] = undefined;
   }
 
   static _updateElements() {

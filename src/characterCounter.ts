@@ -7,7 +7,6 @@ const _defaults = Object.freeze({});
 type InputElement = HTMLInputElement | HTMLTextAreaElement;
 
 export class CharacterCounter extends Component<object> {
-
   declare el: InputElement;
   /** Stores the reference to the counter HTML element. */
   counterEl: HTMLSpanElement;
@@ -18,7 +17,7 @@ export class CharacterCounter extends Component<object> {
 
   constructor(el: HTMLInputElement | HTMLTextAreaElement, options: Partial<BaseOptions>) {
     super(el, {}, CharacterCounter);
-    (this.el as any).M_CharacterCounter = this;
+    this.el['M_CharacterCounter'] = this;
 
     this.options = {
       ...CharacterCounter.defaults,
@@ -27,7 +26,7 @@ export class CharacterCounter extends Component<object> {
 
     this.isInvalid = false;
     this.isValidLength = false;
-    
+
     this._setupCounter();
     this._setupEventHandlers();
   }
@@ -47,23 +46,29 @@ export class CharacterCounter extends Component<object> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InitElements<InputElement | MElement>, options?: Partial<BaseOptions>): CharacterCounter[];
+  static init(
+    els: InitElements<InputElement | MElement>,
+    options?: Partial<BaseOptions>
+  ): CharacterCounter[];
   /**
    * Initializes instances of CharacterCounter.
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InputElement | InitElements<InputElement | MElement>, options: Partial<BaseOptions> = {}): CharacterCounter | CharacterCounter[] {
+  static init(
+    els: InputElement | InitElements<InputElement | MElement>,
+    options: Partial<BaseOptions> = {}
+  ): CharacterCounter | CharacterCounter[] {
     return super.init(els, options, CharacterCounter);
   }
 
   static getInstance(el: InputElement): CharacterCounter {
-    return (el as any).M_CharacterCounter;
+    return el['M_CharacterCounter'];
   }
 
   destroy() {
     this._removeEventHandlers();
-    (this.el as any).CharacterCounter = undefined;
+    this.el['CharacterCounter'] = undefined;
     this._removeCounter();
   }
 
@@ -101,14 +106,13 @@ export class CharacterCounter extends Component<object> {
       this._validateInput();
     }
     this.counterEl.innerHTML = counterString;
-  }
+  };
 
   _validateInput() {
     if (this.isValidLength && this.isInvalid) {
       this.isInvalid = false;
       this.el.classList.remove('invalid');
-    }
-    else if (!this.isValidLength && !this.isInvalid) {
+    } else if (!this.isValidLength && !this.isInvalid) {
       this.isInvalid = true;
       this.el.classList.remove('valid');
       this.el.classList.add('invalid');

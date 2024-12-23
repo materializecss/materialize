@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement, Openable } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement, Openable } from './component';
 
 export interface TapTargetOptions extends BaseOptions {
   /**
@@ -12,9 +12,9 @@ export interface TapTargetOptions extends BaseOptions {
    * @default null
    */
   onClose: (origin: HTMLElement) => void;
-};
+}
 
-let _defaults: TapTargetOptions = {
+const _defaults: TapTargetOptions = {
   onOpen: null,
   onClose: null
 };
@@ -34,7 +34,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
 
   constructor(el: HTMLElement, options: Partial<TapTargetOptions>) {
     super(el, options, TapTarget);
-    (this.el as any).M_TapTarget = this;
+    this.el['M_TapTarget'] = this;
 
     this.options = {
       ...TapTarget.defaults,
@@ -74,17 +74,20 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<TapTargetOptions> = {}): TapTarget | TapTarget[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<TapTargetOptions> = {}
+  ): TapTarget | TapTarget[] {
     return super.init(els, options, TapTarget);
   }
 
   static getInstance(el: HTMLElement): TapTarget {
-    return (el as any).M_TapTarget;
+    return el['M_TapTarget'];
   }
 
   destroy() {
     this._removeEventHandlers();
-    (this.el as any).TapTarget = undefined;
+    this.el['M_TapTarget'] = undefined;
     const index = TapTarget._taptargets.indexOf(this);
     if (index >= 0) {
       TapTarget._taptargets.splice(index, 1);
@@ -106,17 +109,19 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     window.removeEventListener('resize', this._handleThrottledResize);
   }
 
-  _handleThrottledResize: () => void = Utils.throttle(function(){ this._handleResize(); }, 200).bind(this);
+  _handleThrottledResize: () => void = Utils.throttle(function () {
+    this._handleResize();
+  }, 200).bind(this);
 
   _handleKeyboardInteraction = (e: KeyboardEvent) => {
     if (Utils.keys.ENTER.includes(e.key)) {
       this._handleTargetToggle();
     }
-  }
+  };
 
   _handleTargetToggle = () => {
     !this.isOpen ? this.open() : this.close();
-  }
+  };
 
   /*_handleOriginClick = () => {
     this.close();
@@ -124,7 +129,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
 
   _handleResize = () => {
     this._calculatePositioning();
-  }
+  };
 
   _handleDocumentClick = (e: MouseEvent | TouchEvent | KeyboardEvent) => {
     if (
@@ -135,7 +140,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
       // e.preventDefault();
       // e.stopPropagation();
     }
-  }
+  };
 
   _setup() {
     // Creating tap target
@@ -187,7 +192,6 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     // Element or parent is fixed position?
     let isFixed = getComputedStyle(this.originEl).position === 'fixed';
     if (!isFixed) {
-
       let currentElem: any = this.originEl;
       const parents = [];
       while ((currentElem = currentElem.parentNode) && currentElem !== document)
@@ -201,8 +205,12 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     // Calculating origin
     const originWidth = this.originEl.offsetWidth;
     const originHeight = this.originEl.offsetHeight;
-    const originTop = isFixed ? this._offset(this.originEl).top - Utils.getDocumentScrollTop() : this._offset(this.originEl).top;
-    const originLeft = isFixed ? this._offset(this.originEl).left - Utils.getDocumentScrollLeft() : this._offset(this.originEl).left;
+    const originTop = isFixed
+      ? this._offset(this.originEl).top - Utils.getDocumentScrollTop()
+      : this._offset(this.originEl).top;
+    const originLeft = isFixed
+      ? this._offset(this.originEl).left - Utils.getDocumentScrollLeft()
+      : this._offset(this.originEl).left;
 
     // Calculating screen
     const windowWidth = window.innerWidth;
@@ -241,8 +249,12 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
 
     // Setting tap target
     this.wrapper.style.top = isTop ? tapTargetTop + 'px' : '';
-    this.wrapper.style.right = isRight ? windowWidth - tapTargetLeft - tapTargetWidth - scrollBarWidth + 'px' : '';
-    this.wrapper.style.bottom = isBottom ? windowHeight - tapTargetTop - tapTargetHeight + 'px' : '';
+    this.wrapper.style.right = isRight
+      ? windowWidth - tapTargetLeft - tapTargetWidth - scrollBarWidth + 'px'
+      : '';
+    this.wrapper.style.bottom = isBottom
+      ? windowHeight - tapTargetTop - tapTargetHeight + 'px'
+      : '';
     this.wrapper.style.left = isLeft ? tapTargetLeft + 'px' : '';
     this.wrapper.style.position = tapTargetPosition;
 
@@ -257,10 +269,10 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     this.contentEl.style.verticalAlign = tapTargetTextAlign;
 
     // Setting wave
-    this.waveEl.style.top = tapTargetWaveTop+'px';
-    this.waveEl.style.left = tapTargetWaveLeft+'px';
-    this.waveEl.style.width = tapTargetWaveWidth+'px';
-    this.waveEl.style.height = tapTargetWaveHeight+'px';
+    this.waveEl.style.top = tapTargetWaveTop + 'px';
+    this.waveEl.style.left = tapTargetWaveLeft + 'px';
+    this.waveEl.style.width = tapTargetWaveWidth + 'px';
+    this.waveEl.style.height = tapTargetWaveHeight + 'px';
   }
 
   /**
@@ -274,7 +286,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     }
     this.isOpen = true;
     this.wrapper.classList.add('open');
-    this.wrapper.ariaExpanded = 'true'
+    this.wrapper.ariaExpanded = 'true';
     document.body.addEventListener('click', this._handleDocumentClick, true);
     document.body.addEventListener('keypress', this._handleDocumentClick, true);
     document.body.addEventListener('touchend', this._handleDocumentClick);
@@ -291,7 +303,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     }
     this.isOpen = false;
     this.wrapper.classList.remove('open');
-    this.wrapper.ariaExpanded = 'false'
+    this.wrapper.ariaExpanded = 'false';
     document.body.removeEventListener('click', this._handleDocumentClick, true);
     document.body.removeEventListener('keypress', this._handleDocumentClick, true);
     document.body.removeEventListener('touchend', this._handleDocumentClick);

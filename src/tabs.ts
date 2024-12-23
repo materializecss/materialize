@@ -1,5 +1,5 @@
-import { Carousel } from "./carousel";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Carousel } from './carousel';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface TabsOptions extends BaseOptions {
   /**
@@ -24,7 +24,7 @@ export interface TabsOptions extends BaseOptions {
    * @default infinity
    */
   responsiveThreshold: number;
-};
+}
 
 const _defaults: TabsOptions = {
   duration: 300,
@@ -45,7 +45,7 @@ export class Tabs extends Component<TabsOptions> {
 
   constructor(el: HTMLElement, options: Partial<TabsOptions>) {
     super(el, options, Tabs);
-    (this.el as any).M_Tabs = this;
+    this.el['M_Tabs'] = this;
 
     this.options = {
       ...Tabs.defaults,
@@ -87,12 +87,15 @@ export class Tabs extends Component<TabsOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<TabsOptions> = {}): Tabs | Tabs[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<TabsOptions> = {}
+  ): Tabs | Tabs[] {
     return super.init(els, options, Tabs);
   }
 
   static getInstance(el: HTMLElement): Tabs {
-    return (el as any).M_Tabs;
+    return el['M_Tabs'];
   }
 
   destroy() {
@@ -100,17 +103,18 @@ export class Tabs extends Component<TabsOptions> {
     this._indicator.parentNode.removeChild(this._indicator);
     if (this.options.swipeable) {
       this._teardownSwipeableTabs();
-    }
-    else {
+    } else {
       this._teardownNormalTabs();
     }
-    (this.el as any).M_Tabs = undefined;
+    this.el['M_Tabs'] = undefined;
   }
 
   /**
    * The index of tab that is currently shown.
    */
-  get index(){ return this._index; }
+  get index() {
+    return this._index;
+  }
 
   _setupEventHandlers() {
     window.addEventListener('resize', this._handleWindowResize);
@@ -125,16 +129,15 @@ export class Tabs extends Component<TabsOptions> {
   _handleWindowResize = () => {
     this._setTabsAndTabWidth();
     if (this._tabWidth !== 0 && this._tabsWidth !== 0) {
-      this._indicator.style.left = this._calcLeftPos(this._activeTabLink)+'px';
-      this._indicator.style.right = this._calcRightPos(this._activeTabLink)+'px';
+      this._indicator.style.left = this._calcLeftPos(this._activeTabLink) + 'px';
+      this._indicator.style.right = this._calcRightPos(this._activeTabLink) + 'px';
     }
-  }
+  };
 
   _handleTabClick = (e: MouseEvent) => {
     let tabLink = e.target as HTMLAnchorElement;
 
-    if (!tabLink)
-      return;
+    if (!tabLink) return;
     let tab = tabLink.parentElement;
     while (tab && !tab.classList.contains('tab')) {
       tabLink = tabLink.parentElement as HTMLAnchorElement;
@@ -155,14 +158,13 @@ export class Tabs extends Component<TabsOptions> {
     const _oldContent = this._content;
     // Update the variables with the new link and content
 
-      this._activeTabLink = tabLink;
-      if (tabLink.hash)
-        this._content = document.querySelector(tabLink.hash);
-      this._tabLinks = this.el.querySelectorAll('li.tab > a');
-      // Make the tab active
-      this._activeTabLink.classList.add('active');
-      const prevIndex = this._index;
-      this._index = Math.max(Array.from(this._tabLinks).indexOf(tabLink), 0);
+    this._activeTabLink = tabLink;
+    if (tabLink.hash) this._content = document.querySelector(tabLink.hash);
+    this._tabLinks = this.el.querySelectorAll('li.tab > a');
+    // Make the tab active
+    this._activeTabLink.classList.add('active');
+    const prevIndex = this._index;
+    this._index = Math.max(Array.from(this._tabLinks).indexOf(tabLink), 0);
 
     // Swap content
     if (this.options.swipeable) {
@@ -188,52 +190,52 @@ export class Tabs extends Component<TabsOptions> {
     this._setTabsAndTabWidth();
     this._animateIndicator(prevIndex);
     e.preventDefault();
-  }
+  };
 
   _createIndicator() {
     const indicator = document.createElement('li');
     indicator.classList.add('indicator');
     this.el.appendChild(indicator);
     this._indicator = indicator;
-    this._indicator.style.left = this._calcLeftPos(this._activeTabLink)+'px';
-    this._indicator.style.right = this._calcRightPos(this._activeTabLink)+'px';
+    this._indicator.style.left = this._calcLeftPos(this._activeTabLink) + 'px';
+    this._indicator.style.right = this._calcRightPos(this._activeTabLink) + 'px';
   }
 
   _setupActiveTabLink() {
     // If the location.hash matches one of the links, use that as the active tab.
-    this._activeTabLink = Array.from(this._tabLinks).find((a: HTMLAnchorElement) => a.getAttribute('href') === location.hash);
+    this._activeTabLink = Array.from(this._tabLinks).find(
+      (a: HTMLAnchorElement) => a.getAttribute('href') === location.hash
+    );
     // If no match is found, use the first link or any with class 'active' as the initial active tab.
     if (!this._activeTabLink) {
       let activeTabLink = this.el.querySelector('li.tab a.active');
       if (!activeTabLink) {
         activeTabLink = this.el.querySelector('li.tab a');
       }
-      this._activeTabLink = (activeTabLink as HTMLAnchorElement);
+      this._activeTabLink = activeTabLink as HTMLAnchorElement;
     }
     Array.from(this._tabLinks).forEach((a: HTMLAnchorElement) => a.classList.remove('active'));
     this._activeTabLink.classList.add('active');
 
-      this._index = Math.max(Array.from(this._tabLinks).indexOf(this._activeTabLink), 0);
-      if (this._activeTabLink && this._activeTabLink.hash) {
-        this._content = document.querySelector(this._activeTabLink.hash);
-        if (this._content)
-          this._content.classList.add('active');
-      }
+    this._index = Math.max(Array.from(this._tabLinks).indexOf(this._activeTabLink), 0);
+    if (this._activeTabLink && this._activeTabLink.hash) {
+      this._content = document.querySelector(this._activeTabLink.hash);
+      if (this._content) this._content.classList.add('active');
     }
+  }
 
   _setupSwipeableTabs() {
     // Change swipeable according to responsive threshold
-    if (window.innerWidth > this.options.responsiveThreshold)
-      this.options.swipeable = false;
+    if (window.innerWidth > this.options.responsiveThreshold) this.options.swipeable = false;
 
-      const tabsContent = [];
-      this._tabLinks.forEach(a => {
-        if (a.hash) {
-          const currContent = document.querySelector(a.hash);
-          currContent.classList.add('carousel-item');
-          tabsContent.push(currContent);
-        }
-      });
+    const tabsContent = [];
+    this._tabLinks.forEach((a) => {
+      if (a.hash) {
+        const currContent = document.querySelector(a.hash);
+        currContent.classList.add('carousel-item');
+        tabsContent.push(currContent);
+      }
+    });
 
     // Create Carousel-Wrapper around Tab-Contents
     const tabsWrapper = document.createElement('div');
@@ -241,7 +243,7 @@ export class Tabs extends Component<TabsOptions> {
 
     // Wrap around
     tabsContent[0].parentElement.insertBefore(tabsWrapper, tabsContent[0]);
-    tabsContent.forEach(tabContent => {
+    tabsContent.forEach((tabContent) => {
       tabsWrapper.appendChild(tabContent);
       tabContent.style.display = '';
     });
@@ -320,13 +322,12 @@ export class Tabs extends Component<TabsOptions> {
   }
 
   _animateIndicator(prevIndex) {
-    let leftDelay = 0, rightDelay = 0;
+    let leftDelay = 0,
+      rightDelay = 0;
 
-    const isMovingLeftOrStaying = (this._index - prevIndex >= 0);
-    if (isMovingLeftOrStaying)
-      leftDelay = 90;
-    else
-      rightDelay = 90;
+    const isMovingLeftOrStaying = this._index - prevIndex >= 0;
+    if (isMovingLeftOrStaying) leftDelay = 90;
+    else rightDelay = 90;
 
     // in v1: easeOutQuad
     this._indicator.style.transition = `
@@ -342,7 +343,9 @@ export class Tabs extends Component<TabsOptions> {
    * @param tabId The id of the tab that you want to switch to.
    */
   select(tabId: string) {
-    const tab = Array.from(this._tabLinks).find((a: HTMLAnchorElement) => a.getAttribute('href') === '#'+tabId);
+    const tab = Array.from(this._tabLinks).find(
+      (a: HTMLAnchorElement) => a.getAttribute('href') === '#' + tabId
+    );
     if (tab) (<HTMLAnchorElement>tab).click();
   }
 }

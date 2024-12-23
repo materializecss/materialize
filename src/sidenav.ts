@@ -88,7 +88,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
 
   constructor(el: HTMLElement, options: Partial<SidenavOptions>) {
     super(el, options, Sidenav);
-    (this.el as any).M_Sidenav = this;
+    this.el['M_Sidenav'] = this;
 
     this.options = {
       ...Sidenav.defaults,
@@ -131,12 +131,15 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<SidenavOptions> = {}): Sidenav | Sidenav[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<SidenavOptions> = {}
+  ): Sidenav | Sidenav[] {
     return super.init(els, options, Sidenav);
   }
 
   static getInstance(el: HTMLElement): Sidenav {
-    return (el as any).M_Sidenav;
+    return el['M_Sidenav'];
   }
 
   destroy() {
@@ -144,7 +147,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     this._enableBodyScrolling();
     this._overlay.parentNode.removeChild(this._overlay);
     this.dragTarget.parentNode.removeChild(this.dragTarget);
-    (this.el as any).M_Sidenav = undefined;
+    this.el['M_Sidenav'] = undefined;
     this.el.style.transform = '';
     const index = Sidenav._sidenavs.indexOf(this);
     if (index >= 0) {
@@ -168,7 +171,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     this.dragTarget.addEventListener('touchend', this._handleDragTargetRelease);
     this._overlay.addEventListener('touchmove', this._handleCloseDrag, passiveIfSupported);
     this._overlay.addEventListener('touchend', this._handleCloseRelease);
-    this.el.addEventListener('touchmove', this._handleCloseDrag);  // , passiveIfSupported);
+    this.el.addEventListener('touchmove', this._handleCloseDrag); // , passiveIfSupported);
     this.el.addEventListener('touchend', this._handleCloseRelease);
     this.el.addEventListener('click', this._handleCloseTriggerClick);
     // Add resize for side nav fixed
@@ -202,7 +205,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     const trigger = e.target.closest('.sidenav-trigger');
     if (e.target && trigger) {
       const sidenavId = Utils.getIdFromTrigger(trigger);
-      const sidenavInstance = (document.getElementById(sidenavId) as any).M_Sidenav;
+      const sidenavInstance = document.getElementById(sidenavId)['M_Sidenav'];
       if (sidenavInstance) {
         sidenavInstance.open();
       }
@@ -458,7 +461,7 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     const duration = this.options.inDuration;
     // from
     this.el.style.transition = 'none';
-    this.el.style.transform = 'translateX(' + (slideOutPercent * 100) + '%)';
+    this.el.style.transform = 'translateX(' + slideOutPercent * 100 + '%)';
     setTimeout(() => {
       this.el.style.transition = `transform ${duration}ms ease`; // easeOutQuad
       // to
@@ -471,30 +474,29 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
 
   private _animateSidenavOut() {
     const endPercent = this.options.edge === 'left' ? -1 : 1;
-    let slideOutPercent = 0;
-    if (this.isDragged) {
-      // @todo unused variable
-      slideOutPercent =
-        this.options.edge === 'left'
-          ? endPercent + this.percentOpen
-          : endPercent - this.percentOpen;
-    }
+    // let slideOutPercent = 0;
+    // if (this.isDragged) {
+    //   // @todo unused variable
+    //   slideOutPercent =
+    //     this.options.edge === 'left'
+    //       ? endPercent + this.percentOpen
+    //       : endPercent - this.percentOpen;
+    // }
 
     const duration = this.options.outDuration;
     this.el.style.transition = `transform ${duration}ms ease`; // easeOutQuad
     // to
-    this.el.style.transform = 'translateX(' + (endPercent * 100) + '%)';
+    this.el.style.transform = 'translateX(' + endPercent * 100 + '%)';
     setTimeout(() => {
-      if (typeof this.options.onCloseEnd === 'function') this.options.onCloseEnd.call(this, this.el);
+      if (typeof this.options.onCloseEnd === 'function')
+        this.options.onCloseEnd.call(this, this.el);
     }, duration);
   }
 
   private _animateOverlayIn() {
     let start = 0;
-    if (this.isDragged)
-      start = this.percentOpen;
-    else
-      this._overlay.style.display = 'block';
+    if (this.isDragged) start = this.percentOpen;
+    else this._overlay.style.display = 'block';
     // Animation
     const duration = this.options.inDuration;
     // from
