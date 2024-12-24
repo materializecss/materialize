@@ -258,18 +258,19 @@ export class Utils {
       result,
       timeout = null,
       previous = 0;
-    const later = function () {
+
+    const later = () => {
       previous = options.leading === false ? 0 : new Date().getTime();
       timeout = null;
       result = func.apply(context, args);
       context = args = null;
     };
-    return function () {
+
+    return (...args) => {
       const now = new Date().getTime();
       if (!previous && options.leading === false) previous = now;
       const remaining = wait - (now - previous);
       context = this;
-      args = arguments;
       if (remaining <= 0) {
         clearTimeout(timeout);
         timeout = null;

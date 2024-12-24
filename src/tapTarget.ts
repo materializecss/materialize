@@ -120,7 +120,8 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
   };
 
   _handleTargetToggle = () => {
-    !this.isOpen ? this.open() : this.close();
+    if (!this.isOpen) this.open();
+    else this.close();
   };
 
   /*_handleOriginClick = () => {
@@ -192,6 +193,7 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     // Element or parent is fixed position?
     let isFixed = getComputedStyle(this.originEl).position === 'fixed';
     if (!isFixed) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let currentElem: any = this.originEl;
       const parents = [];
       while ((currentElem = currentElem.parentNode) && currentElem !== document)

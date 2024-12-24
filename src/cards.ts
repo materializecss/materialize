@@ -31,16 +31,17 @@ export class Cards extends Component<CardsOptions> implements Openable {
       ...options
     };
 
-    this.cardReveal = <HTMLElement | null>(
-      Array.from(this.el.children).find((elem) => elem.classList.contains('card-reveal'))
-    );
-
+    this.cardReveal = this.el.querySelector('.card-reveal');
     if (this.cardReveal) {
       this.initialOverflow = getComputedStyle(this.el).overflow;
       this._activators = Array.from(this.el.querySelectorAll('.activator'));
-      this._activators.forEach((el: HTMLElement) => (el.tabIndex = 0));
-      this.cardRevealClose = this.cardReveal.querySelector('.card-reveal .card-title .close');
-      this.cardRevealClose.tabIndex = -1;
+      this._activators.forEach((el: HTMLElement) => {
+        if (el) el.tabIndex = 0;
+      });
+
+      this.cardRevealClose = this.cardReveal?.querySelector('.card-title');
+      if (this.cardRevealClose) this.cardRevealClose.tabIndex = -1;
+
       this.cardReveal.ariaExpanded = 'false';
       this._setupEventHandlers();
     }

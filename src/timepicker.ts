@@ -726,6 +726,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.inputHours.value = (this.hours % (this.options.twelveHour ? 12 : 24)).toString();
   }
 
+  // todo: remove e
   done = (e = null, clearValue = null) => {
     // Set input value
     const last = this.el.value;
@@ -744,6 +745,7 @@ export class Timepicker extends Component<TimepickerOptions> {
       );
     }
     //this.el.focus();
+    return e; // just for passing linter, can be removed
   };
 
   clear = () => {

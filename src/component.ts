@@ -119,6 +119,7 @@ export class Component<O extends BaseOptions> {
    * Retrieves component instance for the given element.
    * @param el Associated HTML Element.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static getInstance(el: HTMLElement): Component<BaseOptions> {
     throw new Error('This method must be implemented.');
   }

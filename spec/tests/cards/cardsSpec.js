@@ -89,13 +89,13 @@ describe('Cards', () => {
 
     beforeEach(() => {
       revealCard = document.querySelector('.card.reveal');
+      M.Cards.init(document.querySelectorAll('.card'));
     });
 
     it('should have a hidden card-reveal', (done) => {
       const revealDiv = revealCard.querySelector('.card-reveal');
       const activator = revealCard.querySelector('.activator');
       expect(revealDiv).toBeHidden('reveal div should be hidden initially');
-
       click(activator);
       setTimeout(() => {
         expect(revealDiv).toBeVisible('reveal did not appear after activator was clicked.');

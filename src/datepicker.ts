@@ -548,7 +548,7 @@ export class Datepicker extends Component<DatepickerOptions> {
    * @param date Date to set on the datepicker.
    */
   setMultiDate(date: Date) {
-    const selectedDate = this.dates.find((item) => {
+    const selectedDate = this.dates?.find((item) => {
       return item.getTime() === date.getTime() ? item : false;
     });
     if (!selectedDate) {
@@ -758,9 +758,7 @@ export class Datepicker extends Component<DatepickerOptions> {
 
       if (
         this.options.isMultipleSelection &&
-        this.dates.find((item) => {
-          return item.getTime() === day.getTime();
-        })
+        this.dates?.some((item) => item.getTime() === day.getTime())
       ) {
         isSelected = true;
       }
