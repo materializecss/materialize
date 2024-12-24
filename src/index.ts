@@ -54,7 +54,7 @@ export { Tooltip } from './tooltip';
 export { Waves } from './waves';
 export { Range } from './range';
 
-export const version = '2.2.0';
+export const version = '2.2.1';
 
 export interface AutoInitOptions {
   Autocomplete?: Partial<AutocompleteOptions>;
