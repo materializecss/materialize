@@ -24,21 +24,24 @@ export class Cards extends Component<CardsOptions> implements Openable {
 
   constructor(el: HTMLElement, options: Partial<CardsOptions>) {
     super(el, options, Cards);
-    (this.el as any).M_Cards = this;
+    this.el['M_Cards'] = this;
 
     this.options = {
       ...Cards.defaults,
       ...options
     };
 
-    this.cardReveal = <HTMLElement | null>Array.from(this.el.children).find(elem => elem.classList.contains('card-reveal'));
-
+    this.cardReveal = this.el.querySelector('.card-reveal');
     if (this.cardReveal) {
       this.initialOverflow = getComputedStyle(this.el).overflow;
       this._activators = Array.from(this.el.querySelectorAll('.activator'));
-      this._activators.forEach((el: HTMLElement) => el.tabIndex = 0);
-      this.cardRevealClose = this.cardReveal.querySelector('.card-reveal .card-title .close');
-      this.cardRevealClose.tabIndex = -1;
+      this._activators.forEach((el: HTMLElement) => {
+        if (el) el.tabIndex = 0;
+      });
+
+      this.cardRevealClose = this.cardReveal?.querySelector('.card-title');
+      if (this.cardRevealClose) this.cardRevealClose.tabIndex = -1;
+
       this.cardReveal.ariaExpanded = 'false';
       this._setupEventHandlers();
     }
@@ -65,12 +68,15 @@ export class Cards extends Component<CardsOptions> implements Openable {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options?: Partial<CardsOptions>): Cards | Cards[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options?: Partial<CardsOptions>
+  ): Cards | Cards[] {
     return super.init(els, options, Cards);
   }
 
   static getInstance(el: HTMLElement): Cards {
-    return (el as any).M_Cards;
+    return el['M_Cards'];
   }
 
   /**
@@ -107,7 +113,7 @@ export class Cards extends Component<CardsOptions> implements Openable {
 
   _handleRevealEvent = () => {
     // Reveal Card
-    this._activators.forEach((el: HTMLElement) => el.tabIndex = -1);
+    this._activators.forEach((el: HTMLElement) => (el.tabIndex = -1));
     this.open();
   };
 
@@ -158,7 +164,7 @@ export class Cards extends Component<CardsOptions> implements Openable {
     setTimeout(() => {
       this.cardReveal.style.display = 'none';
       this.cardReveal.ariaExpanded = 'false';
-      this._activators.forEach((el: HTMLElement) => el.tabIndex = 0);
+      this._activators.forEach((el: HTMLElement) => (el.tabIndex = 0));
       this.cardRevealClose.tabIndex = -1;
       this.el.style.overflow = this.initialOverflow;
     }, this.options.inDuration);

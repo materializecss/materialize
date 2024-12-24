@@ -1,6 +1,7 @@
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
-export interface RangeOptions extends BaseOptions {};
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface RangeOptions extends BaseOptions {}
 
 const _defaults: RangeOptions = {};
 
@@ -14,7 +15,7 @@ export class Range extends Component<RangeOptions> {
 
   constructor(el: HTMLInputElement, options: Partial<RangeOptions>) {
     super(el, options, Range);
-    (this.el as any).M_Range = this;
+    this.el['M_Range'] = this;
 
     this.options = {
       ...Range.defaults,
@@ -41,24 +42,30 @@ export class Range extends Component<RangeOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InitElements<HTMLInputElement | MElement>, options?: Partial<RangeOptions>): Range[];
+  static init(
+    els: InitElements<HTMLInputElement | MElement>,
+    options?: Partial<RangeOptions>
+  ): Range[];
   /**
    * Initializes instances of Range.
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLInputElement | InitElements<HTMLInputElement | MElement>, options: Partial<RangeOptions> = {}): Range | Range[] {
+  static init(
+    els: HTMLInputElement | InitElements<HTMLInputElement | MElement>,
+    options: Partial<RangeOptions> = {}
+  ): Range | Range[] {
     return super.init(els, options, Range);
   }
 
   static getInstance(el: HTMLInputElement): Range {
-    return (el as any).M_Range;
+    return el['M_Range'];
   }
 
   destroy() {
     this._removeEventHandlers();
     this._removeThumb();
-    (this.el as any).M_Range = undefined;
+    this.el['M_Range'] = undefined;
   }
 
   _setupEventHandlers() {
@@ -96,8 +103,8 @@ export class Range extends Component<RangeOptions> {
     }
     const offsetLeft = this._calcRangeOffset();
     this.thumb.classList.add('active');
-    this.thumb.style.left = offsetLeft+'px';
-  }
+    this.thumb.style.left = offsetLeft + 'px';
+  };
 
   _handleRangeMousedownTouchstart = (e: MouseEvent | TouchEvent) => {
     // Set indicator value
@@ -110,9 +117,9 @@ export class Range extends Component<RangeOptions> {
     if (e.type !== 'input') {
       const offsetLeft = this._calcRangeOffset();
       this.thumb.classList.add('active');
-      this.thumb.style.left = offsetLeft+'px';
+      this.thumb.style.left = offsetLeft + 'px';
     }
-  }
+  };
 
   _handleRangeInputMousemoveTouchmove = () => {
     if (this._mousedown) {
@@ -121,15 +128,15 @@ export class Range extends Component<RangeOptions> {
       }
       const offsetLeft = this._calcRangeOffset();
       this.thumb.classList.add('active');
-      this.thumb.style.left = offsetLeft+'px';
+      this.thumb.style.left = offsetLeft + 'px';
       this.value.innerHTML = this.el.value;
     }
-  }
+  };
 
   _handleRangeMouseupTouchend = () => {
     this._mousedown = false;
     this.el.classList.remove('active');
-  }
+  };
 
   _handleRangeBlurMouseoutTouchleave = () => {
     if (!this._mousedown) {
@@ -146,7 +153,7 @@ export class Range extends Component<RangeOptions> {
             top ${duration}ms ease,
             margin ${duration}ms ease
           `;
-          // to          
+          // to
           this.thumb.style.height = '0';
           this.thumb.style.width = '0';
           this.thumb.style.top = '0';
@@ -155,7 +162,7 @@ export class Range extends Component<RangeOptions> {
       }
       this.thumb.classList.remove('active');
     }
-  }
+  };
 
   _setupThumb() {
     this.thumb = document.createElement('span');
@@ -199,8 +206,11 @@ export class Range extends Component<RangeOptions> {
   /**
    * Initializes every range input in the current document.
    */
-  static Init(){
-    if (typeof document !== 'undefined') 
-      Range.init((document?.querySelectorAll('input[type=range]')) as NodeListOf<HTMLInputElement>, {});
+  static Init() {
+    if (typeof document !== 'undefined')
+      Range.init(
+        document?.querySelectorAll('input[type=range]') as NodeListOf<HTMLInputElement>,
+        {}
+      );
   }
 }

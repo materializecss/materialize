@@ -3,7 +3,7 @@
   "description": "The responsive front-end library based on Material Design from Google.",
   "author": "The Materialize Team",
   "homepage": "https://materializeweb.com",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "style": "dist/css/materialize.css",
   "sass": "sass/materialize.scss",
   "typings": "dist/js/materialize.d.ts",
@@ -37,7 +37,7 @@
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "release": "npm run lint && npm run build && node ci/compress.js",
     "preversion": "npm run lint && npm test",
-    "version": "npm run build && node ci/compress.js && git add -A dist src/index.ts"
+    "version": "npm run build && node ci/compress.js && git add ."
   },
   "lint-staged": {
     "js/*.js": [
@@ -71,7 +71,8 @@
     "typescript-eslint": "^8.6.0"
   },
   "files": [
-    "dist",
+    "dist/css",
+    "dist/js",
     "sass/**/*.scss",
     "LICENSE"
   ]

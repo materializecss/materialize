@@ -1,9 +1,9 @@
-import { Utils } from "./utils";
-import { Dropdown, DropdownOptions } from "./dropdown";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Dropdown, DropdownOptions } from './dropdown';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface AutocompleteData {
-  /** 
+  /**
    * A primitive value that can be converted to string.
    * If "text" is not provided, it will also be used as "option text" as well
    */
@@ -66,9 +66,9 @@ export interface AutocompleteOptions extends BaseOptions {
    * @default {}
    */
   dropdownOptions: Partial<DropdownOptions>;
-};
+}
 
-let _defaults: AutocompleteOptions = {
+const _defaults: AutocompleteOptions = {
   data: [], // Autocomplete data set
   onAutocomplete: null, // Callback for when autocompleted
   dropdownOptions: {
@@ -82,9 +82,10 @@ let _defaults: AutocompleteOptions = {
   onSearch: (text: string, autocomplete: Autocomplete) => {
     const normSearch = text.toLocaleLowerCase();
     autocomplete.setMenuItems(
-      autocomplete.options.data.filter((option) => 
-        option.id.toString().toLocaleLowerCase().includes(normSearch)
-          || option.text?.toLocaleLowerCase().includes(normSearch)
+      autocomplete.options.data.filter(
+        (option) =>
+          option.id.toString().toLocaleLowerCase().includes(normSearch) ||
+          option.text?.toLocaleLowerCase().includes(normSearch)
       )
     );
   },
@@ -101,7 +102,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   /** Index of the current selected option. */
   activeIndex: number;
   private oldVal: string;
-  private $active: HTMLElement|null;
+  private $active: HTMLElement | null;
   private _mousedown: boolean;
   container: HTMLElement;
   /** Instance of the dropdown plugin for this autocomplete. */
@@ -112,17 +113,17 @@ export class Autocomplete extends Component<AutocompleteOptions> {
 
   constructor(el: HTMLInputElement, options: Partial<AutocompleteOptions>) {
     super(el, options, Autocomplete);
-    (this.el as any).M_Autocomplete = this;
+    this.el['M_Autocomplete'] = this;
 
     this.options = {
       ...Autocomplete.defaults,
       ...options
     };
-    
+
     this.isOpen = false;
     this.count = 0;
     this.activeIndex = -1;
-    this.oldVal = "";
+    this.oldVal = '';
     this.selectedValues = [];
     this.menuItems = this.options.data || [];
     this.$active = null;
@@ -146,67 +147,58 @@ export class Autocomplete extends Component<AutocompleteOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InitElements<HTMLInputElement | MElement>, options?: Partial<AutocompleteOptions>): Autocomplete[];
+  static init(
+    els: InitElements<HTMLInputElement | MElement>,
+    options?: Partial<AutocompleteOptions>
+  ): Autocomplete[];
   /**
    * Initializes instances of Autocomplete.
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLInputElement | InitElements<HTMLInputElement | MElement>, options: Partial<AutocompleteOptions> = {}): Autocomplete | Autocomplete[] {
+  static init(
+    els: HTMLInputElement | InitElements<HTMLInputElement | MElement>,
+    options: Partial<AutocompleteOptions> = {}
+  ): Autocomplete | Autocomplete[] {
     return super.init(els, options, Autocomplete);
   }
 
   static getInstance(el: HTMLElement): Autocomplete {
-    return (el as any).M_Autocomplete;
+    return el['M_Autocomplete'];
   }
 
   destroy() {
     this._removeEventHandlers();
     this._removeDropdown();
-    (this.el as any).M_Autocomplete = undefined;
+    this.el['M_Autocomplete'] = undefined;
   }
 
   _setupEventHandlers() {
     this.el.addEventListener('blur', this._handleInputBlur);
-    this.el.addEventListener('keyup', this._handleInputKeyupAndFocus);
-    this.el.addEventListener('focus', this._handleInputKeyupAndFocus);
+    this.el.addEventListener('keyup', this._handleInputKeyup);
+    this.el.addEventListener('focus', this._handleInputFocus);
     this.el.addEventListener('keydown', this._handleInputKeydown);
     this.el.addEventListener('click', this._handleInputClick);
-    this.container.addEventListener(
-      'mousedown',
-      this._handleContainerMousedownAndTouchstart
-    );
+    this.container.addEventListener('mousedown', this._handleContainerMousedownAndTouchstart);
     this.container.addEventListener('mouseup', this._handleContainerMouseupAndTouchend);
     if (typeof window.ontouchstart !== 'undefined') {
-      this.container.addEventListener(
-        'touchstart',
-        this._handleContainerMousedownAndTouchstart
-      );
+      this.container.addEventListener('touchstart', this._handleContainerMousedownAndTouchstart);
       this.container.addEventListener('touchend', this._handleContainerMouseupAndTouchend);
     }
   }
 
   _removeEventHandlers() {
     this.el.removeEventListener('blur', this._handleInputBlur);
-    this.el.removeEventListener('keyup', this._handleInputKeyupAndFocus);
-    this.el.removeEventListener('focus', this._handleInputKeyupAndFocus);
+    this.el.removeEventListener('keyup', this._handleInputKeyup);
+    this.el.removeEventListener('focus', this._handleInputFocus);
     this.el.removeEventListener('keydown', this._handleInputKeydown);
     this.el.removeEventListener('click', this._handleInputClick);
-    this.container.removeEventListener(
-      'mousedown',
-      this._handleContainerMousedownAndTouchstart
-    );
+    this.container.removeEventListener('mousedown', this._handleContainerMousedownAndTouchstart);
     this.container.removeEventListener('mouseup', this._handleContainerMouseupAndTouchend);
 
     if (typeof window.ontouchstart !== 'undefined') {
-      this.container.removeEventListener(
-        'touchstart',
-        this._handleContainerMousedownAndTouchstart
-      );
-      this.container.removeEventListener(
-        'touchend',
-        this._handleContainerMouseupAndTouchend
-      );
+      this.container.removeEventListener('touchstart', this._handleContainerMousedownAndTouchstart);
+      this.container.removeEventListener('touchend', this._handleContainerMouseupAndTouchend);
     }
   }
 
@@ -217,7 +209,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.container.classList.add('autocomplete-content', 'dropdown-content');
     this.el.setAttribute('data-target', this.container.id);
 
-    this.menuItems.forEach(menuItem => {
+    this.menuItems.forEach((menuItem) => {
       const itemElement = this._createDropdownItem(menuItem);
       this.container.append(itemElement);
     });
@@ -226,11 +218,12 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.el.parentElement.appendChild(this.container);
 
     // Initialize dropdown
-    let dropdownOptions = {
+    const dropdownOptions = {
       ...Autocomplete.defaults.dropdownOptions,
       ...this.options.dropdownOptions
     };
-    let userOnItemClick = dropdownOptions.onItemClick;
+    // @todo shouldn't we conditionally check if dropdownOptions.onItemClick is set in first place?
+    const userOnItemClick = dropdownOptions.onItemClick;
     // Ensuring the select Option call when user passes custom onItemClick function to dropdown
     dropdownOptions.onItemClick = (li) => {
       if (!li) return;
@@ -268,21 +261,36 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       this.close();
       this._resetAutocomplete();
     }
-  }
+  };
 
-  _handleInputKeyupAndFocus = (e: KeyboardEvent) => {
+  _handleInputKeyup = (e: KeyboardEvent) => {
     if (e.type === 'keyup') Autocomplete._keydown = false;
     this.count = 0;
     const actualValue = this.el.value.toLocaleLowerCase();
     // Don't capture enter or arrow key usage.
-    if (Utils.keys.ENTER.includes(e.key) || Utils.keys.ARROW_UP.includes(e.key) || Utils.keys.ARROW_DOWN.includes(e.key)) return;
+    if (
+      Utils.keys.ENTER.includes(e.key) ||
+      Utils.keys.ARROW_UP.includes(e.key) ||
+      Utils.keys.ARROW_DOWN.includes(e.key)
+    )
+      return;
     // Check if the input isn't empty
     // Check if focus triggered by tab
-    if (this.oldVal !== actualValue && (Utils.tabPressed || e.type !== 'focus')) {
+    if (this.oldVal !== actualValue && Utils.tabPressed) {
       this.open();
     }
+    this._inputChangeDetection(actualValue);
+  };
+
+  _handleInputFocus = () => {
+    this.count = 0;
+    const actualValue = this.el.value.toLocaleLowerCase();
+    this._inputChangeDetection(actualValue);
+  };
+
+  _inputChangeDetection = (value: string) => {
     // Value has changed!
-    if (this.oldVal !== actualValue) {
+    if (this.oldVal !== value) {
       this._setStatusLoading();
       this.options.onSearch(this.el.value, this);
     }
@@ -291,8 +299,8 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       this.selectedValues = [];
       this._triggerChanged();
     }
-    this.oldVal = actualValue;
-  }
+    this.oldVal = value;
+  };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
     Autocomplete._keydown = true;
@@ -311,7 +319,8 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     if (Utils.keys.ARROW_UP.includes(e.key) || Utils.keys.ARROW_DOWN.includes(e.key)) {
       e.preventDefault();
       if (Utils.keys.ARROW_UP.includes(e.key) && this.activeIndex > 0) this.activeIndex--;
-      if (Utils.keys.ARROW_DOWN.includes(e.key) && this.activeIndex < numItems - 1) this.activeIndex++;
+      if (Utils.keys.ARROW_DOWN.includes(e.key) && this.activeIndex < numItems - 1)
+        this.activeIndex++;
       this.$active?.classList.remove('active');
       if (this.activeIndex >= 0) {
         this.$active = this.container.querySelectorAll('li')[this.activeIndex];
@@ -324,19 +333,19 @@ export class Autocomplete extends Component<AutocompleteOptions> {
         });
       }
     }
-  }
+  };
 
   _handleInputClick = () => {
     this.open();
-  }
+  };
 
   _handleContainerMousedownAndTouchstart = () => {
     this._mousedown = true;
-  }
+  };
 
   _handleContainerMouseupAndTouchend = () => {
     this._mousedown = false;
-  }
+  };
 
   _resetCurrentElementPosition() {
     this.activeIndex = -1;
@@ -409,7 +418,10 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     item.appendChild(itemText);
     item.querySelector('.item-text').appendChild(div);
     // Description
-    if (typeof entry.description === 'string' || (typeof entry.description === 'number' && !isNaN(entry.description))) {
+    if (
+      typeof entry.description === 'string' ||
+      (typeof entry.description === 'number' && !isNaN(entry.description))
+    ) {
       const description = document.createElement('small');
       description.setAttribute(
         'style',
@@ -444,9 +456,8 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   }
 
   _setStatusLoading() {
-    this.el.parentElement.querySelector(
-      '.status-info'
-    ).innerHTML = `<div style="height:100%;width:50px;"><svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+    this.el.parentElement.querySelector('.status-info').innerHTML =
+      `<div style="height:100%;width:50px;"><svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
     <circle fill="#888c" stroke="none" cx="6" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.1"/></circle>
     <circle fill="#888c" stroke="none" cx="26" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.2"/></circle>
     <circle fill="#888c" stroke="none" cx="46" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite"  begin="0.3"/></circle>
@@ -456,7 +467,8 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   _updateSelectedInfo() {
     const statusElement = this.el.parentElement.querySelector('.status-info');
     if (statusElement) {
-      if (this.options.isMultiSelect) statusElement.innerHTML = this.selectedValues.length.toString();
+      if (this.options.isMultiSelect)
+        statusElement.innerHTML = this.selectedValues.length.toString();
       else statusElement.innerHTML = '';
     }
   }
@@ -490,16 +502,15 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       setTimeout(() => {
         this.dropdown.open();
       }, 0); // TODO: why?
-    }
-    else this.dropdown.recalculateDimensions(); // Recalculate dropdown when its already open
-  }
+    } else this.dropdown.recalculateDimensions(); // Recalculate dropdown when its already open
+  };
 
   /**
    * Hide autocomplete.
    */
   close = () => {
     this.dropdown.close();
-  }
+  };
 
   /**
    * Updates the visible or selectable items shown in the menu.
@@ -532,10 +543,10 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     const entry = this.menuItems.find((item) => item.id == id);
     if (!entry) return;
     // Toggle Checkbox
-    const li = this.container.querySelector('li[data-id="'+id+'"]');
+    const li = this.container.querySelector('li[data-id="' + id + '"]');
     if (!li) return;
     if (this.options.isMultiSelect) {
-      const checkbox = <HTMLInputElement|null>li.querySelector('input[type="checkbox"]');
+      const checkbox = <HTMLInputElement | null>li.querySelector('input[type="checkbox"]');
       checkbox.checked = !checkbox.checked;
       if (checkbox.checked) this.selectedValues.push(entry);
       else

@@ -277,7 +277,7 @@ export class Datepicker extends Component<DatepickerOptions> {
 
   constructor(el: HTMLInputElement, options: Partial<DatepickerOptions>) {
     super(el, options, Datepicker);
-    (this.el as any).M_Datepicker = this;
+    this.el['M_Datepicker'] = this;
 
     this.options = {
       ...Datepicker.defaults,
@@ -404,14 +404,14 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   static getInstance(el: HTMLElement): Datepicker {
-    return (el as any).M_Datepicker;
+    return el['M_Datepicker'];
   }
 
   destroy() {
     this._removeEventHandlers();
     this.modalEl.remove();
     this.destroySelects();
-    (this.el as any).M_Datepicker = undefined;
+    this.el['M_Datepicker'] = undefined;
   }
 
   destroySelects() {
@@ -548,7 +548,7 @@ export class Datepicker extends Component<DatepickerOptions> {
    * @param date Date to set on the datepicker.
    */
   setMultiDate(date: Date) {
-    const selectedDate = this.dates.find((item) => {
+    const selectedDate = this.dates?.find((item) => {
       return item.getTime() === date.getTime() ? item : false;
     });
     if (!selectedDate) {
@@ -758,9 +758,7 @@ export class Datepicker extends Component<DatepickerOptions> {
 
       if (
         this.options.isMultipleSelection &&
-        this.dates.find((item) => {
-          return item.getTime() === day.getTime();
-        })
+        this.dates?.some((item) => item.getTime() === day.getTime())
       ) {
         isSelected = true;
       }

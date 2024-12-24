@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Sidenav Plugin', () => {
   const fixture = `<ul id="slide-out" class="sidenav">
   <li><div class="user-view">
@@ -37,9 +35,9 @@ describe('Sidenav Plugin', () => {
         1,
         'only 1 sidenav initialized after multiple calls on the same element'
       );
-      let dragTarget = document.querySelectorAll('.drag-target');
+      const dragTarget = document.querySelectorAll('.drag-target');
       expect(dragTarget.length).toEqual(1, 'Should generate only one dragTarget.');
-      let overlay = document.querySelectorAll('.sidenav-overlay');
+      const overlay = document.querySelectorAll('.sidenav-overlay');
       expect(overlay.length).toEqual(1, 'Should generate only one overlay.');
     });
 
@@ -74,7 +72,7 @@ describe('Sidenav Plugin', () => {
       let openEnd = false;
       let closeStart = false;
       let closeEnd = false;
-      let sidenav = M.Sidenav.init(document.querySelector('#slide-out'), {
+      const sidenav = M.Sidenav.init(document.querySelector('#slide-out'), {
         inDuration: 0,
         outDuration: 0,
         onOpenStart: () => {
@@ -90,7 +88,7 @@ describe('Sidenav Plugin', () => {
           closeEnd = true;
         }
       });
-      let overlay = sidenav._overlay;
+      const overlay = sidenav._overlay;
       click(normalActivator);
       expect(openStart).toEqual(true, 'Open start should fire immediately after open');
       expect(openEnd).toEqual(false, 'Open end should not fire immediately after open');
@@ -108,9 +106,9 @@ describe('Sidenav Plugin', () => {
 
     it('should destroy correctly', function (done) {
       expect(M.Sidenav._sidenavs.length).toEqual(0, 'no sidenavs initialized');
-      let sidenav = M.Sidenav.init(document.querySelector('#slide-out'));
-      let overlay = sidenav._overlay;
-      let dragTarget = sidenav.dragTarget;
+      const sidenav = M.Sidenav.init(document.querySelector('#slide-out'));
+      const overlay = sidenav._overlay;
+      const dragTarget = sidenav.dragTarget;
       expect(M.Sidenav._sidenavs.length).toEqual(1, 'one sidenav initialized');
       expect(document.contains(overlay)).toEqual(true, 'overlay should be in DOM');
       expect(document.contains(dragTarget)).toEqual(true, 'dragTarget should be in DOM');

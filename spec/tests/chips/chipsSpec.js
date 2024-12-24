@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Chips', () => {
   const fixture = `<div class="chips"></div>
 <div class="chips chips-initial"></div>
@@ -66,7 +64,7 @@ describe('Chips', () => {
       M.Chips.init(chips);
       M.Chips.init(chips);
       chipsUserInput = document.querySelector('.chips.input-field');
-      M.Chips.init(chips, {allowUserInput: true});
+      M.Chips.init(chips, { allowUserInput: true });
       input = chipsUserInput.querySelectorAll('input');
       expect(input.length).toEqual(1, 'Should dynamically generate chips structure.');
     });
@@ -77,8 +75,8 @@ describe('Chips', () => {
       input.value = 'one';
       keydown(input, 13);
       setTimeout(() => {
-        let numChips = chips.querySelectorAll('.chip').length;
-        let oneChip = chips.querySelector('.chip');
+        const numChips = chips.querySelectorAll('.chip').length;
+        const oneChip = chips.querySelector('.chip');
         expect(numChips).toEqual(1, 'one chip should have been added');
         for (let i = oneChip.children.length - 1; i >= 0; i--) {
           oneChip.children[i].remove();
@@ -92,7 +90,7 @@ describe('Chips', () => {
       chips = document.querySelector('.chips.chips-initial.input-field');
       let numChips = chips.querySelectorAll('.chip').length;
       expect(numChips).toEqual(3, '3 initial chips should have been added');
-      let chipCloseButton = chips.querySelectorAll('.chip .close');
+      const chipCloseButton = chips.querySelectorAll('.chip .close');
       expect(chipCloseButton.length).toEqual(3, 'expected all chips to have close button');
       click(chipCloseButton[0]);
       setTimeout(() => {

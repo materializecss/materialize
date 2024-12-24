@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Dropdown Plugin:', () => {
   const fixture = `<div class="row">
     <div class="input-field col s12">

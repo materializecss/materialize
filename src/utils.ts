@@ -22,7 +22,7 @@ export class Utils {
     ARROW_DOWN: ['ArrowDown', 'Down'],
     ARROW_LEFT: ['ArrowLeft', 'Left'],
     ARROW_RIGHT: ['ArrowRight', 'Right'],
-    DELETE: ['Delete', 'Del'],
+    DELETE: ['Delete', 'Del']
   };
 
   /**
@@ -51,6 +51,8 @@ export class Utils {
    * Detects when document is focused.
    * @param e Event instance.
    */
+  /* eslint-disabled as of required event type condition check */
+  /* eslint-disable-next-line */
   static docHandleFocus(e: FocusEvent) {
     if (Utils.keyDown) {
       document.body.classList.add('keyboard-focused');
@@ -61,6 +63,8 @@ export class Utils {
    * Detects when document is not focused.
    * @param e Event instance.
    */
+  /* eslint-disabled as of required event type condition check */
+  /* eslint-disable-next-line */
   static docHandleBlur(e: FocusEvent) {
     document.body.classList.remove('keyboard-focused');
   }
@@ -73,7 +77,7 @@ export class Utils {
       return Math.floor((1 + Math.random()) * 0x10000)
         .toString(16)
         .substring(1);
-    }
+    };
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 
@@ -84,25 +88,25 @@ export class Utils {
    * @param offset Element offset.
    */
   static checkWithinContainer(container: HTMLElement, bounding: Bounding, offset: number): Edges {
-    let edges = {
+    const edges = {
       top: false,
       right: false,
       bottom: false,
       left: false
     };
 
-    let containerRect = container.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
     // If body element is smaller than viewport, use viewport height instead.
-    let containerBottom =
+    const containerBottom =
       container === document.body
         ? Math.max(containerRect.bottom, window.innerHeight)
         : containerRect.bottom;
 
-    let scrollLeft = container.scrollLeft;
-    let scrollTop = container.scrollTop;
+    const scrollLeft = container.scrollLeft;
+    const scrollTop = container.scrollTop;
 
-    let scrolledX = bounding.left - scrollLeft;
-    let scrolledY = bounding.top - scrollTop;
+    const scrolledX = bounding.left - scrollLeft;
+    const scrolledY = bounding.top - scrollTop;
 
     // Check for container and viewport for each edge
     if (scrolledX < containerRect.left + offset || scrolledX < offset) {
@@ -137,16 +141,21 @@ export class Utils {
    * @param bounding Bounding rect.
    * @param offset Element offset.
    */
-  static checkPossibleAlignments(el: HTMLElement, container: HTMLElement, bounding: Bounding, offset: number) {
-    let canAlign: {
-      top: boolean,
-      right: boolean,
-      bottom: boolean,
-      left: boolean,
-      spaceOnTop: number,
-      spaceOnRight: number,
-      spaceOnBottom: number
-      spaceOnLeft: number
+  static checkPossibleAlignments(
+    el: HTMLElement,
+    container: HTMLElement,
+    bounding: Bounding,
+    offset: number
+  ) {
+    const canAlign: {
+      top: boolean;
+      right: boolean;
+      bottom: boolean;
+      left: boolean;
+      spaceOnTop: number;
+      spaceOnRight: number;
+      spaceOnBottom: number;
+      spaceOnLeft: number;
     } = {
       top: true,
       right: true,
@@ -158,18 +167,18 @@ export class Utils {
       spaceOnLeft: null
     };
 
-    let containerAllowsOverflow = getComputedStyle(container).overflow === 'visible';
-    let containerRect = container.getBoundingClientRect();
-    let containerHeight = Math.min(containerRect.height, window.innerHeight);
-    let containerWidth = Math.min(containerRect.width, window.innerWidth);
-    let elOffsetRect = el.getBoundingClientRect();
+    const containerAllowsOverflow = getComputedStyle(container).overflow === 'visible';
+    const containerRect = container.getBoundingClientRect();
+    const containerHeight = Math.min(containerRect.height, window.innerHeight);
+    const containerWidth = Math.min(containerRect.width, window.innerWidth);
+    const elOffsetRect = el.getBoundingClientRect();
 
-    let scrollLeft = container.scrollLeft;
-    let scrollTop = container.scrollTop;
+    const scrollLeft = container.scrollLeft;
+    const scrollTop = container.scrollTop;
 
-    let scrolledX = bounding.left - scrollLeft;
-    let scrolledYTopEdge = bounding.top - scrollTop;
-    let scrolledYBottomEdge = bounding.top + elOffsetRect.height - scrollTop;
+    const scrolledX = bounding.left - scrollLeft;
+    const scrolledYTopEdge = bounding.top - scrollTop;
+    const scrolledYBottomEdge = bounding.top + elOffsetRect.height - scrollTop;
 
     // Check for container and viewport for left
     canAlign.spaceOnRight = !containerAllowsOverflow
@@ -224,7 +233,7 @@ export class Utils {
    */
   static getDocumentScrollTop(): number {
     return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-  };
+  }
 
   /**
    * Retrieves document scroll postion from left.
@@ -239,23 +248,29 @@ export class Utils {
    * @param wait Wait time.
    * @param options Additional options.
    */
-  static throttle(func: Function, wait: number, options: Partial<{leading:boolean,trailing:boolean}> = null) {
-    let context: object, args: IArguments, result: any;
-    let timeout = null;
-    let previous = 0;
-    options || (options = {});
-    let later = function() {
+  static throttle(
+    func: (Function: object) => void,
+    wait: number,
+    options: Partial<{ leading: boolean; trailing: boolean }> = {}
+  ) {
+    let context: object,
+      args: IArguments,
+      result,
+      timeout = null,
+      previous = 0;
+
+    const later = () => {
       previous = options.leading === false ? 0 : new Date().getTime();
       timeout = null;
       result = func.apply(context, args);
       context = args = null;
     };
-    return function() {
-      let now = new Date().getTime();
+
+    return (...args) => {
+      const now = new Date().getTime();
       if (!previous && options.leading === false) previous = now;
-      let remaining = wait - (now - previous);
+      const remaining = wait - (now - previous);
       context = this;
-      args = arguments;
       if (remaining <= 0) {
         clearTimeout(timeout);
         timeout = null;

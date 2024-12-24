@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Tabs Plugin', () => {
   const fixture = `<div class="row">
   <div class="col s12">
@@ -37,11 +35,11 @@ describe('Tabs Plugin', () => {
   describe('Tabs', () => {
     it('should open to active tab', () => {
       const normalTabs = document.querySelector('.tabs.normal');
-      let activeTab = normalTabs.querySelector('.active');
-      let activeTabHash = activeTab.getAttribute('href');
-      let tabLinks = normalTabs.querySelectorAll('.tab a');
+      const activeTab = normalTabs.querySelector('.active');
+      const activeTabHash = activeTab.getAttribute('href');
+      const tabLinks = normalTabs.querySelectorAll('.tab a');
       for (let i = 0; i < tabLinks.length; i++) {
-        let tabHash = tabLinks[i].getAttribute('href');
+        const tabHash = tabLinks[i].getAttribute('href');
         if (tabHash === activeTabHash) {
           expect(document.querySelector(tabHash)).toBeVisible(
             'active tab content should be visible by default'
@@ -52,20 +50,20 @@ describe('Tabs Plugin', () => {
           ); //TODO replace with alternative for deprecated jasmine-jquery
         }
       }
-      let indicator = normalTabs.querySelector('.indicator');
+      const indicator = normalTabs.querySelector('.indicator');
       expect(indicator).toExist('Indicator should be generated');
       // expect(Math.abs(indicator.offset().left - activeTab.offset().left)).toBeLessThan(1, 'Indicator should be at active tab by default.');
     });
 
     it('should switch to clicked tab', (done) => {
       const normalTabs = document.querySelector('.tabs.normal');
-      let activeTab = normalTabs.querySelector('.active');
-      let activeTabHash = activeTab.getAttribute('href');
-      let disabledTab = normalTabs.querySelector('.disabled a');
-      let disabledTabHash = disabledTab.getAttribute('href');
-      let firstTab = normalTabs.querySelector('.tab a');
-      let firstTabHash = firstTab.getAttribute('href');
-      let indicator = normalTabs.querySelector('.indicator');
+      const activeTab = normalTabs.querySelector('.active');
+      const activeTabHash = activeTab.getAttribute('href');
+      const disabledTab = normalTabs.querySelector('.disabled a');
+      const disabledTabHash = disabledTab.getAttribute('href');
+      const firstTab = normalTabs.querySelector('.tab a');
+      const firstTabHash = firstTab.getAttribute('href');
+      const indicator = normalTabs.querySelector('.indicator');
       expect(indicator).toExist('Indicator should be generated');
       // expect(Math.abs(indicator.offset().left - activeTab.offset().left)).toBeLessThan(1, 'Indicator should be at active tab by default.');
       click(disabledTab);
@@ -97,9 +95,9 @@ describe('Tabs Plugin', () => {
 
     it("shouldn't hide active tab if clicked while active", (done) => {
       const normalTabs = document.querySelector('.tabs.normal');
-      let activeTab = normalTabs.querySelector('.active');
-      let activeTabHash = activeTab.getAttribute('href');
-      let indicator = normalTabs.querySelector('.indicator');
+      const activeTab = normalTabs.querySelector('.active');
+      const activeTabHash = activeTab.getAttribute('href');
+      const indicator = normalTabs.querySelector('.indicator');
       expect(indicator).toExist('Indicator should be generated');
       click(activeTab);
       setTimeout(() => {
@@ -114,7 +112,7 @@ describe('Tabs Plugin', () => {
       let tabsScrollWidth = 0;
       const normalTabs = document.querySelector('.tabs.normal');
       normalTabs.style.width = '400px';
-      let tabs = normalTabs.querySelectorAll('.tab');
+      const tabs = normalTabs.querySelectorAll('.tab');
       for (let i = 0; i < tabs.length; i++) {
         setTimeout(() => {
           tabsScrollWidth += tabs[i].offsetWidth;
@@ -132,14 +130,14 @@ describe('Tabs Plugin', () => {
 
     it('should programmatically switch tabs', (done) => {
       const normalTabs = document.querySelector('.tabs.normal');
-      let activeTab = normalTabs.querySelector('.active');
-      let activeTabHash = activeTab.getAttribute('href');
-      let firstTab = normalTabs.querySelector('li a');
-      let firstTabHash = firstTab.getAttribute('href');
-      let indicator = normalTabs.querySelector('.indicator');
-      let tabs = normalTabs.querySelectorAll('.tab a');
+      const activeTab = normalTabs.querySelector('.active');
+      const activeTabHash = activeTab.getAttribute('href');
+      const firstTab = normalTabs.querySelector('li a');
+      const firstTabHash = firstTab.getAttribute('href');
+      const indicator = normalTabs.querySelector('.indicator');
+      const tabs = normalTabs.querySelectorAll('.tab a');
       for (let i = 0; i < tabs.length; i++) {
-        let tabHash = tabs[i].getAttribute('href');
+        const tabHash = tabs[i].getAttribute('href');
         if (tabHash === activeTabHash) {
           expect(document.querySelector(tabHash)).toBeVisible(
             'active tab content should be visible by default'
@@ -170,7 +168,7 @@ describe('Tabs Plugin', () => {
 
     it("shouldn't error if tab has no associated content", (done) => {
       document.querySelector('#test8').remove();
-      let tabNoContent = document.querySelector('[href="#test8"]');
+      const tabNoContent = document.querySelector('[href="#test8"]');
       expect(tabNoContent).toNotHaveClass('active', 'Tab should not be selected');
       click(tabNoContent);
       setTimeout(() => {

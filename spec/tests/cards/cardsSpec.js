@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Cards', () => {
   const fixture = `<div class="row">
   <div class="col s12 m6">
@@ -91,13 +89,13 @@ describe('Cards', () => {
 
     beforeEach(() => {
       revealCard = document.querySelector('.card.reveal');
+      M.Cards.init(document.querySelectorAll('.card'));
     });
 
     it('should have a hidden card-reveal', (done) => {
       const revealDiv = revealCard.querySelector('.card-reveal');
       const activator = revealCard.querySelector('.activator');
       expect(revealDiv).toBeHidden('reveal div should be hidden initially');
-
       click(activator);
       setTimeout(() => {
         expect(revealDiv).toBeVisible('reveal did not appear after activator was clicked.');
@@ -150,13 +148,13 @@ describe('Cards', () => {
     });
 
     it('should have small card dimensions', () => {
-      let cardImage = small.querySelector('.card-image');
-      let cardContent = small.querySelector('.card-content');
-      let cardAction = small.querySelector('.card-action');
-      let smallRect = small.getBoundingClientRect();
-      let cardImageRect = cardImage.getBoundingClientRect();
-      let cardContentRect = cardContent.getBoundingClientRect();
-      let cardActionRect = cardAction.getBoundingClientRect();
+      const cardImage = small.querySelector('.card-image');
+      const cardContent = small.querySelector('.card-content');
+      const cardAction = small.querySelector('.card-action');
+      const smallRect = small.getBoundingClientRect();
+      const cardImageRect = cardImage.getBoundingClientRect();
+      const cardContentRect = cardContent.getBoundingClientRect();
+      const cardActionRect = cardAction.getBoundingClientRect();
 
       expect(smallRect.height).toEqual(300, 'small card should be 300px high');
       expect(cardImageRect.height).toBeLessThan(181, 'small image should be <= 180px or 60% high');
@@ -171,13 +169,13 @@ describe('Cards', () => {
     });
 
     it('should have medium card dimensions', () => {
-      let cardImage = medium.querySelector('.card-image');
-      let cardContent = medium.querySelector('.card-content');
-      let cardAction = medium.querySelector('.card-action');
-      let mediumRect = medium.getBoundingClientRect();
-      let cardImageRect = cardImage.getBoundingClientRect();
-      let cardContentRect = cardContent.getBoundingClientRect();
-      let cardActionRect = cardAction.getBoundingClientRect();
+      const cardImage = medium.querySelector('.card-image');
+      const cardContent = medium.querySelector('.card-content');
+      const cardAction = medium.querySelector('.card-action');
+      const mediumRect = medium.getBoundingClientRect();
+      const cardImageRect = cardImage.getBoundingClientRect();
+      const cardContentRect = cardContent.getBoundingClientRect();
+      const cardActionRect = cardAction.getBoundingClientRect();
 
       expect(mediumRect.height).toEqual(400, 'medium card should be 400px high');
       expect(cardImageRect.height).toBeLessThan(241, 'medium image should be <= 240 or 60% high');
@@ -192,13 +190,13 @@ describe('Cards', () => {
     });
 
     it('should have large card dimensions', () => {
-      let cardImage = large.querySelector('.card-image');
-      let cardContent = large.querySelector('.card-content');
-      let cardAction = large.querySelector('.card-action');
-      let largeRect = large.getBoundingClientRect();
-      let cardImageRect = cardImage.getBoundingClientRect();
-      let cardContentRect = cardContent.getBoundingClientRect();
-      let cardActionRect = cardAction.getBoundingClientRect();
+      const cardImage = large.querySelector('.card-image');
+      const cardContent = large.querySelector('.card-content');
+      const cardAction = large.querySelector('.card-action');
+      const largeRect = large.getBoundingClientRect();
+      const cardImageRect = cardImage.getBoundingClientRect();
+      const cardContentRect = cardContent.getBoundingClientRect();
+      const cardActionRect = cardAction.getBoundingClientRect();
 
       expect(largeRect.height).toEqual(500, 'large card should be 500px high');
       expect(cardImageRect.height).toBeLessThan(301, 'large image should be <= 300 or 60% high');

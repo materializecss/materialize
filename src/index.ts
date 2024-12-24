@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Autocomplete, AutocompleteOptions } from './autocomplete';
 import { FloatingActionButton, FloatingActionButtonOptions } from './buttons';
 import { Cards, CardsOptions } from './cards';
 import { Carousel, CarouselOptions } from './carousel';
-import { CharacterCounter, CharacterCounterOptions } from './characterCounter';
+import { CharacterCounter /*, CharacterCounterOptions*/ } from './characterCounter';
 import { Chips, ChipsOptions } from './chips';
 import { Collapsible, CollapsibleOptions } from './collapsible';
 import { Datepicker, DatepickerOptions } from './datepicker';
@@ -25,6 +26,7 @@ import { Waves } from './waves';
 import { Range } from './range';
 import { Utils } from './utils';
 import { Component } from './component';
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export { Autocomplete } from './autocomplete';
 export { FloatingActionButton } from './buttons';
@@ -52,36 +54,28 @@ export { Tooltip } from './tooltip';
 export { Waves } from './waves';
 export { Range } from './range';
 
-export const version = '2.2.0';
-
-export const Grid = (children: any = '') => {
-  return `<div class="row">${children}</row>`;
-};
-
-export function Button(children: any = '') {
-  return `<button class="btn">${children}</button>`;
-}
+export const version = '2.2.1';
 
 export interface AutoInitOptions {
-  Autocomplete?: Partial<AutocompleteOptions>
-  Cards?: Partial<CardsOptions>
-  Carousel?: Partial<CarouselOptions>
-  Chips?: Partial<ChipsOptions>
-  Collapsible?: Partial<CollapsibleOptions>
-  Datepicker?: Partial<DatepickerOptions>
-  Dropdown?: Partial<DropdownOptions>
-  Materialbox?: Partial<MaterialboxOptions>
-  Modal?: Partial<ModalOptions>
-  Parallax?: Partial<ParallaxOptions>
-  Pushpin?: Partial<PushpinOptions>
-  ScrollSpy?: Partial<ScrollSpyOptions>
-  FormSelect?: Partial<FormSelectOptions>
-  Sidenav?: Partial<SidenavOptions>
-  Tabs?: Partial<TabsOptions>
-  TapTarget?: Partial<TapTargetOptions>
-  Timepicker?: Partial<TimepickerOptions>
-  Tooltip?: Partial<TooltipOptions>
-  FloatingActionButton?: Partial<FloatingActionButtonOptions>
+  Autocomplete?: Partial<AutocompleteOptions>;
+  Cards?: Partial<CardsOptions>;
+  Carousel?: Partial<CarouselOptions>;
+  Chips?: Partial<ChipsOptions>;
+  Collapsible?: Partial<CollapsibleOptions>;
+  Datepicker?: Partial<DatepickerOptions>;
+  Dropdown?: Partial<DropdownOptions>;
+  Materialbox?: Partial<MaterialboxOptions>;
+  Modal?: Partial<ModalOptions>;
+  Parallax?: Partial<ParallaxOptions>;
+  Pushpin?: Partial<PushpinOptions>;
+  ScrollSpy?: Partial<ScrollSpyOptions>;
+  FormSelect?: Partial<FormSelectOptions>;
+  Sidenav?: Partial<SidenavOptions>;
+  Tabs?: Partial<TabsOptions>;
+  TapTarget?: Partial<TapTargetOptions>;
+  Timepicker?: Partial<TimepickerOptions>;
+  Tooltip?: Partial<TooltipOptions>;
+  FloatingActionButton?: Partial<FloatingActionButtonOptions>;
 }
 
 /**
@@ -90,7 +84,7 @@ export interface AutoInitOptions {
  * @param options Options for each component.
  */
 export function AutoInit(context: HTMLElement = document.body, options?: Partial<AutoInitOptions>) {
-  let registry = {
+  const registry = {
     Autocomplete: context.querySelectorAll('.autocomplete:not(.no-autoinit)'),
     Cards: context.querySelectorAll('.cards:not(.no-autoinit)'),
     Carousel: context.querySelectorAll('.carousel:not(.no-autoinit)'),
@@ -112,7 +106,7 @@ export function AutoInit(context: HTMLElement = document.body, options?: Partial
     FloatingActionButton: context.querySelectorAll('.fixed-action-btn:not(.no-autoinit)')
   };
   Autocomplete.init(registry.Autocomplete, options?.Autocomplete ?? {});
-  Cards.init(registry.Cards, options?.Cards ?? {})
+  Cards.init(registry.Cards, options?.Cards ?? {});
   Carousel.init(registry.Carousel, options?.Carousel ?? {});
   Chips.init(registry.Chips, options?.Chips ?? {});
   Collapsible.init(registry.Collapsible, options?.Collapsible ?? {});

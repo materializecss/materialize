@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 const MULTILINE_TEXT =
   'This is line 1.\nThis is line 2.\nThis is line 3.\nThis is line 4.\nThis is line 5.\nAnd this is line 6.';
 

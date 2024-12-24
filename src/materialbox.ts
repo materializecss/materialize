@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { BaseOptions, Component, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { BaseOptions, Component, InitElements, MElement } from './component';
 
 export interface MaterialboxOptions extends BaseOptions {
   /**
@@ -68,7 +68,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
 
   constructor(el: HTMLElement, options: Partial<MaterialboxOptions>) {
     super(el, options, Materialbox);
-    (this.el as any).M_Materialbox = this;
+    this.el['M_Materialbox'] = this;
 
     this.options = {
       ...Materialbox.defaults,
@@ -111,17 +111,20 @@ export class Materialbox extends Component<MaterialboxOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<MaterialboxOptions> = {}): Materialbox | Materialbox[]{
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<MaterialboxOptions> = {}
+  ): Materialbox | Materialbox[] {
     return super.init(els, options, Materialbox);
   }
 
   static getInstance(el: HTMLElement): Materialbox {
-    return (el as any).M_Materialbox;
+    return el['M_Materialbox'];
   }
 
   destroy() {
     this._removeEventHandlers();
-    (this.el as any).M_Materialbox = undefined;
+    this.el['M_Materialbox'] = undefined;
     // Unwrap image
     //this.placeholder.after(this.el).remove();
     this.placeholder.remove();
@@ -150,23 +153,21 @@ export class Materialbox extends Component<MaterialboxOptions> {
 
   private _handleMaterialboxToggle = () => {
     // If already modal, return to original
-    if (this.doneAnimating === false || (this.overlayActive && this.doneAnimating))
-      this.close();
-    else
-      this.open();
+    if (this.doneAnimating === false || (this.overlayActive && this.doneAnimating)) this.close();
+    else this.open();
   };
 
   private _handleWindowScroll = () => {
     if (this.overlayActive) this.close();
-  }
+  };
 
   private _handleWindowResize = () => {
     if (this.overlayActive) this.close();
-  }
+  };
 
   private _handleWindowEscape = (e: KeyboardEvent) => {
     if (Utils.keys.ESC.includes(e.key) && this.doneAnimating && this.overlayActive) this.close();
-  }
+  };
 
   private _makeAncestorsOverflowVisible() {
     this._changedAncestorList = [];
@@ -185,8 +186,8 @@ export class Materialbox extends Component<MaterialboxOptions> {
     const box = el.getBoundingClientRect();
     const docElem = document.documentElement;
     return {
-      top: box.top + window.pageYOffset - docElem.clientTop,
-      left: box.left + window.pageXOffset - docElem.clientLeft
+      top: box.top + window.scrollY - docElem.clientTop,
+      left: box.left + window.scrollX - docElem.clientLeft
     };
   }
   private _updateVars(): void {
@@ -214,15 +215,19 @@ export class Materialbox extends Component<MaterialboxOptions> {
       // to
       this.el.style.height = this.newHeight + 'px';
       this.el.style.width = this.newWidth + 'px';
-      this.el.style.left = (Utils.getDocumentScrollLeft() +
+      this.el.style.left =
+        Utils.getDocumentScrollLeft() +
         this.windowWidth / 2 -
         this._offset(this.placeholder).left -
-        this.newWidth / 2) + 'px';
+        this.newWidth / 2 +
+        'px';
 
-      this.el.style.top = (Utils.getDocumentScrollTop() +
+      this.el.style.top =
+        Utils.getDocumentScrollTop() +
         this.windowHeight / 2 -
         this._offset(this.placeholder).top -
-        this.newHeight / 2) + 'px';
+        this.newHeight / 2 +
+        'px';
     }, 1);
 
     setTimeout(() => {
@@ -278,14 +283,15 @@ export class Materialbox extends Component<MaterialboxOptions> {
       if (this.attrWidth) this.el.setAttribute('width', this.attrWidth.toString());
       if (this.attrHeight) this.el.setAttribute('height', this.attrHeight.toString());
       this.el.removeAttribute('style');
-      this.originInlineStyles && this.el.setAttribute('style', this.originInlineStyles);
+      if (this.originInlineStyles) this.el.setAttribute('style', this.originInlineStyles);
       // Remove class
       this.el.classList.remove('active');
       this.doneAnimating = true;
       // Remove overflow overrides on ancestors
-      this._changedAncestorList.forEach(anchestor => anchestor.style.overflow = '');
+      this._changedAncestorList.forEach((anchestor) => (anchestor.style.overflow = ''));
       // onCloseEnd callback
-      if (typeof this.options.onCloseEnd === 'function') this.options.onCloseEnd.call(this, this.el);
+      if (typeof this.options.onCloseEnd === 'function')
+        this.options.onCloseEnd.call(this, this.el);
     }, duration);
   }
 
@@ -298,7 +304,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
     this._photoCaption.style.display = 'inline';
     // Animate
     this._photoCaption.style.transition = 'none';
-    this._photoCaption.style.opacity = '0'
+    this._photoCaption.style.opacity = '0';
     const duration = this.options.inDuration;
     setTimeout(() => {
       this._photoCaption.style.transition = `opacity ${duration}ms ease`;
@@ -318,9 +324,13 @@ export class Materialbox extends Component<MaterialboxOptions> {
   private _addOverlay(): void {
     this._overlay = document.createElement('div');
     this._overlay.id = 'materialbox-overlay';
-    this._overlay.addEventListener('click', e => {
-      if (this.doneAnimating) this.close();
-    }, {once: true});
+    this._overlay.addEventListener(
+      'click',
+      () => {
+        if (this.doneAnimating) this.close();
+      },
+      { once: true }
+    );
 
     // Put before in origin image to preserve z-index layering.
     this.el.before(this._overlay);
@@ -334,7 +344,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
 
     // Animate
     this._overlay.style.transition = 'none';
-    this._overlay.style.opacity = '0'
+    this._overlay.style.opacity = '0';
     const duration = this.options.inDuration;
     setTimeout(() => {
       this._overlay.style.transition = `opacity ${duration}ms ease`;
@@ -363,7 +373,8 @@ export class Materialbox extends Component<MaterialboxOptions> {
     this.el.classList.add('active');
     this.overlayActive = true;
     // onOpenStart callback
-    if (typeof this.options.onOpenStart === 'function') this.options.onOpenStart.call(this, this.el);
+    if (typeof this.options.onOpenStart === 'function')
+      this.options.onOpenStart.call(this, this.el);
     // Set positioning for placeholder
     this.placeholder.style.width = this.placeholder.getBoundingClientRect().width + 'px';
     this.placeholder.style.height = this.placeholder.getBoundingClientRect().height + 'px';
@@ -379,11 +390,11 @@ export class Materialbox extends Component<MaterialboxOptions> {
     this.attrWidth = this.el.getAttribute('width');
     this.attrHeight = this.el.getAttribute('height');
     if (this.attrWidth) {
-      this.el.style.width = this.attrWidth+'px';
+      this.el.style.width = this.attrWidth + 'px';
       this.el.removeAttribute('width');
     }
     if (this.attrHeight) {
-      this.el.style.width = this.attrHeight+'px';
+      this.el.style.width = this.attrHeight + 'px';
       this.el.removeAttribute('height');
     }
     this._addOverlay();
@@ -399,8 +410,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
       const ratio = this.originalHeight / this.originalWidth;
       this.newWidth = this.windowWidth * 0.9;
       this.newHeight = this.windowWidth * 0.9 * ratio;
-    }
-    else {
+    } else {
       // Height first
       const ratio = this.originalWidth / this.originalHeight;
       this.newWidth = this.windowHeight * 0.9 * ratio;
@@ -411,7 +421,7 @@ export class Materialbox extends Component<MaterialboxOptions> {
     window.addEventListener('scroll', this._handleWindowScroll);
     window.addEventListener('resize', this._handleWindowResize);
     window.addEventListener('keyup', this._handleWindowEscape);
-  }
+  };
 
   /**
    * Close materialbox.
@@ -420,7 +430,8 @@ export class Materialbox extends Component<MaterialboxOptions> {
     this._updateVars();
     this.doneAnimating = false;
     // onCloseStart callback
-    if (typeof this.options.onCloseStart === 'function') this.options.onCloseStart.call(this, this.el);
+    if (typeof this.options.onCloseStart === 'function')
+      this.options.onCloseStart.call(this, this.el);
     //anim.remove(this.el);
     //anim.remove(this._overlay);
     //if (this.caption !== '') anim.remove(this._photoCaption);
@@ -431,5 +442,5 @@ export class Materialbox extends Component<MaterialboxOptions> {
     this._removeOverlay();
     this._animateImageOut();
     if (this.caption !== '') this._removeCaption();
-  }
+  };
 }

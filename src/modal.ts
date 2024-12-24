@@ -33,7 +33,7 @@ const _defaults = {
 export class Modal extends Component<ModalOptions> {
   constructor(el: HTMLElement, options: Partial<ModalOptions>) {
     super(el, options, Modal);
-    (this.el as any).M_Modal = this;
+    this.el['M_Modal'] = this;
     this.options = {
       ...Modal.defaults,
       ...options
@@ -56,7 +56,7 @@ export class Modal extends Component<ModalOptions> {
   }
 
   static getInstance(el: HTMLElement): Modal {
-    return (el as any).M_Modal;
+    return el['M_Modal'];
   }
 
   destroy() {}
@@ -88,6 +88,7 @@ export class Modal extends Component<ModalOptions> {
 
   static #createHtmlElement(config: ModalCreateConfig) {
     const dialog = document.createElement('dialog');
+    dialog.id = config.id;
     return dialog;
   }
 

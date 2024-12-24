@@ -1,12 +1,12 @@
-import { Utils } from "./utils";
-import { Autocomplete, AutocompleteOptions } from "./autocomplete";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Autocomplete, AutocompleteOptions } from './autocomplete';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface ChipData {
   /**
    * Unique identifier.
    */
-  id: number|string;
+  id: number | string;
   /**
    * Chip text. If not specified, "id" will be used.
    */
@@ -17,7 +17,7 @@ export interface ChipData {
   image?: string;
 }
 
-export interface ChipsOptions extends BaseOptions{
+export interface ChipsOptions extends BaseOptions {
   /**
    * Set the chip data.
    * @default []
@@ -75,7 +75,7 @@ export interface ChipsOptions extends BaseOptions{
   onChipDelete: (element: HTMLElement, chip: HTMLElement) => void;
 }
 
-let _defaults: ChipsOptions = {
+const _defaults: ChipsOptions = {
   data: [],
   placeholder: '',
   secondaryPlaceholder: '',
@@ -101,14 +101,14 @@ export class Chips extends Component<ChipsOptions> {
   /** Autocomplete instance, if any. */
   autocomplete: Autocomplete;
   _input: HTMLInputElement;
-  _label: any;
+  _label: HTMLLabelElement;
   _chips: HTMLElement[];
   static _keydown: boolean;
-  private _selectedChip: any;
+  private _selectedChip: HTMLElement;
 
   constructor(el: HTMLElement, options: Partial<ChipsOptions>) {
     super(el, options, Chips);
-    (this.el as any).M_Chips = this;
+    this.el['M_Chips'] = this;
 
     this.options = {
       ...Chips.defaults,
@@ -127,7 +127,7 @@ export class Chips extends Component<ChipsOptions> {
     this._setupLabel();
 
     // Render input element, setup event handlers
-    if(this.options.allowUserInput) {
+    if (this.options.allowUserInput) {
       this.el.classList.add('input-field');
       this._setupInput();
       this._setupEventHandlers();
@@ -145,7 +145,7 @@ export class Chips extends Component<ChipsOptions> {
    * @param el HTML element.
    * @param options Component options.
    */
-  static init(el: InitElements<MElement>, options?: Partial<ChipsOptions>): Chips;
+  static init(el: HTMLElement, options?: Partial<ChipsOptions>): Chips;
   /**
    * Initializes instances of Chips.
    * @param els HTML elements.
@@ -157,12 +157,15 @@ export class Chips extends Component<ChipsOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<ChipsOptions> = {}): Chips | Chips[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<ChipsOptions> = {}
+  ): Chips | Chips[] {
     return super.init(els, options, Chips);
   }
 
   static getInstance(el: HTMLElement): Chips {
-    return (el as any).M_Chips;
+    return el['M_Chips'];
   }
 
   getData() {
@@ -170,16 +173,17 @@ export class Chips extends Component<ChipsOptions> {
   }
 
   destroy() {
-    if(this.options.allowUserInput) {
+    if (this.options.allowUserInput) {
       this._removeEventHandlers();
     }
-    this._chips.forEach(c => c.remove());
+    this._chips.forEach((c) => c.remove());
     this._chips = [];
-    (this.el as any).M_Chips = undefined;
+    this.el['M_Chips'] = undefined;
   }
 
   _setupEventHandlers() {
     this.el.addEventListener('click', this._handleChipClick);
+    // @todo why do we need this as document event listener, shouldn't we apply it to the element wrapper itself?
     document.addEventListener('keydown', Chips._handleChipsKeydown);
     document.addEventListener('keyup', Chips._handleChipsKeyup);
     this.el.addEventListener('blur', Chips._handleChipsBlur, true);
@@ -206,16 +210,14 @@ export class Chips extends Component<ChipsOptions> {
       if (clickedClose) {
         this.deleteChip(index);
         this._input.focus();
-      }
-      else {
+      } else {
         this.selectChip(index);
       }
       // Default handle click to focus on input
-    }
-    else {
+    } else {
       this._input.focus();
     }
-  }
+  };
 
   static _handleChipsKeydown(e: KeyboardEvent) {
     Chips._keydown = true;
@@ -226,7 +228,7 @@ export class Chips extends Component<ChipsOptions> {
     const tag = (<HTMLElement>e.target).tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || !chipsKeydown) return;
 
-    const currChips: Chips = (chips as any).M_Chips;
+    const currChips: Chips = chips['M_Chips'];
 
     if (Utils.keys.BACKSPACE.includes(e.key) || Utils.keys.DELETE.includes(e.key)) {
       e.preventDefault();
@@ -238,48 +240,42 @@ export class Chips extends Component<ChipsOptions> {
         // Make sure selectIndex doesn't go negative
         selectIndex = Math.max(index - 1, 0);
       }
-      if (currChips.chipsData.length)
-        currChips.selectChip(selectIndex);
-      else
-        currChips._input.focus();
-    }
-    else if (Utils.keys.ARROW_LEFT.includes(e.key)) {
+      if (currChips.chipsData.length) currChips.selectChip(selectIndex);
+      else currChips._input.focus();
+    } else if (Utils.keys.ARROW_LEFT.includes(e.key)) {
       if (currChips._selectedChip) {
         const selectIndex = gGetIndex(currChips._selectedChip) - 1;
         if (selectIndex < 0) return;
         currChips.selectChip(selectIndex);
       }
-    }
-    else if (Utils.keys.ARROW_RIGHT.includes(e.key)) {
+    } else if (Utils.keys.ARROW_RIGHT.includes(e.key)) {
       if (currChips._selectedChip) {
         const selectIndex = gGetIndex(currChips._selectedChip) + 1;
-        if (selectIndex >= currChips.chipsData.length)
-          currChips._input.focus();
-        else
-          currChips.selectChip(selectIndex);
+        if (selectIndex >= currChips.chipsData.length) currChips._input.focus();
+        else currChips.selectChip(selectIndex);
       }
     }
   }
 
-  static _handleChipsKeyup(e: Event) {
+  static _handleChipsKeyup() {
     Chips._keydown = false;
   }
 
   static _handleChipsBlur(e: Event) {
     if (!Chips._keydown && document.hidden) {
       const chips = (<HTMLElement>e.target).closest('.chips');
-      const currChips: Chips = (chips as any).M_Chips;
+      const currChips: Chips = chips['M_Chips'];
       currChips._selectedChip = null;
     }
   }
 
   _handleInputFocus = () => {
     this.el.classList.add('focus');
-  }
+  };
 
   _handleInputBlur = () => {
     this.el.classList.remove('focus');
-  }
+  };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
     Chips._keydown = true;
@@ -290,11 +286,10 @@ export class Chips extends Component<ChipsOptions> {
       }
       e.preventDefault();
       if (!this.hasAutocomplete || (this.hasAutocomplete && !this.options.autocompleteOnly)) {
-        this.addChip({id: this._input.value});
+        this.addChip({ id: this._input.value });
       }
       this._input.value = '';
-    }
-    else if (      
+    } else if (
       (Utils.keys.BACKSPACE.includes(e.key) || Utils.keys.ARROW_LEFT.includes(e.key)) &&
       this._input.value === '' &&
       this.chipsData.length
@@ -302,7 +297,7 @@ export class Chips extends Component<ChipsOptions> {
       e.preventDefault();
       this.selectChip(this.chipsData.length - 1);
     }
-  }
+  };
 
   _renderChip(chip: ChipData): HTMLDivElement {
     if (!chip.id) return;
@@ -315,7 +310,7 @@ export class Chips extends Component<ChipsOptions> {
       img.setAttribute('src', chip.image);
       renderedChip.insertBefore(img, renderedChip.firstChild);
     }
-    if(this.options.allowUserInput) {
+    if (this.options.allowUserInput) {
       renderedChip.setAttribute('tabindex', '0');
       const closeIcon = document.createElement('i');
       closeIcon.classList.add(this.options.closeIconClass, 'close');
@@ -336,11 +331,12 @@ export class Chips extends Component<ChipsOptions> {
 
   _setupAutocomplete() {
     this.options.autocompleteOptions.onAutocomplete = (items) => {
-      if (items.length > 0) this.addChip({
-        id: items[0].id,
-        text: items[0].text,
-        image: items[0].image
-      });
+      if (items.length > 0)
+        this.addChip({
+          id: items[0].id,
+          text: items[0].text,
+          image: items[0].image
+        });
       this._input.value = '';
       this._input.focus();
     };
@@ -359,8 +355,7 @@ export class Chips extends Component<ChipsOptions> {
     if (this.hasAutocomplete) this._setupAutocomplete();
     this._setPlaceholder();
     // Set input id
-    if (!this._input.getAttribute('id'))
-      this._input.setAttribute('id', Utils.guid());
+    if (!this._input.getAttribute('id')) this._input.setAttribute('id', Utils.guid());
   }
 
   _setupLabel() {
@@ -371,8 +366,7 @@ export class Chips extends Component<ChipsOptions> {
   _setPlaceholder() {
     if (this.chipsData !== undefined && !this.chipsData.length && this.options.placeholder) {
       this._input.placeholder = this.options.placeholder;
-    }
-    else if (
+    } else if (
       (this.chipsData === undefined || !!this.chipsData.length) &&
       this.options.secondaryPlaceholder
     ) {
@@ -382,7 +376,7 @@ export class Chips extends Component<ChipsOptions> {
 
   _isValidAndNotExist(chip: ChipData) {
     const isValid = !!chip.id;
-    const doesNotExist = !this.chipsData.some(item => item.id == chip.id);
+    const doesNotExist = !this.chipsData.some((item) => item.id == chip.id);
     return isValid && doesNotExist;
   }
 
@@ -434,18 +428,21 @@ export class Chips extends Component<ChipsOptions> {
     }
   }
 
-  static Init(){
+  static Init() {
     if (typeof document !== 'undefined')
-    document.addEventListener("DOMContentLoaded", () => {
       // Handle removal of static chips.
-      document.body.addEventListener('click', e => {
-        if ((<HTMLElement>e.target).closest('.chip .close')) {
-          const chips = (<HTMLElement>e.target).closest('.chips');
-          if (chips && (chips as any).M_Chips == undefined) return;
-          (<HTMLElement>e.target).closest('.chip').remove();
-        }
+      document.addEventListener('DOMContentLoaded', () => {
+        const chips = document.querySelectorAll('.chips');
+        chips.forEach((el) => {
+          // if (el && (el['M_Chips == undefined) return;
+          el.addEventListener('click', (e) => {
+            if ((<HTMLElement>e.target).classList.contains('close')) {
+              const chip = (<HTMLElement>e.target).closest('.chip');
+              if (chip) chip.remove();
+            }
+          });
+        });
       });
-    });
   }
 
   static {
