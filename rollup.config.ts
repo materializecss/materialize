@@ -122,7 +122,7 @@ const config: RollupOptions[] = [
     plugins: [
       scss({
         fileName: 'materialize.min.css',
-        sourceMap: true,
+        sourceMap: !(process.env.BUILD === 'release'),
       })
     ],
     onwarn: (warning, defaultHandler) => {
