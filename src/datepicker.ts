@@ -143,7 +143,11 @@ export interface DatepickerOptions extends BaseOptions {
    * @default null
    */
   onDraw: (() => void) | null;
-
+  /**
+   * Callback function for interaction with input field.
+   * @default null
+   */
+  onInputInteraction: (() => void) | null;
   /** Field used for internal calculations DO NOT CHANGE IT */
   minYear?: number;
   /** Field used for internal calculations DO NOT CHANGE IT */
@@ -245,7 +249,8 @@ const _defaults: DatepickerOptions = {
   events: [],
   // callback function
   onSelect: null,
-  onDraw: null
+  onDraw: null,
+  onInputInteraction: null,
 };
 
 export class Datepicker extends Component<DatepickerOptions> {
@@ -1154,6 +1159,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.setDateFromInput(e.target as HTMLInputElement);
     this.draw();
     this.gotoDate(<HTMLElement>e.target === this.el ? this.date : this.endDate);
+    if (this.options.onInputInteraction) this.options.onInputInteraction.call(this);
   };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
@@ -1161,6 +1167,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       e.preventDefault();
       this.setDateFromInput(e.target as HTMLInputElement);
       this.draw();
+      if (this.options.onInputInteraction) this.options.onInputInteraction.call(this);
     }
   };
 
