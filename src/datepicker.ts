@@ -804,7 +804,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   renderDay(opts) {
-    const arr = [];
+    const arr = ['datepicker-day'];
     let ariaSelected = 'false';
     if (opts.isEmpty) {
       if (opts.showDaysInNextAndPreviousMonths) {
@@ -834,9 +834,9 @@ export class Datepicker extends Component<DatepickerOptions> {
       arr.push('has-event');
     }
 
-    // @todo should we create this additional css class?
     if (opts.isInRange) {
       arr.push('is-inrange');
+      ariaSelected = 'true';
     }
 
     // @todo should we create this additional css class?
@@ -855,7 +855,9 @@ export class Datepicker extends Component<DatepickerOptions> {
     }
     return (
       `<td data-day="${opts.day}" class="${arr.join(' ')}" aria-selected="${ariaSelected}">` +
+        '<div class="datepicker-day-container">' +
       `<button class="datepicker-day-button" type="button" data-year="${opts.year}" data-month="${opts.month}" data-day="${opts.day}">${opts.day}</button>` +
+        '</div>' +
       '</td>'
     );
   }
@@ -955,7 +957,8 @@ export class Datepicker extends Component<DatepickerOptions> {
       '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/><path d="M0-.5h24v24H0z" fill="none"/></svg>';
     html += `<button class="month-prev${
       prev ? '' : ' is-disabled'
-    } btn-flat" type="button">${leftArrow}</button>`;
+      // @todo remove button class and add scss mixin, current implementation temporary for focus states, @see https://github.com/materializecss/materialize/issues/566
+    } btn" type="button">${leftArrow}</button>`;
 
     html += '<div class="selects-container">';
     if (opts.showMonthAfterYear) {
@@ -977,7 +980,8 @@ export class Datepicker extends Component<DatepickerOptions> {
       '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/><path d="M0-.25h24v24H0z" fill="none"/></svg>';
     html += `<button class="month-next${
       next ? '' : ' is-disabled'
-    } btn-flat" type="button">${rightArrow}</button>`;
+      // @todo remove button class and add scss mixin, current implementation temporary for focus states, @see https://github.com/materializecss/materialize/issues/566
+    } btn" type="button">${rightArrow}</button>`;
 
     return (html += '</div>');
   }
@@ -1035,6 +1039,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     // Init Materialize Select
     const yearSelect = this.calendarEl.querySelector('.orig-select-year') as HTMLSelectElement;
     const monthSelect = this.calendarEl.querySelector('.orig-select-month') as HTMLSelectElement;
+    // @todo fix accessibility @see https://github.com/materializecss/materialize/issues/522
     FormSelect.init(yearSelect, {
       classes: 'select-year',
       dropdownOptions: { container: document.body, constrainWidth: false }

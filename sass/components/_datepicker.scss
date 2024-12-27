@@ -1,8 +1,9 @@
 /* Modal */
 .datepicker-modal {
   max-width: 325px;
-  min-width: 300px;
-  max-height: none;
+  // @removed since v2.2.1-dev regarding Material M3 standards
+  /* min-width: 300px;
+  max-height: none; */
 }
 
 .datepicker-container.modal-content {
@@ -75,9 +76,11 @@
 /* Date Display */
 .datepicker-date-display {
   flex: 1 auto;
-  background-color: var(--md-sys-color-primary);
-  color:  var(--md-sys-color-on-primary);
+  // @removed since v2.2.1-dev regarding Material M3 standards
+  // background-color: var(--md-sys-color-primary);
+  // color:  var(--md-sys-color-on-primary);
   padding: 20px 22px;
+  border-bottom: 1px solid var(--md-sys-color-surface-variant-light);
   font-weight: 500;
 
   .year-text {
@@ -124,46 +127,88 @@
     color: var(--md-sys-color-on-surface-variant);
   }
 
-  td {
+  .datepicker-day {
     color: var(--md-sys-color-on-background);
 
     &.is-today {
       color: var(--md-sys-color-primary);
     }
 
-    &.is-selected {
+    /*&.is-selected button {
       background-color: var(--md-sys-color-primary);
       color:  var(--md-sys-color-on-primary);
-    }
+    }*/
 
-    &.is-outside-current-month,
-    &.is-disabled {
-      color: var(--md-sys-color-on-surface);
-      pointer-events: none;
-    }
-
-    border-radius: 50%;
+    // border-radius: 50%;
     padding: 0;
+  }
+}
+
+.datepicker-day.is-inrange {
+  .datepicker-day-container {
+    position: relative;
+    background-color: var(--md-sys-color-primary-container);
+    z-index: 0;
+  }
+
+  // @todo find solution why pseudo selectors are not working or implement other method
+  &:first-child .datepicker-day-container:before,
+  &:last-child .datepicker-day-container:before {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    content: '';
+    background-color: var(--md-sys-color-primary-container);
+    z-index: 0;
+  }
+
+  &:first-child .datepicker-day-container:before {
+      left: -50%;
+  }
+
+  &:last-child .datepicker-day-container:before {
+    left: auto;
+    right: -50%;
   }
 }
 
 .datepicker-day-button {
   background-color: transparent;
   border: none;
-  line-height: 38px;
+  line-height: 34px;
   display: block;
-  width: 100%;
+  width: 34px;
   border-radius: 50%;
+  margin: 5px;
   padding: 0 5px;
   cursor: pointer;
   color: inherit;
+
+  position: relative;
+  z-index: 1;
 
   &:hover {
     background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
   }
 
   &:focus {
-    background-color: rgba(var(--md-sys-color-primary-numeric), 0.18);
+    border-color: var(--md-sys-color-primary);
+  }
+
+  .is-selected & {
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+
+    &:focus {
+      background-color: var(--md-sys-color-surface-variant);
+      color: var(--md-sys-color-primary);
+    }
+  }
+
+  &.is-outside-current-month button,
+  &.is-disabled button {
+    color: var(--md-sys-color-on-surface);
+    pointer-events: none;
   }
 }
 
@@ -192,7 +237,8 @@
 
 /* Media Queries */
 @media #{$medium-and-up} {
-  .datepicker-modal {
+  @removed since v2.2.1-dev regarding Material M3 standards
+  /*.datepicker-modal {
     max-width: 625px;
   }
 
@@ -208,7 +254,7 @@
   .datepicker-table,
   .datepicker-footer {
     width: 320px;
-  }
+  }*/
 
   .datepicker-day-button {
     line-height: 44px;
