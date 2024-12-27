@@ -137,7 +137,7 @@ const config: RollupOptions[] = [
       scss({
         fileName: 'materialize.min.css',
         outputStyle: 'compressed',
-        processor: (css, map) => postcss([autoprefixer]).process(css, { from: 'materialize.min.css' }).then(result => result.css),
+        processor: (css) => postcss([autoprefixer]).process(css, { from: 'materialize.min.css' }).then(result => result.css),
       })
     ],
     onwarn: (warning, defaultHandler) => {
