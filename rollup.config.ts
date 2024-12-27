@@ -21,6 +21,7 @@ const bannerText = `/*!
 * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
 */`;
 
+// @ts-ignore
 const config: RollupOptions[] = [
   //--- Replace version in index.ts
   {
@@ -104,25 +105,16 @@ const config: RollupOptions[] = [
   //--- CSS
   {
     input: 'sass/materialize.scss',
-    output: [{ file: 'dist/css/materialize.css' }], // overwritten
-    plugins: [
-      scss({
-        fileName: 'materialize.css',
-        processor: css => postcss([autoprefixer]).process(css).then(result => result.css),
-        })
-    ],
-    onwarn: (warning, defaultHandler) => {
-      if (!(warning.code === 'FILE_NAME_CONFLICT' || warning.code === 'EMPTY_BUNDLE'))
-        defaultHandler(warning);
-    }
-  },
-  {
-    input: 'dist/css/materialize.css',
     output: [{ file: 'dist/css/materialize.min.css' }], // overwritten
     plugins: [
       scss({
         fileName: 'materialize.min.css',
+        outputStyle: 'compressed',
         sourceMap: !(process.env.BUILD === 'release'),
+        processor: (css, map) => ({
+          css: postcss([autoprefixer]).process(css, { from: 'materialize.min.css' }).toString(),
+          map
+        })
       })
     ],
     onwarn: (warning, defaultHandler) => {
@@ -131,12 +123,11 @@ const config: RollupOptions[] = [
     }
   },
   {
-    input: 'dist/css/materialize.css',
-    output: [{ file: 'dist/css/materialize.min.css' }], // overwritten
+    input: 'sass/materialize.scss',
+    output: [{ file: 'dist/css/materialize.css' }], // overwritten
     plugins: [
       scss({
-        fileName: 'materialize.min.css',
-        outputStyle: 'compressed',
+        fileName: 'materialize.css',
         processor: (css) => postcss([autoprefixer]).process(css, { from: 'materialize.min.css' }).then(result => result.css),
       })
     ],
