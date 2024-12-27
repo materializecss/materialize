@@ -739,6 +739,8 @@ export class Datepicker extends Component<DatepickerOptions> {
           (this.options.maxDate && day > this.options.maxDate) ||
           (this.options.disableWeekends && Datepicker._isWeekend(day)) ||
           (this.options.disableDayFn && this.options.disableDayFn(day)),
+        isDateRangeStart = this.options.isDateRange && Datepicker._compareDates(this.date, day),
+        isDateRangeEnd = this.options.isDateRange && Datepicker._compareDates(this.endDate, day),
         isDateRange =
           this.options.isDateRange &&
           Datepicker._isDate(this.endDate) &&
@@ -788,6 +790,8 @@ export class Datepicker extends Component<DatepickerOptions> {
         isEndRange: isEndRange,
         isInRange: isInRange,
         showDaysInNextAndPreviousMonths: this.options.showDaysInNextAndPreviousMonths,
+        isDateRangeStart: isDateRangeStart,
+        isDateRangeEnd: isDateRangeEnd,
         isDateRange: isDateRange
       };
 
@@ -834,6 +838,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       arr.push('has-event');
     }
 
+    // @todo create additional css class
     if (opts.isInRange) {
       arr.push('is-inrange');
       ariaSelected = 'true';
@@ -849,15 +854,20 @@ export class Datepicker extends Component<DatepickerOptions> {
       arr.push('is-endrange');
     }
 
-    // @todo create additional css class
+    if (opts.isDateRangeStart) {
+      arr.push('is-daterange-start');
+    }
+
+    if (opts.isDateRangeEnd) {
+      arr.push('is-daterang-eend');
+    }
+
     if (opts.isDateRange) {
       arr.push('is-daterange');
     }
     return (
       `<td data-day="${opts.day}" class="${arr.join(' ')}" aria-selected="${ariaSelected}">` +
-        '<div class="datepicker-day-container">' +
       `<button class="datepicker-day-button" type="button" data-year="${opts.year}" data-month="${opts.month}" data-day="${opts.day}">${opts.day}</button>` +
-        '</div>' +
       '</td>'
     );
   }

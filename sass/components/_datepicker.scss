@@ -144,32 +144,33 @@
   }
 }
 
-.datepicker-day.is-inrange {
-  .datepicker-day-container {
-    position: relative;
-    background-color: var(--md-sys-color-primary-container);
-    z-index: 0;
-  }
+.datepicker-day.is-daterange-start,
+.datepicker-day.is-daterange-end,
+.datepicker-day.is-daterange {
+  position: relative;
 
-  // @todo find solution why pseudo selectors are not working or implement other method
-  &:first-child .datepicker-day-container:before,
-  &:last-child .datepicker-day-container:before {
+  &:before {
     position: absolute;
-    height: 100%;
-    width: 50%;
+    top: 5px;
+    width: 100%;
+    height: 34px;
     content: '';
     background-color: var(--md-sys-color-primary-container);
     z-index: 0;
   }
+}
 
-  &:first-child .datepicker-day-container:before {
-      left: -50%;
-  }
+.datepicker-day.is-daterange-start:before,
+.datepicker-day.is-daterange-end:before {
+  width: 50%;
+}
 
-  &:last-child .datepicker-day-container:before {
-    left: auto;
-    right: -50%;
-  }
+.datepicker-day.is-daterange-start:before {
+  left: 50%;
+}
+
+.datepicker-day.is-daterange .datepicker-day-button:before {
+  background-color: var(--md-sys-color-primary-container);
 }
 
 .datepicker-day-button {
