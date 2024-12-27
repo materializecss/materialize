@@ -31,6 +31,10 @@ export interface DatepickerOptions extends BaseOptions {
    */
   isDateRange: boolean;
   /**
+   * The selector of the user specified date range end element
+   */
+  dateRangeEndEl: string | null;
+  /**
    * The initial condition if the datepicker is based on multiple date selection.
    * @default false
    */
@@ -169,6 +173,8 @@ const _defaults: DatepickerOptions = {
   parse: null,
   // The initial condition if the datepicker is based on date range
   isDateRange: false,
+  // The selector of the user specified date range end element
+  dateRangeEndEl: null,
   // The initial condition if the datepicker is based on multiple date selection
   isMultipleSelection: false,
   // The initial date to view when first opened
@@ -437,8 +443,14 @@ export class Datepicker extends Component<DatepickerOptions> {
     }
 
     if (this.options.isDateRange) {
-      this.endDateEl = this.createDateInput();
-      this.endDateEl.classList.add('datepicker-end-date');
+      if (!this.options.dateRangeEndEl) {
+        this.endDateEl = this.createDateInput();
+        this.endDateEl.classList.add('datepicker-end-date');
+      } else if(document.querySelector(this.options.dateRangeEndEl) as HTMLInputElement === undefined) {
+        console.warn('Specified date range end input element in dateRangeEndEl not found');
+      } else {
+        this.endDateEl = document.querySelector(this.options.dateRangeEndEl) as HTMLInputElement;
+      }
     }
 
     if (this.options.showClearBtn) {
@@ -745,8 +757,8 @@ export class Datepicker extends Component<DatepickerOptions> {
           (this.options.maxDate && day > this.options.maxDate) ||
           (this.options.disableWeekends && Datepicker._isWeekend(day)) ||
           (this.options.disableDayFn && this.options.disableDayFn(day)),
-        isDateRangeStart = this.options.isDateRange && Datepicker._compareDates(this.date, day),
-        isDateRangeEnd = this.options.isDateRange && Datepicker._compareDates(this.endDate, day),
+        isDateRangeStart = this.options.isDateRange && this.date && this.endDate && Datepicker._compareDates(this.date, day),
+        isDateRangeEnd = this.options.isDateRange && this.endDate && Datepicker._compareDates(this.endDate, day),
         isDateRange =
           this.options.isDateRange &&
           Datepicker._isDate(this.endDate) &&
