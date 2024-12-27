@@ -21,7 +21,6 @@ const bannerText = `/*!
 * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
 */`;
 
-// @ts-ignore
 const config: RollupOptions[] = [
   //--- Replace version in index.ts
   {
