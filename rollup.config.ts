@@ -7,6 +7,8 @@ import scss from 'rollup-plugin-scss';
 import copy from 'rollup-plugin-copy';
 
 import { readFileSync } from 'fs';
+import autoprefixer from 'autoprefixer';
+import postcss from 'postcss';
 const packageJson = JSON.parse(readFileSync('./package.json').toString());
 
 const outputPath = 'dist/js/materialize';
@@ -102,12 +104,25 @@ const config: RollupOptions[] = [
   //--- CSS
   {
     input: 'sass/materialize.scss',
+    output: [{ file: 'dist/css/materialize.css' }], // overwritten
+    plugins: [
+      scss({
+        fileName: 'materialize.css',
+        processor: css => postcss([autoprefixer]).process(css).then(result => result.css),
+        })
+    ],
+    onwarn: (warning, defaultHandler) => {
+      if (!(warning.code === 'FILE_NAME_CONFLICT' || warning.code === 'EMPTY_BUNDLE'))
+        defaultHandler(warning);
+    }
+  },
+  {
+    input: 'dist/css/materialize.css',
     output: [{ file: 'dist/css/materialize.min.css' }], // overwritten
     plugins: [
       scss({
         fileName: 'materialize.min.css',
-        outputStyle: 'compressed',
-        sourceMap: true
+        sourceMap: true,
       })
     ],
     onwarn: (warning, defaultHandler) => {
@@ -116,11 +131,13 @@ const config: RollupOptions[] = [
     }
   },
   {
-    input: 'sass/materialize.scss',
-    output: [{ file: 'dist/css/materialize.css' }], // overwritten
+    input: 'dist/css/materialize.css',
+    output: [{ file: 'dist/css/materialize.min.css' }], // overwritten
     plugins: [
       scss({
-        fileName: 'materialize.css'
+        fileName: 'materialize.min.css',
+        outputStyle: 'compressed',
+        processor: (css, map) => postcss([autoprefixer]).process(css, { from: 'materialize.min.css' }).then(result => result.css),
       })
     ],
     onwarn: (warning, defaultHandler) => {
