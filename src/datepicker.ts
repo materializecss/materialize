@@ -260,7 +260,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   doneBtn: HTMLElement;
   cancelBtn: HTMLElement;
 
-  modalEl: HTMLElement;
+  containerEl: HTMLElement;
   yearTextEl: HTMLElement;
   dateTextEl: HTMLElement;
   endDateEl: HTMLInputElement;
@@ -409,7 +409,7 @@ export class Datepicker extends Component<DatepickerOptions> {
 
   destroy() {
     this._removeEventHandlers();
-    this.modalEl.remove();
+    this.containerEl.remove();
     this.destroySelects();
     this.el['M_Datepicker'] = undefined;
   }
@@ -447,10 +447,11 @@ export class Datepicker extends Component<DatepickerOptions> {
       const optEl = this.options.container;
       this.options.container =
         optEl instanceof HTMLElement ? optEl : (document.querySelector(optEl) as HTMLElement);
-      this.options.container.append(this.modalEl);
+      this.options.container.append(this.containerEl);
     } else {
-      //this.modalEl.before(this.el);
-      this.el.parentElement.appendChild(this.modalEl);
+      //this.containerEl.before(this.el);
+      const appendTo = !this.endDateEl ? this.el : this.endDateEl;
+      appendTo.parentElement.after(this.containerEl);
     }
   }
 
@@ -859,7 +860,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     }
 
     if (opts.isDateRangeEnd) {
-      arr.push('is-daterang-eend');
+      arr.push('is-daterange-end');
     }
 
     if (opts.isDateRange) {
@@ -1085,17 +1086,17 @@ export class Datepicker extends Component<DatepickerOptions> {
     const template = document.createElement('template');
     template.innerHTML = Datepicker._template.trim();
 
-    this.modalEl = <HTMLElement>template.content.firstChild;
+    this.containerEl = <HTMLElement>template.content.firstChild;
 
-    this.calendarEl = this.modalEl.querySelector('.datepicker-calendar');
-    this.yearTextEl = this.modalEl.querySelector('.year-text');
-    this.dateTextEl = this.modalEl.querySelector('.date-text');
+    this.calendarEl = this.containerEl.querySelector('.datepicker-calendar');
+    this.yearTextEl = this.containerEl.querySelector('.year-text');
+    this.dateTextEl = this.containerEl.querySelector('.date-text');
     if (this.options.showClearBtn) {
-      this.clearBtn = this.modalEl.querySelector('.datepicker-clear');
+      this.clearBtn = this.containerEl.querySelector('.datepicker-clear');
     }
     // TODO: This should not be part of the datepicker
-    this.doneBtn = this.modalEl.querySelector('.datepicker-done');
-    this.cancelBtn = this.modalEl.querySelector('.datepicker-cancel');
+    this.doneBtn = this.containerEl.querySelector('.datepicker-done');
+    this.cancelBtn = this.containerEl.querySelector('.datepicker-cancel');
 
     this.formats = {
       d: (date: Date) => {
@@ -1305,8 +1306,7 @@ export class Datepicker extends Component<DatepickerOptions> {
 
   static {
     Datepicker._template = `
-      <div class="datepicker-modal">
-        <div class="modal-content datepicker-container">
+        <div class="datepicker-container">
           <div class="datepicker-date-display">
             <span class="year-text"></span>
             <span class="date-text"></span>
@@ -1321,7 +1321,6 @@ export class Datepicker extends Component<DatepickerOptions> {
               </div>
             </div>
           </div>
-        </div>
-      </div>`;
+        </div>`;
   }
 }
