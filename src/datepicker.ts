@@ -111,6 +111,10 @@ export interface DatepickerOptions extends BaseOptions {
    */
   showDaysInNextAndPreviousMonths: boolean;
   /**
+   * Specify if the docked datepicker is in open state by default
+   */
+  openByDefault: boolean;
+  /**
    * Specify a DOM element OR selector for a DOM element to render
    * the calendar in, by default it will be placed before the input.
    * @default null
@@ -208,6 +212,8 @@ const _defaults: DatepickerOptions = {
   showMonthAfterYear: false,
   // Render days of the calendar grid that fall in the next or previous month
   showDaysInNextAndPreviousMonths: false,
+  // Specify if docked picker is in open state by default
+  openByDefault: false,
   // Specify a DOM element to render the calendar in
   container: null,
   // Show clear button
@@ -475,6 +481,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     } else {
       //this.containerEl.before(this.el);
       const appendTo = !this.endDateEl ? this.el : this.endDateEl;
+      if (!this.options.openByDefault) (this.containerEl as HTMLElement).setAttribute('style', 'display: none; visibility: hidden;');
       appendTo.parentElement.after(this.containerEl);
     }
   }
