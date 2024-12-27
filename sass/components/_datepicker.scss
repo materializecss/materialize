@@ -1,14 +1,16 @@
 /* Modal */
-.datepicker-modal {
+// @removed since v2.2.1
+/*.datepicker-modal {
   max-width: 325px;
   // @removed since v2.2.1-dev regarding Material M3 standards
-  /* min-width: 300px;
-  max-height: none; */
-}
+  min-width: 300px;
+  max-height: none;
+}*/
 
-.datepicker-container.modal-content {
+.datepicker-container {
   display: flex;
   flex-direction: column;
+  max-width: 325px;
   padding: 0;
   background-color: var(--md-sys-color-surface);
 }
@@ -238,7 +240,7 @@
 
 /* Media Queries */
 @media #{$medium-and-up} {
-  @removed since v2.2.1-dev regarding Material M3 standards
+  // @removed since v2.2.1-dev regarding Material M3 standards
   /*.datepicker-modal {
     max-width: 625px;
   }
