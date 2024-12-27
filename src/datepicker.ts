@@ -448,7 +448,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.el.classList.add('datepicker-date-input');
     }
 
-    if (this.el.parentElement.querySelector('.datepicker-format') !== undefined) {
+    if (!this.el.parentElement.querySelector('.datepicker-format') === null) {
       this._renderDateInputFormat(this.el);
     }
 
@@ -460,7 +460,7 @@ export class Datepicker extends Component<DatepickerOptions> {
         console.warn('Specified date range end input element in dateRangeEndEl not found');
       } else {
         this.endDateEl = document.querySelector(this.options.dateRangeEndEl) as HTMLInputElement;
-        if (this.endDateEl.parentElement.querySelector('.datepicker-format') !== undefined) {
+        if (!this.endDateEl.parentElement.querySelector('.datepicker-format') === null) {
           this._renderDateInputFormat(this.endDateEl);
         }
       }

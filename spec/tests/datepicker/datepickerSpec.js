@@ -16,11 +16,11 @@ describe('Datepicker Plugin', () => {
     it('can have a string format', (done) => {
       const input = document.querySelector('#datepickerInput');
       const today = new Date();
-      M.Datepicker.init(input, { format: 'mm/dd/yyyy' });
+      M.Datepicker.init(input, { format: 'mm/dd/yyyy', openByDefault: true });
       const datepicker = M.Datepicker.getInstance(input);
       //datepicker.open();
       setTimeout(() => {
-        const day1 = document.querySelector('.datepicker-modal button[data-day="1"]');
+        const day1 = document.querySelector('.datepicker-container button[data-day="1"]');
         day1.click();
         document.querySelector('.datepicker-done').click();
         setTimeout(() => {
@@ -37,11 +37,11 @@ describe('Datepicker Plugin', () => {
       const input = document.querySelector('#datepickerInput');
       const today = new Date();
       const formatFn = `${today.getFullYear() - 100}-${today.getMonth() + 1}-99`;
-      M.Datepicker.init(input, { format: formatFn });
+      M.Datepicker.init(input, { format: formatFn, openByDefault: true });
       const datepicker = M.Datepicker.getInstance(input);
       //datepicker.open();
       setTimeout(() => {
-        const day1 = document.querySelector('.datepicker-modal button[data-day="1"]');
+        const day1 = document.querySelector('.datepicker-container button[data-day="1"]');
         day1.click();
         document.querySelector('.datepicker-done').click();
         setTimeout(() => {
@@ -55,7 +55,7 @@ describe('Datepicker Plugin', () => {
 
     it('can change the calendar modal selected date by input', (done) => {
       const input = document.querySelector('#datepickerInput');
-      M.Datepicker.init(input, { format: 'mm/dd/yyyy' });
+      M.Datepicker.init(input, { format: 'mm/dd/yyyy', openByDefault: true });
       const today = new Date();
       const month = today.getMonth();
       const year = today.getFullYear() - 44;
@@ -73,7 +73,7 @@ describe('Datepicker Plugin', () => {
         const selectedDayElem = document.querySelector(`.datepicker-row td[data-day="${day}"]`);
         expect(
           selectMonthElem.querySelector('option[selected="selected"]').value ===
-            (month - 1).toString()
+          (month - 1).toString()
         ).toEqual(
           true,
           `selected month should be ${month}, given value ${selectMonthElem.querySelector('option[selected="selected"]').value}`
@@ -94,7 +94,7 @@ describe('Datepicker Plugin', () => {
 
     it('should have a date range input field if date range option is enabled', (done) => {
       const input = document.querySelector('#datepickerInput');
-      M.Datepicker.init(input, { isDateRange: true });
+      M.Datepicker.init(input, { isDateRange: true, openByDefault: true });
       setTimeout(() => {
         expect(document.querySelector('.datepicker-end-date')).toExist(
           'end date input should exist'
@@ -105,13 +105,13 @@ describe('Datepicker Plugin', () => {
 
     it('should have multiple input fields if multiple select option is enabled and multiple dates are selected', (done) => {
       const input = document.querySelector('#datepickerInput');
-      M.Datepicker.init(input, { isMultipleSelection: true });
+      M.Datepicker.init(input, { isMultipleSelection: true, openByDefault: true });
       const datepicker = M.Datepicker.getInstance(input);
       datepicker.open();
       setTimeout(() => {
-        for (let i = 1; i < 4; i++) {
+        for (let i = 1; i <= 3; i++) {
           setTimeout(() => {
-            document.querySelector(`.datepicker-modal button[data-day="${i}"]`).click();
+            document.querySelector(`.datepicker-container button[data-day="${i}"]`).click();
           }, i * 10);
         }
         setTimeout(() => {
