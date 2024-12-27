@@ -453,6 +453,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     }
 
     if (this.options.isDateRange) {
+      this.containerEl.classList.add('daterange');
       if (!this.options.dateRangeEndEl) {
         this.endDateEl = this.createDateInput();
         this.endDateEl.classList.add('datepicker-end-date');
