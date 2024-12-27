@@ -46,6 +46,11 @@
     vertical-align: middle;
   }
 
+  .select-year input,
+  .select-month input {
+    background-color: transparent;
+  }
+
   .select-year input {
     width: 50px;
   }
@@ -97,6 +102,12 @@
     font-size: 2.8rem;
     line-height: 47px;
     font-weight: 500;
+  }
+
+  .daterange & {
+    .date-text {
+      font-size: 1.8rem;
+    }
   }
 }
 
@@ -257,9 +268,9 @@
   .datepicker-table,
   .datepicker-footer {
     width: 320px;
-  }*/
+  }
 
   .datepicker-day-button {
     line-height: 44px;
-  }
+  }*/
 }
