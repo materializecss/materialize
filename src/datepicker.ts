@@ -643,7 +643,6 @@ export class Datepicker extends Component<DatepickerOptions> {
    * Sets given date as the input value on the given element.
    */
   setInputValue(el, date) {
-    console.log('setinputvalue');
     if (el.type == 'date') {
       this.setDataDate(el, date);
       el.value = this.formatDate(date, 'yyyy-mm-dd');
@@ -848,8 +847,21 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   renderDay(opts) {
-    const arr = ['datepicker-day'];
-    let ariaSelected = 'false';
+    const classMap = {
+        isDisabled: 'is-disabled',
+        isToday: 'is-today',
+        isSelected: 'is-selected',
+        hasEvent: 'has-event',
+        isInRange: 'is-inrange',
+        isStartRange: 'is-startrange',
+        isEndRange: 'is-endrange',
+        isDateRangeStart: 'is-daterange-start',
+        isDateRangeEnd: 'is-daterange-end',
+        isDateRange: 'is-daterange'
+      },
+      ariaSelected = !(['isSelected', 'isDateRange'].filter((prop) => !!(opts.hasOwnProperty(prop) && opts[prop] === true)).length === 0),
+      arr = ['datepicker-day'];
+
     if (opts.isEmpty) {
       if (opts.showDaysInNextAndPreviousMonths) {
         arr.push('is-outside-current-month');
@@ -859,52 +871,12 @@ export class Datepicker extends Component<DatepickerOptions> {
       }
     }
 
-    // @todo wouldn't it be better defining opts class mapping and looping trough opts?
-    if (opts.isDisabled) {
-      arr.push('is-disabled');
+    for (const [property, className] of Object.entries(classMap)) {
+      if (opts.hasOwnProperty(property) && opts[property]) {
+        arr.push(className);
+      }
     }
 
-    if (opts.isToday) {
-      arr.push('is-today');
-    }
-
-    if (opts.isSelected) {
-      arr.push('is-selected');
-      ariaSelected = 'true';
-    }
-
-    // @todo should we create this additional css class?
-    if (opts.hasEvent) {
-      arr.push('has-event');
-    }
-
-    // @todo create additional css class
-    if (opts.isInRange) {
-      arr.push('is-inrange');
-      ariaSelected = 'true';
-    }
-
-    // @todo should we create this additional css class?
-    if (opts.isStartRange) {
-      arr.push('is-startrange');
-    }
-
-    // @todo should we create this additional css class?
-    if (opts.isEndRange) {
-      arr.push('is-endrange');
-    }
-
-    if (opts.isDateRangeStart) {
-      arr.push('is-daterange-start');
-    }
-
-    if (opts.isDateRangeEnd) {
-      arr.push('is-daterange-end');
-    }
-
-    if (opts.isDateRange) {
-      arr.push('is-daterange');
-    }
     return (
       `<td data-day="${opts.day}" class="${arr.join(' ')}" aria-selected="${ariaSelected}">` +
       `<button class="datepicker-day-button" type="button" data-year="${opts.year}" data-month="${opts.month}" data-day="${opts.day}">${opts.day}</button>` +
