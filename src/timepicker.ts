@@ -236,13 +236,13 @@ export class Timepicker extends Component<TimepickerOptions> {
   }
 
   _handleInputClick = () => {
-    this.open();
+    this.inputHours.focus();
   };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
     if (Utils.keys.ENTER.includes(e.key)) {
       e.preventDefault();
-      this.open();
+      this.inputHours.focus();
     }
   };
 
@@ -296,9 +296,10 @@ export class Timepicker extends Component<TimepickerOptions> {
     }
 
     if (this.currentView === 'hours') {
+      this.inputMinutes.focus();
       this.showView('minutes', this.options.duration / 2);
     } else {
-      this.minutesView.classList.add('timepicker-dial-out');
+      // this.minutesView.classList.add('timepicker-dial-out');
       setTimeout(() => {
         this.done();
       }, this.options.duration / 2);
@@ -381,6 +382,8 @@ export class Timepicker extends Component<TimepickerOptions> {
     doneButton.classList.add('timepicker-close');
     //doneButton.addEventListener('click', this._finishSelection);
     confirmationBtnsContainer.appendChild(doneButton);
+    this._updateTimeFromInput();
+    this.showView('hours');
   }
 
   _clockSetup() {
@@ -726,8 +729,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.inputHours.value = (this.hours % (this.options.twelveHour ? 12 : 24)).toString();
   }
 
-  // todo: remove e
-  done = (e = null, clearValue = null) => {
+  done = (clearValue = null) => {
     // Set input value
     const last = this.el.value;
     let value = clearValue
@@ -744,18 +746,14 @@ export class Timepicker extends Component<TimepickerOptions> {
         new Event('change', { bubbles: true, cancelable: true, composed: true })
       );
     }
-    //this.el.focus();
-    return e; // just for passing linter, can be removed
   };
 
   clear = () => {
-    this.done(null, true);
+    this.done(true);
   };
 
   // deprecated
   open() {
-    // this._updateTimeFromInput();
-    // this.showView('hours');
     console.warn(
       'Timepicker.close() is deprecated. Remove this method and wrap in modal yourself.'
     );
@@ -777,7 +775,7 @@ export class Timepicker extends Component<TimepickerOptions> {
             <div class="timepicker-text-container">
               <div class="timepicker-display-column">
                 <div class="timepicker-input-hours-wrapper">
-                  <input type="text" maxlength="2" autofocus class="timepicker-input-hours text-primary" />
+                  <input type="text" maxlength="2" class="timepicker-input-hours text-primary" />
                 </div>
                 <div class="timepicker-input-divider-wrapper">
                   <span class="timepicker-input-divider">:</span>
