@@ -16,7 +16,6 @@
   color:  var(--md-sys-color-on-primary);
 }
 
-
 /* Clock Digital Display */
 .timepicker-digital-display {
   width: auto;
@@ -27,13 +26,14 @@
 }
 
 .timepicker-text-container {
+  display: flex;
   font-size: 4rem;
   text-align: left;
   color: var(--font-on-primary-color-medium);
   font-weight: 400;
-  position: relative;
+  /*position: relative;*/
   user-select: none;
-  padding: 1rem 1rem 1.5rem 1rem;
+  padding: 1rem 1rem 1.3rem 1rem;
 
   input[type=text]{
     height: 4rem;
@@ -48,10 +48,15 @@
   display: inline-flex;
 }
 
+.timepicker-display-digital-clock {
+  flex-grow: 1;
+  display: inline-flex;
+}
+
 .timepicker-input-hours-wrapper,
 .timepicker-input-minutes-wrapper {
   width: 6.9rem;
-  height: 5.2rem;
+  height: 5.75rem;
 }
 
 .timepicker-input-hours,
@@ -79,14 +84,14 @@ input[type=text].text-primary {
 
 .timepicker-display-am-pm {
   font-size: 1.3rem;
-  position: absolute;
+  /*position: absolute;
   top: 1rem;
-  right: 1rem;
+  right: 1rem;*/
   font-weight: 400;
 }
 
 .timepicker-span-am-pm {
-  height: 5.2rem;
+  height: 5.75rem;
   max-width: 3.5rem;
 }
 
@@ -94,8 +99,8 @@ input[type=text].text-primary {
 .timepicker-container .pm-btn {
   width: 3.6rem;
   height: 50%;
-  padding-left: calc(var(--btn-padding) / 1.6);
-  padding-right: calc(var(--btn-padding) / 1.6);
+  padding-left: calc(var(--btn-padding) / 1.8);
+  padding-right: calc(var(--btn-padding) / 1.8);
   line-height: 2rem;
   vertical-align: middle;
   text-align: center;
@@ -128,7 +133,7 @@ input[type=text].text-primary {
   height: 260px;
   overflow: visible;
   position: relative;
-  margin: 2rem 1.6rem 1.6rem 1.6rem;
+  margin: 0 1.6rem 1.6rem 1.6rem;
   user-select: none;
 }
 
@@ -240,32 +245,38 @@ input[type=text].text-primary {
   }
 
   .timepicker-text-container {
-    top: 31%;
+    /*top: 31%;*/
+    flex-direction: column;
+    margin-top: 4.8rem;
     text-align: center;
   }
 
   .timepicker-display-am-pm {
-    position: relative;
+    /*position: relative;
     top: auto;
     right: auto;
-    text-align: center;
-    margin-top: 1.2rem;
+    text-align: center;*/
+    margin-top: 1.1rem;
+    padding: 0 3%;
   }
 
   .timepicker-span-am-pm {
+    display: flex;
+    flex-grow: 1;
     max-width: unset;
   }
 
   .timepicker-container .am-btn,
   .timepicker-container .pm-btn {
-    width: auto;
-    padding-left: var(--btn-padding);
-    padding-right: var(--btn-padding);
+    flex-grow: 1;
+    /*width: auto;*/
+    padding-left: calc(var(--btn-padding) / .565);
+    padding-right: calc(var(--btn-padding) / .565);
     border-radius: var(--btn-border-radius);
     border: 1px solid var(--md-sys-color-outline);
-    line-height: inherit;
+    /*line-height: inherit;
     vertical-align: top;
-    text-align: inherit;
+    text-align: inherit;*/
   }
 
   .timepicker-container .am-btn {
@@ -277,5 +288,9 @@ input[type=text].text-primary {
     border-left: 0;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
+  }
+
+  .timepicker-plate {
+    margin-top: 1.6rem;
   }
 }
