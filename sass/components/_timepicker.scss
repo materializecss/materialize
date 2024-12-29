@@ -1,12 +1,14 @@
 /* Timepicker Containers */
-.timepicker-modal {
+/* container removed as of v2.2.1 */
+/* .timepicker-container {
   max-width: 325px;
   max-height: none;
-}
+}*/
 
-.timepicker-container.modal-content {
+.timepicker-container {
   display: flex;
   flex-direction: column;
+  max-width: 325px;
   padding: 0;
 }
 
@@ -88,8 +90,8 @@ input[type=text].text-primary {
   max-width: 3.5rem;
 }
 
-.timepicker-modal .am-btn,
-.timepicker-modal .pm-btn {
+.timepicker-container .am-btn,
+.timepicker-container .pm-btn {
   width: 3.6rem;
   height: 50%;
   padding-left: calc(var(--btn-padding) / 1.6);
@@ -101,12 +103,12 @@ input[type=text].text-primary {
   border: 1px solid var(--md-sys-color-outline);
 }
 
-.timepicker-modal .am-btn {
+.timepicker-container .am-btn {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.timepicker-modal .pm-btn {
+.timepicker-container .pm-btn {
   border-top: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -224,12 +226,12 @@ input[type=text].text-primary {
 
 /* Media Queries */
 @media #{$large-and-up} {
-  .timepicker-modal {
+  .timepicker-container {
     width: auto;
     max-width: 620px;
   }
 
-  .timepicker-container.modal-content {
+  .timepicker-container {
     flex-direction: row;
   }
 
@@ -254,8 +256,8 @@ input[type=text].text-primary {
     max-width: unset;
   }
 
-  .timepicker-modal .am-btn,
-  .timepicker-modal .pm-btn {
+  .timepicker-container .am-btn,
+  .timepicker-container .pm-btn {
     width: auto;
     padding-left: var(--btn-padding);
     padding-right: var(--btn-padding);
@@ -266,12 +268,12 @@ input[type=text].text-primary {
     text-align: inherit;
   }
 
-  .timepicker-modal .am-btn {
+  .timepicker-container .am-btn {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  .timepicker-modal .pm-btn {
+  .timepicker-container .pm-btn {
     border-left: 0;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;

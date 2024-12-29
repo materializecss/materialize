@@ -768,9 +768,7 @@ export class Timepicker extends Component<TimepickerOptions> {
   }
 
   static {
-    Timepicker._template = `
-      <div class="modal timepicker-modal">
-        <div class="modal-content timepicker-container">
+    Timepicker._template = `<div class="timepicker-container">
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
               <div class="timepicker-display-column">
@@ -797,7 +795,6 @@ export class Timepicker extends Component<TimepickerOptions> {
             </div>
             <div class="timepicker-footer"></div>
           </div>
-        </div>
-      </div>`;
+        </div>`;
   }
 }
