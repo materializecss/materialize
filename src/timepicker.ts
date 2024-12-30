@@ -41,6 +41,11 @@ export interface TimepickerOptions extends BaseOptions {
    */
   showClearBtn: boolean;
   /**
+   *  Autosubmit timepicker selection to input field
+   *  @default true
+   */
+  autoSubmit: true;
+  /**
    * Default time to set on the timepicker 'now' or '13:14'.
    * @default 'now';
    */
@@ -69,6 +74,11 @@ export interface TimepickerOptions extends BaseOptions {
    * @default null
    */
   onSelect: (hour: number, minute: number) => void;
+  /**
+   * Callback function for interaction with input field.
+   * @default null
+   */
+  onInputInteraction: (() => void) | null;
 }
 
 const _defaults: TimepickerOptions = {
@@ -81,6 +91,7 @@ const _defaults: TimepickerOptions = {
   defaultTime: 'now', // default time, 'now' or '13:14' e.g.
   fromNow: 0, // Millisecond offset from the defaultTime
   showClearBtn: false,
+  autoSubmit: true,
   // internationalization
   i18n: {
     cancel: 'Cancel',
@@ -90,7 +101,8 @@ const _defaults: TimepickerOptions = {
   twelveHour: true, // change to 12 hour AM/PM clock from 24 hour
   vibrate: true, // vibrate the device when dragging clock hand
   // Callbacks
-  onSelect: null
+  onSelect: null,
+  onInputInteraction: null
 };
 
 type Point = {
@@ -237,12 +249,14 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _handleInputClick = () => {
     this.inputHours.focus();
+    if (typeof this.options.onInputInteraction === 'function') this.options.onInputInteraction.call(this);
   };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
     if (Utils.keys.ENTER.includes(e.key)) {
       e.preventDefault();
       this.inputHours.focus();
+      if (typeof this.options.onInputInteraction === 'function') this.options.onInputInteraction.call(this);
     }
   };
 
@@ -301,7 +315,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     } else {
       // this.minutesView.classList.add('timepicker-dial-out');
       setTimeout(() => {
-        this.done();
+        if (this.options.autoSubmit) this.done();
       }, this.options.duration / 2);
     }
 
