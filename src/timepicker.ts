@@ -79,6 +79,16 @@ export interface TimepickerOptions extends BaseOptions {
    * @default null
    */
   onInputInteraction: (() => void) | null;
+  /**
+   * Callback function for done.
+   * @default null
+   */
+  onDone: (() => void) | null;
+  /**
+   * Callback function for cancel.
+   * @default null
+   */
+  onCancel: (() => void) | null;
 }
 
 const _defaults: TimepickerOptions = {
@@ -102,7 +112,9 @@ const _defaults: TimepickerOptions = {
   vibrate: true, // vibrate the device when dragging clock hand
   // Callbacks
   onSelect: null,
-  onInputInteraction: null
+  onInputInteraction: null,
+  onDone: null,
+  onCancel: null,
 };
 
 type Point = {
@@ -383,19 +395,21 @@ export class Timepicker extends Component<TimepickerOptions> {
     clearButton.addEventListener('click', this.clear);
     this.footer.appendChild(clearButton);
 
-    const confirmationBtnsContainer = document.createElement('div');
-    confirmationBtnsContainer.classList.add('confirmation-btns');
-    this.footer.append(confirmationBtnsContainer);
+    if (!this.options.autoSubmit) {
+      const confirmationBtnsContainer = document.createElement('div');
+      confirmationBtnsContainer.classList.add('confirmation-btns');
+      this.footer.append(confirmationBtnsContainer);
 
-    const cancelButton = this._createButton(this.options.i18n.cancel, '');
-    cancelButton.classList.add('timepicker-close');
-    cancelButton.addEventListener('click', this.close);
-    confirmationBtnsContainer.appendChild(cancelButton);
+      const cancelButton = this._createButton(this.options.i18n.cancel, '');
+      cancelButton.classList.add('timepicker-close');
+      cancelButton.addEventListener('click', this.close);
+      confirmationBtnsContainer.appendChild(cancelButton);
 
-    const doneButton = this._createButton(this.options.i18n.done, '');
-    doneButton.classList.add('timepicker-close');
-    //doneButton.addEventListener('click', this._finishSelection);
-    confirmationBtnsContainer.appendChild(doneButton);
+      const doneButton = this._createButton(this.options.i18n.done, '');
+      doneButton.classList.add('timepicker-close');
+      doneButton.addEventListener('click', this.done);
+      confirmationBtnsContainer.appendChild(doneButton);
+    }
     this._updateTimeFromInput();
     this.showView('hours');
   }
@@ -774,6 +788,20 @@ export class Timepicker extends Component<TimepickerOptions> {
       );
     }
   };
+
+  confirm = () => {
+    this.done();
+    if (typeof this.options.onDone === 'function') {
+      setTimeout(() => {
+        this.options.onDone.call(this);
+      }, this.options.duration / 2);
+    }
+  }
+
+  cancel = () => {
+    this.clear();
+    if (typeof this.options.onDone === 'function') this.options.onCancel.call(this);
+  }
 
   clear = () => {
     this.done(true);
