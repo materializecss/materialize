@@ -392,13 +392,17 @@ export class Timepicker extends Component<TimepickerOptions> {
       this._amBtn = document.createElement('div');
       this._amBtn.classList.add('am-btn', 'btn');
       this._amBtn.innerText = 'AM';
+      this._amBtn.tabIndex = 0;
       this._amBtn.addEventListener('click', this._handleAmPmClick);
+      this._amBtn.addEventListener('keypress', this._handleAmPmKeypress);
       this.spanAmPm.appendChild(this._amBtn);
       // PM Button
       this._pmBtn = document.createElement('div');
       this._pmBtn.classList.add('pm-btn', 'btn');
       this._pmBtn.innerText = 'PM';
+      this._pmBtn.tabIndex = 0;
       this._pmBtn.addEventListener('click', this._handleAmPmClick);
+      this._pmBtn.addEventListener('keypress', this._handleAmPmKeypress);
       this.spanAmPm.appendChild(this._pmBtn);
     }
     this._buildHoursView();
@@ -494,11 +498,20 @@ export class Timepicker extends Component<TimepickerOptions> {
     }
   }
 
-  _handleAmPmClick = (e) => {
-    const btnClicked = <HTMLElement>e.target;
-    this.amOrPm = btnClicked.classList.contains('am-btn') ? 'AM' : 'PM';
-    this._updateAmPmView();
+  _handleAmPmClick = (e: MouseEvent) => {
+    this._handleAmPmInteraction(<HTMLElement>e.target);
   };
+
+  _handleAmPmKeypress = (e: KeyboardEvent) => {
+    if (Utils.keys.ENTER.includes(e.key)) {
+      this._handleAmPmInteraction(<HTMLElement>e.target);
+    }
+  };
+
+  _handleAmPmInteraction = (e: HTMLElement) => {
+    this.amOrPm = e.classList.contains('am-btn') ? 'AM' : 'PM';
+    this._updateAmPmView();
+  }
 
   _updateAmPmView() {
     if (this.options.twelveHour) {
@@ -552,13 +565,13 @@ export class Timepicker extends Component<TimepickerOptions> {
       hideView = isHours ? this.minutesView : this.hoursView;
     this.currentView = view;
 
-    if (isHours) {
+    /*if (isHours) {
       this.inputHours.classList.add('text-primary');
       this.inputMinutes.classList.remove('text-primary');
     } else {
       this.inputHours.classList.remove('text-primary');
       this.inputMinutes.classList.add('text-primary');
-    }
+    }*/
 
     // Transition view
     hideView.classList.add('timepicker-dial-out');
@@ -771,7 +784,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     Timepicker._template = `<div class="timepicker-container">
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
-              <div class="timepicker-display-column">
+              <div class="timepicker-display-column timepicker-display-digital-clock">
                 <div class="timepicker-input-hours-wrapper">
                   <input type="text" maxlength="2" class="timepicker-input-hours text-primary" />
                 </div>

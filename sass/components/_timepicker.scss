@@ -1,6 +1,6 @@
 /* Timepicker Containers */
-/* container removed as of v2.2.1 */
-/* .timepicker-container {
+/* modal removed as of v2.2.1 */
+/* .timepicker-modal {
   max-width: 325px;
   max-height: none;
 }*/
@@ -10,6 +10,7 @@
   flex-direction: column;
   max-width: 325px;
   padding: 0;
+  background-color: var(--md-sys-color-inverse-on-surface);
 }
 
 .text-primary {
@@ -20,7 +21,7 @@
 .timepicker-digital-display {
   width: auto;
   flex: 1 auto;
-  background-color: var(--md-sys-color-primary);;
+  // background-color: var(--md-sys-color-surface);
   padding: 2rem .67rem .67rem .67rem;
   font-weight: 300;
 }
@@ -68,9 +69,15 @@
 input[type=text].timepicker-input-hours,
 input[type=text].timepicker-input-minutes {
   height: 100%;
-  padding: .8rem;
+  padding: 1.33rem .8rem;
   border: 0;
   text-align: center;
+  color: var(--md-sys-color-on-background);
+  background-color: var(--md-sys-color-surface-variant);
+
+  &:focus {
+    background-color: var(--md-sys-color-primary-container);
+  }
 }
 
 .timepicker-input-divider-wrapper {
@@ -78,9 +85,9 @@ input[type=text].timepicker-input-minutes {
   text-align: center;
 }
 
-input[type=text].text-primary {
+/*input[type=text].text-primary {
   color: var(--md-sys-color-on-background);
-}
+}*/
 
 .timepicker-display-am-pm {
   font-size: 1.3rem;
@@ -104,7 +111,7 @@ input[type=text].text-primary {
   line-height: 2rem;
   vertical-align: middle;
   text-align: center;
-  background-color: transparent;
+  // background-color: transparent;
   border: 1px solid var(--md-sys-color-outline);
 }
 
@@ -123,11 +130,11 @@ input[type=text].text-primary {
 .timepicker-analog-display {
   flex: 2.5 auto;
   padding: .67rem;
-  background-color: var(--md-sys-color-surface);
+  // background-color: var(--md-sys-color-surface);
 }
 
 .timepicker-plate {
-  background-color: rgba(0, 0, 0, 0.09);
+  background-color: var(--md-sys-color-surface-variant);
   border-radius: 50%;
   width: 260px;
   height: 260px;
@@ -251,13 +258,16 @@ input[type=text].text-primary {
     text-align: center;
   }
 
+  .timepicker-display-column {
+    padding: 0 3%;
+  }
+
   .timepicker-display-am-pm {
     /*position: relative;
     top: auto;
     right: auto;
     text-align: center;*/
     margin-top: 1.1rem;
-    padding: 0 3%;
   }
 
   .timepicker-span-am-pm {
