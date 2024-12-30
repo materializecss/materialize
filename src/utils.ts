@@ -283,4 +283,46 @@ export class Utils {
       return result;
     };
   }
+
+  /**
+   * Renders confirm/close buttons with callback function
+   */
+  static createConfirmationContainer(
+    container: HTMLElement,
+    confirmText: string,
+    cancelText: string,
+    onConfirm: (Function: object) => void,
+    onCancel: (Function: object) => void
+  ): void {
+    const confirmationButtonsContainer = document.createElement('div');
+    confirmationButtonsContainer.classList.add('confirmation-btns');
+    container.append(confirmationButtonsContainer);
+
+    this.createButton(confirmationButtonsContainer, cancelText, ['btn-cancel'], true, onCancel);
+    this.createButton(confirmationButtonsContainer, confirmText, ['btn-confirm'], true, onConfirm);
+  }
+
+  /**
+   * Renders a button with optional callback function
+   */
+  static createButton(
+    container: HTMLElement,
+    text: string,
+    className: string[] = [],
+    visibility: boolean = true,
+    callback: (Function: object) => void = null
+  ): void {
+    className = className.concat(['btn', 'waves-effect', 'text']);
+    const button = document.createElement('button');
+    button.className = className.join(' ');
+    button.style.visibility = visibility ? 'visible' : 'hidden';
+    button.type = 'button';
+    button.tabIndex = !!visibility ? 0 : -1;
+    button.innerText = text;
+    button.addEventListener('click', callback);
+    button.addEventListener('keypress', (e) => {
+      if (Utils.keys.ENTER.includes(e.key)) callback(e);
+    });
+    container.append(button);
+  }
 }
