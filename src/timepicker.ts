@@ -398,6 +398,7 @@ export class Timepicker extends Component<TimepickerOptions> {
       this.clear
     );
 
+    if (!this.options.autoSubmit) {
     /*const confirmationBtnsContainer = document.createElement('div');
     confirmationBtnsContainer.classList.add('confirmation-btns');
     this.footer.append(confirmationBtnsContainer);
@@ -411,7 +412,14 @@ export class Timepicker extends Component<TimepickerOptions> {
     doneButton.classList.add('timepicker-close');
     //doneButton.addEventListener('click', this._finishSelection);
     confirmationBtnsContainer.appendChild(doneButton);*/
-    Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this.confirm, this.cancel);
+      Utils.createConfirmationContainer(
+        this.footer,
+        this.options.i18n.done,
+        this.options.i18n.cancel,
+        this.confirm,
+        this.cancel
+      );
+    }
 
     this._updateTimeFromInput();
     this.showView('hours');
@@ -794,16 +802,12 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   confirm = () => {
     this.done();
-    if (typeof this.options.onDone === 'function') {
-      setTimeout(() => {
-        this.options.onDone.call(this);
-      }, this.options.duration / 2);
-    }
+    if (typeof this.options.onDone === 'function') this.options.onDone.call(this);
   }
 
   cancel = () => {
     this.clear();
-    if (typeof this.options.onDone === 'function') this.options.onCancel.call(this);
+    if (typeof this.options.onCancel === 'function') this.options.onCancel.call(this);
   }
 
   clear = () => {
