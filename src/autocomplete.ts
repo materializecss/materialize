@@ -66,6 +66,10 @@ export interface AutocompleteOptions extends BaseOptions {
    * @default {}
    */
   dropdownOptions: Partial<DropdownOptions>;
+  /**
+   * Predefined selected values
+   */
+  selected: number[];
 }
 
 const _defaults: AutocompleteOptions = {
@@ -90,7 +94,8 @@ const _defaults: AutocompleteOptions = {
     );
   },
   maxDropDownHeight: '300px',
-  allowUnsafeHTML: false
+  allowUnsafeHTML: false,
+  selected: []
 };
 
 export class Autocomplete extends Component<AutocompleteOptions> {
@@ -124,7 +129,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.count = 0;
     this.activeIndex = -1;
     this.oldVal = '';
-    this.selectedValues = [];
+    this.selectedValues = this.selectedValues || this.options.selected.map((value) => <AutocompleteData>{ id: value }) || [];
     this.menuItems = this.options.data || [];
     this.$active = null;
     this._mousedown = false;
@@ -378,6 +383,9 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       'display:grid; grid-auto-flow: column; user-select: none; align-items: center;'
     );
     // Checkbox
+    if(!this.options.isMultiSelect && this.options.selected) {
+      this.selectOption(this.selectedValues.map((value) => value.id)[0]);
+    }
     if (this.options.isMultiSelect) {
       item.innerHTML = `
         <div class="item-selection" style="text-align:center;">
