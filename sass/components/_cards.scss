@@ -171,11 +171,13 @@
       border-radius: 0 0 2px 2px;
     }
 
-    border-top: 1px solid var(--md-sys-color-outline-variant);
-    position: relative;
-    background-color: inherit;
+    // position: relative;
+    padding: 0 1.6rem;
+    // border-top: 1px solid var(--md-sys-color-outline-variant);
+    // background-color: inherit;
 
-    a {
+    // Replaced card links with buttons (Accessibility, @see https://github.com/materializecss/materialize/issues/565)
+    /*a {
       padding: 16px 24px;
       display: inline-block;
     }
@@ -186,6 +188,33 @@
 
       &:hover {
         background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
+      }
+    }*/
+
+    a {
+      @include btn(
+          var(--btn-height),
+          var(--btn-border-radius),
+          var(--btn-padding),
+          var(--btn-padding),
+          var(--btn-font-size)
+      );
+
+      &:first-child {
+        margin-left: -1.6rem;
+      }
+
+      &:last-child {
+        margin-right: -1.6rem;
+      }
+    }
+
+    .btn {
+      &.filled,
+      &.tonal,
+      &.elevated,
+      &.outlined {
+        margin: 0 .26rem 1.6rem 0;
       }
     }
   }
