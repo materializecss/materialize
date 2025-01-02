@@ -263,5 +263,41 @@ describe('Autocomplete Plugin', () => {
         done();
       }, 10);
     });
+
+    it('selected options should preselect option in single select', (done) => {
+      const normal = document.querySelector('#normal-autocomplete');
+      M.Autocomplete.getInstance(normal).destroy();
+      M.Autocomplete.init(normal, {
+        data: [{ id: 'Value A', text: 'Text 1' }, { id: 'Value B', text: 'Text 2' }],
+        selected: ['Value B'],
+      });
+
+      setTimeout(() => {
+        expect(normal.value)
+          .withContext('Value should equal chosen option.')
+          .toBe('Text 2');
+        done();
+      }, 10);
+    });
+
+    it('selected options should preselect options in multi select', (done) => {
+      const normal = document.querySelector('#normal-autocomplete');
+      M.Autocomplete.getInstance(normal).destroy();
+      M.Autocomplete.init(normal, {
+        data: [{ id: 'Value A', text: 'Text 1' }, { id: 'Value B', text: 'Text 2' }, { id: 'Value C', text: 'Text 3' }],
+        selected: ['Value A', 'Value B']
+      });
+      const instance = M.Autocomplete.getInstance(normal);
+
+      setTimeout(() => {
+        const dropdownAutocompleteIds = Array.from(instance.selectedValues).map(
+          (selectedValue) => selectedValue.id
+        );
+        expect(dropdownAutocompleteIds)
+          .withContext('Value should equal chosen option.')
+          .toBe(['Value A', 'Value B']);
+        done();
+      }, 10);
+    });
   });
 });
