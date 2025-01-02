@@ -1,4 +1,4 @@
-.btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
+:root {
   --btn-height: 40px;
   --btn-font-size-icon: 16px;
   --btn-padding: 24px;
@@ -6,7 +6,9 @@
   --btn-gap-icon: 8px;
   --btn-border-radius: 4px;
   --btn-font-size: 14px;
+}
 
+.btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
   @include btn(
       var(--btn-height),
       var(--btn-border-radius),
