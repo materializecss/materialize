@@ -247,6 +247,10 @@ export class Autocomplete extends Component<AutocompleteOptions> {
 
     // Sketchy removal of dropdown click handler
     this.el.removeEventListener('click', this.dropdown._handleClick);
+    if(!this.options.isMultiSelect && !(this.options.selected.length === 0)) {
+      const selectedValue = this.menuItems.filter((value) => value.id === this.selectedValues[0].id);
+      this.el.value = selectedValue[0].text;
+    }
     // Set Value if already set in HTML
     if (this.el.value) this.selectOption(this.el.value);
     // Add StatusInfo
@@ -383,9 +387,6 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       'display:grid; grid-auto-flow: column; user-select: none; align-items: center;'
     );
     // Checkbox
-    if(!this.options.isMultiSelect && this.options.selected) {
-      this.selectOption(this.selectedValues.map((value) => value.id)[0]);
-    }
     if (this.options.isMultiSelect) {
       item.innerHTML = `
         <div class="item-selection" style="text-align:center;">
