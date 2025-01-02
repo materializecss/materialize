@@ -295,7 +295,7 @@ describe('Autocomplete Plugin', () => {
         );
         expect(dropdownAutocompleteIds)
           .withContext('Value should equal chosen option.')
-          .toBe(['Value A', 'Value B']);
+          .toEqual(['Value A', 'Value B']);
         done();
       }, 10);
     });
