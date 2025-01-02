@@ -69,7 +69,7 @@ export interface AutocompleteOptions extends BaseOptions {
   /**
    * Predefined selected values
    */
-  selected: number[];
+  selected: number[] | string[];
 }
 
 const _defaults: AutocompleteOptions = {
