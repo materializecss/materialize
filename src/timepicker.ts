@@ -125,7 +125,7 @@ type Point = {
 export class Timepicker extends Component<TimepickerOptions> {
   declare el: HTMLInputElement;
   id: string;
-  modalEl: HTMLElement;
+  containerEl: HTMLElement;
   plate: HTMLElement;
   digitalClock: HTMLElement;
   inputHours: HTMLInputElement;
@@ -238,7 +238,7 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   destroy() {
     this._removeEventHandlers();
-    this.modalEl.remove();
+    this.containerEl.remove();
     this.el['M_Timepicker'] = undefined;
   }
 
@@ -343,17 +343,17 @@ export class Timepicker extends Component<TimepickerOptions> {
     const template = document.createElement('template');
     template.innerHTML = Timepicker._template.trim();
 
-    this.modalEl = <HTMLElement>template.content.firstChild;
-    this.modalEl.id = 'modal-' + this.id;
+    this.containerEl = <HTMLElement>template.content.firstChild;
+    this.containerEl.id = 'modal-' + this.id;
 
     // Append popover to input by default
     const optEl = this.options.container;
     const containerEl = optEl instanceof HTMLElement ? optEl : document.querySelector(optEl);
 
     if (this.options.container && !!containerEl) {
-      containerEl.append(this.modalEl);
+      containerEl.append(this.containerEl);
     } else {
-      this.el.parentElement.appendChild(this.modalEl);
+      this.el.parentElement.appendChild(this.containerEl);
     }
   }
 
@@ -364,15 +364,15 @@ export class Timepicker extends Component<TimepickerOptions> {
       : navigator['webkitVibrate']
         ? 'webkitVibrate'
         : null;
-    this._canvas = this.modalEl.querySelector('.timepicker-canvas');
-    this.plate = this.modalEl.querySelector('.timepicker-plate');
-    this.digitalClock = this.modalEl.querySelector('.timepicker-display-column');
-    this.hoursView = this.modalEl.querySelector('.timepicker-hours');
-    this.minutesView = this.modalEl.querySelector('.timepicker-minutes');
-    this.inputHours = this.modalEl.querySelector('.timepicker-input-hours');
-    this.inputMinutes = this.modalEl.querySelector('.timepicker-input-minutes');
-    this.spanAmPm = this.modalEl.querySelector('.timepicker-span-am-pm');
-    this.footer = this.modalEl.querySelector('.timepicker-footer');
+    this._canvas = this.containerEl.querySelector('.timepicker-canvas');
+    this.plate = this.containerEl.querySelector('.timepicker-plate');
+    this.digitalClock = this.containerEl.querySelector('.timepicker-display-column');
+    this.hoursView = this.containerEl.querySelector('.timepicker-hours');
+    this.minutesView = this.containerEl.querySelector('.timepicker-minutes');
+    this.inputHours = this.containerEl.querySelector('.timepicker-input-hours');
+    this.inputMinutes = this.containerEl.querySelector('.timepicker-input-minutes');
+    this.spanAmPm = this.containerEl.querySelector('.timepicker-span-am-pm');
+    this.footer = this.containerEl.querySelector('.timepicker-footer');
     this.amOrPm = 'PM';
   }
 
