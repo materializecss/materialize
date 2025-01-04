@@ -552,16 +552,18 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     const entry = this.menuItems.find((item) => item.id == id);
     if (!entry) return;
     // Toggle Checkbox
-    const li = this.container.querySelector('li[data-id="' + id + '"]');
-    if (!li) return;
+    /* const li = this.container.querySelector('li[data-id="' + id + '"]');
+    if (!li) return;*/
     if (this.options.isMultiSelect) {
-      const checkbox = <HTMLInputElement | null>li.querySelector('input[type="checkbox"]');
+      /* const checkbox = <HTMLInputElement | null>li.querySelector('input[type="checkbox"]');
       checkbox.checked = !checkbox.checked;
       if (checkbox.checked) this.selectedValues.push(entry);
       else
         this.selectedValues = this.selectedValues.filter(
           (selectedEntry) => selectedEntry.id !== entry.id
-        );
+        );*/
+      this.selectedValues.push(entry);
+      this._renderDropdown();
       this.el.focus();
     } else {
       // Single-Select
