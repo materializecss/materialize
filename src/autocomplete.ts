@@ -556,13 +556,13 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     if (!li) return;*/
     if (this.options.isMultiSelect) {
       /* const checkbox = <HTMLInputElement | null>li.querySelector('input[type="checkbox"]');
-      checkbox.checked = !checkbox.checked;
-      if (checkbox.checked) this.selectedValues.push(entry);
-      else
-        this.selectedValues = this.selectedValues.filter(
-          (selectedEntry) => selectedEntry.id !== entry.id
-        );*/
-      this.selectedValues.push(entry);
+      checkbox.checked = !checkbox.checked;*/
+      if (!(this.selectedValues.filter(
+        (selectedEntry) => selectedEntry.id === entry.id
+      ).length >= 1)) this.selectedValues.push(entry);
+      else this.selectedValues = this.selectedValues.filter(
+        (selectedEntry) => selectedEntry.id !== entry.id
+      );
       this._renderDropdown();
       this.el.focus();
     } else {
