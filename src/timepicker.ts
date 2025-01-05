@@ -344,7 +344,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     template.innerHTML = Timepicker._template.trim();
 
     this.containerEl = <HTMLElement>template.content.firstChild;
-    this.containerEl.id = 'modal-' + this.id;
+    this.containerEl.id = 'container-' + this.id;
 
     // Append popover to input by default
     const optEl = this.options.container;
