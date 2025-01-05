@@ -283,4 +283,84 @@ export class Utils {
       return result;
     };
   }
+
+  static _setAbsolutePosition(
+    origin: HTMLElement,
+    container: HTMLElement,
+    position: string,
+    margin: number,
+    transitionMovement: number
+  ) {
+    const originHeight = origin.offsetHeight,
+      originWidth = origin.offsetWidth,
+      containerHeight = container.offsetHeight,
+      containerWidth = container.offsetWidth;
+    let xMovement = 0,
+      yMovement = 0,
+      targetTop = origin.getBoundingClientRect().top + Utils.getDocumentScrollTop(),
+      targetLeft = origin.getBoundingClientRect().left + Utils.getDocumentScrollLeft();
+
+    if (position === 'top') {
+      targetTop += -containerHeight - margin;
+      targetLeft += originWidth / 2 - containerWidth / 2;
+      yMovement = -transitionMovement;
+    } else if (position === 'right') {
+      targetTop += originHeight / 2 - containerHeight / 2;
+      targetLeft += originWidth + margin;
+      xMovement = transitionMovement;
+    } else if (position === 'left') {
+      targetTop += originHeight / 2 - containerHeight / 2;
+      targetLeft += -containerWidth - margin;
+      xMovement = -transitionMovement;
+    } else {
+      targetTop += originHeight + margin;
+      targetLeft += originWidth / 2 - containerWidth / 2;
+      yMovement = transitionMovement;
+    }
+
+    const newCoordinates = Utils._repositionWithinScreen(
+      targetLeft,
+      targetTop,
+      containerWidth,
+      containerHeight,
+      margin,
+      transitionMovement
+    );
+
+    container.style.top = newCoordinates.y + 'px';
+    container.style.left = newCoordinates.x + 'px';
+
+    return {x: xMovement, y: yMovement};
+  }
+
+  static _repositionWithinScreen(x: number, y: number, width: number, height: number, margin: number, transitionMovement: number) {
+    const scrollLeft = Utils.getDocumentScrollLeft();
+    const scrollTop = Utils.getDocumentScrollTop();
+    let newX = x - scrollLeft;
+    let newY = y - scrollTop;
+
+    const bounding: Bounding = {
+      left: newX,
+      top: newY,
+      width: width,
+      height: height
+    };
+    const offset = margin + transitionMovement;
+    const edges = Utils.checkWithinContainer(document.body, bounding, offset);
+
+    if (edges.left) {
+      newX = offset;
+    } else if (edges.right) {
+      newX -= newX + width - window.innerWidth;
+    }
+    if (edges.top) {
+      newY = offset;
+    } else if (edges.bottom) {
+      newY -= newY + height - window.innerHeight;
+    }
+    return {
+      x: newX + scrollLeft,
+      y: newY + scrollTop
+    };
+  }
 }
