@@ -263,9 +263,10 @@ describe('Autocomplete Plugin', () => {
         done();
       }, 10);
     });
+
     it('setOptions should select multiple options', (done) => {
       const normal = document.querySelector('#normal-autocomplete');
-      const autocompleteInstance = resetAutocomplete(normal, [
+      resetAutocomplete(normal, [
         { id: 1, text: 'Value A' },
         { id: 2, text: 'Value B' },
         { id: 3, text: 'Value C' }
