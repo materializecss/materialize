@@ -524,6 +524,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
 
   /**
    * Sets selected values.
+   * @deprecated @see https://github.com/materializecss/materialize/issues/552
    * @param entries
    */
   setValues(entries: AutocompleteData[]) {
@@ -563,5 +564,14 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     }
     this._updateSelectedInfo();
     this._triggerChanged();
+  }
+
+  selectOptions(ids: []) {
+    const entries = this.menuItems.filter(
+      (item) => !(ids.indexOf(<never>item.id) === -1)
+    );
+    if (!entries) return;
+    this.selectedValues = entries;
+    this._renderDropdown();
   }
 }
