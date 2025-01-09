@@ -34,6 +34,7 @@
       this.options = $.extend({}, FormSelect.defaults, options);
 
       this.isMultiple = this.$el.prop('multiple');
+      this.nativeTabIndex = this.el.tabIndex;
 
       // Setup
       this.el.tabIndex = -1;
@@ -228,6 +229,7 @@
       if (this.el.disabled) {
         $(this.input).prop('disabled', 'true');
       }
+      this.input.setAttribute('tabindex', this.nativeTabIndex);
 
       $(this.wrapper).prepend(this.input);
       this._setValueToInput();
