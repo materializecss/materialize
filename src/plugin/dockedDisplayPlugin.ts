@@ -12,13 +12,18 @@ export interface DockedDisplayPluginOptions {
   /**
    * Transition duration
    */
-  duration: number
+  duration: number,
+  /**
+   * The alignment of the docked container
+   */
+  align: string
 }
 
 const _defaults: DockedDisplayPluginOptions = {
   margin: 5,
   transition: 10,
-  duration: 250
+  duration: 250,
+  align: 'left'
 }
 
 export class DockedDisplayPlugin {
@@ -59,10 +64,11 @@ export class DockedDisplayPlugin {
   show = () => {
     if (this.visible) return;
     this.visible = true;
-    const coordinates = Utils._setAbsolutePosition(this.el, this.container, 'bottom', this.options.margin, this.options.transition);
-    this.container.style.left = '16px';
+    const coordinates = Utils._setAbsolutePosition(this.el, this.container, 'bottom', this.options.margin, this.options.transition, this.options.align);
+
     // @todo move to Util? -> duplicate code fragment with tooltip
     // easeOutCubic
+    this.container.style.visibility = 'visible';
     this.container.style.transition = `
       transform ${this.options.duration}ms ease-out,
       opacity ${this.options.duration}ms ease-out`;
@@ -76,6 +82,7 @@ export class DockedDisplayPlugin {
     if (!this.visible) return;
     this.visible = false;
     // @todo move to Util? -> duplicate code fragment with tooltip
+    this.container.removeAttribute('style');
     this.container.style.transition = `
       transform ${this.options.duration}ms ease-out,
       opacity ${this.options.duration}ms ease-out`;
