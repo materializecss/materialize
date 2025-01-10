@@ -289,7 +289,8 @@ export class Utils {
     container: HTMLElement,
     position: string,
     margin: number,
-    transitionMovement: number
+    transitionMovement: number,
+    align: string = 'center'
   ) {
     const originHeight = origin.offsetHeight,
       originWidth = origin.offsetWidth,
@@ -302,20 +303,27 @@ export class Utils {
 
     if (position === 'top') {
       targetTop += -containerHeight - margin;
-      targetLeft += originWidth / 2 - containerWidth / 2;
+      if (align === 'center') {
+        targetLeft += originWidth / 2 - containerWidth / 2; // This is center align
+      }
       yMovement = -transitionMovement;
     } else if (position === 'right') {
       targetTop += originHeight / 2 - containerHeight / 2;
-      targetLeft += originWidth + margin;
+      targetLeft = originWidth + margin;
       xMovement = transitionMovement;
     } else if (position === 'left') {
       targetTop += originHeight / 2 - containerHeight / 2;
-      targetLeft += -containerWidth - margin;
+      targetLeft = -containerWidth - margin;
       xMovement = -transitionMovement;
     } else {
       targetTop += originHeight + margin;
-      targetLeft += originWidth / 2 - containerWidth / 2;
+      if (align === 'center') {
+        targetLeft += originWidth / 2 - containerWidth / 2; // This is center align
+      }
       yMovement = transitionMovement;
+    }
+    if (align === 'right') {
+      targetLeft += originWidth - containerWidth - margin;
     }
 
     const newCoordinates = Utils._repositionWithinScreen(
@@ -324,7 +332,8 @@ export class Utils {
       containerWidth,
       containerHeight,
       margin,
-      transitionMovement
+      transitionMovement,
+      align
     );
 
     container.style.top = newCoordinates.y + 'px';
@@ -333,7 +342,15 @@ export class Utils {
     return {x: xMovement, y: yMovement};
   }
 
-  static _repositionWithinScreen(x: number, y: number, width: number, height: number, margin: number, transitionMovement: number) {
+  static _repositionWithinScreen(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    margin: number,
+    transitionMovement: number,
+    align: string
+  ) {
     const scrollLeft = Utils.getDocumentScrollLeft();
     const scrollTop = Utils.getDocumentScrollTop();
     let newX = x - scrollLeft;
@@ -345,7 +362,12 @@ export class Utils {
       width: width,
       height: height
     };
-    const offset = margin + transitionMovement;
+    let offset: number;
+    if (align === 'left' || align == 'center') {
+      offset = margin + transitionMovement;
+    } else if (align === 'right') {
+      offset = margin - transitionMovement;
+    }
     const edges = Utils.checkWithinContainer(document.body, bounding, offset);
 
     if (edges.left) {
