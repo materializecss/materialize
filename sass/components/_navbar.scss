@@ -138,11 +138,11 @@
         cursor: pointer;
 
         &.active {
-          background-color: var(--md-ref-palette-primary80);
+          background-color: var(--md-sys-color-primary-container-dark);
         }
 
         &:hover:not(.active) {
-          background-color: var(--md-ref-palette-primary70);
+          background-color: var(--md-sys-color-on-primary-dark);
         }
 
         &.btn, &.btn-large, &.btn-flat, &.btn-floating {
