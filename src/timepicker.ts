@@ -1,5 +1,6 @@
 import { Utils } from './utils';
 import { Component, BaseOptions, InitElements, MElement, I18nOptions } from './component';
+import { DockedDisplayPlugin } from './plugin/dockedDisplayPlugin';
 
 export type Views = 'hours' | 'minutes';
 
@@ -69,6 +70,14 @@ export interface TimepickerOptions extends BaseOptions {
    * @default null
    */
   onSelect: (hour: number, minute: number) => void;
+  /**
+   * Display plugin
+   */
+  displayPlugin: string;
+  /**
+   * Configurable display plugin options
+   */
+  displayPluginOptions: object;
 }
 
 const _defaults: TimepickerOptions = {
@@ -90,7 +99,9 @@ const _defaults: TimepickerOptions = {
   twelveHour: true, // change to 12 hour AM/PM clock from 24 hour
   vibrate: true, // vibrate the device when dragging clock hand
   // Callbacks
-  onSelect: null
+  onSelect: null,
+  displayPlugin: null,
+  displayPluginOptions: null,
 };
 
 type Point = {
@@ -141,6 +152,7 @@ export class Timepicker extends Component<TimepickerOptions> {
   g: Element;
   toggleViewTimer: string | number | NodeJS.Timeout;
   vibrateTimer: NodeJS.Timeout | number;
+  private displayPlugin: DockedDisplayPlugin;
 
   constructor(el: HTMLInputElement, options: Partial<TimepickerOptions>) {
     super(el, options, Timepicker);
@@ -155,6 +167,11 @@ export class Timepicker extends Component<TimepickerOptions> {
     this._setupEventHandlers();
     this._clockSetup();
     this._pickerSetup();
+
+    if (this.options.displayPlugin) {
+      // @todo eventually change modalEl to containerEl when https://github.com/materializecss/materialize/issues/558 is merged
+      if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.modalEl, this.options.displayPluginOptions);
+    }
   }
 
   static get defaults(): TimepickerOptions {
@@ -236,13 +253,13 @@ export class Timepicker extends Component<TimepickerOptions> {
   }
 
   _handleInputClick = () => {
-    this.open();
+    if (this.displayPlugin) this.displayPlugin.show();
   };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
     if (Utils.keys.ENTER.includes(e.key)) {
       e.preventDefault();
-      this.open();
+      if (this.displayPlugin) this.displayPlugin.show();
     }
   };
 
