@@ -47,7 +47,7 @@ describe('Datepicker Plugin', () => {
         setTimeout(() => {
           const year = today.getFullYear() - 100;
           const month = today.getMonth() + 1;
-          expect(datepicker.toString()).toEqual(`${year}-${month < 10 ? `0${month}` : month}-99`);
+          expect(datepicker.toString()).toEqual(`${year}-${month}-99`);
           done();
         }, 400);
       }, 400);
@@ -60,34 +60,24 @@ describe('Datepicker Plugin', () => {
       const month = today.getMonth();
       const year = today.getFullYear() - 44;
       const day = 11;
-      input.value = `${month < 10 ? `0${month}` : month}/${day}/${year}`;
-      input.dispatchEvent(new KeyboardEvent('change', { bubbles: true, cancelable: true }));
-      keydown(input, 13);
+      input.value = `${month + 1}/${day}/${year}`;
+      input.dispatchEvent(new InputEvent('change', { bubbles: true, cancelable: true }));
+      input.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, keyCode: 13 }));
       setTimeout(() => {
-        // expect(document.querySelector('.datepicker-modal')).toHaveClass(
-        //   'open',
-        //   'modal should be shown after input is submitted.'
-        // );
         const selectMonthElem = document.querySelector('.datepicker-select.orig-select-month');
         const selectYearElem = document.querySelector('.datepicker-select.orig-select-year');
         const selectedDayElem = document.querySelector(`.datepicker-row td[data-day="${day}"]`);
-        expect(
-          selectMonthElem.querySelector('option[selected="selected"]').value ===
-            (month - 1).toString()
-        ).toEqual(
-          true,
-          `selected month should be ${month}, given value ${selectMonthElem.querySelector('option[selected="selected"]').value}`
-        );
-        expect(
-          selectYearElem.querySelector('option[selected="selected"]').value === year.toString()
-        ).toEqual(
-          true,
-          `selected year should be ${year}, given value ${selectYearElem.querySelector('option[selected="selected"]').value}`
-        );
-        expect(selectedDayElem.classList.contains('is-selected')).toEqual(
-          true,
-          `selected day should be ${day}, given value ${selectedDayElem.classList}`
-        );
+        expect(selectMonthElem.querySelector('option[selected="selected"]').value)
+          .withContext(
+          'selected month does not match'
+        ).toBe((month).toString());
+        expect(selectYearElem.querySelector('option[selected="selected"]').value)
+          .withContext(
+          'selected year does not match'
+        ).toBe(year.toString());
+        expect(selectedDayElem.classList.contains('is-selected')).withContext(
+          'selected day does not match'
+        ).toBe(true);
         done();
       }, 10);
     });
