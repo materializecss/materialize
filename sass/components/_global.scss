@@ -19,7 +19,7 @@ textarea {
   font-family: $font-stack;
 }
 
-a { color: $link-color; text-decoration: none; 
+a { color: $link-color; text-decoration: none;
    -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
 }
 
@@ -117,7 +117,7 @@ i {
 
 // Modal
 html.noscroll {
-  position: fixed; 
+  position: fixed;
   overflow-y: scroll;
   width: 100%;
 }
@@ -194,8 +194,9 @@ video.responsive-video {
   }
 }
 
+// @todo remove this as component has moved to breadcrumb component scss file as of https://github.com/materializecss/materialize/issues/573
 // Breadcrumbs
-.breadcrumb {
+/*.breadcrumb {
   display: inline-block;
   font-size: 18px;
   color: var(--font-on-primary-color-medium);
@@ -230,7 +231,7 @@ video.responsive-video {
   &:last-child {
     color:  var(--md-sys-color-on-primary);
   }
-}
+}*/
 
 // Parallax
 .parallax-container {
@@ -526,7 +527,7 @@ $spacing-shortcuts: ("margin": "m", "padding": "p") !default;
 $spacing-directions: ("top": "t", "right": "r", "bottom": "b", "left": "l") !default;
 $spacing-horizontal: "x" !default;
 $spacing-vertical: "y" !default;
-$spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5": 1.5rem, "6": 3rem, "auto": auto) !default; 
+$spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5": 1.5rem, "6": 3rem, "auto": auto) !default;
 
 @each $property, $shortcut in $spacing-shortcuts{
   @each $name, $value in $spacing-values{
@@ -537,7 +538,7 @@ $spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5
     // (t, b, r, l) spacing
     @each $direction, $suffix in $spacing-directions{
       .#{$shortcut}#{$suffix}-#{$name}{
-        #{$property}-#{$direction}: $value !important 
+        #{$property}-#{$direction}: $value !important
       }
     }
     // x spacing
@@ -552,7 +553,7 @@ $spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5
       .#{$shortcut}#{$spacing-vertical}-#{$name}{
         #{$property}-top: $value !important;
         #{$property}-bottom: $value !important;
-      }        
-    }      
+      }
+    }
   }
-} 
+}
