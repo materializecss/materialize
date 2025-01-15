@@ -118,7 +118,6 @@ describe('Datepicker Plugin', () => {
     it('should integrate action util buttons by option', (done) => {
       const input = document.querySelector('#datepickerInput');
       M.Datepicker.init(input, { format: 'mm/dd/yyyy', autoSubmit: false, showClearBtn: true });
-      const datepicker = M.Datepicker.getInstance(input);
       const today = new Date();
       const clearBtn = document.querySelector('.datepicker-clear');
       const cancelBtn = document.querySelector('.btn-cancel');
