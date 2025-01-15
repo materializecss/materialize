@@ -129,7 +129,7 @@ export interface DatepickerOptions extends BaseOptions {
    *  Autosubmit calendar day select to input field
    *  @default false
    */
-  autoSubmit: false;
+  autoSubmit: true;
   /**
    * Internationalization options.
    */
@@ -235,7 +235,7 @@ const _defaults: DatepickerOptions = {
   // Show clear button
   showClearBtn: false,
   // Autosubmit
-  autoSubmit: false,
+  autoSubmit: true,
   // internationalization
   i18n: {
     cancel: 'Cancel',
