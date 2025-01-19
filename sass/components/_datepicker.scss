@@ -26,11 +26,18 @@
     input {
       &:focus {
         border-bottom: none;
+        background-color: var(--md-sys-color-primary-container);
       }
 
+      &::selection {
+        background-color: transparent;
+      }
+
+      height: 49px;
+      margin: 4px 0 0 0;
       border-bottom: none;
+      border-radius: 4px;
       text-align: center;
-      margin: 0;
     }
 
     .caret {
