@@ -12,6 +12,10 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 23
+
     - name: Run tests
       run: |
         npm i

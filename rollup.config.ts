@@ -4,10 +4,11 @@ import typescriptPlugin from '@rollup/plugin-typescript';
 import terserPlugin from '@rollup/plugin-terser';
 import dtsPlugin from 'rollup-plugin-dts';
 import scss from 'rollup-plugin-scss';
-import zip from 'rollup-plugin-zip';
 import copy from 'rollup-plugin-copy';
 
 import { readFileSync } from 'fs';
+import autoprefixer from 'autoprefixer';
+import postcss from 'postcss';
 const packageJson = JSON.parse(readFileSync('./package.json').toString());
 
 const outputPath = 'dist/js/materialize';
@@ -108,7 +109,11 @@ const config: RollupOptions[] = [
       scss({
         fileName: 'materialize.min.css',
         outputStyle: 'compressed',
-        sourceMap: true
+        sourceMap: !(process.env.BUILD === 'release'),
+        processor: (css, map) => ({
+          css: postcss([autoprefixer]).process(css, { from: 'materialize.min.css' }).toString(),
+          map
+        })
       })
     ],
     onwarn: (warning, defaultHandler) => {
@@ -121,7 +126,8 @@ const config: RollupOptions[] = [
     output: [{ file: 'dist/css/materialize.css' }], // overwritten
     plugins: [
       scss({
-        fileName: 'materialize.css'
+        fileName: 'materialize.css',
+        processor: (css) => postcss([autoprefixer]).process(css, { from: 'materialize.min.css' }).then(result => result.css),
       })
     ],
     onwarn: (warning, defaultHandler) => {

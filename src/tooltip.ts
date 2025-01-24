@@ -1,6 +1,6 @@
-import { Utils } from "./utils";
-import { Bounding } from "./bounding";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Bounding } from './bounding';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 
@@ -91,14 +91,14 @@ export class Tooltip extends Component<TooltipOptions> {
 
   constructor(el: HTMLElement, options: Partial<TooltipOptions>) {
     super(el, options, Tooltip);
-    (this.el as any).M_Tooltip = this;
+    this.el['M_Tooltip'] = this;
 
     this.options = {
       ...Tooltip.defaults,
       ...this._getAttributeOptions(),
       ...options
     };
-    
+
     this.isOpen = false;
     this.isHovered = false;
     this.isFocused = false;
@@ -127,30 +127,33 @@ export class Tooltip extends Component<TooltipOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<TooltipOptions> = {}): Tooltip | Tooltip[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<TooltipOptions> = {}
+  ): Tooltip | Tooltip[] {
     return super.init(els, options, Tooltip);
   }
 
   static getInstance(el: HTMLElement): Tooltip {
-    return (el as any).M_Tooltip;
+    return el['M_Tooltip'];
   }
 
   destroy() {
     this.tooltipEl.remove();
     this._removeEventHandlers();
-    (this.el as any).M_Tooltip = undefined;
+    this.el['M_Tooltip'] = undefined;
   }
 
   _appendTooltipEl() {
     this.tooltipEl = document.createElement('div');
     this.tooltipEl.classList.add('material-tooltip');
 
-    const tooltipContentEl = this.options.tooltipId 
+    const tooltipContentEl = this.options.tooltipId
       ? document.getElementById(this.options.tooltipId)
       : document.createElement('div');
-    this.tooltipEl.append( tooltipContentEl);
-    tooltipContentEl.style.display = ""; 
-    
+    this.tooltipEl.append(tooltipContentEl);
+    tooltipContentEl.style.display = '';
+
     tooltipContentEl.classList.add('tooltip-content');
     this._setTooltipContent(tooltipContentEl);
     this.tooltipEl.appendChild(tooltipContentEl);
@@ -158,9 +161,8 @@ export class Tooltip extends Component<TooltipOptions> {
   }
 
   _setTooltipContent(tooltipContentEl: HTMLElement) {
-    if (this.options.tooltipId) 
-      return;
-    tooltipContentEl.innerText = this.options.text;        
+    if (this.options.tooltipId) return;
+    tooltipContentEl.innerText = this.options.text;
   }
 
   _updateTooltipContent() {
@@ -189,11 +191,11 @@ export class Tooltip extends Component<TooltipOptions> {
     isManual = isManual === undefined ? true : undefined; // Default value true
     this.isOpen = true;
     // Update tooltip content with HTML attribute options
-    this.options = {...this.options, ...this._getAttributeOptions()};
+    this.options = { ...this.options, ...this._getAttributeOptions() };
     this._updateTooltipContent();
     this._setEnterDelayTimeout(isManual);
-  }
-  
+  };
+
   /**
    * Hide tooltip.
    */
@@ -203,7 +205,7 @@ export class Tooltip extends Component<TooltipOptions> {
     this.isFocused = false;
     this.isOpen = false;
     this._setExitDelayTimeout();
-  }
+  };
 
   _setExitDelayTimeout() {
     clearTimeout(this._exitDelayTimeout);
@@ -223,14 +225,15 @@ export class Tooltip extends Component<TooltipOptions> {
 
   _positionTooltip() {
     const tooltip: HTMLElement = this.tooltipEl;
-    const origin = (this.el as HTMLElement),
+    const origin = this.el as HTMLElement,
       originHeight = origin.offsetHeight,
       originWidth = origin.offsetWidth,
       tooltipHeight = tooltip.offsetHeight,
       tooltipWidth = tooltip.offsetWidth,
       margin = this.options.margin;
 
-    (this.xMovement = 0), (this.yMovement = 0);
+    this.xMovement = 0;
+    this.yMovement = 0;
 
     let targetTop = origin.getBoundingClientRect().top + Utils.getDocumentScrollTop();
     let targetLeft = origin.getBoundingClientRect().left + Utils.getDocumentScrollLeft();
@@ -259,8 +262,8 @@ export class Tooltip extends Component<TooltipOptions> {
       tooltipHeight
     );
 
-    tooltip.style.top = newCoordinates.y+'px';
-    tooltip.style.left = newCoordinates.x+'px';
+    tooltip.style.top = newCoordinates.y + 'px';
+    tooltip.style.left = newCoordinates.x + 'px';
   }
 
   _repositionWithinScreen(x: number, y: number, width: number, height: number) {
@@ -335,28 +338,28 @@ export class Tooltip extends Component<TooltipOptions> {
     this.isHovered = true;
     this.isFocused = false; // Allows close of tooltip when opened by focus.
     this.open(false);
-  }
+  };
 
   _handleMouseLeave = () => {
     this.isHovered = false;
     this.isFocused = false; // Allows close of tooltip when opened by focus.
     this.close();
-  }
+  };
 
   _handleFocus = () => {
     if (Utils.tabPressed) {
       this.isFocused = true;
       this.open(false);
     }
-  }
+  };
 
   _handleBlur = () => {
     this.isFocused = false;
     this.close();
-  }
+  };
 
-  _getAttributeOptions(): Partial<TooltipOptions> {    
-    let attributeOptions: Partial<TooltipOptions> = { };
+  _getAttributeOptions(): Partial<TooltipOptions> {
+    const attributeOptions: Partial<TooltipOptions> = {};
     const tooltipTextOption = this.el.getAttribute('data-tooltip');
     const tooltipId = this.el.getAttribute('data-tooltip-id');
     const positionOption = this.el.getAttribute('data-position');

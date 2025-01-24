@@ -1,11 +1,11 @@
-import { Component, BaseOptions, InitElements, MElement, Openable } from "./component";
+import { Component, BaseOptions, InitElements, MElement, Openable } from './component';
 
 export interface FloatingActionButtonOptions extends BaseOptions {
   /**
    * Direction FAB menu opens.
    * @default "top"
    */
-  direction: "top" | "right" | "bottom" | "left";
+  direction: 'top' | 'right' | 'bottom' | 'left';
   /**
    * true: FAB menu appears on hover, false: FAB menu appears on click.
    * @default true
@@ -16,22 +16,25 @@ export interface FloatingActionButtonOptions extends BaseOptions {
    * @default false
    */
   toolbarEnabled: boolean;
-};
+}
 
-let _defaults: FloatingActionButtonOptions = {
+const _defaults: FloatingActionButtonOptions = {
   direction: 'top',
   hoverEnabled: true,
   toolbarEnabled: false
 };
 
-export class FloatingActionButton extends Component<FloatingActionButtonOptions> implements Openable {
+export class FloatingActionButton
+  extends Component<FloatingActionButtonOptions>
+  implements Openable
+{
   /**
    * Describes open/close state of FAB.
    */
   isOpen: boolean;
 
   private _anchor: HTMLAnchorElement;
-  private _menu: HTMLElement|null;
+  private _menu: HTMLElement | null;
   private _floatingBtns: HTMLElement[];
   private _floatingBtnsReverse: HTMLElement[];
 
@@ -43,7 +46,7 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
 
   constructor(el: HTMLElement, options: Partial<FloatingActionButtonOptions>) {
     super(el, options, FloatingActionButton);
-    (this.el as any).M_FloatingActionButton = this;
+    this.el['M_FloatingActionButton'] = this;
 
     this.options = {
       ...FloatingActionButton.defaults,
@@ -59,14 +62,10 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
     this.offsetX = 0;
 
     this.el.classList.add(`direction-${this.options.direction}`);
-    if (this.options.direction === 'top')
-      this.offsetY = 40;
-    else if (this.options.direction === 'right')
-      this.offsetX = -40;
-    else if (this.options.direction === 'bottom')
-      this.offsetY = -40;
-    else
-      this.offsetX = 40;
+    if (this.options.direction === 'top') this.offsetY = 40;
+    else if (this.options.direction === 'right') this.offsetX = -40;
+    else if (this.options.direction === 'bottom') this.offsetY = -40;
+    else this.offsetX = 40;
     this._setupEventHandlers();
   }
 
@@ -79,29 +78,38 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
    * @param el HTML element.
    * @param options Component options.
    */
-  static init(el: HTMLElement, options?: Partial<FloatingActionButtonOptions>): FloatingActionButton
+  static init(
+    el: HTMLElement,
+    options?: Partial<FloatingActionButtonOptions>
+  ): FloatingActionButton;
   /**
    * Initializes instances of FloatingActionButton.
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: InitElements<MElement>, options?: Partial<FloatingActionButtonOptions>): FloatingActionButton[];
+  static init(
+    els: InitElements<MElement>,
+    options?: Partial<FloatingActionButtonOptions>
+  ): FloatingActionButton[];
   /**
    * Initializes instances of FloatingActionButton.
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<FloatingActionButtonOptions> = {}): FloatingActionButton | FloatingActionButton[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<FloatingActionButtonOptions> = {}
+  ): FloatingActionButton | FloatingActionButton[] {
     return super.init(els, options, FloatingActionButton);
   }
 
   static getInstance(el: HTMLElement): FloatingActionButton {
-    return (el as any).M_FloatingActionButton;
+    return el['M_FloatingActionButton'];
   }
 
   destroy() {
     this._removeEventHandlers();
-    (this.el as any).M_FloatingActionButton = undefined;
+    this.el['M_FloatingActionButton'] = undefined;
   }
 
   _setupEventHandlers() {
@@ -128,24 +136,22 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
     } else {
       this.open();
     }
-  }
+  };
 
   _handleDocumentClick = (e: MouseEvent) => {
     const elem = e.target;
-    if (elem !== this._menu) this.close;
-  }
+    if (elem !== this._menu) this.close();
+  };
 
   /**
    * Open FAB.
    */
   open = (): void => {
     if (this.isOpen) return;
-    if (this.options.toolbarEnabled)
-      this._animateInToolbar();
-    else
-      this._animateInFAB();
+    if (this.options.toolbarEnabled) this._animateInToolbar();
+    else this._animateInFAB();
     this.isOpen = true;
-  }
+  };
 
   /**
    * Close FAB.
@@ -155,18 +161,17 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
     if (this.options.toolbarEnabled) {
       window.removeEventListener('scroll', this.close, true);
       document.body.removeEventListener('click', this._handleDocumentClick, true);
-    }
-    else {
+    } else {
       this._animateOutFAB();
     }
     this.isOpen = false;
-  }
+  };
 
   _animateInFAB() {
     this.el.classList.add('active');
     const delayIncrement = 40;
     const duration = 275;
-    
+
     this._floatingBtnsReverse.forEach((el, index) => {
       const delay = delayIncrement * index;
       el.style.transition = 'none';
@@ -198,21 +203,19 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
   }
 
   _animateInToolbar() {
-    let scaleFactor;
-    let windowWidth = window.innerWidth;
-    let windowHeight = window.innerHeight;
-    let btnRect = this.el.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const btnRect = this.el.getBoundingClientRect();
 
-    const backdrop =  document.createElement('div');
+    const backdrop = document.createElement('div'),
+      scaleFactor = windowWidth / backdrop[0].clientWidth,
+      fabColor = getComputedStyle(this._anchor).backgroundColor; // css('background-color');
     backdrop.classList.add('fab-backdrop'); //  $('<div class="fab-backdrop"></div>');
-
-    const fabColor = getComputedStyle(this._anchor).backgroundColor; // css('background-color');
-
+    backdrop.style.backgroundColor = fabColor;
     this._anchor.append(backdrop);
 
     this.offsetX = btnRect.left - windowWidth / 2 + btnRect.width / 2;
     this.offsetY = windowHeight - btnRect.bottom;
-    scaleFactor = windowWidth / backdrop[0].clientWidth;
     this.btnBottom = btnRect.bottom;
     this.btnLeft = btnRect.left;
     this.btnWidth = btnRect.width;
@@ -229,11 +232,10 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
     this._anchor.style.transform = `translateY(${this.offsetY}px`;
     this._anchor.style.transition = 'none';
 
-    backdrop.style.backgroundColor = fabColor;
-
     setTimeout(() => {
       this.el.style.transform = '';
-      this.el.style.transition  = 'transform .2s cubic-bezier(0.550, 0.085, 0.680, 0.530), background-color 0s linear .2s';
+      this.el.style.transition =
+        'transform .2s cubic-bezier(0.550, 0.085, 0.680, 0.530), background-color 0s linear .2s';
 
       this._anchor.style.overflow = 'visible';
       this._anchor.style.transform = '';
@@ -246,7 +248,9 @@ export class FloatingActionButton extends Component<FloatingActionButtonOptions>
         backdrop.style.transform = 'scale(' + scaleFactor + ')';
         backdrop.style.transition = 'transform .2s cubic-bezier(0.550, 0.055, 0.675, 0.190)';
 
-        this._menu.querySelectorAll('li > a').forEach((a: HTMLAnchorElement) => a.style.opacity = '1');
+        this._menu
+          .querySelectorAll('li > a')
+          .forEach((a: HTMLAnchorElement) => (a.style.opacity = '1'));
 
         // Scroll to close.
         window.addEventListener('scroll', this.close, true);

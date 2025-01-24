@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Tooltip:', () => {
   const fixture = `<a
   id="test"
@@ -71,8 +69,8 @@ describe('Tooltip:', () => {
       mouseenter(tooltippedBtn);
       // tooltippedBtn.trigger('mouseenter');
       setTimeout(() => {
-        let tooltipRect = tooltip.getBoundingClientRect();
-        let tooltippedBtnRect = tooltippedBtn.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const tooltippedBtnRect = tooltippedBtn.getBoundingClientRect();
         // Check window bounds
         expect(tooltipRect.top).toBeGreaterThanOrEqual(0);
         expect(tooltipRect.bottom).toBeLessThanOrEqual(window.innerHeight);

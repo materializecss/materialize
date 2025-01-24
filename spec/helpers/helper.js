@@ -1,6 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-
 const KEYMAP = {
   '27': 'Escape',
   '32': 'Space',
@@ -121,6 +118,7 @@ const KEYMAP = {
   '105': '9'
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function XloadHtml(html, options) {
   options = options ? options : {};
   const defaultOptions = { insertionType: 'append' };
@@ -128,11 +126,9 @@ function XloadHtml(html, options) {
     ...defaultOptions,
     ...options
   };
-
   const div = document.createElement('div');
   div.classList.add('please-delete-me');
   div.innerHTML = html;
-
   if (options.insertionType === 'append') {
     document.body.appendChild(div);
   } else if (options.insertionType === 'prepend') {
@@ -140,9 +136,9 @@ function XloadHtml(html, options) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function XunloadFixtures() {
   document.querySelectorAll('.please-delete-me').forEach((el) => el.remove());
-  //
   document.querySelectorAll('.material-tooltip').forEach((el) => el.remove());
   document.querySelectorAll('.dropdown-content').forEach((el) => el.remove());
 }
@@ -152,7 +148,7 @@ beforeEach(() => {
     toExist: (util, customEqualityTesters) => {
       return {
         compare: (actual) => {
-          let result = {};
+          const result = {};
           result.pass = util.equals(!!actual, true, customEqualityTesters);
           return result;
         }
@@ -190,7 +186,7 @@ beforeEach(() => {
       return {
         compare: (actual) => {
           const style = getComputedStyle(actual);
-          let result = {};
+          const result = {};
           result.pass = util.equals(
             style.getPropertyValue('display'),
             'none',
@@ -204,7 +200,7 @@ beforeEach(() => {
       return {
         compare: (actual) => {
           const style = getComputedStyle(actual);
-          let result = {};
+          const result = {};
           result.pass = !util.equals(
             style.getPropertyValue('display'),
             'none',
@@ -224,7 +220,7 @@ beforeEach(() => {
     toHaveClass: (util, customEqualityTesters) => {
       return {
         compare: (actual, expected) => {
-          let result = {};
+          const result = {};
           result.pass = util.equals(
             actual.classList.contains(expected),
             true,
@@ -237,7 +233,7 @@ beforeEach(() => {
     toNotHaveClass: (util, customEqualityTesters) => {
       return {
         compare: function (actual, expected) {
-          let result = {};
+          const result = {};
           result.pass = util.equals(
             actual.classList.contains(expected),
             false,
