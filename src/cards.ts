@@ -173,4 +173,15 @@ export class Cards extends Component<CardsOptions> implements Openable {
     }
     this._removeRevealCloseEventHandlers();
   };
+
+  static Init() {
+    if (typeof document !== 'undefined')
+      // Handle initialization of static cards.
+      document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((el) => {
+          if (el && (el['M_Card'] == undefined)) this.init((el as HTMLElement));
+        });
+      });
+  }
 }

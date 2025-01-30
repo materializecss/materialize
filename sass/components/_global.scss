@@ -129,8 +129,9 @@ video.responsive-video {
   height: auto;
 }
 
+// moved to own component styling file @see https://github.com/materializecss/materialize/issues/566
 // Pagination
-.pagination {
+/*.pagination {
 
   li {
     display: inline-block;
@@ -192,7 +193,7 @@ video.responsive-video {
       white-space: nowrap;
     }
   }
-}
+}*/
 
 // @todo remove this as component has moved to breadcrumb component scss file as of https://github.com/materializecss/materialize/issues/573
 // Breadcrumbs
