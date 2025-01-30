@@ -44,6 +44,7 @@ export class FormSelect extends Component<FormSelectOptions> {
   wrapper: HTMLDivElement;
   selectOptions: (HTMLOptionElement | HTMLOptGroupElement)[];
   private _values: ValueStruct[];
+  nativeTabIndex: number;
 
   constructor(el: HTMLSelectElement, options: FormSelectOptions) {
     super(el, options, FormSelect);
@@ -56,6 +57,7 @@ export class FormSelect extends Component<FormSelectOptions> {
     };
 
     this.isMultiple = this.el.multiple;
+    this.nativeTabIndex = (this.el.tabIndex ?? -1);
     this.el.tabIndex = -1;
     this._values = [];
     this._setupDropdown();
@@ -258,6 +260,7 @@ export class FormSelect extends Component<FormSelectOptions> {
     this.input.ariaReadOnly = 'true';
     this.input.ariaRequired = this.el.hasAttribute('required').toString(); //setAttribute("aria-required", this.el.hasAttribute("required"));
     if (this.el.disabled) this.input.disabled = true; // 'true');
+    this.input.setAttribute('tabindex', this.nativeTabIndex.toString());
 
     const attrs = this.el.attributes;
     for (let i = 0; i < attrs.length; ++i) {
