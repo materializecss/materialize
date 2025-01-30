@@ -215,9 +215,9 @@ export class FloatingActionButton
   _animateOutFAB() {
     const duration = 175;
     setTimeout(() => {
-      this.el.classList.remove('active'), duration;
+      this.el.classList.remove('active');
       this._menu.ariaExpanded = 'false';
-    });
+    }, duration);
     this._floatingBtnsReverse.forEach((el) => {
       el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
       // to
