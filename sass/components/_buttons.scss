@@ -126,6 +126,10 @@
 
 //------------------ Focus
 
+.btn:focus {
+  background-color: var(--md-sys-color-primary-container);
+}
+
 .btn:focus.elevated {
   @extend .z-depth-1;
   color: var(--md-sys-color-primary);

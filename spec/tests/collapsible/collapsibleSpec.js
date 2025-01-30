@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Collapsible Plugin:', () => {
   let collapsible, accordion, popout, expandable, expandablePreselect;
 
@@ -80,8 +78,8 @@ describe('Collapsible Plugin:', () => {
   describe('collapsible', () => {
     it('should open all items, keeping all open', (done) => {
       // Collapsible body height should be 0 on start when hidden.
-      let headers = expandable.querySelectorAll('.collapsible-header');
-      let bodies = expandable.querySelectorAll('.collapsible-body');
+      const headers = expandable.querySelectorAll('.collapsible-header');
+      const bodies = expandable.querySelectorAll('.collapsible-body');
       for (let i = 0; i < bodies.length; i++) {
         expect(bodies[i]).hasMaxHeightZero(
           'because collapsible bodies should be hidden initially.'
@@ -103,9 +101,9 @@ describe('Collapsible Plugin:', () => {
     });
 
     it('should allow preopened sections', () => {
-      let bodies = expandablePreselect.querySelectorAll('.collapsible-body');
+      const bodies = expandablePreselect.querySelectorAll('.collapsible-body');
       for (let i = 0; i < bodies.length; i++) {
-        let headerLi = bodies[i].parentNode;
+        const headerLi = bodies[i].parentNode;
         if (i === 1) {
           expect(headerLi).toHaveClass(
             'active',
@@ -136,7 +134,7 @@ describe('Collapsible Plugin:', () => {
         inDuration: 0,
         outDuration: 0
       });
-      let bodies = expandable.querySelectorAll('.collapsible-body');
+      const bodies = expandable.querySelectorAll('.collapsible-body');
       expect(openCallback).toEqual(false, 'because open callback not yet fired');
       expect(closeCallback).toEqual(false, 'because close callback not yet fired');
       for (let i = 0; i < bodies.length; i++) {
@@ -144,7 +142,7 @@ describe('Collapsible Plugin:', () => {
         expect(bodies[i]).hasMaxHeightZero(
           'because collapsible bodies should be hidden initially.'
         );
-        let collapsibleInstance = M.Collapsible.getInstance(bodies[i].parentNode.parentNode);
+        const collapsibleInstance = M.Collapsible.getInstance(bodies[i].parentNode.parentNode);
         collapsibleInstance.open(i);
       }
       expect(openCallback).toEqual(true, 'because open callback fired');
@@ -171,10 +169,10 @@ describe('Collapsible Plugin:', () => {
   describe('accordion', () => {
     it('should open first and second items, keeping only second open', (done) => {
       // Collapsible body height should be 0 on start when hidden.
-      let firstHeader = accordion.querySelector('.collapsible-header');
-      let firstBody = accordion.querySelector('.collapsible-body');
-      let secondHeader = accordion.querySelectorAll('.collapsible-header')[1];
-      let secondBody = accordion.querySelectorAll('.collapsible-body')[1];
+      const firstHeader = accordion.querySelector('.collapsible-header');
+      const firstBody = accordion.querySelector('.collapsible-body');
+      const secondHeader = accordion.querySelectorAll('.collapsible-header')[1];
+      const secondBody = accordion.querySelectorAll('.collapsible-body')[1];
       expect(firstBody).hasMaxHeightZero('because accordion bodies should be hidden initially.');
       expect(secondBody).hasMaxHeightZero('because accordion bodies should be hidden initially.');
       // Collapsible body height should be > 0 after being opened.
@@ -200,15 +198,15 @@ describe('Collapsible Plugin:', () => {
   describe('popout', () => {
     it('should open first and popout', (done) => {
       // Collapsible body height should be 0 on start when hidden.
-      let listItems = popout.querySelectorAll('li');
-      let firstHeader = popout.querySelector('.collapsible-header');
-      let firstBody = popout.querySelector('.collapsible-body');
+      const listItems = popout.querySelectorAll('li');
+      const firstHeader = popout.querySelector('.collapsible-header');
+      const firstBody = popout.querySelector('.collapsible-body');
       expect(firstBody).hasMaxHeightZero('because accordion bodies should be hidden initially.');
       // Expect margin to be > 0 because not popped out.
       for (let i = 0; i < listItems.length; i++) {
-        let listItemStyles = getComputedStyle(listItems[i]);
-        let marginLeft = parseInt(listItemStyles.getPropertyValue('margin-left'));
-        let marginRight = parseInt(listItemStyles.getPropertyValue('margin-right'));
+        const listItemStyles = getComputedStyle(listItems[i]);
+        const marginLeft = parseInt(listItemStyles.getPropertyValue('margin-left'));
+        const marginRight = parseInt(listItemStyles.getPropertyValue('margin-right'));
         expect(marginLeft).toBeGreaterThan(
           0,
           'because closed popout items should have horizontal margins.'

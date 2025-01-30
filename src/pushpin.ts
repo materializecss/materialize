@@ -1,5 +1,5 @@
-import { Utils } from "./utils";
-import { Component, BaseOptions, InitElements, MElement } from "./component";
+import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement } from './component';
 
 export interface PushpinOptions extends BaseOptions {
   /**
@@ -24,10 +24,10 @@ export interface PushpinOptions extends BaseOptions {
    * You are provided with a position string.
    * @default null
    */
-  onPositionChange: (position: "pinned" | "pin-top" | "pin-bottom") => void;
+  onPositionChange: (position: 'pinned' | 'pin-top' | 'pin-bottom') => void;
 }
 
-let _defaults = {
+const _defaults = {
   top: 0,
   bottom: Infinity,
   offset: 0,
@@ -35,12 +35,12 @@ let _defaults = {
 };
 
 export class Pushpin extends Component<PushpinOptions> {
-  static _pushpins: any[];
-  originalOffset: any;
+  static _pushpins: Pushpin[];
+  originalOffset: number;
 
   constructor(el: HTMLElement, options: Partial<PushpinOptions>) {
     super(el, options, Pushpin);
-    (this.el as any).M_Pushpin = this;
+    this.el['M_Pushpin'] = this;
 
     this.options = {
       ...Pushpin.defaults,
@@ -74,29 +74,32 @@ export class Pushpin extends Component<PushpinOptions> {
    * @param els HTML elements.
    * @param options Component options.
    */
-  static init(els: HTMLElement | InitElements<MElement>, options: Partial<PushpinOptions> = {}): Pushpin | Pushpin[] {
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<PushpinOptions> = {}
+  ): Pushpin | Pushpin[] {
     return super.init(els, options, Pushpin);
   }
 
   static getInstance(el: HTMLElement): Pushpin {
-    return (el as any).M_Pushpin;
+    return el['M_Pushpin'];
   }
 
   destroy() {
     (this.el as HTMLElement).style.top = null;
     this._removePinClasses();
     // Remove pushpin Inst
-    let index = Pushpin._pushpins.indexOf(this);
+    const index = Pushpin._pushpins.indexOf(this);
     Pushpin._pushpins.splice(index, 1);
     if (Pushpin._pushpins.length === 0) {
       this._removeEventHandlers();
     }
-    (this.el as any).M_Pushpin = undefined;
+    this.el['M_Pushpin'] = undefined;
   }
 
   static _updateElements() {
-    for (let elIndex in Pushpin._pushpins) {
-      let pInstance = Pushpin._pushpins[elIndex];
+    for (const elIndex in Pushpin._pushpins) {
+      const pInstance = Pushpin._pushpins[elIndex];
       pInstance._updatePosition();
     }
   }
@@ -110,7 +113,7 @@ export class Pushpin extends Component<PushpinOptions> {
   }
 
   _updatePosition() {
-    let scrolled = Utils.getDocumentScrollTop() + this.options.offset;
+    const scrolled = Utils.getDocumentScrollTop() + this.options.offset;
 
     if (
       this.options.top <= scrolled &&

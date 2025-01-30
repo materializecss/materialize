@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('Toasts:', () => {
   describe('Toast javascript functions', () => {
     it('should display and remove a toast', (done) => {
@@ -51,7 +49,7 @@ describe('Toasts:', () => {
     it('Toasts should call the callback function when dismissed', (done) => {
       let wasCalled = false;
       const callback = () => (wasCalled = true);
-      const toast = new M.Toast({
+      new M.Toast({
         text: 'I am a toast',
         inDuration: 10,
         displayLength: 50,
@@ -65,7 +63,7 @@ describe('Toasts:', () => {
     });
 
     it('should apply classes to toast', (done) => {
-      const toast = new M.Toast({
+      new M.Toast({
         text: 'Hi',
         displayLength: 100,
         inDuration: 10,
