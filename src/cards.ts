@@ -31,6 +31,8 @@ export class Cards extends Component<CardsOptions> implements Openable {
       ...options
     };
 
+    this._activators = [];
+
     this.cardReveal = this.el.querySelector('.card-reveal');
     if (this.cardReveal) {
       this.initialOverflow = getComputedStyle(this.el).overflow;
