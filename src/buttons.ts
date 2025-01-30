@@ -1,4 +1,5 @@
-import { Component, BaseOptions, InitElements, MElement, Openable } from './component';
+import { Component, BaseOptions, InitElements, MElement, Openable } from "./component";
+import { Utils } from './utils';
 
 export interface FloatingActionButtonOptions extends BaseOptions {
   /**
@@ -62,10 +63,16 @@ export class FloatingActionButton
     this.offsetX = 0;
 
     this.el.classList.add(`direction-${this.options.direction}`);
-    if (this.options.direction === 'top') this.offsetY = 40;
-    else if (this.options.direction === 'right') this.offsetX = -40;
-    else if (this.options.direction === 'bottom') this.offsetY = -40;
-    else this.offsetX = 40;
+    this._anchor.tabIndex = 0;
+    this._menu.ariaExpanded = 'false';
+    if (this.options.direction === 'top')
+      this.offsetY = 40;
+    else if (this.options.direction === 'right')
+      this.offsetX = -40;
+    else if (this.options.direction === 'bottom')
+      this.offsetY = -40;
+    else
+      this.offsetX = 40;
     this._setupEventHandlers();
   }
 
@@ -119,6 +126,7 @@ export class FloatingActionButton
     } else {
       this.el.addEventListener('click', this._handleFABClick);
     }
+    this.el.addEventListener('keypress', this._handleFABKeyPress);
   }
 
   _removeEventHandlers() {
@@ -128,9 +136,20 @@ export class FloatingActionButton
     } else {
       this.el.removeEventListener('click', this._handleFABClick);
     }
+    this.el.removeEventListener('keypress', this._handleFABKeyPress);
   }
 
   _handleFABClick = () => {
+    this._handleFABToggle()
+}
+
+  _handleFABKeyPress = (e) => {
+    if(Utils.keys.ENTER.includes(e.key)) {
+      this._handleFABToggle();
+    }
+  }
+
+  _handleFABToggle = () => {
     if (this.isOpen) {
       this.close();
     } else {
@@ -169,6 +188,7 @@ export class FloatingActionButton
 
   _animateInFAB() {
     this.el.classList.add('active');
+    this._menu.ariaExpanded = 'true';
     const delayIncrement = 40;
     const duration = 275;
 
@@ -186,6 +206,7 @@ export class FloatingActionButton
           el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
           el.style.opacity = '1';
           el.style.transform = 'translate(0, 0) scale(1)';
+          el.tabIndex = 0;
         }, 1);
       }, delay);
     });
@@ -193,12 +214,16 @@ export class FloatingActionButton
 
   _animateOutFAB() {
     const duration = 175;
-    setTimeout(() => this.el.classList.remove('active'), duration);
+    setTimeout(() => {
+      this.el.classList.remove('active'), duration;
+      this._menu.ariaExpanded = 'false';
+    });
     this._floatingBtnsReverse.forEach((el) => {
       el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
       // to
       el.style.opacity = '0';
       el.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px) scale(0.4)`;
+      el.tabIndex = -1;
     });
   }
 
@@ -228,6 +253,7 @@ export class FloatingActionButton
     this.el.style.left = '0';
     this.el.style.transform = 'translateX(' + this.offsetX + 'px)';
     this.el.style.transition = 'none';
+    this._menu.ariaExpanded = 'true';
 
     this._anchor.style.transform = `translateY(${this.offsetY}px`;
     this._anchor.style.transition = 'none';
@@ -248,9 +274,10 @@ export class FloatingActionButton
         backdrop.style.transform = 'scale(' + scaleFactor + ')';
         backdrop.style.transition = 'transform .2s cubic-bezier(0.550, 0.055, 0.675, 0.190)';
 
-        this._menu
-          .querySelectorAll('li > a')
-          .forEach((a: HTMLAnchorElement) => (a.style.opacity = '1'));
+        this._menu.querySelectorAll('li > a').forEach((a: HTMLAnchorElement) => {
+          a.style.opacity = '1';
+          a.tabIndex = 0;
+        });
 
         // Scroll to close.
         window.addEventListener('scroll', this.close, true);
