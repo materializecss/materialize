@@ -195,45 +195,6 @@ video.responsive-video {
   }
 }*/
 
-// @todo remove this as component has moved to breadcrumb component scss file as of https://github.com/materializecss/materialize/issues/573
-// Breadcrumbs
-/*.breadcrumb {
-  display: inline-block;
-  font-size: 18px;
-  color: var(--font-on-primary-color-medium);
-
-  i,
-  [class^="mdi-"], [class*="mdi-"],
-  i.material-icons, i.material-symbols-outlined,
-  i.material-symbols-rounded, i.material-symbols-sharp {
-    display: block;
-    float: left;
-    font-size: 24px;
-  }
-
-  &:before {
-    content: '\E5CC';
-    color: var(--font-on-primary-color-medium);
-    vertical-align: top;
-    display: inline-block;
-    font-family: 'Material Symbols Outlined', 'Material Symbols Rounded', 'Material Symbols Sharp', 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 25px;
-    margin: 0 10px 0 8px;
-    -webkit-font-smoothing: antialiased;
-    float: left;
-  }
-
-  &:first-child:before {
-    display: none;
-  }
-
-  &:last-child {
-    color:  var(--md-sys-color-on-primary);
-  }
-}*/
-
 // Parallax
 .parallax-container {
   position: relative;
