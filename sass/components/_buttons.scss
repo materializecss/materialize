@@ -1,4 +1,4 @@
-.btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
+:root {
   --btn-height: 40px;
   --btn-font-size-icon: 16px;
   --btn-padding: 24px;
@@ -6,23 +6,16 @@
   --btn-gap-icon: 8px;
   --btn-border-radius: 4px;
   --btn-font-size: 14px;
+}
 
-  height: var(--btn-height);
-  border: none;
-  border-radius: var(--btn-border-radius);
-  padding-left: var(--btn-padding);
-  padding-right: var(--btn-padding);
-  font-size: var(--btn-font-size);
-  font-weight: 500;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
-  white-space: nowrap;
-  outline: 0;
-  user-select: none;
-  transition: background-color .2s ease-out;
+.btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
+  @include btn(
+      var(--btn-height),
+      var(--btn-border-radius),
+      var(--btn-padding),
+      var(--btn-padding),
+      var(--btn-font-size)
+  );
 }
 
 // Icon
@@ -54,31 +47,23 @@
 //------------------ Enabled
 
 .btn.filled {
-  color: var(--md-sys-color-on-primary);
-  background-color: var(--md-sys-color-primary);
+  @include btn-filled;
 }
 
 .btn.tonal {
-  color: var(--md-sys-color-on-secondary-container);
-  background-color: var(--md-sys-color-secondary-container);
+  @include btn-tonal;
 }
 
 .btn.elevated {
-  color: var(--md-sys-color-on-secondary-container);
-  background-color: var(--md-sys-color-secondary-container);
-  @extend .z-depth-1;
+  @include btn-elevated;
 }
 
 .btn.outlined {
-  background-color: transparent;
-  color: var(--md-sys-color-primary);
-  border: 1px solid var(--md-sys-color-outline);
+  @include btn-outlined;
 }
 
 .btn.text, .btn-flat {
-  @extend .z-depth-0;
-  color: var(--md-sys-color-primary);
-  background-color: transparent;
+  @include btn-flat;
 }
 
 //------------------ Disabled
@@ -86,17 +71,12 @@
 .btn.disabled, .btn-floating.disabled, .btn-large.disabled, .btn-small.disabled, .btn-flat.disabled,
 .btn:disabled, .btn-floating:disabled, .btn-large:disabled, .btn-small:disabled, .btn-flat:disabled,
 .btn[disabled], .btn-floating[disabled], .btn-large[disabled], .btn-small[disabled], .btn-flat[disabled] {
-  @extend .z-depth-0;
-  color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 76%);
-  background-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 24%);
-  pointer-events: none;
-  box-shadow: none;
-  cursor: default;
+  @include btn-disabled();
 }
 
 //------------------ Hover
 
-.btn.elevated:hover {
+/*.btn.elevated:hover {
   @extend .z-depth-2;
   color: var(--md-sys-color-primary);
   background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-on-secondary-container) 16%);
@@ -122,11 +102,11 @@
 .btn.text:hover {
   color: var(--md-sys-color-primary);
   background-color: color-mix(in srgb, var(--md-sys-color-primary) 16%, transparent);
-}
+}*/
 
 //------------------ Focus
 
-.btn:focus {
+/*.btn:focus {
   background-color: var(--md-sys-color-primary-container);
 }
 
@@ -157,10 +137,10 @@
 .btn:focus.text {
   color: var(--md-sys-color-primary);
   background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
-}
+}*/
 
 // Focus with Keyboard
-.btn:focus-visible {
+/*.btn:focus-visible {
   &.filled,
   &.elevated,
   &.tonal,
@@ -169,7 +149,7 @@
     outline: 3px solid var(--md-sys-color-secondary);
     outline-offset: 2px;
   }
-}
+}*/
 
 //----------
 

@@ -1,0 +1,27 @@
+.breadcrumb-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+
+  i,
+  i.material-icons, i.material-symbols-outlined,
+  i.material-symbols-rounded, i.material-symbols-sharp,
+  &:before {
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  &:before {
+    content: '\E5CC';
+    font-family: 'Material Symbols Outlined', 'Material Symbols Rounded', 'Material Symbols Sharp', 'Material Icons';
+  }
+
+  &:first-child:before {
+    visibility: hidden;
+  }
+}

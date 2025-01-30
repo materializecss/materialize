@@ -240,10 +240,8 @@ export class Carousel extends Component<CarouselOptions> {
     window.removeEventListener('resize', this._handleThrottledResize);
   }
 
-  _handleThrottledResize: () => void = Utils.throttle(
-    function () {
-      this._handleResize();
-    },
+  _handleThrottledResize = (): void => Utils.throttle(
+    this._handleResize,
     200,
     null
   ).bind(this);

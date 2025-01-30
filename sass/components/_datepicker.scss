@@ -1,13 +1,16 @@
 /* Modal */
-.datepicker-modal {
+// @removed since v2.2.1
+/*.datepicker-modal {
   max-width: 325px;
+  // @removed since v2.2.1-dev regarding Material M3 standards
   min-width: 300px;
   max-height: none;
-}
+}*/
 
-.datepicker-container.modal-content {
+.datepicker-container {
   display: flex;
   flex-direction: column;
+  max-width: 325px;
   padding: 0;
   background-color: var(--md-sys-color-surface);
 }
@@ -43,6 +46,11 @@
     vertical-align: middle;
   }
 
+  .select-year input,
+  .select-month input {
+    background-color: transparent;
+  }
+
   .select-year input {
     width: 50px;
   }
@@ -75,9 +83,11 @@
 /* Date Display */
 .datepicker-date-display {
   flex: 1 auto;
-  background-color: var(--md-sys-color-primary);
-  color:  var(--md-sys-color-on-primary);
+  // @removed since v2.2.1-dev regarding Material M3 standards
+  // background-color: var(--md-sys-color-primary);
+  // color:  var(--md-sys-color-on-primary);
   padding: 20px 22px;
+  border-bottom: 1px solid var(--md-sys-color-surface-variant-light);
   font-weight: 500;
 
   .year-text {
@@ -92,6 +102,12 @@
     font-size: 2.8rem;
     line-height: 47px;
     font-weight: 500;
+  }
+
+  .daterange & {
+    .date-text {
+      font-size: 1.8rem;
+    }
   }
 }
 
@@ -124,46 +140,98 @@
     color: var(--md-sys-color-on-surface-variant);
   }
 
-  td {
+  .datepicker-day {
     color: var(--md-sys-color-on-background);
 
     &.is-today {
       color: var(--md-sys-color-primary);
     }
 
-    &.is-selected {
+    /*&.is-selected button {
       background-color: var(--md-sys-color-primary);
       color:  var(--md-sys-color-on-primary);
-    }
+    }*/
 
-    &.is-outside-current-month,
-    &.is-disabled {
-      color: var(--md-sys-color-on-surface);
-      pointer-events: none;
-    }
-
-    border-radius: 50%;
+    // border-radius: 50%;
     padding: 0;
   }
+}
+
+// @todo
+.datepicker-day.has-event {}
+// @todo
+.datepicker-day.is-inrange {}
+// @todo
+.datepicker-day.is-startrange {}
+// @todo
+.datepicker-day.is-endrange {}
+
+.datepicker-day.is-daterange-start,
+.datepicker-day.is-daterange-end,
+.datepicker-day.is-daterange {
+  position: relative;
+
+  &:before {
+    position: absolute;
+    top: 5px;
+    width: 100%;
+    height: 34px;
+    content: '';
+    background-color: var(--md-sys-color-primary-container);
+    z-index: 0;
+  }
+}
+
+.datepicker-day.is-daterange-start:before,
+.datepicker-day.is-daterange-end:before {
+  width: 50%;
+}
+
+.datepicker-day.is-daterange-start:before {
+  left: 50%;
+}
+
+.datepicker-day.is-daterange .datepicker-day-button:before {
+  background-color: var(--md-sys-color-primary-container);
 }
 
 .datepicker-day-button {
   background-color: transparent;
   border: none;
-  line-height: 38px;
+  line-height: 34px;
   display: block;
-  width: 100%;
+  width: 34px;
   border-radius: 50%;
+  margin: 5px;
   padding: 0 5px;
   cursor: pointer;
   color: inherit;
+
+  position: relative;
+  z-index: 1;
 
   &:hover {
     background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
   }
 
   &:focus {
-    background-color: rgba(var(--md-sys-color-primary-numeric), 0.18);
+    border-color: var(--md-sys-color-primary);
+  }
+
+  .is-selected & {
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+
+    &:focus {
+      background-color: var(--md-sys-color-surface-variant);
+      color: var(--md-sys-color-primary);
+    }
+  }
+
+  &.is-outside-current-month button,
+  &.is-disabled button {
+    color: var(--md-sys-color-on-surface);
+    pointer-events: none;
   }
 }
 
@@ -192,7 +260,8 @@
 
 /* Media Queries */
 @media #{$medium-and-up} {
-  .datepicker-modal {
+  // @removed since v2.2.1-dev regarding Material M3 standards
+  /*.datepicker-modal {
     max-width: 625px;
   }
 
@@ -212,5 +281,5 @@
 
   .datepicker-day-button {
     line-height: 44px;
-  }
+  }*/
 }
