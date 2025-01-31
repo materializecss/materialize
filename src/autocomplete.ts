@@ -66,6 +66,10 @@ export interface AutocompleteOptions extends BaseOptions {
    * @default {}
    */
   dropdownOptions: Partial<DropdownOptions>;
+  /**
+   * Predefined selected values
+   */
+  selected: number[] | string[];
 }
 
 const _defaults: AutocompleteOptions = {
@@ -91,7 +95,8 @@ const _defaults: AutocompleteOptions = {
     );
   },
   maxDropDownHeight: '300px',
-  allowUnsafeHTML: false
+  allowUnsafeHTML: false,
+  selected: []
 };
 
 export class Autocomplete extends Component<AutocompleteOptions> {
@@ -125,7 +130,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.count = 0;
     this.activeIndex = -1;
     this.oldVal = '';
-    this.selectedValues = [];
+    this.selectedValues = this.selectedValues || this.options.selected.map((value) => <AutocompleteData>{ id: value }) || [];
     this.menuItems = this.options.data || [];
     this.$active = null;
     this._mousedown = false;
@@ -244,6 +249,10 @@ export class Autocomplete extends Component<AutocompleteOptions> {
 
     // Sketchy removal of dropdown click handler
     this.el.removeEventListener('click', this.dropdown._handleClick);
+    if(!this.options.isMultiSelect && !(this.options.selected.length === 0)) {
+      const selectedValue = this.menuItems.filter((value) => value.id === this.selectedValues[0].id);
+      this.el.value = selectedValue[0].text;
+    }
     // Set Value if already set in HTML
     if (this.el.value) this.selectOption(this.el.value);
     // Add StatusInfo
@@ -547,16 +556,18 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     const entry = this.menuItems.find((item) => item.id == id);
     if (!entry) return;
     // Toggle Checkbox
-    const li = this.container.querySelector('li[data-id="' + id + '"]');
-    if (!li) return;
+    /* const li = this.container.querySelector('li[data-id="' + id + '"]');
+    if (!li) return;*/
     if (this.options.isMultiSelect) {
-      const checkbox = <HTMLInputElement | null>li.querySelector('input[type="checkbox"]');
-      checkbox.checked = !checkbox.checked;
-      if (checkbox.checked) this.selectedValues.push(entry);
-      else
-        this.selectedValues = this.selectedValues.filter(
-          (selectedEntry) => selectedEntry.id !== entry.id
-        );
+      /* const checkbox = <HTMLInputElement | null>li.querySelector('input[type="checkbox"]');
+      checkbox.checked = !checkbox.checked;*/
+      if (!(this.selectedValues.filter(
+        (selectedEntry) => selectedEntry.id === entry.id
+      ).length >= 1)) this.selectedValues.push(entry);
+      else this.selectedValues = this.selectedValues.filter(
+        (selectedEntry) => selectedEntry.id !== entry.id
+      );
+      this._renderDropdown();
       this.el.focus();
     } else {
       // Single-Select
