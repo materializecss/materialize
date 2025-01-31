@@ -22,7 +22,8 @@ describe('Datepicker Plugin', () => {
       setTimeout(() => {
         const day1 = document.querySelector('.datepicker-container button[data-day="1"]');
         day1.click();
-        document.querySelector('.datepicker-done').click();
+        // Removed since autoSubmit option
+        // document.querySelector('.datepicker-done').click();
         setTimeout(() => {
           const year = today.getFullYear();
           const month = today.getMonth() + 1;
@@ -43,7 +44,8 @@ describe('Datepicker Plugin', () => {
       setTimeout(() => {
         const day1 = document.querySelector('.datepicker-container button[data-day="1"]');
         day1.click();
-        document.querySelector('.datepicker-done').click();
+        // Removed since autoSubmit option
+        // document.querySelector('.datepicker-done').click();
         setTimeout(() => {
           const year = today.getFullYear() - 100;
           const month = today.getMonth() + 1;
@@ -105,11 +107,56 @@ describe('Datepicker Plugin', () => {
           }, i * 10);
         }
         setTimeout(() => {
-          document.querySelector('.datepicker-done').click();
+          // Removed since autoSubmit option
+          // document.querySelector('.datepicker-done').click();
           expect(document.querySelectorAll('.datepicker').length === 3).toEqual(true);
           done();
         }, 40);
       }, 10);
+    });
+
+    it('should integrate action util buttons by option', (done) => {
+      const input = document.querySelector('#datepickerInput');
+      M.Datepicker.init(input, { format: 'mm/dd/yyyy', autoSubmit: false, showClearBtn: true });
+      const today = new Date();
+      const clearBtn = document.querySelector('.datepicker-clear');
+      const cancelBtn = document.querySelector('.btn-cancel');
+      const confirmBtn = document.querySelector('.btn-confirm');
+      const year = today.getFullYear();
+      const month = today.getMonth() + 1;
+      const day = today.getDay() <= 26 ? today.getDay() + 2 : today.getDay() - 2;
+
+      setTimeout(() => {
+        expect(clearBtn).toExist('clear button should exist');
+        expect(cancelBtn).toExist('cancel should exist');
+        expect(confirmBtn).toExist('confirm should exist');
+        let dayEl = document.querySelector(`.datepicker-container button[data-day="${day}"]`);
+        dayEl.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+        confirmBtn.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+        setTimeout(() => {
+          expect(input.value)
+            .withContext('value should change with confirm interaction')
+            .toEqual(`${month < 10 ? `0${month}` : month}/0${day}/${year}`);
+          dayEl = document.querySelector('.datepicker-container button[data-day="1"]');
+          dayEl.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+          cancelBtn.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+          setTimeout(() => {
+            expect(input.value)
+              .withContext('value should not change with cancel interaction')
+              .toEqual(`${month < 10 ? `0${month}` : month}/0${day}/${year}`);
+            clearBtn.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+            setTimeout(() => {
+              expect(input.value.length)
+                .withContext('input field should be empty with clear interaction')
+                .toEqual(0);
+              expect(document.querySelector('.datepicker-container button.is-selected'))
+                .withContext('there should be no selected day with clear interaction')
+                .toBe(null);
+              done();
+            }, 10);
+          }, 10);
+        }, 10);
+      });
     });
   });
 });
