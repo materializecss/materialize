@@ -321,7 +321,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     else if (Utils.keys.ENTER.includes(e.key) && this.isOpen) {
       // Search for <a> and <button>
       const focusedElement = this.dropdownEl.children[this.focusedIndex];
-      const activatableElement = <HTMLElement>focusedElement.querySelector('a, button');
+      const activatableElement = <HTMLElement>focusedElement?.querySelector('a, button');
       // Click a or button tag if exists, otherwise click li tag
       if (!!activatableElement) {
         activatableElement.click();
