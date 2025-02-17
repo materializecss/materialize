@@ -528,11 +528,25 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   /**
    * Updates the visible or selectable items shown in the menu.
    * @param menuItems Items to be available.
+   * @param selected Selected item ids
+   * @param open Option to conditionally open dropdown
    */
-  setMenuItems(menuItems: AutocompleteData[]) {
+  setMenuItems(menuItems: AutocompleteData[], selected: number[] | string[] = null, open: boolean = true) {
     this.menuItems = menuItems;
-    this.open();
+    this.options.data = menuItems;
+    if (selected) {
+      this.selectedValues = this.menuItems.filter(
+        (item) => !(selected.indexOf(<never>item.id) === -1)
+      );
+    }
+    if (this.options.isMultiSelect) {
+      this._renderDropdown();
+    } else {
+      this._refreshInputText();
+    }
+    if (open) this.open();
     this._updateSelectedInfo();
+    this._triggerChanged();
   }
 
   /**
