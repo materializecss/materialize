@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://materializeweb.com" target="_blank">
-    <img src="https://materializeweb.com/images/materialize.svg" width="200">
+    <img src="https://materializeweb.com/images/materialize.svg" width="200"/>
   </a>
 </p>
 
@@ -13,19 +13,19 @@
   <br>
   <br>
   <a href="https://github.com/materializecss/materialize/actions/">
-    <img src="https://github.com/materializecss/materialize/actions/workflows/nightly.yml/badge.svg" alt="GitHub Actions badge">
+    <img src="https://github.com/materializecss/materialize/actions/workflows/nightly.yml/badge.svg" alt="GitHub Actions badge"/>
   </a>
   <a href="https://www.npmjs.com/package/@materializecss/materialize">
-    <img src="https://badge.fury.io/js/%40materializecss%2Fmaterialize.svg" alt="npm version badge">
+    <img src="https://badge.fury.io/js/%40materializecss%2Fmaterialize.svg" alt="npm version badge"/>
   </a>
   <a href="https://www.jsdelivr.com/package/npm/@materializecss/materialize">
-    <img src="https://data.jsdelivr.com/v1/package/npm/@materializecss/materialize/badge" alt="jsDelivr version badge">
+    <img src="https://data.jsdelivr.com/v1/package/npm/@materializecss/materialize/badge" alt="jsDelivr version badge"/>
   </a>
   <a href="https://gitter.im/materializecss/materialize">
-    <img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter badge">
+    <img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter badge"/>
   </a>
   <a href="https://opencollective.com/materialize">
-    <img alt="Open Collective backers and sponsors" src="https://img.shields.io/opencollective/all/materialize">
+    <img alt="Open Collective backers and sponsors" src="https://img.shields.io/opencollective/all/materialize"/>
   </a>
 </p>
 
@@ -50,7 +50,7 @@ This is the core project with all the components. To see how they are used we re
 See [Materialize Docs Repo](https://github.com/materializecss/materialize-docs) to see Materialize in Action.
 
 ### Releases
-Previous releases are available [here](https://github.com/materializecss/materialize/releases).
+Previous releases are available [here](https://github.com/materializecss/materialize/releases). You can also find the changelog under each release.
 
 ## Supported Browsers:
 Materialize is compatible with:
@@ -60,9 +60,6 @@ Materialize is compatible with:
 - Safari 9+
 - Opera
 - Edge
-
-## Changelog
-For changelogs, check out [the Releases section of materialize](https://github.com/materializecss/materialize/releases) or the [CHANGELOG.md](CHANGELOG.md).
 
 ## Testing
 We use Jasmine as our testing framework and we're trying to write a robust test suite for our components. If you want to help, [here's a starting guide on how to write tests in Jasmine](CONTRIBUTING.md#jasmine-testing-guide).
@@ -91,4 +88,4 @@ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com
 [![Backers](https://opencollective.com/materialize/backers.svg?width=890)](https://opencollective.com/materialize#backers)
 
 ## Copyright and license
-Code Copyright 2024 Materialize. Code released under the MIT license.
+Code Copyright 2025 Materialize. Code released under the MIT license.
