@@ -127,7 +127,10 @@ const config: RollupOptions[] = [
     plugins: [
       scss({
         fileName: 'materialize.css',
-        processor: (css) => postcss([autoprefixer]).process(css, { from: 'materialize.min.css' }).then(result => result.css),
+        processor: (css) =>
+          postcss([autoprefixer])
+            .process(css, { from: 'materialize.min.css' })
+            .then((result) => result.css)
       })
     ],
     onwarn: (warning, defaultHandler) => {
@@ -150,7 +153,7 @@ const config: RollupOptions[] = [
           {
             src: `dist/css/*.min.css`,
             dest: `dist/css`,
-            transform: (contents) => [bannerText, contents.toString().substring(1)].join('\n') // bug => workaround
+            transform: (contents) => [bannerText, contents.toString()].join('\n') // bug => workaround
           }
         ]
       })
