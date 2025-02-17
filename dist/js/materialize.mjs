@@ -847,8 +847,8 @@ const _defaults$l = {
     isMultiSelect: false,
     onSearch: (text, autocomplete) => {
         const normSearch = text.toLocaleLowerCase();
-        autocomplete.setMenuItems(autocomplete.options.data.filter((option) => option.id.toString().toLocaleLowerCase().includes(normSearch) ||
-            option.text?.toLocaleLowerCase().includes(normSearch)));
+        autocomplete.setMenuItems(autocomplete.options.data.filter((option) => option.id.toString().toLocaleLowerCase().includes(normSearch)
+            || option.text?.toLocaleLowerCase().includes(normSearch)));
     },
     maxDropDownHeight: '300px',
     allowUnsafeHTML: false
@@ -937,6 +937,7 @@ class Autocomplete extends Component {
         this.container.style.maxHeight = this.options.maxDropDownHeight;
         this.container.id = `autocomplete-options-${Utils.guid()}`;
         this.container.classList.add('autocomplete-content', 'dropdown-content');
+        this.container.ariaExpanded = 'true';
         this.el.setAttribute('data-target', this.container.id);
         this.menuItems.forEach((menuItem) => {
             const itemElement = this._createDropdownItem(menuItem);
@@ -980,6 +981,7 @@ class Autocomplete extends Component {
         this._updateSelectedInfo();
     }
     _removeDropdown() {
+        this.container.ariaExpanded = 'false';
         this.container.parentNode.removeChild(this.container);
     }
     _handleInputBlur = () => {
@@ -1089,6 +1091,7 @@ class Autocomplete extends Component {
         const item = document.createElement('li');
         item.setAttribute('data-id', entry.id);
         item.setAttribute('style', 'display:grid; grid-auto-flow: column; user-select: none; align-items: center;');
+        item.tabIndex = 0;
         // Checkbox
         if (this.options.isMultiSelect) {
             item.innerHTML = `
@@ -1301,6 +1304,8 @@ class FloatingActionButton extends Component {
         this.offsetY = 0;
         this.offsetX = 0;
         this.el.classList.add(`direction-${this.options.direction}`);
+        this._anchor.tabIndex = 0;
+        this._menu.ariaExpanded = 'false';
         if (this.options.direction === 'top')
             this.offsetY = 40;
         else if (this.options.direction === 'right')
@@ -1337,6 +1342,7 @@ class FloatingActionButton extends Component {
         else {
             this.el.addEventListener('click', this._handleFABClick);
         }
+        this.el.addEventListener('keypress', this._handleFABKeyPress);
     }
     _removeEventHandlers() {
         if (this.options.hoverEnabled && !this.options.toolbarEnabled) {
@@ -1346,8 +1352,17 @@ class FloatingActionButton extends Component {
         else {
             this.el.removeEventListener('click', this._handleFABClick);
         }
+        this.el.removeEventListener('keypress', this._handleFABKeyPress);
     }
     _handleFABClick = () => {
+        this._handleFABToggle();
+    };
+    _handleFABKeyPress = (e) => {
+        if (Utils.keys.ENTER.includes(e.key)) {
+            this._handleFABToggle();
+        }
+    };
+    _handleFABToggle = () => {
         if (this.isOpen) {
             this.close();
         }
@@ -1389,6 +1404,7 @@ class FloatingActionButton extends Component {
     };
     _animateInFAB() {
         this.el.classList.add('active');
+        this._menu.ariaExpanded = 'true';
         const delayIncrement = 40;
         const duration = 275;
         this._floatingBtnsReverse.forEach((el, index) => {
@@ -1405,18 +1421,23 @@ class FloatingActionButton extends Component {
                     el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
                     el.style.opacity = '1';
                     el.style.transform = 'translate(0, 0) scale(1)';
+                    el.tabIndex = 0;
                 }, 1);
             }, delay);
         });
     }
     _animateOutFAB() {
         const duration = 175;
-        setTimeout(() => this.el.classList.remove('active'), duration);
+        setTimeout(() => {
+            this.el.classList.remove('active');
+            this._menu.ariaExpanded = 'false';
+        }, duration);
         this._floatingBtnsReverse.forEach((el) => {
             el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
             // to
             el.style.opacity = '0';
             el.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px) scale(0.4)`;
+            el.tabIndex = -1;
         });
     }
     _animateInToolbar() {
@@ -1440,6 +1461,7 @@ class FloatingActionButton extends Component {
         this.el.style.left = '0';
         this.el.style.transform = 'translateX(' + this.offsetX + 'px)';
         this.el.style.transition = 'none';
+        this._menu.ariaExpanded = 'true';
         this._anchor.style.transform = `translateY(${this.offsetY}px`;
         this._anchor.style.transition = 'none';
         setTimeout(() => {
@@ -1454,9 +1476,10 @@ class FloatingActionButton extends Component {
                 this.el.style.backgroundColor = fabColor;
                 backdrop.style.transform = 'scale(' + scaleFactor + ')';
                 backdrop.style.transition = 'transform .2s cubic-bezier(0.550, 0.055, 0.675, 0.190)';
-                this._menu
-                    .querySelectorAll('li > a')
-                    .forEach((a) => (a.style.opacity = '1'));
+                this._menu.querySelectorAll('li > a').forEach((a) => {
+                    a.style.opacity = '1';
+                    a.tabIndex = 0;
+                });
                 // Scroll to close.
                 window.addEventListener('scroll', this.close, true);
                 document.body.addEventListener('click', this._handleDocumentClick, true);
@@ -1484,6 +1507,7 @@ class Cards extends Component {
             ...Cards.defaults,
             ...options
         };
+        this._activators = [];
         this.cardReveal = this.el.querySelector('.card-reveal');
         if (this.cardReveal) {
             this.initialOverflow = getComputedStyle(this.el).overflow;
@@ -1599,6 +1623,17 @@ class Cards extends Component {
         }
         this._removeRevealCloseEventHandlers();
     };
+    static Init() {
+        if (typeof document !== 'undefined')
+            // Handle initialization of static cards.
+            document.addEventListener('DOMContentLoaded', () => {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach((el) => {
+                    if (el && (el['M_Card'] == undefined))
+                        this.init(el);
+                });
+            });
+    }
 }
 
 const _defaults$i = {
@@ -1758,9 +1793,7 @@ class Carousel extends Component {
         }
         window.removeEventListener('resize', this._handleThrottledResize);
     }
-    _handleThrottledResize = Utils.throttle(function () {
-        this._handleResize();
-    }, 200, null).bind(this);
+    _handleThrottledResize = () => Utils.throttle(this._handleResize, 200, null).bind(this);
     _handleCarouselTap = (e) => {
         // Fixes firefox draggable image bug
         if (e.type === 'mousedown' && e.target.tagName === 'IMG') {
@@ -2690,6 +2723,7 @@ class FormSelect extends Component {
     wrapper;
     selectOptions;
     _values;
+    nativeTabIndex;
     constructor(el, options) {
         super(el, options, FormSelect);
         if (this.el.classList.contains('browser-default'))
@@ -2700,6 +2734,7 @@ class FormSelect extends Component {
             ...options
         };
         this.isMultiple = this.el.multiple;
+        this.nativeTabIndex = (this.el.tabIndex ?? -1);
         this.el.tabIndex = -1;
         this._values = [];
         this._setupDropdown();
@@ -2863,6 +2898,7 @@ class FormSelect extends Component {
         this.input.ariaRequired = this.el.hasAttribute('required').toString(); //setAttribute("aria-required", this.el.hasAttribute("required"));
         if (this.el.disabled)
             this.input.disabled = true; // 'true');
+        this.input.setAttribute('tabindex', this.nativeTabIndex.toString());
         const attrs = this.el.attributes;
         for (let i = 0; i < attrs.length; ++i) {
             const attr = attrs[i];
@@ -4928,9 +4964,7 @@ class ScrollSpy extends Component {
             document.body.removeEventListener('click', this._handleTriggerClick);
         }
     }
-    _handleThrottledResize = Utils.throttle(function () {
-        this._handleWindowScroll();
-    }, 200).bind(this);
+    _handleThrottledResize = () => Utils.throttle(this._handleWindowScroll, 200).bind(this);
     _handleTriggerClick = (e) => {
         const trigger = e.target;
         for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
@@ -5900,9 +5934,7 @@ class TapTarget extends Component {
         // this.originEl.removeEventListener('click', this._handleOriginClick);
         window.removeEventListener('resize', this._handleThrottledResize);
     }
-    _handleThrottledResize = Utils.throttle(function () {
-        this._handleResize();
-    }, 200).bind(this);
+    _handleThrottledResize = () => Utils.throttle(this._handleResize, 200).bind(this);
     _handleKeyboardInteraction = (e) => {
         if (Utils.keys.ENTER.includes(e.key)) {
             this._handleTargetToggle();
@@ -6330,32 +6362,35 @@ class Timepicker extends Component {
         this.footer = this.containerEl.querySelector('.timepicker-footer');
         this.amOrPm = 'PM';
     }
-    _createButton(text, visibility) {
-        const button = document.createElement('button');
-        button.classList.add('btn', 'btn-flat', 'waves-effect', 'text');
-        button.style.visibility = visibility;
-        button.type = 'button';
-        button.tabIndex = -1;
-        button.innerText = text;
-        return button;
-    }
+    /*private _createButton(text: string, visibility: string): HTMLButtonElement {
+      const button = document.createElement('button');
+      button.classList.add('btn', 'waves-effect', 'text');
+      button.style.visibility = visibility;
+      button.type = 'button';
+      button.tabIndex = -1;
+      button.innerText = text;
+      return button;
+    }*/
     _pickerSetup() {
-        const clearButton = this._createButton(this.options.i18n.clear, this.options.showClearBtn ? '' : 'hidden');
-        clearButton.classList.add('timepicker-clear');
-        clearButton.addEventListener('click', this.clear);
-        this.footer.appendChild(clearButton);
+        // clearButton.classList.add('timepicker-clear');
+        // clearButton.addEventListener('click', this.clear);
+        // this.footer.appendChild(clearButton);
+        Utils.createButton(this.footer, this.options.i18n.clear, ['timepicker-clear'], this.options.showClearBtn, this.clear);
         if (!this.options.autoSubmit) {
-            const confirmationBtnsContainer = document.createElement('div');
+            /*const confirmationBtnsContainer = document.createElement('div');
             confirmationBtnsContainer.classList.add('confirmation-btns');
             this.footer.append(confirmationBtnsContainer);
+        
             const cancelButton = this._createButton(this.options.i18n.cancel, '');
             cancelButton.classList.add('timepicker-close');
             cancelButton.addEventListener('click', this.close);
             confirmationBtnsContainer.appendChild(cancelButton);
+        
             const doneButton = this._createButton(this.options.i18n.done, '');
             doneButton.classList.add('timepicker-close');
-            doneButton.addEventListener('click', this.done);
-            confirmationBtnsContainer.appendChild(doneButton);
+            //doneButton.addEventListener('click', this._finishSelection);
+            confirmationBtnsContainer.appendChild(doneButton);*/
+            Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this.confirm, this.cancel);
         }
         this._updateTimeFromInput();
         this.showView('hours');
@@ -6699,15 +6734,12 @@ class Timepicker extends Component {
     };
     confirm = () => {
         this.done();
-        if (typeof this.options.onDone === 'function') {
-            setTimeout(() => {
-                this.options.onDone.call(this);
-            }, this.options.duration / 2);
-        }
+        if (typeof this.options.onDone === 'function')
+            this.options.onDone.call(this);
     };
     cancel = () => {
         this.clear();
-        if (typeof this.options.onDone === 'function')
+        if (typeof this.options.onCancel === 'function')
             this.options.onCancel.call(this);
     };
     clear = () => {
@@ -7972,5 +8004,6 @@ Forms.Init();
 Chips.Init();
 Waves.Init();
 Range.Init();
+Cards.Init();
 
 export { AutoInit, Autocomplete, Cards, Carousel, CharacterCounter, Chips, Collapsible, Datepicker, Dropdown, FloatingActionButton, FormSelect, Forms, Materialbox, Modal, Parallax, Pushpin, Range, ScrollSpy, Sidenav, Slider, Tabs, TapTarget, Timepicker, Toast, Tooltip, Waves, version };

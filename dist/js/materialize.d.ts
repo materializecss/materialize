@@ -412,6 +412,8 @@ declare class FloatingActionButton extends Component<FloatingActionButtonOptions
     _setupEventHandlers(): void;
     _removeEventHandlers(): void;
     _handleFABClick: () => void;
+    _handleFABKeyPress: (e: any) => void;
+    _handleFABToggle: () => void;
     _handleDocumentClick: (e: MouseEvent) => void;
     /**
      * Open FAB.
@@ -473,6 +475,7 @@ declare class Cards extends Component<CardsOptions> implements Openable {
      * Hide card reveal.
      */
     close: () => void;
+    static Init(): void;
 }
 
 interface CarouselOptions extends BaseOptions$1 {
@@ -1590,6 +1593,7 @@ declare class FormSelect extends Component<FormSelectOptions> {
     wrapper: HTMLDivElement;
     selectOptions: (HTMLOptionElement | HTMLOptGroupElement)[];
     private _values;
+    nativeTabIndex: number;
     constructor(el: HTMLSelectElement, options: FormSelectOptions);
     static get defaults(): FormSelectOptions;
     /**
@@ -2055,7 +2059,6 @@ declare class Timepicker extends Component<TimepickerOptions> {
     _handleDocumentClickEnd: (e: any) => void;
     _insertHTMLIntoDOM(): void;
     _setupVariables(): void;
-    private _createButton;
     _pickerSetup(): void;
     _clockSetup(): void;
     _buildSVGClock(): void;
