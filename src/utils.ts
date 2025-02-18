@@ -325,4 +325,106 @@ export class Utils {
     });
     container.append(button);
   }
+
+  static _setAbsolutePosition(
+    origin: HTMLElement,
+    container: HTMLElement,
+    position: string,
+    margin: number,
+    transitionMovement: number,
+    align: string = 'center'
+  ) {
+    const originHeight = origin.offsetHeight,
+      originWidth = origin.offsetWidth,
+      containerHeight = container.offsetHeight,
+      containerWidth = container.offsetWidth;
+    let xMovement = 0,
+      yMovement = 0,
+      targetTop = origin.getBoundingClientRect().top + Utils.getDocumentScrollTop(),
+      targetLeft = origin.getBoundingClientRect().left + Utils.getDocumentScrollLeft();
+
+    if (position === 'top') {
+      targetTop += -containerHeight - margin;
+      if (align === 'center') {
+        targetLeft += originWidth / 2 - containerWidth / 2; // This is center align
+      }
+      yMovement = -transitionMovement;
+    } else if (position === 'right') {
+      targetTop += originHeight / 2 - containerHeight / 2;
+      targetLeft = originWidth + margin;
+      xMovement = transitionMovement;
+    } else if (position === 'left') {
+      targetTop += originHeight / 2 - containerHeight / 2;
+      targetLeft = -containerWidth - margin;
+      xMovement = -transitionMovement;
+    } else {
+      targetTop += originHeight + margin;
+      if (align === 'center') {
+        targetLeft += originWidth / 2 - containerWidth / 2; // This is center align
+      }
+      yMovement = transitionMovement;
+    }
+    if (align === 'right') {
+      targetLeft += originWidth - containerWidth - margin;
+    }
+
+    const newCoordinates = Utils._repositionWithinScreen(
+      targetLeft,
+      targetTop,
+      containerWidth,
+      containerHeight,
+      margin,
+      transitionMovement,
+      align
+    );
+
+    container.style.top = newCoordinates.y + 'px';
+    container.style.left = newCoordinates.x + 'px';
+
+    return {x: xMovement, y: yMovement};
+  }
+
+  static _repositionWithinScreen(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    margin: number,
+    transitionMovement: number,
+    align: string
+  ) {
+    const scrollLeft = Utils.getDocumentScrollLeft();
+    const scrollTop = Utils.getDocumentScrollTop();
+    let newX = x - scrollLeft;
+    let newY = y - scrollTop;
+
+    const bounding: Bounding = {
+      left: newX,
+      top: newY,
+      width: width,
+      height: height
+    };
+    let offset: number;
+    if (align === 'left' || align == 'center') {
+      offset = margin + transitionMovement;
+    } else if (align === 'right') {
+      offset = margin - transitionMovement;
+    }
+    const edges = Utils.checkWithinContainer(document.body, bounding, offset);
+
+    if (edges.left) {
+      newX = offset;
+    } else if (edges.right) {
+      newX -= newX + width - window.innerWidth;
+    }
+    if (edges.top) {
+      newY = offset;
+    } else if (edges.bottom) {
+      newY -= newY + height - window.innerHeight;
+    }
+    return {
+      x: newX + scrollLeft,
+      y: newY + scrollTop
+    };
+  }
 }
