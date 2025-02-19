@@ -5,6 +5,7 @@
 //@import "components/_theme_variables";
 @import "components/colors.module";
 @import "components/typography.module";
+@import "components/mixins.module";
 
 // Color
 @import "components/color-variables";
@@ -17,6 +18,7 @@
 
 // components
 @import "components/global";
+@import "components/buttons";
 @import "components/collection";
 @import "components/badges";
 @import "components/icons-material-design";
@@ -28,7 +30,6 @@
 @import "components/toast";
 @import "components/tabs";
 @import "components/tooltip";
-@import "components/buttons";
 @import "components/dropdown";
 
 @import "components/modal";
@@ -45,3 +46,5 @@
 @import "components/pulse";
 @import "components/datepicker";
 @import "components/timepicker";
+@import "components/breadcrumb";
+@import "components/pagination";
