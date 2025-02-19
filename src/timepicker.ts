@@ -193,7 +193,6 @@ export class Timepicker extends Component<TimepickerOptions> {
     this._pickerSetup();
 
     if (this.options.displayPlugin) {
-      // @todo eventually change modalEl to containerEl when https://github.com/materializecss/materialize/issues/558 is merged
       if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
     }
   }
