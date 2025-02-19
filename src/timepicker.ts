@@ -1,5 +1,6 @@
 import { Utils } from './utils';
 import { Component, BaseOptions, InitElements, MElement, I18nOptions } from './component';
+import { DockedDisplayPlugin } from './plugin/dockedDisplayPlugin';
 
 export type Views = 'hours' | 'minutes';
 
@@ -89,6 +90,14 @@ export interface TimepickerOptions extends BaseOptions {
    * @default null
    */
   onCancel: (() => void) | null;
+  /**
+   * Display plugin
+   */
+  displayPlugin: string;
+  /**
+   * Configurable display plugin options
+   */
+  displayPluginOptions: object;
 }
 
 const _defaults: TimepickerOptions = {
@@ -115,6 +124,8 @@ const _defaults: TimepickerOptions = {
   onInputInteraction: null,
   onDone: null,
   onCancel: null,
+  displayPlugin: null,
+  displayPluginOptions: null,
 };
 
 type Point = {
@@ -165,6 +176,7 @@ export class Timepicker extends Component<TimepickerOptions> {
   g: Element;
   toggleViewTimer: string | number | NodeJS.Timeout;
   vibrateTimer: NodeJS.Timeout | number;
+  private displayPlugin: DockedDisplayPlugin;
 
   constructor(el: HTMLInputElement, options: Partial<TimepickerOptions>) {
     super(el, options, Timepicker);
@@ -179,6 +191,10 @@ export class Timepicker extends Component<TimepickerOptions> {
     this._setupEventHandlers();
     this._clockSetup();
     this._pickerSetup();
+
+    if (this.options.displayPlugin) {
+      if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+    }
   }
 
   static get defaults(): TimepickerOptions {
@@ -262,6 +278,7 @@ export class Timepicker extends Component<TimepickerOptions> {
   _handleInputClick = () => {
     this.inputHours.focus();
     if (typeof this.options.onInputInteraction === 'function') this.options.onInputInteraction.call(this);
+    if (this.displayPlugin) this.displayPlugin.show();
   };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
@@ -269,6 +286,7 @@ export class Timepicker extends Component<TimepickerOptions> {
       e.preventDefault();
       this.inputHours.focus();
       if (typeof this.options.onInputInteraction === 'function') this.options.onInputInteraction.call(this);
+      if (this.displayPlugin) this.displayPlugin.show();
     }
   };
 
@@ -806,7 +824,8 @@ export class Timepicker extends Component<TimepickerOptions> {
   }
 
   cancel = () => {
-    this.clear();
+    // not logical clearing the input field on cancel, since the end user might want to make use of the previously submitted value
+    // this.clear();
     if (typeof this.options.onCancel === 'function') this.options.onCancel.call(this);
   }
 
