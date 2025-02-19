@@ -194,7 +194,7 @@ export class Timepicker extends Component<TimepickerOptions> {
 
     if (this.options.displayPlugin) {
       // @todo eventually change modalEl to containerEl when https://github.com/materializecss/materialize/issues/558 is merged
-      if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.modalEl, this.options.displayPluginOptions);
+      if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
     }
   }
 
@@ -825,7 +825,8 @@ export class Timepicker extends Component<TimepickerOptions> {
   }
 
   cancel = () => {
-    this.clear();
+    // not logical clearing the input field on cancel, since the end user might want to make use of the previously submitted value
+    // this.clear();
     if (typeof this.options.onCancel === 'function') this.options.onCancel.call(this);
   }
 
