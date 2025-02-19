@@ -138,3 +138,4 @@ Forms.Init();
 Chips.Init();
 Waves.Init();
 Range.Init();
+Cards.Init();

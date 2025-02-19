@@ -1,10 +1,9 @@
-// TODO: Make better wrapper class like .navbar
 :root {
   --navbar-height: 64px;
   --navbar-height-mobile: 56px;
 }
 
-nav {
+.navbar {
   &.nav-extended {
     height: auto;
 
@@ -139,11 +138,11 @@ nav {
         cursor: pointer;
 
         &.active {
-          background-color: var(--md-ref-palette-primary80);
+          background-color: var(--md-sys-color-primary-container-dark);
         }
 
         &:hover:not(.active) {
-          background-color: var(--md-ref-palette-primary70);
+          background-color: var(--md-sys-color-on-primary-dark);
         }
 
         &.btn, &.btn-large, &.btn-flat, &.btn-floating {
@@ -211,7 +210,7 @@ nav {
   height: var(--navbar-height-mobile);
   z-index: 997;
 
-  nav {
+  .navbar {
     position: fixed;
     right: 0;
   }
@@ -221,7 +220,7 @@ nav {
   nav.nav-extended .nav-wrapper {
     min-height: var(--navbar-height-mobile);
   }
-  nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
+  .nav, .navbar .nav-wrapper i, nav a.sidenav-trigger, .navbar a.sidenav-trigger i {
     height: var(--navbar-height);
     line-height: var(--navbar-height)
   }

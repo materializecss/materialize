@@ -31,6 +31,10 @@ export interface DatepickerOptions extends BaseOptions {
    */
   isDateRange: boolean;
   /**
+   * The selector of the user specified date range end element
+   */
+  dateRangeEndEl: string | null;
+  /**
    * The initial condition if the datepicker is based on multiple date selection.
    * @default false
    */
@@ -107,6 +111,10 @@ export interface DatepickerOptions extends BaseOptions {
    */
   showDaysInNextAndPreviousMonths: boolean;
   /**
+   * Specify if the docked datepicker is in open state by default
+   */
+  openByDefault: boolean;
+  /**
    * Specify a DOM element OR selector for a DOM element to render
    * the calendar in, by default it will be placed before the input.
    * @default null
@@ -143,7 +151,11 @@ export interface DatepickerOptions extends BaseOptions {
    * @default null
    */
   onDraw: (() => void) | null;
-
+  /**
+   * Callback function for interaction with input field.
+   * @default null
+   */
+  onInputInteraction: (() => void) | null;
   /** Field used for internal calculations DO NOT CHANGE IT */
   minYear?: number;
   /** Field used for internal calculations DO NOT CHANGE IT */
@@ -165,6 +177,8 @@ const _defaults: DatepickerOptions = {
   parse: null,
   // The initial condition if the datepicker is based on date range
   isDateRange: false,
+  // The selector of the user specified date range end element
+  dateRangeEndEl: null,
   // The initial condition if the datepicker is based on multiple date selection
   isMultipleSelection: false,
   // The initial date to view when first opened
@@ -198,6 +212,8 @@ const _defaults: DatepickerOptions = {
   showMonthAfterYear: false,
   // Render days of the calendar grid that fall in the next or previous month
   showDaysInNextAndPreviousMonths: false,
+  // Specify if docked picker is in open state by default
+  openByDefault: false,
   // Specify a DOM element to render the calendar in
   container: null,
   // Show clear button
@@ -245,7 +261,8 @@ const _defaults: DatepickerOptions = {
   events: [],
   // callback function
   onSelect: null,
-  onDraw: null
+  onDraw: null,
+  onInputInteraction: null,
 };
 
 export class Datepicker extends Component<DatepickerOptions> {
@@ -260,7 +277,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   doneBtn: HTMLElement;
   cancelBtn: HTMLElement;
 
-  modalEl: HTMLElement;
+  containerEl: HTMLElement;
   yearTextEl: HTMLElement;
   dateTextEl: HTMLElement;
   endDateEl: HTMLInputElement;
@@ -409,7 +426,7 @@ export class Datepicker extends Component<DatepickerOptions> {
 
   destroy() {
     this._removeEventHandlers();
-    this.modalEl.remove();
+    this.containerEl.remove();
     this.destroySelects();
     this.el['M_Datepicker'] = undefined;
   }
@@ -431,9 +448,23 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.el.classList.add('datepicker-date-input');
     }
 
+    if (!this.el.parentElement.querySelector('.datepicker-format') === null) {
+      this._renderDateInputFormat(this.el);
+    }
+
     if (this.options.isDateRange) {
-      this.endDateEl = this.createDateInput();
-      this.endDateEl.classList.add('datepicker-end-date');
+      this.containerEl.classList.add('daterange');
+      if (!this.options.dateRangeEndEl) {
+        this.endDateEl = this.createDateInput();
+        this.endDateEl.classList.add('datepicker-end-date');
+      } else if(document.querySelector(this.options.dateRangeEndEl) as HTMLInputElement === undefined) {
+        console.warn('Specified date range end input element in dateRangeEndEl not found');
+      } else {
+        this.endDateEl = document.querySelector(this.options.dateRangeEndEl) as HTMLInputElement;
+        if (!this.endDateEl.parentElement.querySelector('.datepicker-format') === null) {
+          this._renderDateInputFormat(this.endDateEl);
+        }
+      }
     }
 
     if (this.options.showClearBtn) {
@@ -447,11 +478,20 @@ export class Datepicker extends Component<DatepickerOptions> {
       const optEl = this.options.container;
       this.options.container =
         optEl instanceof HTMLElement ? optEl : (document.querySelector(optEl) as HTMLElement);
-      this.options.container.append(this.modalEl);
+      this.options.container.append(this.containerEl);
     } else {
-      //this.modalEl.before(this.el);
-      this.el.parentElement.appendChild(this.modalEl);
+      //this.containerEl.before(this.el);
+      const appendTo = !this.endDateEl ? this.el : this.endDateEl;
+      if (!this.options.openByDefault) (this.containerEl as HTMLElement).setAttribute('style', 'display: none; visibility: hidden;');
+      appendTo.parentElement.after(this.containerEl);
     }
+  }
+
+  /**
+   * Renders the date input format
+   */
+  _renderDateInputFormat(el: HTMLInputElement) {
+    el.parentElement.querySelector('.datepicker-format').innerHTML = this.options.format.toString();
   }
 
   /**
@@ -603,7 +643,6 @@ export class Datepicker extends Component<DatepickerOptions> {
    * Sets given date as the input value on the given element.
    */
   setInputValue(el, date) {
-    console.log('setinputvalue');
     if (el.type == 'date') {
       this.setDataDate(el, date);
       el.value = this.formatDate(date, 'yyyy-mm-dd');
@@ -739,6 +778,8 @@ export class Datepicker extends Component<DatepickerOptions> {
           (this.options.maxDate && day > this.options.maxDate) ||
           (this.options.disableWeekends && Datepicker._isWeekend(day)) ||
           (this.options.disableDayFn && this.options.disableDayFn(day)),
+        isDateRangeStart = this.options.isDateRange && this.date && this.endDate && Datepicker._compareDates(this.date, day),
+        isDateRangeEnd = this.options.isDateRange && this.endDate && Datepicker._compareDates(this.endDate, day),
         isDateRange =
           this.options.isDateRange &&
           Datepicker._isDate(this.endDate) &&
@@ -788,6 +829,8 @@ export class Datepicker extends Component<DatepickerOptions> {
         isEndRange: isEndRange,
         isInRange: isInRange,
         showDaysInNextAndPreviousMonths: this.options.showDaysInNextAndPreviousMonths,
+        isDateRangeStart: isDateRangeStart,
+        isDateRangeEnd: isDateRangeEnd,
         isDateRange: isDateRange
       };
 
@@ -804,8 +847,21 @@ export class Datepicker extends Component<DatepickerOptions> {
   }
 
   renderDay(opts) {
-    const arr = [];
-    let ariaSelected = 'false';
+    const classMap = {
+        isDisabled: 'is-disabled',
+        isToday: 'is-today',
+        isSelected: 'is-selected',
+        hasEvent: 'has-event',
+        isInRange: 'is-inrange',
+        isStartRange: 'is-startrange',
+        isEndRange: 'is-endrange',
+        isDateRangeStart: 'is-daterange-start',
+        isDateRangeEnd: 'is-daterange-end',
+        isDateRange: 'is-daterange'
+      },
+      ariaSelected = !(['isSelected', 'isDateRange'].filter((prop) => !!(opts.hasOwnProperty(prop) && opts[prop] === true)).length === 0),
+      arr = ['datepicker-day'];
+
     if (opts.isEmpty) {
       if (opts.showDaysInNextAndPreviousMonths) {
         arr.push('is-outside-current-month');
@@ -815,44 +871,12 @@ export class Datepicker extends Component<DatepickerOptions> {
       }
     }
 
-    // @todo wouldn't it be better defining opts class mapping and looping trough opts?
-    if (opts.isDisabled) {
-      arr.push('is-disabled');
+    for (const [property, className] of Object.entries(classMap)) {
+      if (opts.hasOwnProperty(property) && opts[property]) {
+        arr.push(className);
+      }
     }
 
-    if (opts.isToday) {
-      arr.push('is-today');
-    }
-
-    if (opts.isSelected) {
-      arr.push('is-selected');
-      ariaSelected = 'true';
-    }
-
-    // @todo should we create this additional css class?
-    if (opts.hasEvent) {
-      arr.push('has-event');
-    }
-
-    // @todo should we create this additional css class?
-    if (opts.isInRange) {
-      arr.push('is-inrange');
-    }
-
-    // @todo should we create this additional css class?
-    if (opts.isStartRange) {
-      arr.push('is-startrange');
-    }
-
-    // @todo should we create this additional css class?
-    if (opts.isEndRange) {
-      arr.push('is-endrange');
-    }
-
-    // @todo create additional css class
-    if (opts.isDateRange) {
-      arr.push('is-daterange');
-    }
     return (
       `<td data-day="${opts.day}" class="${arr.join(' ')}" aria-selected="${ariaSelected}">` +
       `<button class="datepicker-day-button" type="button" data-year="${opts.year}" data-month="${opts.month}" data-day="${opts.day}">${opts.day}</button>` +
@@ -955,7 +979,8 @@ export class Datepicker extends Component<DatepickerOptions> {
       '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/><path d="M0-.5h24v24H0z" fill="none"/></svg>';
     html += `<button class="month-prev${
       prev ? '' : ' is-disabled'
-    } btn-flat" type="button">${leftArrow}</button>`;
+      // @todo remove button class and add scss mixin, current implementation temporary for focus states, @see https://github.com/materializecss/materialize/issues/566
+    } btn" type="button">${leftArrow}</button>`;
 
     html += '<div class="selects-container">';
     if (opts.showMonthAfterYear) {
@@ -977,7 +1002,8 @@ export class Datepicker extends Component<DatepickerOptions> {
       '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/><path d="M0-.25h24v24H0z" fill="none"/></svg>';
     html += `<button class="month-next${
       next ? '' : ' is-disabled'
-    } btn-flat" type="button">${rightArrow}</button>`;
+      // @todo remove button class and add scss mixin, current implementation temporary for focus states, @see https://github.com/materializecss/materialize/issues/566
+    } btn" type="button">${rightArrow}</button>`;
 
     return (html += '</div>');
   }
@@ -1035,6 +1061,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     // Init Materialize Select
     const yearSelect = this.calendarEl.querySelector('.orig-select-year') as HTMLSelectElement;
     const monthSelect = this.calendarEl.querySelector('.orig-select-month') as HTMLSelectElement;
+    // @todo fix accessibility @see https://github.com/materializecss/materialize/issues/522
     FormSelect.init(yearSelect, {
       classes: 'select-year',
       dropdownOptions: { container: document.body, constrainWidth: false }
@@ -1070,17 +1097,17 @@ export class Datepicker extends Component<DatepickerOptions> {
     const template = document.createElement('template');
     template.innerHTML = Datepicker._template.trim();
 
-    this.modalEl = <HTMLElement>template.content.firstChild;
+    this.containerEl = <HTMLElement>template.content.firstChild;
 
-    this.calendarEl = this.modalEl.querySelector('.datepicker-calendar');
-    this.yearTextEl = this.modalEl.querySelector('.year-text');
-    this.dateTextEl = this.modalEl.querySelector('.date-text');
+    this.calendarEl = this.containerEl.querySelector('.datepicker-calendar');
+    this.yearTextEl = this.containerEl.querySelector('.year-text');
+    this.dateTextEl = this.containerEl.querySelector('.date-text');
     if (this.options.showClearBtn) {
-      this.clearBtn = this.modalEl.querySelector('.datepicker-clear');
+      this.clearBtn = this.containerEl.querySelector('.datepicker-clear');
     }
     // TODO: This should not be part of the datepicker
-    this.doneBtn = this.modalEl.querySelector('.datepicker-done');
-    this.cancelBtn = this.modalEl.querySelector('.datepicker-cancel');
+    this.doneBtn = this.containerEl.querySelector('.datepicker-done');
+    this.cancelBtn = this.containerEl.querySelector('.datepicker-cancel');
 
     this.formats = {
       d: (date: Date) => {
@@ -1138,6 +1165,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.setDateFromInput(e.target as HTMLInputElement);
     this.draw();
     this.gotoDate(<HTMLElement>e.target === this.el ? this.date : this.endDate);
+    if (this.options.onInputInteraction) this.options.onInputInteraction.call(this);
   };
 
   _handleInputKeydown = (e: KeyboardEvent) => {
@@ -1145,6 +1173,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       e.preventDefault();
       this.setDateFromInput(e.target as HTMLInputElement);
       this.draw();
+      if (this.options.onInputInteraction) this.options.onInputInteraction.call(this);
     }
   };
 
@@ -1290,8 +1319,7 @@ export class Datepicker extends Component<DatepickerOptions> {
 
   static {
     Datepicker._template = `
-      <div class="datepicker-modal">
-        <div class="modal-content datepicker-container">
+        <div class="datepicker-container">
           <div class="datepicker-date-display">
             <span class="year-text"></span>
             <span class="date-text"></span>
@@ -1306,7 +1334,6 @@ export class Datepicker extends Component<DatepickerOptions> {
               </div>
             </div>
           </div>
-        </div>
-      </div>`;
+        </div>`;
   }
 }

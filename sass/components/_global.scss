@@ -129,8 +129,9 @@ video.responsive-video {
   height: auto;
 }
 
+// moved to own component styling file @see https://github.com/materializecss/materialize/issues/566
 // Pagination
-.pagination {
+/*.pagination {
 
   li {
     display: inline-block;
@@ -192,45 +193,7 @@ video.responsive-video {
       white-space: nowrap;
     }
   }
-}
-
-// Breadcrumbs
-.breadcrumb {
-  display: inline-block;
-  font-size: 18px;
-  color: var(--font-on-primary-color-medium);
-
-  i,
-  [class^="mdi-"], [class*="mdi-"],
-  i.material-icons, i.material-symbols-outlined,
-  i.material-symbols-rounded, i.material-symbols-sharp {
-    display: block;
-    float: left;
-    font-size: 24px;
-  }
-
-  &:before {
-    content: '\E5CC';
-    color: var(--font-on-primary-color-medium);
-    vertical-align: top;
-    display: inline-block;
-    font-family: 'Material Symbols Outlined', 'Material Symbols Rounded', 'Material Symbols Sharp', 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 25px;
-    margin: 0 10px 0 8px;
-    -webkit-font-smoothing: antialiased;
-    float: left;
-  }
-
-  &:first-child:before {
-    display: none;
-  }
-
-  &:last-child {
-    color:  var(--md-sys-color-on-primary);
-  }
-}
+}*/
 
 // Parallax
 .parallax-container {
@@ -564,3 +527,4 @@ $spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5
   z-index: 9999;
   visibility: hidden;
 }
+
