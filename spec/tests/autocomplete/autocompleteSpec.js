@@ -300,7 +300,7 @@ describe('Autocomplete Plugin', () => {
       }, 10);
     });
 
-    it('setOptions should select multiple options', (done) => {
+    it('selectOptions should select multiple options', (done) => {
       const normal = document.querySelector('#normal-autocomplete');
       resetAutocomplete(normal, [
         { id: 1, text: 'Value A' },
