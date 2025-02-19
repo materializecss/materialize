@@ -270,13 +270,11 @@ export class Utils {
       const now = new Date().getTime();
       if (!previous && options.leading === false) previous = now;
       const remaining = wait - (now - previous);
-      context = this;
       if (remaining <= 0) {
         clearTimeout(timeout);
         timeout = null;
         previous = now;
-        result = func.apply(context, args);
-        context = args = null;
+        result = func.apply(this, args);
       } else if (!timeout && options.trailing !== false) {
         timeout = setTimeout(later, remaining);
       }
