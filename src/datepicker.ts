@@ -126,6 +126,11 @@ export interface DatepickerOptions extends BaseOptions {
    */
   showClearBtn: boolean;
   /**
+   *  Autosubmit calendar day select to input field
+   *  @default false
+   */
+  autoSubmit: true;
+  /**
    * Internationalization options.
    */
   i18n: Partial<DateI18nOptions>;
@@ -156,6 +161,17 @@ export interface DatepickerOptions extends BaseOptions {
    * @default null
    */
   onInputInteraction: (() => void) | null;
+  /**
+   * Callback function for interaction with confirm button.
+   * @default null
+   */
+  onConfirm: (() => void) | null;
+  /**
+   * Callback function for interaction with close button.
+   * @default null
+   */
+  onCancel: (() => void) | null;
+
   /** Field used for internal calculations DO NOT CHANGE IT */
   minYear?: number;
   /** Field used for internal calculations DO NOT CHANGE IT */
@@ -218,6 +234,8 @@ const _defaults: DatepickerOptions = {
   container: null,
   // Show clear button
   showClearBtn: false,
+  // Autosubmit
+  autoSubmit: true,
   // internationalization
   i18n: {
     cancel: 'Cancel',
@@ -263,6 +281,8 @@ const _defaults: DatepickerOptions = {
   onSelect: null,
   onDraw: null,
   onInputInteraction: null,
+  onConfirm: null,
+  onCancel: null,
 };
 
 export class Datepicker extends Component<DatepickerOptions> {
@@ -272,10 +292,10 @@ export class Datepicker extends Component<DatepickerOptions> {
   calendarEl: HTMLElement;
 
   /** CLEAR button instance. */
-  clearBtn: HTMLElement;
+  // clearBtn: HTMLElement;
   /** DONE button instance */
-  doneBtn: HTMLElement;
-  cancelBtn: HTMLElement;
+  /*doneBtn: HTMLElement;
+  cancelBtn: HTMLElement;*/
 
   containerEl: HTMLElement;
   yearTextEl: HTMLElement;
@@ -290,6 +310,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   calendars: [{ month: number; year: number }];
   private _y: number;
   private _m: number;
+  private footer: HTMLElement;
   static _template: string;
 
   constructor(el: HTMLInputElement, options: Partial<DatepickerOptions>) {
@@ -467,12 +488,17 @@ export class Datepicker extends Component<DatepickerOptions> {
       }
     }
 
-    if (this.options.showClearBtn) {
+    /*if (this.options.showClearBtn) {
       this.clearBtn.style.visibility = '';
       this.clearBtn.innerText = this.options.i18n.clear;
     }
     this.doneBtn.innerText = this.options.i18n.done;
-    this.cancelBtn.innerText = this.options.i18n.cancel;
+    this.cancelBtn.innerText = this.options.i18n.cancel;*/
+    Utils.createButton(this.footer, this.options.i18n.clear, ['datepicker-clear'], this.options.showClearBtn, this._handleClearClick);
+
+    if (!this.options.autoSubmit) {
+      Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this._confirm, this._cancel);
+    }
 
     if (this.options.container) {
       const optEl = this.options.container;
@@ -1085,12 +1111,12 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.el.addEventListener('keydown', this._handleInputKeydown);
     this.el.addEventListener('change', this._handleInputChange);
     this.calendarEl.addEventListener('click', this._handleCalendarClick);
-    this.doneBtn.addEventListener('click', () => this.setInputValues());
-    this.cancelBtn.addEventListener('click', this.close);
+    /* this.doneBtn.addEventListener('click', this._confirm);
+    this.cancelBtn.addEventListener('click', this._cancel);
 
     if (this.options.showClearBtn) {
       this.clearBtn.addEventListener('click', this._handleClearClick);
-    }
+    }*/
   }
 
   _setupVariables() {
@@ -1102,12 +1128,12 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.calendarEl = this.containerEl.querySelector('.datepicker-calendar');
     this.yearTextEl = this.containerEl.querySelector('.year-text');
     this.dateTextEl = this.containerEl.querySelector('.date-text');
-    if (this.options.showClearBtn) {
+    /* if (this.options.showClearBtn) {
       this.clearBtn = this.containerEl.querySelector('.datepicker-clear');
     }
-    // TODO: This should not be part of the datepicker
     this.doneBtn = this.containerEl.querySelector('.datepicker-done');
-    this.cancelBtn = this.containerEl.querySelector('.datepicker-cancel');
+    this.cancelBtn = this.containerEl.querySelector('.datepicker-cancel');*/
+    this.footer = this.containerEl.querySelector('.datepicker-footer');
 
     this.formats = {
       d: (date: Date) => {
@@ -1199,7 +1225,7 @@ export class Datepicker extends Component<DatepickerOptions> {
           this._handleDateRangeCalendarClick(selectedDate);
         }
 
-        this._finishSelection();
+        if (this.options.autoSubmit) this._finishSelection();
       } else if (target.closest('.month-prev')) {
         this.prevMonth();
       } else if (target.closest('.month-next')) {
@@ -1230,6 +1256,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   _clearDates = () => {
     this.date = null;
     this.endDate = null;
+    this.draw();
   };
 
   _handleMonthChange = (e) => {
@@ -1302,7 +1329,17 @@ export class Datepicker extends Component<DatepickerOptions> {
   // Set input value to the selected date and close Datepicker
   _finishSelection = () => {
     this.setInputValues();
-    this.close();
+    // Commented out because of function deprecations
+    // this.close();
+  };
+
+  _confirm = () => {
+    this._finishSelection();
+    if (typeof this.options.onConfirm === 'function') this.options.onConfirm.call(this);
+  }
+
+  _cancel = () => {
+    if (typeof this.options.onCancel === 'function') this.options.onCancel.call(this);
   };
 
   // deprecated
@@ -1327,11 +1364,11 @@ export class Datepicker extends Component<DatepickerOptions> {
           <div class="datepicker-calendar-container">
             <div class="datepicker-calendar"></div>
             <div class="datepicker-footer">
-              <button class="btn-flat datepicker-clear waves-effect" style="visibility: hidden;" type="button"></button>
+              <!--<button class="btn-flat datepicker-clear waves-effect" style="visibility: hidden;" type="button"></button>
               <div class="confirmation-btns">
                 <button class="btn-flat datepicker-cancel waves-effect" type="button"></button>
                 <button class="btn-flat datepicker-done waves-effect" type="button"></button>
-              </div>
+              </div>-->
             </div>
           </div>
         </div>`;
