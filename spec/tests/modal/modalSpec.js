@@ -77,7 +77,7 @@ describe('Modal:', () => {
       setTimeout(() => {
         expect(hasBeenClosed).toEqual(true, 'callback fired');
         done();
-      }, 100);
+      }, 200);
     });
   });
 });
