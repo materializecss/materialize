@@ -1,6 +1,7 @@
 import { Utils } from './utils';
 import { FormSelect } from './select';
 import { BaseOptions, Component, I18nOptions, InitElements, MElement } from './component';
+import { DockedDisplayPlugin } from './plugin/dockedDisplayPlugin';
 
 export interface DateI18nOptions extends I18nOptions {
   previousMonth: string;
@@ -184,6 +185,14 @@ export interface DatepickerOptions extends BaseOptions {
   startRange?: Date;
   /** Field used for internal calculations DO NOT CHANGE IT */
   endRange?: Date;
+  /**
+   * Display plugin
+   */
+  displayPlugin: string;
+  /**
+   * Configurable display plugin options
+   */
+  displayPluginOptions: object;
 }
 
 const _defaults: DatepickerOptions = {
@@ -281,6 +290,8 @@ const _defaults: DatepickerOptions = {
   onSelect: null,
   onDraw: null,
   onInputInteraction: null,
+  displayPlugin: null,
+  displayPluginOptions: null,
   onConfirm: null,
   onCancel: null,
 };
@@ -310,6 +321,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   calendars: [{ month: number; year: number }];
   private _y: number;
   private _m: number;
+  private displayPlugin: DockedDisplayPlugin;
   private footer: HTMLElement;
   static _template: string;
 
@@ -367,6 +379,9 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.dates = [];
       this.dateEls = [];
       this.dateEls.push(el);
+    }
+    if (this.options.displayPlugin) {
+      if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
     }
   }
 
@@ -1191,6 +1206,7 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.setDateFromInput(e.target as HTMLInputElement);
     this.draw();
     this.gotoDate(<HTMLElement>e.target === this.el ? this.date : this.endDate);
+    if (this.displayPlugin) this.displayPlugin.show();
     if (this.options.onInputInteraction) this.options.onInputInteraction.call(this);
   };
 
@@ -1199,6 +1215,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       e.preventDefault();
       this.setDateFromInput(e.target as HTMLInputElement);
       this.draw();
+      if (this.displayPlugin) this.displayPlugin.show();
       if (this.options.onInputInteraction) this.options.onInputInteraction.call(this);
     }
   };
