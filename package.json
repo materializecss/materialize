@@ -32,6 +32,7 @@
     }
   ],
   "scripts": {
+    "prepare": "npm run build",
     "lint": "eslint .",
     "test": "npm run build && jasmine-browser-runner runSpecs",
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
