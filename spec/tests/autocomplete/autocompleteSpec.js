@@ -299,5 +299,23 @@ describe('Autocomplete Plugin', () => {
         done();
       }, 10);
     });
+
+    it('selectOptions should select multiple options', (done) => {
+      const normal = document.querySelector('#normal-autocomplete');
+      resetAutocomplete(normal, [
+        { id: 1, text: 'Value A' },
+        { id: 2, text: 'Value B' },
+        { id: 3, text: 'Value C' }
+      ]);
+      const selectOptions = [2, 3];
+      const autocomplete = M.Autocomplete.getInstance(normal)
+      autocomplete.selectOptions(selectOptions);
+      setTimeout(() => {
+        expect(autocomplete.selectedValues.filter((value) => !(selectOptions.indexOf(value.id) === -1)).length === selectOptions.length)
+          .withContext('filtered selectValues based on selectOptions should match')
+          .toBe(true);
+        done();
+      }, 10)
+    });
   });
 });
