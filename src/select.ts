@@ -57,7 +57,7 @@ export class FormSelect extends Component<FormSelectOptions> {
     };
 
     this.isMultiple = this.el.multiple;
-    this.nativeTabIndex = (this.el.tabIndex ?? -1);
+    this.nativeTabIndex = this.el.tabIndex ?? -1;
     this.el.tabIndex = -1;
     this._values = [];
     this._setupDropdown();
@@ -204,6 +204,7 @@ export class FormSelect extends Component<FormSelectOptions> {
     // Create dropdown
     this.dropdownOptions = document.createElement('ul');
     this.dropdownOptions.id = `select-options-${Utils.guid()}`;
+    this.dropdownOptions.setAttribute('popover', 'auto');
     this.dropdownOptions.classList.add('dropdown-content', 'select-dropdown');
     this.dropdownOptions.setAttribute('role', 'listbox');
     this.dropdownOptions.ariaMultiSelectable = this.isMultiple.toString();
