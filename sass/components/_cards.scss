@@ -8,10 +8,12 @@
 }
 
 .card {
-  overflow: hidden;
+  --background-color: color-mix(in srgb, var(--md-sys-color-surface), var(--md-sys-color-surface-tint) 17%);
+
+  //overflow: hidden;
   position: relative;
   //margin: $element-top-margin 0 $element-bottom-margin 0;
-  background-color: var(--md-sys-color-surface);
+  background-color: var(--background-color);
   transition: box-shadow .25s;
   border-radius: 12px;
   @extend .z-depth-1;
