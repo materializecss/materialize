@@ -179,6 +179,8 @@ input[type=text].timepicker-input-minutes {
 }
 
 .timepicker-dial-out {
+  opacity: 0;
+
   &.timepicker-hours {
     transform: scale(1.1, 1.1);
   }
@@ -186,8 +188,6 @@ input[type=text].timepicker-input-minutes {
   &.timepicker-minutes {
     transform: scale(.8, .8);
   }
-
-  opacity: 0;
 }
 
 .timepicker-canvas {

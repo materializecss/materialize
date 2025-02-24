@@ -4,6 +4,13 @@
 }
 
 .navbar {
+  color:  var(--md-sys-color-on-primary);
+  @extend .z-depth-1;
+  background-color: var(--md-sys-color-secondary-container);
+  width: 100%;
+  height: var(--navbar-height-mobile);
+  line-height: var(--navbar-height-mobile);
+
   &.nav-extended {
     height: auto;
 
@@ -11,20 +18,12 @@
       min-height: var(--navbar-height-mobile);
       height: auto;
     }
-
+    
     .nav-content {
       position: relative;
       line-height: normal;
     }
   }
-
-  color:  var(--md-sys-color-on-primary);
-  @extend .z-depth-1;
-  background-color: var(--md-sys-color-secondary-container);
-
-  width: 100%;
-  height: var(--navbar-height-mobile);
-  line-height: var(--navbar-height-mobile);
 
   a {
     color:  var(--md-sys-color-on-primary);

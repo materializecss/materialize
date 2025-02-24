@@ -61,6 +61,8 @@
 
   // Horizontal Cards
   &.horizontal {
+    display: flex;
+
     &.small, &.medium, &.large {
       .card-image {
         height: 100%;
@@ -72,8 +74,6 @@
         }
       }
     }
-
-    display: flex;
 
     .card-image {
       max-width: 50%;
@@ -171,15 +171,14 @@
   }
 
   .card-action {
-    &:last-child {
-      border-radius: 0 0 2px 2px;
-    }
-
-    // position: relative;
     padding: 0 1.6rem;
+    // position: relative;
     // border-top: 1px solid var(--md-sys-color-outline-variant);
     // background-color: inherit;
 
+    &:last-child {
+      border-radius: 0 0 2px 2px;
+    }
     // Replaced card links with buttons (Accessibility, @see https://github.com/materializecss/materialize/issues/565)
     /*a {
       padding: 16px 24px;
@@ -197,11 +196,11 @@
 
     a {
       @include btn(
-          var(--btn-height),
-          var(--btn-border-radius),
-          var(--btn-padding),
-          var(--btn-padding),
-          var(--btn-font-size)
+        var(--btn-height),
+        var(--btn-border-radius),
+        var(--btn-padding),
+        var(--btn-padding),
+        var(--btn-font-size)
       );
 
       &:first-child {

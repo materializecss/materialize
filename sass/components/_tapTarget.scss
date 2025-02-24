@@ -53,6 +53,10 @@
 }
 
 .tap-target-wave {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 10001;
+
   &::before,
   &::after {
     content: '';
@@ -75,24 +79,19 @@
       visibility 0s;
     z-index: -1;
   }
-
-  position: absolute;
-  border-radius: 50%;
-  z-index: 10001;
 }
 
 .tap-target-origin {
+  top: 50%;
+  left: 50%;
+  z-index: 10002;
+  position: absolute !important;
+  transform: translate(-50%,-50%);
+
   &:not(.btn),
   &:not(.btn):hover {
     background: none;
   }
-
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-
-  z-index: 10002;
-  position: absolute !important;
 }
 
 @media only screen and (max-width: 600px) {

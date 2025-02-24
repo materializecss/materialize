@@ -10,11 +10,11 @@
 
 .btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
   @include btn(
-      var(--btn-height),
-      var(--btn-border-radius),
-      var(--btn-padding),
-      var(--btn-padding),
-      var(--btn-font-size)
+    var(--btn-height),
+    var(--btn-border-radius),
+    var(--btn-padding),
+    var(--btn-padding),
+    var(--btn-font-size)
   );
 }
 
@@ -76,155 +76,10 @@
 
 //------------------ Hover
 
-/*.btn.elevated:hover {
-  @extend .z-depth-2;
-  color: var(--md-sys-color-primary);
-  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-on-secondary-container) 16%);
-}
-
-.btn.filled:hover {
-  @extend .z-depth-1;
-  color: var(--md-sys-color-on-primary);
-  background-color: color-mix(in srgb, var(--md-sys-color-primary), var(--md-sys-color-on-primary) 16%);
-}
-
-.btn.tonal:hover {
-  @extend .z-depth-1;
-  color: var(--md-sys-color-on-secondary-container);
-  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-on-secondary-container) 16%);
-}
-
-.btn.outlined:hover {
-  color: var(--md-sys-color-primary);
-  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 16%);
-}
-
-.btn.text:hover {
-  color: var(--md-sys-color-primary);
-  background-color: color-mix(in srgb, var(--md-sys-color-primary) 16%, transparent);
-}*/
-
 //------------------ Focus
 
-/*.btn:focus {
-  background-color: var(--md-sys-color-primary-container);
-}
-
-.btn:focus.elevated {
-  @extend .z-depth-1;
-  color: var(--md-sys-color-primary);
-  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-primary) 20%);
-}
-
-.btn:focus.filled {
-  @extend .z-depth-0;
-  color: var(--md-sys-color-on-primary);
-  background-color: color-mix(in srgb, var(--md-sys-color-primary), var(--md-sys-color-on-primary) 20%);
-}
-
-.btn:focus.tonal {
-  @extend .z-depth-0;
-  color: var(--md-sys-color-on-secondary-container);
-  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container), var(--md-sys-color-on-secondary-container) 20%);
-}
-
-.btn:focus.outlined {
-  color: var(--md-sys-color-primary);
-  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
-  border: 1px solid var(--md-sys-color-primary);
-}
-
-.btn:focus.text {
-  color: var(--md-sys-color-primary);
-  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
-}*/
-
-// Focus with Keyboard
-/*.btn:focus-visible {
-  &.filled,
-  &.elevated,
-  &.tonal,
-  &.outlined,
-  &.text {
-    outline: 3px solid var(--md-sys-color-secondary);
-    outline-offset: 2px;
-  }
-}*/
-
-//----------
-
-// .btn-floating {
-//   border-radius: 16px;
-//   width: unset;
-//   display: grid;
-//   grid-auto-flow: column;
-//   align-items: center;
-//   padding: 16px !important;
-//   padding-right: 24px !important; /* only with icon */
-//   gap: 8px;
-// }
-// .btn-floating.btn-large {
-//   width: unset;
-// }
-// .btn-large {
-//   font-size: 14px;
-// }
-//-----
 // Floating button
 .btn-floating {
-  &:hover {
-    @extend .z-depth-1-half;
-    background-color: color-mix(in srgb, var(--md-sys-color-primary-container), var(--md-sys-color-on-primary-container) 16%);
-  }
-
-  &:focus {
-    background-color: $button-floating-background-focus;
-    @extend .z-depth-1-half;
-  }
-
-  &:before {
-    border-radius: 0;
-  }
-
-  &.btn-large {
-    &.halfway-fab {
-      bottom: -56px * 0.5;
-    }
-
-    width: 56px;
-    height: 56px;
-    padding: 0;
-    // font-size:
-    // i {
-    //   // line-height: 56px;
-    // }
-  }
-
-  &.btn-small {
-    --btn-small-height: calc(0.75 * var(--btn-height));
-
-    &.halfway-fab {
-      bottom: calc(var(--btn-small-height) * -0.5);
-    }
-
-    width: var(--btn-small-height);
-    height: var(--btn-small-height);
-    // i {
-    //   line-height: $button-floating-small-size;
-    // }
-  }
-
-  &.halfway-fab {
-    &.left {
-      right: auto;
-      left: 24px;
-    }
-
-    position: absolute;
-    right: 24px;
-    bottom: -$button-floating-size * 0.5;
-  }
-
   // FIXES
   // width: unset;
   // padding: 16px !important;
@@ -247,6 +102,57 @@
   cursor: pointer;
   vertical-align: middle;
 
+  &:hover {
+    @extend .z-depth-1-half;
+    background-color: color-mix(in srgb, var(--md-sys-color-primary-container), var(--md-sys-color-on-primary-container) 16%);
+  }
+
+  &:focus {
+    background-color: $button-floating-background-focus;
+    @extend .z-depth-1-half;
+  }
+
+  &:before {
+    border-radius: 0;
+  }
+
+  &.btn-large {
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    &.halfway-fab {
+      bottom: -56px * 0.5;
+    }
+    // font-size:
+    // i {
+    //   // line-height: 56px;
+    // }
+  }
+
+  &.btn-small {
+    --btn-small-height: calc(0.75 * var(--btn-height));
+    width: var(--btn-small-height);
+    height: var(--btn-small-height);
+
+    &.halfway-fab {
+      bottom: calc(var(--btn-small-height) * -0.5);
+    }
+    // i {
+    //   line-height: $button-floating-small-size;
+    // }
+  }
+
+  &.halfway-fab {
+    position: absolute;
+    right: 24px;
+    bottom: -$button-floating-size * 0.5;
+
+    &.left {
+      right: auto;
+      left: 24px;
+    }
+  }
+
   i {
     color: $button-floating-color;
     font-size: 1.6rem;
@@ -263,6 +169,13 @@ button.btn-floating {
 
 // Fixed Action Button
 .fixed-action-btn {
+  position: fixed;
+  right: 23px;
+  bottom: 23px;
+  padding-top: 15px;
+  margin-bottom: 0;
+  z-index: 997;
+
   &.active {
     ul {
       visibility: visible;
@@ -324,14 +237,14 @@ button.btn-floating {
   }
 
   &.toolbar {
+    padding: 0;
+    height: 56px;
+
     &.active {
       & > a i {
         opacity: 0;
       }
     }
-
-    padding: 0;
-    height: 56px;
 
     ul {
       display: flex;
@@ -365,13 +278,6 @@ button.btn-floating {
       }
     }
   }
-
-  position: fixed;
-  right: 23px;
-  bottom: 23px;
-  padding-top: 15px;
-  margin-bottom: 0;
-  z-index: 997;
 
   ul {
     left: 0;

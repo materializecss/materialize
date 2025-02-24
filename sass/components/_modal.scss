@@ -13,15 +13,13 @@
   width: 55%;
   border-radius: var(--modal-border-radius);
   will-change: top, opacity;
+  background-color: color-mix(in srgb, var(--md-sys-color-surface), var(--md-sys-color-surface-tint) 17%);
 
   // Dialog open
   &[open] {
     display: flex;
     flex-direction: column;
   }
-
-  // Background
-  background-color: color-mix(in srgb, var(--md-sys-color-surface), var(--md-sys-color-surface-tint) 17%);
 
   @media #{$medium-and-down} {
     width: 80%;
