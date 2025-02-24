@@ -224,7 +224,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     }
   };
 
-  _handleMouseEnter = (e) => {
+  _handleMouseEnter = () => {
     //this._moveDropdown((<HTMLElement>e.target).closest('li'));
     this.open();
   };
