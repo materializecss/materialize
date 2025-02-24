@@ -180,7 +180,6 @@ export class FormSelect extends Component<FormSelectOptions> {
 
   _setupDropdown() {
     this.labelEl = document.querySelector('[for="' + this.el.id + '"]');
-    if (this.labelEl) this.labelEl.style.display = 'none';
 
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('select-wrapper', 'input-field');
@@ -291,7 +290,7 @@ export class FormSelect extends Component<FormSelectOptions> {
 
     // Initialize dropdown
     if (!this.el.disabled) {
-      const dropdownOptions = { ...this.options.dropdownOptions }; // TODO:
+      const dropdownOptions = { ...this.options.dropdownOptions };
       dropdownOptions.coverTrigger = false;
       const userOnOpenEnd = dropdownOptions.onOpenEnd;
       const userOnCloseEnd = dropdownOptions.onCloseEnd;
@@ -333,14 +332,8 @@ export class FormSelect extends Component<FormSelectOptions> {
     }
     // Add initial selections
     this._setSelectedStates();
-
-    // Add Label
-    if (this.labelEl) {
-      const label = document.createElement('label');
-      label.htmlFor = this.input.id;
-      label.innerText = this.labelEl.innerText;
-      this.input.after(label);
-    }
+    // move label
+    if (this.labelEl) this.input.after(this.labelEl);
   }
 
   _addOptionToValues(realOption: HTMLOptionElement, virtualOption: HTMLElement) {
