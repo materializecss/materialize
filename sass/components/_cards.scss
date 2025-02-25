@@ -176,28 +176,11 @@
 
   .card-action {
     padding: 0 1.6rem;
-    // position: relative;
-    // border-top: 1px solid var(--md-sys-color-outline-variant);
-    // background-color: inherit;
 
     &:last-child {
       border-radius: 0 0 2px 2px;
     }
     // Replaced card links with buttons (Accessibility, @see https://github.com/materializecss/materialize/issues/565)
-    /*a {
-      padding: 16px 24px;
-      display: inline-block;
-    }
-
-    a:not(.btn):not(.btn-large):not(.btn-floating) {
-      color: var(--md-sys-color-primary);
-      transition: color .3s ease;
-
-      &:hover {
-        background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
-      }
-    }*/
-
     a {
       @include btn(
         var(--btn-height),
