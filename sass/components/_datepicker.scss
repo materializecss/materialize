@@ -261,29 +261,3 @@
   color: var(--md-sys-color-error);
 }
 
-
-/* Media Queries */
-@media #{$medium-and-up} {
-  // @removed since v2.2.1-dev regarding Material M3 standards
-  /*.datepicker-modal {
-    max-width: 625px;
-  }
-
-  .datepicker-container.modal-content {
-    flex-direction: row;
-  }
-
-  .datepicker-date-display {
-    flex: 0 1 270px;
-  }
-
-  .datepicker-controls,
-  .datepicker-table,
-  .datepicker-footer {
-    width: 320px;
-  }
-
-  .datepicker-day-button {
-    line-height: 44px;
-  }*/
-}

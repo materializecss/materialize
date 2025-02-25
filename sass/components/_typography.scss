@@ -1,5 +1,6 @@
 
 @use "sass:math";
+@use './variables' as *;
 
 a {
   text-decoration: none;

@@ -1,3 +1,6 @@
+@use './variables' as *;
+@use './global' as *;
+
 // use with dialog html element
 .modal {
   --modal-footer-divider-height: 1px;

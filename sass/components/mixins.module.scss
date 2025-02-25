@@ -1,3 +1,6 @@
+@use './variables' as *;
+@use './global' as *;
+
 @mixin btn(
   $height: var(--btn-height),
   $border-radius: var(--btn-border-radius),

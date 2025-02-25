@@ -1,4 +1,6 @@
-/* This should be an UL-Element*/
+@use './variables' as *;
+@use './global' as *;
+
 .sidenav {
   --sidenav-width: 300px;
   --sidenav-font-size: 14px;
@@ -84,7 +86,6 @@
 
     &:not(.btn):not(.btn-flat):not(.btn-large):not(.btn-floating) {
       color: var(--md-sys-color-on-secondary-container);
-      //color: $sidenav-font-color;
       &:hover {
         //color: var(--md-sys-color-on-secondary-container);
         //md.sys.color.on-secondary-container
@@ -101,7 +102,6 @@
     & > .material-symbols-rounded, & > .material-symbols-sharp {
       display: inline-flex;
       vertical-align: middle;
-      //color: $sidenav-icon-color;
       margin-right: 12px;
     }
   }
@@ -113,7 +113,7 @@
   .subheader {
     cursor: initial;
     pointer-events: none;
-    color: red; //$sidenav-subheader-color;
+    color: red;
     font-size: var(--sidenav-font-size);
     font-weight: 500;
     line-height: var(--sidenav-line-height);

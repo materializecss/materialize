@@ -1,4 +1,6 @@
-// Progress Bar
+@use './variables' as *;
+@use './colors.module.scss' as *;
+
 .progress {
   position: relative;
   height: 4px;

@@ -1,3 +1,6 @@
+@use './variables' as *;
+@use './mixins.module.scss' as *;
+
 .card-panel {
   transition: box-shadow .25s;
   padding: 24px;
@@ -10,7 +13,6 @@
 .card {
   --background-color: color-mix(in srgb, var(--md-sys-color-surface), var(--md-sys-color-surface-tint) 17%);
 
-  //overflow: hidden;
   position: relative;
   //margin: $element-top-margin 0 $element-bottom-margin 0;
   background-color: var(--background-color);

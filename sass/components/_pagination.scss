@@ -1,4 +1,6 @@
-// Pagination
+@use './variables' as *;
+@use './mixins.module.scss' as *;
+
 .pagination {
   li {
     display: inline-block;

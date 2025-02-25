@@ -1,3 +1,7 @@
+@use './variables' as *;
+@use './colors.module.scss' as *;
+@use './global' as *;
+
 .collapsible {
   padding-left: 0;
   list-style-type: none;

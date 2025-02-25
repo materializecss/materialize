@@ -1,3 +1,5 @@
+@use '../variables' as *;
+
 select.browser-default {
   opacity: 1;
   color: var(--md-sys-color-on-background);
@@ -14,66 +16,7 @@ select {
 }
 
 .select-wrapper {
-  /*
-  &.valid .helper-text[data-success],
-  &.invalid ~ .helper-text[data-error] {
-    @extend %hidden-text;
-  }
-
-  &.valid {
-    & > input.select-dropdown {
-      @extend %valid-input-style;
-    }
-    & ~ .helper-text:after {
-      //@extend %custom-success-message;
-    }
-  }
-
-  &.invalid {
-    & > input.select-dropdown,
-    & > input.select-dropdown:focus {
-      @extend %invalid-input-style;
-    }
-    & ~ .helper-text:after {
-      //@extend %custom-error-message;
-    }
-  }
-
-  &.valid + label,
-  &.invalid + label {
-    width: 100%;
-    pointer-events: none;
-  }
-  & + label:after {
-    //@extend %input-after-style;
-  }
-  */
-
   position: relative;
-
-  /*
-  input.select-dropdown {    
-    &:focus {
-      border-bottom: 1px solid var(--md-sys-color-primary);
-    }
-    position: relative;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    border-bottom: 2px solid var(--md-sys-color-on-surface-variant);
-    outline: none;
-    height: 3rem;
-    line-height: 3rem;
-    width: 100%;
-    font-size: 16px;
-    margin: 0 0 8px 0;
-    padding: 0;
-    display: block;
-    user-select:none;
-    z-index: 1;
-    color: var(--md-sys-color-on-background);
-  }
-  */
 
   .caret {
     position: absolute;
@@ -127,43 +70,6 @@ select:disabled {
   //background-color: transparent;
 }
 
-/*
-body.keyboard-focused {
-  .select-dropdown.dropdown-content li:focus {
-    //background-color: $select-option-focus;
-  }
-}
-
-.select-dropdown.dropdown-content {
-  li {
-    &:hover:not(.disabled) {
-      //background-color: $select-option-hover;
-    }
-
-    &.selected:not(.disabled) {
-      //background-color: $select-option-selected;
-    }
-  }
-}
-*/
-
-/*
-// Prefix Icons
-.prefix ~ .select-wrapper {
-  margin-left: 3rem;
-  width: 92%;
-  width: calc(100% - 3rem);
-}
-.prefix ~ label { margin-left: 3rem; }
-// Suffix Icons
-.suffix ~ .select-wrapper {
-  margin-right: 3rem;
-  width: 92%;
-  width: calc(100% - 3rem);
-}
-.suffix ~ label { margin-right: 3rem; }
-*/
-
 // Icons
 .select-dropdown li {
   img {
@@ -187,9 +93,3 @@ body.keyboard-focused {
     padding-left: 1rem;
   }
 }
-
-/*
-.select-dropdown .selected {
-  color: red;
-}
-*/

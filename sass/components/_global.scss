@@ -1,3 +1,5 @@
+@use './_variables' as vars;
+
 html {
   box-sizing: border-box;
 }
@@ -16,11 +18,13 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: $font-stack;
+  font-family: vars.$font-stack;
 }
 
-a { color: $link-color; text-decoration: none;
-   -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
+a {
+  color: vars.$link-color;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent; // Gets rid of tap active state
 }
 
 // Positioning
@@ -129,72 +133,6 @@ video.responsive-video {
   height: auto;
 }
 
-// moved to own component styling file @see https://github.com/materializecss/materialize/issues/566
-// Pagination
-/*.pagination {
-
-  li {
-    display: inline-block;
-    border-radius: 2px;
-    text-align: center;
-    vertical-align: top;
-    height: 30px;
-
-    a {
-      color: var(--md-sys-color-on-surface-variant);
-      display: inline-block;
-      font-size: 1.2rem;
-      padding: 0 10px;
-      line-height: 30px;
-    }
-
-    &:hover:not(.disabled) {
-      background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
-    }
-
-    &.active a {
-      color:  var(--md-sys-color-on-primary);
-    }
-
-    &.active,
-    &.active:hover {
-      background-color: var(--md-sys-color-primary);
-    }
-
-    &.disabled a {
-      cursor: default;
-      color: var(--md-sys-color-on-surface);
-    }
-
-    i {
-      font-size: 2rem;
-    }
-  }
-
-
-  li.pages ul li {
-    display: inline-block;
-    float: none;
-  }
-}
-
-@media #{$medium-and-down} {
-  .pagination {
-    width: 100%;
-
-    li.prev,
-    li.next {
-      width: 10%;
-    }
-
-    li.pages {
-      width: 80%;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-  }
-}*/
-
 // Parallax
 .parallax-container {
   position: relative;
@@ -242,61 +180,61 @@ ul.staggered-list li { opacity: 0; }
   Media Query Classes
 **********************/
 .hide-on-small-only, .hide-on-small-and-down {
-  @media #{$small-and-down} { display: none !important; }
+  @media #{vars.$small-and-down} { display: none !important; }
 }
 
 .hide-on-med-and-down {
-  @media #{$medium-and-down} { display: none !important; }
+  @media #{vars.$medium-and-down} { display: none !important; }
 }
 
 .hide-on-med-and-up {
-  @media #{$medium-and-up} { display: none !important; }
+  @media #{vars.$medium-and-up} { display: none !important; }
 }
 
 .hide-on-med-only {
-  @media only screen and (min-width: $small-screen-up) and (max-width: $medium-screen) {
+  @media only screen and (min-width: vars.$small-screen-up) and (max-width: vars.$medium-screen) {
     display: none !important;
   }
 }
 
 .hide-on-large-only {
-  @media #{$large-and-up} { display: none !important; }
+  @media #{vars.$large-and-up} { display: none !important; }
 }
 
 .hide-on-extra-large-only {
-  @media #{$extra-large-and-up} { display: none !important; }
+  @media #{vars.$extra-large-and-up} { display: none !important; }
 }
 
 .show-on-extra-large {
-  @media #{$extra-large-and-up} { display: block !important; }
+  @media #{vars.$extra-large-and-up} { display: block !important; }
 }
 
 .show-on-large {
-  @media #{$large-and-up} { display: block !important; }
+  @media #{vars.$large-and-up} { display: block !important; }
 }
 
 .show-on-medium {
-  @media only screen and (min-width: $small-screen-up) and (max-width: $medium-screen) {
+  @media only screen and (min-width: vars.$small-screen-up) and (max-width: vars.$medium-screen) {
     display: block !important;
   }
 }
 
 .show-on-small {
-  @media #{$small-and-down} { display: block !important; }
+  @media #{vars.$small-and-down} { display: block !important; }
 }
 
 .show-on-medium-and-up {
-  @media #{$medium-and-up} { display: block !important; }
+  @media #{vars.$medium-and-up} { display: block !important; }
 }
 
 .show-on-medium-and-down {
-  @media #{$medium-and-down} { display: block !important; }
+  @media #{vars.$medium-and-down} { display: block !important; }
 }
 
 
 // Center text on mobile
 .center-on-small-only {
-  @media #{$small-and-down} { text-align: center; }
+  @media #{vars.$small-and-down} { text-align: center; }
 }
 
 // Footer
@@ -377,7 +315,7 @@ td, th {
 }
 
 // Responsive Table
-@media #{$medium-and-down} {
+@media #{vars.$medium-and-down} {
 
   table.responsive-table {
     width: 100%;
