@@ -1,3 +1,6 @@
+@use '../global' as *;
+@use '../colors.module.scss' as *;
+
 .range-field {
   position: relative;
 }
@@ -75,6 +78,7 @@ input[type=range] + .thumb {
 
 // WebKit
 input[type=range] {
+  appearance: none;
   -webkit-appearance: none;
 }
 

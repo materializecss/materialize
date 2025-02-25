@@ -1,24 +1,18 @@
+@forward 'input-fields';
+@forward 'radio-buttons';
+@forward 'checkboxes';
+@forward 'switches';
+@forward 'select';
+@forward 'file-input';
+@forward 'range';
+
 // Remove Focus Boxes
 select:focus {
   outline: 1px solid var(--md-ref-palette-primary80);
 }
-
-/*
-button:focus {
-  outline: none;
-  background-color: $button-background-focus;
-}
-*/
 
 label {
   font-size: .8rem;
   color: var(--md-sys-color-on-surface-variant);
 }
 
-@import 'input-fields';
-@import 'radio-buttons';
-@import 'checkboxes';
-@import 'switches';
-@import 'select';
-@import 'file-input';
-@import 'range';

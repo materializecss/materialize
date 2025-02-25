@@ -1,16 +1,18 @@
 @use "sass:math";
+@use './variables' as *;
 
-// Container
 .container {
   margin: 0 auto;
   max-width: 1280px;
   width: 90%;
 }
+
 @media #{$medium-and-up} {
   .container {
     width: 85%;
   }
 }
+
 @media #{$large-and-up} {
   .container {
     width: 70%;

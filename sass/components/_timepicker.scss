@@ -1,9 +1,4 @@
-/* Timepicker Containers */
-/* modal removed as of v2.2.1 */
-/* .timepicker-modal {
-  max-width: 325px;
-  max-height: none;
-}*/
+@use './variables' as *;
 
 .timepicker-container {
   display: flex;
@@ -263,10 +258,6 @@ input[type=text].timepicker-input-minutes {
   }
 
   .timepicker-display-am-pm {
-    /*position: relative;
-    top: auto;
-    right: auto;
-    text-align: center;*/
     margin-top: 1.1rem;
   }
 
@@ -284,9 +275,6 @@ input[type=text].timepicker-input-minutes {
     padding-right: calc(var(--btn-padding) / .565);
     border-radius: var(--btn-border-radius);
     border: 1px solid var(--md-sys-color-outline);
-    /*line-height: inherit;
-    vertical-align: top;
-    text-align: inherit;*/
   }
 
   .timepicker-container .am-btn {

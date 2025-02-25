@@ -1,3 +1,6 @@
+@use './mixins.module.scss' as *;
+@use './variables' as *;
+
 :root {
   --btn-height: 40px;
   --btn-font-size-icon: 16px;

@@ -1,3 +1,6 @@
+@use './variables' as *;
+@use './global' as *;
+
 #toast-container {
   display:block;
   position: fixed;

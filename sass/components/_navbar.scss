@@ -1,3 +1,6 @@
+@use './variables' as *;
+@use './global' as *;
+
 :root {
   --navbar-height: 64px;
   --navbar-height-mobile: 56px;

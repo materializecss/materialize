@@ -128,7 +128,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     this.el.ariaExpanded = 'false';
 
     // Move dropdown-content after dropdown-trigger
-    this._moveDropdown();
+    this._moveDropdownToElement();
     this._makeDropdownFocusable();
     this._setupEventHandlers();
   }
@@ -216,7 +216,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
 
   _handleClick = (e: MouseEvent) => {
     e.preventDefault();
-    this._moveDropdown((<HTMLElement>e.target).closest('li'));
+    //this._moveDropdown((<HTMLElement>e.target).closest('li'));
     if (this.isOpen) {
       this.close();
     } else {
@@ -224,8 +224,8 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     }
   };
 
-  _handleMouseEnter = (e) => {
-    this._moveDropdown((<HTMLElement>e.target).closest('li'));
+  _handleMouseEnter = () => {
+    //this._moveDropdown((<HTMLElement>e.target).closest('li'));
     this.open();
   };
 
@@ -388,17 +388,16 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     this.dropdownEl.style.transformOrigin = '';
   }
 
-  // Move dropdown after container or trigger
-  _moveDropdown(containerEl: HTMLElement = null) {
-    if (!!this.options.container) {
+  _moveDropdownToElement(containerEl: HTMLElement = null) {
+    if (this.options.container) {
       this.options.container.append(this.dropdownEl);
-    } else if (containerEl) {
-      if (!containerEl.contains(this.dropdownEl)) {
-        containerEl.append(this.dropdownEl);
-      }
-    } else {
-      this.el.after(this.dropdownEl);
+      return;
     }
+    if (containerEl) {
+      if (!containerEl.contains(this.dropdownEl)) containerEl.append(this.dropdownEl);
+      return;
+    }
+    this.el.after(this.dropdownEl);
   }
 
   _makeDropdownFocusable() {
@@ -584,7 +583,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     if (getComputedStyle(closestOverflowParent).position === 'static')
       closestOverflowParent.style.position = 'relative';
 
-    this._moveDropdown(closestOverflowParent);
+    //this._moveDropdown(closestOverflowParent);
 
     // Set width before calculating positionInfo
     const idealWidth = this.options.constrainWidth
