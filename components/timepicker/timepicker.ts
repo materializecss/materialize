@@ -1,6 +1,7 @@
 import { Utils } from '../../src/utils';
 import { Component, BaseOptions, InitElements, MElement, I18nOptions } from '../../src/component';
 import { DockedDisplayPlugin } from '../../src/dockedDisplayPlugin';
+import { ModalDisplayPlugin } from '../../src/modalDisplayPlugin';
 
 export type Views = 'hours' | 'minutes';
 
@@ -45,6 +46,7 @@ export interface TimepickerOptions extends BaseOptions {
    *  Autosubmit timepicker selection to input field
    *  @default true
    */
+  // @todo this is only working on analog clock, should apply to hour/minute input fields and am/pm selector as well
   autoSubmit: true;
   /**
    * Default time to set on the timepicker 'now' or '13:14'.
@@ -176,7 +178,7 @@ export class Timepicker extends Component<TimepickerOptions> {
   g: Element;
   toggleViewTimer: string | number | NodeJS.Timeout;
   vibrateTimer: NodeJS.Timeout | number;
-  private displayPlugin: DockedDisplayPlugin;
+  private displayPlugin: DockedDisplayPlugin | ModalDisplayPlugin;
 
   constructor(el: HTMLInputElement, options: Partial<TimepickerOptions>) {
     super(el, options, Timepicker);
@@ -190,8 +192,6 @@ export class Timepicker extends Component<TimepickerOptions> {
     this._setupVariables();
     this._setupEventHandlers();
     this._clockSetup();
-    this._pickerSetup();
-
     if (this.options.displayPlugin) {
       if (this.options.displayPlugin === 'docked')
         this.displayPlugin = DockedDisplayPlugin.init(
@@ -200,6 +200,7 @@ export class Timepicker extends Component<TimepickerOptions> {
           this.options.displayPluginOptions
         );
     }
+    this._pickerSetup();
   }
 
   static get defaults(): TimepickerOptions {
@@ -265,10 +266,12 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _setupEventHandlers() {
     this.el.addEventListener('click', this._handleInputClick);
+    // @todo allow input field to fill values from input field when container/modal opens
     this.el.addEventListener('keydown', this._handleInputKeydown);
     this.plate.addEventListener('mousedown', this._handleClockClickStart);
     this.plate.addEventListener('touchstart', this._handleClockClickStart);
     this.digitalClock.addEventListener('keyup', this._inputFromTextField);
+
     this.inputHours.addEventListener('focus', () => this.showView('hours'));
     this.inputHours.addEventListener('focusout', () => this.formatHours());
     this.inputMinutes.addEventListener('focus', () => this.showView('minutes'));
@@ -415,13 +418,15 @@ export class Timepicker extends Component<TimepickerOptions> {
     // clearButton.classList.add('timepicker-clear');
     // clearButton.addEventListener('click', this.clear);
     // this.footer.appendChild(clearButton);
-    Utils.createButton(
-      this.footer,
-      this.options.i18n.clear,
-      ['timepicker-clear'],
-      this.options.showClearBtn,
-      this.clear
-    );
+    if (this.options.showClearBtn) {
+      Utils.createButton(
+        this.footer,
+        this.options.i18n.clear,
+        ['timepicker-clear'],
+        true,
+        this.clear
+      );
+    }
 
     if (!this.options.autoSubmit) {
       /*const confirmationBtnsContainer = document.createElement('div');
@@ -448,6 +453,18 @@ export class Timepicker extends Component<TimepickerOptions> {
 
     this._updateTimeFromInput();
     this.showView('hours');
+  }
+
+  private _setupDisplayPlugin() {
+    if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+    if (this.options.displayPlugin === 'modal') {
+      this.displayPlugin = ModalDisplayPlugin.init(this.el, this.containerEl, {
+        ...this.options.displayPluginOptions,
+        ...{ classList: ['timepicker-modal'] }
+      });
+      this.footer.remove();
+      this.footer = this.displayPlugin.footer;
+    }
   }
 
   _clockSetup() {
@@ -827,16 +844,19 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   confirm = () => {
     this.done();
+    if (this.displayPlugin) this.displayPlugin.hide();
     if (typeof this.options.onDone === 'function') this.options.onDone.call(this);
   };
 
   cancel = () => {
     // not logical clearing the input field on cancel, since the end user might want to make use of the previously submitted value
     // this.clear();
+    if (this.displayPlugin) this.displayPlugin.hide();
     if (typeof this.options.onCancel === 'function') this.options.onCancel.call(this);
   };
 
   clear = () => {
+    // @todo should clear timepicker hour/minute input elems and reset analog clock, currently clears input el
     this.done(true);
   };
 
