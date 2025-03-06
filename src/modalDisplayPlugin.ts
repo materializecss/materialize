@@ -1,5 +1,11 @@
 export interface ModalDisplayPluginOptions {
+  /**
+   * Classes to add on modal container.
+   */
   classList: string[],
+  /**
+   * Title element.
+   */
   title: HTMLElement|null
 }
 

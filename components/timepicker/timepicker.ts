@@ -271,7 +271,6 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.plate.addEventListener('mousedown', this._handleClockClickStart);
     this.plate.addEventListener('touchstart', this._handleClockClickStart);
     this.digitalClock.addEventListener('keyup', this._inputFromTextField);
-
     this.inputHours.addEventListener('focus', () => this.showView('hours'));
     this.inputHours.addEventListener('focusout', () => this.formatHours());
     this.inputMinutes.addEventListener('focus', () => this.showView('minutes'));
