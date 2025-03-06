@@ -1,18 +1,11 @@
-/* Modal */
-// @removed since v2.2.1
-/*.datepicker-modal {
-  max-width: 325px;
-  // @removed since v2.2.1-dev regarding Material M3 standards
-  min-width: 300px;
-  max-height: none;
-}*/
+@use './mixins.module.scss' as *;
 
 .datepicker-container {
   display: flex;
   flex-direction: column;
   max-width: 325px;
   padding: 0;
-  background-color: var(--md-sys-color-surface);
+  background-color: var(--md-sys-color-inverse-on-surface);
 }
 
 .datepicker-controls {
@@ -34,8 +27,8 @@
       text-align: center;
 
       &:focus {
-        border-bottom: none;
-        background-color: var(--md-sys-color-primary-container);
+        color: var(--md-sys-color-primary);
+        background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
       }
 
       &::selection {
@@ -70,6 +63,12 @@
   .month-next {
     display: inline-flex;
     align-items: center;
+
+    @include btn($height: 49px);
+
+    &:focus {
+      background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
+    }
   }
 
   .month-prev > svg,
@@ -261,3 +260,9 @@
   color: var(--md-sys-color-error);
 }
 
+/* Display modes */
+.datepicker-modal {
+  max-width: calc(325px + var(--modal-padding)*2);
+  max-height: none;
+  background-color: var(--md-sys-color-inverse-on-surface);
+}
