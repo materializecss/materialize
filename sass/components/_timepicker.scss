@@ -17,7 +17,7 @@
   width: auto;
   flex: 1 auto;
   // background-color: var(--md-sys-color-surface);
-  padding: 2rem .67rem .67rem .67rem;
+  padding: 2rem .71rem .67rem .71rem;
   font-weight: 300;
 }
 
@@ -51,7 +51,7 @@
 
 .timepicker-input-hours-wrapper,
 .timepicker-input-minutes-wrapper {
-  width: 6.9rem;
+  width: 6.85rem;
   height: 5.75rem;
 }
 
@@ -231,6 +231,38 @@ input[type=text].timepicker-input-minutes {
   padding: 0 20px;
 }
 
+/* Display modes */
+.timepicker-modal {
+  max-width: 326px;
+  max-height: none;
+  background-color: var(--md-sys-color-inverse-on-surface);
+  overflow-x: hidden;
+
+  // Reset margins and paddings since they are defined by the modal instance
+  .timepicker-container {
+    margin-left: calc(-1 * var(--modal-padding));
+    margin-right: calc(-1 * var(--modal-padding));
+  }
+
+  .modal-header + .modal-content {
+    .timepicker-digital-display {
+      padding-top: 0;
+    }
+
+    .timepicker-text-container {
+      padding-top: 4px;
+    }
+  }
+
+  .timepicker-analog-display {
+    padding-bottom: 0;
+  }
+
+  .timepicker-plate {
+    margin-bottom: 0;
+  }
+}
+
 /* Media Queries */
 @media #{$large-and-up} {
   .timepicker-container {
@@ -265,6 +297,11 @@ input[type=text].timepicker-input-minutes {
     display: flex;
     flex-grow: 1;
     max-width: unset;
+    /*width: 100%;
+    padding: 0 4%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    display: flex;*/
   }
 
   .timepicker-container .am-btn,
@@ -290,5 +327,36 @@ input[type=text].timepicker-input-minutes {
 
   .timepicker-plate {
     margin-top: 1.6rem;
+  }
+
+  /* Display modes */
+  .timepicker-modal {
+    width: 65%;
+    max-width: 605px;
+
+    .modal-header + .modal-content {
+      .timepicker-digital-display,
+      .timepicker-analog-display {
+        padding-top: 0;
+      }
+
+      .timepicker-text-container {
+        margin-top: 2.4rem;
+      }
+
+      .timepicker-plate {
+        margin-top: 4px;
+        margin-bottom: 0;
+      }
+    }
+
+    .timepicker-digital-display,
+    .timepicker-analog-display {
+      padding-bottom: 0;
+    }
+
+    .timepicker-plate {
+      margin-bottom: 0;
+    }
   }
 }
