@@ -237,6 +237,11 @@ textarea.materialize-textarea {
   }
 }
 
+/* Inline */
+&.inline {
+  display: inline-block;
+}
+
 /* Search Field */
 .searchbar {
   .prefix {
