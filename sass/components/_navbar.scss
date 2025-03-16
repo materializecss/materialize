@@ -219,7 +219,7 @@
 }
 
 @media #{$medium-and-up} {
-  nav.nav-extended .nav-wrapper {
+  .nav.nav-extended .nav-wrapper {
     min-height: var(--navbar-height-mobile);
   }
   .nav, .navbar .nav-wrapper i, nav a.sidenav-trigger, .navbar a.sidenav-trigger i {
