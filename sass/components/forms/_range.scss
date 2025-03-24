@@ -13,12 +13,13 @@ input[type=range] + .thumb {
 
 input[type=range] {
   position: relative;
-  background-color: transparent;
+  background: linear-gradient(var(--md-sys-color-outline-variant), var(--md-sys-color-outline-variant));
   border: none;
   outline: none;
   width: 100%;
   margin: 15px 0;
   padding: 0;
+  height: 3px;
 
   &:focus {
     outline: none;
