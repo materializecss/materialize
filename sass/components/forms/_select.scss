@@ -5,8 +5,10 @@ select.browser-default {
   color: var(--md-sys-color-on-background);
 }
 
+// TODO: Change to ".select" and not use tag name directly
+// Keep selects useable without javascript
+
 select {
-  opacity: 0;
   background-color: var(--md-sys-color-surface);
   width: 100%;
   padding: 5px;
