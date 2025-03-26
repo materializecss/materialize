@@ -1,5 +1,5 @@
 /*!
-* Materialize v2.2.1 (https://materializeweb.com)
+* Materialize v2.2.2 (https://materializeweb.com)
 * Copyright 2014-2025 Materialize
 * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
 */
@@ -8150,7 +8150,7 @@ var M = (function (exports) {
     }
 
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    const version = '2.2.1';
+    const version = '2.2.2';
     /**
      * Automatically initialize components.
      * @param context Root element to initialize. Defaults to `document.body`.

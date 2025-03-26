@@ -1,5 +1,5 @@
 /*!
-* Materialize v2.2.1 (https://materializeweb.com)
+* Materialize v2.2.2 (https://materializeweb.com)
 * Copyright 2014-2025 Materialize
 * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
 */
@@ -4497,6 +4497,7 @@ small {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+  border: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
@@ -5556,7 +5557,7 @@ body {
 }
 
 @media only screen and (min-width : 601px) {
-  nav.nav-extended .nav-wrapper {
+  .nav.nav-extended .nav-wrapper {
     min-height: var(--navbar-height-mobile);
   }
   .nav, .navbar .nav-wrapper i, nav a.sidenav-trigger, .navbar a.sidenav-trigger i {
@@ -5763,6 +5764,7 @@ body {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+  border: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
@@ -6755,6 +6757,11 @@ textarea.materialize-textarea {
   color: var(--md-sys-color-error);
 }
 
+/* Inline */
+.inline {
+  display: inline-block;
+}
+
 /* Search Field */
 .searchbar .prefix {
   position: absolute;
@@ -7280,13 +7287,17 @@ select.browser-default {
 }
 
 select {
-  opacity: 0;
   background-color: var(--md-sys-color-surface);
   width: 100%;
   padding: 5px;
   border: 1px solid var(--md-sys-color-outline-variant);
   border-radius: 2px;
   height: 3rem;
+}
+
+.select-wrapper:focus-within {
+  outline: 2px solid var(--md-sys-color-primary);
+  border-radius: 4px;
 }
 
 .select-wrapper {
@@ -7300,6 +7311,7 @@ select {
   margin: auto 0;
   z-index: 0;
   fill: var(--md-sys-color-on-background);
+  pointer-events: none;
 }
 .select-wrapper .hide-select {
   width: 0;
@@ -7408,12 +7420,14 @@ input[type=range] + .thumb {
 
 input[type=range] {
   position: relative;
-  background-color: transparent;
+  background: -webkit-gradient(linear, left top, left bottom, from(var(--md-sys-color-outline-variant)), to(var(--md-sys-color-outline-variant)));
+  background: linear-gradient(var(--md-sys-color-outline-variant), var(--md-sys-color-outline-variant));
   border: none;
   outline: none;
   width: 100%;
   margin: 15px 0;
   padding: 0;
+  height: 3px;
 }
 input[type=range]:focus {
   outline: none;
@@ -9393,6 +9407,7 @@ input[type=text].timepicker-input-minutes:focus {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+  border: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
