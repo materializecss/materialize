@@ -1,0 +1,47 @@
+@use './variables' as *;
+@use './mixins.module.scss' as *;
+
+.pagination {
+  li {
+    display: inline-block;
+    vertical-align: top;
+
+    a {
+      @include btn($height: 2rem, $padding-left: .66rem, $padding-right: .66rem, $font-size: 1.2rem);
+    }
+
+    &.active a {
+      @include btn-filled;
+    }
+
+    &.disabled a {
+      @include btn-disabled;
+    }
+
+    i {
+      font-size: 2rem;
+    }
+  }
+
+  li.pages ul li {
+    display: inline-block;
+    float: none;
+  }
+}
+
+@media #{$medium-and-down} {
+  .pagination {
+    width: 100%;
+
+    li.prev,
+    li.next {
+      width: 10%;
+    }
+
+    li.pages {
+      width: 80%;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+}

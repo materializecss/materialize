@@ -1,4 +1,7 @@
 .pulse {
+  overflow: visible;
+  position: relative;
+
   &::before {
     content: '';
     display: block;
@@ -14,9 +17,6 @@
     animation: pulse-animation 1s cubic-bezier(0.24, 0, 0.38, 1) infinite;
     z-index: -1;
   }
-
-  overflow: visible;
-  position: relative;
 }
 
 @keyframes pulse-animation {

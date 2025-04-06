@@ -3,7 +3,7 @@
   "description": "The responsive front-end library based on Material Design from Google.",
   "author": "The Materialize Team",
   "homepage": "https://materializeweb.com",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "style": "dist/css/materialize.css",
   "sass": "sass/materialize.scss",
   "typings": "dist/js/materialize.d.ts",
@@ -35,9 +35,9 @@
     "lint": "eslint .",
     "test": "npm run build && jasmine-browser-runner runSpecs",
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "release": "npm run lint && npm run build && node ci/compress.js",
+    "release": "npm run lint && npm run build -- --environment BUILD:release && node ci/compress.mjs",
     "preversion": "npm run lint && npm test",
-    "version": "npm run build && node ci/compress.js && git add ."
+    "version": "npm run build -- --environment BUILD:release && node ci/compress.mjs && git add ."
   },
   "lint-staged": {
     "js/*.js": [
@@ -57,10 +57,12 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.5.2",
     "archiver": "^7.0.1",
+    "autoprefixer": "^9.8.6",
     "eslint": "^9.10.0",
     "jasmine": "^5.1.0",
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.2.0",
+    "postcss": "^8.4.49",
     "rollup": "^4.20.0",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-dts": "^6.1.1",

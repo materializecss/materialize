@@ -1,9 +1,8 @@
 .file-field {
-  //position: relative;
   display: grid;
   grid-template-columns: min-content auto;
   gap: 10px;
-  
+  //position: relative;
 
   .file-path-wrapper {
     overflow: hidden;
@@ -21,17 +20,11 @@
   }
 
   input[type=file] {
-    // Needed to override webkit button
-    &::-webkit-file-upload-button {
-      display: none;
-    }
-    
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
-    bottom: 0;
-    
+    bottom: 0;    
     cursor: pointer;
     width: 100%;
     margin: 0;
@@ -39,5 +32,10 @@
     opacity: 0;
     font-size: 20px;    
     filter: alpha(opacity=0);
+
+    // Needed to override webkit button
+    &::-webkit-file-upload-button {
+      display: none;
+    }
   }
 }

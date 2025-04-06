@@ -7,6 +7,8 @@ import scss from 'rollup-plugin-scss';
 import copy from 'rollup-plugin-copy';
 
 import { readFileSync } from 'fs';
+import autoprefixer from 'autoprefixer';
+import postcss from 'postcss';
 const packageJson = JSON.parse(readFileSync('./package.json').toString());
 
 const outputPath = 'dist/js/materialize';
@@ -107,7 +109,11 @@ const config: RollupOptions[] = [
       scss({
         fileName: 'materialize.min.css',
         outputStyle: 'compressed',
-        sourceMap: true
+        sourceMap: !(process.env.BUILD === 'release'),
+        processor: (css, map) => ({
+          css: postcss([autoprefixer]).process(css, { from: 'materialize.min.css' }).toString(),
+          map
+        })
       })
     ],
     onwarn: (warning, defaultHandler) => {
@@ -120,7 +126,11 @@ const config: RollupOptions[] = [
     output: [{ file: 'dist/css/materialize.css' }], // overwritten
     plugins: [
       scss({
-        fileName: 'materialize.css'
+        fileName: 'materialize.css',
+        processor: (css) =>
+          postcss([autoprefixer])
+            .process(css, { from: 'materialize.min.css' })
+            .then((result) => result.css)
       })
     ],
     onwarn: (warning, defaultHandler) => {
@@ -143,7 +153,7 @@ const config: RollupOptions[] = [
           {
             src: `dist/css/*.min.css`,
             dest: `dist/css`,
-            transform: (contents) => [bannerText, contents.toString().substring(1)].join('\n') // bug => workaround
+            transform: (contents) => [bannerText, contents.toString()].join('\n') // bug => workaround
           }
         ]
       })

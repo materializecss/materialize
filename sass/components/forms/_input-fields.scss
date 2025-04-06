@@ -1,3 +1,5 @@
+@use '../variables' as *;
+
 /* Style Placeholders */
 ::placeholder {
   color: var(--md-sys-color-on-surface-variant);
@@ -23,15 +25,18 @@ textarea.materialize-textarea {
   width: 100%;
   font-size: $md_sys_typescale_body-large_size; //16px; // => 16 dp
   height: 56px; // 56dp
+  background-color: transparent;
 }
 
 %invalid-input-style {
   border-bottom: 2px solid var(--md-sys-color-error);
   box-shadow: 0 1px 0 0 var(--md-sys-color-error);
 }
+
 %hidden-text > span {
   display: none
 }
+
 %custom-error-message {
   content: attr(data-error);
   color: var(--md-sys-color-error);
@@ -47,12 +52,9 @@ textarea.materialize-textarea {
 
   input, textarea {
     box-sizing: border-box; /* https://stackoverflow.com/questions/1377719/padding-within-inputs-breaks-width-100*/
-
     padding: 0 16px;
     padding-top: 20px;
-
-    background-color: var(--md-sys-color-surface);
-
+    //background-color: transparent; //background-color: var(--md-sys-color-surface);
     border: none; // reset
     border-radius: 4px; // md.sys.shape.corner.extra-small.top
     border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
@@ -173,13 +175,14 @@ textarea.materialize-textarea {
 
   // Outlined
 
+  // todo: use this approach for floating labels with outline
+  // https://dev.to/icyjoseph/use-more-html-elements-floating-from-field-37o9
+
   &.outlined {
 
     input, textarea {
       padding-top: 0;
-
-      background-color: var(--md-sys-color-background);
-
+      background-color: transparent; //(--md-sys-color-background);
       border: 1px solid var(--md-sys-color-on-surface-variant);
       border-radius: 4px; // md.sys.shape.corner.extra-small
 
@@ -189,6 +192,7 @@ textarea.materialize-textarea {
         margin-left: -1px; // subtract border-width
 
       }
+
       // Label
       &:focus:not([readonly]) + label {
         color: var(--input-color);
@@ -200,14 +204,13 @@ textarea.materialize-textarea {
         left: 16px;
         margin-left: -4px;
         padding: 0 4px;
-        background-color: var(--md-sys-color-background);
+        background-color: transparent; //var(--md-sys-color-background);
       }
 
       &:disabled, &[readonly="readonly"] {
         color: rgba(var(--md_sys_color_on-surface), 0.38);
         border-color: rgba(var(--md_sys_color_on-surface), 0.12);
       }
-
     }
   }
 
@@ -234,11 +237,15 @@ textarea.materialize-textarea {
   }
 }
 
+/* Inline */
+.inline {
+  display: inline-block;
+}
+
 /* Search Field */
 .searchbar {
   .prefix {
     position: absolute;
-    //left: 12px;
     padding-left: 1rem;
     top: 0;
     user-select: none;
@@ -307,7 +314,6 @@ textarea {
   word-wrap: break-word;
   overflow-wrap: break-word; /* future version of deprecated 'word-wrap' */
   padding-top: 1.2rem; /* prevents text jump on Enter keypress */
-
   // Reduces repaints
   position: absolute;
   top: 0;

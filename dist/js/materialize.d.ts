@@ -179,7 +179,7 @@ declare class Dropdown extends Component<DropdownOptions> implements Openable {
     _setupTemporaryEventHandlers(): void;
     _removeTemporaryEventHandlers(): void;
     _handleClick: (e: MouseEvent) => void;
-    _handleMouseEnter: (e: any) => void;
+    _handleMouseEnter: () => void;
     _handleMouseLeave: (e: MouseEvent) => void;
     _handleDocumentClick: (e: MouseEvent) => void;
     _handleTriggerKeydown: (e: KeyboardEvent) => void;
@@ -190,7 +190,7 @@ declare class Dropdown extends Component<DropdownOptions> implements Openable {
     _resetFilterQuery: () => void;
     _resetDropdownStyles(): void;
     _resetDropdownPositioningStyles(): void;
-    _moveDropdown(containerEl?: HTMLElement): void;
+    _moveDropdownToElement(containerEl?: HTMLElement): void;
     _makeDropdownFocusable(): void;
     _focusFocusedItem(): void;
     _getDropdownPosition(closestOverflowParent: HTMLElement): {
@@ -282,6 +282,10 @@ interface AutocompleteOptions extends BaseOptions$1 {
      * @default {}
      */
     dropdownOptions: Partial<DropdownOptions>;
+    /**
+     * Predefined selected values
+     */
+    selected: number[] | string[];
 }
 declare class Autocomplete extends Component<AutocompleteOptions> {
     el: HTMLInputElement;
@@ -348,10 +352,13 @@ declare class Autocomplete extends Component<AutocompleteOptions> {
     /**
      * Updates the visible or selectable items shown in the menu.
      * @param menuItems Items to be available.
+     * @param selected Selected item ids
+     * @param open Option to conditionally open dropdown
      */
-    setMenuItems(menuItems: AutocompleteData[]): void;
+    setMenuItems(menuItems: AutocompleteData[], selected?: number[] | string[], open?: boolean): void;
     /**
      * Sets selected values.
+     * @deprecated @see https://github.com/materializecss/materialize/issues/552
      * @param entries
      */
     setValues(entries: AutocompleteData[]): void;
@@ -360,6 +367,7 @@ declare class Autocomplete extends Component<AutocompleteOptions> {
      * @param id The id of a data-entry.
      */
     selectOption(id: number | string): void;
+    selectOptions(ids: []): void;
 }
 
 interface FloatingActionButtonOptions extends BaseOptions$1 {
@@ -412,6 +420,8 @@ declare class FloatingActionButton extends Component<FloatingActionButtonOptions
     _setupEventHandlers(): void;
     _removeEventHandlers(): void;
     _handleFABClick: () => void;
+    _handleFABKeyPress: (e: any) => void;
+    _handleFABToggle: () => void;
     _handleDocumentClick: (e: MouseEvent) => void;
     /**
      * Open FAB.
@@ -473,6 +483,7 @@ declare class Cards extends Component<CardsOptions> implements Openable {
      * Hide card reveal.
      */
     close: () => void;
+    static Init(): void;
 }
 
 interface CarouselOptions extends BaseOptions$1 {
@@ -842,6 +853,10 @@ interface DatepickerOptions extends BaseOptions$1 {
      */
     isDateRange: boolean;
     /**
+     * The selector of the user specified date range end element
+     */
+    dateRangeEndEl: string | null;
+    /**
      * The initial condition if the datepicker is based on multiple date selection.
      * @default false
      */
@@ -918,6 +933,10 @@ interface DatepickerOptions extends BaseOptions$1 {
      */
     showDaysInNextAndPreviousMonths: boolean;
     /**
+     * Specify if the docked datepicker is in open state by default
+     */
+    openByDefault: boolean;
+    /**
      * Specify a DOM element OR selector for a DOM element to render
      * the calendar in, by default it will be placed before the input.
      * @default null
@@ -928,6 +947,11 @@ interface DatepickerOptions extends BaseOptions$1 {
      * @default false
      */
     showClearBtn: boolean;
+    /**
+     *  Autosubmit calendar day select to input field
+     *  @default false
+     */
+    autoSubmit: true;
     /**
      * Internationalization options.
      */
@@ -953,6 +977,21 @@ interface DatepickerOptions extends BaseOptions$1 {
      * @default null
      */
     onDraw: (() => void) | null;
+    /**
+     * Callback function for interaction with input field.
+     * @default null
+     */
+    onInputInteraction: (() => void) | null;
+    /**
+     * Callback function for interaction with confirm button.
+     * @default null
+     */
+    onConfirm: (() => void) | null;
+    /**
+     * Callback function for interaction with close button.
+     * @default null
+     */
+    onCancel: (() => void) | null;
     /** Field used for internal calculations DO NOT CHANGE IT */
     minYear?: number;
     /** Field used for internal calculations DO NOT CHANGE IT */
@@ -965,6 +1004,14 @@ interface DatepickerOptions extends BaseOptions$1 {
     startRange?: Date;
     /** Field used for internal calculations DO NOT CHANGE IT */
     endRange?: Date;
+    /**
+     * Display plugin
+     */
+    displayPlugin: string;
+    /**
+     * Configurable display plugin options
+     */
+    displayPluginOptions: object;
 }
 declare class Datepicker extends Component<DatepickerOptions> {
     el: HTMLInputElement;
@@ -972,11 +1019,8 @@ declare class Datepicker extends Component<DatepickerOptions> {
     multiple: boolean;
     calendarEl: HTMLElement;
     /** CLEAR button instance. */
-    clearBtn: HTMLElement;
     /** DONE button instance */
-    doneBtn: HTMLElement;
-    cancelBtn: HTMLElement;
-    modalEl: HTMLElement;
+    containerEl: HTMLElement;
     yearTextEl: HTMLElement;
     dateTextEl: HTMLElement;
     endDateEl: HTMLInputElement;
@@ -992,6 +1036,8 @@ declare class Datepicker extends Component<DatepickerOptions> {
     }];
     private _y;
     private _m;
+    private displayPlugin;
+    private footer;
     static _template: string;
     constructor(el: HTMLInputElement, options: Partial<DatepickerOptions>);
     static get defaults(): DatepickerOptions;
@@ -1022,6 +1068,10 @@ declare class Datepicker extends Component<DatepickerOptions> {
     destroy(): void;
     destroySelects(): void;
     _insertHTMLIntoDOM(): void;
+    /**
+     * Renders the date input format
+     */
+    _renderDateInputFormat(el: HTMLInputElement): void;
     /**
      * Gets a string representation of the given date.
      */
@@ -1105,6 +1155,8 @@ declare class Datepicker extends Component<DatepickerOptions> {
     renderDayName(opts: any, day: any, abbr?: boolean): any;
     createDateInput(): HTMLInputElement;
     _finishSelection: () => void;
+    _confirm: () => void;
+    _cancel: () => void;
     open(): this;
     close(): this;
 }
@@ -1358,6 +1410,22 @@ declare class Utils {
         leading: boolean;
         trailing: boolean;
     }>): (...args: any[]) => any;
+    /**
+     * Renders confirm/close buttons with callback function
+     */
+    static createConfirmationContainer(container: HTMLElement, confirmText: string, cancelText: string, onConfirm: (Function: object) => void, onCancel: (Function: object) => void): void;
+    /**
+     * Renders a button with optional callback function
+     */
+    static createButton(container: HTMLElement, text: string, className?: string[], visibility?: boolean, callback?: (Function: object) => void): void;
+    static _setAbsolutePosition(origin: HTMLElement, container: HTMLElement, position: string, margin: number, transitionMovement: number, align?: string): {
+        x: number;
+        y: number;
+    };
+    static _repositionWithinScreen(x: number, y: number, width: number, height: number, margin: number, transitionMovement: number, align: string): {
+        x: number;
+        y: number;
+    };
 }
 
 interface ParallaxOptions extends BaseOptions$1 {
@@ -1565,6 +1633,7 @@ declare class FormSelect extends Component<FormSelectOptions> {
     wrapper: HTMLDivElement;
     selectOptions: (HTMLOptionElement | HTMLOptGroupElement)[];
     private _values;
+    nativeTabIndex: number;
     constructor(el: HTMLSelectElement, options: FormSelectOptions);
     static get defaults(): FormSelectOptions;
     /**
@@ -1905,6 +1974,11 @@ interface TimepickerOptions extends BaseOptions$1 {
      */
     showClearBtn: boolean;
     /**
+     *  Autosubmit timepicker selection to input field
+     *  @default true
+     */
+    autoSubmit: true;
+    /**
      * Default time to set on the timepicker 'now' or '13:14'.
      * @default 'now';
      */
@@ -1933,6 +2007,29 @@ interface TimepickerOptions extends BaseOptions$1 {
      * @default null
      */
     onSelect: (hour: number, minute: number) => void;
+    /**
+     * Callback function for interaction with input field.
+     * @default null
+     */
+    onInputInteraction: (() => void) | null;
+    /**
+     * Callback function for done.
+     * @default null
+     */
+    onDone: (() => void) | null;
+    /**
+     * Callback function for cancel.
+     * @default null
+     */
+    onCancel: (() => void) | null;
+    /**
+     * Display plugin
+     */
+    displayPlugin: string;
+    /**
+     * Configurable display plugin options
+     */
+    displayPluginOptions: object;
 }
 type Point = {
     x: number;
@@ -1941,7 +2038,7 @@ type Point = {
 declare class Timepicker extends Component<TimepickerOptions> {
     el: HTMLInputElement;
     id: string;
-    modalEl: HTMLElement;
+    containerEl: HTMLElement;
     plate: HTMLElement;
     digitalClock: HTMLElement;
     inputHours: HTMLInputElement;
@@ -1981,6 +2078,7 @@ declare class Timepicker extends Component<TimepickerOptions> {
     g: Element;
     toggleViewTimer: string | number | NodeJS.Timeout;
     vibrateTimer: NodeJS.Timeout | number;
+    private displayPlugin;
     constructor(el: HTMLInputElement, options: Partial<TimepickerOptions>);
     static get defaults(): TimepickerOptions;
     /**
@@ -2010,14 +2108,15 @@ declare class Timepicker extends Component<TimepickerOptions> {
     _handleDocumentClickEnd: (e: any) => void;
     _insertHTMLIntoDOM(): void;
     _setupVariables(): void;
-    private _createButton;
     _pickerSetup(): void;
     _clockSetup(): void;
     _buildSVGClock(): void;
     _buildHoursView(): void;
     _buildHoursTick(i: number, radian: number, radius: number): void;
     _buildMinutesView(): void;
-    _handleAmPmClick: (e: any) => void;
+    _handleAmPmClick: (e: MouseEvent) => void;
+    _handleAmPmKeypress: (e: KeyboardEvent) => void;
+    _handleAmPmInteraction: (e: HTMLElement) => void;
     _updateAmPmView(): void;
     _updateTimeFromInput(): void;
     /**
@@ -2034,7 +2133,9 @@ declare class Timepicker extends Component<TimepickerOptions> {
     formatHours(): void;
     formatMinutes(): void;
     setHoursDefault(): void;
-    done: (e?: any, clearValue?: any) => any;
+    done: (clearValue?: any) => void;
+    confirm: () => void;
+    cancel: () => void;
     clear: () => void;
     open(): this;
     close(): this;
@@ -2459,7 +2560,7 @@ declare class Range extends Component<RangeOptions> {
     static Init(): void;
 }
 
-declare const version = "2.2.1";
+declare const version = "2.2.2";
 interface AutoInitOptions {
     Autocomplete?: Partial<AutocompleteOptions>;
     Cards?: Partial<CardsOptions>;
@@ -2488,4 +2589,5 @@ interface AutoInitOptions {
  */
 declare function AutoInit(context?: HTMLElement, options?: Partial<AutoInitOptions>): void;
 
-export { AutoInit, type AutoInitOptions, Autocomplete, Cards, Carousel, CharacterCounter, Chips, Collapsible, Datepicker, Dropdown, FloatingActionButton, FormSelect, Forms, Materialbox, Modal, Parallax, Pushpin, Range, ScrollSpy, Sidenav, Slider, Tabs, TapTarget, Timepicker, Toast, Tooltip, Waves, version };
+export { AutoInit, Autocomplete, Cards, Carousel, CharacterCounter, Chips, Collapsible, Datepicker, Dropdown, FloatingActionButton, FormSelect, Forms, Materialbox, Modal, Parallax, Pushpin, Range, ScrollSpy, Sidenav, Slider, Tabs, TapTarget, Timepicker, Toast, Tooltip, Waves, version };
+export type { AutoInitOptions };

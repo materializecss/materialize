@@ -1,7 +1,10 @@
+@use './variables' as *;
+@use './colors.module.scss' as *;
+@use './global' as *;
+
 .collapsible {
   padding-left: 0;
   list-style-type: none;
-
   border-top: 1px solid var(--md-sys-color-outline-variant);
   border-right: 1px solid var(--md-sys-color-outline-variant);
   border-left: 1px solid var(--md-sys-color-outline-variant);
@@ -10,16 +13,16 @@
 }
 
 .collapsible-header {
-  &:focus {
-    outline: 0
-  }
-
   display: flex;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   line-height: 1.5;
   padding: 1rem;
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
+
+  &:focus {
+    outline: 0
+  }
 
   i {
     width: 2rem;

@@ -1,5 +1,5 @@
 /*!
-* Materialize v2.2.1 (https://materializeweb.com)
+* Materialize v2.2.2 (https://materializeweb.com)
 * Copyright 2014-2025 Materialize
 * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
 */
@@ -219,18 +219,115 @@ var M = (function (exports) {
                 if (!previous && options.leading === false)
                     previous = now;
                 const remaining = wait - (now - previous);
-                context = this;
                 if (remaining <= 0) {
                     clearTimeout(timeout);
                     timeout = null;
                     previous = now;
-                    result = func.apply(context, args);
-                    context = args = null;
+                    result = func.apply(this, args);
                 }
                 else if (!timeout && options.trailing !== false) {
                     timeout = setTimeout(later, remaining);
                 }
                 return result;
+            };
+        }
+        /**
+         * Renders confirm/close buttons with callback function
+         */
+        static createConfirmationContainer(container, confirmText, cancelText, onConfirm, onCancel) {
+            const confirmationButtonsContainer = document.createElement('div');
+            confirmationButtonsContainer.classList.add('confirmation-btns');
+            container.append(confirmationButtonsContainer);
+            this.createButton(confirmationButtonsContainer, cancelText, ['btn-cancel'], true, onCancel);
+            this.createButton(confirmationButtonsContainer, confirmText, ['btn-confirm'], true, onConfirm);
+        }
+        /**
+         * Renders a button with optional callback function
+         */
+        static createButton(container, text, className = [], visibility = true, callback = null) {
+            className = className.concat(['btn', 'waves-effect', 'text']);
+            const button = document.createElement('button');
+            button.className = className.join(' ');
+            button.style.visibility = visibility ? 'visible' : 'hidden';
+            button.type = 'button';
+            button.tabIndex = !!visibility ? 0 : -1;
+            button.innerText = text;
+            button.addEventListener('click', callback);
+            button.addEventListener('keypress', (e) => {
+                if (Utils.keys.ENTER.includes(e.key))
+                    callback(e);
+            });
+            container.append(button);
+        }
+        static _setAbsolutePosition(origin, container, position, margin, transitionMovement, align = 'center') {
+            const originHeight = origin.offsetHeight, originWidth = origin.offsetWidth, containerHeight = container.offsetHeight, containerWidth = container.offsetWidth;
+            let xMovement = 0, yMovement = 0, targetTop = origin.getBoundingClientRect().top + Utils.getDocumentScrollTop(), targetLeft = origin.getBoundingClientRect().left + Utils.getDocumentScrollLeft();
+            if (position === 'top') {
+                targetTop += -containerHeight - margin;
+                if (align === 'center') {
+                    targetLeft += originWidth / 2 - containerWidth / 2; // This is center align
+                }
+                yMovement = -transitionMovement;
+            }
+            else if (position === 'right') {
+                targetTop += originHeight / 2 - containerHeight / 2;
+                targetLeft = originWidth + margin;
+                xMovement = transitionMovement;
+            }
+            else if (position === 'left') {
+                targetTop += originHeight / 2 - containerHeight / 2;
+                targetLeft = -containerWidth - margin;
+                xMovement = -transitionMovement;
+            }
+            else {
+                targetTop += originHeight + margin;
+                if (align === 'center') {
+                    targetLeft += originWidth / 2 - containerWidth / 2; // This is center align
+                }
+                yMovement = transitionMovement;
+            }
+            if (align === 'right') {
+                targetLeft += originWidth - containerWidth - margin;
+            }
+            const newCoordinates = Utils._repositionWithinScreen(targetLeft, targetTop, containerWidth, containerHeight, margin, transitionMovement, align);
+            container.style.top = newCoordinates.y + 'px';
+            container.style.left = newCoordinates.x + 'px';
+            return { x: xMovement, y: yMovement };
+        }
+        static _repositionWithinScreen(x, y, width, height, margin, transitionMovement, align) {
+            const scrollLeft = Utils.getDocumentScrollLeft();
+            const scrollTop = Utils.getDocumentScrollTop();
+            let newX = x - scrollLeft;
+            let newY = y - scrollTop;
+            const bounding = {
+                left: newX,
+                top: newY,
+                width: width,
+                height: height
+            };
+            let offset;
+            if (align === 'left' || align == 'center') {
+                offset = margin + transitionMovement;
+            }
+            else if (align === 'right') {
+                offset = margin - transitionMovement;
+            }
+            const edges = Utils.checkWithinContainer(document.body, bounding, offset);
+            if (edges.left) {
+                newX = offset;
+            }
+            else if (edges.right) {
+                newX -= newX + width - window.innerWidth;
+            }
+            if (edges.top) {
+                newY = offset;
+            }
+            else if (edges.bottom) {
+                newY -= newY + height - window.innerHeight;
+            }
+            return {
+                x: newX + scrollLeft,
+                y: newY + scrollTop
             };
         }
     }
@@ -303,7 +400,7 @@ var M = (function (exports) {
         }
     }
 
-    const _defaults$m = {
+    const _defaults$n = {
         alignment: 'left',
         autoFocus: true,
         constrainWidth: true,
@@ -351,12 +448,12 @@ var M = (function (exports) {
             this.filterQuery = [];
             this.el.ariaExpanded = 'false';
             // Move dropdown-content after dropdown-trigger
-            this._moveDropdown();
+            this._moveDropdownToElement();
             this._makeDropdownFocusable();
             this._setupEventHandlers();
         }
         static get defaults() {
-            return _defaults$m;
+            return _defaults$n;
         }
         /**
          * Initializes instances of Dropdown.
@@ -417,7 +514,7 @@ var M = (function (exports) {
         }
         _handleClick = (e) => {
             e.preventDefault();
-            this._moveDropdown(e.target.closest('li'));
+            //this._moveDropdown((<HTMLElement>e.target).closest('li'));
             if (this.isOpen) {
                 this.close();
             }
@@ -425,8 +522,8 @@ var M = (function (exports) {
                 this.open();
             }
         };
-        _handleMouseEnter = (e) => {
-            this._moveDropdown(e.target.closest('li'));
+        _handleMouseEnter = () => {
+            //this._moveDropdown((<HTMLElement>e.target).closest('li'));
             this.open();
         };
         _handleMouseLeave = (e) => {
@@ -512,7 +609,7 @@ var M = (function (exports) {
             else if (Utils.keys.ENTER.includes(e.key) && this.isOpen) {
                 // Search for <a> and <button>
                 const focusedElement = this.dropdownEl.children[this.focusedIndex];
-                const activatableElement = focusedElement.querySelector('a, button');
+                const activatableElement = focusedElement?.querySelector('a, button');
                 // Click a or button tag if exists, otherwise click li tag
                 if (!!activatableElement) {
                     activatableElement.click();
@@ -572,19 +669,17 @@ var M = (function (exports) {
             this.dropdownEl.style.top = '';
             this.dropdownEl.style.transformOrigin = '';
         }
-        // Move dropdown after container or trigger
-        _moveDropdown(containerEl = null) {
-            if (!!this.options.container) {
+        _moveDropdownToElement(containerEl = null) {
+            if (this.options.container) {
                 this.options.container.append(this.dropdownEl);
+                return;
             }
-            else if (containerEl) {
-                if (!containerEl.contains(this.dropdownEl)) {
+            if (containerEl) {
+                if (!containerEl.contains(this.dropdownEl))
                     containerEl.append(this.dropdownEl);
-                }
+                return;
             }
-            else {
-                this.el.after(this.dropdownEl);
-            }
+            this.el.after(this.dropdownEl);
         }
         _makeDropdownFocusable() {
             if (!this.dropdownEl)
@@ -745,7 +840,7 @@ var M = (function (exports) {
             }
             if (getComputedStyle(closestOverflowParent).position === 'static')
                 closestOverflowParent.style.position = 'relative';
-            this._moveDropdown(closestOverflowParent);
+            //this._moveDropdown(closestOverflowParent);
             // Set width before calculating positionInfo
             const idealWidth = this.options.constrainWidth
                 ? this.el.getBoundingClientRect().width
@@ -809,7 +904,7 @@ var M = (function (exports) {
         };
     }
 
-    const _defaults$l = {
+    const _defaults$m = {
         data: [], // Autocomplete data set
         onAutocomplete: null, // Callback for when autocompleted
         dropdownOptions: {
@@ -822,11 +917,12 @@ var M = (function (exports) {
         isMultiSelect: false,
         onSearch: (text, autocomplete) => {
             const normSearch = text.toLocaleLowerCase();
-            autocomplete.setMenuItems(autocomplete.options.data.filter((option) => option.id.toString().toLocaleLowerCase().includes(normSearch) ||
-                option.text?.toLocaleLowerCase().includes(normSearch)));
+            autocomplete.setMenuItems(autocomplete.options.data.filter((option) => option.id.toString().toLocaleLowerCase().includes(normSearch)
+                || option.text?.toLocaleLowerCase().includes(normSearch)));
         },
         maxDropDownHeight: '300px',
-        allowUnsafeHTML: false
+        allowUnsafeHTML: false,
+        selected: []
     };
     class Autocomplete extends Component {
         /** If the autocomplete is open. */
@@ -855,7 +951,7 @@ var M = (function (exports) {
             this.count = 0;
             this.activeIndex = -1;
             this.oldVal = '';
-            this.selectedValues = [];
+            this.selectedValues = this.selectedValues || this.options.selected.map((value) => ({ id: value })) || [];
             this.menuItems = this.options.data || [];
             this.$active = null;
             this._mousedown = false;
@@ -863,7 +959,7 @@ var M = (function (exports) {
             this._setupEventHandlers();
         }
         static get defaults() {
-            return _defaults$l;
+            return _defaults$m;
         }
         /**
          * Initializes instances of Autocomplete.
@@ -912,6 +1008,7 @@ var M = (function (exports) {
             this.container.style.maxHeight = this.options.maxDropDownHeight;
             this.container.id = `autocomplete-options-${Utils.guid()}`;
             this.container.classList.add('autocomplete-content', 'dropdown-content');
+            this.container.ariaExpanded = 'true';
             this.el.setAttribute('data-target', this.container.id);
             this.menuItems.forEach((menuItem) => {
                 const itemElement = this._createDropdownItem(menuItem);
@@ -944,6 +1041,10 @@ var M = (function (exports) {
                 this.el.after(label);
             // Sketchy removal of dropdown click handler
             this.el.removeEventListener('click', this.dropdown._handleClick);
+            if (!this.options.isMultiSelect && !(this.options.selected.length === 0)) {
+                const selectedValue = this.menuItems.filter((value) => value.id === this.selectedValues[0].id);
+                this.el.value = selectedValue[0].text;
+            }
             // Set Value if already set in HTML
             if (this.el.value)
                 this.selectOption(this.el.value);
@@ -955,6 +1056,7 @@ var M = (function (exports) {
             this._updateSelectedInfo();
         }
         _removeDropdown() {
+            this.container.ariaExpanded = 'false';
             this.container.parentNode.removeChild(this.container);
         }
         _handleInputBlur = () => {
@@ -1064,6 +1166,7 @@ var M = (function (exports) {
             const item = document.createElement('li');
             item.setAttribute('data-id', entry.id);
             item.setAttribute('style', 'display:grid; grid-auto-flow: column; user-select: none; align-items: center;');
+            item.tabIndex = 0;
             // Checkbox
             if (this.options.isMultiSelect) {
                 item.innerHTML = `
@@ -1191,14 +1294,29 @@ var M = (function (exports) {
         /**
          * Updates the visible or selectable items shown in the menu.
          * @param menuItems Items to be available.
+         * @param selected Selected item ids
+         * @param open Option to conditionally open dropdown
          */
-        setMenuItems(menuItems) {
+        setMenuItems(menuItems, selected = null, open = true) {
             this.menuItems = menuItems;
-            this.open();
+            this.options.data = menuItems;
+            if (selected) {
+                this.selectedValues = this.menuItems.filter((item) => !(selected.indexOf(item.id) === -1));
+            }
+            if (this.options.isMultiSelect) {
+                this._renderDropdown();
+            }
+            else {
+                this._refreshInputText();
+            }
+            if (open)
+                this.open();
             this._updateSelectedInfo();
+            this._triggerChanged();
         }
         /**
          * Sets selected values.
+         * @deprecated @see https://github.com/materializecss/materialize/issues/552
          * @param entries
          */
         setValues(entries) {
@@ -1218,16 +1336,16 @@ var M = (function (exports) {
             if (!entry)
                 return;
             // Toggle Checkbox
-            const li = this.container.querySelector('li[data-id="' + id + '"]');
-            if (!li)
-                return;
+            /* const li = this.container.querySelector('li[data-id="' + id + '"]');
+            if (!li) return;*/
             if (this.options.isMultiSelect) {
-                const checkbox = li.querySelector('input[type="checkbox"]');
-                checkbox.checked = !checkbox.checked;
-                if (checkbox.checked)
+                /* const checkbox = <HTMLInputElement | null>li.querySelector('input[type="checkbox"]');
+                checkbox.checked = !checkbox.checked;*/
+                if (!(this.selectedValues.filter((selectedEntry) => selectedEntry.id === entry.id).length >= 1))
                     this.selectedValues.push(entry);
                 else
                     this.selectedValues = this.selectedValues.filter((selectedEntry) => selectedEntry.id !== entry.id);
+                this._renderDropdown();
                 this.el.focus();
             }
             else {
@@ -1240,9 +1358,16 @@ var M = (function (exports) {
             this._updateSelectedInfo();
             this._triggerChanged();
         }
+        selectOptions(ids) {
+            const entries = this.menuItems.filter((item) => !(ids.indexOf(item.id) === -1));
+            if (!entries)
+                return;
+            this.selectedValues = entries;
+            this._renderDropdown();
+        }
     }
 
-    const _defaults$k = {
+    const _defaults$l = {
         direction: 'top',
         hoverEnabled: true,
         toolbarEnabled: false
@@ -1276,6 +1401,8 @@ var M = (function (exports) {
             this.offsetY = 0;
             this.offsetX = 0;
             this.el.classList.add(`direction-${this.options.direction}`);
+            this._anchor.tabIndex = 0;
+            this._menu.ariaExpanded = 'false';
             if (this.options.direction === 'top')
                 this.offsetY = 40;
             else if (this.options.direction === 'right')
@@ -1287,7 +1414,7 @@ var M = (function (exports) {
             this._setupEventHandlers();
         }
         static get defaults() {
-            return _defaults$k;
+            return _defaults$l;
         }
         /**
          * Initializes instances of FloatingActionButton.
@@ -1312,6 +1439,7 @@ var M = (function (exports) {
             else {
                 this.el.addEventListener('click', this._handleFABClick);
             }
+            this.el.addEventListener('keypress', this._handleFABKeyPress);
         }
         _removeEventHandlers() {
             if (this.options.hoverEnabled && !this.options.toolbarEnabled) {
@@ -1321,8 +1449,17 @@ var M = (function (exports) {
             else {
                 this.el.removeEventListener('click', this._handleFABClick);
             }
+            this.el.removeEventListener('keypress', this._handleFABKeyPress);
         }
         _handleFABClick = () => {
+            this._handleFABToggle();
+        };
+        _handleFABKeyPress = (e) => {
+            if (Utils.keys.ENTER.includes(e.key)) {
+                this._handleFABToggle();
+            }
+        };
+        _handleFABToggle = () => {
             if (this.isOpen) {
                 this.close();
             }
@@ -1364,6 +1501,7 @@ var M = (function (exports) {
         };
         _animateInFAB() {
             this.el.classList.add('active');
+            this._menu.ariaExpanded = 'true';
             const delayIncrement = 40;
             const duration = 275;
             this._floatingBtnsReverse.forEach((el, index) => {
@@ -1380,18 +1518,23 @@ var M = (function (exports) {
                         el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
                         el.style.opacity = '1';
                         el.style.transform = 'translate(0, 0) scale(1)';
+                        el.tabIndex = 0;
                     }, 1);
                 }, delay);
             });
         }
         _animateOutFAB() {
             const duration = 175;
-            setTimeout(() => this.el.classList.remove('active'), duration);
+            setTimeout(() => {
+                this.el.classList.remove('active');
+                this._menu.ariaExpanded = 'false';
+            }, duration);
             this._floatingBtnsReverse.forEach((el) => {
                 el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
                 // to
                 el.style.opacity = '0';
                 el.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px) scale(0.4)`;
+                el.tabIndex = -1;
             });
         }
         _animateInToolbar() {
@@ -1415,6 +1558,7 @@ var M = (function (exports) {
             this.el.style.left = '0';
             this.el.style.transform = 'translateX(' + this.offsetX + 'px)';
             this.el.style.transition = 'none';
+            this._menu.ariaExpanded = 'true';
             this._anchor.style.transform = `translateY(${this.offsetY}px`;
             this._anchor.style.transition = 'none';
             setTimeout(() => {
@@ -1429,9 +1573,10 @@ var M = (function (exports) {
                     this.el.style.backgroundColor = fabColor;
                     backdrop.style.transform = 'scale(' + scaleFactor + ')';
                     backdrop.style.transition = 'transform .2s cubic-bezier(0.550, 0.055, 0.675, 0.190)';
-                    this._menu
-                        .querySelectorAll('li > a')
-                        .forEach((a) => (a.style.opacity = '1'));
+                    this._menu.querySelectorAll('li > a').forEach((a) => {
+                        a.style.opacity = '1';
+                        a.tabIndex = 0;
+                    });
                     // Scroll to close.
                     window.addEventListener('scroll', this.close, true);
                     document.body.addEventListener('click', this._handleDocumentClick, true);
@@ -1440,7 +1585,7 @@ var M = (function (exports) {
         }
     }
 
-    const _defaults$j = {
+    const _defaults$k = {
         onOpen: null,
         onClose: null,
         inDuration: 225,
@@ -1459,6 +1604,7 @@ var M = (function (exports) {
                 ...Cards.defaults,
                 ...options
             };
+            this._activators = [];
             this.cardReveal = this.el.querySelector('.card-reveal');
             if (this.cardReveal) {
                 this.initialOverflow = getComputedStyle(this.el).overflow;
@@ -1475,7 +1621,7 @@ var M = (function (exports) {
             }
         }
         static get defaults() {
-            return _defaults$j;
+            return _defaults$k;
         }
         /**
          * Initializes instances of Cards.
@@ -1574,9 +1720,20 @@ var M = (function (exports) {
             }
             this._removeRevealCloseEventHandlers();
         };
+        static Init() {
+            if (typeof document !== 'undefined')
+                // Handle initialization of static cards.
+                document.addEventListener('DOMContentLoaded', () => {
+                    const cards = document.querySelectorAll('.card');
+                    cards.forEach((el) => {
+                        if (el && (el['M_Card'] == undefined))
+                            this.init(el);
+                    });
+                });
+        }
     }
 
-    const _defaults$i = {
+    const _defaults$j = {
         duration: 200, // ms
         dist: -100, // zoom scale TODO: make this more intuitive as an option
         shift: 0, // spacing for center image
@@ -1678,7 +1835,7 @@ var M = (function (exports) {
             this._scroll(this.offset);
         }
         static get defaults() {
-            return _defaults$i;
+            return _defaults$j;
         }
         /**
          * Initializes instances of Carousel.
@@ -1733,9 +1890,7 @@ var M = (function (exports) {
             }
             window.removeEventListener('resize', this._handleThrottledResize);
         }
-        _handleThrottledResize = Utils.throttle(function () {
-            this._handleResize();
-        }, 200, null).bind(this);
+        _handleThrottledResize = () => Utils.throttle(this._handleResize, 200, null).bind(this);
         _handleCarouselTap = (e) => {
             // Fixes firefox draggable image bug
             if (e.type === 'mousedown' && e.target.tagName === 'IMG') {
@@ -2150,7 +2305,7 @@ var M = (function (exports) {
         }
     }
 
-    const _defaults$h = {
+    const _defaults$i = {
         data: [],
         placeholder: '',
         secondaryPlaceholder: '',
@@ -2204,7 +2359,7 @@ var M = (function (exports) {
             }
         }
         static get defaults() {
-            return _defaults$h;
+            return _defaults$i;
         }
         /**
          * Initializes instances of Chips.
@@ -2488,7 +2643,7 @@ var M = (function (exports) {
         }
     }
 
-    const _defaults$g = {
+    const _defaults$h = {
         accordion: true,
         onOpenStart: null,
         onOpenEnd: null,
@@ -2524,7 +2679,7 @@ var M = (function (exports) {
             }
         }
         static get defaults() {
-            return _defaults$g;
+            return _defaults$h;
         }
         /**
          * Initializes instances of Collapsible.
@@ -2643,7 +2798,7 @@ var M = (function (exports) {
         };
     }
 
-    const _defaults$f = {
+    const _defaults$g = {
         classes: '',
         dropdownOptions: {}
     };
@@ -2665,6 +2820,7 @@ var M = (function (exports) {
         wrapper;
         selectOptions;
         _values;
+        nativeTabIndex;
         constructor(el, options) {
             super(el, options, FormSelect);
             if (this.el.classList.contains('browser-default'))
@@ -2675,13 +2831,14 @@ var M = (function (exports) {
                 ...options
             };
             this.isMultiple = this.el.multiple;
+            this.nativeTabIndex = this.el.tabIndex ?? -1;
             this.el.tabIndex = -1;
             this._values = [];
             this._setupDropdown();
             this._setupEventHandlers();
         }
         static get defaults() {
-            return _defaults$f;
+            return _defaults$g;
         }
         /**
          * Initializes instances of FormSelect.
@@ -2771,8 +2928,6 @@ var M = (function (exports) {
         };
         _setupDropdown() {
             this.labelEl = document.querySelector('[for="' + this.el.id + '"]');
-            if (this.labelEl)
-                this.labelEl.style.display = 'none';
             this.wrapper = document.createElement('div');
             this.wrapper.classList.add('select-wrapper', 'input-field');
             if (this.options.classes.length > 0) {
@@ -2790,6 +2945,7 @@ var M = (function (exports) {
             // Create dropdown
             this.dropdownOptions = document.createElement('ul');
             this.dropdownOptions.id = `select-options-${Utils.guid()}`;
+            this.dropdownOptions.setAttribute('popover', 'auto');
             this.dropdownOptions.classList.add('dropdown-content', 'select-dropdown');
             this.dropdownOptions.setAttribute('role', 'listbox');
             this.dropdownOptions.ariaMultiSelectable = this.isMultiple.toString();
@@ -2838,6 +2994,7 @@ var M = (function (exports) {
             this.input.ariaRequired = this.el.hasAttribute('required').toString(); //setAttribute("aria-required", this.el.hasAttribute("required"));
             if (this.el.disabled)
                 this.input.disabled = true; // 'true');
+            this.input.setAttribute('tabindex', this.nativeTabIndex.toString());
             const attrs = this.el.attributes;
             for (let i = 0; i < attrs.length; ++i) {
                 const attr = attrs[i];
@@ -2863,7 +3020,7 @@ var M = (function (exports) {
             this.wrapper.prepend(dropdownIcon);
             // Initialize dropdown
             if (!this.el.disabled) {
-                const dropdownOptions = { ...this.options.dropdownOptions }; // TODO:
+                const dropdownOptions = { ...this.options.dropdownOptions };
                 dropdownOptions.coverTrigger = false;
                 const userOnOpenEnd = dropdownOptions.onOpenEnd;
                 const userOnCloseEnd = dropdownOptions.onCloseEnd;
@@ -2902,13 +3059,9 @@ var M = (function (exports) {
             }
             // Add initial selections
             this._setSelectedStates();
-            // Add Label
-            if (this.labelEl) {
-                const label = document.createElement('label');
-                label.htmlFor = this.input.id;
-                label.innerText = this.labelEl.innerText;
-                this.input.after(label);
-            }
+            // move label
+            if (this.labelEl)
+                this.input.after(this.labelEl);
         }
         _addOptionToValues(realOption, virtualOption) {
             this._values.push({ el: realOption, optionEl: virtualOption });
@@ -3028,6 +3181,74 @@ var M = (function (exports) {
         }
     }
 
+    const _defaults$f = {
+        margin: 5,
+        transition: 10,
+        duration: 250,
+        align: 'left'
+    };
+    class DockedDisplayPlugin {
+        el;
+        container;
+        options;
+        visible;
+        constructor(el, container, options) {
+            this.el = el;
+            this.options = {
+                ..._defaults$f,
+                ...options
+            };
+            this.container = document.createElement('div');
+            this.container.classList.add('display-docked');
+            this.container.append(container);
+            el.parentElement.append(this.container);
+            document.addEventListener('click', (e) => {
+                if (this.visible && !(this.el === e.target) && !(e.target.closest('.display-docked'))) {
+                    this.hide();
+                }
+            });
+        }
+        /**
+         * Initializes instance of DockedDisplayPlugin
+         * @param el HTMLElement to position to
+         * @param container HTMLElement to be positioned
+         * @param options Plugin options
+         */
+        static init(el, container, options) {
+            return new DockedDisplayPlugin(el, container, options);
+        }
+        show = () => {
+            if (this.visible)
+                return;
+            this.visible = true;
+            const coordinates = Utils._setAbsolutePosition(this.el, this.container, 'bottom', this.options.margin, this.options.transition, this.options.align);
+            // @todo move to Util? -> duplicate code fragment with tooltip
+            // easeOutCubic
+            this.container.style.visibility = 'visible';
+            this.container.style.transition = `
+      transform ${this.options.duration}ms ease-out,
+      opacity ${this.options.duration}ms ease-out`;
+            setTimeout(() => {
+                this.container.style.transform = `translateX(${coordinates.x}px) translateY(${coordinates.y}px)`;
+                this.container.style.opacity = (1).toString();
+            }, 1);
+        };
+        hide = () => {
+            if (!this.visible)
+                return;
+            this.visible = false;
+            // @todo move to Util? -> duplicate code fragment with tooltip
+            this.container.removeAttribute('style');
+            this.container.style.transition = `
+      transform ${this.options.duration}ms ease-out,
+      opacity ${this.options.duration}ms ease-out`;
+            setTimeout(() => {
+                this.container.style.transform = `translateX(0px) translateY(0px)`;
+                this.container.style.opacity = '0';
+            }, 1);
+        };
+    }
+
     const _defaults$e = {
         // the default output format for the input field value
         format: 'mmm dd, yyyy',
@@ -3035,6 +3256,8 @@ var M = (function (exports) {
         parse: null,
         // The initial condition if the datepicker is based on date range
         isDateRange: false,
+        // The selector of the user specified date range end element
+        dateRangeEndEl: null,
         // The initial condition if the datepicker is based on multiple date selection
         isMultipleSelection: false,
         // The initial date to view when first opened
@@ -3068,10 +3291,14 @@ var M = (function (exports) {
         showMonthAfterYear: false,
         // Render days of the calendar grid that fall in the next or previous month
         showDaysInNextAndPreviousMonths: false,
+        // Specify if docked picker is in open state by default
+        openByDefault: false,
         // Specify a DOM element to render the calendar in
         container: null,
         // Show clear button
         showClearBtn: false,
+        // Autosubmit
+        autoSubmit: true,
         // internationalization
         i18n: {
             cancel: 'Cancel',
@@ -3115,18 +3342,23 @@ var M = (function (exports) {
         events: [],
         // callback function
         onSelect: null,
-        onDraw: null
+        onDraw: null,
+        onInputInteraction: null,
+        displayPlugin: null,
+        displayPluginOptions: null,
+        onConfirm: null,
+        onCancel: null,
     };
     class Datepicker extends Component {
         id;
         multiple = false;
         calendarEl;
         /** CLEAR button instance. */
-        clearBtn;
+        // clearBtn: HTMLElement;
         /** DONE button instance */
-        doneBtn;
-        cancelBtn;
-        modalEl;
+        /*doneBtn: HTMLElement;
+        cancelBtn: HTMLElement;*/
+        containerEl;
         yearTextEl;
         dateTextEl;
         endDateEl;
@@ -3139,6 +3371,8 @@ var M = (function (exports) {
         calendars;
         _y;
         _m;
+        displayPlugin;
+        footer;
         static _template;
         constructor(el, options) {
             super(el, options, Datepicker);
@@ -3192,6 +3426,10 @@ var M = (function (exports) {
                 this.dateEls = [];
                 this.dateEls.push(el);
             }
+            if (this.options.displayPlugin) {
+                if (this.options.displayPlugin === 'docked')
+                    this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+            }
         }
         static get defaults() {
             return _defaults$e;
@@ -3240,7 +3478,7 @@ var M = (function (exports) {
         }
         destroy() {
             this._removeEventHandlers();
-            this.modalEl.remove();
+            this.containerEl.remove();
             this.destroySelects();
             this.el['M_Datepicker'] = undefined;
         }
@@ -3259,26 +3497,54 @@ var M = (function (exports) {
             if (this.el.type == 'date') {
                 this.el.classList.add('datepicker-date-input');
             }
-            if (this.options.isDateRange) {
-                this.endDateEl = this.createDateInput();
-                this.endDateEl.classList.add('datepicker-end-date');
+            if (!this.el.parentElement.querySelector('.datepicker-format') === null) {
+                this._renderDateInputFormat(this.el);
             }
-            if (this.options.showClearBtn) {
-                this.clearBtn.style.visibility = '';
-                this.clearBtn.innerText = this.options.i18n.clear;
+            if (this.options.isDateRange) {
+                this.containerEl.classList.add('daterange');
+                if (!this.options.dateRangeEndEl) {
+                    this.endDateEl = this.createDateInput();
+                    this.endDateEl.classList.add('datepicker-end-date');
+                }
+                else if (document.querySelector(this.options.dateRangeEndEl) === undefined) {
+                    console.warn('Specified date range end input element in dateRangeEndEl not found');
+                }
+                else {
+                    this.endDateEl = document.querySelector(this.options.dateRangeEndEl);
+                    if (!this.endDateEl.parentElement.querySelector('.datepicker-format') === null) {
+                        this._renderDateInputFormat(this.endDateEl);
+                    }
+                }
+            }
+            /*if (this.options.showClearBtn) {
+              this.clearBtn.style.visibility = '';
+              this.clearBtn.innerText = this.options.i18n.clear;
             }
             this.doneBtn.innerText = this.options.i18n.done;
-            this.cancelBtn.innerText = this.options.i18n.cancel;
+            this.cancelBtn.innerText = this.options.i18n.cancel;*/
+            Utils.createButton(this.footer, this.options.i18n.clear, ['datepicker-clear'], this.options.showClearBtn, this._handleClearClick);
+            if (!this.options.autoSubmit) {
+                Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this._confirm, this._cancel);
+            }
             if (this.options.container) {
                 const optEl = this.options.container;
                 this.options.container =
                     optEl instanceof HTMLElement ? optEl : document.querySelector(optEl);
-                this.options.container.append(this.modalEl);
+                this.options.container.append(this.containerEl);
             }
             else {
-                //this.modalEl.before(this.el);
-                this.el.parentElement.appendChild(this.modalEl);
+                //this.containerEl.before(this.el);
+                const appendTo = !this.endDateEl ? this.el : this.endDateEl;
+                if (!this.options.openByDefault)
+                    this.containerEl.setAttribute('style', 'display: none; visibility: hidden;');
+                appendTo.parentElement.after(this.containerEl);
             }
+        }
+        /**
+         * Renders the date input format
+         */
+        _renderDateInputFormat(el) {
+            el.parentElement.querySelector('.datepicker-format').innerHTML = this.options.format.toString();
         }
         /**
          * Gets a string representation of the given date.
@@ -3420,7 +3686,6 @@ var M = (function (exports) {
          * Sets given date as the input value on the given element.
          */
         setInputValue(el, date) {
-            console.log('setinputvalue');
             if (el.type == 'date') {
                 this.setDataDate(el, date);
                 el.value = this.formatDate(date, 'yyyy-mm-dd');
@@ -3524,7 +3789,7 @@ var M = (function (exports) {
                     day < this.options.endRange, isDisabled = (this.options.minDate && day < this.options.minDate) ||
                     (this.options.maxDate && day > this.options.maxDate) ||
                     (this.options.disableWeekends && Datepicker._isWeekend(day)) ||
-                    (this.options.disableDayFn && this.options.disableDayFn(day)), isDateRange = this.options.isDateRange &&
+                    (this.options.disableDayFn && this.options.disableDayFn(day)), isDateRangeStart = this.options.isDateRange && this.date && this.endDate && Datepicker._compareDates(this.date, day), isDateRangeEnd = this.options.isDateRange && this.endDate && Datepicker._compareDates(this.endDate, day), isDateRange = this.options.isDateRange &&
                     Datepicker._isDate(this.endDate) &&
                     Datepicker._compareWithinRange(day, this.date, this.endDate);
                 let dayNumber = 1 + (i - before), monthNumber = month, yearNumber = year;
@@ -3564,6 +3829,8 @@ var M = (function (exports) {
                     isEndRange: isEndRange,
                     isInRange: isInRange,
                     showDaysInNextAndPreviousMonths: this.options.showDaysInNextAndPreviousMonths,
+                    isDateRangeStart: isDateRangeStart,
+                    isDateRangeEnd: isDateRangeEnd,
                     isDateRange: isDateRange
                 };
                 row.push(this.renderDay(dayConfig));
@@ -3577,8 +3844,18 @@ var M = (function (exports) {
             return this.renderTable(this.options, data, randId);
         }
         renderDay(opts) {
-            const arr = [];
-            let ariaSelected = 'false';
+            const classMap = {
+                isDisabled: 'is-disabled',
+                isToday: 'is-today',
+                isSelected: 'is-selected',
+                hasEvent: 'has-event',
+                isInRange: 'is-inrange',
+                isStartRange: 'is-startrange',
+                isEndRange: 'is-endrange',
+                isDateRangeStart: 'is-daterange-start',
+                isDateRangeEnd: 'is-daterange-end',
+                isDateRange: 'is-daterange'
+            }, ariaSelected = !(['isSelected', 'isDateRange'].filter((prop) => !!(opts.hasOwnProperty(prop) && opts[prop] === true)).length === 0), arr = ['datepicker-day'];
             if (opts.isEmpty) {
                 if (opts.showDaysInNextAndPreviousMonths) {
                     arr.push('is-outside-current-month');
@@ -3588,36 +3865,10 @@ var M = (function (exports) {
                     return '<td class="is-empty"></td>';
                 }
             }
-            // @todo wouldn't it be better defining opts class mapping and looping trough opts?
-            if (opts.isDisabled) {
-                arr.push('is-disabled');
-            }
-            if (opts.isToday) {
-                arr.push('is-today');
-            }
-            if (opts.isSelected) {
-                arr.push('is-selected');
-                ariaSelected = 'true';
-            }
-            // @todo should we create this additional css class?
-            if (opts.hasEvent) {
-                arr.push('has-event');
-            }
-            // @todo should we create this additional css class?
-            if (opts.isInRange) {
-                arr.push('is-inrange');
-            }
-            // @todo should we create this additional css class?
-            if (opts.isStartRange) {
-                arr.push('is-startrange');
-            }
-            // @todo should we create this additional css class?
-            if (opts.isEndRange) {
-                arr.push('is-endrange');
-            }
-            // @todo create additional css class
-            if (opts.isDateRange) {
-                arr.push('is-daterange');
+            for (const [property, className] of Object.entries(classMap)) {
+                if (opts.hasOwnProperty(property) && opts[property]) {
+                    arr.push(className);
+                }
             }
             return (`<td data-day="${opts.day}" class="${arr.join(' ')}" aria-selected="${ariaSelected}">` +
                 `<button class="datepicker-day-button" type="button" data-year="${opts.year}" data-month="${opts.month}" data-day="${opts.day}">${opts.day}</button>` +
@@ -3686,7 +3937,9 @@ var M = (function (exports) {
                 arr.reverse();
             const yearHtml = `<select class="datepicker-select orig-select-year" tabindex="-1">${arr.join('')}</select>`;
             const leftArrow = '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/><path d="M0-.5h24v24H0z" fill="none"/></svg>';
-            html += `<button class="month-prev${prev ? '' : ' is-disabled'} btn-flat" type="button">${leftArrow}</button>`;
+            html += `<button class="month-prev${prev ? '' : ' is-disabled'
+        // @todo remove button class and add scss mixin, current implementation temporary for focus states, @see https://github.com/materializecss/materialize/issues/566
+        } btn" type="button">${leftArrow}</button>`;
             html += '<div class="selects-container">';
             if (opts.showMonthAfterYear) {
                 html += yearHtml + monthHtml;
@@ -3702,7 +3955,9 @@ var M = (function (exports) {
                 next = false;
             }
             const rightArrow = '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/><path d="M0-.25h24v24H0z" fill="none"/></svg>';
-            html += `<button class="month-next${next ? '' : ' is-disabled'} btn-flat" type="button">${rightArrow}</button>`;
+            html += `<button class="month-next${next ? '' : ' is-disabled'
+        // @todo remove button class and add scss mixin, current implementation temporary for focus states, @see https://github.com/materializecss/materialize/issues/566
+        } btn" type="button">${rightArrow}</button>`;
             return (html += '</div>');
         }
         // refresh HTML
@@ -3741,6 +3996,7 @@ var M = (function (exports) {
             // Init Materialize Select
             const yearSelect = this.calendarEl.querySelector('.orig-select-year');
             const monthSelect = this.calendarEl.querySelector('.orig-select-month');
+            // @todo fix accessibility @see https://github.com/materializecss/materialize/issues/522
             FormSelect.init(yearSelect, {
                 classes: 'select-year',
                 dropdownOptions: { container: document.body, constrainWidth: false }
@@ -3761,25 +4017,26 @@ var M = (function (exports) {
             this.el.addEventListener('keydown', this._handleInputKeydown);
             this.el.addEventListener('change', this._handleInputChange);
             this.calendarEl.addEventListener('click', this._handleCalendarClick);
-            this.doneBtn.addEventListener('click', () => this.setInputValues());
-            this.cancelBtn.addEventListener('click', this.close);
+            /* this.doneBtn.addEventListener('click', this._confirm);
+            this.cancelBtn.addEventListener('click', this._cancel);
+        
             if (this.options.showClearBtn) {
-                this.clearBtn.addEventListener('click', this._handleClearClick);
-            }
+              this.clearBtn.addEventListener('click', this._handleClearClick);
+            }*/
         }
         _setupVariables() {
             const template = document.createElement('template');
             template.innerHTML = Datepicker._template.trim();
-            this.modalEl = template.content.firstChild;
-            this.calendarEl = this.modalEl.querySelector('.datepicker-calendar');
-            this.yearTextEl = this.modalEl.querySelector('.year-text');
-            this.dateTextEl = this.modalEl.querySelector('.date-text');
-            if (this.options.showClearBtn) {
-                this.clearBtn = this.modalEl.querySelector('.datepicker-clear');
+            this.containerEl = template.content.firstChild;
+            this.calendarEl = this.containerEl.querySelector('.datepicker-calendar');
+            this.yearTextEl = this.containerEl.querySelector('.year-text');
+            this.dateTextEl = this.containerEl.querySelector('.date-text');
+            /* if (this.options.showClearBtn) {
+              this.clearBtn = this.containerEl.querySelector('.datepicker-clear');
             }
-            // TODO: This should not be part of the datepicker
-            this.doneBtn = this.modalEl.querySelector('.datepicker-done');
-            this.cancelBtn = this.modalEl.querySelector('.datepicker-cancel');
+            this.doneBtn = this.containerEl.querySelector('.datepicker-done');
+            this.cancelBtn = this.containerEl.querySelector('.datepicker-cancel');*/
+            this.footer = this.containerEl.querySelector('.datepicker-footer');
             this.formats = {
                 d: (date) => {
                     return date.getDate();
@@ -3834,12 +4091,20 @@ var M = (function (exports) {
             this.setDateFromInput(e.target);
             this.draw();
             this.gotoDate(e.target === this.el ? this.date : this.endDate);
+            if (this.displayPlugin)
+                this.displayPlugin.show();
+            if (this.options.onInputInteraction)
+                this.options.onInputInteraction.call(this);
         };
         _handleInputKeydown = (e) => {
             if (Utils.keys.ENTER.includes(e.key)) {
                 e.preventDefault();
                 this.setDateFromInput(e.target);
                 this.draw();
+                if (this.displayPlugin)
+                    this.displayPlugin.show();
+                if (this.options.onInputInteraction)
+                    this.options.onInputInteraction.call(this);
             }
         };
         _handleCalendarClick = (e) => {
@@ -3855,7 +4120,8 @@ var M = (function (exports) {
                     if (this.options.isDateRange) {
                         this._handleDateRangeCalendarClick(selectedDate);
                     }
-                    this._finishSelection();
+                    if (this.options.autoSubmit)
+                        this._finishSelection();
                 }
                 else if (target.closest('.month-prev')) {
                     this.prevMonth();
@@ -3883,6 +4149,7 @@ var M = (function (exports) {
         _clearDates = () => {
             this.date = null;
             this.endDate = null;
+            this.draw();
         };
         _handleMonthChange = (e) => {
             this.gotoMonth(e.target.value);
@@ -3947,7 +4214,17 @@ var M = (function (exports) {
         // Set input value to the selected date and close Datepicker
         _finishSelection = () => {
             this.setInputValues();
-            this.close();
+            // Commented out because of function deprecations
+            // this.close();
+        };
+        _confirm = () => {
+            this._finishSelection();
+            if (typeof this.options.onConfirm === 'function')
+                this.options.onConfirm.call(this);
+        };
+        _cancel = () => {
+            if (typeof this.options.onCancel === 'function')
+                this.options.onCancel.call(this);
         };
         // deprecated
         open() {
@@ -3960,8 +4237,7 @@ var M = (function (exports) {
         }
         static {
             Datepicker._template = `
-      <div class="datepicker-modal">
-        <div class="modal-content datepicker-container">
+        <div class="datepicker-container">
           <div class="datepicker-date-display">
             <span class="year-text"></span>
             <span class="date-text"></span>
@@ -3969,15 +4245,14 @@ var M = (function (exports) {
           <div class="datepicker-calendar-container">
             <div class="datepicker-calendar"></div>
             <div class="datepicker-footer">
-              <button class="btn-flat datepicker-clear waves-effect" style="visibility: hidden;" type="button"></button>
+              <!--<button class="btn-flat datepicker-clear waves-effect" style="visibility: hidden;" type="button"></button>
               <div class="confirmation-btns">
                 <button class="btn-flat datepicker-cancel waves-effect" type="button"></button>
                 <button class="btn-flat datepicker-done waves-effect" type="button"></button>
-              </div>
+              </div>-->
             </div>
           </div>
-        </div>
-      </div>`;
+        </div>`;
         }
     }
 
@@ -4086,7 +4361,7 @@ var M = (function (exports) {
                 // So we set the height to the original one
                 textarea.style.height = originalHeight + 'px';
             }
-            textarea.setAttribute('previous-length', textarea.value.length.toString());
+            textarea.setAttribute('previous-length', (textarea.value || '').length.toString());
         }
         static Init() {
             if (typeof document !== 'undefined')
@@ -4133,7 +4408,7 @@ var M = (function (exports) {
         static InitTextarea(textarea) {
             // Save Data in Element
             textarea.setAttribute('original-height', textarea.getBoundingClientRect().height.toString());
-            textarea.setAttribute('previous-length', textarea.value.length.toString());
+            textarea.setAttribute('previous-length', (textarea.value || '').length.toString());
             Forms.textareaAutoResize(textarea);
             textarea.addEventListener('keyup', (e) => Forms.textareaAutoResize(e.target));
             textarea.addEventListener('keydown', (e) => Forms.textareaAutoResize(e.target));
@@ -4882,9 +5157,7 @@ var M = (function (exports) {
                 document.body.removeEventListener('click', this._handleTriggerClick);
             }
         }
-        _handleThrottledResize = Utils.throttle(function () {
-            this._handleWindowScroll();
-        }, 200).bind(this);
+        _handleThrottledResize = () => Utils.throttle(this._handleWindowScroll, 200).bind(this);
         _handleTriggerClick = (e) => {
             const trigger = e.target;
             for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
@@ -5854,9 +6127,7 @@ var M = (function (exports) {
             // this.originEl.removeEventListener('click', this._handleOriginClick);
             window.removeEventListener('resize', this._handleThrottledResize);
         }
-        _handleThrottledResize = Utils.throttle(function () {
-            this._handleResize();
-        }, 200).bind(this);
+        _handleThrottledResize = () => Utils.throttle(this._handleResize, 200).bind(this);
         _handleKeyboardInteraction = (e) => {
             if (Utils.keys.ENTER.includes(e.key)) {
                 this._handleTargetToggle();
@@ -6055,6 +6326,7 @@ var M = (function (exports) {
         defaultTime: 'now', // default time, 'now' or '13:14' e.g.
         fromNow: 0, // Millisecond offset from the defaultTime
         showClearBtn: false,
+        autoSubmit: true,
         // internationalization
         i18n: {
             cancel: 'Cancel',
@@ -6064,11 +6336,16 @@ var M = (function (exports) {
         twelveHour: true, // change to 12 hour AM/PM clock from 24 hour
         vibrate: true, // vibrate the device when dragging clock hand
         // Callbacks
-        onSelect: null
+        onSelect: null,
+        onInputInteraction: null,
+        onDone: null,
+        onCancel: null,
+        displayPlugin: null,
+        displayPluginOptions: null,
     };
     class Timepicker extends Component {
         id;
-        modalEl;
+        containerEl;
         plate;
         digitalClock;
         inputHours;
@@ -6108,6 +6385,7 @@ var M = (function (exports) {
         g;
         toggleViewTimer;
         vibrateTimer;
+        displayPlugin;
         constructor(el, options) {
             super(el, options, Timepicker);
             this.el['M_Timepicker'] = this;
@@ -6121,6 +6399,10 @@ var M = (function (exports) {
             this._setupEventHandlers();
             this._clockSetup();
             this._pickerSetup();
+            if (this.options.displayPlugin) {
+                if (this.options.displayPlugin === 'docked')
+                    this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+            }
         }
         static get defaults() {
             return _defaults$5;
@@ -6155,7 +6437,7 @@ var M = (function (exports) {
         }
         destroy() {
             this._removeEventHandlers();
-            this.modalEl.remove();
+            this.containerEl.remove();
             this.el['M_Timepicker'] = undefined;
         }
         _setupEventHandlers() {
@@ -6174,12 +6456,20 @@ var M = (function (exports) {
             this.el.removeEventListener('keydown', this._handleInputKeydown);
         }
         _handleInputClick = () => {
-            this.open();
+            this.inputHours.focus();
+            if (typeof this.options.onInputInteraction === 'function')
+                this.options.onInputInteraction.call(this);
+            if (this.displayPlugin)
+                this.displayPlugin.show();
         };
         _handleInputKeydown = (e) => {
             if (Utils.keys.ENTER.includes(e.key)) {
                 e.preventDefault();
-                this.open();
+                this.inputHours.focus();
+                if (typeof this.options.onInputInteraction === 'function')
+                    this.options.onInputInteraction.call(this);
+                if (this.displayPlugin)
+                    this.displayPlugin.show();
             }
         };
         _handleTimeInputEnterKey = (e) => {
@@ -6226,12 +6516,14 @@ var M = (function (exports) {
                 this.setHand(x, y);
             }
             if (this.currentView === 'hours') {
+                this.inputMinutes.focus();
                 this.showView('minutes', this.options.duration / 2);
             }
             else {
-                this.minutesView.classList.add('timepicker-dial-out');
+                // this.minutesView.classList.add('timepicker-dial-out');
                 setTimeout(() => {
-                    this.done();
+                    if (this.options.autoSubmit)
+                        this.done();
                 }, this.options.duration / 2);
             }
             if (typeof this.options.onSelect === 'function') {
@@ -6244,16 +6536,16 @@ var M = (function (exports) {
         _insertHTMLIntoDOM() {
             const template = document.createElement('template');
             template.innerHTML = Timepicker._template.trim();
-            this.modalEl = template.content.firstChild;
-            this.modalEl.id = 'modal-' + this.id;
+            this.containerEl = template.content.firstChild;
+            this.containerEl.id = 'container-' + this.id;
             // Append popover to input by default
             const optEl = this.options.container;
             const containerEl = optEl instanceof HTMLElement ? optEl : document.querySelector(optEl);
             if (this.options.container && !!containerEl) {
-                containerEl.append(this.modalEl);
+                containerEl.append(this.containerEl);
             }
             else {
-                this.el.parentElement.appendChild(this.modalEl);
+                this.el.parentElement.appendChild(this.containerEl);
             }
         }
         _setupVariables() {
@@ -6263,42 +6555,49 @@ var M = (function (exports) {
                 : navigator['webkitVibrate']
                     ? 'webkitVibrate'
                     : null;
-            this._canvas = this.modalEl.querySelector('.timepicker-canvas');
-            this.plate = this.modalEl.querySelector('.timepicker-plate');
-            this.digitalClock = this.modalEl.querySelector('.timepicker-display-column');
-            this.hoursView = this.modalEl.querySelector('.timepicker-hours');
-            this.minutesView = this.modalEl.querySelector('.timepicker-minutes');
-            this.inputHours = this.modalEl.querySelector('.timepicker-input-hours');
-            this.inputMinutes = this.modalEl.querySelector('.timepicker-input-minutes');
-            this.spanAmPm = this.modalEl.querySelector('.timepicker-span-am-pm');
-            this.footer = this.modalEl.querySelector('.timepicker-footer');
+            this._canvas = this.containerEl.querySelector('.timepicker-canvas');
+            this.plate = this.containerEl.querySelector('.timepicker-plate');
+            this.digitalClock = this.containerEl.querySelector('.timepicker-display-column');
+            this.hoursView = this.containerEl.querySelector('.timepicker-hours');
+            this.minutesView = this.containerEl.querySelector('.timepicker-minutes');
+            this.inputHours = this.containerEl.querySelector('.timepicker-input-hours');
+            this.inputMinutes = this.containerEl.querySelector('.timepicker-input-minutes');
+            this.spanAmPm = this.containerEl.querySelector('.timepicker-span-am-pm');
+            this.footer = this.containerEl.querySelector('.timepicker-footer');
             this.amOrPm = 'PM';
         }
-        _createButton(text, visibility) {
-            const button = document.createElement('button');
-            button.classList.add('btn', 'btn-flat', 'waves-effect', 'text');
-            button.style.visibility = visibility;
-            button.type = 'button';
-            button.tabIndex = -1;
-            button.innerText = text;
-            return button;
-        }
+        /*private _createButton(text: string, visibility: string): HTMLButtonElement {
+          const button = document.createElement('button');
+          button.classList.add('btn', 'waves-effect', 'text');
+          button.style.visibility = visibility;
+          button.type = 'button';
+          button.tabIndex = -1;
+          button.innerText = text;
+          return button;
+        }*/
         _pickerSetup() {
-            const clearButton = this._createButton(this.options.i18n.clear, this.options.showClearBtn ? '' : 'hidden');
-            clearButton.classList.add('timepicker-clear');
-            clearButton.addEventListener('click', this.clear);
-            this.footer.appendChild(clearButton);
-            const confirmationBtnsContainer = document.createElement('div');
-            confirmationBtnsContainer.classList.add('confirmation-btns');
-            this.footer.append(confirmationBtnsContainer);
-            const cancelButton = this._createButton(this.options.i18n.cancel, '');
-            cancelButton.classList.add('timepicker-close');
-            cancelButton.addEventListener('click', this.close);
-            confirmationBtnsContainer.appendChild(cancelButton);
-            const doneButton = this._createButton(this.options.i18n.done, '');
-            doneButton.classList.add('timepicker-close');
-            //doneButton.addEventListener('click', this._finishSelection);
-            confirmationBtnsContainer.appendChild(doneButton);
+            // clearButton.classList.add('timepicker-clear');
+            // clearButton.addEventListener('click', this.clear);
+            // this.footer.appendChild(clearButton);
+            Utils.createButton(this.footer, this.options.i18n.clear, ['timepicker-clear'], this.options.showClearBtn, this.clear);
+            if (!this.options.autoSubmit) {
+                /*const confirmationBtnsContainer = document.createElement('div');
+                confirmationBtnsContainer.classList.add('confirmation-btns');
+                this.footer.append(confirmationBtnsContainer);
+            
+                const cancelButton = this._createButton(this.options.i18n.cancel, '');
+                cancelButton.classList.add('timepicker-close');
+                cancelButton.addEventListener('click', this.close);
+                confirmationBtnsContainer.appendChild(cancelButton);
+            
+                const doneButton = this._createButton(this.options.i18n.done, '');
+                doneButton.classList.add('timepicker-close');
+                //doneButton.addEventListener('click', this._finishSelection);
+                confirmationBtnsContainer.appendChild(doneButton);*/
+                Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this.confirm, this.cancel);
+            }
+            this._updateTimeFromInput();
+            this.showView('hours');
         }
         _clockSetup() {
             if (this.options.twelveHour) {
@@ -6306,13 +6605,17 @@ var M = (function (exports) {
                 this._amBtn = document.createElement('div');
                 this._amBtn.classList.add('am-btn', 'btn');
                 this._amBtn.innerText = 'AM';
+                this._amBtn.tabIndex = 0;
                 this._amBtn.addEventListener('click', this._handleAmPmClick);
+                this._amBtn.addEventListener('keypress', this._handleAmPmKeypress);
                 this.spanAmPm.appendChild(this._amBtn);
                 // PM Button
                 this._pmBtn = document.createElement('div');
                 this._pmBtn.classList.add('pm-btn', 'btn');
                 this._pmBtn.innerText = 'PM';
+                this._pmBtn.tabIndex = 0;
                 this._pmBtn.addEventListener('click', this._handleAmPmClick);
+                this._pmBtn.addEventListener('keypress', this._handleAmPmKeypress);
                 this.spanAmPm.appendChild(this._pmBtn);
             }
             this._buildHoursView();
@@ -6405,8 +6708,15 @@ var M = (function (exports) {
             }
         }
         _handleAmPmClick = (e) => {
-            const btnClicked = e.target;
-            this.amOrPm = btnClicked.classList.contains('am-btn') ? 'AM' : 'PM';
+            this._handleAmPmInteraction(e.target);
+        };
+        _handleAmPmKeypress = (e) => {
+            if (Utils.keys.ENTER.includes(e.key)) {
+                this._handleAmPmInteraction(e.target);
+            }
+        };
+        _handleAmPmInteraction = (e) => {
+            this.amOrPm = e.classList.contains('am-btn') ? 'AM' : 'PM';
             this._updateAmPmView();
         };
         _updateAmPmView() {
@@ -6455,14 +6765,13 @@ var M = (function (exports) {
             if (view === 'minutes' && getComputedStyle(this.hoursView).visibility === 'visible') ;
             const isHours = view === 'hours', nextView = isHours ? this.hoursView : this.minutesView, hideView = isHours ? this.minutesView : this.hoursView;
             this.currentView = view;
-            if (isHours) {
-                this.inputHours.classList.add('text-primary');
-                this.inputMinutes.classList.remove('text-primary');
-            }
-            else {
-                this.inputHours.classList.remove('text-primary');
-                this.inputMinutes.classList.add('text-primary');
-            }
+            /*if (isHours) {
+              this.inputHours.classList.add('text-primary');
+              this.inputMinutes.classList.remove('text-primary');
+            } else {
+              this.inputHours.classList.remove('text-primary');
+              this.inputMinutes.classList.add('text-primary');
+            }*/
             // Transition view
             hideView.classList.add('timepicker-dial-out');
             nextView.style.visibility = 'visible';
@@ -6611,8 +6920,7 @@ var M = (function (exports) {
             this.hours = new Date().getHours();
             this.inputHours.value = (this.hours % (this.options.twelveHour ? 12 : 24)).toString();
         }
-        // todo: remove e
-        done = (e = null, clearValue = null) => {
+        done = (clearValue = null) => {
             // Set input value
             const last = this.el.value;
             let value = clearValue
@@ -6627,16 +6935,23 @@ var M = (function (exports) {
             if (value !== last) {
                 this.el.dispatchEvent(new Event('change', { bubbles: true, cancelable: true, composed: true }));
             }
-            //this.el.focus();
-            return e; // just for passing linter, can be removed
+        };
+        confirm = () => {
+            this.done();
+            if (typeof this.options.onDone === 'function')
+                this.options.onDone.call(this);
+        };
+        cancel = () => {
+            // not logical clearing the input field on cancel, since the end user might want to make use of the previously submitted value
+            // this.clear();
+            if (typeof this.options.onCancel === 'function')
+                this.options.onCancel.call(this);
         };
         clear = () => {
-            this.done(null, true);
+            this.done(true);
         };
         // deprecated
         open() {
-            // this._updateTimeFromInput();
-            // this.showView('hours');
             console.warn('Timepicker.close() is deprecated. Remove this method and wrap in modal yourself.');
             return this;
         }
@@ -6645,14 +6960,12 @@ var M = (function (exports) {
             return this;
         }
         static {
-            Timepicker._template = `
-      <div class="modal timepicker-modal">
-        <div class="modal-content timepicker-container">
+            Timepicker._template = `<div class="timepicker-container">
           <div class="timepicker-digital-display">
             <div class="timepicker-text-container">
-              <div class="timepicker-display-column">
+              <div class="timepicker-display-column timepicker-display-digital-clock">
                 <div class="timepicker-input-hours-wrapper">
-                  <input type="text" maxlength="2" autofocus class="timepicker-input-hours text-primary" />
+                  <input type="text" maxlength="2" class="timepicker-input-hours text-primary" />
                 </div>
                 <div class="timepicker-input-divider-wrapper">
                   <span class="timepicker-input-divider">:</span>
@@ -6674,8 +6987,7 @@ var M = (function (exports) {
             </div>
             <div class="timepicker-footer"></div>
           </div>
-        </div>
-      </div>`;
+        </div>`;
         }
     }
 
@@ -7838,7 +8150,7 @@ var M = (function (exports) {
     }
 
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    const version = '2.2.1';
+    const version = '2.2.2';
     /**
      * Automatically initialize components.
      * @param context Root element to initialize. Defaults to `document.body`.
@@ -7897,6 +8209,7 @@ var M = (function (exports) {
     Chips.Init();
     Waves.Init();
     Range.Init();
+    Cards.Init();
 
     exports.AutoInit = AutoInit;
     exports.Autocomplete = Autocomplete;

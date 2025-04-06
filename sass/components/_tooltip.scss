@@ -1,36 +1,28 @@
 .material-tooltip {
   padding: 0 8px;  
   border-radius: 4px;
-  
   color: var(--md-sys-color-inverse-on-surface);
   background-color: var(--md-sys-color-inverse-surface);
-
   font-family: var(--md-sys-typescale-body-small-font-family-name);
   font-size: var(--md-sys-typescale-body-small-font-size);
   line-height: var(--md-sys-typescale-body-small-line-height);
   font-weight: var(--md-sys-typescale-body-small-font-weight);
-
   min-height: 24px;
   opacity: 0;
-
   padding-top: 6px;
   padding-bottom: 6px;
-
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
   letter-spacing: 0.4px;
-  
   position: absolute;
   max-width: 300px;
   overflow: hidden;
   left: 0;
   top: 0;
   pointer-events: none;
-
   display: flex;
   align-items: center;
-  
   visibility: hidden;
   z-index: 2000;
 }

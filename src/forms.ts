@@ -106,7 +106,7 @@ export class Forms {
       // So we set the height to the original one
       textarea.style.height = originalHeight + 'px';
     }
-    textarea.setAttribute('previous-length', textarea.value.length.toString());
+    textarea.setAttribute('previous-length', (textarea.value || '').length.toString());
   }
 
   static Init() {
@@ -158,9 +158,8 @@ export class Forms {
   static InitTextarea(textarea: HTMLTextAreaElement) {
     // Save Data in Element
     textarea.setAttribute('original-height', textarea.getBoundingClientRect().height.toString());
-    textarea.setAttribute('previous-length', textarea.value.length.toString());
+    textarea.setAttribute('previous-length', (textarea.value || '').length.toString());
     Forms.textareaAutoResize(textarea);
-
     textarea.addEventListener('keyup', (e) => Forms.textareaAutoResize(e.target));
     textarea.addEventListener('keydown', (e) => Forms.textareaAutoResize(e.target));
   }

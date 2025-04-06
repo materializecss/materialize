@@ -1,20 +1,28 @@
 .carousel {
   --carousel-height: 400px;
 
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: var(--carousel-height);
+  perspective: 500px;
+  transform-style: preserve-3d;
+  transform-origin: 0% 50%;
+
   &.carousel-slider {
     top: 0;
     left: 0;
 
     .carousel-fixed-item {
-      &.with-indicators {
-        bottom: 68px;
-      }
-
       position: absolute;
       left: 0;
       right: 0;
       bottom: 20px;
       z-index: 1;
+
+      &.with-indicators {
+        bottom: 68px;
+      }
     }
 
     .carousel-item {
@@ -37,14 +45,6 @@
     }
   }
 
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  height: var(--carousel-height);
-  perspective: 500px;
-  transform-style: preserve-3d;
-  transform-origin: 0% 50%;
-
   .carousel-item {
     visibility: hidden;
     width: calc(var(--carousel-height) * 0.5);
@@ -61,7 +61,6 @@
   .indicators {
     padding-left: 0;
     list-style-type: none;
-
     position: absolute;
     text-align: center;
     left: 0;
@@ -70,10 +69,6 @@
     margin: 0;
 
     .indicator-item {
-      &.active {
-        background-color: var(--md-ref-palette-primary100);
-      }
-
       display: inline-block;
       position: relative;
       cursor: pointer;
@@ -81,9 +76,12 @@
       width: 8px;
       margin: 24px 4px;
       background-color: rgba(255, 255, 255, 0.45);
-
       transition: background-color .3s;
       border-radius: 50%;
+
+      &.active {
+        background-color: var(--md-ref-palette-primary100);
+      }
     }
   }
 

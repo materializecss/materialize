@@ -66,6 +66,10 @@ export interface AutocompleteOptions extends BaseOptions {
    * @default {}
    */
   dropdownOptions: Partial<DropdownOptions>;
+  /**
+   * Predefined selected values
+   */
+  selected: number[] | string[];
 }
 
 const _defaults: AutocompleteOptions = {
@@ -82,15 +86,17 @@ const _defaults: AutocompleteOptions = {
   onSearch: (text: string, autocomplete: Autocomplete) => {
     const normSearch = text.toLocaleLowerCase();
     autocomplete.setMenuItems(
-      autocomplete.options.data.filter(
-        (option) =>
-          option.id.toString().toLocaleLowerCase().includes(normSearch) ||
-          option.text?.toLocaleLowerCase().includes(normSearch)
+
+      autocomplete.options.data.filter((option) =>
+        option.id.toString().toLocaleLowerCase().includes(normSearch)
+          || option.text?.toLocaleLowerCase().includes(normSearch)
+
       )
     );
   },
   maxDropDownHeight: '300px',
-  allowUnsafeHTML: false
+  allowUnsafeHTML: false,
+  selected: []
 };
 
 export class Autocomplete extends Component<AutocompleteOptions> {
@@ -124,7 +130,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.count = 0;
     this.activeIndex = -1;
     this.oldVal = '';
-    this.selectedValues = [];
+    this.selectedValues = this.selectedValues || this.options.selected.map((value) => <AutocompleteData>{ id: value }) || [];
     this.menuItems = this.options.data || [];
     this.$active = null;
     this._mousedown = false;
@@ -207,6 +213,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.container.style.maxHeight = this.options.maxDropDownHeight;
     this.container.id = `autocomplete-options-${Utils.guid()}`;
     this.container.classList.add('autocomplete-content', 'dropdown-content');
+    this.container.ariaExpanded = 'true';
     this.el.setAttribute('data-target', this.container.id);
 
     this.menuItems.forEach((menuItem) => {
@@ -242,6 +249,10 @@ export class Autocomplete extends Component<AutocompleteOptions> {
 
     // Sketchy removal of dropdown click handler
     this.el.removeEventListener('click', this.dropdown._handleClick);
+    if(!this.options.isMultiSelect && !(this.options.selected.length === 0)) {
+      const selectedValue = this.menuItems.filter((value) => value.id === this.selectedValues[0].id);
+      this.el.value = selectedValue[0].text;
+    }
     // Set Value if already set in HTML
     if (this.el.value) this.selectOption(this.el.value);
     // Add StatusInfo
@@ -253,6 +264,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   }
 
   _removeDropdown() {
+    this.container.ariaExpanded = 'false';
     this.container.parentNode.removeChild(this.container);
   }
 
@@ -377,6 +389,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
       'style',
       'display:grid; grid-auto-flow: column; user-select: none; align-items: center;'
     );
+    item.tabIndex = 0;
     // Checkbox
     if (this.options.isMultiSelect) {
       item.innerHTML = `
@@ -515,15 +528,30 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   /**
    * Updates the visible or selectable items shown in the menu.
    * @param menuItems Items to be available.
+   * @param selected Selected item ids
+   * @param open Option to conditionally open dropdown
    */
-  setMenuItems(menuItems: AutocompleteData[]) {
+  setMenuItems(menuItems: AutocompleteData[], selected: number[] | string[] = null, open: boolean = true) {
     this.menuItems = menuItems;
-    this.open();
+    this.options.data = menuItems;
+    if (selected) {
+      this.selectedValues = this.menuItems.filter(
+        (item) => !(selected.indexOf(<never>item.id) === -1)
+      );
+    }
+    if (this.options.isMultiSelect) {
+      this._renderDropdown();
+    } else {
+      this._refreshInputText();
+    }
+    if (open) this.open();
     this._updateSelectedInfo();
+    this._triggerChanged();
   }
 
   /**
    * Sets selected values.
+   * @deprecated @see https://github.com/materializecss/materialize/issues/552
    * @param entries
    */
   setValues(entries: AutocompleteData[]) {
@@ -543,16 +571,18 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     const entry = this.menuItems.find((item) => item.id == id);
     if (!entry) return;
     // Toggle Checkbox
-    const li = this.container.querySelector('li[data-id="' + id + '"]');
-    if (!li) return;
+    /* const li = this.container.querySelector('li[data-id="' + id + '"]');
+    if (!li) return;*/
     if (this.options.isMultiSelect) {
-      const checkbox = <HTMLInputElement | null>li.querySelector('input[type="checkbox"]');
-      checkbox.checked = !checkbox.checked;
-      if (checkbox.checked) this.selectedValues.push(entry);
-      else
-        this.selectedValues = this.selectedValues.filter(
-          (selectedEntry) => selectedEntry.id !== entry.id
-        );
+      /* const checkbox = <HTMLInputElement | null>li.querySelector('input[type="checkbox"]');
+      checkbox.checked = !checkbox.checked;*/
+      if (!(this.selectedValues.filter(
+        (selectedEntry) => selectedEntry.id === entry.id
+      ).length >= 1)) this.selectedValues.push(entry);
+      else this.selectedValues = this.selectedValues.filter(
+        (selectedEntry) => selectedEntry.id !== entry.id
+      );
+      this._renderDropdown();
       this.el.focus();
     } else {
       // Single-Select
@@ -563,5 +593,14 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     }
     this._updateSelectedInfo();
     this._triggerChanged();
+  }
+
+  selectOptions(ids: []) {
+    const entries = this.menuItems.filter(
+      (item) => !(ids.indexOf(<never>item.id) === -1)
+    );
+    if (!entries) return;
+    this.selectedValues = entries;
+    this._renderDropdown();
   }
 }

@@ -1,3 +1,5 @@
+@use '../colors.module.scss' as *;
+
 .switch {
   --track-height: 32px;
   --track-width: 52px;

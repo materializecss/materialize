@@ -1,3 +1,6 @@
+@use './variables' as *;
+@use './global' as *;
+
 [popover] {
   outline: none;
   padding: 0;
@@ -22,6 +25,14 @@
   user-select: none;
   
   li {
+    clear: both;
+    color: var(--md-sys-color-on-background);
+    cursor: pointer;
+    min-height: $dropdown-item-height;
+    line-height: 1.5rem;
+    width: 100%;
+    text-align: left;
+
     &.divider {
       min-height: 0;
       height: 1px;
@@ -46,13 +57,6 @@
       margin: 0 24px 0 0;
       width: 24px;
     }
-    clear: both;
-    color: var(--md-sys-color-on-background);
-    cursor: pointer;
-    min-height: $dropdown-item-height;
-    line-height: 1.5rem;
-    width: 100%;
-    text-align: left;
   }
   li:not(.disabled):hover, li.active {
     background-color: color-mix(in srgb, var(--md-sys-color-surface), var(--md-sys-color-on-surface) 8%);

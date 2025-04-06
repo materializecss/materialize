@@ -1,3 +1,6 @@
+@use './variables' as *;
+@use './mixins.module.scss' as *;
+
 .card-panel {
   transition: box-shadow .25s;
   padding: 24px;
@@ -8,10 +11,11 @@
 }
 
 .card {
-  overflow: hidden;
+  --background-color: color-mix(in srgb, var(--md-sys-color-surface), var(--md-sys-color-surface-tint) 17%);
+
   position: relative;
   //margin: $element-top-margin 0 $element-bottom-margin 0;
-  background-color: var(--md-sys-color-surface);
+  background-color: var(--background-color);
   transition: box-shadow .25s;
   border-radius: 12px;
   @extend .z-depth-1;
@@ -61,6 +65,8 @@
 
   // Horizontal Cards
   &.horizontal {
+    display: flex;
+
     &.small, &.medium, &.large {
       .card-image {
         height: 100%;
@@ -72,8 +78,6 @@
         }
       }
     }
-
-    display: flex;
 
     .card-image {
       max-width: 50%;
@@ -141,6 +145,10 @@
       bottom: 0;
       cursor: pointer;
     }
+
+    img.activator {
+      position: relative;
+    }
   }
 
   .card-content {
@@ -167,25 +175,36 @@
   }
 
   .card-action {
+    padding: 0 1.6rem;
+
     &:last-child {
       border-radius: 0 0 2px 2px;
     }
-
-    border-top: 1px solid var(--md-sys-color-outline-variant);
-    position: relative;
-    background-color: inherit;
-
+    // Replaced card links with buttons (Accessibility, @see https://github.com/materializecss/materialize/issues/565)
     a {
-      padding: 16px 24px;
-      display: inline-block;
+      @include btn(
+        var(--btn-height),
+        var(--btn-border-radius),
+        var(--btn-padding),
+        var(--btn-padding),
+        var(--btn-font-size)
+      );
+
+      &:first-child {
+        margin-left: -1.6rem;
+      }
+
+      &:last-child {
+        margin-right: -1.6rem;
+      }
     }
 
-    a:not(.btn):not(.btn-large):not(.btn-floating) {
-      color: var(--md-sys-color-primary);
-      transition: color .3s ease;
-
-      &:hover {
-        background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
+    .btn {
+      &.filled,
+      &.tonal,
+      &.elevated,
+      &.outlined {
+        margin: 0 .26rem 1.6rem 0;
       }
     }
   }

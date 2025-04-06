@@ -263,5 +263,59 @@ describe('Autocomplete Plugin', () => {
         done();
       }, 10);
     });
+
+    it('selected options should preselect option in single select', (done) => {
+      const normal = document.querySelector('#normal-autocomplete');
+      M.Autocomplete.getInstance(normal).destroy();
+      M.Autocomplete.init(normal, {
+        data: [{ id: 'Value A', text: 'Text 1' }, { id: 'Value B', text: 'Text 2' }],
+        selected: ['Value B'],
+      });
+
+      setTimeout(() => {
+        expect(normal.value)
+          .withContext('Value should equal chosen option.')
+          .toBe('Text 2');
+        done();
+      }, 10);
+    });
+
+    it('selected options should preselect options in multi select', (done) => {
+      const normal = document.querySelector('#normal-autocomplete');
+      M.Autocomplete.getInstance(normal).destroy();
+      M.Autocomplete.init(normal, {
+        data: [{ id: 'Value A', text: 'Text 1' }, { id: 'Value B', text: 'Text 2' }, { id: 'Value C', text: 'Text 3' }],
+        selected: ['Value A', 'Value B']
+      });
+      const instance = M.Autocomplete.getInstance(normal);
+
+      setTimeout(() => {
+        const dropdownAutocompleteIds = Array.from(instance.selectedValues).map(
+          (selectedValue) => selectedValue.id
+        );
+        expect(dropdownAutocompleteIds)
+          .withContext('Value should equal chosen option.')
+          .toEqual(['Value A', 'Value B']);
+        done();
+      }, 10);
+    });
+
+    it('selectOptions should select multiple options', (done) => {
+      const normal = document.querySelector('#normal-autocomplete');
+      resetAutocomplete(normal, [
+        { id: 1, text: 'Value A' },
+        { id: 2, text: 'Value B' },
+        { id: 3, text: 'Value C' }
+      ]);
+      const selectOptions = [2, 3];
+      const autocomplete = M.Autocomplete.getInstance(normal)
+      autocomplete.selectOptions(selectOptions);
+      setTimeout(() => {
+        expect(autocomplete.selectedValues.filter((value) => !(selectOptions.indexOf(value.id) === -1)).length === selectOptions.length)
+          .withContext('filtered selectValues based on selectOptions should match')
+          .toBe(true);
+        done();
+      }, 10)
+    });
   });
 });

@@ -1,5 +1,6 @@
 
 @use "sass:math";
+@use './variables' as *;
 
 a {
   text-decoration: none;
@@ -7,6 +8,9 @@ a {
 
 html{
   // line-height: 1.5;
+  font-family: $font-stack;
+  font-weight: normal;
+  color: $text-color;
 
   @media only screen and (min-width: 0) {
     font-size: 14px;
@@ -19,10 +23,6 @@ html{
   @media only screen and (min-width: $large-screen-up) {
     font-size: 15px;
   }
-
-  font-family: $font-stack;
-  font-weight: normal;
-  color: $text-color;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -49,7 +49,7 @@ small { font-size: 75%; }
 .flow-text{
   $i: 0;
   @while $i <= $intervals {
-    @media only screen and (min-width : 360 + ($i * $interval-size)) {
+    @media only screen and (min-width : (360 + ($i * $interval-size))) {
       font-size: 1.2rem * (1 + (.02 * $i));
     }
     $i: $i + 1;
