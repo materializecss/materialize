@@ -2,6 +2,7 @@ import { Utils } from './utils';
 import { FormSelect } from './select';
 import { BaseOptions, Component, I18nOptions, InitElements, MElement } from './component';
 import { DockedDisplayPlugin } from './plugin/dockedDisplayPlugin';
+import { ModalDisplayPlugin } from './plugin/modalDisplayPlugin';
 
 export interface DateI18nOptions extends I18nOptions {
   previousMonth: string;
@@ -321,7 +322,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   calendars: [{ month: number; year: number }];
   private _y: number;
   private _m: number;
-  private displayPlugin: DockedDisplayPlugin;
+  private displayPlugin: DockedDisplayPlugin | ModalDisplayPlugin;
   private footer: HTMLElement;
   static _template: string;
 
@@ -348,41 +349,8 @@ export class Datepicker extends Component<DatepickerOptions> {
     this._setupVariables();
     this._insertHTMLIntoDOM();
     this._setupEventHandlers();
-
-    if (!this.options.defaultDate) {
-      this.options.defaultDate = new Date(Date.parse(this.el.value));
-    }
-
-    const defDate = this.options.defaultDate;
-    if (Datepicker._isDate(defDate)) {
-      if (this.options.setDefaultDate) {
-        this.setDate(defDate, true);
-        this.setInputValue(this.el, defDate);
-      } else {
-        this.gotoDate(defDate);
-      }
-    } else {
-      this.gotoDate(new Date());
-    }
-    if (this.options.isDateRange) {
-      this.multiple = true;
-      const defEndDate = this.options.defaultEndDate;
-      if (Datepicker._isDate(defEndDate)) {
-        if (this.options.setDefaultEndDate) {
-          this.setDate(defEndDate, true, true);
-          this.setInputValue(this.endDateEl, defEndDate);
-        }
-      }
-    }
-    if (this.options.isMultipleSelection) {
-      this.multiple = true;
-      this.dates = [];
-      this.dateEls = [];
-      this.dateEls.push(el);
-    }
-    if (this.options.displayPlugin) {
-      if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
-    }
+    if (this.options.displayPlugin) this._setupDisplayPlugin();
+    this._pickerSetup();
   }
 
   static get defaults() {
@@ -503,27 +471,13 @@ export class Datepicker extends Component<DatepickerOptions> {
       }
     }
 
-    /*if (this.options.showClearBtn) {
-      this.clearBtn.style.visibility = '';
-      this.clearBtn.innerText = this.options.i18n.clear;
-    }
-    this.doneBtn.innerText = this.options.i18n.done;
-    this.cancelBtn.innerText = this.options.i18n.cancel;*/
-    Utils.createButton(this.footer, this.options.i18n.clear, ['datepicker-clear'], this.options.showClearBtn, this._handleClearClick);
-
-    if (!this.options.autoSubmit) {
-      Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this._confirm, this._cancel);
-    }
-
     if (this.options.container) {
       const optEl = this.options.container;
       this.options.container =
         optEl instanceof HTMLElement ? optEl : (document.querySelector(optEl) as HTMLElement);
       this.options.container.append(this.containerEl);
     } else {
-      //this.containerEl.before(this.el);
       const appendTo = !this.endDateEl ? this.el : this.endDateEl;
-      if (!this.options.openByDefault) (this.containerEl as HTMLElement).setAttribute('style', 'display: none; visibility: hidden;');
       appendTo.parentElement.after(this.containerEl);
     }
   }
@@ -698,6 +652,21 @@ export class Datepicker extends Component<DatepickerOptions> {
         detail: { firedBy: this }
       })
     );
+  }
+
+  /**
+   * Display plugin setup.
+   */
+  _setupDisplayPlugin() {
+    if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+    if (this.options.displayPlugin === 'modal') {
+      this.displayPlugin = ModalDisplayPlugin.init(this.el, this.containerEl, {
+        ...this.options.displayPluginOptions,
+        ...{ classList: ['datepicker-modal'] }
+      });
+      this.footer.remove();
+      this.footer = this.displayPlugin.footer;
+    }
   }
 
   /**
@@ -1186,6 +1155,56 @@ export class Datepicker extends Component<DatepickerOptions> {
     };
   }
 
+  _pickerSetup() {
+    if (!this.options.defaultDate) {
+      this.options.defaultDate = new Date(Date.parse(this.el.value));
+    }
+
+    const defDate = this.options.defaultDate;
+    if (Datepicker._isDate(defDate)) {
+      if (this.options.setDefaultDate) {
+        this.setDate(defDate, true);
+        this.setInputValue(this.el, defDate);
+      } else {
+        this.gotoDate(defDate);
+      }
+    } else {
+      this.gotoDate(new Date());
+    }
+
+    if (this.options.isDateRange) {
+      this.multiple = true;
+      const defEndDate = this.options.defaultEndDate;
+      if (Datepicker._isDate(defEndDate)) {
+        if (this.options.setDefaultEndDate) {
+          this.setDate(defEndDate, true, true);
+          this.setInputValue(this.endDateEl, defEndDate);
+        }
+      }
+    }
+
+    if (this.options.isMultipleSelection) {
+      this.multiple = true;
+      this.dates = [];
+      this.dateEls = [];
+      this.dateEls.push(this.el);
+    }
+
+    if (this.options.showClearBtn) {
+      Utils.createButton(
+        this.footer,
+        this.options.i18n.clear,
+        ['datepicker-clear'],
+        true,
+        this._handleClearClick
+      );
+    }
+
+    if (!this.options.autoSubmit) {
+      Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this._confirm, this._cancel);
+    }
+  }
+
   _removeEventHandlers() {
     this.el.removeEventListener('click', this._handleInputClick);
     this.el.removeEventListener('keydown', this._handleInputKeydown);
@@ -1352,10 +1371,12 @@ export class Datepicker extends Component<DatepickerOptions> {
 
   _confirm = () => {
     this._finishSelection();
+    if (this.displayPlugin) this.displayPlugin.hide();
     if (typeof this.options.onConfirm === 'function') this.options.onConfirm.call(this);
   }
 
   _cancel = () => {
+    if (this.displayPlugin) this.displayPlugin.hide();
     if (typeof this.options.onCancel === 'function') this.options.onCancel.call(this);
   };
 

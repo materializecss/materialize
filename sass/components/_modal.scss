@@ -40,19 +40,23 @@
     flex-shrink: 0;
     position: sticky;
     top: 0;
-    background-color: var(--modal-background-color);
+    // disabled since background color inheritance from parent element
+    // background-color: var(--modal-background-color);
   }
   .modal-content {
     padding: 0 var(--modal-padding);
   }
   .modal-footer {
+    display: flex;
     border-radius: 0 0 var(--modal-border-radius) var(--modal-border-radius);
     padding: var(--modal-padding);
     text-align: right;
     flex-shrink: 0;
     position: sticky;
     bottom: 0;
-    background-color: var(--modal-background-color);
+    // disabled since background color inheritance from parent element
+    // background-color: var(--modal-background-color);
+    justify-content: space-between;
   }
 
   .modal-close {
