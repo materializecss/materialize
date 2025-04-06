@@ -17,45 +17,42 @@ We have several labels that can be used to organize issues and PRs on this repo 
 ## Releasing a new version
 To fully release a new version, you need to have access to the @materializecss organization on the npmjs. Then, please follow the steps below:
 
-1. In your local copy of Materialize, go into the dev Branch with `git checkout v2-dev` and pull the newest version
+- In your local copy of Materialize, go into the dev Branch with `git checkout v2-dev` and pull the newest version
    with `git pull origin v2-dev` to have the newest version from the server. Run Tests and check if everything works.
 
-2. Create a new Release branch with `git checkout -b release-2.X.X`.
+- Create a new Release branch with `git checkout -b release-2.X.X`.
    In case something happens or needs to be changed during the release it is better to keep the release on its own branch.
 
-3. Run `npm version <change-type>`
+- Run `npm version <change-type>`
    Where `<change-type> = patch, minor, major`. 
    [details](https://docs.npmjs.com/updating-your-published-package-version-number)
 
-4. Verify that the version is correctly replaced and files were generated in:
+- Verify that the version is correctly replaced and files were generated in:
    * package.json
    * src/index.ts
    * dist/js
    * dist/css
 
-5. Add Commit with message "chore: release 2.X.X-alpha". Then push to server.
+- (Add Commit with message "chore: release 2.X.X-alpha")
 
-6. Create a Pull Request (PR) ([example](https://github.com/materializecss/materialize/pull/258) so that we can verify nothing goes wrong, address the feedback from the reviewers if there is any
+- Push to server. `git push --tags`. Remember to push the tags aswell.
 
-7. Create a new (draft) release on GitHub
-   * Click generate Release notes automatically and select previeous version (commit-lint of commit-messages is important here)
-   * Upload the `materialize-v<new_version>.zip` from the bin-folder
-   * Create a new tag together with the release
+- Create a Pull Request (PR) into dev (dev <-- release-branch)
 
-8. Merge the Pull Request if all checks pass and there were no concerns.
-   * Set the draft release to public.
+- Create a PR (main <-- dev)
 
-9. Checkout and pull the new **main**-branch locally, merge it back into the **dev**-branch. Then push to server. [Explanation here](https://stackoverflow.com/a/72959052)
-   ```git checkout main
-      git pull origin main
-      git checkout v2-dev
-      git pull origin v2-dev
-      git merge main
-      git push origin v2-dev
-   ```
+- Merge the Pull Request if all checks pass and there were no concerns. (Set the draft release to public.)
 
-10. Publish the release on npmjs
+- Create a new release on GitHub [New Release](https://github.com/materializecss/materialize/releases/new)
+   * Select the tag from the pushed commit
+   * Click "generate Release notes"
+   * Upload the zip-files from the dist-folder.
+
+- Checkout and pull main branch locally
+
+- Publish the release on npmjs
    * If you never logged in on npm, please do `npm login` first and enter your credentials
+   * Check with `npm publish --dry-run` if all files are included correctly (dist/js/*.js + sass files)
    * Then run `npm publish` and follow the instructions there
 
-11. Done! Yay new version 🥳
+- Generate new docs
