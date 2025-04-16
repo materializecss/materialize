@@ -5,6 +5,7 @@
 @forward 'select';
 @forward 'file-input';
 @forward 'range';
+@forward 'form-field';
 
 // Remove Focus Boxes
 select:focus {
