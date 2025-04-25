@@ -44,8 +44,11 @@
   }
 
   &:not(:checked):disabled + span:not(.lever):before {
-    border: none;
-    background-color: var(--md-sys-color-on-surface);
+    border-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
+  }
+
+  &:disabled + span:not(.lever) {
+    color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
   }
 
   // Focused styles
@@ -74,8 +77,8 @@
   }
 
   &:disabled + span:before {
-    border-right: 2px solid var(--md-sys-color-on-surface);
-    border-bottom: 2px solid var(--md-sys-color-on-surface);
+    border-right: 2px solid color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
+    border-bottom: 2px solid color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
   }
 }
 
@@ -97,7 +100,7 @@
 
   // Disabled indeterminate
   &:disabled + span:not(.lever):before {
-    border-right: 2px solid var(--md-sys-color-on-surface);
+    border-right: 2px solid color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
     background-color: transparent;
   }
 }
@@ -184,8 +187,7 @@
   }
 
   &:disabled:not(:checked) + span:not(.lever):after {
-    border-color: transparent;
-    background-color: var(--md-sys-color-on-surface);
+    border-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
   }
 
   &:disabled:checked + span:not(.lever):before {
@@ -193,7 +195,7 @@
   }
 
   &:disabled:checked + span:not(.lever):after {
-    background-color: var(--md-sys-color-on-surface);
-    border-color: var(--md-sys-color-on-surface);
+    background-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
+    border: none;
   }
 }
