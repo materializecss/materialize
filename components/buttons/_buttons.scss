@@ -1,5 +1,5 @@
-@use './mixins.module.scss' as *;
-@use './variables' as *;
+@use '../../sass/mixins.module.scss' as *;
+@use '../../sass/variables' as *;
 
 :root {
   --btn-height: 40px;

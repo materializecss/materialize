@@ -169,6 +169,17 @@ video.responsive-video {
   position: fixed !important;
 }
 
+// Remove Focus Boxes
+select:focus {
+  outline: 1px solid var(--md-ref-palette-primary80);
+}
+
+label {
+  font-size: .8rem;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+
 /*********************
   Transition Classes
 **********************/

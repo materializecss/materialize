@@ -1,6 +1,6 @@
-@use './variables' as *;
-@use './colors.module.scss' as *;
-@use './global' as *;
+@use '../../sass/variables' as *;
+@use '../../sass/global' as *;
+@use '../../sass/color-variables' as *;
 
 .collapsible {
   padding-left: 0;

@@ -1,5 +1,5 @@
-@use './variables' as *;
-@use './mixins.module.scss' as *;
+@use '../../sass/variables' as *;
+@use '../../sass/mixins.module.scss' as *;
 
 .pagination {
   li {

@@ -1,5 +1,5 @@
-@use '../global' as *;
-@use '../colors.module.scss' as *;
+@use '../../sass/global' as *;
+@use '../../sass/colors.module.scss' as *;
 
 .range-field {
   position: relative;

@@ -1,5 +1,5 @@
-@use './variables' as *;
-@use './global' as *;
+@use '../../sass/variables' as *;
+@use '../../sass/global' as *;
 
 .sidenav {
   --sidenav-width: 300px;
