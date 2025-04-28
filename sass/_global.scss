@@ -478,3 +478,9 @@ $spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5
   visibility: hidden;
 }
 
+/* This is needed for some mobile phones to display the Google Icon font properly */
+.material-icons, .material-symbols-outlined,
+.material-symbols-rounded, .material-symbols-sharp {
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
+}

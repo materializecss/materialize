@@ -1,5 +1,5 @@
-import { Utils } from './utils';
-import { Component, BaseOptions, InitElements, MElement, Openable } from './component';
+import { Utils } from '../../src/utils';
+import { Component, BaseOptions, InitElements, MElement, Openable } from '../../src/component';
 
 export interface SidenavOptions extends BaseOptions {
   /**
