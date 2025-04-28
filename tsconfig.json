@@ -15,7 +15,6 @@
     //"declarationMap": true,
   },
   "include": [
-    "test",
     "src",
     "src/**/*",
     "rollup.config.ts"
