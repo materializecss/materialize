@@ -1,6 +1,6 @@
-import { Utils } from './utils';
-import { Dropdown, DropdownOptions } from './dropdown';
-import { Component, BaseOptions, InitElements, MElement } from './component';
+import { Utils } from '../../src/utils';
+import { Dropdown, DropdownOptions } from '../dropdown/dropdown';
+import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 export interface AutocompleteData {
   /**
@@ -86,11 +86,10 @@ const _defaults: AutocompleteOptions = {
   onSearch: (text: string, autocomplete: Autocomplete) => {
     const normSearch = text.toLocaleLowerCase();
     autocomplete.setMenuItems(
-
-      autocomplete.options.data.filter((option) =>
-        option.id.toString().toLocaleLowerCase().includes(normSearch)
-          || option.text?.toLocaleLowerCase().includes(normSearch)
-
+      autocomplete.options.data.filter(
+        (option) =>
+          option.id.toString().toLocaleLowerCase().includes(normSearch) ||
+          option.text?.toLocaleLowerCase().includes(normSearch)
       )
     );
   },
@@ -130,7 +129,10 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.count = 0;
     this.activeIndex = -1;
     this.oldVal = '';
-    this.selectedValues = this.selectedValues || this.options.selected.map((value) => <AutocompleteData>{ id: value }) || [];
+    this.selectedValues =
+      this.selectedValues ||
+      this.options.selected.map((value) => <AutocompleteData>{ id: value }) ||
+      [];
     this.menuItems = this.options.data || [];
     this.$active = null;
     this._mousedown = false;
@@ -249,8 +251,10 @@ export class Autocomplete extends Component<AutocompleteOptions> {
 
     // Sketchy removal of dropdown click handler
     this.el.removeEventListener('click', this.dropdown._handleClick);
-    if(!this.options.isMultiSelect && !(this.options.selected.length === 0)) {
-      const selectedValue = this.menuItems.filter((value) => value.id === this.selectedValues[0].id);
+    if (!this.options.isMultiSelect && !(this.options.selected.length === 0)) {
+      const selectedValue = this.menuItems.filter(
+        (value) => value.id === this.selectedValues[0].id
+      );
       this.el.value = selectedValue[0].text;
     }
     // Set Value if already set in HTML
@@ -469,8 +473,9 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   }
 
   _setStatusLoading() {
-    this.el.parentElement.querySelector('.status-info').innerHTML =
-      `<div style="height:100%;width:50px;"><svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+    this.el.parentElement.querySelector(
+      '.status-info'
+    ).innerHTML = `<div style="height:100%;width:50px;"><svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
     <circle fill="#888c" stroke="none" cx="6" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.1"/></circle>
     <circle fill="#888c" stroke="none" cx="26" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.2"/></circle>
     <circle fill="#888c" stroke="none" cx="46" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite"  begin="0.3"/></circle>
@@ -531,7 +536,11 @@ export class Autocomplete extends Component<AutocompleteOptions> {
    * @param selected Selected item ids
    * @param open Option to conditionally open dropdown
    */
-  setMenuItems(menuItems: AutocompleteData[], selected: number[] | string[] = null, open: boolean = true) {
+  setMenuItems(
+    menuItems: AutocompleteData[],
+    selected: number[] | string[] = null,
+    open: boolean = true
+  ) {
     this.menuItems = menuItems;
     this.options.data = menuItems;
     if (selected) {
@@ -576,12 +585,14 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     if (this.options.isMultiSelect) {
       /* const checkbox = <HTMLInputElement | null>li.querySelector('input[type="checkbox"]');
       checkbox.checked = !checkbox.checked;*/
-      if (!(this.selectedValues.filter(
-        (selectedEntry) => selectedEntry.id === entry.id
-      ).length >= 1)) this.selectedValues.push(entry);
-      else this.selectedValues = this.selectedValues.filter(
-        (selectedEntry) => selectedEntry.id !== entry.id
-      );
+      if (
+        !(this.selectedValues.filter((selectedEntry) => selectedEntry.id === entry.id).length >= 1)
+      )
+        this.selectedValues.push(entry);
+      else
+        this.selectedValues = this.selectedValues.filter(
+          (selectedEntry) => selectedEntry.id !== entry.id
+        );
       this._renderDropdown();
       this.el.focus();
     } else {
@@ -596,9 +607,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   }
 
   selectOptions(ids: []) {
-    const entries = this.menuItems.filter(
-      (item) => !(ids.indexOf(<never>item.id) === -1)
-    );
+    const entries = this.menuItems.filter((item) => !(ids.indexOf(<never>item.id) === -1));
     if (!entries) return;
     this.selectedValues = entries;
     this._renderDropdown();

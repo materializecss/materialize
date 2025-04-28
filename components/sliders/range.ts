@@ -1,4 +1,4 @@
-import { Component, BaseOptions, InitElements, MElement } from './component';
+import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface RangeOptions extends BaseOptions {}

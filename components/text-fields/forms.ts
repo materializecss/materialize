@@ -1,4 +1,4 @@
-import { Utils } from './utils';
+import { Utils } from '../../src/utils';
 
 export class Forms {
   /**

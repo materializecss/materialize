@@ -1,5 +1,5 @@
-import { Utils } from './utils';
-import { Component, BaseOptions, InitElements, MElement } from './component';
+import { Utils } from '../../src/utils';
+import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 export interface CarouselOptions extends BaseOptions {
   /**
@@ -240,11 +240,7 @@ export class Carousel extends Component<CarouselOptions> {
     window.removeEventListener('resize', this._handleThrottledResize);
   }
 
-  _handleThrottledResize = (): void => Utils.throttle(
-    this._handleResize,
-    200,
-    null
-  ).bind(this);
+  _handleThrottledResize = (): void => Utils.throttle(this._handleResize, 200, null).bind(this);
 
   _handleCarouselTap = (e: MouseEvent | TouchEvent) => {
     // Fixes firefox draggable image bug

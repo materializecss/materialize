@@ -1,6 +1,6 @@
-import { Utils } from './utils';
-import { Component, BaseOptions, InitElements, MElement, I18nOptions } from './component';
-import { DockedDisplayPlugin } from './plugin/dockedDisplayPlugin';
+import { Utils } from '../../src/utils';
+import { Component, BaseOptions, InitElements, MElement, I18nOptions } from '../../src/component';
+import { DockedDisplayPlugin } from '../../src/dockedDisplayPlugin';
 
 export type Views = 'hours' | 'minutes';
 
@@ -125,7 +125,7 @@ const _defaults: TimepickerOptions = {
   onDone: null,
   onCancel: null,
   displayPlugin: null,
-  displayPluginOptions: null,
+  displayPluginOptions: null
 };
 
 type Point = {
@@ -193,7 +193,12 @@ export class Timepicker extends Component<TimepickerOptions> {
     this._pickerSetup();
 
     if (this.options.displayPlugin) {
-      if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+      if (this.options.displayPlugin === 'docked')
+        this.displayPlugin = DockedDisplayPlugin.init(
+          this.el,
+          this.containerEl,
+          this.options.displayPluginOptions
+        );
     }
   }
 
@@ -277,7 +282,8 @@ export class Timepicker extends Component<TimepickerOptions> {
 
   _handleInputClick = () => {
     this.inputHours.focus();
-    if (typeof this.options.onInputInteraction === 'function') this.options.onInputInteraction.call(this);
+    if (typeof this.options.onInputInteraction === 'function')
+      this.options.onInputInteraction.call(this);
     if (this.displayPlugin) this.displayPlugin.show();
   };
 
@@ -285,7 +291,8 @@ export class Timepicker extends Component<TimepickerOptions> {
     if (Utils.keys.ENTER.includes(e.key)) {
       e.preventDefault();
       this.inputHours.focus();
-      if (typeof this.options.onInputInteraction === 'function') this.options.onInputInteraction.call(this);
+      if (typeof this.options.onInputInteraction === 'function')
+        this.options.onInputInteraction.call(this);
       if (this.displayPlugin) this.displayPlugin.show();
     }
   };
@@ -380,8 +387,8 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.vibrate = navigator.vibrate
       ? 'vibrate'
       : navigator['webkitVibrate']
-        ? 'webkitVibrate'
-        : null;
+      ? 'webkitVibrate'
+      : null;
     this._canvas = this.containerEl.querySelector('.timepicker-canvas');
     this.plate = this.containerEl.querySelector('.timepicker-plate');
     this.digitalClock = this.containerEl.querySelector('.timepicker-display-column');
@@ -417,7 +424,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     );
 
     if (!this.options.autoSubmit) {
-    /*const confirmationBtnsContainer = document.createElement('div');
+      /*const confirmationBtnsContainer = document.createElement('div');
     confirmationBtnsContainer.classList.add('confirmation-btns');
     this.footer.append(confirmationBtnsContainer);
 
@@ -568,7 +575,7 @@ export class Timepicker extends Component<TimepickerOptions> {
   _handleAmPmInteraction = (e: HTMLElement) => {
     this.amOrPm = e.classList.contains('am-btn') ? 'AM' : 'PM';
     this._updateAmPmView();
-  }
+  };
 
   _updateAmPmView() {
     if (this.options.twelveHour) {
@@ -821,13 +828,13 @@ export class Timepicker extends Component<TimepickerOptions> {
   confirm = () => {
     this.done();
     if (typeof this.options.onDone === 'function') this.options.onDone.call(this);
-  }
+  };
 
   cancel = () => {
     // not logical clearing the input field on cancel, since the end user might want to make use of the previously submitted value
     // this.clear();
     if (typeof this.options.onCancel === 'function') this.options.onCancel.call(this);
-  }
+  };
 
   clear = () => {
     this.done(true);

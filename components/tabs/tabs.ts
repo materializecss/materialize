@@ -1,5 +1,5 @@
-import { Carousel } from './carousel';
-import { Component, BaseOptions, InitElements, MElement } from './component';
+import { Carousel } from '../carousel/carousel';
+import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 export interface TabsOptions extends BaseOptions {
   /**

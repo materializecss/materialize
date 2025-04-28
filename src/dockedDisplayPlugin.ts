@@ -1,22 +1,22 @@
-import { Utils } from '../utils';
+import { Utils } from './utils';
 
 export interface DockedDisplayPluginOptions {
   /**
    * Margin between element and docked container
    */
-  margin: number,
+  margin: number;
   /**
    * Transition movement
    */
-  transition: number,
+  transition: number;
   /**
    * Transition duration
    */
-  duration: number,
+  duration: number;
   /**
    * The alignment of the docked container
    */
-  align: string
+  align: string;
 }
 
 const _defaults: DockedDisplayPluginOptions = {
@@ -24,7 +24,7 @@ const _defaults: DockedDisplayPluginOptions = {
   transition: 10,
   duration: 250,
   align: 'left'
-}
+};
 
 export class DockedDisplayPlugin {
   private readonly el: HTMLElement;
@@ -32,7 +32,11 @@ export class DockedDisplayPlugin {
   private options: Partial<DockedDisplayPluginOptions>;
   private visible: boolean;
 
-  constructor(el: HTMLElement, container: HTMLElement, options: Partial<DockedDisplayPluginOptions>) {
+  constructor(
+    el: HTMLElement,
+    container: HTMLElement,
+    options: Partial<DockedDisplayPluginOptions>
+  ) {
     this.el = el;
     this.options = {
       ..._defaults,
@@ -45,7 +49,11 @@ export class DockedDisplayPlugin {
     el.parentElement.append(this.container);
 
     document.addEventListener('click', (e) => {
-      if (this.visible && !(this.el === <HTMLElement>e.target) && !((<HTMLElement>e.target).closest('.display-docked'))) {
+      if (
+        this.visible &&
+        !(this.el === <HTMLElement>e.target) &&
+        !(<HTMLElement>e.target).closest('.display-docked')
+      ) {
         this.hide();
       }
     });
@@ -57,14 +65,25 @@ export class DockedDisplayPlugin {
    * @param container HTMLElement to be positioned
    * @param options Plugin options
    */
-  static init(el: HTMLElement, container: HTMLElement, options?: Partial<DockedDisplayPluginOptions>): DockedDisplayPlugin {
+  static init(
+    el: HTMLElement,
+    container: HTMLElement,
+    options?: Partial<DockedDisplayPluginOptions>
+  ): DockedDisplayPlugin {
     return new DockedDisplayPlugin(el, container, options);
   }
 
   show = () => {
     if (this.visible) return;
     this.visible = true;
-    const coordinates = Utils._setAbsolutePosition(this.el, this.container, 'bottom', this.options.margin, this.options.transition, this.options.align);
+    const coordinates = Utils._setAbsolutePosition(
+      this.el,
+      this.container,
+      'bottom',
+      this.options.margin,
+      this.options.transition,
+      this.options.align
+    );
 
     // @todo move to Util? -> duplicate code fragment with tooltip
     // easeOutCubic

@@ -1,5 +1,5 @@
-import { Utils } from './utils';
-import { Component, BaseOptions, InitElements, MElement, Openable } from './component';
+import { Utils } from '../../src/utils';
+import { Component, BaseOptions, InitElements, MElement, Openable } from '../../src/component';
 
 export interface CardsOptions extends BaseOptions {
   onOpen: (el: Element) => void;
@@ -182,7 +182,7 @@ export class Cards extends Component<CardsOptions> implements Openable {
       document.addEventListener('DOMContentLoaded', () => {
         const cards = document.querySelectorAll('.card');
         cards.forEach((el) => {
-          if (el && (el['M_Card'] == undefined)) this.init((el as HTMLElement));
+          if (el && el['M_Card'] == undefined) this.init(el as HTMLElement);
         });
       });
   }

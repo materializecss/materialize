@@ -1,7 +1,7 @@
-import { Utils } from './utils';
-import { FormSelect } from './select';
-import { BaseOptions, Component, I18nOptions, InitElements, MElement } from './component';
-import { DockedDisplayPlugin } from './plugin/dockedDisplayPlugin';
+import { Utils } from '../../src/utils';
+import { BaseOptions, Component, I18nOptions, InitElements, MElement } from '../../src/component';
+import { FormSelect } from '../text-fields/select';
+import { DockedDisplayPlugin } from '../../src/dockedDisplayPlugin';
 
 export interface DateI18nOptions extends I18nOptions {
   previousMonth: string;
@@ -293,7 +293,7 @@ const _defaults: DatepickerOptions = {
   displayPlugin: null,
   displayPluginOptions: null,
   onConfirm: null,
-  onCancel: null,
+  onCancel: null
 };
 
 export class Datepicker extends Component<DatepickerOptions> {
@@ -381,7 +381,12 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.dateEls.push(el);
     }
     if (this.options.displayPlugin) {
-      if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+      if (this.options.displayPlugin === 'docked')
+        this.displayPlugin = DockedDisplayPlugin.init(
+          this.el,
+          this.containerEl,
+          this.options.displayPluginOptions
+        );
     }
   }
 
@@ -493,7 +498,9 @@ export class Datepicker extends Component<DatepickerOptions> {
       if (!this.options.dateRangeEndEl) {
         this.endDateEl = this.createDateInput();
         this.endDateEl.classList.add('datepicker-end-date');
-      } else if(document.querySelector(this.options.dateRangeEndEl) as HTMLInputElement === undefined) {
+      } else if (
+        (document.querySelector(this.options.dateRangeEndEl) as HTMLInputElement) === undefined
+      ) {
         console.warn('Specified date range end input element in dateRangeEndEl not found');
       } else {
         this.endDateEl = document.querySelector(this.options.dateRangeEndEl) as HTMLInputElement;
@@ -509,10 +516,22 @@ export class Datepicker extends Component<DatepickerOptions> {
     }
     this.doneBtn.innerText = this.options.i18n.done;
     this.cancelBtn.innerText = this.options.i18n.cancel;*/
-    Utils.createButton(this.footer, this.options.i18n.clear, ['datepicker-clear'], this.options.showClearBtn, this._handleClearClick);
+    Utils.createButton(
+      this.footer,
+      this.options.i18n.clear,
+      ['datepicker-clear'],
+      this.options.showClearBtn,
+      this._handleClearClick
+    );
 
     if (!this.options.autoSubmit) {
-      Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this._confirm, this._cancel);
+      Utils.createConfirmationContainer(
+        this.footer,
+        this.options.i18n.done,
+        this.options.i18n.cancel,
+        this._confirm,
+        this._cancel
+      );
     }
 
     if (this.options.container) {
@@ -523,7 +542,11 @@ export class Datepicker extends Component<DatepickerOptions> {
     } else {
       //this.containerEl.before(this.el);
       const appendTo = !this.endDateEl ? this.el : this.endDateEl;
-      if (!this.options.openByDefault) (this.containerEl as HTMLElement).setAttribute('style', 'display: none; visibility: hidden;');
+      if (!this.options.openByDefault)
+        (this.containerEl as HTMLElement).setAttribute(
+          'style',
+          'display: none; visibility: hidden;'
+        );
       appendTo.parentElement.after(this.containerEl);
     }
   }
@@ -711,7 +734,10 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.dateTextEl.innerHTML = this.formatDate(displayDate, 'ddd, mmm d');
     } else {
       const displayEndDate = Datepicker._isDate(endDate) ? endDate : new Date();
-      this.dateTextEl.innerHTML = `${this.formatDate(displayDate, 'mmm d')} - ${this.formatDate(displayEndDate, 'mmm d')}`;
+      this.dateTextEl.innerHTML = `${this.formatDate(displayDate, 'mmm d')} - ${this.formatDate(
+        displayEndDate,
+        'mmm d'
+      )}`;
     }
   }
 
@@ -819,8 +845,13 @@ export class Datepicker extends Component<DatepickerOptions> {
           (this.options.maxDate && day > this.options.maxDate) ||
           (this.options.disableWeekends && Datepicker._isWeekend(day)) ||
           (this.options.disableDayFn && this.options.disableDayFn(day)),
-        isDateRangeStart = this.options.isDateRange && this.date && this.endDate && Datepicker._compareDates(this.date, day),
-        isDateRangeEnd = this.options.isDateRange && this.endDate && Datepicker._compareDates(this.endDate, day),
+        isDateRangeStart =
+          this.options.isDateRange &&
+          this.date &&
+          this.endDate &&
+          Datepicker._compareDates(this.date, day),
+        isDateRangeEnd =
+          this.options.isDateRange && this.endDate && Datepicker._compareDates(this.endDate, day),
         isDateRange =
           this.options.isDateRange &&
           Datepicker._isDate(this.endDate) &&
@@ -900,7 +931,11 @@ export class Datepicker extends Component<DatepickerOptions> {
         isDateRangeEnd: 'is-daterange-end',
         isDateRange: 'is-daterange'
       },
-      ariaSelected = !(['isSelected', 'isDateRange'].filter((prop) => !!(opts.hasOwnProperty(prop) && opts[prop] === true)).length === 0),
+      ariaSelected = !(
+        ['isSelected', 'isDateRange'].filter(
+          (prop) => !!(opts.hasOwnProperty(prop) && opts[prop] === true)
+        ).length === 0
+      ),
       arr = ['datepicker-day'];
 
     if (opts.isEmpty) {
@@ -1014,7 +1049,9 @@ export class Datepicker extends Component<DatepickerOptions> {
     }
     if (opts.yearRangeReverse) arr.reverse();
 
-    const yearHtml = `<select class="datepicker-select orig-select-year" tabindex="-1">${arr.join('')}</select>`;
+    const yearHtml = `<select class="datepicker-select orig-select-year" tabindex="-1">${arr.join(
+      ''
+    )}</select>`;
 
     const leftArrow =
       '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/><path d="M0-.5h24v24H0z" fill="none"/></svg>';
@@ -1353,7 +1390,7 @@ export class Datepicker extends Component<DatepickerOptions> {
   _confirm = () => {
     this._finishSelection();
     if (typeof this.options.onConfirm === 'function') this.options.onConfirm.call(this);
-  }
+  };
 
   _cancel = () => {
     if (typeof this.options.onCancel === 'function') this.options.onCancel.call(this);

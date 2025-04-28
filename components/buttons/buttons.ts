@@ -1,5 +1,5 @@
-import { Component, BaseOptions, InitElements, MElement, Openable } from "./component";
-import { Utils } from './utils';
+import { Component, BaseOptions, InitElements, MElement, Openable } from '../../src/component';
+import { Utils } from '../../src/utils';
 
 export interface FloatingActionButtonOptions extends BaseOptions {
   /**
@@ -65,14 +65,10 @@ export class FloatingActionButton
     this.el.classList.add(`direction-${this.options.direction}`);
     this._anchor.tabIndex = 0;
     this._menu.ariaExpanded = 'false';
-    if (this.options.direction === 'top')
-      this.offsetY = 40;
-    else if (this.options.direction === 'right')
-      this.offsetX = -40;
-    else if (this.options.direction === 'bottom')
-      this.offsetY = -40;
-    else
-      this.offsetX = 40;
+    if (this.options.direction === 'top') this.offsetY = 40;
+    else if (this.options.direction === 'right') this.offsetX = -40;
+    else if (this.options.direction === 'bottom') this.offsetY = -40;
+    else this.offsetX = 40;
     this._setupEventHandlers();
   }
 
@@ -140,14 +136,14 @@ export class FloatingActionButton
   }
 
   _handleFABClick = () => {
-    this._handleFABToggle()
-}
+    this._handleFABToggle();
+  };
 
   _handleFABKeyPress = (e) => {
-    if(Utils.keys.ENTER.includes(e.key)) {
+    if (Utils.keys.ENTER.includes(e.key)) {
       this._handleFABToggle();
     }
-  }
+  };
 
   _handleFABToggle = () => {
     if (this.isOpen) {

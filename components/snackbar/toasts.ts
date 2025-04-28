@@ -1,4 +1,4 @@
-import { BaseOptions } from './component';
+import { BaseOptions } from '../../src/component';
 
 export interface ToastOptions extends BaseOptions {
   /**

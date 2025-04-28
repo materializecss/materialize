@@ -1,6 +1,6 @@
-import { Utils } from './utils';
-import { Bounding } from './bounding';
-import { Component, BaseOptions, InitElements, MElement } from './component';
+import { Utils } from '../../src/utils';
+import { Bounding } from '../../src/bounding';
+import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 

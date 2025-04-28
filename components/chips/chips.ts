@@ -1,6 +1,6 @@
-import { Utils } from './utils';
-import { Autocomplete, AutocompleteOptions } from './autocomplete';
-import { Component, BaseOptions, InitElements, MElement } from './component';
+import { Utils } from '../../src/utils';
+import { Autocomplete, AutocompleteOptions } from '../search/autocomplete';
+import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 export interface ChipData {
   /**

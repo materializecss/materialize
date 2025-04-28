@@ -1,5 +1,5 @@
-import { Utils } from './utils';
-import { Component, BaseOptions, InitElements, MElement } from './component';
+import { Utils } from '../../src/utils';
+import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 export interface SliderOptions extends BaseOptions {
   /**
@@ -252,8 +252,7 @@ export class Slider extends Component<SliderOptions> {
   private _handleInterval = () => {
     const activeElem = this._slider.querySelector('.active');
     let newActiveIndex = [...activeElem.parentNode.children].indexOf(activeElem);
-    if (this._slides.length === newActiveIndex + 1)
-      newActiveIndex = 0; // loop to start
+    if (this._slides.length === newActiveIndex + 1) newActiveIndex = 0; // loop to start
     else newActiveIndex += 1;
     this.set(newActiveIndex);
   };

@@ -1,4 +1,4 @@
-import { Component, BaseOptions, InitElements, MElement } from './component';
+import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 // Obsolete for versions > 2.1.1
 

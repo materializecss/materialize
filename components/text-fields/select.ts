@@ -1,6 +1,6 @@
-import { Utils } from './utils';
-import { Dropdown, DropdownOptions } from './dropdown';
-import { Component, BaseOptions, InitElements, MElement } from './component';
+import { Utils } from '../../src/utils';
+import { Dropdown, DropdownOptions } from '../dropdown/dropdown';
+import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 export interface FormSelectOptions extends BaseOptions {
   /**
@@ -227,7 +227,9 @@ export class FormSelect extends Component<FormSelectOptions> {
           groupParent.tabIndex = -1;
           groupParent.setAttribute('role', 'group');
           groupParent.setAttribute('aria-labelledby', groupId);
-          groupParent.innerHTML = `<span id="${groupId}" role="presentation">${realOption.getAttribute('label')}</span>`;
+          groupParent.innerHTML = `<span id="${groupId}" role="presentation">${realOption.getAttribute(
+            'label'
+          )}</span>`;
           this.dropdownOptions.append(groupParent);
 
           const groupChildren = [];

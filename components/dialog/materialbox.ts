@@ -1,5 +1,5 @@
-import { Utils } from './utils';
-import { BaseOptions, Component, InitElements, MElement } from './component';
+import { Utils } from '../../src/utils';
+import { BaseOptions, Component, InitElements, MElement } from '../../src/component';
 
 export interface MaterialboxOptions extends BaseOptions {
   /**

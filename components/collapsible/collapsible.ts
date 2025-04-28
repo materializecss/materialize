@@ -1,5 +1,5 @@
-import { Utils } from './utils';
-import { Component, BaseOptions, InitElements, MElement } from './component';
+import { Utils } from '../../src/utils';
+import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 export interface CollapsibleOptions extends BaseOptions {
   /**
