@@ -11,15 +11,12 @@ html{
   font-family: $font-stack;
   font-weight: normal;
   color: $text-color;
-
   @media only screen and (min-width: 0) {
     font-size: 14px;
   }
-
   @media only screen and (min-width: $medium-screen-up) {
     font-size: 14.5px;
   }
-
   @media only screen and (min-width: $large-screen-up) {
     font-size: 15px;
   }

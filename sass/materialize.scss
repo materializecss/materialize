@@ -1,19 +1,20 @@
 @charset "UTF-8";
 
 @forward "../node_modules/normalize.css/normalize.css";
-@forward "./tokens.module";
-@forward "./theme.module";
-@forward "./colors.module";
-@forward "./typography.module";
+@forward "./tokens.module.css";
+@forward "./theme.module.css";
+@forward "./typography.module.css";
+@forward "./colors.module.css";
+@forward "./typography";
 @forward "./mixins.module";
 @forward "./color-variables";
 @forward "./variables";
 @forward "./global";
-@forward "./typography";
 @forward "./icons-material-design";
 @forward "./grid";
-@forward "./transitions";
-@forward "./pulse";
+// animations
+@forward "./transitions.css";
+@forward "./pulse.css";
 // custom
 @forward "./table_of_contents";
 @forward "./tapTarget";
