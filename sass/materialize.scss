@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+@forward "../node_modules/normalize.css/normalize.css";
 @forward "./tokens.module";
 @forward "./theme.module";
 @forward "./colors.module";
@@ -7,7 +8,6 @@
 @forward "./mixins.module";
 @forward "./color-variables";
 @forward "./variables";
-@forward "./normalize";
 @forward "./global";
 @forward "./typography";
 @forward "./icons-material-design";

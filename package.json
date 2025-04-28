@@ -62,6 +62,7 @@
     "jasmine": "^5.1.0",
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.2.0",
+    "normalize.css": "^8.0.1",
     "postcss": "^8.4.49",
     "rollup": "^4.20.0",
     "rollup-plugin-copy": "^3.5.0",
