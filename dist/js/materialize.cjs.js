@@ -916,8 +916,8 @@ const _defaults$m = {
     isMultiSelect: false,
     onSearch: (text, autocomplete) => {
         const normSearch = text.toLocaleLowerCase();
-        autocomplete.setMenuItems(autocomplete.options.data.filter((option) => option.id.toString().toLocaleLowerCase().includes(normSearch)
-            || option.text?.toLocaleLowerCase().includes(normSearch)));
+        autocomplete.setMenuItems(autocomplete.options.data.filter((option) => option.id.toString().toLocaleLowerCase().includes(normSearch) ||
+            option.text?.toLocaleLowerCase().includes(normSearch)));
     },
     maxDropDownHeight: '300px',
     allowUnsafeHTML: false,
@@ -950,7 +950,10 @@ class Autocomplete extends Component {
         this.count = 0;
         this.activeIndex = -1;
         this.oldVal = '';
-        this.selectedValues = this.selectedValues || this.options.selected.map((value) => ({ id: value })) || [];
+        this.selectedValues =
+            this.selectedValues ||
+                this.options.selected.map((value) => ({ id: value })) ||
+                [];
         this.menuItems = this.options.data || [];
         this.$active = null;
         this._mousedown = false;
@@ -1237,8 +1240,7 @@ class Autocomplete extends Component {
         }
     }
     _setStatusLoading() {
-        this.el.parentElement.querySelector('.status-info').innerHTML =
-            `<div style="height:100%;width:50px;"><svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+        this.el.parentElement.querySelector('.status-info').innerHTML = `<div style="height:100%;width:50px;"><svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
     <circle fill="#888c" stroke="none" cx="6" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.1"/></circle>
     <circle fill="#888c" stroke="none" cx="26" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.2"/></circle>
     <circle fill="#888c" stroke="none" cx="46" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite"  begin="0.3"/></circle>
@@ -1725,7 +1727,7 @@ class Cards extends Component {
             document.addEventListener('DOMContentLoaded', () => {
                 const cards = document.querySelectorAll('.card');
                 cards.forEach((el) => {
-                    if (el && (el['M_Card'] == undefined))
+                    if (el && el['M_Card'] == undefined)
                         this.init(el);
                 });
             });
@@ -3202,7 +3204,9 @@ class DockedDisplayPlugin {
         this.container.append(container);
         el.parentElement.append(this.container);
         document.addEventListener('click', (e) => {
-            if (this.visible && !(this.el === e.target) && !(e.target.closest('.display-docked'))) {
+            if (this.visible &&
+                !(this.el === e.target) &&
+                !e.target.closest('.display-docked')) {
                 this.hide();
             }
         });
@@ -3346,7 +3350,7 @@ const _defaults$e = {
     displayPlugin: null,
     displayPluginOptions: null,
     onConfirm: null,
-    onCancel: null,
+    onCancel: null
 };
 class Datepicker extends Component {
     id;
@@ -3788,7 +3792,10 @@ class Datepicker extends Component {
                 day < this.options.endRange, isDisabled = (this.options.minDate && day < this.options.minDate) ||
                 (this.options.maxDate && day > this.options.maxDate) ||
                 (this.options.disableWeekends && Datepicker._isWeekend(day)) ||
-                (this.options.disableDayFn && this.options.disableDayFn(day)), isDateRangeStart = this.options.isDateRange && this.date && this.endDate && Datepicker._compareDates(this.date, day), isDateRangeEnd = this.options.isDateRange && this.endDate && Datepicker._compareDates(this.endDate, day), isDateRange = this.options.isDateRange &&
+                (this.options.disableDayFn && this.options.disableDayFn(day)), isDateRangeStart = this.options.isDateRange &&
+                this.date &&
+                this.endDate &&
+                Datepicker._compareDates(this.date, day), isDateRangeEnd = this.options.isDateRange && this.endDate && Datepicker._compareDates(this.endDate, day), isDateRange = this.options.isDateRange &&
                 Datepicker._isDate(this.endDate) &&
                 Datepicker._compareWithinRange(day, this.date, this.endDate);
             let dayNumber = 1 + (i - before), monthNumber = month, yearNumber = year;
@@ -4872,461 +4879,6 @@ class Modal extends Component {
 }
 
 const _defaults$b = {
-    responsiveThreshold: 0 // breakpoint for swipeable
-};
-class Parallax extends Component {
-    _enabled;
-    _img;
-    static _parallaxes = [];
-    static _handleScrollThrottled;
-    static _handleWindowResizeThrottled;
-    constructor(el, options) {
-        super(el, options, Parallax);
-        this.el['M_Parallax'] = this;
-        this.options = {
-            ...Parallax.defaults,
-            ...options
-        };
-        this._enabled = window.innerWidth > this.options.responsiveThreshold;
-        this._img = this.el.querySelector('img');
-        this._updateParallax();
-        this._setupEventHandlers();
-        this._setupStyles();
-        Parallax._parallaxes.push(this);
-    }
-    static get defaults() {
-        return _defaults$b;
-    }
-    /**
-     * Initializes instances of Parallax.
-     * @param els HTML elements.
-     * @param options Component options.
-     */
-    static init(els, options = {}) {
-        return super.init(els, options, Parallax);
-    }
-    static getInstance(el) {
-        return el['M_Parallax'];
-    }
-    destroy() {
-        Parallax._parallaxes.splice(Parallax._parallaxes.indexOf(this), 1);
-        this._img.style.transform = '';
-        this._removeEventHandlers();
-        this.el['M_Parallax'] = undefined;
-    }
-    static _handleScroll() {
-        for (let i = 0; i < Parallax._parallaxes.length; i++) {
-            const parallaxInstance = Parallax._parallaxes[i];
-            parallaxInstance._updateParallax.call(parallaxInstance);
-        }
-    }
-    static _handleWindowResize() {
-        for (let i = 0; i < Parallax._parallaxes.length; i++) {
-            const parallaxInstance = Parallax._parallaxes[i];
-            parallaxInstance._enabled = window.innerWidth > parallaxInstance.options.responsiveThreshold;
-        }
-    }
-    _setupEventHandlers() {
-        this._img.addEventListener('load', this._handleImageLoad);
-        if (Parallax._parallaxes.length === 0) {
-            if (!Parallax._handleScrollThrottled) {
-                Parallax._handleScrollThrottled = Utils.throttle(Parallax._handleScroll, 5);
-            }
-            if (!Parallax._handleWindowResizeThrottled) {
-                Parallax._handleWindowResizeThrottled = Utils.throttle(Parallax._handleWindowResize, 5);
-            }
-            window.addEventListener('scroll', Parallax._handleScrollThrottled);
-            window.addEventListener('resize', Parallax._handleWindowResizeThrottled);
-        }
-    }
-    _removeEventHandlers() {
-        this._img.removeEventListener('load', this._handleImageLoad);
-        if (Parallax._parallaxes.length === 0) {
-            window.removeEventListener('scroll', Parallax._handleScrollThrottled);
-            window.removeEventListener('resize', Parallax._handleWindowResizeThrottled);
-        }
-    }
-    _setupStyles() {
-        this._img.style.opacity = '1';
-    }
-    _handleImageLoad = () => {
-        this._updateParallax();
-    };
-    _offset(el) {
-        const box = el.getBoundingClientRect();
-        const docElem = document.documentElement;
-        return {
-            top: box.top + window.scrollY - docElem.clientTop,
-            left: box.left + window.scrollX - docElem.clientLeft
-        };
-    }
-    _updateParallax() {
-        const containerHeight = this.el.getBoundingClientRect().height > 0 ? this.el.parentElement.offsetHeight : 500;
-        const imgHeight = this._img.offsetHeight;
-        const parallaxDist = imgHeight - containerHeight;
-        const bottom = this._offset(this.el).top + containerHeight;
-        const top = this._offset(this.el).top;
-        const scrollTop = Utils.getDocumentScrollTop();
-        const windowHeight = window.innerHeight;
-        const windowBottom = scrollTop + windowHeight;
-        const percentScrolled = (windowBottom - top) / (containerHeight + windowHeight);
-        const parallax = parallaxDist * percentScrolled;
-        if (!this._enabled) {
-            this._img.style.transform = '';
-        }
-        else if (bottom > scrollTop && top < scrollTop + windowHeight) {
-            this._img.style.transform = `translate3D(-50%, ${parallax}px, 0)`;
-        }
-    }
-}
-
-const _defaults$a = {
-    top: 0,
-    bottom: Infinity,
-    offset: 0,
-    onPositionChange: null
-};
-class Pushpin extends Component {
-    static _pushpins;
-    originalOffset;
-    constructor(el, options) {
-        super(el, options, Pushpin);
-        this.el['M_Pushpin'] = this;
-        this.options = {
-            ...Pushpin.defaults,
-            ...options
-        };
-        this.originalOffset = this.el.offsetTop;
-        Pushpin._pushpins.push(this);
-        this._setupEventHandlers();
-        this._updatePosition();
-    }
-    static get defaults() {
-        return _defaults$a;
-    }
-    /**
-     * Initializes instances of Pushpin.
-     * @param els HTML elements.
-     * @param options Component options.
-     */
-    static init(els, options = {}) {
-        return super.init(els, options, Pushpin);
-    }
-    static getInstance(el) {
-        return el['M_Pushpin'];
-    }
-    destroy() {
-        this.el.style.top = null;
-        this._removePinClasses();
-        // Remove pushpin Inst
-        const index = Pushpin._pushpins.indexOf(this);
-        Pushpin._pushpins.splice(index, 1);
-        if (Pushpin._pushpins.length === 0) {
-            this._removeEventHandlers();
-        }
-        this.el['M_Pushpin'] = undefined;
-    }
-    static _updateElements() {
-        for (const elIndex in Pushpin._pushpins) {
-            const pInstance = Pushpin._pushpins[elIndex];
-            pInstance._updatePosition();
-        }
-    }
-    _setupEventHandlers() {
-        document.addEventListener('scroll', Pushpin._updateElements);
-    }
-    _removeEventHandlers() {
-        document.removeEventListener('scroll', Pushpin._updateElements);
-    }
-    _updatePosition() {
-        const scrolled = Utils.getDocumentScrollTop() + this.options.offset;
-        if (this.options.top <= scrolled &&
-            this.options.bottom >= scrolled &&
-            !this.el.classList.contains('pinned')) {
-            this._removePinClasses();
-            this.el.style.top = `${this.options.offset}px`;
-            this.el.classList.add('pinned');
-            // onPositionChange callback
-            if (typeof this.options.onPositionChange === 'function') {
-                this.options.onPositionChange.call(this, 'pinned');
-            }
-        }
-        // Add pin-top (when scrolled position is above top)
-        if (scrolled < this.options.top && !this.el.classList.contains('pin-top')) {
-            this._removePinClasses();
-            this.el.style.top = '0';
-            this.el.classList.add('pin-top');
-            // onPositionChange callback
-            if (typeof this.options.onPositionChange === 'function') {
-                this.options.onPositionChange.call(this, 'pin-top');
-            }
-        }
-        // Add pin-bottom (when scrolled position is below bottom)
-        if (scrolled > this.options.bottom && !this.el.classList.contains('pin-bottom')) {
-            this._removePinClasses();
-            this.el.classList.add('pin-bottom');
-            this.el.style.top = `${this.options.bottom - this.originalOffset}px`;
-            // onPositionChange callback
-            if (typeof this.options.onPositionChange === 'function') {
-                this.options.onPositionChange.call(this, 'pin-bottom');
-            }
-        }
-    }
-    _removePinClasses() {
-        // IE 11 bug (can't remove multiple classes in one line)
-        this.el.classList.remove('pin-top');
-        this.el.classList.remove('pinned');
-        this.el.classList.remove('pin-bottom');
-    }
-    static {
-        Pushpin._pushpins = [];
-    }
-}
-
-const _defaults$9 = {
-    throttle: 100,
-    scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
-    activeClass: 'active',
-    getActiveElement: (id) => {
-        return 'a[href="#' + id + '"]';
-    },
-    keepTopElementActive: false,
-    animationDuration: null
-};
-class ScrollSpy extends Component {
-    static _elements;
-    static _count;
-    static _increment;
-    static _elementsInView;
-    static _visibleElements;
-    static _ticks;
-    static _keptTopActiveElement = null;
-    tickId;
-    id;
-    constructor(el, options) {
-        super(el, options, ScrollSpy);
-        this.el['M_ScrollSpy'] = this;
-        this.options = {
-            ...ScrollSpy.defaults,
-            ...options
-        };
-        ScrollSpy._elements.push(this);
-        ScrollSpy._count++;
-        ScrollSpy._increment++;
-        this.tickId = -1;
-        this.id = ScrollSpy._increment.toString();
-        this._setupEventHandlers();
-        this._handleWindowScroll();
-    }
-    static get defaults() {
-        return _defaults$9;
-    }
-    /**
-     * Initializes instances of ScrollSpy.
-     * @param els HTML elements.
-     * @param options Component options.
-     */
-    static init(els, options = {}) {
-        return super.init(els, options, ScrollSpy);
-    }
-    static getInstance(el) {
-        return el['M_ScrollSpy'];
-    }
-    destroy() {
-        ScrollSpy._elements.splice(ScrollSpy._elements.indexOf(this), 1);
-        ScrollSpy._elementsInView.splice(ScrollSpy._elementsInView.indexOf(this), 1);
-        ScrollSpy._visibleElements.splice(ScrollSpy._visibleElements.indexOf(this.el), 1);
-        ScrollSpy._count--;
-        this._removeEventHandlers();
-        const actElem = document.querySelector(this.options.getActiveElement(this.el.id));
-        actElem.classList.remove(this.options.activeClass);
-        this.el['M_ScrollSpy'] = undefined;
-    }
-    _setupEventHandlers() {
-        if (ScrollSpy._count === 1) {
-            window.addEventListener('scroll', this._handleWindowScroll);
-            window.addEventListener('resize', this._handleThrottledResize);
-            document.body.addEventListener('click', this._handleTriggerClick);
-        }
-    }
-    _removeEventHandlers() {
-        if (ScrollSpy._count === 0) {
-            window.removeEventListener('scroll', this._handleWindowScroll);
-            window.removeEventListener('resize', this._handleThrottledResize);
-            document.body.removeEventListener('click', this._handleTriggerClick);
-        }
-    }
-    _handleThrottledResize = () => Utils.throttle(this._handleWindowScroll, 200).bind(this);
-    _handleTriggerClick = (e) => {
-        const trigger = e.target;
-        for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
-            const scrollspy = ScrollSpy._elements[i];
-            const x = document.querySelector('a[href="#' + scrollspy.el.id + '"]');
-            if (trigger === x) {
-                e.preventDefault();
-                if (scrollspy.el['M_ScrollSpy'].options.animationDuration) {
-                    ScrollSpy._smoothScrollIntoView(scrollspy.el, scrollspy.el['M_ScrollSpy'].options.animationDuration);
-                }
-                else {
-                    scrollspy.el.scrollIntoView({ behavior: 'smooth' });
-                }
-                break;
-            }
-        }
-    };
-    _handleWindowScroll = () => {
-        // unique tick id
-        ScrollSpy._ticks++;
-        // viewport rectangle
-        const top = Utils.getDocumentScrollTop(), left = Utils.getDocumentScrollLeft(), right = left + window.innerWidth, bottom = top + window.innerHeight;
-        // determine which elements are in view
-        const intersections = ScrollSpy._findElements(top, right, bottom, left);
-        for (let i = 0; i < intersections.length; i++) {
-            const scrollspy = intersections[i];
-            const lastTick = scrollspy.tickId;
-            if (lastTick < 0) {
-                // entered into view
-                scrollspy._enter();
-            }
-            // update tick id
-            scrollspy.tickId = ScrollSpy._ticks;
-        }
-        for (let i = 0; i < ScrollSpy._elementsInView.length; i++) {
-            const scrollspy = ScrollSpy._elementsInView[i];
-            const lastTick = scrollspy.tickId;
-            if (lastTick >= 0 && lastTick !== ScrollSpy._ticks) {
-                // exited from view
-                scrollspy._exit();
-                scrollspy.tickId = -1;
-            }
-        }
-        // remember elements in view for next tick
-        ScrollSpy._elementsInView = intersections;
-        if (ScrollSpy._elements.length) {
-            const options = ScrollSpy._elements[0].el['M_ScrollSpy'].options;
-            if (options.keepTopElementActive && ScrollSpy._visibleElements.length === 0) {
-                this._resetKeptTopActiveElementIfNeeded();
-                const topElements = ScrollSpy._elements
-                    .filter((value) => ScrollSpy._getDistanceToViewport(value.el) <= 0)
-                    .sort((a, b) => {
-                    const distanceA = ScrollSpy._getDistanceToViewport(a.el);
-                    const distanceB = ScrollSpy._getDistanceToViewport(b.el);
-                    if (distanceA < distanceB)
-                        return -1;
-                    if (distanceA > distanceB)
-                        return 1;
-                    return 0;
-                });
-                const nearestTopElement = topElements.length
-                    ? topElements[topElements.length - 1]
-                    : ScrollSpy._elements[0];
-                const actElem = document.querySelector(options.getActiveElement(nearestTopElement.el.id));
-                actElem?.classList.add(options.activeClass);
-                ScrollSpy._keptTopActiveElement = actElem;
-            }
-        }
-    };
-    static _offset(el) {
-        const box = el.getBoundingClientRect();
-        const docElem = document.documentElement;
-        return {
-            top: box.top + window.pageYOffset - docElem.clientTop,
-            left: box.left + window.pageXOffset - docElem.clientLeft
-        };
-    }
-    static _findElements(top, right, bottom, left) {
-        const hits = [];
-        for (let i = 0; i < ScrollSpy._elements.length; i++) {
-            const scrollspy = ScrollSpy._elements[i];
-            const currTop = top + scrollspy.options.scrollOffset || 200;
-            if (scrollspy.el.getBoundingClientRect().height > 0) {
-                const elTop = ScrollSpy._offset(scrollspy.el).top, elLeft = ScrollSpy._offset(scrollspy.el).left, elRight = elLeft + scrollspy.el.getBoundingClientRect().width, elBottom = elTop + scrollspy.el.getBoundingClientRect().height;
-                const isIntersect = !(elLeft > right ||
-                    elRight < left ||
-                    elTop > bottom ||
-                    elBottom < currTop);
-                if (isIntersect) {
-                    hits.push(scrollspy);
-                }
-            }
-        }
-        return hits;
-    }
-    _enter() {
-        ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((value) => value.getBoundingClientRect().height !== 0);
-        if (ScrollSpy._visibleElements[0]) {
-            const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
-            actElem?.classList.remove(this.options.activeClass);
-            if (ScrollSpy._visibleElements[0]['M_ScrollSpy'] &&
-                this.id < ScrollSpy._visibleElements[0]['M_ScrollSpy'].id) {
-                ScrollSpy._visibleElements.unshift(this.el);
-            }
-            else {
-                ScrollSpy._visibleElements.push(this.el);
-            }
-        }
-        else {
-            ScrollSpy._visibleElements.push(this.el);
-        }
-        this._resetKeptTopActiveElementIfNeeded();
-        const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
-        document.querySelector(selector)?.classList.add(this.options.activeClass);
-    }
-    _exit() {
-        ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((value) => value.getBoundingClientRect().height !== 0);
-        if (ScrollSpy._visibleElements[0]) {
-            const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
-            actElem?.classList.remove(this.options.activeClass);
-            ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((x) => x.id != this.el.id);
-            if (ScrollSpy._visibleElements[0]) {
-                // Check if empty
-                const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
-                document.querySelector(selector)?.classList.add(this.options.activeClass);
-                this._resetKeptTopActiveElementIfNeeded();
-            }
-        }
-    }
-    _resetKeptTopActiveElementIfNeeded() {
-        if (ScrollSpy._keptTopActiveElement) {
-            ScrollSpy._keptTopActiveElement.classList.remove(this.options.activeClass);
-            ScrollSpy._keptTopActiveElement = null;
-        }
-    }
-    static _getDistanceToViewport(element) {
-        const rect = element.getBoundingClientRect();
-        const distance = rect.top;
-        return distance;
-    }
-    static _smoothScrollIntoView(element, duration = 300) {
-        const targetPosition = element.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
-        const startPosition = window.scrollY || window.pageYOffset;
-        const distance = targetPosition - startPosition;
-        const startTime = performance.now();
-        function scrollStep(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const scrollY = startPosition + distance * progress;
-            if (progress < 1) {
-                window.scrollTo(0, scrollY);
-                requestAnimationFrame(scrollStep);
-            }
-            else {
-                window.scrollTo(0, targetPosition);
-            }
-        }
-        requestAnimationFrame(scrollStep);
-    }
-    static {
-        ScrollSpy._elements = [];
-        ScrollSpy._elementsInView = [];
-        ScrollSpy._visibleElements = []; // Array.<cash>
-        ScrollSpy._count = 0;
-        ScrollSpy._increment = 0;
-        ScrollSpy._ticks = 0;
-    }
-}
-
-const _defaults$8 = {
     edge: 'left',
     draggable: true,
     dragTargetWidth: '10px',
@@ -5382,7 +4934,7 @@ class Sidenav extends Component {
         Sidenav._sidenavs.push(this);
     }
     static get defaults() {
-        return _defaults$8;
+        return _defaults$b;
     }
     /**
      * Initializes instances of Sidenav.
@@ -5779,7 +5331,346 @@ class Sidenav extends Component {
     }
 }
 
-const _defaults$7 = {
+const _defaults$a = {
+    indicators: true,
+    height: 400,
+    duration: 500,
+    interval: 6000,
+    pauseOnFocus: true,
+    pauseOnHover: true,
+    indicatorLabelFunc: null // Function which will generate a label for the indicators (ARIA)
+};
+class Slider extends Component {
+    /** Index of current slide. */
+    activeIndex;
+    interval;
+    eventPause;
+    _slider;
+    _slides;
+    _activeSlide;
+    _indicators;
+    _hovered;
+    _focused;
+    _focusCurrent;
+    _sliderId;
+    constructor(el, options) {
+        super(el, options, Slider);
+        this.el['M_Slider'] = this;
+        this.options = {
+            ...Slider.defaults,
+            ...options
+        };
+        // init props
+        this.interval = null;
+        this.eventPause = false;
+        this._hovered = false;
+        this._focused = false;
+        this._focusCurrent = false;
+        // setup
+        this._slider = this.el.querySelector('.slides');
+        this._slides = Array.from(this._slider.querySelectorAll('li'));
+        this.activeIndex = this._slides.findIndex((li) => li.classList.contains('active'));
+        if (this.activeIndex !== -1) {
+            this._activeSlide = this._slides[this.activeIndex];
+        }
+        this._setSliderHeight();
+        // Sets element id if it does not have one
+        if (this._slider.hasAttribute('id'))
+            this._sliderId = this._slider.getAttribute('id');
+        else {
+            this._sliderId = 'slider-' + Utils.guid();
+            this._slider.setAttribute('id', this._sliderId);
+        }
+        const placeholderBase64 = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+        // Set initial positions of captions
+        this._slides.forEach((slide) => {
+            // Caption
+            //const caption = <HTMLElement|null>slide.querySelector('.caption');
+            //if (caption) this._animateCaptionIn(caption, 0);
+            // Set Images as Background Images
+            const img = slide.querySelector('img');
+            if (img) {
+                if (img.src !== placeholderBase64) {
+                    img.style.backgroundImage = 'url(' + img.src + ')';
+                    img.src = placeholderBase64;
+                }
+            }
+            // Sets slide as focusable by code
+            if (!slide.hasAttribute('tabindex'))
+                slide.setAttribute('tabindex', '-1');
+            // Removes initial visibility from "inactive" slides
+            slide.style.visibility = 'hidden';
+        });
+        this._setupIndicators();
+        // Show active slide
+        if (this._activeSlide) {
+            this._activeSlide.style.display = 'block';
+            this._activeSlide.style.visibility = 'visible';
+        }
+        else {
+            this.activeIndex = 0;
+            this._slides[0].classList.add('active');
+            this._slides[0].style.visibility = 'visible';
+            this._activeSlide = this._slides[0];
+            this._animateSlide(this._slides[0], true);
+            // Update indicators
+            if (this.options.indicators) {
+                this._indicators[this.activeIndex].children[0].classList.add('active');
+            }
+        }
+        this._setupEventHandlers();
+        // auto scroll
+        this.start();
+    }
+    static get defaults() {
+        return _defaults$a;
+    }
+    /**
+     * Initializes instances of Slider.
+     * @param els HTML elements.
+     * @param options Component options.
+     */
+    static init(els, options = {}) {
+        return super.init(els, options, Slider);
+    }
+    static getInstance(el) {
+        return el['M_Slider'];
+    }
+    destroy() {
+        this.pause();
+        this._removeIndicators();
+        this._removeEventHandlers();
+        this.el['M_Slider'] = undefined;
+    }
+    _setupEventHandlers() {
+        if (this.options.pauseOnFocus) {
+            this.el.addEventListener('focusin', this._handleAutoPauseFocus);
+            this.el.addEventListener('focusout', this._handleAutoStartFocus);
+        }
+        if (this.options.pauseOnHover) {
+            this.el.addEventListener('mouseenter', this._handleAutoPauseHover);
+            this.el.addEventListener('mouseleave', this._handleAutoStartHover);
+        }
+        if (this.options.indicators) {
+            this._indicators.forEach((el) => {
+                el.addEventListener('click', this._handleIndicatorClick);
+            });
+        }
+    }
+    _removeEventHandlers() {
+        if (this.options.pauseOnFocus) {
+            this.el.removeEventListener('focusin', this._handleAutoPauseFocus);
+            this.el.removeEventListener('focusout', this._handleAutoStartFocus);
+        }
+        if (this.options.pauseOnHover) {
+            this.el.removeEventListener('mouseenter', this._handleAutoPauseHover);
+            this.el.removeEventListener('mouseleave', this._handleAutoStartHover);
+        }
+        if (this.options.indicators) {
+            this._indicators.forEach((el) => {
+                el.removeEventListener('click', this._handleIndicatorClick);
+            });
+        }
+    }
+    _handleIndicatorClick = (e) => {
+        const el = e.target.parentElement;
+        const currIndex = [...el.parentNode.children].indexOf(el);
+        this._focusCurrent = true;
+        this.set(currIndex);
+    };
+    _handleAutoPauseHover = () => {
+        this._hovered = true;
+        if (this.interval != null) {
+            this._pause(true);
+        }
+    };
+    _handleAutoPauseFocus = () => {
+        this._focused = true;
+        if (this.interval != null) {
+            this._pause(true);
+        }
+    };
+    _handleAutoStartHover = () => {
+        this._hovered = false;
+        if (!(this.options.pauseOnFocus && this._focused) && this.eventPause) {
+            this.start();
+        }
+    };
+    _handleAutoStartFocus = () => {
+        this._focused = false;
+        if (!(this.options.pauseOnHover && this._hovered) && this.eventPause) {
+            this.start();
+        }
+    };
+    _handleInterval = () => {
+        const activeElem = this._slider.querySelector('.active');
+        let newActiveIndex = [...activeElem.parentNode.children].indexOf(activeElem);
+        if (this._slides.length === newActiveIndex + 1)
+            newActiveIndex = 0; // loop to start
+        else
+            newActiveIndex += 1;
+        this.set(newActiveIndex);
+    };
+    _animateSlide(slide, isDirectionIn) {
+        let dx = 0, dy = 0;
+        // from
+        slide.style.opacity = isDirectionIn ? '0' : '1';
+        setTimeout(() => {
+            slide.style.transition = `opacity ${this.options.duration}ms ease`;
+            // to
+            slide.style.opacity = isDirectionIn ? '1' : '0';
+        }, 1);
+        // Caption
+        const caption = slide.querySelector('.caption');
+        if (!caption)
+            return;
+        if (caption.classList.contains('center-align'))
+            dy = -100;
+        else if (caption.classList.contains('right-align'))
+            dx = 100;
+        else if (caption.classList.contains('left-align'))
+            dx = -100;
+        // from
+        caption.style.opacity = isDirectionIn ? '0' : '1';
+        caption.style.transform = isDirectionIn ? `translate(${dx}px, ${dy}px)` : `translate(0, 0)`;
+        setTimeout(() => {
+            caption.style.transition = `opacity ${this.options.duration}ms ease, transform ${this.options.duration}ms ease`;
+            // to
+            caption.style.opacity = isDirectionIn ? '1' : '0';
+            caption.style.transform = isDirectionIn ? `translate(0, 0)` : `translate(${dx}px, ${dy}px)`;
+        }, this.options.duration); // delay
+    }
+    _setSliderHeight() {
+        // If fullscreen, do nothing
+        if (!this.el.classList.contains('fullscreen')) {
+            if (this.options.indicators) {
+                // Add height if indicators are present
+                this.el.style.height = this.options.height + 40 + 'px'; //.css('height', this.options.height + 40 + 'px');
+            }
+            else {
+                this.el.style.height = this.options.height + 'px';
+            }
+            this._slider.style.height = this.options.height + 'px';
+        }
+    }
+    _setupIndicators() {
+        if (this.options.indicators) {
+            const ul = document.createElement('ul');
+            ul.classList.add('indicators');
+            const arrLi = [];
+            this._slides.forEach((el, i) => {
+                const label = this.options.indicatorLabelFunc
+                    ? this.options.indicatorLabelFunc.call(this, i + 1, i === 0)
+                    : `${i + 1}`;
+                const li = document.createElement('li');
+                li.classList.add('indicator-item');
+                li.innerHTML = `<button type="button" class="indicator-item-btn" aria-label="${label}" aria-controls="${this._sliderId}"></button>`;
+                arrLi.push(li);
+                ul.append(li);
+            });
+            this.el.append(ul);
+            this._indicators = arrLi;
+        }
+    }
+    _removeIndicators() {
+        this.el.querySelector('ul.indicators').remove(); //find('ul.indicators').remove();
+    }
+    set(index) {
+        // Wrap around indices.
+        if (index >= this._slides.length)
+            index = 0;
+        else if (index < 0)
+            index = this._slides.length - 1;
+        // Only do if index changes
+        if (this.activeIndex === index)
+            return;
+        this._activeSlide = this._slides[this.activeIndex];
+        const _caption = this._activeSlide.querySelector('.caption');
+        this._activeSlide.classList.remove('active');
+        // Enables every slide
+        this._slides.forEach((slide) => (slide.style.visibility = 'visible'));
+        //--- Hide active Slide + Caption
+        this._activeSlide.style.opacity = '0';
+        setTimeout(() => {
+            this._slides.forEach((slide) => {
+                if (slide.classList.contains('active'))
+                    return;
+                slide.style.opacity = '0';
+                slide.style.transform = 'translate(0, 0)';
+                // Disables invisible slides (for assistive technologies)
+                slide.style.visibility = 'hidden';
+            });
+        }, this.options.duration);
+        // Hide active Caption
+        //this._animateCaptionIn(_caption, this.options.duration);
+        _caption.style.opacity = '0';
+        // Update indicators
+        if (this.options.indicators) {
+            const activeIndicator = this._indicators[this.activeIndex].children[0];
+            const nextIndicator = this._indicators[index].children[0];
+            activeIndicator.classList.remove('active');
+            nextIndicator.classList.add('active');
+            if (typeof this.options.indicatorLabelFunc === 'function') {
+                activeIndicator.ariaLabel = this.options.indicatorLabelFunc.call(this, this.activeIndex, false);
+                nextIndicator.ariaLabel = this.options.indicatorLabelFunc.call(this, index, true);
+            }
+        }
+        //--- Show new Slide + Caption
+        this._animateSlide(this._slides[index], true);
+        this._slides[index].classList.add('active');
+        this.activeIndex = index;
+        // Reset interval, if allowed. This check prevents autostart
+        // when slider is paused, since it can be changed though indicators.
+        if (this.interval != null) {
+            this.start();
+        }
+    }
+    _pause(fromEvent) {
+        clearInterval(this.interval);
+        this.eventPause = fromEvent;
+        this.interval = null;
+    }
+    /**
+     * Pause slider autoslide.
+     */
+    pause = () => {
+        this._pause(false);
+    };
+    /**
+     * Start slider autoslide.
+     */
+    start = () => {
+        clearInterval(this.interval);
+        this.interval = setInterval(this._handleInterval, this.options.duration + this.options.interval);
+        this.eventPause = false;
+    };
+    /**
+     * Move to next slider.
+     */
+    next = () => {
+        let newIndex = this.activeIndex + 1;
+        // Wrap around indices.
+        if (newIndex >= this._slides.length)
+            newIndex = 0;
+        else if (newIndex < 0)
+            newIndex = this._slides.length - 1;
+        this.set(newIndex);
+    };
+    /**
+     * Move to prev slider.
+     */
+    prev = () => {
+        let newIndex = this.activeIndex - 1;
+        // Wrap around indices.
+        if (newIndex >= this._slides.length)
+            newIndex = 0;
+        else if (newIndex < 0)
+            newIndex = this._slides.length - 1;
+        this.set(newIndex);
+    };
+}
+
+const _defaults$9 = {
     duration: 300,
     onShow: null,
     swipeable: false,
@@ -5816,7 +5707,7 @@ class Tabs extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$7;
+        return _defaults$9;
     }
     /**
      * Initializes instances of Tabs.
@@ -6060,262 +5951,7 @@ class Tabs extends Component {
     }
 }
 
-const _defaults$6 = {
-    onOpen: null,
-    onClose: null
-};
-class TapTarget extends Component {
-    /**
-     * If the tap target is open.
-     */
-    isOpen;
-    static _taptargets;
-    wrapper;
-    // private _origin: HTMLElement;
-    originEl;
-    waveEl;
-    contentEl;
-    constructor(el, options) {
-        super(el, options, TapTarget);
-        this.el['M_TapTarget'] = this;
-        this.options = {
-            ...TapTarget.defaults,
-            ...options
-        };
-        this.isOpen = false;
-        // setup
-        this.originEl = document.querySelector(`#${el.dataset.target}`);
-        this.originEl.tabIndex = 0;
-        this._setup();
-        this._calculatePositioning();
-        this._setupEventHandlers();
-        TapTarget._taptargets.push(this);
-    }
-    static get defaults() {
-        return _defaults$6;
-    }
-    /**
-     * Initializes instances of TapTarget.
-     * @param els HTML elements.
-     * @param options Component options.
-     */
-    static init(els, options = {}) {
-        return super.init(els, options, TapTarget);
-    }
-    static getInstance(el) {
-        return el['M_TapTarget'];
-    }
-    destroy() {
-        this._removeEventHandlers();
-        this.el['M_TapTarget'] = undefined;
-        const index = TapTarget._taptargets.indexOf(this);
-        if (index >= 0) {
-            TapTarget._taptargets.splice(index, 1);
-        }
-    }
-    _setupEventHandlers() {
-        this.originEl.addEventListener('click', this._handleTargetToggle);
-        this.originEl.addEventListener('keypress', this._handleKeyboardInteraction, true);
-        // this.originEl.addEventListener('click', this._handleOriginClick);
-        // Resize
-        window.addEventListener('resize', this._handleThrottledResize);
-    }
-    _removeEventHandlers() {
-        this.originEl.removeEventListener('click', this._handleTargetToggle);
-        this.originEl.removeEventListener('keypress', this._handleKeyboardInteraction, true);
-        // this.originEl.removeEventListener('click', this._handleOriginClick);
-        window.removeEventListener('resize', this._handleThrottledResize);
-    }
-    _handleThrottledResize = () => Utils.throttle(this._handleResize, 200).bind(this);
-    _handleKeyboardInteraction = (e) => {
-        if (Utils.keys.ENTER.includes(e.key)) {
-            this._handleTargetToggle();
-        }
-    };
-    _handleTargetToggle = () => {
-        if (!this.isOpen)
-            this.open();
-        else
-            this.close();
-    };
-    /*_handleOriginClick = () => {
-      this.close();
-    }*/
-    _handleResize = () => {
-        this._calculatePositioning();
-    };
-    _handleDocumentClick = (e) => {
-        if (e.target.closest(`#${this.el.dataset.target}`) !== this.originEl &&
-            !e.target.closest('.tap-target-wrapper')) {
-            this.close();
-            // e.preventDefault();
-            // e.stopPropagation();
-        }
-    };
-    _setup() {
-        // Creating tap target
-        this.wrapper = this.el.parentElement;
-        this.waveEl = this.wrapper.querySelector('.tap-target-wave');
-        this.el.parentElement.ariaExpanded = 'false';
-        this.originEl.style.zIndex = '1002';
-        // this.originEl = this.wrapper.querySelector('.tap-target-origin');
-        this.contentEl = this.el.querySelector('.tap-target-content');
-        // Creating wrapper
-        if (!this.wrapper.classList.contains('.tap-target-wrapper')) {
-            this.wrapper = document.createElement('div');
-            this.wrapper.classList.add('tap-target-wrapper');
-            this.el.before(this.wrapper);
-            this.wrapper.append(this.el);
-        }
-        // Creating content
-        if (!this.contentEl) {
-            this.contentEl = document.createElement('div');
-            this.contentEl.classList.add('tap-target-content');
-            this.el.append(this.contentEl);
-        }
-        // Creating foreground wave
-        if (!this.waveEl) {
-            this.waveEl = document.createElement('div');
-            this.waveEl.classList.add('tap-target-wave');
-            // Creating origin
-            /*if (!this.originEl) {
-              this.originEl = <HTMLElement>this._origin.cloneNode(true); // .clone(true, true);
-              this.originEl.classList.add('tap-target-origin');
-              this.originEl.removeAttribute('id');
-              this.originEl.removeAttribute('style');
-              this.waveEl.append(this.originEl);
-            }*/
-            this.wrapper.append(this.waveEl);
-        }
-    }
-    _offset(el) {
-        const box = el.getBoundingClientRect();
-        const docElem = document.documentElement;
-        return {
-            top: box.top + window.pageYOffset - docElem.clientTop,
-            left: box.left + window.pageXOffset - docElem.clientLeft
-        };
-    }
-    _calculatePositioning() {
-        // Element or parent is fixed position?
-        let isFixed = getComputedStyle(this.originEl).position === 'fixed';
-        if (!isFixed) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            let currentElem = this.originEl;
-            const parents = [];
-            while ((currentElem = currentElem.parentNode) && currentElem !== document)
-                parents.push(currentElem);
-            for (let i = 0; i < parents.length; i++) {
-                isFixed = getComputedStyle(parents[i]).position === 'fixed';
-                if (isFixed)
-                    break;
-            }
-        }
-        // Calculating origin
-        const originWidth = this.originEl.offsetWidth;
-        const originHeight = this.originEl.offsetHeight;
-        const originTop = isFixed
-            ? this._offset(this.originEl).top - Utils.getDocumentScrollTop()
-            : this._offset(this.originEl).top;
-        const originLeft = isFixed
-            ? this._offset(this.originEl).left - Utils.getDocumentScrollLeft()
-            : this._offset(this.originEl).left;
-        // Calculating screen
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
-        const scrollBarWidth = windowWidth - document.documentElement.clientWidth;
-        const centerX = windowWidth / 2;
-        const centerY = windowHeight / 2;
-        const isLeft = originLeft <= centerX;
-        const isRight = originLeft > centerX;
-        const isTop = originTop <= centerY;
-        const isBottom = originTop > centerY;
-        const isCenterX = originLeft >= windowWidth * 0.25 && originLeft <= windowWidth * 0.75;
-        // Calculating tap target
-        const tapTargetWidth = this.el.offsetWidth;
-        const tapTargetHeight = this.el.offsetHeight;
-        const tapTargetTop = originTop + originHeight / 2 - tapTargetHeight / 2;
-        const tapTargetLeft = originLeft + originWidth / 2 - tapTargetWidth / 2;
-        const tapTargetPosition = isFixed ? 'fixed' : 'absolute';
-        // Calculating content
-        const tapTargetTextWidth = isCenterX ? tapTargetWidth : tapTargetWidth / 2 + originWidth;
-        const tapTargetTextHeight = tapTargetHeight / 2;
-        const tapTargetTextTop = isTop ? tapTargetHeight / 2 : 0;
-        const tapTargetTextBottom = 0;
-        const tapTargetTextLeft = isLeft && !isCenterX ? tapTargetWidth / 2 - originWidth : 0;
-        const tapTargetTextRight = 0;
-        const tapTargetTextPadding = originWidth;
-        const tapTargetTextAlign = isBottom ? 'bottom' : 'top';
-        // Calculating wave
-        const tapTargetWaveWidth = originWidth > originHeight ? originWidth * 2 : originWidth * 2;
-        const tapTargetWaveHeight = tapTargetWaveWidth;
-        const tapTargetWaveTop = tapTargetHeight / 2 - tapTargetWaveHeight / 2;
-        const tapTargetWaveLeft = tapTargetWidth / 2 - tapTargetWaveWidth / 2;
-        // Setting tap target
-        this.wrapper.style.top = isTop ? tapTargetTop + 'px' : '';
-        this.wrapper.style.right = isRight
-            ? windowWidth - tapTargetLeft - tapTargetWidth - scrollBarWidth + 'px'
-            : '';
-        this.wrapper.style.bottom = isBottom
-            ? windowHeight - tapTargetTop - tapTargetHeight + 'px'
-            : '';
-        this.wrapper.style.left = isLeft ? tapTargetLeft + 'px' : '';
-        this.wrapper.style.position = tapTargetPosition;
-        // Setting content
-        this.contentEl.style.width = tapTargetTextWidth + 'px';
-        this.contentEl.style.height = tapTargetTextHeight + 'px';
-        this.contentEl.style.top = tapTargetTextTop + 'px';
-        this.contentEl.style.right = tapTargetTextRight + 'px';
-        this.contentEl.style.bottom = tapTargetTextBottom + 'px';
-        this.contentEl.style.left = tapTargetTextLeft + 'px';
-        this.contentEl.style.padding = tapTargetTextPadding + 'px';
-        this.contentEl.style.verticalAlign = tapTargetTextAlign;
-        // Setting wave
-        this.waveEl.style.top = tapTargetWaveTop + 'px';
-        this.waveEl.style.left = tapTargetWaveLeft + 'px';
-        this.waveEl.style.width = tapTargetWaveWidth + 'px';
-        this.waveEl.style.height = tapTargetWaveHeight + 'px';
-    }
-    /**
-     * Open Tap Target.
-     */
-    open = () => {
-        if (this.isOpen)
-            return;
-        // onOpen callback
-        if (typeof this.options.onOpen === 'function') {
-            this.options.onOpen.call(this, this.originEl);
-        }
-        this.isOpen = true;
-        this.wrapper.classList.add('open');
-        this.wrapper.ariaExpanded = 'true';
-        document.body.addEventListener('click', this._handleDocumentClick, true);
-        document.body.addEventListener('keypress', this._handleDocumentClick, true);
-        document.body.addEventListener('touchend', this._handleDocumentClick);
-    };
-    /**
-     * Close Tap Target.
-     */
-    close = () => {
-        if (!this.isOpen)
-            return;
-        // onClose callback
-        if (typeof this.options.onClose === 'function') {
-            this.options.onClose.call(this, this.originEl);
-        }
-        this.isOpen = false;
-        this.wrapper.classList.remove('open');
-        this.wrapper.ariaExpanded = 'false';
-        document.body.removeEventListener('click', this._handleDocumentClick, true);
-        document.body.removeEventListener('keypress', this._handleDocumentClick, true);
-        document.body.removeEventListener('touchend', this._handleDocumentClick);
-    };
-    static {
-        TapTarget._taptargets = [];
-    }
-}
-
-const _defaults$5 = {
+const _defaults$8 = {
     dialRadius: 135,
     outerRadius: 105,
     innerRadius: 70,
@@ -6340,7 +5976,7 @@ const _defaults$5 = {
     onDone: null,
     onCancel: null,
     displayPlugin: null,
-    displayPluginOptions: null,
+    displayPluginOptions: null
 };
 class Timepicker extends Component {
     id;
@@ -6404,7 +6040,7 @@ class Timepicker extends Component {
         }
     }
     static get defaults() {
-        return _defaults$5;
+        return _defaults$8;
     }
     /**
      * Initializes instances of Timepicker.
@@ -6581,18 +6217,18 @@ class Timepicker extends Component {
         Utils.createButton(this.footer, this.options.i18n.clear, ['timepicker-clear'], this.options.showClearBtn, this.clear);
         if (!this.options.autoSubmit) {
             /*const confirmationBtnsContainer = document.createElement('div');
-            confirmationBtnsContainer.classList.add('confirmation-btns');
-            this.footer.append(confirmationBtnsContainer);
-        
-            const cancelButton = this._createButton(this.options.i18n.cancel, '');
-            cancelButton.classList.add('timepicker-close');
-            cancelButton.addEventListener('click', this.close);
-            confirmationBtnsContainer.appendChild(cancelButton);
-        
-            const doneButton = this._createButton(this.options.i18n.done, '');
-            doneButton.classList.add('timepicker-close');
-            //doneButton.addEventListener('click', this._finishSelection);
-            confirmationBtnsContainer.appendChild(doneButton);*/
+          confirmationBtnsContainer.classList.add('confirmation-btns');
+          this.footer.append(confirmationBtnsContainer);
+      
+          const cancelButton = this._createButton(this.options.i18n.cancel, '');
+          cancelButton.classList.add('timepicker-close');
+          cancelButton.addEventListener('click', this.close);
+          confirmationBtnsContainer.appendChild(cancelButton);
+      
+          const doneButton = this._createButton(this.options.i18n.done, '');
+          doneButton.classList.add('timepicker-close');
+          //doneButton.addEventListener('click', this._finishSelection);
+          confirmationBtnsContainer.appendChild(doneButton);*/
             Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this.confirm, this.cancel);
         }
         this._updateTimeFromInput();
@@ -6990,7 +6626,242 @@ class Timepicker extends Component {
     }
 }
 
-const _defaults$4 = {
+const _defaults$7 = {
+    text: '',
+    displayLength: 4000,
+    inDuration: 300,
+    outDuration: 375,
+    classes: '',
+    completeCallback: null,
+    activationPercent: 0.8
+};
+class Toast {
+    /** The toast element. */
+    el;
+    /**
+     * The remaining amount of time in ms that the toast
+     * will stay before dismissal.
+     */
+    timeRemaining;
+    /**
+     * Describes the current pan state of the Toast.
+     */
+    panning;
+    options;
+    message;
+    counterInterval;
+    wasSwiped;
+    startingXPos;
+    xPos;
+    time;
+    deltaX;
+    velocityX;
+    static _toasts;
+    static _container;
+    static _draggedToast;
+    constructor(options) {
+        this.options = {
+            ...Toast.defaults,
+            ...options
+        };
+        this.message = this.options.text;
+        this.panning = false;
+        this.timeRemaining = this.options.displayLength;
+        if (Toast._toasts.length === 0) {
+            Toast._createContainer();
+        }
+        // Create new toast
+        Toast._toasts.push(this);
+        const toastElement = this._createToast();
+        toastElement['M_Toast'] = this;
+        this.el = toastElement;
+        this._animateIn();
+        this._setTimer();
+    }
+    static get defaults() {
+        return _defaults$7;
+    }
+    static getInstance(el) {
+        return el['M_Toast'];
+    }
+    static _createContainer() {
+        const container = document.createElement('div');
+        container.setAttribute('id', 'toast-container');
+        // Add event handler
+        container.addEventListener('touchstart', Toast._onDragStart);
+        container.addEventListener('touchmove', Toast._onDragMove);
+        container.addEventListener('touchend', Toast._onDragEnd);
+        container.addEventListener('mousedown', Toast._onDragStart);
+        document.addEventListener('mousemove', Toast._onDragMove);
+        document.addEventListener('mouseup', Toast._onDragEnd);
+        document.body.appendChild(container);
+        Toast._container = container;
+    }
+    static _removeContainer() {
+        document.removeEventListener('mousemove', Toast._onDragMove);
+        document.removeEventListener('mouseup', Toast._onDragEnd);
+        Toast._container.remove();
+        Toast._container = null;
+    }
+    static _onDragStart(e) {
+        if (e.target && e.target.closest('.toast')) {
+            const toastElem = e.target.closest('.toast');
+            const toast = toastElem['M_Toast'];
+            toast.panning = true;
+            Toast._draggedToast = toast;
+            toast.el.classList.add('panning');
+            toast.el.style.transition = '';
+            toast.startingXPos = Toast._xPos(e);
+            toast.time = Date.now();
+            toast.xPos = Toast._xPos(e);
+        }
+    }
+    static _onDragMove(e) {
+        if (!!Toast._draggedToast) {
+            e.preventDefault();
+            const toast = Toast._draggedToast;
+            toast.deltaX = Math.abs(toast.xPos - Toast._xPos(e));
+            toast.xPos = Toast._xPos(e);
+            toast.velocityX = toast.deltaX / (Date.now() - toast.time);
+            toast.time = Date.now();
+            const totalDeltaX = toast.xPos - toast.startingXPos;
+            const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
+            toast.el.style.transform = `translateX(${totalDeltaX}px)`;
+            toast.el.style.opacity = (1 - Math.abs(totalDeltaX / activationDistance)).toString();
+        }
+    }
+    static _onDragEnd() {
+        if (!!Toast._draggedToast) {
+            const toast = Toast._draggedToast;
+            toast.panning = false;
+            toast.el.classList.remove('panning');
+            const totalDeltaX = toast.xPos - toast.startingXPos;
+            const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
+            const shouldBeDismissed = Math.abs(totalDeltaX) > activationDistance || toast.velocityX > 1;
+            // Remove toast
+            if (shouldBeDismissed) {
+                toast.wasSwiped = true;
+                toast.dismiss();
+                // Animate toast back to original position
+            }
+            else {
+                toast.el.style.transition = 'transform .2s, opacity .2s';
+                toast.el.style.transform = '';
+                toast.el.style.opacity = '';
+            }
+            Toast._draggedToast = null;
+        }
+    }
+    static _xPos(e) {
+        if (e.type.startsWith('touch') && e.targetTouches.length >= 1) {
+            return e.targetTouches[0].clientX;
+        }
+        // mouse event
+        return e.clientX;
+    }
+    /**
+     * dismiss all toasts.
+     */
+    static dismissAll() {
+        for (const toastIndex in Toast._toasts) {
+            Toast._toasts[toastIndex].dismiss();
+        }
+    }
+    _createToast() {
+        let toast = this.options.toastId
+            ? document.getElementById(this.options.toastId)
+            : document.createElement('div');
+        if (toast instanceof HTMLTemplateElement) {
+            const node = toast.content.cloneNode(true);
+            toast = node.firstElementChild;
+        }
+        toast.classList.add('toast');
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+        // Add custom classes onto toast
+        if (this.options.classes.length > 0) {
+            toast.classList.add(...this.options.classes.split(' '));
+        }
+        if (this.message)
+            toast.innerText = this.message;
+        Toast._container.appendChild(toast);
+        return toast;
+    }
+    _animateIn() {
+        // Animate toast in
+        this.el.style.display = '';
+        this.el.style.opacity = '0';
+        // easeOutCubic
+        this.el.style.transition = `
+      top ${this.options.inDuration}ms ease,
+      opacity ${this.options.inDuration}ms ease
+    `;
+        setTimeout(() => {
+            this.el.style.top = '0';
+            this.el.style.opacity = '1';
+        }, 1);
+    }
+    /**
+     * Create setInterval which automatically removes toast when timeRemaining >= 0
+     * has been reached.
+     */
+    _setTimer() {
+        if (this.timeRemaining !== Infinity) {
+            this.counterInterval = setInterval(() => {
+                // If toast is not being dragged, decrease its time remaining
+                if (!this.panning) {
+                    this.timeRemaining -= 20;
+                }
+                // Animate toast out
+                if (this.timeRemaining <= 0) {
+                    this.dismiss();
+                }
+            }, 20);
+        }
+    }
+    /**
+     * Dismiss toast with animation.
+     */
+    dismiss() {
+        clearInterval(this.counterInterval);
+        const activationDistance = this.el.offsetWidth * this.options.activationPercent;
+        if (this.wasSwiped) {
+            this.el.style.transition = 'transform .05s, opacity .05s';
+            this.el.style.transform = `translateX(${activationDistance}px)`;
+            this.el.style.opacity = '0';
+        }
+        // easeOutExpo
+        this.el.style.transition = `
+      margin ${this.options.outDuration}ms ease,
+      opacity ${this.options.outDuration}ms ease`;
+        setTimeout(() => {
+            this.el.style.opacity = '0';
+            this.el.style.marginTop = '-40px';
+        }, 1);
+        setTimeout(() => {
+            // Call the optional callback
+            if (typeof this.options.completeCallback === 'function') {
+                this.options.completeCallback();
+            }
+            // Remove toast from DOM
+            if (this.el.id != this.options.toastId) {
+                this.el.remove();
+                Toast._toasts.splice(Toast._toasts.indexOf(this), 1);
+                if (Toast._toasts.length === 0) {
+                    Toast._removeContainer();
+                }
+            }
+        }, this.options.outDuration);
+    }
+    static {
+        Toast._toasts = [];
+        Toast._container = null;
+        Toast._draggedToast = null;
+    }
+}
+
+const _defaults$6 = {
     exitDelay: 200,
     enterDelay: 0,
     text: '',
@@ -7034,7 +6905,7 @@ class Tooltip extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$4;
+        return _defaults$6;
     }
     /**
      * Initializes instances of Tooltip.
@@ -7259,72 +7130,7 @@ class Tooltip extends Component {
     }
 }
 
-class Waves {
-    static _offset(el) {
-        const box = el.getBoundingClientRect();
-        const docElem = document.documentElement;
-        return {
-            top: box.top + window.pageYOffset - docElem.clientTop,
-            left: box.left + window.pageXOffset - docElem.clientLeft
-        };
-    }
-    // https://phoenix-dx.com/css-techniques-for-material-ripple-effect/
-    static renderWaveEffect(targetElement, position = null, color = null) {
-        const isCentered = position === null;
-        const duration = 500;
-        let animationFrame, animationStart;
-        const animationStep = function (timestamp) {
-            if (!animationStart) {
-                animationStart = timestamp;
-            }
-            const frame = timestamp - animationStart;
-            if (frame < duration) {
-                const easing = (frame / duration) * (2 - frame / duration);
-                const circle = isCentered
-                    ? 'circle at 50% 50%'
-                    : `circle at ${position.x}px ${position.y}px`;
-                const waveColor = `rgba(${color?.r || 0}, ${color?.g || 0}, ${color?.b || 0}, ${0.3 * (1 - easing)})`;
-                const stop = 90 * easing + '%';
-                targetElement.style.backgroundImage =
-                    'radial-gradient(' +
-                        circle +
-                        ', ' +
-                        waveColor +
-                        ' ' +
-                        stop +
-                        ', transparent ' +
-                        stop +
-                        ')';
-                animationFrame = window.requestAnimationFrame(animationStep);
-            }
-            else {
-                targetElement.style.backgroundImage = 'none';
-                window.cancelAnimationFrame(animationFrame);
-            }
-        };
-        animationFrame = window.requestAnimationFrame(animationStep);
-    }
-    static Init() {
-        if (typeof document !== 'undefined')
-            document?.addEventListener('DOMContentLoaded', () => {
-                document.body.addEventListener('click', (e) => {
-                    const trigger = e.target;
-                    const el = trigger.closest('.waves-effect');
-                    if (el && el.contains(trigger)) {
-                        const isCircular = el.classList.contains('waves-circle');
-                        const x = e.pageX - Waves._offset(el).left;
-                        const y = e.pageY - Waves._offset(el).top;
-                        let color = null;
-                        if (el.classList.contains('waves-light'))
-                            color = { r: 255, g: 255, b: 255 };
-                        Waves.renderWaveEffect(el, isCircular ? null : { x, y }, color);
-                    }
-                });
-            });
-    }
-}
-
-const _defaults$3 = {};
+const _defaults$5 = {};
 // TODO: !!!!!
 class Range extends Component {
     _mousedown;
@@ -7342,7 +7148,7 @@ class Range extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$3;
+        return _defaults$5;
     }
     /**
      * Initializes instances of Range.
@@ -7493,7 +7299,262 @@ class Range extends Component {
     }
 }
 
-const _defaults$2 = Object.freeze({});
+const _defaults$4 = {
+    onOpen: null,
+    onClose: null
+};
+class TapTarget extends Component {
+    /**
+     * If the tap target is open.
+     */
+    isOpen;
+    static _taptargets;
+    wrapper;
+    // private _origin: HTMLElement;
+    originEl;
+    waveEl;
+    contentEl;
+    constructor(el, options) {
+        super(el, options, TapTarget);
+        this.el['M_TapTarget'] = this;
+        this.options = {
+            ...TapTarget.defaults,
+            ...options
+        };
+        this.isOpen = false;
+        // setup
+        this.originEl = document.querySelector(`#${el.dataset.target}`);
+        this.originEl.tabIndex = 0;
+        this._setup();
+        this._calculatePositioning();
+        this._setupEventHandlers();
+        TapTarget._taptargets.push(this);
+    }
+    static get defaults() {
+        return _defaults$4;
+    }
+    /**
+     * Initializes instances of TapTarget.
+     * @param els HTML elements.
+     * @param options Component options.
+     */
+    static init(els, options = {}) {
+        return super.init(els, options, TapTarget);
+    }
+    static getInstance(el) {
+        return el['M_TapTarget'];
+    }
+    destroy() {
+        this._removeEventHandlers();
+        this.el['M_TapTarget'] = undefined;
+        const index = TapTarget._taptargets.indexOf(this);
+        if (index >= 0) {
+            TapTarget._taptargets.splice(index, 1);
+        }
+    }
+    _setupEventHandlers() {
+        this.originEl.addEventListener('click', this._handleTargetToggle);
+        this.originEl.addEventListener('keypress', this._handleKeyboardInteraction, true);
+        // this.originEl.addEventListener('click', this._handleOriginClick);
+        // Resize
+        window.addEventListener('resize', this._handleThrottledResize);
+    }
+    _removeEventHandlers() {
+        this.originEl.removeEventListener('click', this._handleTargetToggle);
+        this.originEl.removeEventListener('keypress', this._handleKeyboardInteraction, true);
+        // this.originEl.removeEventListener('click', this._handleOriginClick);
+        window.removeEventListener('resize', this._handleThrottledResize);
+    }
+    _handleThrottledResize = () => Utils.throttle(this._handleResize, 200).bind(this);
+    _handleKeyboardInteraction = (e) => {
+        if (Utils.keys.ENTER.includes(e.key)) {
+            this._handleTargetToggle();
+        }
+    };
+    _handleTargetToggle = () => {
+        if (!this.isOpen)
+            this.open();
+        else
+            this.close();
+    };
+    /*_handleOriginClick = () => {
+      this.close();
+    }*/
+    _handleResize = () => {
+        this._calculatePositioning();
+    };
+    _handleDocumentClick = (e) => {
+        if (e.target.closest(`#${this.el.dataset.target}`) !== this.originEl &&
+            !e.target.closest('.tap-target-wrapper')) {
+            this.close();
+            // e.preventDefault();
+            // e.stopPropagation();
+        }
+    };
+    _setup() {
+        // Creating tap target
+        this.wrapper = this.el.parentElement;
+        this.waveEl = this.wrapper.querySelector('.tap-target-wave');
+        this.el.parentElement.ariaExpanded = 'false';
+        this.originEl.style.zIndex = '1002';
+        // this.originEl = this.wrapper.querySelector('.tap-target-origin');
+        this.contentEl = this.el.querySelector('.tap-target-content');
+        // Creating wrapper
+        if (!this.wrapper.classList.contains('.tap-target-wrapper')) {
+            this.wrapper = document.createElement('div');
+            this.wrapper.classList.add('tap-target-wrapper');
+            this.el.before(this.wrapper);
+            this.wrapper.append(this.el);
+        }
+        // Creating content
+        if (!this.contentEl) {
+            this.contentEl = document.createElement('div');
+            this.contentEl.classList.add('tap-target-content');
+            this.el.append(this.contentEl);
+        }
+        // Creating foreground wave
+        if (!this.waveEl) {
+            this.waveEl = document.createElement('div');
+            this.waveEl.classList.add('tap-target-wave');
+            // Creating origin
+            /*if (!this.originEl) {
+              this.originEl = <HTMLElement>this._origin.cloneNode(true); // .clone(true, true);
+              this.originEl.classList.add('tap-target-origin');
+              this.originEl.removeAttribute('id');
+              this.originEl.removeAttribute('style');
+              this.waveEl.append(this.originEl);
+            }*/
+            this.wrapper.append(this.waveEl);
+        }
+    }
+    _offset(el) {
+        const box = el.getBoundingClientRect();
+        const docElem = document.documentElement;
+        return {
+            top: box.top + window.pageYOffset - docElem.clientTop,
+            left: box.left + window.pageXOffset - docElem.clientLeft
+        };
+    }
+    _calculatePositioning() {
+        // Element or parent is fixed position?
+        let isFixed = getComputedStyle(this.originEl).position === 'fixed';
+        if (!isFixed) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            let currentElem = this.originEl;
+            const parents = [];
+            while ((currentElem = currentElem.parentNode) && currentElem !== document)
+                parents.push(currentElem);
+            for (let i = 0; i < parents.length; i++) {
+                isFixed = getComputedStyle(parents[i]).position === 'fixed';
+                if (isFixed)
+                    break;
+            }
+        }
+        // Calculating origin
+        const originWidth = this.originEl.offsetWidth;
+        const originHeight = this.originEl.offsetHeight;
+        const originTop = isFixed
+            ? this._offset(this.originEl).top - Utils.getDocumentScrollTop()
+            : this._offset(this.originEl).top;
+        const originLeft = isFixed
+            ? this._offset(this.originEl).left - Utils.getDocumentScrollLeft()
+            : this._offset(this.originEl).left;
+        // Calculating screen
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const scrollBarWidth = windowWidth - document.documentElement.clientWidth;
+        const centerX = windowWidth / 2;
+        const centerY = windowHeight / 2;
+        const isLeft = originLeft <= centerX;
+        const isRight = originLeft > centerX;
+        const isTop = originTop <= centerY;
+        const isBottom = originTop > centerY;
+        const isCenterX = originLeft >= windowWidth * 0.25 && originLeft <= windowWidth * 0.75;
+        // Calculating tap target
+        const tapTargetWidth = this.el.offsetWidth;
+        const tapTargetHeight = this.el.offsetHeight;
+        const tapTargetTop = originTop + originHeight / 2 - tapTargetHeight / 2;
+        const tapTargetLeft = originLeft + originWidth / 2 - tapTargetWidth / 2;
+        const tapTargetPosition = isFixed ? 'fixed' : 'absolute';
+        // Calculating content
+        const tapTargetTextWidth = isCenterX ? tapTargetWidth : tapTargetWidth / 2 + originWidth;
+        const tapTargetTextHeight = tapTargetHeight / 2;
+        const tapTargetTextTop = isTop ? tapTargetHeight / 2 : 0;
+        const tapTargetTextBottom = 0;
+        const tapTargetTextLeft = isLeft && !isCenterX ? tapTargetWidth / 2 - originWidth : 0;
+        const tapTargetTextRight = 0;
+        const tapTargetTextPadding = originWidth;
+        const tapTargetTextAlign = isBottom ? 'bottom' : 'top';
+        // Calculating wave
+        const tapTargetWaveWidth = originWidth > originHeight ? originWidth * 2 : originWidth * 2;
+        const tapTargetWaveHeight = tapTargetWaveWidth;
+        const tapTargetWaveTop = tapTargetHeight / 2 - tapTargetWaveHeight / 2;
+        const tapTargetWaveLeft = tapTargetWidth / 2 - tapTargetWaveWidth / 2;
+        // Setting tap target
+        this.wrapper.style.top = isTop ? tapTargetTop + 'px' : '';
+        this.wrapper.style.right = isRight
+            ? windowWidth - tapTargetLeft - tapTargetWidth - scrollBarWidth + 'px'
+            : '';
+        this.wrapper.style.bottom = isBottom
+            ? windowHeight - tapTargetTop - tapTargetHeight + 'px'
+            : '';
+        this.wrapper.style.left = isLeft ? tapTargetLeft + 'px' : '';
+        this.wrapper.style.position = tapTargetPosition;
+        // Setting content
+        this.contentEl.style.width = tapTargetTextWidth + 'px';
+        this.contentEl.style.height = tapTargetTextHeight + 'px';
+        this.contentEl.style.top = tapTargetTextTop + 'px';
+        this.contentEl.style.right = tapTargetTextRight + 'px';
+        this.contentEl.style.bottom = tapTargetTextBottom + 'px';
+        this.contentEl.style.left = tapTargetTextLeft + 'px';
+        this.contentEl.style.padding = tapTargetTextPadding + 'px';
+        this.contentEl.style.verticalAlign = tapTargetTextAlign;
+        // Setting wave
+        this.waveEl.style.top = tapTargetWaveTop + 'px';
+        this.waveEl.style.left = tapTargetWaveLeft + 'px';
+        this.waveEl.style.width = tapTargetWaveWidth + 'px';
+        this.waveEl.style.height = tapTargetWaveHeight + 'px';
+    }
+    /**
+     * Open Tap Target.
+     */
+    open = () => {
+        if (this.isOpen)
+            return;
+        // onOpen callback
+        if (typeof this.options.onOpen === 'function') {
+            this.options.onOpen.call(this, this.originEl);
+        }
+        this.isOpen = true;
+        this.wrapper.classList.add('open');
+        this.wrapper.ariaExpanded = 'true';
+        document.body.addEventListener('click', this._handleDocumentClick, true);
+        document.body.addEventListener('keypress', this._handleDocumentClick, true);
+        document.body.addEventListener('touchend', this._handleDocumentClick);
+    };
+    /**
+     * Close Tap Target.
+     */
+    close = () => {
+        if (!this.isOpen)
+            return;
+        // onClose callback
+        if (typeof this.options.onClose === 'function') {
+            this.options.onClose.call(this, this.originEl);
+        }
+        this.isOpen = false;
+        this.wrapper.classList.remove('open');
+        this.wrapper.ariaExpanded = 'false';
+        document.body.removeEventListener('click', this._handleDocumentClick, true);
+        document.body.removeEventListener('keypress', this._handleDocumentClick, true);
+        document.body.removeEventListener('touchend', this._handleDocumentClick);
+    };
+    static {
+        TapTarget._taptargets = [];
+    }
+}
+
+const _defaults$3 = Object.freeze({});
 class CharacterCounter extends Component {
     /** Stores the reference to the counter HTML element. */
     counterEl;
@@ -7514,7 +7575,7 @@ class CharacterCounter extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$2;
+        return _defaults$3;
     }
     /**
      * Initializes instances of CharacterCounter.
@@ -7574,577 +7635,523 @@ class CharacterCounter extends Component {
     }
 }
 
-const _defaults$1 = {
-    indicators: true,
-    height: 400,
-    duration: 500,
-    interval: 6000,
-    pauseOnFocus: true,
-    pauseOnHover: true,
-    indicatorLabelFunc: null // Function which will generate a label for the indicators (ARIA)
+const _defaults$2 = {
+    responsiveThreshold: 0 // breakpoint for swipeable
 };
-class Slider extends Component {
-    /** Index of current slide. */
-    activeIndex;
-    interval;
-    eventPause;
-    _slider;
-    _slides;
-    _activeSlide;
-    _indicators;
-    _hovered;
-    _focused;
-    _focusCurrent;
-    _sliderId;
+class Parallax extends Component {
+    _enabled;
+    _img;
+    static _parallaxes = [];
+    static _handleScrollThrottled;
+    static _handleWindowResizeThrottled;
     constructor(el, options) {
-        super(el, options, Slider);
-        this.el['M_Slider'] = this;
+        super(el, options, Parallax);
+        this.el['M_Parallax'] = this;
         this.options = {
-            ...Slider.defaults,
+            ...Parallax.defaults,
             ...options
         };
-        // init props
-        this.interval = null;
-        this.eventPause = false;
-        this._hovered = false;
-        this._focused = false;
-        this._focusCurrent = false;
-        // setup
-        this._slider = this.el.querySelector('.slides');
-        this._slides = Array.from(this._slider.querySelectorAll('li'));
-        this.activeIndex = this._slides.findIndex((li) => li.classList.contains('active'));
-        if (this.activeIndex !== -1) {
-            this._activeSlide = this._slides[this.activeIndex];
-        }
-        this._setSliderHeight();
-        // Sets element id if it does not have one
-        if (this._slider.hasAttribute('id'))
-            this._sliderId = this._slider.getAttribute('id');
-        else {
-            this._sliderId = 'slider-' + Utils.guid();
-            this._slider.setAttribute('id', this._sliderId);
-        }
-        const placeholderBase64 = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-        // Set initial positions of captions
-        this._slides.forEach((slide) => {
-            // Caption
-            //const caption = <HTMLElement|null>slide.querySelector('.caption');
-            //if (caption) this._animateCaptionIn(caption, 0);
-            // Set Images as Background Images
-            const img = slide.querySelector('img');
-            if (img) {
-                if (img.src !== placeholderBase64) {
-                    img.style.backgroundImage = 'url(' + img.src + ')';
-                    img.src = placeholderBase64;
-                }
-            }
-            // Sets slide as focusable by code
-            if (!slide.hasAttribute('tabindex'))
-                slide.setAttribute('tabindex', '-1');
-            // Removes initial visibility from "inactive" slides
-            slide.style.visibility = 'hidden';
-        });
-        this._setupIndicators();
-        // Show active slide
-        if (this._activeSlide) {
-            this._activeSlide.style.display = 'block';
-            this._activeSlide.style.visibility = 'visible';
-        }
-        else {
-            this.activeIndex = 0;
-            this._slides[0].classList.add('active');
-            this._slides[0].style.visibility = 'visible';
-            this._activeSlide = this._slides[0];
-            this._animateSlide(this._slides[0], true);
-            // Update indicators
-            if (this.options.indicators) {
-                this._indicators[this.activeIndex].children[0].classList.add('active');
-            }
-        }
+        this._enabled = window.innerWidth > this.options.responsiveThreshold;
+        this._img = this.el.querySelector('img');
+        this._updateParallax();
         this._setupEventHandlers();
-        // auto scroll
-        this.start();
+        this._setupStyles();
+        Parallax._parallaxes.push(this);
+    }
+    static get defaults() {
+        return _defaults$2;
+    }
+    /**
+     * Initializes instances of Parallax.
+     * @param els HTML elements.
+     * @param options Component options.
+     */
+    static init(els, options = {}) {
+        return super.init(els, options, Parallax);
+    }
+    static getInstance(el) {
+        return el['M_Parallax'];
+    }
+    destroy() {
+        Parallax._parallaxes.splice(Parallax._parallaxes.indexOf(this), 1);
+        this._img.style.transform = '';
+        this._removeEventHandlers();
+        this.el['M_Parallax'] = undefined;
+    }
+    static _handleScroll() {
+        for (let i = 0; i < Parallax._parallaxes.length; i++) {
+            const parallaxInstance = Parallax._parallaxes[i];
+            parallaxInstance._updateParallax.call(parallaxInstance);
+        }
+    }
+    static _handleWindowResize() {
+        for (let i = 0; i < Parallax._parallaxes.length; i++) {
+            const parallaxInstance = Parallax._parallaxes[i];
+            parallaxInstance._enabled = window.innerWidth > parallaxInstance.options.responsiveThreshold;
+        }
+    }
+    _setupEventHandlers() {
+        this._img.addEventListener('load', this._handleImageLoad);
+        if (Parallax._parallaxes.length === 0) {
+            if (!Parallax._handleScrollThrottled) {
+                Parallax._handleScrollThrottled = Utils.throttle(Parallax._handleScroll, 5);
+            }
+            if (!Parallax._handleWindowResizeThrottled) {
+                Parallax._handleWindowResizeThrottled = Utils.throttle(Parallax._handleWindowResize, 5);
+            }
+            window.addEventListener('scroll', Parallax._handleScrollThrottled);
+            window.addEventListener('resize', Parallax._handleWindowResizeThrottled);
+        }
+    }
+    _removeEventHandlers() {
+        this._img.removeEventListener('load', this._handleImageLoad);
+        if (Parallax._parallaxes.length === 0) {
+            window.removeEventListener('scroll', Parallax._handleScrollThrottled);
+            window.removeEventListener('resize', Parallax._handleWindowResizeThrottled);
+        }
+    }
+    _setupStyles() {
+        this._img.style.opacity = '1';
+    }
+    _handleImageLoad = () => {
+        this._updateParallax();
+    };
+    _offset(el) {
+        const box = el.getBoundingClientRect();
+        const docElem = document.documentElement;
+        return {
+            top: box.top + window.scrollY - docElem.clientTop,
+            left: box.left + window.scrollX - docElem.clientLeft
+        };
+    }
+    _updateParallax() {
+        const containerHeight = this.el.getBoundingClientRect().height > 0 ? this.el.parentElement.offsetHeight : 500;
+        const imgHeight = this._img.offsetHeight;
+        const parallaxDist = imgHeight - containerHeight;
+        const bottom = this._offset(this.el).top + containerHeight;
+        const top = this._offset(this.el).top;
+        const scrollTop = Utils.getDocumentScrollTop();
+        const windowHeight = window.innerHeight;
+        const windowBottom = scrollTop + windowHeight;
+        const percentScrolled = (windowBottom - top) / (containerHeight + windowHeight);
+        const parallax = parallaxDist * percentScrolled;
+        if (!this._enabled) {
+            this._img.style.transform = '';
+        }
+        else if (bottom > scrollTop && top < scrollTop + windowHeight) {
+            this._img.style.transform = `translate3D(-50%, ${parallax}px, 0)`;
+        }
+    }
+}
+
+const _defaults$1 = {
+    top: 0,
+    bottom: Infinity,
+    offset: 0,
+    onPositionChange: null
+};
+class Pushpin extends Component {
+    static _pushpins;
+    originalOffset;
+    constructor(el, options) {
+        super(el, options, Pushpin);
+        this.el['M_Pushpin'] = this;
+        this.options = {
+            ...Pushpin.defaults,
+            ...options
+        };
+        this.originalOffset = this.el.offsetTop;
+        Pushpin._pushpins.push(this);
+        this._setupEventHandlers();
+        this._updatePosition();
     }
     static get defaults() {
         return _defaults$1;
     }
     /**
-     * Initializes instances of Slider.
+     * Initializes instances of Pushpin.
      * @param els HTML elements.
      * @param options Component options.
      */
     static init(els, options = {}) {
-        return super.init(els, options, Slider);
+        return super.init(els, options, Pushpin);
     }
     static getInstance(el) {
-        return el['M_Slider'];
+        return el['M_Pushpin'];
     }
     destroy() {
-        this.pause();
-        this._removeIndicators();
-        this._removeEventHandlers();
-        this.el['M_Slider'] = undefined;
+        this.el.style.top = null;
+        this._removePinClasses();
+        // Remove pushpin Inst
+        const index = Pushpin._pushpins.indexOf(this);
+        Pushpin._pushpins.splice(index, 1);
+        if (Pushpin._pushpins.length === 0) {
+            this._removeEventHandlers();
+        }
+        this.el['M_Pushpin'] = undefined;
+    }
+    static _updateElements() {
+        for (const elIndex in Pushpin._pushpins) {
+            const pInstance = Pushpin._pushpins[elIndex];
+            pInstance._updatePosition();
+        }
     }
     _setupEventHandlers() {
-        if (this.options.pauseOnFocus) {
-            this.el.addEventListener('focusin', this._handleAutoPauseFocus);
-            this.el.addEventListener('focusout', this._handleAutoStartFocus);
-        }
-        if (this.options.pauseOnHover) {
-            this.el.addEventListener('mouseenter', this._handleAutoPauseHover);
-            this.el.addEventListener('mouseleave', this._handleAutoStartHover);
-        }
-        if (this.options.indicators) {
-            this._indicators.forEach((el) => {
-                el.addEventListener('click', this._handleIndicatorClick);
-            });
-        }
+        document.addEventListener('scroll', Pushpin._updateElements);
     }
     _removeEventHandlers() {
-        if (this.options.pauseOnFocus) {
-            this.el.removeEventListener('focusin', this._handleAutoPauseFocus);
-            this.el.removeEventListener('focusout', this._handleAutoStartFocus);
-        }
-        if (this.options.pauseOnHover) {
-            this.el.removeEventListener('mouseenter', this._handleAutoPauseHover);
-            this.el.removeEventListener('mouseleave', this._handleAutoStartHover);
-        }
-        if (this.options.indicators) {
-            this._indicators.forEach((el) => {
-                el.removeEventListener('click', this._handleIndicatorClick);
-            });
-        }
+        document.removeEventListener('scroll', Pushpin._updateElements);
     }
-    _handleIndicatorClick = (e) => {
-        const el = e.target.parentElement;
-        const currIndex = [...el.parentNode.children].indexOf(el);
-        this._focusCurrent = true;
-        this.set(currIndex);
-    };
-    _handleAutoPauseHover = () => {
-        this._hovered = true;
-        if (this.interval != null) {
-            this._pause(true);
-        }
-    };
-    _handleAutoPauseFocus = () => {
-        this._focused = true;
-        if (this.interval != null) {
-            this._pause(true);
-        }
-    };
-    _handleAutoStartHover = () => {
-        this._hovered = false;
-        if (!(this.options.pauseOnFocus && this._focused) && this.eventPause) {
-            this.start();
-        }
-    };
-    _handleAutoStartFocus = () => {
-        this._focused = false;
-        if (!(this.options.pauseOnHover && this._hovered) && this.eventPause) {
-            this.start();
-        }
-    };
-    _handleInterval = () => {
-        const activeElem = this._slider.querySelector('.active');
-        let newActiveIndex = [...activeElem.parentNode.children].indexOf(activeElem);
-        if (this._slides.length === newActiveIndex + 1)
-            newActiveIndex = 0; // loop to start
-        else
-            newActiveIndex += 1;
-        this.set(newActiveIndex);
-    };
-    _animateSlide(slide, isDirectionIn) {
-        let dx = 0, dy = 0;
-        // from
-        slide.style.opacity = isDirectionIn ? '0' : '1';
-        setTimeout(() => {
-            slide.style.transition = `opacity ${this.options.duration}ms ease`;
-            // to
-            slide.style.opacity = isDirectionIn ? '1' : '0';
-        }, 1);
-        // Caption
-        const caption = slide.querySelector('.caption');
-        if (!caption)
-            return;
-        if (caption.classList.contains('center-align'))
-            dy = -100;
-        else if (caption.classList.contains('right-align'))
-            dx = 100;
-        else if (caption.classList.contains('left-align'))
-            dx = -100;
-        // from
-        caption.style.opacity = isDirectionIn ? '0' : '1';
-        caption.style.transform = isDirectionIn ? `translate(${dx}px, ${dy}px)` : `translate(0, 0)`;
-        setTimeout(() => {
-            caption.style.transition = `opacity ${this.options.duration}ms ease, transform ${this.options.duration}ms ease`;
-            // to
-            caption.style.opacity = isDirectionIn ? '1' : '0';
-            caption.style.transform = isDirectionIn ? `translate(0, 0)` : `translate(${dx}px, ${dy}px)`;
-        }, this.options.duration); // delay
-    }
-    _setSliderHeight() {
-        // If fullscreen, do nothing
-        if (!this.el.classList.contains('fullscreen')) {
-            if (this.options.indicators) {
-                // Add height if indicators are present
-                this.el.style.height = this.options.height + 40 + 'px'; //.css('height', this.options.height + 40 + 'px');
-            }
-            else {
-                this.el.style.height = this.options.height + 'px';
-            }
-            this._slider.style.height = this.options.height + 'px';
-        }
-    }
-    _setupIndicators() {
-        if (this.options.indicators) {
-            const ul = document.createElement('ul');
-            ul.classList.add('indicators');
-            const arrLi = [];
-            this._slides.forEach((el, i) => {
-                const label = this.options.indicatorLabelFunc
-                    ? this.options.indicatorLabelFunc.call(this, i + 1, i === 0)
-                    : `${i + 1}`;
-                const li = document.createElement('li');
-                li.classList.add('indicator-item');
-                li.innerHTML = `<button type="button" class="indicator-item-btn" aria-label="${label}" aria-controls="${this._sliderId}"></button>`;
-                arrLi.push(li);
-                ul.append(li);
-            });
-            this.el.append(ul);
-            this._indicators = arrLi;
-        }
-    }
-    _removeIndicators() {
-        this.el.querySelector('ul.indicators').remove(); //find('ul.indicators').remove();
-    }
-    set(index) {
-        // Wrap around indices.
-        if (index >= this._slides.length)
-            index = 0;
-        else if (index < 0)
-            index = this._slides.length - 1;
-        // Only do if index changes
-        if (this.activeIndex === index)
-            return;
-        this._activeSlide = this._slides[this.activeIndex];
-        const _caption = this._activeSlide.querySelector('.caption');
-        this._activeSlide.classList.remove('active');
-        // Enables every slide
-        this._slides.forEach((slide) => (slide.style.visibility = 'visible'));
-        //--- Hide active Slide + Caption
-        this._activeSlide.style.opacity = '0';
-        setTimeout(() => {
-            this._slides.forEach((slide) => {
-                if (slide.classList.contains('active'))
-                    return;
-                slide.style.opacity = '0';
-                slide.style.transform = 'translate(0, 0)';
-                // Disables invisible slides (for assistive technologies)
-                slide.style.visibility = 'hidden';
-            });
-        }, this.options.duration);
-        // Hide active Caption
-        //this._animateCaptionIn(_caption, this.options.duration);
-        _caption.style.opacity = '0';
-        // Update indicators
-        if (this.options.indicators) {
-            const activeIndicator = this._indicators[this.activeIndex].children[0];
-            const nextIndicator = this._indicators[index].children[0];
-            activeIndicator.classList.remove('active');
-            nextIndicator.classList.add('active');
-            if (typeof this.options.indicatorLabelFunc === 'function') {
-                activeIndicator.ariaLabel = this.options.indicatorLabelFunc.call(this, this.activeIndex, false);
-                nextIndicator.ariaLabel = this.options.indicatorLabelFunc.call(this, index, true);
+    _updatePosition() {
+        const scrolled = Utils.getDocumentScrollTop() + this.options.offset;
+        if (this.options.top <= scrolled &&
+            this.options.bottom >= scrolled &&
+            !this.el.classList.contains('pinned')) {
+            this._removePinClasses();
+            this.el.style.top = `${this.options.offset}px`;
+            this.el.classList.add('pinned');
+            // onPositionChange callback
+            if (typeof this.options.onPositionChange === 'function') {
+                this.options.onPositionChange.call(this, 'pinned');
             }
         }
-        //--- Show new Slide + Caption
-        this._animateSlide(this._slides[index], true);
-        this._slides[index].classList.add('active');
-        this.activeIndex = index;
-        // Reset interval, if allowed. This check prevents autostart
-        // when slider is paused, since it can be changed though indicators.
-        if (this.interval != null) {
-            this.start();
+        // Add pin-top (when scrolled position is above top)
+        if (scrolled < this.options.top && !this.el.classList.contains('pin-top')) {
+            this._removePinClasses();
+            this.el.style.top = '0';
+            this.el.classList.add('pin-top');
+            // onPositionChange callback
+            if (typeof this.options.onPositionChange === 'function') {
+                this.options.onPositionChange.call(this, 'pin-top');
+            }
+        }
+        // Add pin-bottom (when scrolled position is below bottom)
+        if (scrolled > this.options.bottom && !this.el.classList.contains('pin-bottom')) {
+            this._removePinClasses();
+            this.el.classList.add('pin-bottom');
+            this.el.style.top = `${this.options.bottom - this.originalOffset}px`;
+            // onPositionChange callback
+            if (typeof this.options.onPositionChange === 'function') {
+                this.options.onPositionChange.call(this, 'pin-bottom');
+            }
         }
     }
-    _pause(fromEvent) {
-        clearInterval(this.interval);
-        this.eventPause = fromEvent;
-        this.interval = null;
+    _removePinClasses() {
+        // IE 11 bug (can't remove multiple classes in one line)
+        this.el.classList.remove('pin-top');
+        this.el.classList.remove('pinned');
+        this.el.classList.remove('pin-bottom');
     }
-    /**
-     * Pause slider autoslide.
-     */
-    pause = () => {
-        this._pause(false);
-    };
-    /**
-     * Start slider autoslide.
-     */
-    start = () => {
-        clearInterval(this.interval);
-        this.interval = setInterval(this._handleInterval, this.options.duration + this.options.interval);
-        this.eventPause = false;
-    };
-    /**
-     * Move to next slider.
-     */
-    next = () => {
-        let newIndex = this.activeIndex + 1;
-        // Wrap around indices.
-        if (newIndex >= this._slides.length)
-            newIndex = 0;
-        else if (newIndex < 0)
-            newIndex = this._slides.length - 1;
-        this.set(newIndex);
-    };
-    /**
-     * Move to prev slider.
-     */
-    prev = () => {
-        let newIndex = this.activeIndex - 1;
-        // Wrap around indices.
-        if (newIndex >= this._slides.length)
-            newIndex = 0;
-        else if (newIndex < 0)
-            newIndex = this._slides.length - 1;
-        this.set(newIndex);
-    };
+    static {
+        Pushpin._pushpins = [];
+    }
 }
 
 const _defaults = {
-    text: '',
-    displayLength: 4000,
-    inDuration: 300,
-    outDuration: 375,
-    classes: '',
-    completeCallback: null,
-    activationPercent: 0.8
+    throttle: 100,
+    scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
+    activeClass: 'active',
+    getActiveElement: (id) => {
+        return 'a[href="#' + id + '"]';
+    },
+    keepTopElementActive: false,
+    animationDuration: null
 };
-class Toast {
-    /** The toast element. */
-    el;
-    /**
-     * The remaining amount of time in ms that the toast
-     * will stay before dismissal.
-     */
-    timeRemaining;
-    /**
-     * Describes the current pan state of the Toast.
-     */
-    panning;
-    options;
-    message;
-    counterInterval;
-    wasSwiped;
-    startingXPos;
-    xPos;
-    time;
-    deltaX;
-    velocityX;
-    static _toasts;
-    static _container;
-    static _draggedToast;
-    constructor(options) {
+class ScrollSpy extends Component {
+    static _elements;
+    static _count;
+    static _increment;
+    static _elementsInView;
+    static _visibleElements;
+    static _ticks;
+    static _keptTopActiveElement = null;
+    tickId;
+    id;
+    constructor(el, options) {
+        super(el, options, ScrollSpy);
+        this.el['M_ScrollSpy'] = this;
         this.options = {
-            ...Toast.defaults,
+            ...ScrollSpy.defaults,
             ...options
         };
-        this.message = this.options.text;
-        this.panning = false;
-        this.timeRemaining = this.options.displayLength;
-        if (Toast._toasts.length === 0) {
-            Toast._createContainer();
-        }
-        // Create new toast
-        Toast._toasts.push(this);
-        const toastElement = this._createToast();
-        toastElement['M_Toast'] = this;
-        this.el = toastElement;
-        this._animateIn();
-        this._setTimer();
+        ScrollSpy._elements.push(this);
+        ScrollSpy._count++;
+        ScrollSpy._increment++;
+        this.tickId = -1;
+        this.id = ScrollSpy._increment.toString();
+        this._setupEventHandlers();
+        this._handleWindowScroll();
     }
     static get defaults() {
         return _defaults;
     }
+    /**
+     * Initializes instances of ScrollSpy.
+     * @param els HTML elements.
+     * @param options Component options.
+     */
+    static init(els, options = {}) {
+        return super.init(els, options, ScrollSpy);
+    }
     static getInstance(el) {
-        return el['M_Toast'];
+        return el['M_ScrollSpy'];
     }
-    static _createContainer() {
-        const container = document.createElement('div');
-        container.setAttribute('id', 'toast-container');
-        // Add event handler
-        container.addEventListener('touchstart', Toast._onDragStart);
-        container.addEventListener('touchmove', Toast._onDragMove);
-        container.addEventListener('touchend', Toast._onDragEnd);
-        container.addEventListener('mousedown', Toast._onDragStart);
-        document.addEventListener('mousemove', Toast._onDragMove);
-        document.addEventListener('mouseup', Toast._onDragEnd);
-        document.body.appendChild(container);
-        Toast._container = container;
+    destroy() {
+        ScrollSpy._elements.splice(ScrollSpy._elements.indexOf(this), 1);
+        ScrollSpy._elementsInView.splice(ScrollSpy._elementsInView.indexOf(this), 1);
+        ScrollSpy._visibleElements.splice(ScrollSpy._visibleElements.indexOf(this.el), 1);
+        ScrollSpy._count--;
+        this._removeEventHandlers();
+        const actElem = document.querySelector(this.options.getActiveElement(this.el.id));
+        actElem.classList.remove(this.options.activeClass);
+        this.el['M_ScrollSpy'] = undefined;
     }
-    static _removeContainer() {
-        document.removeEventListener('mousemove', Toast._onDragMove);
-        document.removeEventListener('mouseup', Toast._onDragEnd);
-        Toast._container.remove();
-        Toast._container = null;
-    }
-    static _onDragStart(e) {
-        if (e.target && e.target.closest('.toast')) {
-            const toastElem = e.target.closest('.toast');
-            const toast = toastElem['M_Toast'];
-            toast.panning = true;
-            Toast._draggedToast = toast;
-            toast.el.classList.add('panning');
-            toast.el.style.transition = '';
-            toast.startingXPos = Toast._xPos(e);
-            toast.time = Date.now();
-            toast.xPos = Toast._xPos(e);
+    _setupEventHandlers() {
+        if (ScrollSpy._count === 1) {
+            window.addEventListener('scroll', this._handleWindowScroll);
+            window.addEventListener('resize', this._handleThrottledResize);
+            document.body.addEventListener('click', this._handleTriggerClick);
         }
     }
-    static _onDragMove(e) {
-        if (!!Toast._draggedToast) {
-            e.preventDefault();
-            const toast = Toast._draggedToast;
-            toast.deltaX = Math.abs(toast.xPos - Toast._xPos(e));
-            toast.xPos = Toast._xPos(e);
-            toast.velocityX = toast.deltaX / (Date.now() - toast.time);
-            toast.time = Date.now();
-            const totalDeltaX = toast.xPos - toast.startingXPos;
-            const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
-            toast.el.style.transform = `translateX(${totalDeltaX}px)`;
-            toast.el.style.opacity = (1 - Math.abs(totalDeltaX / activationDistance)).toString();
+    _removeEventHandlers() {
+        if (ScrollSpy._count === 0) {
+            window.removeEventListener('scroll', this._handleWindowScroll);
+            window.removeEventListener('resize', this._handleThrottledResize);
+            document.body.removeEventListener('click', this._handleTriggerClick);
         }
     }
-    static _onDragEnd() {
-        if (!!Toast._draggedToast) {
-            const toast = Toast._draggedToast;
-            toast.panning = false;
-            toast.el.classList.remove('panning');
-            const totalDeltaX = toast.xPos - toast.startingXPos;
-            const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
-            const shouldBeDismissed = Math.abs(totalDeltaX) > activationDistance || toast.velocityX > 1;
-            // Remove toast
-            if (shouldBeDismissed) {
-                toast.wasSwiped = true;
-                toast.dismiss();
-                // Animate toast back to original position
+    _handleThrottledResize = () => Utils.throttle(this._handleWindowScroll, 200).bind(this);
+    _handleTriggerClick = (e) => {
+        const trigger = e.target;
+        for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
+            const scrollspy = ScrollSpy._elements[i];
+            const x = document.querySelector('a[href="#' + scrollspy.el.id + '"]');
+            if (trigger === x) {
+                e.preventDefault();
+                if (scrollspy.el['M_ScrollSpy'].options.animationDuration) {
+                    ScrollSpy._smoothScrollIntoView(scrollspy.el, scrollspy.el['M_ScrollSpy'].options.animationDuration);
+                }
+                else {
+                    scrollspy.el.scrollIntoView({ behavior: 'smooth' });
+                }
+                break;
+            }
+        }
+    };
+    _handleWindowScroll = () => {
+        // unique tick id
+        ScrollSpy._ticks++;
+        // viewport rectangle
+        const top = Utils.getDocumentScrollTop(), left = Utils.getDocumentScrollLeft(), right = left + window.innerWidth, bottom = top + window.innerHeight;
+        // determine which elements are in view
+        const intersections = ScrollSpy._findElements(top, right, bottom, left);
+        for (let i = 0; i < intersections.length; i++) {
+            const scrollspy = intersections[i];
+            const lastTick = scrollspy.tickId;
+            if (lastTick < 0) {
+                // entered into view
+                scrollspy._enter();
+            }
+            // update tick id
+            scrollspy.tickId = ScrollSpy._ticks;
+        }
+        for (let i = 0; i < ScrollSpy._elementsInView.length; i++) {
+            const scrollspy = ScrollSpy._elementsInView[i];
+            const lastTick = scrollspy.tickId;
+            if (lastTick >= 0 && lastTick !== ScrollSpy._ticks) {
+                // exited from view
+                scrollspy._exit();
+                scrollspy.tickId = -1;
+            }
+        }
+        // remember elements in view for next tick
+        ScrollSpy._elementsInView = intersections;
+        if (ScrollSpy._elements.length) {
+            const options = ScrollSpy._elements[0].el['M_ScrollSpy'].options;
+            if (options.keepTopElementActive && ScrollSpy._visibleElements.length === 0) {
+                this._resetKeptTopActiveElementIfNeeded();
+                const topElements = ScrollSpy._elements
+                    .filter((value) => ScrollSpy._getDistanceToViewport(value.el) <= 0)
+                    .sort((a, b) => {
+                    const distanceA = ScrollSpy._getDistanceToViewport(a.el);
+                    const distanceB = ScrollSpy._getDistanceToViewport(b.el);
+                    if (distanceA < distanceB)
+                        return -1;
+                    if (distanceA > distanceB)
+                        return 1;
+                    return 0;
+                });
+                const nearestTopElement = topElements.length
+                    ? topElements[topElements.length - 1]
+                    : ScrollSpy._elements[0];
+                const actElem = document.querySelector(options.getActiveElement(nearestTopElement.el.id));
+                actElem?.classList.add(options.activeClass);
+                ScrollSpy._keptTopActiveElement = actElem;
+            }
+        }
+    };
+    static _offset(el) {
+        const box = el.getBoundingClientRect();
+        const docElem = document.documentElement;
+        return {
+            top: box.top + window.pageYOffset - docElem.clientTop,
+            left: box.left + window.pageXOffset - docElem.clientLeft
+        };
+    }
+    static _findElements(top, right, bottom, left) {
+        const hits = [];
+        for (let i = 0; i < ScrollSpy._elements.length; i++) {
+            const scrollspy = ScrollSpy._elements[i];
+            const currTop = top + scrollspy.options.scrollOffset || 200;
+            if (scrollspy.el.getBoundingClientRect().height > 0) {
+                const elTop = ScrollSpy._offset(scrollspy.el).top, elLeft = ScrollSpy._offset(scrollspy.el).left, elRight = elLeft + scrollspy.el.getBoundingClientRect().width, elBottom = elTop + scrollspy.el.getBoundingClientRect().height;
+                const isIntersect = !(elLeft > right ||
+                    elRight < left ||
+                    elTop > bottom ||
+                    elBottom < currTop);
+                if (isIntersect) {
+                    hits.push(scrollspy);
+                }
+            }
+        }
+        return hits;
+    }
+    _enter() {
+        ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((value) => value.getBoundingClientRect().height !== 0);
+        if (ScrollSpy._visibleElements[0]) {
+            const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
+            actElem?.classList.remove(this.options.activeClass);
+            if (ScrollSpy._visibleElements[0]['M_ScrollSpy'] &&
+                this.id < ScrollSpy._visibleElements[0]['M_ScrollSpy'].id) {
+                ScrollSpy._visibleElements.unshift(this.el);
             }
             else {
-                toast.el.style.transition = 'transform .2s, opacity .2s';
-                toast.el.style.transform = '';
-                toast.el.style.opacity = '';
+                ScrollSpy._visibleElements.push(this.el);
             }
-            Toast._draggedToast = null;
         }
+        else {
+            ScrollSpy._visibleElements.push(this.el);
+        }
+        this._resetKeptTopActiveElementIfNeeded();
+        const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
+        document.querySelector(selector)?.classList.add(this.options.activeClass);
     }
-    static _xPos(e) {
-        if (e.type.startsWith('touch') && e.targetTouches.length >= 1) {
-            return e.targetTouches[0].clientX;
-        }
-        // mouse event
-        return e.clientX;
-    }
-    /**
-     * dismiss all toasts.
-     */
-    static dismissAll() {
-        for (const toastIndex in Toast._toasts) {
-            Toast._toasts[toastIndex].dismiss();
-        }
-    }
-    _createToast() {
-        let toast = this.options.toastId
-            ? document.getElementById(this.options.toastId)
-            : document.createElement('div');
-        if (toast instanceof HTMLTemplateElement) {
-            const node = toast.content.cloneNode(true);
-            toast = node.firstElementChild;
-        }
-        toast.classList.add('toast');
-        toast.setAttribute('role', 'alert');
-        toast.setAttribute('aria-live', 'assertive');
-        toast.setAttribute('aria-atomic', 'true');
-        // Add custom classes onto toast
-        if (this.options.classes.length > 0) {
-            toast.classList.add(...this.options.classes.split(' '));
-        }
-        if (this.message)
-            toast.innerText = this.message;
-        Toast._container.appendChild(toast);
-        return toast;
-    }
-    _animateIn() {
-        // Animate toast in
-        this.el.style.display = '';
-        this.el.style.opacity = '0';
-        // easeOutCubic
-        this.el.style.transition = `
-      top ${this.options.inDuration}ms ease,
-      opacity ${this.options.inDuration}ms ease
-    `;
-        setTimeout(() => {
-            this.el.style.top = '0';
-            this.el.style.opacity = '1';
-        }, 1);
-    }
-    /**
-     * Create setInterval which automatically removes toast when timeRemaining >= 0
-     * has been reached.
-     */
-    _setTimer() {
-        if (this.timeRemaining !== Infinity) {
-            this.counterInterval = setInterval(() => {
-                // If toast is not being dragged, decrease its time remaining
-                if (!this.panning) {
-                    this.timeRemaining -= 20;
-                }
-                // Animate toast out
-                if (this.timeRemaining <= 0) {
-                    this.dismiss();
-                }
-            }, 20);
-        }
-    }
-    /**
-     * Dismiss toast with animation.
-     */
-    dismiss() {
-        clearInterval(this.counterInterval);
-        const activationDistance = this.el.offsetWidth * this.options.activationPercent;
-        if (this.wasSwiped) {
-            this.el.style.transition = 'transform .05s, opacity .05s';
-            this.el.style.transform = `translateX(${activationDistance}px)`;
-            this.el.style.opacity = '0';
-        }
-        // easeOutExpo
-        this.el.style.transition = `
-      margin ${this.options.outDuration}ms ease,
-      opacity ${this.options.outDuration}ms ease`;
-        setTimeout(() => {
-            this.el.style.opacity = '0';
-            this.el.style.marginTop = '-40px';
-        }, 1);
-        setTimeout(() => {
-            // Call the optional callback
-            if (typeof this.options.completeCallback === 'function') {
-                this.options.completeCallback();
+    _exit() {
+        ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((value) => value.getBoundingClientRect().height !== 0);
+        if (ScrollSpy._visibleElements[0]) {
+            const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
+            actElem?.classList.remove(this.options.activeClass);
+            ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((x) => x.id != this.el.id);
+            if (ScrollSpy._visibleElements[0]) {
+                // Check if empty
+                const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
+                document.querySelector(selector)?.classList.add(this.options.activeClass);
+                this._resetKeptTopActiveElementIfNeeded();
             }
-            // Remove toast from DOM
-            if (this.el.id != this.options.toastId) {
-                this.el.remove();
-                Toast._toasts.splice(Toast._toasts.indexOf(this), 1);
-                if (Toast._toasts.length === 0) {
-                    Toast._removeContainer();
-                }
+        }
+    }
+    _resetKeptTopActiveElementIfNeeded() {
+        if (ScrollSpy._keptTopActiveElement) {
+            ScrollSpy._keptTopActiveElement.classList.remove(this.options.activeClass);
+            ScrollSpy._keptTopActiveElement = null;
+        }
+    }
+    static _getDistanceToViewport(element) {
+        const rect = element.getBoundingClientRect();
+        const distance = rect.top;
+        return distance;
+    }
+    static _smoothScrollIntoView(element, duration = 300) {
+        const targetPosition = element.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+        const startPosition = window.scrollY || window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const startTime = performance.now();
+        function scrollStep(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const scrollY = startPosition + distance * progress;
+            if (progress < 1) {
+                window.scrollTo(0, scrollY);
+                requestAnimationFrame(scrollStep);
             }
-        }, this.options.outDuration);
+            else {
+                window.scrollTo(0, targetPosition);
+            }
+        }
+        requestAnimationFrame(scrollStep);
     }
     static {
-        Toast._toasts = [];
-        Toast._container = null;
-        Toast._draggedToast = null;
+        ScrollSpy._elements = [];
+        ScrollSpy._elementsInView = [];
+        ScrollSpy._visibleElements = []; // Array.<cash>
+        ScrollSpy._count = 0;
+        ScrollSpy._increment = 0;
+        ScrollSpy._ticks = 0;
+    }
+}
+
+class Waves {
+    static _offset(el) {
+        const box = el.getBoundingClientRect();
+        const docElem = document.documentElement;
+        return {
+            top: box.top + window.pageYOffset - docElem.clientTop,
+            left: box.left + window.pageXOffset - docElem.clientLeft
+        };
+    }
+    // https://phoenix-dx.com/css-techniques-for-material-ripple-effect/
+    static renderWaveEffect(targetElement, position = null, color = null) {
+        const isCentered = position === null;
+        const duration = 500;
+        let animationFrame, animationStart;
+        const animationStep = function (timestamp) {
+            if (!animationStart) {
+                animationStart = timestamp;
+            }
+            const frame = timestamp - animationStart;
+            if (frame < duration) {
+                const easing = (frame / duration) * (2 - frame / duration);
+                const circle = isCentered
+                    ? 'circle at 50% 50%'
+                    : `circle at ${position.x}px ${position.y}px`;
+                const waveColor = `rgba(${color?.r || 0}, ${color?.g || 0}, ${color?.b || 0}, ${0.3 * (1 - easing)})`;
+                const stop = 90 * easing + '%';
+                targetElement.style.backgroundImage =
+                    'radial-gradient(' +
+                        circle +
+                        ', ' +
+                        waveColor +
+                        ' ' +
+                        stop +
+                        ', transparent ' +
+                        stop +
+                        ')';
+                animationFrame = window.requestAnimationFrame(animationStep);
+            }
+            else {
+                targetElement.style.backgroundImage = 'none';
+                window.cancelAnimationFrame(animationFrame);
+            }
+        };
+        animationFrame = window.requestAnimationFrame(animationStep);
+    }
+    static Init() {
+        if (typeof document !== 'undefined')
+            document?.addEventListener('DOMContentLoaded', () => {
+                document.body.addEventListener('click', (e) => {
+                    const trigger = e.target;
+                    const el = trigger.closest('.waves-effect');
+                    if (el && el.contains(trigger)) {
+                        const isCircular = el.classList.contains('waves-circle');
+                        const x = e.pageX - Waves._offset(el).left;
+                        const y = e.pageY - Waves._offset(el).top;
+                        let color = null;
+                        if (el.classList.contains('waves-light'))
+                            color = { r: 255, g: 255, b: 255 };
+                        Waves.renderWaveEffect(el, isCircular ? null : { x, y }, color);
+                    }
+                });
+            });
     }
 }
 

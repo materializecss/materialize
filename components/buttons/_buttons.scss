@@ -1,0 +1,348 @@
+@use '../../sass/mixins.module.scss' as *;
+@use '../../sass/variables' as *;
+
+:root {
+  --btn-height: 40px;
+  --btn-font-size-icon: 16px;
+  --btn-padding: 24px;
+  --btn-padding-icon: 16px;
+  --btn-gap-icon: 8px;
+  --btn-border-radius: 4px;
+  --btn-font-size: 14px;
+}
+
+.btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
+  @include btn(
+    var(--btn-height),
+    var(--btn-border-radius),
+    var(--btn-padding),
+    var(--btn-padding),
+    var(--btn-font-size)
+  );
+}
+
+// Icon
+.btn.icon-left, .btn.icon-right {
+  position: relative;
+}
+
+.btn.icon-left {
+  padding-left: calc(var(--btn-padding-icon) + var(--btn-font-size-icon) + var(--btn-gap-icon));
+}
+
+.btn.icon-right {
+  padding-right: calc(var(--btn-padding-icon) + var(--btn-font-size-icon) + var(--btn-gap-icon));
+}
+
+.btn.icon-left i, .btn.icon-right i {
+  position: absolute;
+  font-size: var(--btn-font-size-icon);
+}
+
+.btn.icon-left i {
+  left: var(--btn-padding-icon);
+}
+
+.btn.icon-right i {
+  right: var(--btn-padding-icon);
+}
+
+//------------------ Enabled
+
+.btn.filled {
+  @include btn-filled;
+}
+
+.btn.tonal {
+  @include btn-tonal;
+}
+
+.btn.elevated {
+  @include btn-elevated;
+}
+
+.btn.outlined {
+  @include btn-outlined;
+}
+
+.btn.text, .btn-flat {
+  @include btn-flat;
+}
+
+//------------------ Disabled
+
+.btn.disabled, .btn-floating.disabled, .btn-large.disabled, .btn-small.disabled, .btn-flat.disabled,
+.btn:disabled, .btn-floating:disabled, .btn-large:disabled, .btn-small:disabled, .btn-flat:disabled,
+.btn[disabled], .btn-floating[disabled], .btn-large[disabled], .btn-small[disabled], .btn-flat[disabled] {
+  @include btn-disabled();
+}
+
+//------------------ Hover
+
+//------------------ Focus
+
+// Floating button
+.btn-floating {
+  // FIXES
+  // width: unset;
+  // padding: 16px !important;
+  // padding-right: 24px !important; /* only with icon */
+  // gap: 8px;
+  width: $button-floating-size;
+  height: $button-floating-size;
+  color: var(--md-sys-color-on-primary-container);
+  background-color: var(--md-sys-color-primary-container);
+  border-radius: $button-floating-radius;
+  padding: 0;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  @extend .z-depth-1;
+  transition: background-color .3s;
+  cursor: pointer;
+  vertical-align: middle;
+
+  &:hover {
+    @extend .z-depth-1-half;
+    background-color: color-mix(in srgb, var(--md-sys-color-primary-container), var(--md-sys-color-on-primary-container) 16%);
+  }
+
+  &:focus {
+    background-color: $button-floating-background-focus;
+    @extend .z-depth-1-half;
+  }
+
+  &:before {
+    border-radius: 0;
+  }
+
+  &.btn-large {
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    &.halfway-fab {
+      bottom: -56px * 0.5;
+    }
+    // font-size:
+    // i {
+    //   // line-height: 56px;
+    // }
+  }
+
+  &.btn-small {
+    --btn-small-height: calc(0.75 * var(--btn-height));
+    width: var(--btn-small-height);
+    height: var(--btn-small-height);
+
+    &.halfway-fab {
+      bottom: calc(var(--btn-small-height) * -0.5);
+    }
+    // i {
+    //   line-height: $button-floating-small-size;
+    // }
+  }
+
+  &.halfway-fab {
+    position: absolute;
+    right: 24px;
+    bottom: -$button-floating-size * 0.5;
+
+    &.left {
+      right: auto;
+      left: 24px;
+    }
+  }
+
+  i {
+    color: $button-floating-color;
+    font-size: 1.6rem;
+    width: inherit;
+    display: inline-block;
+    text-align: center;
+  }
+}
+
+// button fix
+button.btn-floating {
+  border: none;
+}
+
+// Fixed Action Button
+.fixed-action-btn {
+  position: fixed;
+  right: 23px;
+  bottom: 23px;
+  padding-top: 15px;
+  margin-bottom: 0;
+  z-index: 997;
+
+  &.active {
+    ul {
+      visibility: visible;
+      padding-left: 0;
+      list-style-type: none;
+    }
+  }
+
+  // Directions
+  &.direction-left,
+  &.direction-right {
+    padding: 0 0 0 15px;
+
+    ul {
+      text-align: right;
+      right: 64px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 100%;
+      left: auto;
+      /*width 100% only goes to width of button container */
+      width: 500px;
+
+      li {
+        display: inline-block;
+        margin: 7.5px 15px 0 0;
+      }
+    }
+  }
+
+  &.direction-right {
+    padding: 0 15px 0 0;
+
+    ul {
+      text-align: left;
+      direction: rtl;
+      left: 64px;
+      right: auto;
+
+      li {
+        margin: 7.5px 0 0 15px;
+      }
+    }
+  }
+
+  &.direction-bottom {
+    padding: 0 0 15px 0;
+
+    ul {
+      top: 64px;
+      bottom: auto;
+      display: flex;
+      flex-direction: column-reverse;
+
+      li {
+        margin: 15px 0 0 0;
+      }
+    }
+  }
+
+  &.toolbar {
+    padding: 0;
+    height: 56px;
+
+    &.active {
+      & > a i {
+        opacity: 0;
+      }
+    }
+
+    ul {
+      display: flex;
+      top: 0;
+      bottom: 0;
+      z-index: 1;
+
+      li {
+        flex: 1;
+        display: inline-block;
+        margin: 0;
+        height: 100%;
+        transition: none;
+
+        a {
+          display: block;
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+          height: 100%;
+          background-color: transparent;
+          box-shadow: none;
+          color: $button-floating-color;
+          line-height: 56px;
+          z-index: 1;
+
+          i {
+            line-height: inherit;
+          }
+        }
+      }
+    }
+  }
+
+  ul {
+    left: 0;
+    right: 0;
+    text-align: center;
+    position: absolute;
+    bottom: 64px;
+    margin: 0;
+    visibility: hidden;
+
+    li {
+      margin-bottom: 15px;
+    }
+
+    a.btn-floating {
+      opacity: 0;
+    }
+  }
+
+  .fab-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: $button-floating-size;
+    height: $button-floating-size;
+    background-color: $button-floating-background;
+    border-radius: $button-floating-radius;
+    transform: scale(0);
+  }
+}
+
+//--- Helper classes (for all)
+
+// Large button
+.btn-large {
+  @extend .btn;
+  height: calc(1.5 * var(--btn-height));
+  font-size: 18px;
+  padding: 0 28px;
+
+  i {
+    font-size: 1.6rem;
+  }
+}
+
+// Small button
+.btn-small {
+  @extend .btn;
+  height: calc(0.75 * var(--btn-height));
+  font-size: 13px;
+
+  i {
+    font-size: 1.2rem;
+  }
+}
+
+// Block button
+.btn-block {
+  display: block;
+}
+
+.btn.rounded {
+  border-radius: 99999px;
+}

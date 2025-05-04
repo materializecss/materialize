@@ -33,11 +33,11 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "test": "npm run build && jasmine-browser-runner runSpecs",
+    "test": "jasmine-browser-runner runSpecs --config=jasmine.json",
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "release": "npm run lint && npm run build -- --environment BUILD:release && node ci/compress.mjs",
+    "release": "npm run lint && npm run build -- --environment BUILD:release && node compress.mjs",
     "preversion": "npm run lint && npm test",
-    "version": "npm run build -- --environment BUILD:release && node ci/compress.mjs && git add ."
+    "version": "npm run build -- --environment BUILD:release && node compress.mjs && git add ."
   },
   "lint-staged": {
     "js/*.js": [
@@ -62,6 +62,7 @@
     "jasmine": "^5.1.0",
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.2.0",
+    "normalize.css": "^8.0.1",
     "postcss": "^8.4.49",
     "rollup": "^4.20.0",
     "rollup-plugin-copy": "^3.5.0",

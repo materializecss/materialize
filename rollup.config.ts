@@ -24,7 +24,7 @@ const bannerText = `/*!
 const config: RollupOptions[] = [
   //--- Replace version in index.ts
   {
-    input: './ci/empty.js',
+    input: 'empty',
     plugins: [
       copy({
         targets: [
@@ -141,7 +141,7 @@ const config: RollupOptions[] = [
 
   //--- CSS Banners
   {
-    input: './ci/empty.js',
+    input: 'empty',
     plugins: [
       copy({
         targets: [
@@ -162,34 +162,6 @@ const config: RollupOptions[] = [
       if (warning.code !== 'EMPTY_BUNDLE') defaultHandler(warning);
     }
   }
-
-  // TODO: Compress as zip files
-
-  // compress: {
-  //   main: {
-  //     options: {
-  //       archive: 'bin/materialize-v'+version+'.zip',
-  //       level: 6
-  //     },
-  //     files: [
-  //       { expand: true, cwd: 'dist/', src: ['**/*'], dest: 'materialize/' },
-  //       { expand: true, cwd: './', src: ['LICENSE', 'README.md'], dest: 'materialize/' }
-  //     ]
-  //   },
-  //   src: {
-  //     options: {
-  //       archive: 'bin/materialize-src-v'+version+'.zip',
-  //       level: 6
-  //     },
-  //     files: [
-  //       { expand: true, cwd: 'sass/', src: ['materialize.scss'], dest: 'materialize-src/sass/' },
-  //       { expand: true, cwd: 'sass/', src: ['components/**/*'], dest: 'materialize-src/sass/' },
-  //       { expand: true, cwd: 'src/', src: ['**/*'], dest: 'materialize-src/ts/' },
-  //       { expand: true, cwd: 'dist/js/', src: ['**/*'], dest: 'materialize-src/js/bin/' },
-  //       { expand: true, cwd: './', src: ['LICENSE', 'README.md'], dest: 'materialize-src/' }
-  //     ]
-  //   }
-  // },
 ];
 
 export default config;

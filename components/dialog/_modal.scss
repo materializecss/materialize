@@ -1,0 +1,75 @@
+@use '../../sass/variables' as *;
+@use '../../sass/global' as *;
+
+// use with dialog html element
+.modal {
+  --modal-footer-divider-height: 1px;
+  --modal-border-radius: 28px;
+  --modal-padding: 24px;
+  --modal-padding-bottom: 16px;
+  --modal-background-color: color-mix(in srgb, var(--md-sys-color-surface), var(--md-sys-color-surface-tint) 17%);
+
+  @extend .z-depth-5;
+  border: none;
+  outline: none;
+  padding: 0;
+  max-height: 70%;
+  width: 55%;
+  border-radius: var(--modal-border-radius);
+  will-change: top, opacity;
+  background-color: var(--modal-background-color);
+
+  // Dialog open
+  &[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media #{$medium-and-down} {
+    width: 80%;
+  }
+
+  // custom backdrop blur
+  &::backdrop {
+    backdrop-filter: blur(1px);
+  }
+
+  .modal-header {
+    padding: var(--modal-padding);
+    padding-bottom: var(--modal-padding-bottom);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    background-color: var(--modal-background-color);
+  }
+  .modal-content {
+    padding: 0 var(--modal-padding);
+  }
+  .modal-footer {
+    border-radius: 0 0 var(--modal-border-radius) var(--modal-border-radius);
+    padding: var(--modal-padding);
+    text-align: right;
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    background-color: var(--modal-background-color);
+  }
+
+  .modal-close {
+    cursor: pointer;
+  }
+
+  // todo: remove maybe
+  h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+  }
+}
+
+// Modal Bottom Sheet Style
+.modal.bottom-sheet {
+  margin-bottom: 0;
+  max-height: 45%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  will-change: bottom, opacity;
+}
