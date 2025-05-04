@@ -83,30 +83,30 @@
 
 /* Disabled Radio With gap */
 [type="radio"].with-gap:disabled:checked + span:before {
-  border: 2px solid var(--md-sys-color-on-surface);
+  border: 2px solid color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
 }
 
 [type="radio"].with-gap:disabled:checked + span:after {
   border: none;
-  background-color: var(--md-sys-color-on-surface);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
 }
 
 /* Disabled style */
 [type="radio"]:disabled:not(:checked) + span:before,
 [type="radio"]:disabled:checked + span:before {
   background-color: transparent;
-  border-color: var(--md-sys-color-on-surface);
+  border-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
 }
 
 [type="radio"]:disabled + span {
-  color: var(--md-sys-color-on-surface);
+  color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
 }
 
 [type="radio"]:disabled:not(:checked) + span:before {
-  border-color: var(--md-sys-color-on-surface);
+  border-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
 }
 
 [type="radio"]:disabled:checked + span:after {
-  background-color: var(--md-sys-color-on-surface);
-  border-color: var(--md-sys-color-on-surface);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
+  border-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
 }
