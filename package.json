@@ -55,10 +55,12 @@
   ],
   "engine": "node >= 6",
   "devDependencies": {
+    "@fontsource/material-icons": "^5.2.5",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/addon-interactions": "^8.6.12",
+    "@storybook/addon-themes": "^8.6.12",
     "@storybook/blocks": "^8.6.12",
     "@storybook/html": "^8.6.12",
     "@storybook/html-vite": "^8.6.12",

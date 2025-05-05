@@ -7,8 +7,14 @@ const config: StorybookConfig = {
     "../components/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
   "addons": [
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions"
+    {
+      name: '@storybook/addon-essentials',
+      options: {
+        backgrounds: false, // 👈 disable the backgrounds addon to avoid confusing it with themes
+      },
+    },
+    "@storybook/addon-interactions",
+    "@storybook/addon-themes"
   ],
   "framework": {
     "name": "@storybook/html-vite",

@@ -5,16 +5,110 @@ export default {
 
 } satisfies Meta;
 
-export const Primary: StoryObj = {
-  render: (args) => `<button>${args.label}</button>`,
-  args: {
-    primary: true,
-    label: 'Button',
-  },
+
+const BTN_SIZES = {
+  'Small': ['btn-small'],
+  'Disabled': ['disabled'],
+  'Normal': [],
+  'Large': ['btn-large']
+};
+
+const BTN_STYLES = {
+  'Filled': ['filled'],
+  'Tonal': ['tonal'],
+  'Outlined': ['outlined'],
+  'Text': ['text']
 };
 
 
-export const Test: StoryObj = {
+export const Basic = {
+  render(args) {
+    const table = document.createElement('table');
+    const headerRow = table.insertRow();
+    headerRow.insertCell();
+    for (const size in BTN_SIZES) {
+      const cell = headerRow.insertCell();
+      cell.innerText = size;
+    }
+    for (const btnStype in BTN_STYLES) {
+      const row = table.insertRow();
+      const cell = row.insertCell();
+      cell.innerText = btnStype;
+      for (const size in BTN_SIZES) {
+        const cell = row.insertCell();
+        const classes = [...BTN_STYLES[btnStype], ...BTN_SIZES[size], ...args.classes?? [] ];
+        let iconHtml = '';
+        if (args.icon) {
+          iconHtml = `<i class="material-icons">${args.icon}</i>`;
+        } else if (args.iconLeft) {
+          classes.push('icon-left');
+          iconHtml = `<i class="material-icons">${args.iconLeft}</i>`;
+        } else if (args.iconRight) {
+          classes.push('icon-right');
+          iconHtml = `<i class="material-icons">${args.iconRight}</i>`;
+        }
+        // TODO - why is anchor tag used in docs rather than button tag?
+        cell.innerHTML = `
+          <button tabindex="0" class="${classes.join(' ')}">
+            ${args.label}${iconHtml}
+          </button>
+        `;
+      }
+    }
+    return table;
+  },
+  args: {
+    label: 'Button',
+    classes: ['btn']
+  }
+};
+
+export const Elevated = {
+  ...Basic,
+  args: {
+    label: 'Button',
+    classes: ['btn', 'elevated']
+  }
+};
+
+export const FloatingWithText = {
+  ...Basic,
+  args: {
+    label: 'B',
+    classes: ['btn-floating']
+  }
+};
+
+export const FloatingWithIcon = {
+  ...Basic,
+  args: {
+    label: '',
+    icon: 'edit',
+    classes: ['btn-floating']
+  }
+};
+
+export const IconLeft = {
+  ...Basic,
+  args: {
+    label: 'Button',
+    iconLeft: 'cloud',
+    classes: ['btn']
+  }
+};
+
+export const IconRight = {
+  ...Basic,
+  args: {
+    label: 'Submit',
+    iconRight: 'send',
+    classes: ['btn']
+
+  }
+};
+
+
+export const FloatingActionButton: StoryObj = {
   render() {
     return `
 <div class="fixed-action-btn">
