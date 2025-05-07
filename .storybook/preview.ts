@@ -17,6 +17,10 @@ const preview: Preview = {
     }),
   ],
   parameters: {
+    docs: {
+      toc: true, // Enables the table of contents in auto generated docs
+    },
+    actions: {argTypesRegex: "^on[A-Z].*"},
     controls: {
       matchers: {
        color: /(background|color)$/i,
