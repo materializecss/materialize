@@ -1,14 +1,16 @@
 @use '../../sass/mixins.module.scss' as *;
 @use '../../sass/variables' as *;
 
-:root {
-  --btn-height: 40px;
-  --btn-font-size-icon: 16px;
-  --btn-padding: 24px;
-  --btn-padding-icon: 16px;
-  --btn-gap-icon: 8px;
-  --btn-border-radius: 4px;
-  --btn-font-size: 14px;
+@at-root {
+  :root {
+    --btn-height: 40px;
+    --btn-font-size-icon: 16px;
+    --btn-padding: 24px;
+    --btn-padding-icon: 16px;
+    --btn-gap-icon: 8px;
+    --btn-border-radius: 4px;
+    --btn-font-size: 14px;
+  }
 }
 
 .btn, .btn-floating, .btn-large, .btn-small, .btn-flat {
@@ -88,6 +90,7 @@
   // padding: 16px !important;
   // padding-right: 24px !important; /* only with icon */
   // gap: 8px;
+  @extend .btn;
   width: $button-floating-size;
   height: $button-floating-size;
   color: var(--md-sys-color-on-primary-container);
@@ -104,6 +107,7 @@
   transition: background-color .3s;
   cursor: pointer;
   vertical-align: middle;
+  text-align: center;
 
   &:hover {
     @extend .z-depth-1-half;
@@ -157,7 +161,7 @@
   }
 
   i {
-    color: $button-floating-color;
+    color: currentColor;
     font-size: 1.6rem;
     width: inherit;
     display: inline-block;
