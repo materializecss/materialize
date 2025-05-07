@@ -8,12 +8,15 @@ export default {
 
 const BTN_SIZES = {
   'Small': ['btn-small'],
-  'Disabled': ['disabled'],
+  'Small disabled': ['btn-small', 'disabled'],
   'Normal': [],
-  'Large': ['btn-large']
+  'Normal disabled': ['disabled'],
+  'Large': ['btn-large'],
+  'Large disabled': ['btn-large', 'disabled'],
 };
 
 const BTN_STYLES = {
+  'Default': [],  // uncomment this to see the default button when no filled/tonal/outlined/text is set
   'Filled': ['filled'],
   'Tonal': ['tonal'],
   'Outlined': ['outlined'],
@@ -37,6 +40,7 @@ export const Basic = {
       for (const size in BTN_SIZES) {
         const cell = row.insertCell();
         const classes = [...BTN_STYLES[btnStype], ...BTN_SIZES[size], ...args.classes?? [] ];
+        const disabled = classes.includes('disabled') ? 'disabled="disabled"' : '';
         let iconHtml = '';
         if (args.icon) {
           iconHtml = `<i class="material-icons">${args.icon}</i>`;
@@ -49,7 +53,7 @@ export const Basic = {
         }
         // TODO - why is anchor tag used in docs rather than button tag?
         cell.innerHTML = `
-          <button tabindex="0" class="${classes.join(' ')}">
+          <button ${disabled} class="${classes.join(' ')}">
             ${args.label}${iconHtml}
           </button>
         `;
