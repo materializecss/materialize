@@ -6,8 +6,8 @@ export default {
 } satisfies Meta;
 
 
-export const Default = {
-  render(args) {
+export const Default: StoryObj = {
+  render() {
     return `
 <form action="#">
   <p>
@@ -39,8 +39,8 @@ export const Default = {
   }
 };
 
-export const FilledIn = {
-  render(args) {
+export const FilledIn: StoryObj = {
+  render() {
     return `
 <form action="#">
   <p>
@@ -72,8 +72,8 @@ export const FilledIn = {
   }
 };
 
-export const Indeterminate = {
-  render(args) {
+export const Indeterminate:StoryObj = {
+  render() {
     return `
 <form action="#">
   <p>

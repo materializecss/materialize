@@ -24,7 +24,7 @@ const BTN_STYLES = {
 };
 
 
-export const Basic = {
+export const Basic: StoryObj = {
   render(args) {
     const table = document.createElement('table');
     const headerRow = table.insertRow();
@@ -67,7 +67,7 @@ export const Basic = {
   }
 };
 
-export const Elevated = {
+export const Elevated: StoryObj = {
   ...Basic,
   args: {
     label: 'Button',
@@ -75,7 +75,7 @@ export const Elevated = {
   }
 };
 
-export const FloatingWithText = {
+export const FloatingWithText: StoryObj = {
   ...Basic,
   args: {
     label: 'B',
@@ -83,7 +83,7 @@ export const FloatingWithText = {
   }
 };
 
-export const FloatingWithIcon = {
+export const FloatingWithIcon: StoryObj = {
   ...Basic,
   args: {
     label: '',
@@ -92,7 +92,7 @@ export const FloatingWithIcon = {
   }
 };
 
-export const IconLeft = {
+export const IconLeft: StoryObj = {
   ...Basic,
   args: {
     label: 'Button',
@@ -101,7 +101,7 @@ export const IconLeft = {
   }
 };
 
-export const IconRight = {
+export const IconRight: StoryObj = {
   ...Basic,
   args: {
     label: 'Submit',

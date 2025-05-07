@@ -6,8 +6,8 @@ export default {
 } satisfies Meta;
 
 
-export const Default = {
-  render(args) {
+export const Default: StoryObj = {
+  render() {
     return `
 <form action="#">
   <p>
@@ -39,8 +39,8 @@ export const Default = {
   }
 };
 
-export const WithGap = {
-  render(args) {
+export const WithGap: StoryObj = {
+  render() {
     return `
 <p>
   <label>
