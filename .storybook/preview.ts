@@ -1,6 +1,5 @@
-import type { Preview } from '@storybook/html'
+import type { Preview } from '@storybook/html';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
-
 import './material-icons.css';
 import '../sass/materialize.scss';
 
@@ -10,24 +9,24 @@ const preview: Preview = {
     withThemeByDataAttribute({
       themes: {
         light: 'light',
-        dark: 'dark',
+        dark: 'dark'
       },
       defaultTheme: 'light',
-      attributeName: 'theme',
-    }),
+      attributeName: 'theme'
+    })
   ],
   parameters: {
     docs: {
-      toc: true, // Enables the table of contents in auto generated docs
+      toc: true // Enables the table of contents in auto generated docs
     },
-    actions: {argTypesRegex: "^on[A-Z].*"},
+    actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
-      },
-    },
-  },
+        color: /(background|color)$/i,
+        date: /Date$/i
+      }
+    }
+  }
 };
 
 export default preview;

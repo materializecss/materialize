@@ -1,10 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html';
 
 export default {
-  title: 'Components/Checkbox',
-
+  title: 'Components/Checkbox'
 } satisfies Meta;
-
 
 export const Default: StoryObj = {
   render() {
@@ -72,7 +70,7 @@ export const FilledIn: StoryObj = {
   }
 };
 
-export const Indeterminate:StoryObj = {
+export const Indeterminate: StoryObj = {
   render() {
     return `
 <form action="#">
@@ -100,4 +98,3 @@ export const Indeterminate:StoryObj = {
     `;
   }
 };
-
