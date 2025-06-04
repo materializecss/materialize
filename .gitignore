@@ -30,3 +30,4 @@ yarn.lock
 
 #dist/
 *storybook.log
+storybook-static
