@@ -1093,7 +1093,6 @@ export class Datepicker extends Component<DatepickerOptions> {
       maxYear = opts.maxYear,
       minMonth = opts.minMonth,
       maxMonth = opts.maxMonth;
-    let html = '';
 
     if (this._y <= minYear) {
       this._y = minYear;
@@ -1108,12 +1107,19 @@ export class Datepicker extends Component<DatepickerOptions> {
       }
     }
 
+    setTimeout(() => {
+      this.drawHTML();
+    }, 10);
+  }
+
+  drawHTML() {
     const randId =
       'datepicker-title-' +
       Math.random()
         .toString(36)
         .replace(/[^a-z]+/g, '')
         .substr(0, 2);
+    let html = '';
 
     for (let c = 0; c < 1; c++) {
       if (!this.options.isDateRange) {
