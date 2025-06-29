@@ -17,13 +17,28 @@ export interface DockedDisplayPluginOptions {
    * The alignment of the docked container
    */
   align: string;
+  /**
+   * Title element.
+   */
+  title: HTMLElement|null,
+  /**
+   * On open callback.
+   */
+  onOpen: (() => void) | null;
+  /**
+   * On close callback.
+   */
+  onClose: (() => void) | null;
 }
 
 const _defaults: DockedDisplayPluginOptions = {
   margin: 5,
   transition: 10,
   duration: 250,
-  align: 'left'
+  align: 'left',
+  title: null,
+  onOpen: null,
+  onClose: null
 };
 
 export class DockedDisplayPlugin {
@@ -94,7 +109,10 @@ export class DockedDisplayPlugin {
     setTimeout(() => {
       this.container.style.transform = `translateX(${coordinates.x}px) translateY(${coordinates.y}px)`;
       this.container.style.opacity = (1).toString();
-    }, 1);
+      if (typeof this.options.onOpen == 'function') {
+        this.options.onOpen.call(this);
+      }
+    }, 100);
   };
 
   hide = () => {
@@ -108,6 +126,9 @@ export class DockedDisplayPlugin {
     setTimeout(() => {
       this.container.style.transform = `translateX(0px) translateY(0px)`;
       this.container.style.opacity = '0';
-    }, 1);
+      if (typeof this.options.onClose == 'function') {
+        this.options.onClose.call(this);
+      }
+    }, 100);
   };
 }

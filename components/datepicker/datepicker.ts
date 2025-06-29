@@ -678,10 +678,26 @@ export class Datepicker extends Component<DatepickerOptions> {
    * Display plugin setup.
    */
   _setupDisplayPlugin() {
-    if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+    const displayPluginOptions = {
+      ...this.options.displayPluginOptions,
+      ...{
+        onOpen: () => {
+          document.querySelectorAll('.select-dropdown').forEach((e: HTMLInputElement) => {
+            e.tabIndex = 0;
+          });
+        },
+        onClose: () => {
+          document.querySelectorAll('.select-dropdown').forEach((e: HTMLInputElement) => {
+            e.tabIndex = -1;
+          });
+        }
+      }
+    }
+
+    if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, displayPluginOptions);
     if (this.options.displayPlugin === 'modal') {
       this.displayPlugin = ModalDisplayPlugin.init(this.el, this.containerEl, {
-        ...this.options.displayPluginOptions,
+        ...displayPluginOptions,
         ...{ classList: ['datepicker-modal'] }
       });
       this.footer.remove();

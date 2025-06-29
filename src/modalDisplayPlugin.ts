@@ -6,12 +6,22 @@ export interface ModalDisplayPluginOptions {
   /**
    * Title element.
    */
-  title: HTMLElement|null
+  title: HTMLElement|null,
+  /**
+   * On open callback.
+   */
+  onOpen: (() => void) | null;
+  /**
+   * On close callback.
+   */
+  onClose: (() => void) | null;
 }
 
 const _defaults: ModalDisplayPluginOptions = {
   classList: ['modal'],
-  title: null
+  title: null,
+  onOpen: null,
+  onClose: null,
 }
 
 export class ModalDisplayPlugin {
@@ -70,11 +80,21 @@ export class ModalDisplayPlugin {
     if (this.visible) return;
     this.visible = true;
     this.container.setAttribute('open', 'true');
+    setTimeout(() => {
+      if (typeof this.options.onOpen == 'function') {
+        this.options.onOpen.call(this);
+      }
+    }, 10);
   };
 
   hide = () => {
     if (!this.visible) return;
     this.visible = false;
     this.container.removeAttribute('open');
+    setTimeout(() => {
+      if (typeof this.options.onClose == 'function') {
+        this.options.onClose.call(this);
+      }
+    }, 10);
   };
 }
