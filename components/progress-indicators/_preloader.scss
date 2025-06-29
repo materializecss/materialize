@@ -50,6 +50,10 @@
       animation-delay: 1.15s;
     }
   }
+
+  &:not(.active) {
+    visibility: hidden;
+  }
 }
 
 @keyframes indeterminate {
@@ -133,6 +137,10 @@
     /* duration: 360 * ARCTIME / (ARCSTARTROT + (360-ARCSIZE)) */
     -webkit-animation: container-rotate 1568ms linear infinite;
     animation: container-rotate 1568ms linear infinite;
+  }
+
+  &:not(.active) {
+    visibility: hidden;
   }
 }
 
