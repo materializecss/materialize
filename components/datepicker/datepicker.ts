@@ -1290,10 +1290,15 @@ export class Datepicker extends Component<DatepickerOptions> {
         }
 
         if (this.options.isDateRange) {
+          const confirmAfterSelection = Datepicker._isDate(this.date) && this.options.autoSubmit;
           this._handleDateRangeCalendarClick(selectedDate);
+
+          if(confirmAfterSelection) {
+            this._confirm();
+          }
         }
 
-        if (this.options.autoSubmit) this._confirm();
+        if (!this.options.isDateRange && this.options.autoSubmit) this._confirm();
       } else if (target.closest('.month-prev')) {
         this.prevMonth();
       } else if (target.closest('.month-next')) {
@@ -1308,7 +1313,7 @@ export class Datepicker extends Component<DatepickerOptions> {
         return;
       }
 
-      this.setDate(date, false, Datepicker._isDate(this.date));
+      this.setDate(date, true, Datepicker._isDate(this.date));
       return;
     }
 
