@@ -114,7 +114,6 @@ export interface DatepickerOptions extends BaseOptions {
   showDaysInNextAndPreviousMonths: boolean;
   /**
    * Specify if the docked datepicker is in open state by default
-   * @todo move to DisplayPlugin options
    */
   openByDefault: boolean;
   /**
