@@ -704,6 +704,7 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.footer.remove();
       this.footer = this.displayPlugin.footer;
     }
+    if (this.options.openByDefault) this.displayPlugin.show();
   }
 
   /**
