@@ -114,6 +114,7 @@ export interface DatepickerOptions extends BaseOptions {
   showDaysInNextAndPreviousMonths: boolean;
   /**
    * Specify if the docked datepicker is in open state by default
+   * @todo move to DisplayPlugin options
    */
   openByDefault: boolean;
   /**
@@ -1151,12 +1152,6 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.el.addEventListener('keydown', this._handleInputKeydown);
     this.el.addEventListener('change', this._handleInputChange);
     this.calendarEl.addEventListener('click', this._handleCalendarClick);
-    /* this.doneBtn.addEventListener('click', this._confirm);
-    this.cancelBtn.addEventListener('click', this._cancel);
-
-    if (this.options.showClearBtn) {
-      this.clearBtn.addEventListener('click', this._handleClearClick);
-    }*/
   }
 
   _setupVariables() {
@@ -1168,11 +1163,6 @@ export class Datepicker extends Component<DatepickerOptions> {
     this.calendarEl = this.containerEl.querySelector('.datepicker-calendar');
     this.yearTextEl = this.containerEl.querySelector('.year-text');
     this.dateTextEl = this.containerEl.querySelector('.date-text');
-    /* if (this.options.showClearBtn) {
-      this.clearBtn = this.containerEl.querySelector('.datepicker-clear');
-    }
-    this.doneBtn = this.containerEl.querySelector('.datepicker-done');
-    this.cancelBtn = this.containerEl.querySelector('.datepicker-cancel');*/
     this.footer = this.containerEl.querySelector('.datepicker-footer');
 
     this.formats = {
@@ -1245,20 +1235,6 @@ export class Datepicker extends Component<DatepickerOptions> {
       this.dateEls = [];
       this.dateEls.push(this.el);
     }
-
-    if (this.options.showClearBtn) {
-      Utils.createButton(
-        this.footer,
-        this.options.i18n.clear,
-        ['datepicker-clear'],
-        true,
-        this._handleClearClick
-      );
-    }
-
-    if (!this.options.autoSubmit) {
-      Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this._confirm, this._cancel);
-    }
   }
 
   _removeEventHandlers() {
@@ -1317,7 +1293,7 @@ export class Datepicker extends Component<DatepickerOptions> {
           this._handleDateRangeCalendarClick(selectedDate);
         }
 
-        if (this.options.autoSubmit) this._finishSelection();
+        if (this.options.autoSubmit) this._confirm();
       } else if (target.closest('.month-prev')) {
         this.prevMonth();
       } else if (target.closest('.month-next')) {
