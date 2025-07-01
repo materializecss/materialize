@@ -1,10 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/html';
+import type { Meta, StoryObj } from '@storybook/html-vite';
 
 export default {
-  title: 'Components/RadioButtons',
-
+  title: 'Components/RadioButtons'
 } satisfies Meta;
-
 
 export const Default: StoryObj = {
   render() {
@@ -51,5 +49,3 @@ export const WithGap: StoryObj = {
     `;
   }
 };
-
-

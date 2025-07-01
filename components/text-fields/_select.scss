@@ -84,6 +84,7 @@ select:disabled {
     height: $dropdown-item-height - 10;
     width: $dropdown-item-height - 10;
     margin: 5px 15px;
+    object-fit: cover;
     float: right;
   }
 }
