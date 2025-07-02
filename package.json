@@ -58,18 +58,15 @@
     "@fontsource/material-icons": "^5.2.5",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/addon-interactions": "^8.6.12",
-    "@storybook/addon-themes": "^8.6.12",
-    "@storybook/blocks": "^8.6.12",
-    "@storybook/html": "^8.6.12",
-    "@storybook/html-vite": "^8.6.12",
-    "@storybook/test": "^8.6.12",
+    "@storybook/addon-docs": "^9.0.12",
+    "@storybook/addon-themes": "^9.0.12",
+    "@storybook/html": "^9.0.12",
+    "@storybook/html-vite": "^9.0.12",
     "@types/node": "^20.5.2",
     "archiver": "^7.0.1",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.10.0",
-    "eslint-plugin-storybook": "^0.12.0",
+    "eslint-plugin-storybook": "^9.0.12",
     "jasmine": "^5.1.0",
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.2.0",
@@ -80,7 +77,7 @@
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-scss": "^4.0.0",
     "sass": "^1.77.8",
-    "storybook": "^8.6.12",
+    "storybook": "^9.0.12",
     "tslib": "^2.6.3",
     "typescript": "^5.4.3",
     "typescript-eslint": "^8.6.0"
@@ -90,5 +87,8 @@
     "dist/js",
     "sass/**/*.scss",
     "LICENSE"
-  ]
+  ],
+  "overrides": {
+    "storybook": "$storybook"
+  }
 }

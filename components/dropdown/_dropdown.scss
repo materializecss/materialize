@@ -23,6 +23,7 @@
   z-index: 9999; // TODO: Check if this doesn't break other things
   transform-origin: 0 0;
   user-select: none;
+  white-space: nowrap;
   
   li {
     clear: both;

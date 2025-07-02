@@ -1,33 +1,51 @@
-import type { Meta, StoryObj } from '@storybook/html';
+import type { Meta, StoryObj } from '@storybook/html-vite';
 
 export default {
-  title: 'Components/Checkbox',
-
+  title: 'Components/Checkbox'
 } satisfies Meta;
-
 
 export const Default: StoryObj = {
   render() {
     return `
 <form action="#">
+
+  <p>Normal basic checkbox input</p>
+  
+  <input type="checkbox" />
+  <input type="checkbox" checked="checked" />
+  <input type="checkbox" disabled />
+  <input type="checkbox" disabled checked="checked" />
+
+  <p>Compound Checkbox Elements</p>
+
   <p>
     <label>
       <input type="checkbox" />
       <span>Unchecked</span>
     </label>
   </p>
+
   <p>
     <label>
       <input type="checkbox" checked="checked" />
       <span>Checked</span>
     </label>
   </p>
+
+  <p>
+    <label>
+      <input type="checkbox" />
+      <span></span>
+    </label>
+  </p>
+
   <p>
     <label>
       <input type="checkbox" disabled="disabled" />
       <span>Disabled</span>
     </label>
   </p>
+
   <p>
     <label>
       <input type="checkbox" checked="checked" disabled="disabled" />
@@ -72,7 +90,7 @@ export const FilledIn: StoryObj = {
   }
 };
 
-export const Indeterminate:StoryObj = {
+export const Indeterminate: StoryObj = {
   render() {
     return `
 <form action="#">
@@ -100,4 +118,3 @@ export const Indeterminate:StoryObj = {
     `;
   }
 };
-

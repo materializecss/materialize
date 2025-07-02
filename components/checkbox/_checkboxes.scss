@@ -1,40 +1,119 @@
 /* Checkboxes */
 
-/* Remove default checkbox */
-[type="checkbox"]:not(:checked),
-[type="checkbox"]:checked {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+@at-root {
+  :root {
+    --checkbox-size: 18px; // 18px
+    --checkbox-shape: 2px;
+  }
 }
 
+input[type="checkbox"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  // background-color: #fff;
+  margin: 0;
+  position: relative;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:focus {
+  outline: 3px solid var(--md-sys-color-secondary);
+  border-radius: 50%;
+  outline-offset: 0.5rem;
+}
+
+input[type="checkbox"]:before {
+  opacity: 1;
+  position: absolute;
+  display: block;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  border: 2px solid var(--md-sys-color-on-surface-variant);
+  border-radius: var(--checkbox-shape);
+  content: "";
+  // background: #fff;
+}
+
+input[type="checkbox"]:after {
+  position: relative;
+  display: block;
+  // left: 2px;
+  // top: -11px;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  // border-width: 2px;
+  // border-style: solid;
+  // border-color: var(--md-sys-color-on-surface-variant);
+  content: "";
+  // background-image: linear-gradient(135deg, #B1B6BE 0%, #FFF 100%);
+  border-radius: var(--checkbox-shape);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+input[type="checkbox"]:checked:after {
+  background-color: var(--md-sys-color-primary);
+  clip-path: polygon(0 48%, 0 0, 56% 0, 74% 17%, 40% 64%, 23% 50%, 14% 61%, 42% 82%, 81% 31%, 32% 0, 100% 0, 100% 100%, 0 100%, 0 49%);
+}
+
+[type="checkbox"]:indeterminate:after {
+  background-color: var(--md-sys-color-primary);
+  clip-path: polygon(0% 0%, 0% 100%, 18% 100%, 16% 43%, 83% 42%, 83% 63%, 16% 63%, 16% 100%, 100% 100%, 100% 0%);
+}
+
+// Disabled
+input[type="checkbox"]:disabled:before {
+  filter: opacity(0.2);
+}
+input[type="checkbox"]:disabled:after {
+  filter: opacity(0.2);
+}
+
+// Hover
+input[type="checkbox"]:not(:disabled):checked:hover:after{
+  // background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAQAAABuW59YAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAB2SURBVHjaAGkAlv8A3QDyAP0A/QD+Dam3W+kCAAD8APYAAgTVZaZCGwwA5wr0AvcA+Dh+7UX/x24AqK3Wg/8nt6w4/5q71wAAVP9g/7rTXf9n/+9N+AAAtpJa/zf/S//DhP8H/wAA4gzWj2P4lsf0JP0A/wADAHB0Ngka6UmKAAAAAElFTkSuQmCC'), linear-gradient(135deg, #8BB0C2 0%,#FFF 100%);
+  background-color: var(--md-sys-color-primary);
+}
+
+input[type="checkbox"]:not(:disabled):hover:after{
+  // background-image: linear-gradient(135deg, #8BB0C2 0%,#FFF 100%);
+  border-color: #85A9BB #92C2DA #92C2DA #85A9BB;  
+}
+
+input[type="checkbox"]:not(:disabled):hover:before{
+  border-color: #3D7591;
+}
+
+/*
 // Checkbox Styles
 [type="checkbox"] {
   // Text Label Style
   + span:not(.lever) {
     position: relative;
-    padding-left: 35px;
     cursor: pointer;
     display: inline-block;
-    height: 25px;
-    line-height: 25px;
+    height: var(--checkbox-size);
+    line-height: var(--checkbox-size);    
+    padding-left: var(--checkbox-size);    
+    // background-color: red;
     font-size: 1rem;
     user-select: none;
   }
 
-  /* checkbox aspect */
+  // checkbox aspect
   + span:not(.lever):before,
   &:not(.filled-in) + span:not(.lever):after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 18px;
-    height: 18px;
+    width: var(--checkbox-size);
+    height: var(--checkbox-size);
     z-index: 0;
     border: 2px solid var(--md-sys-color-on-surface-variant);
     border-radius: 1px;
-    margin-top: 3px;
     transition: .2s;
   }
 
@@ -82,7 +161,7 @@
   }
 }
 
-/* Indeterminate checkbox */
+// Indeterminate checkbox
 [type="checkbox"]:indeterminate {
   + span:not(.lever):before {
     top: -11px;
@@ -117,7 +196,7 @@
     content: '';
     left: 0;
     position: absolute;
-    /* .1s delay is for check animation */
+    // .1s delay is for check animation
     transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
     z-index: 1;
   }
@@ -151,8 +230,8 @@
       height: 13px;
       border-top: 2px solid transparent;
       border-left: 2px solid transparent;
-      border-right: 2px solid  var(--md-sys-color-on-primary);
-      border-bottom: 2px solid  var(--md-sys-color-on-primary);
+      border-right: 2px solid var(--md-sys-color-on-primary);
+      border-bottom: 2px solid var(--md-sys-color-on-primary);
       transform: rotateZ(37deg);
       transform-origin: 100% 100%;
     }
@@ -199,3 +278,4 @@
     border: none;
   }
 }
+*/

@@ -1,28 +1,25 @@
-import type { Meta, StoryObj } from '@storybook/html';
+import type { Meta, StoryObj } from '@storybook/html-vite';
 
 export default {
-  title: 'Components/Buttons',
-
+  title: 'Components/Buttons'
 } satisfies Meta;
 
-
 const BTN_SIZES = {
-  'Small': ['btn-small'],
+  Small: ['btn-small'],
   'Small disabled': ['btn-small', 'disabled'],
-  'Normal': [],
+  Normal: [],
   'Normal disabled': ['disabled'],
-  'Large': ['btn-large'],
-  'Large disabled': ['btn-large', 'disabled'],
+  Large: ['btn-large'],
+  'Large disabled': ['btn-large', 'disabled']
 };
 
 const BTN_STYLES = {
-  'Default': [],  // uncomment this to see the default button when no filled/tonal/outlined/text is set
-  'Filled': ['filled'],
-  'Tonal': ['tonal'],
-  'Outlined': ['outlined'],
-  'Text': ['text']
+  Default: [], // uncomment this to see the default button when no filled/tonal/outlined/text is set
+  Filled: ['filled'],
+  Tonal: ['tonal'],
+  Outlined: ['outlined'],
+  Text: ['text']
 };
-
 
 export const Basic: StoryObj = {
   render(args) {
@@ -39,7 +36,7 @@ export const Basic: StoryObj = {
       cell.innerText = btnStype;
       for (const size in BTN_SIZES) {
         const cell = row.insertCell();
-        const classes = [...BTN_STYLES[btnStype], ...BTN_SIZES[size], ...args.classes?? [] ];
+        const classes = [...BTN_STYLES[btnStype], ...BTN_SIZES[size], ...(args.classes ?? [])];
         const disabled = classes.includes('disabled') ? 'disabled="disabled"' : '';
         let iconHtml = '';
         if (args.icon) {
@@ -107,10 +104,8 @@ export const IconRight: StoryObj = {
     label: 'Submit',
     iconRight: 'send',
     classes: ['btn']
-
   }
 };
-
 
 export const FloatingActionButton: StoryObj = {
   render() {
@@ -151,5 +146,5 @@ export const FloatingActionButton: StoryObj = {
   </ul>
 </div>
     `;
-  },
-}
+  }
+};
