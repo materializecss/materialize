@@ -8,24 +8,44 @@ export const Default: StoryObj = {
   render() {
     return `
 <form action="#">
+
+  <p>Normal basic checkbox input</p>
+  
+  <input type="checkbox" />
+  <input type="checkbox" checked="checked" />
+  <input type="checkbox" disabled />
+  <input type="checkbox" disabled checked="checked" />
+
+  <p>Compound Checkbox Elements</p>
+
   <p>
     <label>
       <input type="checkbox" />
       <span>Unchecked</span>
     </label>
   </p>
+
   <p>
     <label>
       <input type="checkbox" checked="checked" />
       <span>Checked</span>
     </label>
   </p>
+
+  <p>
+    <label>
+      <input type="checkbox" />
+      <span></span>
+    </label>
+  </p>
+
   <p>
     <label>
       <input type="checkbox" disabled="disabled" />
       <span>Disabled</span>
     </label>
   </p>
+
   <p>
     <label>
       <input type="checkbox" checked="checked" disabled="disabled" />
