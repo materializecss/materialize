@@ -387,6 +387,7 @@ export class Datepicker extends Component<DatepickerOptions> {
           this.containerEl,
           this.options.displayPluginOptions
         );
+      if (this.options.openByDefault) this.displayPlugin.show();
     }
   }
 
@@ -542,11 +543,6 @@ export class Datepicker extends Component<DatepickerOptions> {
     } else {
       //this.containerEl.before(this.el);
       const appendTo = !this.endDateEl ? this.el : this.endDateEl;
-      if (!this.options.openByDefault)
-        (this.containerEl as HTMLElement).setAttribute(
-          'style',
-          'display: none; visibility: hidden;'
-        );
       appendTo.parentElement.after(this.containerEl);
     }
   }
