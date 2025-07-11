@@ -56,7 +56,7 @@ export class DockedDisplayPlugin {
       ) {
         this.hide();
       }
-    });
+    }, true);
   }
 
   /**
