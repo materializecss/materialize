@@ -63,7 +63,7 @@ export class ModalDisplayPlugin {
       if (this.visible && !(this.el === <HTMLElement>e.target) && !((<HTMLElement>e.target).closest('.display-modal'))) {
         this.hide();
       }
-    });
+    }, true);
   }
 
   /**
