@@ -136,14 +136,14 @@ describe('Datepicker Plugin', () => {
         setTimeout(() => {
           expect(input.value)
             .withContext('value should change with confirm interaction')
-            .toEqual(`${month < 10 ? `0${month}` : month}/0${day}/${year}`);
+            .toEqual(`${month < 10 ? `0${month}` : month}/${day < 10 ? '0' + day : day}/${year}`);
           dayEl = document.querySelector('.datepicker-container button[data-day="1"]');
           dayEl.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
           cancelBtn.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
           setTimeout(() => {
             expect(input.value)
               .withContext('value should not change with cancel interaction')
-              .toEqual(`${month < 10 ? `0${month}` : month}/0${day}/${year}`);
+              .toEqual(`${month < 10 ? `0${month}` : month}/${day < 10 ? '0' + day : day}/${year}`);
             clearBtn.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
             setTimeout(() => {
               expect(input.value.length)
@@ -156,7 +156,7 @@ describe('Datepicker Plugin', () => {
             }, 10);
           }, 10);
         }, 10);
-      });
+      }, 10);
     });
   });
 });
