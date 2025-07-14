@@ -299,9 +299,9 @@ export class Chips extends Component<ChipsOptions> {
     }
   };
 
-  _renderChip(chip: ChipData): HTMLDivElement {
+  _renderChip(chip: ChipData): HTMLLIElement {
     if (!chip.id) return;
-    const renderedChip = document.createElement('div');
+    const renderedChip = document.createElement('li');
     renderedChip.classList.add('chip');
     renderedChip.innerText = chip.text || <string>chip.id;
     // attach image if needed
