@@ -311,11 +311,10 @@ export class Chips extends Component<ChipsOptions> {
       renderedChip.insertBefore(img, renderedChip.firstChild);
     }
     if (this.options.allowUserInput) {
-      renderedChip.setAttribute('tabindex', '0');
-      const closeIcon = document.createElement('i');
-      closeIcon.classList.add(this.options.closeIconClass, 'close');
-      closeIcon.innerText = 'close';
-      renderedChip.appendChild(closeIcon);
+      const closeButton = document.createElement('button');
+      closeButton.classList.add(this.options.closeIconClass, 'close');
+      closeButton.innerText = 'close';
+      renderedChip.appendChild(closeButton);
     }
     return renderedChip;
   }
