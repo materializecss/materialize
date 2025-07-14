@@ -124,10 +124,10 @@ export class Chips extends Component<ChipsOptions> {
       this.chipsData = this.options.data;
       this._renderChips();
     }
-    this._setupLabel();
 
     // Render input element, setup event handlers
     if (this.options.allowUserInput) {
+      this._setupLabel();
       this.el.classList.add('input-field');
       this._setupInput();
       this._setupEventHandlers();
