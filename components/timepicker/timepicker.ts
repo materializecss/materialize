@@ -192,14 +192,7 @@ export class Timepicker extends Component<TimepickerOptions> {
     this._setupVariables();
     this._setupEventHandlers();
     this._clockSetup();
-    if (this.options.displayPlugin) {
-      if (this.options.displayPlugin === 'docked')
-        this.displayPlugin = DockedDisplayPlugin.init(
-          this.el,
-          this.containerEl,
-          this.options.displayPluginOptions
-        );
-    }
+    if (this.options.displayPlugin) this._setupDisplayPlugin();
     this._pickerSetup();
   }
 
