@@ -1,0 +1,229 @@
+@use '../../sass/variables' as *;
+@use '../../sass/mixins.module.scss' as *;
+
+.card-panel {
+  transition: box-shadow .25s;
+  padding: 24px;
+  margin: $element-top-margin 0 $element-bottom-margin 0;
+  border-radius: 12px;
+  @extend .z-depth-1;
+  background-color: var(--md-sys-color-surface);
+}
+
+.card {
+  --background-color: color-mix(in srgb, var(--md-sys-color-surface), var(--md-sys-color-surface-tint) 17%);
+
+  position: relative;
+  //margin: $element-top-margin 0 $element-bottom-margin 0;
+  background-color: var(--background-color);
+  transition: box-shadow .25s;
+  border-radius: 12px;
+  @extend .z-depth-1;
+
+  .card-title {
+    font-size: 24px;
+    font-weight: 300;
+  }
+
+  // Card Sizes
+  &.small, &.medium, &.large {
+    position: relative;
+
+    .card-image {
+      max-height: 60%;
+      overflow: hidden;
+    }
+
+    .card-image + .card-content {
+      max-height: 40%;
+    }
+
+    .card-content {
+      max-height: 100%;
+      overflow: hidden;
+    }
+
+    .card-action {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  &.small {
+    height: 300px;
+  }
+
+  &.medium {
+    height: 400px;
+  }
+
+  &.large {
+    height: 500px;
+  }
+
+  // Horizontal Cards
+  &.horizontal {
+    display: flex;
+
+    &.small, &.medium, &.large {
+      .card-image {
+        height: 100%;
+        max-height: none;
+        overflow: visible;
+
+        img {
+          height: 100%;
+        }
+      }
+    }
+
+    .card-image {
+      max-width: 50%;
+
+      img {
+        border-radius: 2px 0 0 2px;
+        max-width: 100%;
+        width: auto;
+      }
+    }
+
+    .card-stacked {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      position: relative;
+
+      .card-content {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  // Sticky Action Section
+  &.sticky-action {
+    .card-action {
+      z-index: 2;
+    }
+
+    .card-reveal {
+      z-index: 1;
+      padding-bottom: 64px;
+    }
+  }
+
+  .card-image {
+    position: relative;
+
+    // Image background for content
+    img {
+      display: block;
+      border-radius: 2px 2px 0 0;
+      position: relative;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .card-title {
+      color: var(--md-sys-color-surface);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      max-width: 100%;
+      padding: 24px;
+    }
+
+    .activator {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top:0;
+      bottom: 0;
+      cursor: pointer;
+    }
+
+    img.activator {
+      position: relative;
+    }
+  }
+
+  .card-content {
+    padding: 24px;
+    border-radius: 0 0 2px 2px;
+
+    p {
+      margin: 0;
+    }
+
+    .card-title {
+      display: block;
+      line-height: 32px;
+      margin-bottom: 8px;
+
+      i {
+        line-height: 32px;
+      }
+
+      &.activator {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .card-action {
+    padding: 0 1.6rem;
+
+    &:last-child {
+      border-radius: 0 0 2px 2px;
+    }
+    // Replaced card links with buttons (Accessibility, @see https://github.com/materializecss/materialize/issues/565)
+    a {
+      @include btn(
+        var(--btn-height),
+        var(--btn-border-radius),
+        var(--btn-padding),
+        var(--btn-padding),
+        var(--btn-font-size)
+      );
+
+      &:first-child {
+        margin-left: -1.6rem;
+      }
+
+      &:last-child {
+        margin-right: -1.6rem;
+      }
+    }
+
+    .btn {
+      &.filled,
+      &.tonal,
+      &.elevated,
+      &.outlined {
+        margin: 0 .26rem 1.6rem 0;
+      }
+    }
+  }
+
+  .card-reveal {
+    padding: 24px;
+    position: absolute;
+    background-color: var(--md-sys-color-surface);
+    width: 100%;
+    overflow-y: auto;
+    left: 0;
+    top: 100%;
+    height: 100%;
+    z-index: 3;
+    display: none;
+
+    .card-title {
+      cursor: pointer;
+      display: block;
+    }
+  }
+}

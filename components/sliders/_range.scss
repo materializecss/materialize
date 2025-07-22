@@ -1,0 +1,158 @@
+@use '../../sass/global' as *;
+@use '../../sass/colors.module.css' as *;
+
+.range-field {
+  position: relative;
+}
+
+input[type=range],
+input[type=range] + .thumb {
+  @extend .no-select;
+  cursor: pointer;
+}
+
+input[type=range] {
+  position: relative;
+  background: linear-gradient(var(--md-sys-color-outline-variant), var(--md-sys-color-outline-variant));
+  border: none;
+  outline: none;
+  width: 100%;
+  margin: 15px 0;
+  padding: 0;
+  height: 3px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+input[type=range] + .thumb {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  border: none;
+  height: 0;
+  width: 0;
+  border-radius: 50%;
+  background-color: var(--md-sys-color-primary);
+  margin-left: 7px;
+
+  transform-origin: 50% 50%;
+  transform: rotate(-45deg);
+
+  .value {
+    display: block;
+    width: 30px;
+    text-align: center;
+    color: var(--md-sys-color-primary);
+    font-size: 0;
+    transform: rotate(45deg);
+  }
+
+  &.active {
+    border-radius: 50% 50% 50% 0;
+
+    .value {
+      color:  var(--md-sys-color-on-primary);
+      margin-left: -1px;
+      margin-top: 8px;
+      font-size: 10px;
+    }
+  }
+}
+
+// Shared
+@mixin range-track {
+  height: 3px;
+  @extend .surface-variant;
+  border: none;
+}
+
+@mixin range-thumb {
+  border: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: var(--md-sys-color-primary);
+  transition: box-shadow .3s;
+}
+
+// WebKit
+input[type=range] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  @include range-track;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  @include range-thumb;
+  -webkit-appearance: none;
+  background-color: var(--md-sys-color-primary);
+  transform-origin: 50% 50%;
+  margin: -5px 0 0 0;
+
+}
+
+.keyboard-focused input[type=range]:focus:not(.active)::-webkit-slider-thumb {
+  box-shadow: 0 0 0 10px rgba(var(--md-sys-color-primary-numeric), 0.18);
+}
+
+// FireFox
+input[type=range] {
+  /*required for proper track sizing in FF*/
+}
+
+input[type=range]::-moz-range-track {
+  @include range-track;
+}
+
+input[type=range]::-moz-focus-inner {
+  border: 0;
+}
+
+input[type=range]::-moz-range-thumb {
+  @include range-thumb;
+  margin-top: -5px;
+}
+
+// hide the outline behind the border
+input[type=range]:-moz-focusring {
+  outline: 1px solid #fff;
+  outline-offset: -1px;
+}
+
+.keyboard-focused input[type=range]:focus:not(.active)::-moz-range-thumb {
+  box-shadow: 0 0 0 10px rgba(var(--md-sys-color-primary-numeric), 0.18);
+}
+
+//------------------------------- Remove this?
+// IE 10+
+input[type=range]::-ms-track {
+  height: 3px;
+  // remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead
+  background: transparent;
+  // leave room for the larger thumb to overflow with a transparent border */
+  border-color: transparent;
+  border-width: 6px 0;
+  /*remove default tick marks*/
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower,
+input[type=range]::-moz-range-progress {
+  background: var(--md-sys-color-primary);
+}
+input[type=range]::-ms-fill-upper,
+input[type=range]::-moz-range-track {
+  background: var(--md-sys-color-shadow-light);
+}
+input[type=range]::-ms-thumb {
+  @include range-thumb;
+}
+//--------------------------------
+
+.keyboard-focused input[type=range]:focus:not(.active)::-ms-thumb {
+  box-shadow: 0 0 0 10px rgba(var(--md-sys-color-primary-numeric), 0.18);
+}

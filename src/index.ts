@@ -1,60 +1,63 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Autocomplete, AutocompleteOptions } from './autocomplete';
-import { FloatingActionButton, FloatingActionButtonOptions } from './buttons';
-import { Cards, CardsOptions } from './cards';
-import { Carousel, CarouselOptions } from './carousel';
+import { Autocomplete, AutocompleteOptions } from '../components/search/autocomplete';
+import { FloatingActionButton, FloatingActionButtonOptions } from '../components/buttons/buttons';
+import { Cards, CardsOptions } from '../components/cards/cards';
+import { Carousel, CarouselOptions } from '../components/carousel/carousel';
+import { Chips, ChipsOptions } from '../components/chips/chips';
+import { Collapsible, CollapsibleOptions } from '../components/collapsible/collapsible';
+import { Datepicker, DatepickerOptions } from '../components/datepicker/datepicker';
+import { Dropdown, DropdownOptions } from '../components/dropdown/dropdown';
+import { Forms } from '../components/text-fields/forms';
+import { Materialbox, MaterialboxOptions } from '../components/dialog/materialbox';
+import { Modal, ModalOptions } from '../components/dialog/modal';
+import { FormSelect, FormSelectOptions } from '../components/text-fields/select';
+import { Sidenav, SidenavOptions } from '../components/navigation-drawer/sidenav';
+import { Slider, SliderOptions } from '../components/carousel/slider';
+import { Tabs, TabsOptions } from '../components/tabs/tabs';
+import { Timepicker, TimepickerOptions } from '../components/timepicker/timepicker';
+import { Toast, ToastOptions } from '../components/snackbar/toasts';
+import { Tooltip, TooltipOptions } from '../components/tooltips/tooltip';
+import { Range } from '../components/sliders/range';
+
+import { TapTarget, TapTargetOptions } from './tapTarget';
 import { CharacterCounter /*, CharacterCounterOptions*/ } from './characterCounter';
-import { Chips, ChipsOptions } from './chips';
-import { Collapsible, CollapsibleOptions } from './collapsible';
-import { Datepicker, DatepickerOptions } from './datepicker';
-import { Dropdown, DropdownOptions } from './dropdown';
-import { Forms } from './forms';
-import { Materialbox, MaterialboxOptions } from './materialbox';
-import { Modal, ModalOptions } from './modal';
 import { Parallax, ParallaxOptions } from './parallax';
 import { Pushpin, PushpinOptions } from './pushpin';
 import { ScrollSpy, ScrollSpyOptions } from './scrollspy';
-import { FormSelect, FormSelectOptions } from './select';
-import { Sidenav, SidenavOptions } from './sidenav';
-import { Slider, SliderOptions } from './slider';
-import { Tabs, TabsOptions } from './tabs';
-import { TapTarget, TapTargetOptions } from './tapTarget';
-import { Timepicker, TimepickerOptions } from './timepicker';
-import { Toast, ToastOptions } from './toasts';
-import { Tooltip, TooltipOptions } from './tooltip';
 import { Waves } from './waves';
-import { Range } from './range';
 import { Utils } from './utils';
 import { Component } from './component';
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
-export { Autocomplete } from './autocomplete';
-export { FloatingActionButton } from './buttons';
-export { Cards } from './cards';
-export { Carousel } from './carousel';
-export { CharacterCounter } from './characterCounter';
-export { Chips } from './chips';
-export { Collapsible } from './collapsible';
-export { Datepicker } from './datepicker';
-export { Dropdown } from './dropdown';
-export { Forms } from './forms';
-export { Materialbox } from './materialbox';
-export { Modal } from './modal';
-export { Parallax } from './parallax';
-export { Pushpin } from './pushpin';
-export { ScrollSpy } from './scrollspy';
-export { FormSelect } from './select';
-export { Sidenav } from './sidenav';
-export { Slider } from './slider';
-export { Tabs } from './tabs';
-export { TapTarget } from './tapTarget';
-export { Timepicker } from './timepicker';
-export { Toast } from './toasts';
-export { Tooltip } from './tooltip';
-export { Waves } from './waves';
-export { Range } from './range';
+export {
+  Autocomplete,
+  FloatingActionButton,
+  Cards,
+  Carousel,
+  CharacterCounter,
+  Chips,
+  Collapsible,
+  Datepicker,
+  Dropdown,
+  Forms,
+  Materialbox,
+  Modal,
+  Parallax,
+  Pushpin,
+  ScrollSpy,
+  FormSelect,
+  Sidenav,
+  Slider,
+  Tabs,
+  TapTarget,
+  Timepicker,
+  Toast,
+  Tooltip,
+  Waves,
+  Range
+};
 
-export const version = '2.2.1';
+export const version = '2.2.2';
 
 export interface AutoInitOptions {
   Autocomplete?: Partial<AutocompleteOptions>;

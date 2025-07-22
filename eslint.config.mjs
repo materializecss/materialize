@@ -1,4 +1,5 @@
 import typescriptEslint from 'typescript-eslint';
+import storybook from 'eslint-plugin-storybook';
 
 export default [
   { files: ['src/**/*.{ts,js,mjs}'] },
@@ -7,6 +8,7 @@ export default [
     ignores: ['dist', 'tsconfig.json', 'node_modules']
   },
   ...typescriptEslint.configs.recommended,
+  ...storybook.configs['flat/recommended'],
   {
     rules: {
       'prefer-const': 'error',
@@ -16,7 +18,7 @@ export default [
       '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/no-unused-expressions': 'error',
       '@typescript-eslint/no-this-alias': 'warn',
-      '@typescript-eslint/no-empty-object-type': ['error' , { allowWithName: 'BaseOptions$' }],
+      '@typescript-eslint/no-empty-object-type': ['error', { allowWithName: 'BaseOptions$' }],
       '@typescript-eslint/no-require-imports': 'error',
       '@typescript-eslint/no-unsafe-function-type': 'error'
     }

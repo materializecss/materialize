@@ -1,0 +1,18 @@
+{
+  "srcDir": "dist",
+  "srcFiles": ["**/materialize.js"],
+  "specDir": ".",
+  "specFiles": ["components/**/*[sS]pec.js", "spec/*[sS]pec.js"],
+  "helpers": ["spec/helper.js"],
+  "cssFiles": ["**/materialize.css"],
+  "env": {
+    "stopSpecOnExpectationFailure": false,
+    "stopOnSpecFailure": false,
+    "random": true
+  },
+  "listenAddress": "localhost",
+  "hostname": "localhost",
+  "browser": {
+    "name": "headlessChrome"
+  }
+}

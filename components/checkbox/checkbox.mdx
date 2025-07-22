@@ -1,0 +1,24 @@
+import {Story, Meta, Source, Controls, Markdown, Primary} from '@storybook/addon-docs/blocks';
+import * as stories from './checkbox.stories';
+
+<Meta of={stories}/>
+
+# Checkboxes
+
+Use checkboxes when looking for yes or no answers. The `for` attribute is necessary to bind our custom checkbox with the input.
+Add the input's `id` as the value of the `for` attribute of the label.
+
+## Default
+
+<Story of={stories.Default} />
+<Source of={stories.Default} format="dedent"/>
+
+## Filled-in Checkbox
+
+<Story of={stories.FilledIn} />
+<Source of={stories.FilledIn} format="dedent"/>
+
+## Indeterminate Checkbox
+
+<Story of={stories.Indeterminate} />
+<Source of={stories.Indeterminate} format="dedent"/>
