@@ -13,9 +13,9 @@
   margin: 0;
   height: 32px;
   padding-left: var(--padding);
-  padding-right: var(--padding);  
+  padding-right: var(--padding);
   font-size: var(--font-size);
-  font-weight: 500;    
+  font-weight: 500;
   border-radius: 8px;
   align-items: center;
   user-select: none;
@@ -49,6 +49,7 @@
 }
 
 .chip .close {
+  border: none;
   border-radius: 50%;
   height: 24px;
   width: 24px;

@@ -124,10 +124,10 @@ export class Chips extends Component<ChipsOptions> {
       this.chipsData = this.options.data;
       this._renderChips();
     }
-    this._setupLabel();
 
     // Render input element, setup event handlers
     if (this.options.allowUserInput) {
+      this._setupLabel();
       this.el.classList.add('input-field');
       this._setupInput();
       this._setupEventHandlers();
@@ -299,9 +299,9 @@ export class Chips extends Component<ChipsOptions> {
     }
   };
 
-  _renderChip(chip: ChipData): HTMLDivElement {
+  _renderChip(chip: ChipData): HTMLLIElement {
     if (!chip.id) return;
-    const renderedChip = document.createElement('div');
+    const renderedChip = document.createElement('li');
     renderedChip.classList.add('chip');
     renderedChip.innerText = chip.text || <string>chip.id;
     // attach image if needed
@@ -311,11 +311,10 @@ export class Chips extends Component<ChipsOptions> {
       renderedChip.insertBefore(img, renderedChip.firstChild);
     }
     if (this.options.allowUserInput) {
-      renderedChip.setAttribute('tabindex', '0');
-      const closeIcon = document.createElement('i');
-      closeIcon.classList.add(this.options.closeIconClass, 'close');
-      closeIcon.innerText = 'close';
-      renderedChip.appendChild(closeIcon);
+      const closeButton = document.createElement('button');
+      closeButton.classList.add(this.options.closeIconClass, 'close');
+      closeButton.innerText = 'close';
+      renderedChip.appendChild(closeButton);
     }
     return renderedChip;
   }
