@@ -78,7 +78,7 @@
 
 /* Focused styles */
 [type="radio"].tabbed:focus + span:before {
-  box-shadow: 0 0 0 10px rgba(var(--md-sys-color-primary-numeric), 0.18);
+  box-shadow: 0 0 0 10px color-mix(in srgb, transparent, var(--md-sys-color-primary) 18%);
 }
 
 /* Disabled Radio With gap */
