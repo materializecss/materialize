@@ -86,7 +86,7 @@ const _defaults: AutocompleteOptions = {
   onSearch: (text: string, autocomplete: Autocomplete) => {
     const normSearch = text.toLocaleLowerCase();
     autocomplete.setMenuItems(
-      autocomplete.options.data.filter(
+      autocomplete.data.filter(
         (option) =>
           option.id.toString().toLocaleLowerCase().includes(normSearch) ||
           option.text?.toLocaleLowerCase().includes(normSearch)
@@ -95,7 +95,7 @@ const _defaults: AutocompleteOptions = {
   },
   maxDropDownHeight: '300px',
   allowUnsafeHTML: false,
-  selected: []
+  selected: [],
 };
 
 export class Autocomplete extends Component<AutocompleteOptions> {
@@ -115,6 +115,7 @@ export class Autocomplete extends Component<AutocompleteOptions> {
   static _keydown: boolean;
   selectedValues: AutocompleteData[];
   menuItems: AutocompleteData[];
+  data: AutocompleteData[];
 
   constructor(el: HTMLInputElement, options: Partial<AutocompleteOptions>) {
     super(el, options, Autocomplete);
@@ -131,9 +132,10 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     this.oldVal = '';
     this.selectedValues =
       this.selectedValues ||
-      this.options.selected.map((value) => <AutocompleteData>{ id: value }) ||
+      this.options.selected.map((value: number | string) => <AutocompleteData>{ id: value }) ||
       [];
     this.menuItems = this.options.data || [];
+    this.data = this.options.data || [];
     this.$active = null;
     this._mousedown = false;
     this._setupDropdown();
@@ -535,14 +537,19 @@ export class Autocomplete extends Component<AutocompleteOptions> {
    * @param menuItems Items to be available.
    * @param selected Selected item ids
    * @param open Option to conditionally open dropdown
+   * @param initial Condition to set initial data
    */
   setMenuItems(
     menuItems: AutocompleteData[],
     selected: number[] | string[] = null,
-    open: boolean = true
+    open: boolean = true,
+    initial: boolean = false,
   ) {
     this.menuItems = menuItems;
     this.options.data = menuItems;
+    if (initial) {
+      this.data = menuItems;
+    }
     if (selected) {
       this.selectedValues = this.menuItems.filter(
         (item) => !(selected.indexOf(<never>item.id) === -1)
@@ -550,8 +557,6 @@ export class Autocomplete extends Component<AutocompleteOptions> {
     }
     if (this.options.isMultiSelect) {
       this._renderDropdown();
-    } else {
-      this._refreshInputText();
     }
     if (open) this.open();
     this._updateSelectedInfo();
