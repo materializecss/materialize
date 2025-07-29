@@ -67,9 +67,9 @@ textarea.materialize-textarea {
     }
 
     &:disabled, &[readonly="readonly"] {
-      color: rgba(var(--md_sys_color_on-surface), 0.38);
-      border-color: rgba(var(--md_sys_color_on-surface), 0.12);
-      background-color: rgba(var(--md_sys_color_on-surface), 0.04);
+      color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
+      border-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 12%);
+      background-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 4%);
     }
 
     // Label
@@ -86,7 +86,7 @@ textarea.materialize-textarea {
     }
 
     &:disabled + label, &[readonly="readonly"] + label {
-      color: rgba(var(--md_sys_color_on-surface), 0.38);
+      color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
     }
 
     // Hide helper text on data message
@@ -208,8 +208,8 @@ textarea.materialize-textarea {
       }
 
       &:disabled, &[readonly="readonly"] {
-        color: rgba(var(--md_sys_color_on-surface), 0.38);
-        border-color: rgba(var(--md_sys_color_on-surface), 0.12);
+        color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
+        border-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 12%);
       }
     }
   }
@@ -323,7 +323,10 @@ textarea {
 /* Autocomplete Items */
 .autocomplete-content {
   li {
-    .highlight { color: var(--md-sys-color-on-background); }
+    .highlight {
+      color: var(--md-sys-color-on-background);
+    }
+
     img {
       height: $dropdown-item-height - 10;
       width: $dropdown-item-height - 10;

@@ -166,7 +166,7 @@ input[type=text].timepicker-input-minutes {
 
 .timepicker-tick.active,
 .timepicker-tick:hover {
-  background-color: rgba(var(--md-sys-color-primary-numeric), 0.06);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 6%);
 }
 
 .timepicker-dial {
