@@ -482,6 +482,9 @@ export class Carousel extends Component<CarouselOptions> {
       this.el.classList.remove('scrolling');
     }, this.options.duration);
 
+    // Save last center before updating the center for onCycleTo callback
+    const lastCenter = this.center;
+
     // Start actual scroll
     this.offset = typeof x === 'number' ? x : this.offset;
     this.center = Math.floor((this.offset + this.dim / 2) / this.dim);
@@ -496,7 +499,6 @@ export class Carousel extends Component<CarouselOptions> {
       zTranslation: number,
       tweenedOpacity: number,
       centerTweenedOpacity: number;
-    const lastCenter = this.center;
     const numVisibleOffset = 1 / this.options.numVisible;
 
     // delta = this.offset - this.center * this.dim;
