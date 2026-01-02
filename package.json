@@ -39,7 +39,8 @@
     "preversion": "npm run lint && npm test",
     "version": "npm run build -- --environment BUILD:release && node compress.mjs && git add .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "demo": "live-server"
   },
   "lint-staged": {
     "js/*.js": [

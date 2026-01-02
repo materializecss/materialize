@@ -64,6 +64,9 @@ Materialize is compatible with:
 ## Testing
 We use Jasmine as our testing framework and we're trying to write a robust test suite for our components. If you want to help, [here's a starting guide on how to write tests in Jasmine](docs/CONTRIBUTING.md#jasmine-testing-guide).
 
+## Quick Testing and Development
+For quick testing install live-server node package globally and run `npm run demo`
+
 ## Contributing
 Check out the [CONTRIBUTING document](docs/CONTRIBUTING.md) in the root of the repository to learn how you can contribute. You can also browse the [help-wanted](https://github.com/materializecss/materialize/labels/help-wanted) tag in our issue tracker to find things to do.
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="/dist/css/materialize.min.css" media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Test</h1>
+      <p>This is for quick testing purposes. The files are used from dist directory.</p>
+
+      <div style="border: 1px dashed #888;">
+        <!-- Dropdown Trigger -->
+        <a class='dropdown-trigger btn tonal' href='#' data-target='dropdown1'>Drop Me!</a>
+        <!-- Dropdown Structure -->
+        <ul id='dropdown1' class='dropdown-content'>
+          <li><a href="#!">one</a></li>
+          <li><a href="#!">two</a></li>
+          <li class="divider" tabindex="-1"></li>
+          <li><a href="#!">three</a></li>
+          <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+          <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- JS -->
+    <script type="text/javascript" src="/dist/js/materialize.min.js"></script>
+    <script>
+      M.AutoInit();
+    </script>
+  </body>
+</html>
