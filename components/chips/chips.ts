@@ -433,7 +433,7 @@ class Chips extends Component<ChipsOptions> {
   }
 
   static {
-    Chips.#keydown = false;
+    this.#keydown = false;
   }
 }
 
