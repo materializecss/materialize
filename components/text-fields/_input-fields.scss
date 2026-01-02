@@ -6,27 +6,27 @@
 }
 
 /* Text inputs */
-input:not([type]):not(.browser-default),
-input[type=text]:not(.browser-default),
-input[type=password]:not(.browser-default),
-input[type=email]:not(.browser-default),
-input[type=url]:not(.browser-default),
-input[type=time]:not(.browser-default),
-input[type=date]:not(.browser-default),
-input[type=datetime]:not(.browser-default),
-input[type=datetime-local]:not(.browser-default),
-input[type=month]:not(.browser-default),
-input[type=tel]:not(.browser-default),
-input[type=number]:not(.browser-default),
-input[type=search]:not(.browser-default),
-textarea.materialize-textarea {
-  outline: none;
-  color: var(--md-sys-color-on-background);
-  width: 100%;
-  font-size: $md_sys_typescale_body-large_size; //16px; // => 16 dp
-  height: 56px; // 56dp
-  background-color: transparent;
-}
+// input:not([type]):not(.browser-default),
+// input[type=text]:not(.browser-default),
+// input[type=password]:not(.browser-default),
+// input[type=email]:not(.browser-default),
+// input[type=url]:not(.browser-default),
+// input[type=time]:not(.browser-default),
+// input[type=date]:not(.browser-default),
+// input[type=datetime]:not(.browser-default),
+// input[type=datetime-local]:not(.browser-default),
+// input[type=month]:not(.browser-default),
+// input[type=tel]:not(.browser-default),
+// input[type=number]:not(.browser-default),
+// input[type=search]:not(.browser-default),
+// textarea.materialize-textarea {
+//   outline: none;
+//   color: var(--md-sys-color-on-background);
+//   width: 100%;
+//   font-size: $md_sys_typescale_body-large_size; //16px; // => 16 dp
+//   height: 56px; // 56dp
+//   background-color: transparent;
+// }
 
 %invalid-input-style {
   border-bottom: 2px solid var(--md-sys-color-error);

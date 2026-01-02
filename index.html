@@ -5,32 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- CSS -->
     <link type="text/css" rel="stylesheet" href="/dist/css/materialize.min.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/components/text-fields/formfields.css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+      body {
+        background-image: radial-gradient(#8882 1px, transparent 0);
+        background-size: 12px 12px;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
       <h1>Test</h1>
       <p>This is for quick testing purposes. The files are used from dist directory.</p>
-
       <div style="border: 1px dashed #888;">
-        <!-- Dropdown Trigger -->
-        <a class='dropdown-trigger btn tonal' href='#' data-target='dropdown1'>Drop Me!</a>
-        <!-- Dropdown Structure -->
-        <ul id='dropdown1' class='dropdown-content'>
-          <li><a href="#!">one</a></li>
-          <li><a href="#!">two</a></li>
-          <li class="divider" tabindex="-1"></li>
-          <li><a href="#!">three</a></li>
-          <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-          <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-        </ul>
+
+        <div class="row g-1 p-3">
+          <!-- Animated -->
+          <fieldset class="form-field animated s12 m4">
+            <legend>Given Name</legend>
+            <input type="text" id="my-input-1" placeholder="Given Name"/>
+            <label for="my-input-1">Given Name</label>
+          </fieldset>
+          <!-- Disabled-->
+          <fieldset class="form-field s12 m4" disabled>
+            <legend>Family Name</legend>
+            <input type="text" id="my-input-2" placeholder="e.g. Doe" />
+            <label for="my-input-2">Family Name</label>
+          </fieldset>
+          <!-- different placeholder than label + required -->
+          <fieldset class="form-field s12 m4">
+            <legend>Birthmonth</legend>
+            <input type="text" id="my-input-3" placeholder="e.g. April" required />
+            <label for="my-input-3">Birthmonth</label>
+          </fieldset>
+        </div>
+
+
       </div>
     </div>
-
     <!-- JS -->
+    <!--
     <script type="text/javascript" src="/dist/js/materialize.min.js"></script>
     <script>
       M.AutoInit();
     </script>
+    -->
   </body>
 </html>
