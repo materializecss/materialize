@@ -2,7 +2,7 @@ import { Component, BaseOptions, InitElements, MElement } from '../../src/compon
 
 // Obsolete for versions > 2.1.1
 
-export interface ModalOptions extends BaseOptions {
+interface ModalOptions extends BaseOptions {
   opacity: number;
   inDuration: number;
   outDuration: number;
@@ -30,7 +30,7 @@ const _defaults = {
   endingTop: '10%'
 };
 
-export class Modal extends Component<ModalOptions> {
+class Modal extends Component<ModalOptions> {
   constructor(el: HTMLElement, options: Partial<ModalOptions>) {
     super(el, options, Modal);
     this.el['M_Modal'] = this;
@@ -107,3 +107,5 @@ interface ModalCreateConfig {
   content: string | HTMLElement;
   footer: string | HTMLElement;
 }
+
+export { Modal, ModalOptions };
