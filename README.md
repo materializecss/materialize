@@ -88,4 +88,4 @@ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com
 [![Backers](https://opencollective.com/materialize/backers.svg?width=890)](https://opencollective.com/materialize#backers)
 
 ## Copyright and license
-Code Copyright 2025 Materialize. Code released under the MIT license.
+Code Copyright 2026 Materialize. Code released under the MIT license.
