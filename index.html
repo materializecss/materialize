@@ -39,6 +39,40 @@
             <input type="text" id="my-input-3" placeholder="e.g. April" required />
             <label for="my-input-3">Birthmonth</label>
           </fieldset>
+          <!-- select -->
+          <fieldset class="form-field animated s12 m4">
+            <legend>Gender</legend>
+            <select id="my-input-gender">
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+            <label for="my-input-gender">Gender</label>
+          </fieldset>
+          <!-- Compound Input -->
+          <fieldset class="form-field animated s12 m4">
+            <legend>Height</legend>
+            <input type="number" id="my-input-size" placeholder=" " required style="text-align: right;" />
+            <label for="my-input-size">Height</label>
+            <select id="my-input-unit">
+              <option>m</option>
+              <option>dm</option>
+              <option selected>cm</option>
+            </select>
+            <label for="my-input-unit">Unit</label>
+          </fieldset>
+          <!-- Comound with prefix -->
+          <fieldset class="form-field animated s12 m4">
+            <legend>Budget</legend>
+            <div class="prefix">EUR</div>
+            <input type="text" id="my-input-budget" placeholder=" " required />
+            <label for="my-input-budget">Budget</label>
+          </fieldset>
+          <!-- Date -->
+          <fieldset class="form-field animated s12 m4">
+            <legend>Birthday</legend>
+            <input type="date" id="my-input-birthday" placeholder=" "/>
+            <label for="my-input-birthday">Birthday</label>
+          </fieldset>
         </div>
 
 
