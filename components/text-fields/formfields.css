@@ -78,12 +78,14 @@ fieldset.form-field legend {
   user-select: none;
 }
 fieldset.form-field input, fieldset.form-field select {
+  --mw-calc-input-height: calc(var(--mw-input-height) - var(--label-size) + 2 * var(--mw-border-width));
   box-sizing: border-box;
   font-size: var(--font-size);
   padding: 0;
   margin: 0;
   width: 100%;
-  height: calc(var(--mw-input-height) - var(--label-size) + 2 * var(--mw-border-width));
+  height: var(--mw-calc-input-height);
+  max-height: var(--mw-calc-input-height);
   margin-top: calc(-1 * var(--half-lbl));
   padding-left: calc(var(--mw-padding-left) - var(--mw-border-width));
   border: none;
