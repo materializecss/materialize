@@ -7,7 +7,6 @@
 @forward "./colors.module.css";
 @forward "./typography";
 @forward "./mixins.module";
-// @forward "./colors"; // => put in seperate file
 @forward "./variables";
 @forward "./global";
 @forward "./grid";
@@ -46,3 +45,4 @@
 @forward '../components/text-fields/input-fields';
 @forward '../components/text-fields/select';
 @forward '../components/text-fields/file-input';
+@forward '../components/text-fields/formfields.css';

@@ -1,8 +1,7 @@
+@use "sass:math";
+
 // TypeScale
 $md_sys_typescale_body-large_size: 16px;
-
-@use "sass:math";
-@use "./_colors";
 
 // Colors
 $success-color: colorFunc("green", "base") !default;

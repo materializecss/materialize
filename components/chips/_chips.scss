@@ -1,5 +1,3 @@
-@use '../../sass/colors.module.css' as *;
-
 .chip {
   --font-size: 14px;
   --font-size-icon: 18px;
@@ -45,7 +43,7 @@
 
 .chip > .material-icons {
   font-size: var(--font-size-icon);
-  @extend .on-surface-variant-text;
+  color: var(--md-sys-color-on-surface-variant);
 }
 
 .chip .close {
