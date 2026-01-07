@@ -1,12 +1,11 @@
 @use '../../sass/variables' as *;
-@use '../../sass/colors.module.css' as *;
 
 .progress {
   position: relative;
   height: 4px;
   display: block;
   width: 100%;
-  @extend .surface-variant;
+  background-color: var(--md-sys-color-surface-variant);
   border-radius: 4px;
   margin: $element-top-margin 0 $element-bottom-margin 0;
   overflow: hidden;
@@ -82,8 +81,6 @@
   }
 }
 
-
-
 /*
     @license
     Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
@@ -111,7 +108,6 @@
  *      CONTAINERWIDTH = 28px
  *      SHRINK_TIME = 400ms
  */
-
 
 .preloader-wrapper {
   display: inline-block;

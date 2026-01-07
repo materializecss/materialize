@@ -20,9 +20,6 @@ To fully release a new version, you need to have access to the @materializecss o
 - In your local copy of Materialize, go into the dev Branch with `git checkout v2-dev` and pull the newest version
    with `git pull origin v2-dev` to have the newest version from the server. Run Tests and check if everything works.
 
-- Create a new Release branch with `git checkout -b release-2.X.X`.
-   In case something happens or needs to be changed during the release it is better to keep the release on its own branch.
-
 - Run `npm version <change-type>`
    Where `<change-type> = patch, minor, major`. 
    [details](https://docs.npmjs.com/updating-your-published-package-version-number)
@@ -33,13 +30,9 @@ To fully release a new version, you need to have access to the @materializecss o
    * dist/js
    * dist/css
 
-- (Add Commit with message "chore: release 2.X.X-alpha")
+- Push to server. `git push `. 
 
-- Push to server. `git push --tags`. Remember to push the tags aswell.
-
-- Create a Pull Request (PR) into dev (dev <-- release-branch)
-
-- Create a PR (main <-- dev)
+- Create a Pull Request from dev into main
 
 - Merge the Pull Request if all checks pass and there were no concerns. (Set the draft release to public.)
 

@@ -1,5 +1,4 @@
 @use '../../sass/global' as *;
-@use '../../sass/colors.module.css' as *;
 
 .range-field {
   position: relative;
@@ -64,7 +63,7 @@ input[type=range] + .thumb {
 // Shared
 @mixin range-track {
   height: 3px;
-  @extend .surface-variant;
+  background-color: var(--md-sys-color-surface-variant);
   border: none;
 }
 
