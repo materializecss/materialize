@@ -1,6 +1,0 @@
-* text=auto
-**/*.html linguist-documentation
-
-css/ghpages-materialize.css merge=ours
-.gitignore merge=ours
-.gitattributes merge=ours

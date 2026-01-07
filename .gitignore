@@ -29,3 +29,5 @@ node_modules/
 yarn.lock
 
 #dist/
+*storybook.log
+storybook-static

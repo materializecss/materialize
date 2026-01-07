@@ -1,0 +1,20 @@
+import {Story, Meta, Source, Controls, Markdown, Primary} from '@storybook/addon-docs/blocks';
+import * as stories from './navigation-bar.stories';
+
+<Meta of={stories}/>
+
+# Navigation Bar
+
+There are 2 main parts of the navbar. A logo or brand link, and the navigations links. You can align these links to the left or right.
+
+## Right Aligned Links
+
+To right align your navbar links, just add a `right` class to the `ul` that contains them.
+
+<Story of={stories.RightAligned} />
+<Source of={stories.RightAligned} format="dedent"/>
+
+## Left Aligned Links
+
+<Story of={stories.LeftAligned} />
+<Source of={stories.LeftAligned} format="dedent"/>

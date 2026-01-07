@@ -1,0 +1,268 @@
+@use '../../sass/mixins.module.scss' as *;
+
+.datepicker-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 325px;
+  padding: 0;
+  background-color: var(--md-sys-color-inverse-on-surface);
+}
+
+.datepicker-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 280px;
+  margin: 0 auto;
+
+  .selects-container {
+    display: flex;
+  }
+
+  .select-wrapper {
+    input {
+      height: 49px;
+      margin: 4px 0 0 0;
+      border-bottom: none;
+      border-radius: 4px;
+      text-align: center;
+
+      &:focus {
+        color: var(--md-sys-color-primary);
+        background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
+      }
+
+      &::selection {
+        background-color: transparent;
+      }
+    }
+
+    .caret {
+      display: none;
+    }
+  }
+
+  .select-dropdown {
+    padding: 0;
+    vertical-align: middle;
+  }
+
+  .select-year input,
+  .select-month input {
+    background-color: transparent;
+  }
+
+  .select-year input {
+    width: 50px;
+  }
+
+  .select-month input {
+    width: 80px;
+  }
+
+  .month-prev,
+  .month-next {
+    display: inline-flex;
+    align-items: center;
+
+    @include btn($height: 49px);
+
+    &:focus {
+      background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
+    }
+  }
+
+  .month-prev > svg,
+  .month-next > svg {
+    fill: var(--md-sys-color-on-surface-variant);
+  }
+}
+
+.month-prev, .month-next {
+  height: 49px;
+  margin-top: 4px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+
+/* Date Display */
+.datepicker-date-display {
+  flex: 1 auto;
+  // @removed since v2.2.1-dev regarding Material M3 standards
+  // background-color: var(--md-sys-color-primary);
+  // color:  var(--md-sys-color-on-primary);
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--md-sys-color-surface-variant-light);
+  font-weight: 500;
+
+  .year-text {
+    display: block;
+    font-size: 1.5rem;
+    line-height: 25px;
+    color: var(--md-sys-color-on-primary);
+  }
+
+  .date-text {
+    display: block;
+    font-size: 2.8rem;
+    line-height: 47px;
+    font-weight: 500;
+  }
+
+  .daterange & {
+    .date-text {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+
+/* Calendar */
+.datepicker-calendar-container {
+  flex: 2.5 auto;
+}
+
+.datepicker-table {
+  width: 280px;
+  font-size: 1rem;
+  margin: 0 auto;
+
+  thead {
+    border-bottom: none;
+  }
+
+  th {
+    padding: 10px 5px;
+    text-align: center;
+  }
+
+  tr {
+    border: none;
+  }
+
+  abbr {
+    text-decoration: none;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  .datepicker-day {
+    padding: 0;
+    color: var(--md-sys-color-on-background);
+    // border-radius: 50%;
+
+    &.is-today {
+      color: var(--md-sys-color-primary);
+    }
+
+    /*&.is-selected button {
+      background-color: var(--md-sys-color-primary);
+      color:  var(--md-sys-color-on-primary);
+    }*/
+  }
+}
+
+// @todo
+.datepicker-day.has-event {}
+// @todo
+.datepicker-day.is-inrange {}
+// @todo
+.datepicker-day.is-startrange {}
+// @todo
+.datepicker-day.is-endrange {}
+
+.datepicker-day.is-daterange-start,
+.datepicker-day.is-daterange-end,
+.datepicker-day.is-daterange {
+  position: relative;
+
+  &:before {
+    position: absolute;
+    top: 5px;
+    width: 100%;
+    height: 34px;
+    content: '';
+    background-color: var(--md-sys-color-primary-container);
+    z-index: 0;
+  }
+}
+
+.datepicker-day.is-daterange-start:before,
+.datepicker-day.is-daterange-end:before {
+  width: 50%;
+}
+
+.datepicker-day.is-daterange-start:before {
+  left: 50%;
+}
+
+.datepicker-day.is-daterange .datepicker-day-button:before {
+  background-color: var(--md-sys-color-primary-container);
+}
+
+.datepicker-day-button {
+  background-color: transparent;
+  border: none;
+  line-height: 34px;
+  display: block;
+  width: 34px;
+  border-radius: 50%;
+  margin: 5px;
+  padding: 0 5px;
+  cursor: pointer;
+  color: inherit;
+  position: relative;
+  z-index: 1;
+
+  &:hover {
+    background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 6%);
+  }
+
+  &:focus {
+    border-color: var(--md-sys-color-primary);
+  }
+
+  .is-selected & {
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+
+    &:focus {
+      background-color: var(--md-sys-color-surface-variant);
+      color: var(--md-sys-color-primary);
+    }
+  }
+
+  &.is-outside-current-month button,
+  &.is-disabled button {
+    color: var(--md-sys-color-on-surface);
+    pointer-events: none;
+  }
+}
+
+/* Footer */
+.datepicker-footer {
+  width: 280px;
+  margin: 0 auto;
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.datepicker-cancel,
+.datepicker-clear,
+.datepicker-today,
+.datepicker-done {
+  color: var(--md-sys-color-primary);
+  padding: 0 1rem;
+}
+
+.datepicker-clear {
+  color: var(--md-sys-color-error);
+}
+
+/* Display modes */
+.datepicker-modal {
+  max-width: calc(325px + var(--modal-padding) * 2);
+  max-height: none;
+  background-color: var(--md-sys-color-inverse-on-surface);
+}

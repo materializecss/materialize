@@ -1,0 +1,263 @@
+/**
+new approach for floating labels aka "form-fields" (css only)
+- also use for selects, autocomplete, etc.
+
+<div class="row g-1 p-3">
+  <!-- Animated -->
+  <fieldset class="form-field animated s12 m4">
+    <legend>Given Name</legend>
+    <input type="text" id="my-input-1" placeholder=" "/>
+    <label for="my-input-1">Given Name</label>
+  </fieldset>
+  <!-- Disabled-->
+  <fieldset class="form-field s12 m4" disabled>
+    <legend>Family Name</legend>
+    <input type="text" id="my-input-2" placeholder="e.g. Doe" />
+    <label for="my-input-2">Family Name</label>
+  </fieldset>
+  <!-- different placeholder than label + required -->
+  <fieldset class="form-field s12 m4">
+    <legend>Birthmonth</legend>
+    <input type="text" id="my-input-3" placeholder="e.g. April" required />
+    <label for="my-input-3">Birthmonth</label>
+  </fieldset>
+</div>
+*/
+
+:root {
+  --font-size: 16px;
+  --mw-border-radius: 8px;
+  --mw-input-height: 56px;
+  --mw-idle-color: #888;
+  --mw-border-width: 1px;
+  --mw-hover-color: darkgoldenrod;
+  --mw-hover-border-width: 2px;
+  --mw-focus-color: var(--md-sys-color-primary);
+  --mw-focus-border-width: 2px;
+  --mw-disabled-color: #8886;
+  --mw-padding-left: 16px;
+  --input-padding-x: var(--mw-padding-left);
+  --input-padding-r: 12px;
+  --label-padding: 4px;
+  --animation-duration: 0.9s;
+  /* calc */
+  --mw-inset: 5px;
+  --label-size: calc(var(--font-size) * 0.75);
+  --label-margin-left: calc(var(--mw-padding-left) - var(--label-padding));
+  --half-inp: calc((-0.5 * var(--mw-input-height)));
+  --half-lbl: calc((0.5 * var(--label-size)));
+  --distY: calc(var(--half-inp) + var(--half-lbl));
+}
+
+/*=== idle */
+fieldset.form-field {
+  position: relative;
+  border-width: var(--mw-border-width);
+  border-color: var(--mw-idle-color);
+  border-style: solid;
+  border-radius: var(--mw-border-radius);
+  cursor: text;
+  height: var(--mw-input-height);
+  user-select: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: baseline;
+  font-size: var(--font-size);
+  padding: 0 calc(var(--mw-inset) - var(--mw-border-width));
+}
+fieldset.form-field legend {
+  color: var(--mw-idle-color);
+  font-size: var(--label-size);
+  padding: 0 var(--label-padding);
+  margin: 0;
+  margin-left: calc(var(--mw-padding-left) - var(--label-padding) - var(--mw-border-width));
+  cursor: text;
+  /* color: transparent; */
+  user-select: none;
+}
+fieldset.form-field input, fieldset.form-field select {
+  --mw-calc-input-height: calc(var(--mw-input-height) - var(--label-size) + 2 * var(--mw-border-width));
+  box-sizing: border-box;
+  font-size: var(--font-size);
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: var(--mw-calc-input-height);
+  max-height: var(--mw-calc-input-height);
+  margin-top: calc(-1 * var(--half-lbl));
+  padding-left: calc(var(--mw-padding-left) - var(--mw-border-width));
+  border: none;
+  line-height: normal;
+  outline: none;
+  background: none;
+  /* background-color: #0f05 !important; */
+}
+fieldset.form-field select {
+  padding: 0;
+  /* margin: 0; */
+  padding-left: calc(var(--mw-padding-left) - var(--label-padding));
+  /* background-color: #f005 !important; */
+}
+fieldset.form-field select option {
+  background-color: black;
+  color: white;
+ }
+fieldset.form-field input::placeholder {
+  color: var(--mw-idle-color);
+  font-size: var(--font-size);
+}
+fieldset.form-field label {
+  position: absolute;
+  top: calc(var(--mw-input-height) / 2 - var(--label-size) - var(--font-size) / 2);
+  margin-left: calc(var(--mw-inset) - var(--mw-border-width));
+  font-size: var(--font-size);
+  cursor: text;
+  user-select: none;
+  color: transparent;
+  /* color: green; */
+}
+/*--- idle animated */
+fieldset.form-field.animated legend::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: calc(100% - var(--mw-border-radius));
+  right: calc(0.5 * var(--mw-border-radius));
+  height: 0;
+  border-top: var(--mw-border-width) solid var(--mw-idle-color);
+  align-self: center;
+  transition: width calc(var(--animation-duration) * 0.8);
+}
+fieldset.form-field.animated legend {
+  color: transparent;
+}
+fieldset.form-field.animated input::placeholder {
+  opacity: 1;
+  transition: opacity var(--animation-duration) step-end;
+}
+fieldset.form-field.animated label {
+  position: absolute;
+  left: calc(var(--input-padding-x) - var(--mw-border-width));
+  font-size: var(--font-size);
+  transition: font-size var(--animation-duration), transform var(--animation-duration), opacity var(--animation-duration) step-end;
+}
+/*--- idle animated populated */
+fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend::before { width: 0; }
+fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend { color: var(--mw-idle-color); }
+fieldset.form-field.animated:has(input:not(:placeholder-shown)) label { color: transparent; }
+
+
+/*===== hovered */
+fieldset.form-field:hover {
+  border-width: var(--mw-hover-border-width);
+  border-color: var(--mw-hover-color);
+  padding: 0 calc(var(--mw-inset) - var(--mw-hover-border-width));
+}
+fieldset.form-field:hover legend::before {
+  border-width: var(--mw-hover-border-width);
+  border-color: var(--mw-hover-color);
+}
+fieldset.form-field:hover legend { color: var(--mw-hover-color); }
+/* hovered animated */
+fieldset.form-field.animated:hover legend { color: transparent; }
+fieldset.form-field.animated:has(input:placeholder-shown):hover input::placeholder {
+  color: transparent;
+}
+fieldset.form-field.animated:has(input:not(:placeholder-shown)):hover legend {
+  color: var(--mw-hover-color);
+}
+fieldset.form-field.animated:hover label {
+  /* color: transparent; */
+  color: var(--mw-hover-color);
+  left: calc(var(--input-padding-x) - var(--mw-hover-border-width));
+  top: calc(0.5 * var(--mw-input-height) - var(--label-size) * 0.5 - var(--font-size) + var(--mw-hover-border-width));
+}
+
+/*===== focused */
+fieldset.form-field:focus-within {
+  border-width: var(--mw-focus-border-width);
+  border-color: var(--mw-focus-color);
+  padding: 0 calc(var(--mw-inset) - var(--mw-focus-border-width));
+}
+fieldset.form-field:focus-within legend::before {
+  border-width: var(--mw-focus-border-width);
+  border-color: var(--mw-focus-color);
+}
+fieldset.form-field:focus-within legend { color: var(--mw-focus-color); }
+fieldset.form-field select:focus { color: var(--mw-focus-color); }
+/* focused animated */
+fieldset.form-field.animated:focus-within legend::before { width: 0; }
+fieldset.form-field.animated:focus-within legend { color: var(--mw-focus-color); }
+fieldset.form-field.animated:has(input:not(:placeholder-shown)):focus-within legend { color: var(--mw-focus-color); }
+fieldset.form-field.animated:focus-within input::placeholder { color: transparent }
+fieldset.form-field.animated:focus-within label {
+  color: transparent;
+  left: calc(var(--input-padding-x) - var(--mw-hover-border-width));
+}
+
+/*
+fieldset.form-field.animated input:not(:placeholder-shown) ~ legend::before {
+  width: 0;
+}
+fieldset.form-field.animated input:not(:placeholder-shown) ~ label {
+  font-size: var(--label-size);
+  transform: translateY(0);
+  opacity: 1;
+}
+fieldset.form-field.animated label {
+  opacity: 1;
+  color: var(--mw-focus-color);
+  font-size: var(--label-size);
+  transform: translateY(var(--distY)) translateX(var(--input-padding-x));
+  transition: font-size var(--animation-duration), transform var(--animation-duration), opacity 0s;
+} 
+fieldset.form-field.animated:focus-within legend::before,
+fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend::before {
+  border-top: var(--mw-focus-border-width) solid var(--mw-focus-color);
+  width: 0;
+}
+fieldset.form-field.animated:focus-within input::placeholder {
+  opacity: 0;
+  transition: opacity 0s;
+}
+*/
+
+/* disabled*/
+fieldset.form-field[disabled],
+fieldset.form-field[disabled]:hover {
+  background-color: transparent;
+  border-color: var(--mw-disabled-color);
+  user-select: none;
+  cursor: not-allowed;
+  padding: 0 calc(var(--mw-inset) - var(--mw-border-width));
+}
+fieldset.form-field[disabled] input { cursor: not-allowed; }
+fieldset.form-field[disabled] legend, 
+fieldset.form-field[disabled] input::placeholder {
+  color: var(--mw-disabled-color);
+  cursor: not-allowed;
+}
+fieldset.form-field[disabled] input {
+  height: calc(var(--mw-input-height) - var(--label-size) + 2 * var(--mw-border-width));
+  margin-top: calc(-1 * var(--half-lbl));
+}
+fieldset.form-field[disabled]:hover { border-width: var(--mw-border-width); }
+fieldset.form-field[disabled]:hover input, fieldset.form-field[disabled]:hover select {
+  padding-left: calc(var(--mw-padding-left) - var(--mw-border-width));
+}
+fieldset.form-field[disabled]:hover legend {
+  margin-left: calc(var(--mw-padding-left) - var(--label-padding) - var(--mw-border-width));
+  border-color: transparent;
+  border-color: var(--mw-disabled-color);
+  color: var(--mw-disabled-color);
+  cursor: not-allowed;
+}
+fieldset.form-field[disabled] label {
+  cursor: not-allowed;
+}
+
+/* special: required */
+fieldset.form-field:has([required]) legend::after { content: " *"; }
+fieldset.form-field:has([required]) label::after { content: " *"; }

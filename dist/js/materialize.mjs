@@ -1,6 +1,6 @@
 /*!
-* Materialize v2.2.2 (https://materializeweb.com)
-* Copyright 2014-2025 Materialize
+* Materialize v2.3.0 (https://materializeweb.com)
+* Copyright 2014-2026 Materialize
 * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
 */
 /**
@@ -397,7 +397,7 @@ class Component {
     }
 }
 
-const _defaults$n = {
+const _defaults$o = {
     alignment: 'left',
     autoFocus: true,
     constrainWidth: true,
@@ -450,7 +450,7 @@ class Dropdown extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$n;
+        return _defaults$o;
     }
     /**
      * Initializes instances of Dropdown.
@@ -901,7 +901,7 @@ class Dropdown extends Component {
     };
 }
 
-const _defaults$m = {
+const _defaults$n = {
     data: [], // Autocomplete data set
     onAutocomplete: null, // Callback for when autocompleted
     dropdownOptions: {
@@ -914,12 +914,12 @@ const _defaults$m = {
     isMultiSelect: false,
     onSearch: (text, autocomplete) => {
         const normSearch = text.toLocaleLowerCase();
-        autocomplete.setMenuItems(autocomplete.options.data.filter((option) => option.id.toString().toLocaleLowerCase().includes(normSearch)
-            || option.text?.toLocaleLowerCase().includes(normSearch)));
+        autocomplete.setMenuItems(autocomplete.data.filter((option) => option.id.toString().toLocaleLowerCase().includes(normSearch) ||
+            option.text?.toLocaleLowerCase().includes(normSearch)));
     },
     maxDropDownHeight: '300px',
     allowUnsafeHTML: false,
-    selected: []
+    selected: [],
 };
 class Autocomplete extends Component {
     /** If the autocomplete is open. */
@@ -937,6 +937,7 @@ class Autocomplete extends Component {
     static _keydown;
     selectedValues;
     menuItems;
+    data;
     constructor(el, options) {
         super(el, options, Autocomplete);
         this.el['M_Autocomplete'] = this;
@@ -948,15 +949,19 @@ class Autocomplete extends Component {
         this.count = 0;
         this.activeIndex = -1;
         this.oldVal = '';
-        this.selectedValues = this.selectedValues || this.options.selected.map((value) => ({ id: value })) || [];
+        this.selectedValues =
+            this.selectedValues ||
+                this.options.selected.map((value) => ({ id: value })) ||
+                [];
         this.menuItems = this.options.data || [];
+        this.data = this.options.data || [];
         this.$active = null;
         this._mousedown = false;
         this._setupDropdown();
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$m;
+        return _defaults$n;
     }
     /**
      * Initializes instances of Autocomplete.
@@ -1235,8 +1240,7 @@ class Autocomplete extends Component {
         }
     }
     _setStatusLoading() {
-        this.el.parentElement.querySelector('.status-info').innerHTML =
-            `<div style="height:100%;width:50px;"><svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+        this.el.parentElement.querySelector('.status-info').innerHTML = `<div style="height:100%;width:50px;"><svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
     <circle fill="#888c" stroke="none" cx="6" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.1"/></circle>
     <circle fill="#888c" stroke="none" cx="26" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.2"/></circle>
     <circle fill="#888c" stroke="none" cx="46" cy="50" r="6"><animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite"  begin="0.3"/></circle>
@@ -1293,18 +1297,19 @@ class Autocomplete extends Component {
      * @param menuItems Items to be available.
      * @param selected Selected item ids
      * @param open Option to conditionally open dropdown
+     * @param initial Condition to set initial data
      */
-    setMenuItems(menuItems, selected = null, open = true) {
+    setMenuItems(menuItems, selected = null, open = true, initial = false) {
         this.menuItems = menuItems;
         this.options.data = menuItems;
+        if (initial) {
+            this.data = menuItems;
+        }
         if (selected) {
             this.selectedValues = this.menuItems.filter((item) => !(selected.indexOf(item.id) === -1));
         }
         if (this.options.isMultiSelect) {
             this._renderDropdown();
-        }
-        else {
-            this._refreshInputText();
         }
         if (open)
             this.open();
@@ -1364,20 +1369,20 @@ class Autocomplete extends Component {
     }
 }
 
-const _defaults$l = {
+const _defaults$m = {
     direction: 'top',
     hoverEnabled: true,
     toolbarEnabled: false
 };
 class FloatingActionButton extends Component {
+    #anchor;
+    #menu;
+    #floatingBtns;
+    #floatingBtnsReverse;
     /**
      * Describes open/close state of FAB.
      */
     isOpen;
-    _anchor;
-    _menu;
-    _floatingBtns;
-    _floatingBtnsReverse;
     offsetY;
     offsetX;
     btnBottom;
@@ -1391,15 +1396,15 @@ class FloatingActionButton extends Component {
             ...options
         };
         this.isOpen = false;
-        this._anchor = this.el.querySelector('a');
-        this._menu = this.el.querySelector('ul');
-        this._floatingBtns = Array.from(this.el.querySelectorAll('ul .btn-floating'));
-        this._floatingBtnsReverse = this._floatingBtns.reverse();
+        this.#anchor = this.el.querySelector('a');
+        this.#menu = this.el.querySelector('ul');
+        this.#floatingBtns = Array.from(this.el.querySelectorAll('ul .btn-floating'));
+        this.#floatingBtnsReverse = this.#floatingBtns.reverse();
         this.offsetY = 0;
         this.offsetX = 0;
         this.el.classList.add(`direction-${this.options.direction}`);
-        this._anchor.tabIndex = 0;
-        this._menu.ariaExpanded = 'false';
+        this.#anchor.tabIndex = 0;
+        this.#menu.ariaExpanded = 'false';
         if (this.options.direction === 'top')
             this.offsetY = 40;
         else if (this.options.direction === 'right')
@@ -1408,10 +1413,10 @@ class FloatingActionButton extends Component {
             this.offsetY = -40;
         else
             this.offsetX = 40;
-        this._setupEventHandlers();
+        this.#setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$l;
+        return _defaults$m;
     }
     /**
      * Initializes instances of FloatingActionButton.
@@ -1425,38 +1430,38 @@ class FloatingActionButton extends Component {
         return el['M_FloatingActionButton'];
     }
     destroy() {
-        this._removeEventHandlers();
+        this.#removeEventHandlers();
         this.el['M_FloatingActionButton'] = undefined;
     }
-    _setupEventHandlers() {
+    #setupEventHandlers() {
         if (this.options.hoverEnabled && !this.options.toolbarEnabled) {
             this.el.addEventListener('mouseenter', this.open);
             this.el.addEventListener('mouseleave', this.close);
         }
         else {
-            this.el.addEventListener('click', this._handleFABClick);
+            this.el.addEventListener('click', this.#handleFABClick);
         }
-        this.el.addEventListener('keypress', this._handleFABKeyPress);
+        this.el.addEventListener('keypress', this.#handleFABKeyPress);
     }
-    _removeEventHandlers() {
+    #removeEventHandlers() {
         if (this.options.hoverEnabled && !this.options.toolbarEnabled) {
             this.el.removeEventListener('mouseenter', this.open);
             this.el.removeEventListener('mouseleave', this.close);
         }
         else {
-            this.el.removeEventListener('click', this._handleFABClick);
+            this.el.removeEventListener('click', this.#handleFABClick);
         }
-        this.el.removeEventListener('keypress', this._handleFABKeyPress);
+        this.el.removeEventListener('keypress', this.#handleFABKeyPress);
     }
-    _handleFABClick = () => {
-        this._handleFABToggle();
+    #handleFABClick = () => {
+        this.#handleFABToggle();
     };
-    _handleFABKeyPress = (e) => {
+    #handleFABKeyPress = (e) => {
         if (Utils.keys.ENTER.includes(e.key)) {
-            this._handleFABToggle();
+            this.#handleFABToggle();
         }
     };
-    _handleFABToggle = () => {
+    #handleFABToggle = () => {
         if (this.isOpen) {
             this.close();
         }
@@ -1464,9 +1469,9 @@ class FloatingActionButton extends Component {
             this.open();
         }
     };
-    _handleDocumentClick = (e) => {
+    #handleDocumentClick = (e) => {
         const elem = e.target;
-        if (elem !== this._menu)
+        if (elem !== this.#menu)
             this.close();
     };
     /**
@@ -1476,9 +1481,9 @@ class FloatingActionButton extends Component {
         if (this.isOpen)
             return;
         if (this.options.toolbarEnabled)
-            this._animateInToolbar();
+            this.#animateInToolbar();
         else
-            this._animateInFAB();
+            this.#animateInFAB();
         this.isOpen = true;
     };
     /**
@@ -1489,19 +1494,19 @@ class FloatingActionButton extends Component {
             return;
         if (this.options.toolbarEnabled) {
             window.removeEventListener('scroll', this.close, true);
-            document.body.removeEventListener('click', this._handleDocumentClick, true);
+            document.body.removeEventListener('click', this.#handleDocumentClick, true);
         }
         else {
-            this._animateOutFAB();
+            this.#animateOutFAB();
         }
         this.isOpen = false;
     };
-    _animateInFAB() {
+    #animateInFAB() {
         this.el.classList.add('active');
-        this._menu.ariaExpanded = 'true';
+        this.#menu.ariaExpanded = 'true';
         const delayIncrement = 40;
         const duration = 275;
-        this._floatingBtnsReverse.forEach((el, index) => {
+        this.#floatingBtnsReverse.forEach((el, index) => {
             const delay = delayIncrement * index;
             el.style.transition = 'none';
             el.style.opacity = '0';
@@ -1520,13 +1525,13 @@ class FloatingActionButton extends Component {
             }, delay);
         });
     }
-    _animateOutFAB() {
+    #animateOutFAB() {
         const duration = 175;
         setTimeout(() => {
             this.el.classList.remove('active');
-            this._menu.ariaExpanded = 'false';
+            this.#menu.ariaExpanded = 'false';
         }, duration);
-        this._floatingBtnsReverse.forEach((el) => {
+        this.#floatingBtnsReverse.forEach((el) => {
             el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
             // to
             el.style.opacity = '0';
@@ -1534,14 +1539,14 @@ class FloatingActionButton extends Component {
             el.tabIndex = -1;
         });
     }
-    _animateInToolbar() {
+    #animateInToolbar() {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
         const btnRect = this.el.getBoundingClientRect();
-        const backdrop = document.createElement('div'), scaleFactor = windowWidth / backdrop[0].clientWidth, fabColor = getComputedStyle(this._anchor).backgroundColor; // css('background-color');
+        const backdrop = document.createElement('div'), scaleFactor = windowWidth / backdrop[0].clientWidth, fabColor = getComputedStyle(this.#anchor).backgroundColor; // css('background-color');
         backdrop.classList.add('fab-backdrop'); //  $('<div class="fab-backdrop"></div>');
         backdrop.style.backgroundColor = fabColor;
-        this._anchor.append(backdrop);
+        this.#anchor.append(backdrop);
         this.offsetX = btnRect.left - windowWidth / 2 + btnRect.width / 2;
         this.offsetY = windowHeight - btnRect.bottom;
         this.btnBottom = btnRect.bottom;
@@ -1555,45 +1560,45 @@ class FloatingActionButton extends Component {
         this.el.style.left = '0';
         this.el.style.transform = 'translateX(' + this.offsetX + 'px)';
         this.el.style.transition = 'none';
-        this._menu.ariaExpanded = 'true';
-        this._anchor.style.transform = `translateY(${this.offsetY}px`;
-        this._anchor.style.transition = 'none';
+        this.#menu.ariaExpanded = 'true';
+        this.#anchor.style.transform = `translateY(${this.offsetY}px`;
+        this.#anchor.style.transition = 'none';
         setTimeout(() => {
             this.el.style.transform = '';
             this.el.style.transition =
                 'transform .2s cubic-bezier(0.550, 0.085, 0.680, 0.530), background-color 0s linear .2s';
-            this._anchor.style.overflow = 'visible';
-            this._anchor.style.transform = '';
-            this._anchor.style.transition = 'transform .2s';
+            this.#anchor.style.overflow = 'visible';
+            this.#anchor.style.transform = '';
+            this.#anchor.style.transition = 'transform .2s';
             setTimeout(() => {
                 this.el.style.overflow = 'hidden';
                 this.el.style.backgroundColor = fabColor;
                 backdrop.style.transform = 'scale(' + scaleFactor + ')';
                 backdrop.style.transition = 'transform .2s cubic-bezier(0.550, 0.055, 0.675, 0.190)';
-                this._menu.querySelectorAll('li > a').forEach((a) => {
+                this.#menu.querySelectorAll('li > a').forEach((a) => {
                     a.style.opacity = '1';
                     a.tabIndex = 0;
                 });
                 // Scroll to close.
                 window.addEventListener('scroll', this.close, true);
-                document.body.addEventListener('click', this._handleDocumentClick, true);
+                document.body.addEventListener('click', this.#handleDocumentClick, true);
             }, 100);
         }, 0);
     }
 }
 
-const _defaults$k = {
+const _defaults$l = {
     onOpen: null,
     onClose: null,
     inDuration: 225,
     outDuration: 300
 };
 class Cards extends Component {
+    #cardReveal;
+    #initialOverflow;
+    #activators;
+    #cardRevealClose;
     isOpen = false;
-    cardReveal;
-    initialOverflow;
-    _activators;
-    cardRevealClose;
     constructor(el, options) {
         super(el, options, Cards);
         this.el['M_Cards'] = this;
@@ -1601,24 +1606,24 @@ class Cards extends Component {
             ...Cards.defaults,
             ...options
         };
-        this._activators = [];
-        this.cardReveal = this.el.querySelector('.card-reveal');
-        if (this.cardReveal) {
-            this.initialOverflow = getComputedStyle(this.el).overflow;
-            this._activators = Array.from(this.el.querySelectorAll('.activator'));
-            this._activators.forEach((el) => {
+        this.#activators = [];
+        this.#cardReveal = this.el.querySelector('.card-reveal');
+        if (this.#cardReveal) {
+            this.#initialOverflow = getComputedStyle(this.el).overflow;
+            this.#activators = Array.from(this.el.querySelectorAll('.activator'));
+            this.#activators.forEach((el) => {
                 if (el)
                     el.tabIndex = 0;
             });
-            this.cardRevealClose = this.cardReveal?.querySelector('.card-title');
-            if (this.cardRevealClose)
-                this.cardRevealClose.tabIndex = -1;
-            this.cardReveal.ariaExpanded = 'false';
-            this._setupEventHandlers();
+            this.#cardRevealClose = this.#cardReveal?.querySelector('.card-title');
+            if (this.#cardRevealClose)
+                this.#cardRevealClose.tabIndex = -1;
+            this.#cardReveal.ariaExpanded = 'false';
+            this.#setupEventHandlers();
         }
     }
     static get defaults() {
-        return _defaults$k;
+        return _defaults$l;
     }
     /**
      * Initializes instances of Cards.
@@ -1635,43 +1640,42 @@ class Cards extends Component {
      * {@inheritDoc}
      */
     destroy() {
-        this._removeEventHandlers();
-        this._activators = [];
+        this.#removeEventHandlers();
+        this.#activators = [];
     }
-    _setupEventHandlers = () => {
-        this._activators.forEach((el) => {
-            el.addEventListener('click', this._handleClickInteraction);
-            el.addEventListener('keypress', this._handleKeypressEvent);
+    #setupEventHandlers = () => {
+        this.#activators.forEach((el) => {
+            el.addEventListener('click', this.#handleClickInteraction);
+            el.addEventListener('keypress', this.#handleKeypressEvent);
         });
     };
-    _removeEventHandlers = () => {
-        this._activators.forEach((el) => {
-            el.removeEventListener('click', this._handleClickInteraction);
-            el.removeEventListener('keypress', this._handleKeypressEvent);
+    #removeEventHandlers = () => {
+        this.#activators.forEach((el) => {
+            el.removeEventListener('click', this.#handleClickInteraction);
+            el.removeEventListener('keypress', this.#handleKeypressEvent);
         });
     };
-    _handleClickInteraction = () => {
-        this._handleRevealEvent();
+    #handleClickInteraction = () => {
+        this.#handleRevealEvent();
     };
-    _handleKeypressEvent = (e) => {
+    #handleKeypressEvent = (e) => {
         if (Utils.keys.ENTER.includes(e.key)) {
-            this._handleRevealEvent();
+            this.#handleRevealEvent();
         }
     };
-    _handleRevealEvent = () => {
-        // Reveal Card
-        this._activators.forEach((el) => (el.tabIndex = -1));
+    #handleRevealEvent = () => {
+        this.#activators.forEach((el) => (el.tabIndex = -1)); // Reveal Card
         this.open();
     };
-    _setupRevealCloseEventHandlers = () => {
-        this.cardRevealClose.addEventListener('click', this.close);
-        this.cardRevealClose.addEventListener('keypress', this._handleKeypressCloseEvent);
+    #setupRevealCloseEventHandlers = () => {
+        this.#cardRevealClose.addEventListener('click', this.close);
+        this.#cardRevealClose.addEventListener('keypress', this.#handleKeypressCloseEvent);
     };
-    _removeRevealCloseEventHandlers = () => {
-        this.cardRevealClose.addEventListener('click', this.close);
-        this.cardRevealClose.addEventListener('keypress', this._handleKeypressCloseEvent);
+    #removeRevealCloseEventHandlers = () => {
+        this.#cardRevealClose.addEventListener('click', this.close);
+        this.#cardRevealClose.addEventListener('keypress', this.#handleKeypressCloseEvent);
     };
-    _handleKeypressCloseEvent = (e) => {
+    #handleKeypressCloseEvent = (e) => {
         if (Utils.keys.ENTER.includes(e.key)) {
             this.close();
         }
@@ -1684,17 +1688,17 @@ class Cards extends Component {
             return;
         this.isOpen = true;
         this.el.style.overflow = 'hidden';
-        this.cardReveal.style.display = 'block';
-        this.cardReveal.ariaExpanded = 'true';
-        this.cardRevealClose.tabIndex = 0;
+        this.#cardReveal.style.display = 'block';
+        this.#cardReveal.ariaExpanded = 'true';
+        this.#cardRevealClose.tabIndex = 0;
         setTimeout(() => {
-            this.cardReveal.style.transition = `transform ${this.options.outDuration}ms ease`; //easeInOutQuad
-            this.cardReveal.style.transform = 'translateY(-100%)';
+            this.#cardReveal.style.transition = `transform ${this.options.outDuration}ms ease`; //easeInOutQuad
+            this.#cardReveal.style.transform = 'translateY(-100%)';
         }, 1);
         if (typeof this.options.onOpen === 'function') {
             this.options.onOpen.call(this);
         }
-        this._setupRevealCloseEventHandlers();
+        this.#setupRevealCloseEventHandlers();
     };
     /**
      * Hide card reveal.
@@ -1703,19 +1707,19 @@ class Cards extends Component {
         if (!this.isOpen)
             return;
         this.isOpen = false;
-        this.cardReveal.style.transition = `transform ${this.options.inDuration}ms ease`; //easeInOutQuad
-        this.cardReveal.style.transform = 'translateY(0)';
+        this.#cardReveal.style.transition = `transform ${this.options.inDuration}ms ease`; //easeInOutQuad
+        this.#cardReveal.style.transform = 'translateY(0)';
         setTimeout(() => {
-            this.cardReveal.style.display = 'none';
-            this.cardReveal.ariaExpanded = 'false';
-            this._activators.forEach((el) => (el.tabIndex = 0));
-            this.cardRevealClose.tabIndex = -1;
-            this.el.style.overflow = this.initialOverflow;
+            this.#cardReveal.style.display = 'none';
+            this.#cardReveal.ariaExpanded = 'false';
+            this.#activators.forEach((el) => (el.tabIndex = 0));
+            this.#cardRevealClose.tabIndex = -1;
+            this.el.style.overflow = this.#initialOverflow;
         }, this.options.inDuration);
         if (typeof this.options.onClose === 'function') {
             this.options.onClose.call(this);
         }
-        this._removeRevealCloseEventHandlers();
+        this.#removeRevealCloseEventHandlers();
     };
     static Init() {
         if (typeof document !== 'undefined')
@@ -1723,14 +1727,14 @@ class Cards extends Component {
             document.addEventListener('DOMContentLoaded', () => {
                 const cards = document.querySelectorAll('.card');
                 cards.forEach((el) => {
-                    if (el && (el['M_Card'] == undefined))
+                    if (el && el['M_Card'] == undefined)
                         this.init(el);
                 });
             });
     }
 }
 
-const _defaults$j = {
+const _defaults$k = {
     duration: 200, // ms
     dist: -100, // zoom scale TODO: make this more intuitive as an option
     shift: 0, // spacing for center image
@@ -1832,7 +1836,7 @@ class Carousel extends Component {
         this._scroll(this.offset);
     }
     static get defaults() {
-        return _defaults$j;
+        return _defaults$k;
     }
     /**
      * Initializes instances of Carousel.
@@ -2119,12 +2123,13 @@ class Carousel extends Component {
         this.scrollingTimeout = setTimeout(() => {
             this.el.classList.remove('scrolling');
         }, this.options.duration);
+        // Save last center before updating the center for onCycleTo callback
+        const lastCenter = this.center;
         // Start actual scroll
         this.offset = typeof x === 'number' ? x : this.offset;
         this.center = Math.floor((this.offset + this.dim / 2) / this.dim);
         const half = this.count >> 1, delta = this.offset - this.center * this.dim, dir = delta < 0 ? 1 : -1, tween = (-dir * delta * 2) / this.dim;
         let i, el, alignment, zTranslation, tweenedOpacity, centerTweenedOpacity;
-        const lastCenter = this.center;
         const numVisibleOffset = 1 / this.options.numVisible;
         // delta = this.offset - this.center * this.dim;
         // dir = delta < 0 ? 1 : -1;
@@ -2302,7 +2307,8 @@ class Carousel extends Component {
     }
 }
 
-const _defaults$i = {
+var _a;
+const _defaults$j = {
     data: [],
     placeholder: '',
     secondaryPlaceholder: '',
@@ -2325,38 +2331,38 @@ class Chips extends Component {
     hasAutocomplete;
     /** Autocomplete instance, if any. */
     autocomplete;
-    _input;
-    _label;
-    _chips;
-    static _keydown;
-    _selectedChip;
+    #input;
+    #label;
+    #chips;
+    static #keydown;
+    #selectedChip;
     constructor(el, options) {
-        super(el, options, Chips);
+        super(el, options, _a);
         this.el['M_Chips'] = this;
         this.options = {
-            ...Chips.defaults,
+            ..._a.defaults,
             ...options
         };
         this.el.classList.add('chips');
         this.chipsData = [];
-        this._chips = [];
+        this.#chips = [];
         // Render initial chips
         if (this.options.data.length) {
             this.chipsData = this.options.data;
-            this._renderChips();
+            this.#renderChips();
         }
-        this._setupLabel();
         // Render input element, setup event handlers
         if (this.options.allowUserInput) {
+            this.#setupLabel();
             this.el.classList.add('input-field');
-            this._setupInput();
-            this._setupEventHandlers();
+            this.#setupInput();
+            this.#setupEventHandlers();
             // move input to end
-            this.el.append(this._input);
+            this.el.append(this.#input);
         }
     }
     static get defaults() {
-        return _defaults$i;
+        return _defaults$j;
     }
     /**
      * Initializes instances of Chips.
@@ -2364,7 +2370,7 @@ class Chips extends Component {
      * @param options Component options.
      */
     static init(els, options = {}) {
-        return super.init(els, options, Chips);
+        return super.init(els, options, _a);
     }
     static getInstance(el) {
         return el['M_Chips'];
@@ -2373,40 +2379,39 @@ class Chips extends Component {
         return this.chipsData;
     }
     destroy() {
-        if (this.options.allowUserInput) {
-            this._removeEventHandlers();
-        }
-        this._chips.forEach((c) => c.remove());
-        this._chips = [];
+        if (this.options.allowUserInput)
+            this.#removeEventHandlers();
+        this.#chips.forEach((c) => c.remove());
+        this.#chips = [];
         this.el['M_Chips'] = undefined;
     }
-    _setupEventHandlers() {
-        this.el.addEventListener('click', this._handleChipClick);
+    #setupEventHandlers() {
+        this.el.addEventListener('click', this.#handleChipClick);
         // @todo why do we need this as document event listener, shouldn't we apply it to the element wrapper itself?
-        document.addEventListener('keydown', Chips._handleChipsKeydown);
-        document.addEventListener('keyup', Chips._handleChipsKeyup);
-        this.el.addEventListener('blur', Chips._handleChipsBlur, true);
-        this._input.addEventListener('focus', this._handleInputFocus);
-        this._input.addEventListener('blur', this._handleInputBlur);
-        this._input.addEventListener('keydown', this._handleInputKeydown);
+        document.addEventListener('keydown', _a.#handleChipsKeydown);
+        document.addEventListener('keyup', _a.#handleChipsKeyup);
+        this.el.addEventListener('blur', _a.#handleChipsBlur, true);
+        this.#input.addEventListener('focus', this.#handleInputFocus);
+        this.#input.addEventListener('blur', this.#handleInputBlur);
+        this.#input.addEventListener('keydown', this.#handleInputKeydown);
     }
-    _removeEventHandlers() {
-        this.el.removeEventListener('click', this._handleChipClick);
-        document.removeEventListener('keydown', Chips._handleChipsKeydown);
-        document.removeEventListener('keyup', Chips._handleChipsKeyup);
-        this.el.removeEventListener('blur', Chips._handleChipsBlur, true);
-        this._input.removeEventListener('focus', this._handleInputFocus);
-        this._input.removeEventListener('blur', this._handleInputBlur);
-        this._input.removeEventListener('keydown', this._handleInputKeydown);
+    #removeEventHandlers() {
+        this.el.removeEventListener('click', this.#handleChipClick);
+        document.removeEventListener('keydown', _a.#handleChipsKeydown);
+        document.removeEventListener('keyup', _a.#handleChipsKeyup);
+        this.el.removeEventListener('blur', _a.#handleChipsBlur, true);
+        this.#input.removeEventListener('focus', this.#handleInputFocus);
+        this.#input.removeEventListener('blur', this.#handleInputBlur);
+        this.#input.removeEventListener('keydown', this.#handleInputKeydown);
     }
-    _handleChipClick = (e) => {
+    #handleChipClick = (e) => {
         const _chip = e.target.closest('.chip');
         const clickedClose = e.target.classList.contains('close');
         if (_chip) {
             const index = [..._chip.parentNode.children].indexOf(_chip);
             if (clickedClose) {
                 this.deleteChip(index);
-                this._input.focus();
+                this.#input.focus();
             }
             else {
                 this.selectChip(index);
@@ -2414,11 +2419,11 @@ class Chips extends Component {
             // Default handle click to focus on input
         }
         else {
-            this._input.focus();
+            this.#input.focus();
         }
     };
-    static _handleChipsKeydown(e) {
-        Chips._keydown = true;
+    static #handleChipsKeydown(e) {
+        _a.#keydown = true;
         const chips = e.target.closest('.chips');
         const chipsKeydown = e.target && chips;
         // Don't handle keydown inputs on input and textarea
@@ -2429,54 +2434,54 @@ class Chips extends Component {
         if (Utils.keys.BACKSPACE.includes(e.key) || Utils.keys.DELETE.includes(e.key)) {
             e.preventDefault();
             let selectIndex = currChips.chipsData.length;
-            if (currChips._selectedChip) {
-                const index = gGetIndex(currChips._selectedChip);
+            if (currChips.#selectedChip) {
+                const index = gGetIndex(currChips.#selectedChip);
                 currChips.deleteChip(index);
-                currChips._selectedChip = null;
+                currChips.#selectedChip = null;
                 // Make sure selectIndex doesn't go negative
                 selectIndex = Math.max(index - 1, 0);
             }
             if (currChips.chipsData.length)
                 currChips.selectChip(selectIndex);
             else
-                currChips._input.focus();
+                currChips.#input.focus();
         }
         else if (Utils.keys.ARROW_LEFT.includes(e.key)) {
-            if (currChips._selectedChip) {
-                const selectIndex = gGetIndex(currChips._selectedChip) - 1;
+            if (currChips.#selectedChip) {
+                const selectIndex = gGetIndex(currChips.#selectedChip) - 1;
                 if (selectIndex < 0)
                     return;
                 currChips.selectChip(selectIndex);
             }
         }
         else if (Utils.keys.ARROW_RIGHT.includes(e.key)) {
-            if (currChips._selectedChip) {
-                const selectIndex = gGetIndex(currChips._selectedChip) + 1;
+            if (currChips.#selectedChip) {
+                const selectIndex = gGetIndex(currChips.#selectedChip) + 1;
                 if (selectIndex >= currChips.chipsData.length)
-                    currChips._input.focus();
+                    currChips.#input.focus();
                 else
                     currChips.selectChip(selectIndex);
             }
         }
     }
-    static _handleChipsKeyup() {
-        Chips._keydown = false;
+    static #handleChipsKeyup() {
+        _a.#keydown = false;
     }
-    static _handleChipsBlur(e) {
-        if (!Chips._keydown && document.hidden) {
+    static #handleChipsBlur(e) {
+        if (!_a.#keydown && document.hidden) {
             const chips = e.target.closest('.chips');
             const currChips = chips['M_Chips'];
-            currChips._selectedChip = null;
+            currChips.#selectedChip = null;
         }
     }
-    _handleInputFocus = () => {
+    #handleInputFocus = () => {
         this.el.classList.add('focus');
     };
-    _handleInputBlur = () => {
+    #handleInputBlur = () => {
         this.el.classList.remove('focus');
     };
-    _handleInputKeydown = (e) => {
-        Chips._keydown = true;
+    #handleInputKeydown = (e) => {
+        _a.#keydown = true;
         if (Utils.keys.ENTER.includes(e.key)) {
             // Override enter if autocompleting.
             if (this.hasAutocomplete && this.autocomplete && this.autocomplete.isOpen) {
@@ -2484,21 +2489,21 @@ class Chips extends Component {
             }
             e.preventDefault();
             if (!this.hasAutocomplete || (this.hasAutocomplete && !this.options.autocompleteOnly)) {
-                this.addChip({ id: this._input.value });
+                this.addChip({ id: this.#input.value });
             }
-            this._input.value = '';
+            this.#input.value = '';
         }
         else if ((Utils.keys.BACKSPACE.includes(e.key) || Utils.keys.ARROW_LEFT.includes(e.key)) &&
-            this._input.value === '' &&
+            this.#input.value === '' &&
             this.chipsData.length) {
             e.preventDefault();
             this.selectChip(this.chipsData.length - 1);
         }
     };
-    _renderChip(chip) {
+    #renderChip(chip) {
         if (!chip.id)
             return;
-        const renderedChip = document.createElement('div');
+        const renderedChip = document.createElement('li');
         renderedChip.classList.add('chip');
         renderedChip.innerText = chip.text || chip.id;
         // attach image if needed
@@ -2508,23 +2513,22 @@ class Chips extends Component {
             renderedChip.insertBefore(img, renderedChip.firstChild);
         }
         if (this.options.allowUserInput) {
-            renderedChip.setAttribute('tabindex', '0');
-            const closeIcon = document.createElement('i');
-            closeIcon.classList.add(this.options.closeIconClass, 'close');
-            closeIcon.innerText = 'close';
-            renderedChip.appendChild(closeIcon);
+            const closeButton = document.createElement('button');
+            closeButton.classList.add(this.options.closeIconClass, 'close');
+            closeButton.innerText = 'close';
+            renderedChip.appendChild(closeButton);
         }
         return renderedChip;
     }
-    _renderChips() {
-        this._chips = []; //.remove();
+    #renderChips() {
+        this.#chips = []; //.remove();
         for (let i = 0; i < this.chipsData.length; i++) {
-            const chipElem = this._renderChip(this.chipsData[i]);
+            const chipElem = this.#renderChip(this.chipsData[i]);
             this.el.appendChild(chipElem);
-            this._chips.push(chipElem);
+            this.#chips.push(chipElem);
         }
     }
-    _setupAutocomplete() {
+    #setupAutocomplete() {
         this.options.autocompleteOptions.onAutocomplete = (items) => {
             if (items.length > 0)
                 this.addChip({
@@ -2532,42 +2536,42 @@ class Chips extends Component {
                     text: items[0].text,
                     image: items[0].image
                 });
-            this._input.value = '';
-            this._input.focus();
+            this.#input.value = '';
+            this.#input.focus();
         };
-        this.autocomplete = Autocomplete.init(this._input, this.options.autocompleteOptions);
+        this.autocomplete = Autocomplete.init(this.#input, this.options.autocompleteOptions);
     }
-    _setupInput() {
-        this._input = this.el.querySelector('input');
-        if (!this._input) {
-            this._input = document.createElement('input');
-            this.el.append(this._input);
+    #setupInput() {
+        this.#input = this.el.querySelector('input');
+        if (!this.#input) {
+            this.#input = document.createElement('input');
+            this.el.append(this.#input);
         }
-        this._input.classList.add('input');
+        this.#input.classList.add('input');
         this.hasAutocomplete = Object.keys(this.options.autocompleteOptions).length > 0;
         // Setup autocomplete if needed
         if (this.hasAutocomplete)
-            this._setupAutocomplete();
-        this._setPlaceholder();
+            this.#setupAutocomplete();
+        this.#setPlaceholder();
         // Set input id
-        if (!this._input.getAttribute('id'))
-            this._input.setAttribute('id', Utils.guid());
+        if (!this.#input.getAttribute('id'))
+            this.#input.setAttribute('id', Utils.guid());
     }
-    _setupLabel() {
-        this._label = this.el.querySelector('label');
-        if (this._label)
-            this._label.setAttribute('for', this._input.getAttribute('id'));
+    #setupLabel() {
+        this.#label = this.el.querySelector('label');
+        if (this.#label)
+            this.#label.setAttribute('for', this.#input.getAttribute('id'));
     }
-    _setPlaceholder() {
+    #setPlaceholder() {
         if (this.chipsData !== undefined && !this.chipsData.length && this.options.placeholder) {
-            this._input.placeholder = this.options.placeholder;
+            this.#input.placeholder = this.options.placeholder;
         }
         else if ((this.chipsData === undefined || !!this.chipsData.length) &&
             this.options.secondaryPlaceholder) {
-            this._input.placeholder = this.options.secondaryPlaceholder;
+            this.#input.placeholder = this.options.secondaryPlaceholder;
         }
     }
-    _isValidAndNotExist(chip) {
+    #isValidAndNotExist(chip) {
         const isValid = !!chip.id;
         const doesNotExist = !this.chipsData.some((item) => item.id == chip.id);
         return isValid && doesNotExist;
@@ -2577,14 +2581,14 @@ class Chips extends Component {
      * @param chip Chip data object
      */
     addChip(chip) {
-        if (!this._isValidAndNotExist(chip) || this.chipsData.length >= this.options.limit)
+        if (!this.#isValidAndNotExist(chip) || this.chipsData.length >= this.options.limit)
             return;
-        const renderedChip = this._renderChip(chip);
-        this._chips.push(renderedChip);
+        const renderedChip = this.#renderChip(chip);
+        this.#chips.push(renderedChip);
         this.chipsData.push(chip);
         //$(this._input).before(renderedChip);
-        this._input.before(renderedChip);
-        this._setPlaceholder();
+        this.#input.before(renderedChip);
+        this.#setPlaceholder();
         // fire chipAdd callback
         if (typeof this.options.onChipAdd === 'function') {
             this.options.onChipAdd(this.el, renderedChip);
@@ -2595,11 +2599,11 @@ class Chips extends Component {
      * @param chipIndex  Index of chip
      */
     deleteChip(chipIndex) {
-        const chip = this._chips[chipIndex];
-        this._chips[chipIndex].remove();
-        this._chips.splice(chipIndex, 1);
+        const chip = this.#chips[chipIndex];
+        this.#chips[chipIndex].remove();
+        this.#chips.splice(chipIndex, 1);
         this.chipsData.splice(chipIndex, 1);
-        this._setPlaceholder();
+        this.#setPlaceholder();
         // fire chipDelete callback
         if (typeof this.options.onChipDelete === 'function') {
             this.options.onChipDelete(this.el, chip);
@@ -2610,8 +2614,8 @@ class Chips extends Component {
      * @param chipIndex Index of chip
      */
     selectChip(chipIndex) {
-        const chip = this._chips[chipIndex];
-        this._selectedChip = chip;
+        const chip = this.#chips[chipIndex];
+        this.#selectedChip = chip;
         chip.focus();
         // fire chipSelect callback
         if (typeof this.options.onChipSelect === 'function') {
@@ -2636,11 +2640,12 @@ class Chips extends Component {
             });
     }
     static {
-        Chips._keydown = false;
+        this.#keydown = false;
     }
 }
+_a = Chips;
 
-const _defaults$h = {
+const _defaults$i = {
     accordion: true,
     onOpenStart: null,
     onOpenEnd: null,
@@ -2676,7 +2681,7 @@ class Collapsible extends Component {
         }
     }
     static get defaults() {
-        return _defaults$h;
+        return _defaults$i;
     }
     /**
      * Initializes instances of Collapsible.
@@ -2795,7 +2800,7 @@ class Collapsible extends Component {
     };
 }
 
-const _defaults$g = {
+const _defaults$h = {
     classes: '',
     dropdownOptions: {}
 };
@@ -2835,7 +2840,7 @@ class FormSelect extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$g;
+        return _defaults$h;
     }
     /**
      * Initializes instances of FormSelect.
@@ -3178,11 +3183,14 @@ class FormSelect extends Component {
     }
 }
 
-const _defaults$f = {
+const _defaults$g = {
     margin: 5,
     transition: 10,
     duration: 250,
-    align: 'left'
+    align: 'left',
+    title: null,
+    onOpen: null,
+    onClose: null
 };
 class DockedDisplayPlugin {
     el;
@@ -3192,7 +3200,7 @@ class DockedDisplayPlugin {
     constructor(el, container, options) {
         this.el = el;
         this.options = {
-            ..._defaults$f,
+            ..._defaults$g,
             ...options
         };
         this.container = document.createElement('div');
@@ -3200,10 +3208,12 @@ class DockedDisplayPlugin {
         this.container.append(container);
         el.parentElement.append(this.container);
         document.addEventListener('click', (e) => {
-            if (this.visible && !(this.el === e.target) && !(e.target.closest('.display-docked'))) {
+            if (this.visible &&
+                !(this.el === e.target) &&
+                !e.target.closest('.display-docked')) {
                 this.hide();
             }
-        });
+        }, true);
     }
     /**
      * Initializes instance of DockedDisplayPlugin
@@ -3228,7 +3238,10 @@ class DockedDisplayPlugin {
         setTimeout(() => {
             this.container.style.transform = `translateX(${coordinates.x}px) translateY(${coordinates.y}px)`;
             this.container.style.opacity = (1).toString();
-        }, 1);
+            if (typeof this.options.onOpen == 'function') {
+                this.options.onOpen.call(this);
+            }
+        }, 100);
     };
     hide = () => {
         if (!this.visible)
@@ -3242,7 +3255,83 @@ class DockedDisplayPlugin {
         setTimeout(() => {
             this.container.style.transform = `translateX(0px) translateY(0px)`;
             this.container.style.opacity = '0';
-        }, 1);
+            if (typeof this.options.onClose == 'function') {
+                this.options.onClose.call(this);
+            }
+        }, 100);
+    };
+}
+
+const _defaults$f = {
+    classList: ['modal'],
+    title: null,
+    onOpen: null,
+    onClose: null,
+};
+class ModalDisplayPlugin {
+    el;
+    container;
+    options;
+    visible;
+    footer;
+    constructor(el, container, options) {
+        this.el = el;
+        this.options = {
+            ..._defaults$f,
+            ...options,
+        };
+        this.container = document.createElement('dialog');
+        this.container.classList.add('modal', 'display-modal', this.options.classList.join(' '));
+        if (options.title) {
+            const modalHeader = document.createElement('div');
+            modalHeader.classList.add('modal-header');
+            modalHeader.append(options.title);
+            this.container.append(modalHeader);
+        }
+        const modalContent = document.createElement('div');
+        modalContent.classList.add('modal-content');
+        modalContent.append(container);
+        this.container.append(modalContent);
+        this.footer = document.createElement('div');
+        this.footer.classList.add('modal-footer');
+        this.container.append(this.footer);
+        document.body.append(this.container);
+        document.addEventListener('click', (e) => {
+            if (this.visible && !(this.el === e.target) && !(e.target.closest('.display-modal'))) {
+                this.hide();
+            }
+        }, true);
+    }
+    /**
+     * Initializes instance of ModalDisplayPlugin
+     * @param el HTMLElement to position to
+     * @param container HTMLElement to be positioned
+     * @param options Plugin options
+     */
+    static init(el, container, options) {
+        return new ModalDisplayPlugin(el, container, options);
+    }
+    show = () => {
+        if (this.visible)
+            return;
+        this.visible = true;
+        this.container.setAttribute('open', 'true');
+        setTimeout(() => {
+            if (typeof this.options.onOpen == 'function') {
+                this.options.onOpen.call(this);
+            }
+        }, 10);
+    };
+    hide = () => {
+        if (!this.visible)
+            return;
+        this.visible = false;
+        this.container.removeAttribute('open');
+        setTimeout(() => {
+            if (typeof this.options.onClose == 'function') {
+                this.options.onClose.call(this);
+            }
+        }, 10);
     };
 }
 
@@ -3391,42 +3480,9 @@ class Datepicker extends Component {
         this._setupVariables();
         this._insertHTMLIntoDOM();
         this._setupEventHandlers();
-        if (!this.options.defaultDate) {
-            this.options.defaultDate = new Date(Date.parse(this.el.value));
-        }
-        const defDate = this.options.defaultDate;
-        if (Datepicker._isDate(defDate)) {
-            if (this.options.setDefaultDate) {
-                this.setDate(defDate, true);
-                this.setInputValue(this.el, defDate);
-            }
-            else {
-                this.gotoDate(defDate);
-            }
-        }
-        else {
-            this.gotoDate(new Date());
-        }
-        if (this.options.isDateRange) {
-            this.multiple = true;
-            const defEndDate = this.options.defaultEndDate;
-            if (Datepicker._isDate(defEndDate)) {
-                if (this.options.setDefaultEndDate) {
-                    this.setDate(defEndDate, true, true);
-                    this.setInputValue(this.endDateEl, defEndDate);
-                }
-            }
-        }
-        if (this.options.isMultipleSelection) {
-            this.multiple = true;
-            this.dates = [];
-            this.dateEls = [];
-            this.dateEls.push(el);
-        }
-        if (this.options.displayPlugin) {
-            if (this.options.displayPlugin === 'docked')
-                this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
-        }
+        if (this.options.displayPlugin)
+            this._setupDisplayPlugin();
+        this._pickerSetup();
     }
     static get defaults() {
         return _defaults$e;
@@ -3513,12 +3569,6 @@ class Datepicker extends Component {
                 }
             }
         }
-        /*if (this.options.showClearBtn) {
-          this.clearBtn.style.visibility = '';
-          this.clearBtn.innerText = this.options.i18n.clear;
-        }
-        this.doneBtn.innerText = this.options.i18n.done;
-        this.cancelBtn.innerText = this.options.i18n.cancel;*/
         Utils.createButton(this.footer, this.options.i18n.clear, ['datepicker-clear'], this.options.showClearBtn, this._handleClearClick);
         if (!this.options.autoSubmit) {
             Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this._confirm, this._cancel);
@@ -3530,10 +3580,7 @@ class Datepicker extends Component {
             this.options.container.append(this.containerEl);
         }
         else {
-            //this.containerEl.before(this.el);
             const appendTo = !this.endDateEl ? this.el : this.endDateEl;
-            if (!this.options.openByDefault)
-                this.containerEl.setAttribute('style', 'display: none; visibility: hidden;');
             appendTo.parentElement.after(this.containerEl);
         }
     }
@@ -3698,6 +3745,38 @@ class Datepicker extends Component {
         }));
     }
     /**
+     * Display plugin setup.
+     */
+    _setupDisplayPlugin() {
+        const displayPluginOptions = {
+            ...this.options.displayPluginOptions,
+            ...{
+                onOpen: () => {
+                    document.querySelectorAll('.select-dropdown').forEach((e) => {
+                        e.tabIndex = 0;
+                    });
+                },
+                onClose: () => {
+                    document.querySelectorAll('.select-dropdown').forEach((e) => {
+                        e.tabIndex = -1;
+                    });
+                }
+            }
+        };
+        if (this.options.displayPlugin === 'docked')
+            this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, displayPluginOptions);
+        if (this.options.displayPlugin === 'modal') {
+            this.displayPlugin = ModalDisplayPlugin.init(this.el, this.containerEl, {
+                ...displayPluginOptions,
+                ...{ classList: ['datepicker-modal'] }
+            });
+            this.footer.remove();
+            this.footer = this.displayPlugin.footer;
+        }
+        if (this.options.openByDefault)
+            this.displayPlugin.show();
+    }
+    /**
      * Renders the date in the modal head section.
      */
     _renderDateDisplay(date, endDate = null) {
@@ -3786,7 +3865,10 @@ class Datepicker extends Component {
                 day < this.options.endRange, isDisabled = (this.options.minDate && day < this.options.minDate) ||
                 (this.options.maxDate && day > this.options.maxDate) ||
                 (this.options.disableWeekends && Datepicker._isWeekend(day)) ||
-                (this.options.disableDayFn && this.options.disableDayFn(day)), isDateRangeStart = this.options.isDateRange && this.date && this.endDate && Datepicker._compareDates(this.date, day), isDateRangeEnd = this.options.isDateRange && this.endDate && Datepicker._compareDates(this.endDate, day), isDateRange = this.options.isDateRange &&
+                (this.options.disableDayFn && this.options.disableDayFn(day)), isDateRangeStart = this.options.isDateRange &&
+                this.date &&
+                this.endDate &&
+                Datepicker._compareDates(this.date, day), isDateRangeEnd = this.options.isDateRange && this.endDate && Datepicker._compareDates(this.endDate, day), isDateRange = this.options.isDateRange &&
                 Datepicker._isDate(this.endDate) &&
                 Datepicker._compareWithinRange(day, this.date, this.endDate);
             let dayNumber = 1 + (i - before), monthNumber = month, yearNumber = year;
@@ -4014,12 +4096,6 @@ class Datepicker extends Component {
         this.el.addEventListener('keydown', this._handleInputKeydown);
         this.el.addEventListener('change', this._handleInputChange);
         this.calendarEl.addEventListener('click', this._handleCalendarClick);
-        /* this.doneBtn.addEventListener('click', this._confirm);
-        this.cancelBtn.addEventListener('click', this._cancel);
-    
-        if (this.options.showClearBtn) {
-          this.clearBtn.addEventListener('click', this._handleClearClick);
-        }*/
     }
     _setupVariables() {
         const template = document.createElement('template');
@@ -4028,11 +4104,6 @@ class Datepicker extends Component {
         this.calendarEl = this.containerEl.querySelector('.datepicker-calendar');
         this.yearTextEl = this.containerEl.querySelector('.year-text');
         this.dateTextEl = this.containerEl.querySelector('.date-text');
-        /* if (this.options.showClearBtn) {
-          this.clearBtn = this.containerEl.querySelector('.datepicker-clear');
-        }
-        this.doneBtn = this.containerEl.querySelector('.datepicker-done');
-        this.cancelBtn = this.containerEl.querySelector('.datepicker-cancel');*/
         this.footer = this.containerEl.querySelector('.datepicker-footer');
         this.formats = {
             d: (date) => {
@@ -4068,6 +4139,40 @@ class Datepicker extends Component {
                 return date.getFullYear();
             }
         };
+    }
+    _pickerSetup() {
+        if (!this.options.defaultDate) {
+            this.options.defaultDate = new Date(Date.parse(this.el.value));
+        }
+        const defDate = this.options.defaultDate;
+        if (Datepicker._isDate(defDate)) {
+            if (this.options.setDefaultDate) {
+                this.setDate(defDate, true);
+                this.setInputValue(this.el, defDate);
+            }
+            else {
+                this.gotoDate(defDate);
+            }
+        }
+        else {
+            this.gotoDate(new Date());
+        }
+        if (this.options.isDateRange) {
+            this.multiple = true;
+            const defEndDate = this.options.defaultEndDate;
+            if (Datepicker._isDate(defEndDate)) {
+                if (this.options.setDefaultEndDate) {
+                    this.setDate(defEndDate, true, true);
+                    this.setInputValue(this.endDateEl, defEndDate);
+                }
+            }
+        }
+        if (this.options.isMultipleSelection) {
+            this.multiple = true;
+            this.dates = [];
+            this.dateEls = [];
+            this.dateEls.push(this.el);
+        }
     }
     _removeEventHandlers() {
         this.el.removeEventListener('click', this._handleInputClick);
@@ -4115,10 +4220,14 @@ class Datepicker extends Component {
                     this.setDate(selectedDate);
                 }
                 if (this.options.isDateRange) {
+                    const confirmAfterSelection = Datepicker._isDate(this.date) && this.options.autoSubmit;
                     this._handleDateRangeCalendarClick(selectedDate);
+                    if (confirmAfterSelection) {
+                        this._confirm();
+                    }
                 }
-                if (this.options.autoSubmit)
-                    this._finishSelection();
+                if (!this.options.isDateRange && this.options.autoSubmit)
+                    this._confirm();
             }
             else if (target.closest('.month-prev')) {
                 this.prevMonth();
@@ -4133,7 +4242,7 @@ class Datepicker extends Component {
             if (Datepicker._isDate(this.date) && Datepicker._comparePastDate(date, this.date)) {
                 return;
             }
-            this.setDate(date, false, Datepicker._isDate(this.date));
+            this.setDate(date, true, Datepicker._isDate(this.date));
             return;
         }
         this._clearDates();
@@ -4216,10 +4325,14 @@ class Datepicker extends Component {
     };
     _confirm = () => {
         this._finishSelection();
+        if (this.displayPlugin)
+            this.displayPlugin.hide();
         if (typeof this.options.onConfirm === 'function')
             this.options.onConfirm.call(this);
     };
     _cancel = () => {
+        if (this.displayPlugin)
+            this.displayPlugin.hide();
         if (typeof this.options.onCancel === 'function')
             this.options.onCancel.call(this);
     };
@@ -4870,461 +4983,6 @@ class Modal extends Component {
 }
 
 const _defaults$b = {
-    responsiveThreshold: 0 // breakpoint for swipeable
-};
-class Parallax extends Component {
-    _enabled;
-    _img;
-    static _parallaxes = [];
-    static _handleScrollThrottled;
-    static _handleWindowResizeThrottled;
-    constructor(el, options) {
-        super(el, options, Parallax);
-        this.el['M_Parallax'] = this;
-        this.options = {
-            ...Parallax.defaults,
-            ...options
-        };
-        this._enabled = window.innerWidth > this.options.responsiveThreshold;
-        this._img = this.el.querySelector('img');
-        this._updateParallax();
-        this._setupEventHandlers();
-        this._setupStyles();
-        Parallax._parallaxes.push(this);
-    }
-    static get defaults() {
-        return _defaults$b;
-    }
-    /**
-     * Initializes instances of Parallax.
-     * @param els HTML elements.
-     * @param options Component options.
-     */
-    static init(els, options = {}) {
-        return super.init(els, options, Parallax);
-    }
-    static getInstance(el) {
-        return el['M_Parallax'];
-    }
-    destroy() {
-        Parallax._parallaxes.splice(Parallax._parallaxes.indexOf(this), 1);
-        this._img.style.transform = '';
-        this._removeEventHandlers();
-        this.el['M_Parallax'] = undefined;
-    }
-    static _handleScroll() {
-        for (let i = 0; i < Parallax._parallaxes.length; i++) {
-            const parallaxInstance = Parallax._parallaxes[i];
-            parallaxInstance._updateParallax.call(parallaxInstance);
-        }
-    }
-    static _handleWindowResize() {
-        for (let i = 0; i < Parallax._parallaxes.length; i++) {
-            const parallaxInstance = Parallax._parallaxes[i];
-            parallaxInstance._enabled = window.innerWidth > parallaxInstance.options.responsiveThreshold;
-        }
-    }
-    _setupEventHandlers() {
-        this._img.addEventListener('load', this._handleImageLoad);
-        if (Parallax._parallaxes.length === 0) {
-            if (!Parallax._handleScrollThrottled) {
-                Parallax._handleScrollThrottled = Utils.throttle(Parallax._handleScroll, 5);
-            }
-            if (!Parallax._handleWindowResizeThrottled) {
-                Parallax._handleWindowResizeThrottled = Utils.throttle(Parallax._handleWindowResize, 5);
-            }
-            window.addEventListener('scroll', Parallax._handleScrollThrottled);
-            window.addEventListener('resize', Parallax._handleWindowResizeThrottled);
-        }
-    }
-    _removeEventHandlers() {
-        this._img.removeEventListener('load', this._handleImageLoad);
-        if (Parallax._parallaxes.length === 0) {
-            window.removeEventListener('scroll', Parallax._handleScrollThrottled);
-            window.removeEventListener('resize', Parallax._handleWindowResizeThrottled);
-        }
-    }
-    _setupStyles() {
-        this._img.style.opacity = '1';
-    }
-    _handleImageLoad = () => {
-        this._updateParallax();
-    };
-    _offset(el) {
-        const box = el.getBoundingClientRect();
-        const docElem = document.documentElement;
-        return {
-            top: box.top + window.scrollY - docElem.clientTop,
-            left: box.left + window.scrollX - docElem.clientLeft
-        };
-    }
-    _updateParallax() {
-        const containerHeight = this.el.getBoundingClientRect().height > 0 ? this.el.parentElement.offsetHeight : 500;
-        const imgHeight = this._img.offsetHeight;
-        const parallaxDist = imgHeight - containerHeight;
-        const bottom = this._offset(this.el).top + containerHeight;
-        const top = this._offset(this.el).top;
-        const scrollTop = Utils.getDocumentScrollTop();
-        const windowHeight = window.innerHeight;
-        const windowBottom = scrollTop + windowHeight;
-        const percentScrolled = (windowBottom - top) / (containerHeight + windowHeight);
-        const parallax = parallaxDist * percentScrolled;
-        if (!this._enabled) {
-            this._img.style.transform = '';
-        }
-        else if (bottom > scrollTop && top < scrollTop + windowHeight) {
-            this._img.style.transform = `translate3D(-50%, ${parallax}px, 0)`;
-        }
-    }
-}
-
-const _defaults$a = {
-    top: 0,
-    bottom: Infinity,
-    offset: 0,
-    onPositionChange: null
-};
-class Pushpin extends Component {
-    static _pushpins;
-    originalOffset;
-    constructor(el, options) {
-        super(el, options, Pushpin);
-        this.el['M_Pushpin'] = this;
-        this.options = {
-            ...Pushpin.defaults,
-            ...options
-        };
-        this.originalOffset = this.el.offsetTop;
-        Pushpin._pushpins.push(this);
-        this._setupEventHandlers();
-        this._updatePosition();
-    }
-    static get defaults() {
-        return _defaults$a;
-    }
-    /**
-     * Initializes instances of Pushpin.
-     * @param els HTML elements.
-     * @param options Component options.
-     */
-    static init(els, options = {}) {
-        return super.init(els, options, Pushpin);
-    }
-    static getInstance(el) {
-        return el['M_Pushpin'];
-    }
-    destroy() {
-        this.el.style.top = null;
-        this._removePinClasses();
-        // Remove pushpin Inst
-        const index = Pushpin._pushpins.indexOf(this);
-        Pushpin._pushpins.splice(index, 1);
-        if (Pushpin._pushpins.length === 0) {
-            this._removeEventHandlers();
-        }
-        this.el['M_Pushpin'] = undefined;
-    }
-    static _updateElements() {
-        for (const elIndex in Pushpin._pushpins) {
-            const pInstance = Pushpin._pushpins[elIndex];
-            pInstance._updatePosition();
-        }
-    }
-    _setupEventHandlers() {
-        document.addEventListener('scroll', Pushpin._updateElements);
-    }
-    _removeEventHandlers() {
-        document.removeEventListener('scroll', Pushpin._updateElements);
-    }
-    _updatePosition() {
-        const scrolled = Utils.getDocumentScrollTop() + this.options.offset;
-        if (this.options.top <= scrolled &&
-            this.options.bottom >= scrolled &&
-            !this.el.classList.contains('pinned')) {
-            this._removePinClasses();
-            this.el.style.top = `${this.options.offset}px`;
-            this.el.classList.add('pinned');
-            // onPositionChange callback
-            if (typeof this.options.onPositionChange === 'function') {
-                this.options.onPositionChange.call(this, 'pinned');
-            }
-        }
-        // Add pin-top (when scrolled position is above top)
-        if (scrolled < this.options.top && !this.el.classList.contains('pin-top')) {
-            this._removePinClasses();
-            this.el.style.top = '0';
-            this.el.classList.add('pin-top');
-            // onPositionChange callback
-            if (typeof this.options.onPositionChange === 'function') {
-                this.options.onPositionChange.call(this, 'pin-top');
-            }
-        }
-        // Add pin-bottom (when scrolled position is below bottom)
-        if (scrolled > this.options.bottom && !this.el.classList.contains('pin-bottom')) {
-            this._removePinClasses();
-            this.el.classList.add('pin-bottom');
-            this.el.style.top = `${this.options.bottom - this.originalOffset}px`;
-            // onPositionChange callback
-            if (typeof this.options.onPositionChange === 'function') {
-                this.options.onPositionChange.call(this, 'pin-bottom');
-            }
-        }
-    }
-    _removePinClasses() {
-        // IE 11 bug (can't remove multiple classes in one line)
-        this.el.classList.remove('pin-top');
-        this.el.classList.remove('pinned');
-        this.el.classList.remove('pin-bottom');
-    }
-    static {
-        Pushpin._pushpins = [];
-    }
-}
-
-const _defaults$9 = {
-    throttle: 100,
-    scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
-    activeClass: 'active',
-    getActiveElement: (id) => {
-        return 'a[href="#' + id + '"]';
-    },
-    keepTopElementActive: false,
-    animationDuration: null
-};
-class ScrollSpy extends Component {
-    static _elements;
-    static _count;
-    static _increment;
-    static _elementsInView;
-    static _visibleElements;
-    static _ticks;
-    static _keptTopActiveElement = null;
-    tickId;
-    id;
-    constructor(el, options) {
-        super(el, options, ScrollSpy);
-        this.el['M_ScrollSpy'] = this;
-        this.options = {
-            ...ScrollSpy.defaults,
-            ...options
-        };
-        ScrollSpy._elements.push(this);
-        ScrollSpy._count++;
-        ScrollSpy._increment++;
-        this.tickId = -1;
-        this.id = ScrollSpy._increment.toString();
-        this._setupEventHandlers();
-        this._handleWindowScroll();
-    }
-    static get defaults() {
-        return _defaults$9;
-    }
-    /**
-     * Initializes instances of ScrollSpy.
-     * @param els HTML elements.
-     * @param options Component options.
-     */
-    static init(els, options = {}) {
-        return super.init(els, options, ScrollSpy);
-    }
-    static getInstance(el) {
-        return el['M_ScrollSpy'];
-    }
-    destroy() {
-        ScrollSpy._elements.splice(ScrollSpy._elements.indexOf(this), 1);
-        ScrollSpy._elementsInView.splice(ScrollSpy._elementsInView.indexOf(this), 1);
-        ScrollSpy._visibleElements.splice(ScrollSpy._visibleElements.indexOf(this.el), 1);
-        ScrollSpy._count--;
-        this._removeEventHandlers();
-        const actElem = document.querySelector(this.options.getActiveElement(this.el.id));
-        actElem.classList.remove(this.options.activeClass);
-        this.el['M_ScrollSpy'] = undefined;
-    }
-    _setupEventHandlers() {
-        if (ScrollSpy._count === 1) {
-            window.addEventListener('scroll', this._handleWindowScroll);
-            window.addEventListener('resize', this._handleThrottledResize);
-            document.body.addEventListener('click', this._handleTriggerClick);
-        }
-    }
-    _removeEventHandlers() {
-        if (ScrollSpy._count === 0) {
-            window.removeEventListener('scroll', this._handleWindowScroll);
-            window.removeEventListener('resize', this._handleThrottledResize);
-            document.body.removeEventListener('click', this._handleTriggerClick);
-        }
-    }
-    _handleThrottledResize = () => Utils.throttle(this._handleWindowScroll, 200).bind(this);
-    _handleTriggerClick = (e) => {
-        const trigger = e.target;
-        for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
-            const scrollspy = ScrollSpy._elements[i];
-            const x = document.querySelector('a[href="#' + scrollspy.el.id + '"]');
-            if (trigger === x) {
-                e.preventDefault();
-                if (scrollspy.el['M_ScrollSpy'].options.animationDuration) {
-                    ScrollSpy._smoothScrollIntoView(scrollspy.el, scrollspy.el['M_ScrollSpy'].options.animationDuration);
-                }
-                else {
-                    scrollspy.el.scrollIntoView({ behavior: 'smooth' });
-                }
-                break;
-            }
-        }
-    };
-    _handleWindowScroll = () => {
-        // unique tick id
-        ScrollSpy._ticks++;
-        // viewport rectangle
-        const top = Utils.getDocumentScrollTop(), left = Utils.getDocumentScrollLeft(), right = left + window.innerWidth, bottom = top + window.innerHeight;
-        // determine which elements are in view
-        const intersections = ScrollSpy._findElements(top, right, bottom, left);
-        for (let i = 0; i < intersections.length; i++) {
-            const scrollspy = intersections[i];
-            const lastTick = scrollspy.tickId;
-            if (lastTick < 0) {
-                // entered into view
-                scrollspy._enter();
-            }
-            // update tick id
-            scrollspy.tickId = ScrollSpy._ticks;
-        }
-        for (let i = 0; i < ScrollSpy._elementsInView.length; i++) {
-            const scrollspy = ScrollSpy._elementsInView[i];
-            const lastTick = scrollspy.tickId;
-            if (lastTick >= 0 && lastTick !== ScrollSpy._ticks) {
-                // exited from view
-                scrollspy._exit();
-                scrollspy.tickId = -1;
-            }
-        }
-        // remember elements in view for next tick
-        ScrollSpy._elementsInView = intersections;
-        if (ScrollSpy._elements.length) {
-            const options = ScrollSpy._elements[0].el['M_ScrollSpy'].options;
-            if (options.keepTopElementActive && ScrollSpy._visibleElements.length === 0) {
-                this._resetKeptTopActiveElementIfNeeded();
-                const topElements = ScrollSpy._elements
-                    .filter((value) => ScrollSpy._getDistanceToViewport(value.el) <= 0)
-                    .sort((a, b) => {
-                    const distanceA = ScrollSpy._getDistanceToViewport(a.el);
-                    const distanceB = ScrollSpy._getDistanceToViewport(b.el);
-                    if (distanceA < distanceB)
-                        return -1;
-                    if (distanceA > distanceB)
-                        return 1;
-                    return 0;
-                });
-                const nearestTopElement = topElements.length
-                    ? topElements[topElements.length - 1]
-                    : ScrollSpy._elements[0];
-                const actElem = document.querySelector(options.getActiveElement(nearestTopElement.el.id));
-                actElem?.classList.add(options.activeClass);
-                ScrollSpy._keptTopActiveElement = actElem;
-            }
-        }
-    };
-    static _offset(el) {
-        const box = el.getBoundingClientRect();
-        const docElem = document.documentElement;
-        return {
-            top: box.top + window.pageYOffset - docElem.clientTop,
-            left: box.left + window.pageXOffset - docElem.clientLeft
-        };
-    }
-    static _findElements(top, right, bottom, left) {
-        const hits = [];
-        for (let i = 0; i < ScrollSpy._elements.length; i++) {
-            const scrollspy = ScrollSpy._elements[i];
-            const currTop = top + scrollspy.options.scrollOffset || 200;
-            if (scrollspy.el.getBoundingClientRect().height > 0) {
-                const elTop = ScrollSpy._offset(scrollspy.el).top, elLeft = ScrollSpy._offset(scrollspy.el).left, elRight = elLeft + scrollspy.el.getBoundingClientRect().width, elBottom = elTop + scrollspy.el.getBoundingClientRect().height;
-                const isIntersect = !(elLeft > right ||
-                    elRight < left ||
-                    elTop > bottom ||
-                    elBottom < currTop);
-                if (isIntersect) {
-                    hits.push(scrollspy);
-                }
-            }
-        }
-        return hits;
-    }
-    _enter() {
-        ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((value) => value.getBoundingClientRect().height !== 0);
-        if (ScrollSpy._visibleElements[0]) {
-            const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
-            actElem?.classList.remove(this.options.activeClass);
-            if (ScrollSpy._visibleElements[0]['M_ScrollSpy'] &&
-                this.id < ScrollSpy._visibleElements[0]['M_ScrollSpy'].id) {
-                ScrollSpy._visibleElements.unshift(this.el);
-            }
-            else {
-                ScrollSpy._visibleElements.push(this.el);
-            }
-        }
-        else {
-            ScrollSpy._visibleElements.push(this.el);
-        }
-        this._resetKeptTopActiveElementIfNeeded();
-        const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
-        document.querySelector(selector)?.classList.add(this.options.activeClass);
-    }
-    _exit() {
-        ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((value) => value.getBoundingClientRect().height !== 0);
-        if (ScrollSpy._visibleElements[0]) {
-            const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
-            actElem?.classList.remove(this.options.activeClass);
-            ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((x) => x.id != this.el.id);
-            if (ScrollSpy._visibleElements[0]) {
-                // Check if empty
-                const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
-                document.querySelector(selector)?.classList.add(this.options.activeClass);
-                this._resetKeptTopActiveElementIfNeeded();
-            }
-        }
-    }
-    _resetKeptTopActiveElementIfNeeded() {
-        if (ScrollSpy._keptTopActiveElement) {
-            ScrollSpy._keptTopActiveElement.classList.remove(this.options.activeClass);
-            ScrollSpy._keptTopActiveElement = null;
-        }
-    }
-    static _getDistanceToViewport(element) {
-        const rect = element.getBoundingClientRect();
-        const distance = rect.top;
-        return distance;
-    }
-    static _smoothScrollIntoView(element, duration = 300) {
-        const targetPosition = element.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
-        const startPosition = window.scrollY || window.pageYOffset;
-        const distance = targetPosition - startPosition;
-        const startTime = performance.now();
-        function scrollStep(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const scrollY = startPosition + distance * progress;
-            if (progress < 1) {
-                window.scrollTo(0, scrollY);
-                requestAnimationFrame(scrollStep);
-            }
-            else {
-                window.scrollTo(0, targetPosition);
-            }
-        }
-        requestAnimationFrame(scrollStep);
-    }
-    static {
-        ScrollSpy._elements = [];
-        ScrollSpy._elementsInView = [];
-        ScrollSpy._visibleElements = []; // Array.<cash>
-        ScrollSpy._count = 0;
-        ScrollSpy._increment = 0;
-        ScrollSpy._ticks = 0;
-    }
-}
-
-const _defaults$8 = {
     edge: 'left',
     draggable: true,
     dragTargetWidth: '10px',
@@ -5380,7 +5038,7 @@ class Sidenav extends Component {
         Sidenav._sidenavs.push(this);
     }
     static get defaults() {
-        return _defaults$8;
+        return _defaults$b;
     }
     /**
      * Initializes instances of Sidenav.
@@ -5777,7 +5435,346 @@ class Sidenav extends Component {
     }
 }
 
-const _defaults$7 = {
+const _defaults$a = {
+    indicators: true,
+    height: 400,
+    duration: 500,
+    interval: 6000,
+    pauseOnFocus: true,
+    pauseOnHover: true,
+    indicatorLabelFunc: null // Function which will generate a label for the indicators (ARIA)
+};
+class Slider extends Component {
+    /** Index of current slide. */
+    activeIndex;
+    interval;
+    eventPause;
+    _slider;
+    _slides;
+    _activeSlide;
+    _indicators;
+    _hovered;
+    _focused;
+    _focusCurrent;
+    _sliderId;
+    constructor(el, options) {
+        super(el, options, Slider);
+        this.el['M_Slider'] = this;
+        this.options = {
+            ...Slider.defaults,
+            ...options
+        };
+        // init props
+        this.interval = null;
+        this.eventPause = false;
+        this._hovered = false;
+        this._focused = false;
+        this._focusCurrent = false;
+        // setup
+        this._slider = this.el.querySelector('.slides');
+        this._slides = Array.from(this._slider.querySelectorAll('li'));
+        this.activeIndex = this._slides.findIndex((li) => li.classList.contains('active'));
+        if (this.activeIndex !== -1) {
+            this._activeSlide = this._slides[this.activeIndex];
+        }
+        this._setSliderHeight();
+        // Sets element id if it does not have one
+        if (this._slider.hasAttribute('id'))
+            this._sliderId = this._slider.getAttribute('id');
+        else {
+            this._sliderId = 'slider-' + Utils.guid();
+            this._slider.setAttribute('id', this._sliderId);
+        }
+        const placeholderBase64 = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+        // Set initial positions of captions
+        this._slides.forEach((slide) => {
+            // Caption
+            //const caption = <HTMLElement|null>slide.querySelector('.caption');
+            //if (caption) this._animateCaptionIn(caption, 0);
+            // Set Images as Background Images
+            const img = slide.querySelector('img');
+            if (img) {
+                if (img.src !== placeholderBase64) {
+                    img.style.backgroundImage = 'url(' + img.src + ')';
+                    img.src = placeholderBase64;
+                }
+            }
+            // Sets slide as focusable by code
+            if (!slide.hasAttribute('tabindex'))
+                slide.setAttribute('tabindex', '-1');
+            // Removes initial visibility from "inactive" slides
+            slide.style.visibility = 'hidden';
+        });
+        this._setupIndicators();
+        // Show active slide
+        if (this._activeSlide) {
+            this._activeSlide.style.display = 'block';
+            this._activeSlide.style.visibility = 'visible';
+        }
+        else {
+            this.activeIndex = 0;
+            this._slides[0].classList.add('active');
+            this._slides[0].style.visibility = 'visible';
+            this._activeSlide = this._slides[0];
+            this._animateSlide(this._slides[0], true);
+            // Update indicators
+            if (this.options.indicators) {
+                this._indicators[this.activeIndex].children[0].classList.add('active');
+            }
+        }
+        this._setupEventHandlers();
+        // auto scroll
+        this.start();
+    }
+    static get defaults() {
+        return _defaults$a;
+    }
+    /**
+     * Initializes instances of Slider.
+     * @param els HTML elements.
+     * @param options Component options.
+     */
+    static init(els, options = {}) {
+        return super.init(els, options, Slider);
+    }
+    static getInstance(el) {
+        return el['M_Slider'];
+    }
+    destroy() {
+        this.pause();
+        this._removeIndicators();
+        this._removeEventHandlers();
+        this.el['M_Slider'] = undefined;
+    }
+    _setupEventHandlers() {
+        if (this.options.pauseOnFocus) {
+            this.el.addEventListener('focusin', this._handleAutoPauseFocus);
+            this.el.addEventListener('focusout', this._handleAutoStartFocus);
+        }
+        if (this.options.pauseOnHover) {
+            this.el.addEventListener('mouseenter', this._handleAutoPauseHover);
+            this.el.addEventListener('mouseleave', this._handleAutoStartHover);
+        }
+        if (this.options.indicators) {
+            this._indicators.forEach((el) => {
+                el.addEventListener('click', this._handleIndicatorClick);
+            });
+        }
+    }
+    _removeEventHandlers() {
+        if (this.options.pauseOnFocus) {
+            this.el.removeEventListener('focusin', this._handleAutoPauseFocus);
+            this.el.removeEventListener('focusout', this._handleAutoStartFocus);
+        }
+        if (this.options.pauseOnHover) {
+            this.el.removeEventListener('mouseenter', this._handleAutoPauseHover);
+            this.el.removeEventListener('mouseleave', this._handleAutoStartHover);
+        }
+        if (this.options.indicators) {
+            this._indicators.forEach((el) => {
+                el.removeEventListener('click', this._handleIndicatorClick);
+            });
+        }
+    }
+    _handleIndicatorClick = (e) => {
+        const el = e.target.parentElement;
+        const currIndex = [...el.parentNode.children].indexOf(el);
+        this._focusCurrent = true;
+        this.set(currIndex);
+    };
+    _handleAutoPauseHover = () => {
+        this._hovered = true;
+        if (this.interval != null) {
+            this._pause(true);
+        }
+    };
+    _handleAutoPauseFocus = () => {
+        this._focused = true;
+        if (this.interval != null) {
+            this._pause(true);
+        }
+    };
+    _handleAutoStartHover = () => {
+        this._hovered = false;
+        if (!(this.options.pauseOnFocus && this._focused) && this.eventPause) {
+            this.start();
+        }
+    };
+    _handleAutoStartFocus = () => {
+        this._focused = false;
+        if (!(this.options.pauseOnHover && this._hovered) && this.eventPause) {
+            this.start();
+        }
+    };
+    _handleInterval = () => {
+        const activeElem = this._slider.querySelector('.active');
+        let newActiveIndex = [...activeElem.parentNode.children].indexOf(activeElem);
+        if (this._slides.length === newActiveIndex + 1)
+            newActiveIndex = 0; // loop to start
+        else
+            newActiveIndex += 1;
+        this.set(newActiveIndex);
+    };
+    _animateSlide(slide, isDirectionIn) {
+        let dx = 0, dy = 0;
+        // from
+        slide.style.opacity = isDirectionIn ? '0' : '1';
+        setTimeout(() => {
+            slide.style.transition = `opacity ${this.options.duration}ms ease`;
+            // to
+            slide.style.opacity = isDirectionIn ? '1' : '0';
+        }, 1);
+        // Caption
+        const caption = slide.querySelector('.caption');
+        if (!caption)
+            return;
+        if (caption.classList.contains('center-align'))
+            dy = -100;
+        else if (caption.classList.contains('right-align'))
+            dx = 100;
+        else if (caption.classList.contains('left-align'))
+            dx = -100;
+        // from
+        caption.style.opacity = isDirectionIn ? '0' : '1';
+        caption.style.transform = isDirectionIn ? `translate(${dx}px, ${dy}px)` : `translate(0, 0)`;
+        setTimeout(() => {
+            caption.style.transition = `opacity ${this.options.duration}ms ease, transform ${this.options.duration}ms ease`;
+            // to
+            caption.style.opacity = isDirectionIn ? '1' : '0';
+            caption.style.transform = isDirectionIn ? `translate(0, 0)` : `translate(${dx}px, ${dy}px)`;
+        }, this.options.duration); // delay
+    }
+    _setSliderHeight() {
+        // If fullscreen, do nothing
+        if (!this.el.classList.contains('fullscreen')) {
+            if (this.options.indicators) {
+                // Add height if indicators are present
+                this.el.style.height = this.options.height + 40 + 'px'; //.css('height', this.options.height + 40 + 'px');
+            }
+            else {
+                this.el.style.height = this.options.height + 'px';
+            }
+            this._slider.style.height = this.options.height + 'px';
+        }
+    }
+    _setupIndicators() {
+        if (this.options.indicators) {
+            const ul = document.createElement('ul');
+            ul.classList.add('indicators');
+            const arrLi = [];
+            this._slides.forEach((el, i) => {
+                const label = this.options.indicatorLabelFunc
+                    ? this.options.indicatorLabelFunc.call(this, i + 1, i === 0)
+                    : `${i + 1}`;
+                const li = document.createElement('li');
+                li.classList.add('indicator-item');
+                li.innerHTML = `<button type="button" class="indicator-item-btn" aria-label="${label}" aria-controls="${this._sliderId}"></button>`;
+                arrLi.push(li);
+                ul.append(li);
+            });
+            this.el.append(ul);
+            this._indicators = arrLi;
+        }
+    }
+    _removeIndicators() {
+        this.el.querySelector('ul.indicators').remove(); //find('ul.indicators').remove();
+    }
+    set(index) {
+        // Wrap around indices.
+        if (index >= this._slides.length)
+            index = 0;
+        else if (index < 0)
+            index = this._slides.length - 1;
+        // Only do if index changes
+        if (this.activeIndex === index)
+            return;
+        this._activeSlide = this._slides[this.activeIndex];
+        const _caption = this._activeSlide.querySelector('.caption');
+        this._activeSlide.classList.remove('active');
+        // Enables every slide
+        this._slides.forEach((slide) => (slide.style.visibility = 'visible'));
+        //--- Hide active Slide + Caption
+        this._activeSlide.style.opacity = '0';
+        setTimeout(() => {
+            this._slides.forEach((slide) => {
+                if (slide.classList.contains('active'))
+                    return;
+                slide.style.opacity = '0';
+                slide.style.transform = 'translate(0, 0)';
+                // Disables invisible slides (for assistive technologies)
+                slide.style.visibility = 'hidden';
+            });
+        }, this.options.duration);
+        // Hide active Caption
+        //this._animateCaptionIn(_caption, this.options.duration);
+        _caption.style.opacity = '0';
+        // Update indicators
+        if (this.options.indicators) {
+            const activeIndicator = this._indicators[this.activeIndex].children[0];
+            const nextIndicator = this._indicators[index].children[0];
+            activeIndicator.classList.remove('active');
+            nextIndicator.classList.add('active');
+            if (typeof this.options.indicatorLabelFunc === 'function') {
+                activeIndicator.ariaLabel = this.options.indicatorLabelFunc.call(this, this.activeIndex, false);
+                nextIndicator.ariaLabel = this.options.indicatorLabelFunc.call(this, index, true);
+            }
+        }
+        //--- Show new Slide + Caption
+        this._animateSlide(this._slides[index], true);
+        this._slides[index].classList.add('active');
+        this.activeIndex = index;
+        // Reset interval, if allowed. This check prevents autostart
+        // when slider is paused, since it can be changed though indicators.
+        if (this.interval != null) {
+            this.start();
+        }
+    }
+    _pause(fromEvent) {
+        clearInterval(this.interval);
+        this.eventPause = fromEvent;
+        this.interval = null;
+    }
+    /**
+     * Pause slider autoslide.
+     */
+    pause = () => {
+        this._pause(false);
+    };
+    /**
+     * Start slider autoslide.
+     */
+    start = () => {
+        clearInterval(this.interval);
+        this.interval = setInterval(this._handleInterval, this.options.duration + this.options.interval);
+        this.eventPause = false;
+    };
+    /**
+     * Move to next slider.
+     */
+    next = () => {
+        let newIndex = this.activeIndex + 1;
+        // Wrap around indices.
+        if (newIndex >= this._slides.length)
+            newIndex = 0;
+        else if (newIndex < 0)
+            newIndex = this._slides.length - 1;
+        this.set(newIndex);
+    };
+    /**
+     * Move to prev slider.
+     */
+    prev = () => {
+        let newIndex = this.activeIndex - 1;
+        // Wrap around indices.
+        if (newIndex >= this._slides.length)
+            newIndex = 0;
+        else if (newIndex < 0)
+            newIndex = this._slides.length - 1;
+        this.set(newIndex);
+    };
+}
+
+const _defaults$9 = {
     duration: 300,
     onShow: null,
     swipeable: false,
@@ -5814,7 +5811,7 @@ class Tabs extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$7;
+        return _defaults$9;
     }
     /**
      * Initializes instances of Tabs.
@@ -6058,262 +6055,7 @@ class Tabs extends Component {
     }
 }
 
-const _defaults$6 = {
-    onOpen: null,
-    onClose: null
-};
-class TapTarget extends Component {
-    /**
-     * If the tap target is open.
-     */
-    isOpen;
-    static _taptargets;
-    wrapper;
-    // private _origin: HTMLElement;
-    originEl;
-    waveEl;
-    contentEl;
-    constructor(el, options) {
-        super(el, options, TapTarget);
-        this.el['M_TapTarget'] = this;
-        this.options = {
-            ...TapTarget.defaults,
-            ...options
-        };
-        this.isOpen = false;
-        // setup
-        this.originEl = document.querySelector(`#${el.dataset.target}`);
-        this.originEl.tabIndex = 0;
-        this._setup();
-        this._calculatePositioning();
-        this._setupEventHandlers();
-        TapTarget._taptargets.push(this);
-    }
-    static get defaults() {
-        return _defaults$6;
-    }
-    /**
-     * Initializes instances of TapTarget.
-     * @param els HTML elements.
-     * @param options Component options.
-     */
-    static init(els, options = {}) {
-        return super.init(els, options, TapTarget);
-    }
-    static getInstance(el) {
-        return el['M_TapTarget'];
-    }
-    destroy() {
-        this._removeEventHandlers();
-        this.el['M_TapTarget'] = undefined;
-        const index = TapTarget._taptargets.indexOf(this);
-        if (index >= 0) {
-            TapTarget._taptargets.splice(index, 1);
-        }
-    }
-    _setupEventHandlers() {
-        this.originEl.addEventListener('click', this._handleTargetToggle);
-        this.originEl.addEventListener('keypress', this._handleKeyboardInteraction, true);
-        // this.originEl.addEventListener('click', this._handleOriginClick);
-        // Resize
-        window.addEventListener('resize', this._handleThrottledResize);
-    }
-    _removeEventHandlers() {
-        this.originEl.removeEventListener('click', this._handleTargetToggle);
-        this.originEl.removeEventListener('keypress', this._handleKeyboardInteraction, true);
-        // this.originEl.removeEventListener('click', this._handleOriginClick);
-        window.removeEventListener('resize', this._handleThrottledResize);
-    }
-    _handleThrottledResize = () => Utils.throttle(this._handleResize, 200).bind(this);
-    _handleKeyboardInteraction = (e) => {
-        if (Utils.keys.ENTER.includes(e.key)) {
-            this._handleTargetToggle();
-        }
-    };
-    _handleTargetToggle = () => {
-        if (!this.isOpen)
-            this.open();
-        else
-            this.close();
-    };
-    /*_handleOriginClick = () => {
-      this.close();
-    }*/
-    _handleResize = () => {
-        this._calculatePositioning();
-    };
-    _handleDocumentClick = (e) => {
-        if (e.target.closest(`#${this.el.dataset.target}`) !== this.originEl &&
-            !e.target.closest('.tap-target-wrapper')) {
-            this.close();
-            // e.preventDefault();
-            // e.stopPropagation();
-        }
-    };
-    _setup() {
-        // Creating tap target
-        this.wrapper = this.el.parentElement;
-        this.waveEl = this.wrapper.querySelector('.tap-target-wave');
-        this.el.parentElement.ariaExpanded = 'false';
-        this.originEl.style.zIndex = '1002';
-        // this.originEl = this.wrapper.querySelector('.tap-target-origin');
-        this.contentEl = this.el.querySelector('.tap-target-content');
-        // Creating wrapper
-        if (!this.wrapper.classList.contains('.tap-target-wrapper')) {
-            this.wrapper = document.createElement('div');
-            this.wrapper.classList.add('tap-target-wrapper');
-            this.el.before(this.wrapper);
-            this.wrapper.append(this.el);
-        }
-        // Creating content
-        if (!this.contentEl) {
-            this.contentEl = document.createElement('div');
-            this.contentEl.classList.add('tap-target-content');
-            this.el.append(this.contentEl);
-        }
-        // Creating foreground wave
-        if (!this.waveEl) {
-            this.waveEl = document.createElement('div');
-            this.waveEl.classList.add('tap-target-wave');
-            // Creating origin
-            /*if (!this.originEl) {
-              this.originEl = <HTMLElement>this._origin.cloneNode(true); // .clone(true, true);
-              this.originEl.classList.add('tap-target-origin');
-              this.originEl.removeAttribute('id');
-              this.originEl.removeAttribute('style');
-              this.waveEl.append(this.originEl);
-            }*/
-            this.wrapper.append(this.waveEl);
-        }
-    }
-    _offset(el) {
-        const box = el.getBoundingClientRect();
-        const docElem = document.documentElement;
-        return {
-            top: box.top + window.pageYOffset - docElem.clientTop,
-            left: box.left + window.pageXOffset - docElem.clientLeft
-        };
-    }
-    _calculatePositioning() {
-        // Element or parent is fixed position?
-        let isFixed = getComputedStyle(this.originEl).position === 'fixed';
-        if (!isFixed) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            let currentElem = this.originEl;
-            const parents = [];
-            while ((currentElem = currentElem.parentNode) && currentElem !== document)
-                parents.push(currentElem);
-            for (let i = 0; i < parents.length; i++) {
-                isFixed = getComputedStyle(parents[i]).position === 'fixed';
-                if (isFixed)
-                    break;
-            }
-        }
-        // Calculating origin
-        const originWidth = this.originEl.offsetWidth;
-        const originHeight = this.originEl.offsetHeight;
-        const originTop = isFixed
-            ? this._offset(this.originEl).top - Utils.getDocumentScrollTop()
-            : this._offset(this.originEl).top;
-        const originLeft = isFixed
-            ? this._offset(this.originEl).left - Utils.getDocumentScrollLeft()
-            : this._offset(this.originEl).left;
-        // Calculating screen
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
-        const scrollBarWidth = windowWidth - document.documentElement.clientWidth;
-        const centerX = windowWidth / 2;
-        const centerY = windowHeight / 2;
-        const isLeft = originLeft <= centerX;
-        const isRight = originLeft > centerX;
-        const isTop = originTop <= centerY;
-        const isBottom = originTop > centerY;
-        const isCenterX = originLeft >= windowWidth * 0.25 && originLeft <= windowWidth * 0.75;
-        // Calculating tap target
-        const tapTargetWidth = this.el.offsetWidth;
-        const tapTargetHeight = this.el.offsetHeight;
-        const tapTargetTop = originTop + originHeight / 2 - tapTargetHeight / 2;
-        const tapTargetLeft = originLeft + originWidth / 2 - tapTargetWidth / 2;
-        const tapTargetPosition = isFixed ? 'fixed' : 'absolute';
-        // Calculating content
-        const tapTargetTextWidth = isCenterX ? tapTargetWidth : tapTargetWidth / 2 + originWidth;
-        const tapTargetTextHeight = tapTargetHeight / 2;
-        const tapTargetTextTop = isTop ? tapTargetHeight / 2 : 0;
-        const tapTargetTextBottom = 0;
-        const tapTargetTextLeft = isLeft && !isCenterX ? tapTargetWidth / 2 - originWidth : 0;
-        const tapTargetTextRight = 0;
-        const tapTargetTextPadding = originWidth;
-        const tapTargetTextAlign = isBottom ? 'bottom' : 'top';
-        // Calculating wave
-        const tapTargetWaveWidth = originWidth > originHeight ? originWidth * 2 : originWidth * 2;
-        const tapTargetWaveHeight = tapTargetWaveWidth;
-        const tapTargetWaveTop = tapTargetHeight / 2 - tapTargetWaveHeight / 2;
-        const tapTargetWaveLeft = tapTargetWidth / 2 - tapTargetWaveWidth / 2;
-        // Setting tap target
-        this.wrapper.style.top = isTop ? tapTargetTop + 'px' : '';
-        this.wrapper.style.right = isRight
-            ? windowWidth - tapTargetLeft - tapTargetWidth - scrollBarWidth + 'px'
-            : '';
-        this.wrapper.style.bottom = isBottom
-            ? windowHeight - tapTargetTop - tapTargetHeight + 'px'
-            : '';
-        this.wrapper.style.left = isLeft ? tapTargetLeft + 'px' : '';
-        this.wrapper.style.position = tapTargetPosition;
-        // Setting content
-        this.contentEl.style.width = tapTargetTextWidth + 'px';
-        this.contentEl.style.height = tapTargetTextHeight + 'px';
-        this.contentEl.style.top = tapTargetTextTop + 'px';
-        this.contentEl.style.right = tapTargetTextRight + 'px';
-        this.contentEl.style.bottom = tapTargetTextBottom + 'px';
-        this.contentEl.style.left = tapTargetTextLeft + 'px';
-        this.contentEl.style.padding = tapTargetTextPadding + 'px';
-        this.contentEl.style.verticalAlign = tapTargetTextAlign;
-        // Setting wave
-        this.waveEl.style.top = tapTargetWaveTop + 'px';
-        this.waveEl.style.left = tapTargetWaveLeft + 'px';
-        this.waveEl.style.width = tapTargetWaveWidth + 'px';
-        this.waveEl.style.height = tapTargetWaveHeight + 'px';
-    }
-    /**
-     * Open Tap Target.
-     */
-    open = () => {
-        if (this.isOpen)
-            return;
-        // onOpen callback
-        if (typeof this.options.onOpen === 'function') {
-            this.options.onOpen.call(this, this.originEl);
-        }
-        this.isOpen = true;
-        this.wrapper.classList.add('open');
-        this.wrapper.ariaExpanded = 'true';
-        document.body.addEventListener('click', this._handleDocumentClick, true);
-        document.body.addEventListener('keypress', this._handleDocumentClick, true);
-        document.body.addEventListener('touchend', this._handleDocumentClick);
-    };
-    /**
-     * Close Tap Target.
-     */
-    close = () => {
-        if (!this.isOpen)
-            return;
-        // onClose callback
-        if (typeof this.options.onClose === 'function') {
-            this.options.onClose.call(this, this.originEl);
-        }
-        this.isOpen = false;
-        this.wrapper.classList.remove('open');
-        this.wrapper.ariaExpanded = 'false';
-        document.body.removeEventListener('click', this._handleDocumentClick, true);
-        document.body.removeEventListener('keypress', this._handleDocumentClick, true);
-        document.body.removeEventListener('touchend', this._handleDocumentClick);
-    };
-    static {
-        TapTarget._taptargets = [];
-    }
-}
-
-const _defaults$5 = {
+const _defaults$8 = {
     dialRadius: 135,
     outerRadius: 105,
     innerRadius: 70,
@@ -6338,7 +6080,7 @@ const _defaults$5 = {
     onDone: null,
     onCancel: null,
     displayPlugin: null,
-    displayPluginOptions: null,
+    displayPluginOptions: null
 };
 class Timepicker extends Component {
     id;
@@ -6395,14 +6137,12 @@ class Timepicker extends Component {
         this._setupVariables();
         this._setupEventHandlers();
         this._clockSetup();
+        if (this.options.displayPlugin)
+            this._setupDisplayPlugin();
         this._pickerSetup();
-        if (this.options.displayPlugin) {
-            if (this.options.displayPlugin === 'docked')
-                this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
-        }
     }
     static get defaults() {
-        return _defaults$5;
+        return _defaults$8;
     }
     /**
      * Initializes instances of Timepicker.
@@ -6439,6 +6179,7 @@ class Timepicker extends Component {
     }
     _setupEventHandlers() {
         this.el.addEventListener('click', this._handleInputClick);
+        // @todo allow input field to fill values from input field when container/modal opens
         this.el.addEventListener('keydown', this._handleInputKeydown);
         this.plate.addEventListener('mousedown', this._handleClockClickStart);
         this.plate.addEventListener('touchstart', this._handleClockClickStart);
@@ -6576,25 +6317,39 @@ class Timepicker extends Component {
         // clearButton.classList.add('timepicker-clear');
         // clearButton.addEventListener('click', this.clear);
         // this.footer.appendChild(clearButton);
-        Utils.createButton(this.footer, this.options.i18n.clear, ['timepicker-clear'], this.options.showClearBtn, this.clear);
+        if (this.options.showClearBtn) {
+            Utils.createButton(this.footer, this.options.i18n.clear, ['timepicker-clear'], true, this.clear);
+        }
         if (!this.options.autoSubmit) {
             /*const confirmationBtnsContainer = document.createElement('div');
-            confirmationBtnsContainer.classList.add('confirmation-btns');
-            this.footer.append(confirmationBtnsContainer);
-        
-            const cancelButton = this._createButton(this.options.i18n.cancel, '');
-            cancelButton.classList.add('timepicker-close');
-            cancelButton.addEventListener('click', this.close);
-            confirmationBtnsContainer.appendChild(cancelButton);
-        
-            const doneButton = this._createButton(this.options.i18n.done, '');
-            doneButton.classList.add('timepicker-close');
-            //doneButton.addEventListener('click', this._finishSelection);
-            confirmationBtnsContainer.appendChild(doneButton);*/
+          confirmationBtnsContainer.classList.add('confirmation-btns');
+          this.footer.append(confirmationBtnsContainer);
+      
+          const cancelButton = this._createButton(this.options.i18n.cancel, '');
+          cancelButton.classList.add('timepicker-close');
+          cancelButton.addEventListener('click', this.close);
+          confirmationBtnsContainer.appendChild(cancelButton);
+      
+          const doneButton = this._createButton(this.options.i18n.done, '');
+          doneButton.classList.add('timepicker-close');
+          //doneButton.addEventListener('click', this._finishSelection);
+          confirmationBtnsContainer.appendChild(doneButton);*/
             Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this.confirm, this.cancel);
         }
         this._updateTimeFromInput();
         this.showView('hours');
+    }
+    _setupDisplayPlugin() {
+        if (this.options.displayPlugin === 'docked')
+            this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+        if (this.options.displayPlugin === 'modal') {
+            this.displayPlugin = ModalDisplayPlugin.init(this.el, this.containerEl, {
+                ...this.options.displayPluginOptions,
+                ...{ classList: ['timepicker-modal'] }
+            });
+            this.footer.remove();
+            this.footer = this.displayPlugin.footer;
+        }
     }
     _clockSetup() {
         if (this.options.twelveHour) {
@@ -6935,16 +6690,21 @@ class Timepicker extends Component {
     };
     confirm = () => {
         this.done();
+        if (this.displayPlugin)
+            this.displayPlugin.hide();
         if (typeof this.options.onDone === 'function')
             this.options.onDone.call(this);
     };
     cancel = () => {
         // not logical clearing the input field on cancel, since the end user might want to make use of the previously submitted value
         // this.clear();
+        if (this.displayPlugin)
+            this.displayPlugin.hide();
         if (typeof this.options.onCancel === 'function')
             this.options.onCancel.call(this);
     };
     clear = () => {
+        // @todo should clear timepicker hour/minute input elems and reset analog clock, currently clears input el
         this.done(true);
     };
     // deprecated
@@ -6988,7 +6748,242 @@ class Timepicker extends Component {
     }
 }
 
-const _defaults$4 = {
+const _defaults$7 = {
+    text: '',
+    displayLength: 4000,
+    inDuration: 300,
+    outDuration: 375,
+    classes: '',
+    completeCallback: null,
+    activationPercent: 0.8
+};
+class Toast {
+    /** The toast element. */
+    el;
+    /**
+     * The remaining amount of time in ms that the toast
+     * will stay before dismissal.
+     */
+    timeRemaining;
+    /**
+     * Describes the current pan state of the Toast.
+     */
+    panning;
+    options;
+    message;
+    counterInterval;
+    wasSwiped;
+    startingXPos;
+    xPos;
+    time;
+    deltaX;
+    velocityX;
+    static _toasts;
+    static _container;
+    static _draggedToast;
+    constructor(options) {
+        this.options = {
+            ...Toast.defaults,
+            ...options
+        };
+        this.message = this.options.text;
+        this.panning = false;
+        this.timeRemaining = this.options.displayLength;
+        if (Toast._toasts.length === 0) {
+            Toast._createContainer();
+        }
+        // Create new toast
+        Toast._toasts.push(this);
+        const toastElement = this._createToast();
+        toastElement['M_Toast'] = this;
+        this.el = toastElement;
+        this._animateIn();
+        this._setTimer();
+    }
+    static get defaults() {
+        return _defaults$7;
+    }
+    static getInstance(el) {
+        return el['M_Toast'];
+    }
+    static _createContainer() {
+        const container = document.createElement('div');
+        container.setAttribute('id', 'toast-container');
+        // Add event handler
+        container.addEventListener('touchstart', Toast._onDragStart);
+        container.addEventListener('touchmove', Toast._onDragMove);
+        container.addEventListener('touchend', Toast._onDragEnd);
+        container.addEventListener('mousedown', Toast._onDragStart);
+        document.addEventListener('mousemove', Toast._onDragMove);
+        document.addEventListener('mouseup', Toast._onDragEnd);
+        document.body.appendChild(container);
+        Toast._container = container;
+    }
+    static _removeContainer() {
+        document.removeEventListener('mousemove', Toast._onDragMove);
+        document.removeEventListener('mouseup', Toast._onDragEnd);
+        Toast._container.remove();
+        Toast._container = null;
+    }
+    static _onDragStart(e) {
+        if (e.target && e.target.closest('.toast')) {
+            const toastElem = e.target.closest('.toast');
+            const toast = toastElem['M_Toast'];
+            toast.panning = true;
+            Toast._draggedToast = toast;
+            toast.el.classList.add('panning');
+            toast.el.style.transition = '';
+            toast.startingXPos = Toast._xPos(e);
+            toast.time = Date.now();
+            toast.xPos = Toast._xPos(e);
+        }
+    }
+    static _onDragMove(e) {
+        if (!!Toast._draggedToast) {
+            e.preventDefault();
+            const toast = Toast._draggedToast;
+            toast.deltaX = Math.abs(toast.xPos - Toast._xPos(e));
+            toast.xPos = Toast._xPos(e);
+            toast.velocityX = toast.deltaX / (Date.now() - toast.time);
+            toast.time = Date.now();
+            const totalDeltaX = toast.xPos - toast.startingXPos;
+            const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
+            toast.el.style.transform = `translateX(${totalDeltaX}px)`;
+            toast.el.style.opacity = (1 - Math.abs(totalDeltaX / activationDistance)).toString();
+        }
+    }
+    static _onDragEnd() {
+        if (!!Toast._draggedToast) {
+            const toast = Toast._draggedToast;
+            toast.panning = false;
+            toast.el.classList.remove('panning');
+            const totalDeltaX = toast.xPos - toast.startingXPos;
+            const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
+            const shouldBeDismissed = Math.abs(totalDeltaX) > activationDistance || toast.velocityX > 1;
+            // Remove toast
+            if (shouldBeDismissed) {
+                toast.wasSwiped = true;
+                toast.dismiss();
+                // Animate toast back to original position
+            }
+            else {
+                toast.el.style.transition = 'transform .2s, opacity .2s';
+                toast.el.style.transform = '';
+                toast.el.style.opacity = '';
+            }
+            Toast._draggedToast = null;
+        }
+    }
+    static _xPos(e) {
+        if (e.type.startsWith('touch') && e.targetTouches.length >= 1) {
+            return e.targetTouches[0].clientX;
+        }
+        // mouse event
+        return e.clientX;
+    }
+    /**
+     * dismiss all toasts.
+     */
+    static dismissAll() {
+        for (const toastIndex in Toast._toasts) {
+            Toast._toasts[toastIndex].dismiss();
+        }
+    }
+    _createToast() {
+        let toast = this.options.toastId
+            ? document.getElementById(this.options.toastId)
+            : document.createElement('div');
+        if (toast instanceof HTMLTemplateElement) {
+            const node = toast.content.cloneNode(true);
+            toast = node.firstElementChild;
+        }
+        toast.classList.add('toast');
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+        // Add custom classes onto toast
+        if (this.options.classes.length > 0) {
+            toast.classList.add(...this.options.classes.split(' '));
+        }
+        if (this.message)
+            toast.innerText = this.message;
+        Toast._container.appendChild(toast);
+        return toast;
+    }
+    _animateIn() {
+        // Animate toast in
+        this.el.style.display = '';
+        this.el.style.opacity = '0';
+        // easeOutCubic
+        this.el.style.transition = `
+      top ${this.options.inDuration}ms ease,
+      opacity ${this.options.inDuration}ms ease
+    `;
+        setTimeout(() => {
+            this.el.style.top = '0';
+            this.el.style.opacity = '1';
+        }, 1);
+    }
+    /**
+     * Create setInterval which automatically removes toast when timeRemaining >= 0
+     * has been reached.
+     */
+    _setTimer() {
+        if (this.timeRemaining !== Infinity) {
+            this.counterInterval = setInterval(() => {
+                // If toast is not being dragged, decrease its time remaining
+                if (!this.panning) {
+                    this.timeRemaining -= 20;
+                }
+                // Animate toast out
+                if (this.timeRemaining <= 0) {
+                    this.dismiss();
+                }
+            }, 20);
+        }
+    }
+    /**
+     * Dismiss toast with animation.
+     */
+    dismiss() {
+        clearInterval(this.counterInterval);
+        const activationDistance = this.el.offsetWidth * this.options.activationPercent;
+        if (this.wasSwiped) {
+            this.el.style.transition = 'transform .05s, opacity .05s';
+            this.el.style.transform = `translateX(${activationDistance}px)`;
+            this.el.style.opacity = '0';
+        }
+        // easeOutExpo
+        this.el.style.transition = `
+      margin ${this.options.outDuration}ms ease,
+      opacity ${this.options.outDuration}ms ease`;
+        setTimeout(() => {
+            this.el.style.opacity = '0';
+            this.el.style.marginTop = '-40px';
+        }, 1);
+        setTimeout(() => {
+            // Call the optional callback
+            if (typeof this.options.completeCallback === 'function') {
+                this.options.completeCallback();
+            }
+            // Remove toast from DOM
+            if (this.el.id != this.options.toastId) {
+                this.el.remove();
+                Toast._toasts.splice(Toast._toasts.indexOf(this), 1);
+                if (Toast._toasts.length === 0) {
+                    Toast._removeContainer();
+                }
+            }
+        }, this.options.outDuration);
+    }
+    static {
+        Toast._toasts = [];
+        Toast._container = null;
+        Toast._draggedToast = null;
+    }
+}
+
+const _defaults$6 = {
     exitDelay: 200,
     enterDelay: 0,
     text: '',
@@ -7032,7 +7027,7 @@ class Tooltip extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$4;
+        return _defaults$6;
     }
     /**
      * Initializes instances of Tooltip.
@@ -7257,72 +7252,7 @@ class Tooltip extends Component {
     }
 }
 
-class Waves {
-    static _offset(el) {
-        const box = el.getBoundingClientRect();
-        const docElem = document.documentElement;
-        return {
-            top: box.top + window.pageYOffset - docElem.clientTop,
-            left: box.left + window.pageXOffset - docElem.clientLeft
-        };
-    }
-    // https://phoenix-dx.com/css-techniques-for-material-ripple-effect/
-    static renderWaveEffect(targetElement, position = null, color = null) {
-        const isCentered = position === null;
-        const duration = 500;
-        let animationFrame, animationStart;
-        const animationStep = function (timestamp) {
-            if (!animationStart) {
-                animationStart = timestamp;
-            }
-            const frame = timestamp - animationStart;
-            if (frame < duration) {
-                const easing = (frame / duration) * (2 - frame / duration);
-                const circle = isCentered
-                    ? 'circle at 50% 50%'
-                    : `circle at ${position.x}px ${position.y}px`;
-                const waveColor = `rgba(${color?.r || 0}, ${color?.g || 0}, ${color?.b || 0}, ${0.3 * (1 - easing)})`;
-                const stop = 90 * easing + '%';
-                targetElement.style.backgroundImage =
-                    'radial-gradient(' +
-                        circle +
-                        ', ' +
-                        waveColor +
-                        ' ' +
-                        stop +
-                        ', transparent ' +
-                        stop +
-                        ')';
-                animationFrame = window.requestAnimationFrame(animationStep);
-            }
-            else {
-                targetElement.style.backgroundImage = 'none';
-                window.cancelAnimationFrame(animationFrame);
-            }
-        };
-        animationFrame = window.requestAnimationFrame(animationStep);
-    }
-    static Init() {
-        if (typeof document !== 'undefined')
-            document?.addEventListener('DOMContentLoaded', () => {
-                document.body.addEventListener('click', (e) => {
-                    const trigger = e.target;
-                    const el = trigger.closest('.waves-effect');
-                    if (el && el.contains(trigger)) {
-                        const isCircular = el.classList.contains('waves-circle');
-                        const x = e.pageX - Waves._offset(el).left;
-                        const y = e.pageY - Waves._offset(el).top;
-                        let color = null;
-                        if (el.classList.contains('waves-light'))
-                            color = { r: 255, g: 255, b: 255 };
-                        Waves.renderWaveEffect(el, isCircular ? null : { x, y }, color);
-                    }
-                });
-            });
-    }
-}
-
-const _defaults$3 = {};
+const _defaults$5 = {};
 // TODO: !!!!!
 class Range extends Component {
     _mousedown;
@@ -7340,7 +7270,7 @@ class Range extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$3;
+        return _defaults$5;
     }
     /**
      * Initializes instances of Range.
@@ -7491,7 +7421,262 @@ class Range extends Component {
     }
 }
 
-const _defaults$2 = Object.freeze({});
+const _defaults$4 = {
+    onOpen: null,
+    onClose: null
+};
+class TapTarget extends Component {
+    /**
+     * If the tap target is open.
+     */
+    isOpen;
+    static _taptargets;
+    wrapper;
+    // private _origin: HTMLElement;
+    originEl;
+    waveEl;
+    contentEl;
+    constructor(el, options) {
+        super(el, options, TapTarget);
+        this.el['M_TapTarget'] = this;
+        this.options = {
+            ...TapTarget.defaults,
+            ...options
+        };
+        this.isOpen = false;
+        // setup
+        this.originEl = document.querySelector(`#${el.dataset.target}`);
+        this.originEl.tabIndex = 0;
+        this._setup();
+        this._calculatePositioning();
+        this._setupEventHandlers();
+        TapTarget._taptargets.push(this);
+    }
+    static get defaults() {
+        return _defaults$4;
+    }
+    /**
+     * Initializes instances of TapTarget.
+     * @param els HTML elements.
+     * @param options Component options.
+     */
+    static init(els, options = {}) {
+        return super.init(els, options, TapTarget);
+    }
+    static getInstance(el) {
+        return el['M_TapTarget'];
+    }
+    destroy() {
+        this._removeEventHandlers();
+        this.el['M_TapTarget'] = undefined;
+        const index = TapTarget._taptargets.indexOf(this);
+        if (index >= 0) {
+            TapTarget._taptargets.splice(index, 1);
+        }
+    }
+    _setupEventHandlers() {
+        this.originEl.addEventListener('click', this._handleTargetToggle);
+        this.originEl.addEventListener('keypress', this._handleKeyboardInteraction, true);
+        // this.originEl.addEventListener('click', this._handleOriginClick);
+        // Resize
+        window.addEventListener('resize', this._handleThrottledResize);
+    }
+    _removeEventHandlers() {
+        this.originEl.removeEventListener('click', this._handleTargetToggle);
+        this.originEl.removeEventListener('keypress', this._handleKeyboardInteraction, true);
+        // this.originEl.removeEventListener('click', this._handleOriginClick);
+        window.removeEventListener('resize', this._handleThrottledResize);
+    }
+    _handleThrottledResize = () => Utils.throttle(this._handleResize, 200).bind(this);
+    _handleKeyboardInteraction = (e) => {
+        if (Utils.keys.ENTER.includes(e.key)) {
+            this._handleTargetToggle();
+        }
+    };
+    _handleTargetToggle = () => {
+        if (!this.isOpen)
+            this.open();
+        else
+            this.close();
+    };
+    /*_handleOriginClick = () => {
+      this.close();
+    }*/
+    _handleResize = () => {
+        this._calculatePositioning();
+    };
+    _handleDocumentClick = (e) => {
+        if (e.target.closest(`#${this.el.dataset.target}`) !== this.originEl &&
+            !e.target.closest('.tap-target-wrapper')) {
+            this.close();
+            // e.preventDefault();
+            // e.stopPropagation();
+        }
+    };
+    _setup() {
+        // Creating tap target
+        this.wrapper = this.el.parentElement;
+        this.waveEl = this.wrapper.querySelector('.tap-target-wave');
+        this.el.parentElement.ariaExpanded = 'false';
+        this.originEl.style.zIndex = '1002';
+        // this.originEl = this.wrapper.querySelector('.tap-target-origin');
+        this.contentEl = this.el.querySelector('.tap-target-content');
+        // Creating wrapper
+        if (!this.wrapper.classList.contains('.tap-target-wrapper')) {
+            this.wrapper = document.createElement('div');
+            this.wrapper.classList.add('tap-target-wrapper');
+            this.el.before(this.wrapper);
+            this.wrapper.append(this.el);
+        }
+        // Creating content
+        if (!this.contentEl) {
+            this.contentEl = document.createElement('div');
+            this.contentEl.classList.add('tap-target-content');
+            this.el.append(this.contentEl);
+        }
+        // Creating foreground wave
+        if (!this.waveEl) {
+            this.waveEl = document.createElement('div');
+            this.waveEl.classList.add('tap-target-wave');
+            // Creating origin
+            /*if (!this.originEl) {
+              this.originEl = <HTMLElement>this._origin.cloneNode(true); // .clone(true, true);
+              this.originEl.classList.add('tap-target-origin');
+              this.originEl.removeAttribute('id');
+              this.originEl.removeAttribute('style');
+              this.waveEl.append(this.originEl);
+            }*/
+            this.wrapper.append(this.waveEl);
+        }
+    }
+    _offset(el) {
+        const box = el.getBoundingClientRect();
+        const docElem = document.documentElement;
+        return {
+            top: box.top + window.pageYOffset - docElem.clientTop,
+            left: box.left + window.pageXOffset - docElem.clientLeft
+        };
+    }
+    _calculatePositioning() {
+        // Element or parent is fixed position?
+        let isFixed = getComputedStyle(this.originEl).position === 'fixed';
+        if (!isFixed) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            let currentElem = this.originEl;
+            const parents = [];
+            while ((currentElem = currentElem.parentNode) && currentElem !== document)
+                parents.push(currentElem);
+            for (let i = 0; i < parents.length; i++) {
+                isFixed = getComputedStyle(parents[i]).position === 'fixed';
+                if (isFixed)
+                    break;
+            }
+        }
+        // Calculating origin
+        const originWidth = this.originEl.offsetWidth;
+        const originHeight = this.originEl.offsetHeight;
+        const originTop = isFixed
+            ? this._offset(this.originEl).top - Utils.getDocumentScrollTop()
+            : this._offset(this.originEl).top;
+        const originLeft = isFixed
+            ? this._offset(this.originEl).left - Utils.getDocumentScrollLeft()
+            : this._offset(this.originEl).left;
+        // Calculating screen
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const scrollBarWidth = windowWidth - document.documentElement.clientWidth;
+        const centerX = windowWidth / 2;
+        const centerY = windowHeight / 2;
+        const isLeft = originLeft <= centerX;
+        const isRight = originLeft > centerX;
+        const isTop = originTop <= centerY;
+        const isBottom = originTop > centerY;
+        const isCenterX = originLeft >= windowWidth * 0.25 && originLeft <= windowWidth * 0.75;
+        // Calculating tap target
+        const tapTargetWidth = this.el.offsetWidth;
+        const tapTargetHeight = this.el.offsetHeight;
+        const tapTargetTop = originTop + originHeight / 2 - tapTargetHeight / 2;
+        const tapTargetLeft = originLeft + originWidth / 2 - tapTargetWidth / 2;
+        const tapTargetPosition = isFixed ? 'fixed' : 'absolute';
+        // Calculating content
+        const tapTargetTextWidth = isCenterX ? tapTargetWidth : tapTargetWidth / 2 + originWidth;
+        const tapTargetTextHeight = tapTargetHeight / 2;
+        const tapTargetTextTop = isTop ? tapTargetHeight / 2 : 0;
+        const tapTargetTextBottom = 0;
+        const tapTargetTextLeft = isLeft && !isCenterX ? tapTargetWidth / 2 - originWidth : 0;
+        const tapTargetTextRight = 0;
+        const tapTargetTextPadding = originWidth;
+        const tapTargetTextAlign = isBottom ? 'bottom' : 'top';
+        // Calculating wave
+        const tapTargetWaveWidth = originWidth > originHeight ? originWidth * 2 : originWidth * 2;
+        const tapTargetWaveHeight = tapTargetWaveWidth;
+        const tapTargetWaveTop = tapTargetHeight / 2 - tapTargetWaveHeight / 2;
+        const tapTargetWaveLeft = tapTargetWidth / 2 - tapTargetWaveWidth / 2;
+        // Setting tap target
+        this.wrapper.style.top = isTop ? tapTargetTop + 'px' : '';
+        this.wrapper.style.right = isRight
+            ? windowWidth - tapTargetLeft - tapTargetWidth - scrollBarWidth + 'px'
+            : '';
+        this.wrapper.style.bottom = isBottom
+            ? windowHeight - tapTargetTop - tapTargetHeight + 'px'
+            : '';
+        this.wrapper.style.left = isLeft ? tapTargetLeft + 'px' : '';
+        this.wrapper.style.position = tapTargetPosition;
+        // Setting content
+        this.contentEl.style.width = tapTargetTextWidth + 'px';
+        this.contentEl.style.height = tapTargetTextHeight + 'px';
+        this.contentEl.style.top = tapTargetTextTop + 'px';
+        this.contentEl.style.right = tapTargetTextRight + 'px';
+        this.contentEl.style.bottom = tapTargetTextBottom + 'px';
+        this.contentEl.style.left = tapTargetTextLeft + 'px';
+        this.contentEl.style.padding = tapTargetTextPadding + 'px';
+        this.contentEl.style.verticalAlign = tapTargetTextAlign;
+        // Setting wave
+        this.waveEl.style.top = tapTargetWaveTop + 'px';
+        this.waveEl.style.left = tapTargetWaveLeft + 'px';
+        this.waveEl.style.width = tapTargetWaveWidth + 'px';
+        this.waveEl.style.height = tapTargetWaveHeight + 'px';
+    }
+    /**
+     * Open Tap Target.
+     */
+    open = () => {
+        if (this.isOpen)
+            return;
+        // onOpen callback
+        if (typeof this.options.onOpen === 'function') {
+            this.options.onOpen.call(this, this.originEl);
+        }
+        this.isOpen = true;
+        this.wrapper.classList.add('open');
+        this.wrapper.ariaExpanded = 'true';
+        document.body.addEventListener('click', this._handleDocumentClick, true);
+        document.body.addEventListener('keypress', this._handleDocumentClick, true);
+        document.body.addEventListener('touchend', this._handleDocumentClick);
+    };
+    /**
+     * Close Tap Target.
+     */
+    close = () => {
+        if (!this.isOpen)
+            return;
+        // onClose callback
+        if (typeof this.options.onClose === 'function') {
+            this.options.onClose.call(this, this.originEl);
+        }
+        this.isOpen = false;
+        this.wrapper.classList.remove('open');
+        this.wrapper.ariaExpanded = 'false';
+        document.body.removeEventListener('click', this._handleDocumentClick, true);
+        document.body.removeEventListener('keypress', this._handleDocumentClick, true);
+        document.body.removeEventListener('touchend', this._handleDocumentClick);
+    };
+    static {
+        TapTarget._taptargets = [];
+    }
+}
+
+const _defaults$3 = Object.freeze({});
 class CharacterCounter extends Component {
     /** Stores the reference to the counter HTML element. */
     counterEl;
@@ -7512,7 +7697,7 @@ class CharacterCounter extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$2;
+        return _defaults$3;
     }
     /**
      * Initializes instances of CharacterCounter.
@@ -7572,582 +7757,528 @@ class CharacterCounter extends Component {
     }
 }
 
-const _defaults$1 = {
-    indicators: true,
-    height: 400,
-    duration: 500,
-    interval: 6000,
-    pauseOnFocus: true,
-    pauseOnHover: true,
-    indicatorLabelFunc: null // Function which will generate a label for the indicators (ARIA)
+const _defaults$2 = {
+    responsiveThreshold: 0 // breakpoint for swipeable
 };
-class Slider extends Component {
-    /** Index of current slide. */
-    activeIndex;
-    interval;
-    eventPause;
-    _slider;
-    _slides;
-    _activeSlide;
-    _indicators;
-    _hovered;
-    _focused;
-    _focusCurrent;
-    _sliderId;
+class Parallax extends Component {
+    _enabled;
+    _img;
+    static _parallaxes = [];
+    static _handleScrollThrottled;
+    static _handleWindowResizeThrottled;
     constructor(el, options) {
-        super(el, options, Slider);
-        this.el['M_Slider'] = this;
+        super(el, options, Parallax);
+        this.el['M_Parallax'] = this;
         this.options = {
-            ...Slider.defaults,
+            ...Parallax.defaults,
             ...options
         };
-        // init props
-        this.interval = null;
-        this.eventPause = false;
-        this._hovered = false;
-        this._focused = false;
-        this._focusCurrent = false;
-        // setup
-        this._slider = this.el.querySelector('.slides');
-        this._slides = Array.from(this._slider.querySelectorAll('li'));
-        this.activeIndex = this._slides.findIndex((li) => li.classList.contains('active'));
-        if (this.activeIndex !== -1) {
-            this._activeSlide = this._slides[this.activeIndex];
-        }
-        this._setSliderHeight();
-        // Sets element id if it does not have one
-        if (this._slider.hasAttribute('id'))
-            this._sliderId = this._slider.getAttribute('id');
-        else {
-            this._sliderId = 'slider-' + Utils.guid();
-            this._slider.setAttribute('id', this._sliderId);
-        }
-        const placeholderBase64 = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-        // Set initial positions of captions
-        this._slides.forEach((slide) => {
-            // Caption
-            //const caption = <HTMLElement|null>slide.querySelector('.caption');
-            //if (caption) this._animateCaptionIn(caption, 0);
-            // Set Images as Background Images
-            const img = slide.querySelector('img');
-            if (img) {
-                if (img.src !== placeholderBase64) {
-                    img.style.backgroundImage = 'url(' + img.src + ')';
-                    img.src = placeholderBase64;
-                }
-            }
-            // Sets slide as focusable by code
-            if (!slide.hasAttribute('tabindex'))
-                slide.setAttribute('tabindex', '-1');
-            // Removes initial visibility from "inactive" slides
-            slide.style.visibility = 'hidden';
-        });
-        this._setupIndicators();
-        // Show active slide
-        if (this._activeSlide) {
-            this._activeSlide.style.display = 'block';
-            this._activeSlide.style.visibility = 'visible';
-        }
-        else {
-            this.activeIndex = 0;
-            this._slides[0].classList.add('active');
-            this._slides[0].style.visibility = 'visible';
-            this._activeSlide = this._slides[0];
-            this._animateSlide(this._slides[0], true);
-            // Update indicators
-            if (this.options.indicators) {
-                this._indicators[this.activeIndex].children[0].classList.add('active');
-            }
-        }
+        this._enabled = window.innerWidth > this.options.responsiveThreshold;
+        this._img = this.el.querySelector('img');
+        this._updateParallax();
         this._setupEventHandlers();
-        // auto scroll
-        this.start();
+        this._setupStyles();
+        Parallax._parallaxes.push(this);
+    }
+    static get defaults() {
+        return _defaults$2;
+    }
+    /**
+     * Initializes instances of Parallax.
+     * @param els HTML elements.
+     * @param options Component options.
+     */
+    static init(els, options = {}) {
+        return super.init(els, options, Parallax);
+    }
+    static getInstance(el) {
+        return el['M_Parallax'];
+    }
+    destroy() {
+        Parallax._parallaxes.splice(Parallax._parallaxes.indexOf(this), 1);
+        this._img.style.transform = '';
+        this._removeEventHandlers();
+        this.el['M_Parallax'] = undefined;
+    }
+    static _handleScroll() {
+        for (let i = 0; i < Parallax._parallaxes.length; i++) {
+            const parallaxInstance = Parallax._parallaxes[i];
+            parallaxInstance._updateParallax.call(parallaxInstance);
+        }
+    }
+    static _handleWindowResize() {
+        for (let i = 0; i < Parallax._parallaxes.length; i++) {
+            const parallaxInstance = Parallax._parallaxes[i];
+            parallaxInstance._enabled = window.innerWidth > parallaxInstance.options.responsiveThreshold;
+        }
+    }
+    _setupEventHandlers() {
+        this._img.addEventListener('load', this._handleImageLoad);
+        if (Parallax._parallaxes.length === 0) {
+            if (!Parallax._handleScrollThrottled) {
+                Parallax._handleScrollThrottled = Utils.throttle(Parallax._handleScroll, 5);
+            }
+            if (!Parallax._handleWindowResizeThrottled) {
+                Parallax._handleWindowResizeThrottled = Utils.throttle(Parallax._handleWindowResize, 5);
+            }
+            window.addEventListener('scroll', Parallax._handleScrollThrottled);
+            window.addEventListener('resize', Parallax._handleWindowResizeThrottled);
+        }
+    }
+    _removeEventHandlers() {
+        this._img.removeEventListener('load', this._handleImageLoad);
+        if (Parallax._parallaxes.length === 0) {
+            window.removeEventListener('scroll', Parallax._handleScrollThrottled);
+            window.removeEventListener('resize', Parallax._handleWindowResizeThrottled);
+        }
+    }
+    _setupStyles() {
+        this._img.style.opacity = '1';
+    }
+    _handleImageLoad = () => {
+        this._updateParallax();
+    };
+    _offset(el) {
+        const box = el.getBoundingClientRect();
+        const docElem = document.documentElement;
+        return {
+            top: box.top + window.scrollY - docElem.clientTop,
+            left: box.left + window.scrollX - docElem.clientLeft
+        };
+    }
+    _updateParallax() {
+        const containerHeight = this.el.getBoundingClientRect().height > 0 ? this.el.parentElement.offsetHeight : 500;
+        const imgHeight = this._img.offsetHeight;
+        const parallaxDist = imgHeight - containerHeight;
+        const bottom = this._offset(this.el).top + containerHeight;
+        const top = this._offset(this.el).top;
+        const scrollTop = Utils.getDocumentScrollTop();
+        const windowHeight = window.innerHeight;
+        const windowBottom = scrollTop + windowHeight;
+        const percentScrolled = (windowBottom - top) / (containerHeight + windowHeight);
+        const parallax = parallaxDist * percentScrolled;
+        if (!this._enabled) {
+            this._img.style.transform = '';
+        }
+        else if (bottom > scrollTop && top < scrollTop + windowHeight) {
+            this._img.style.transform = `translate3D(-50%, ${parallax}px, 0)`;
+        }
+    }
+}
+
+const _defaults$1 = {
+    top: 0,
+    bottom: Infinity,
+    offset: 0,
+    onPositionChange: null
+};
+class Pushpin extends Component {
+    static _pushpins;
+    originalOffset;
+    constructor(el, options) {
+        super(el, options, Pushpin);
+        this.el['M_Pushpin'] = this;
+        this.options = {
+            ...Pushpin.defaults,
+            ...options
+        };
+        this.originalOffset = this.el.offsetTop;
+        Pushpin._pushpins.push(this);
+        this._setupEventHandlers();
+        this._updatePosition();
     }
     static get defaults() {
         return _defaults$1;
     }
     /**
-     * Initializes instances of Slider.
+     * Initializes instances of Pushpin.
      * @param els HTML elements.
      * @param options Component options.
      */
     static init(els, options = {}) {
-        return super.init(els, options, Slider);
+        return super.init(els, options, Pushpin);
     }
     static getInstance(el) {
-        return el['M_Slider'];
+        return el['M_Pushpin'];
     }
     destroy() {
-        this.pause();
-        this._removeIndicators();
-        this._removeEventHandlers();
-        this.el['M_Slider'] = undefined;
+        this.el.style.top = null;
+        this._removePinClasses();
+        // Remove pushpin Inst
+        const index = Pushpin._pushpins.indexOf(this);
+        Pushpin._pushpins.splice(index, 1);
+        if (Pushpin._pushpins.length === 0) {
+            this._removeEventHandlers();
+        }
+        this.el['M_Pushpin'] = undefined;
+    }
+    static _updateElements() {
+        for (const elIndex in Pushpin._pushpins) {
+            const pInstance = Pushpin._pushpins[elIndex];
+            pInstance._updatePosition();
+        }
     }
     _setupEventHandlers() {
-        if (this.options.pauseOnFocus) {
-            this.el.addEventListener('focusin', this._handleAutoPauseFocus);
-            this.el.addEventListener('focusout', this._handleAutoStartFocus);
-        }
-        if (this.options.pauseOnHover) {
-            this.el.addEventListener('mouseenter', this._handleAutoPauseHover);
-            this.el.addEventListener('mouseleave', this._handleAutoStartHover);
-        }
-        if (this.options.indicators) {
-            this._indicators.forEach((el) => {
-                el.addEventListener('click', this._handleIndicatorClick);
-            });
-        }
+        document.addEventListener('scroll', Pushpin._updateElements);
     }
     _removeEventHandlers() {
-        if (this.options.pauseOnFocus) {
-            this.el.removeEventListener('focusin', this._handleAutoPauseFocus);
-            this.el.removeEventListener('focusout', this._handleAutoStartFocus);
-        }
-        if (this.options.pauseOnHover) {
-            this.el.removeEventListener('mouseenter', this._handleAutoPauseHover);
-            this.el.removeEventListener('mouseleave', this._handleAutoStartHover);
-        }
-        if (this.options.indicators) {
-            this._indicators.forEach((el) => {
-                el.removeEventListener('click', this._handleIndicatorClick);
-            });
-        }
+        document.removeEventListener('scroll', Pushpin._updateElements);
     }
-    _handleIndicatorClick = (e) => {
-        const el = e.target.parentElement;
-        const currIndex = [...el.parentNode.children].indexOf(el);
-        this._focusCurrent = true;
-        this.set(currIndex);
-    };
-    _handleAutoPauseHover = () => {
-        this._hovered = true;
-        if (this.interval != null) {
-            this._pause(true);
-        }
-    };
-    _handleAutoPauseFocus = () => {
-        this._focused = true;
-        if (this.interval != null) {
-            this._pause(true);
-        }
-    };
-    _handleAutoStartHover = () => {
-        this._hovered = false;
-        if (!(this.options.pauseOnFocus && this._focused) && this.eventPause) {
-            this.start();
-        }
-    };
-    _handleAutoStartFocus = () => {
-        this._focused = false;
-        if (!(this.options.pauseOnHover && this._hovered) && this.eventPause) {
-            this.start();
-        }
-    };
-    _handleInterval = () => {
-        const activeElem = this._slider.querySelector('.active');
-        let newActiveIndex = [...activeElem.parentNode.children].indexOf(activeElem);
-        if (this._slides.length === newActiveIndex + 1)
-            newActiveIndex = 0; // loop to start
-        else
-            newActiveIndex += 1;
-        this.set(newActiveIndex);
-    };
-    _animateSlide(slide, isDirectionIn) {
-        let dx = 0, dy = 0;
-        // from
-        slide.style.opacity = isDirectionIn ? '0' : '1';
-        setTimeout(() => {
-            slide.style.transition = `opacity ${this.options.duration}ms ease`;
-            // to
-            slide.style.opacity = isDirectionIn ? '1' : '0';
-        }, 1);
-        // Caption
-        const caption = slide.querySelector('.caption');
-        if (!caption)
-            return;
-        if (caption.classList.contains('center-align'))
-            dy = -100;
-        else if (caption.classList.contains('right-align'))
-            dx = 100;
-        else if (caption.classList.contains('left-align'))
-            dx = -100;
-        // from
-        caption.style.opacity = isDirectionIn ? '0' : '1';
-        caption.style.transform = isDirectionIn ? `translate(${dx}px, ${dy}px)` : `translate(0, 0)`;
-        setTimeout(() => {
-            caption.style.transition = `opacity ${this.options.duration}ms ease, transform ${this.options.duration}ms ease`;
-            // to
-            caption.style.opacity = isDirectionIn ? '1' : '0';
-            caption.style.transform = isDirectionIn ? `translate(0, 0)` : `translate(${dx}px, ${dy}px)`;
-        }, this.options.duration); // delay
-    }
-    _setSliderHeight() {
-        // If fullscreen, do nothing
-        if (!this.el.classList.contains('fullscreen')) {
-            if (this.options.indicators) {
-                // Add height if indicators are present
-                this.el.style.height = this.options.height + 40 + 'px'; //.css('height', this.options.height + 40 + 'px');
-            }
-            else {
-                this.el.style.height = this.options.height + 'px';
-            }
-            this._slider.style.height = this.options.height + 'px';
-        }
-    }
-    _setupIndicators() {
-        if (this.options.indicators) {
-            const ul = document.createElement('ul');
-            ul.classList.add('indicators');
-            const arrLi = [];
-            this._slides.forEach((el, i) => {
-                const label = this.options.indicatorLabelFunc
-                    ? this.options.indicatorLabelFunc.call(this, i + 1, i === 0)
-                    : `${i + 1}`;
-                const li = document.createElement('li');
-                li.classList.add('indicator-item');
-                li.innerHTML = `<button type="button" class="indicator-item-btn" aria-label="${label}" aria-controls="${this._sliderId}"></button>`;
-                arrLi.push(li);
-                ul.append(li);
-            });
-            this.el.append(ul);
-            this._indicators = arrLi;
-        }
-    }
-    _removeIndicators() {
-        this.el.querySelector('ul.indicators').remove(); //find('ul.indicators').remove();
-    }
-    set(index) {
-        // Wrap around indices.
-        if (index >= this._slides.length)
-            index = 0;
-        else if (index < 0)
-            index = this._slides.length - 1;
-        // Only do if index changes
-        if (this.activeIndex === index)
-            return;
-        this._activeSlide = this._slides[this.activeIndex];
-        const _caption = this._activeSlide.querySelector('.caption');
-        this._activeSlide.classList.remove('active');
-        // Enables every slide
-        this._slides.forEach((slide) => (slide.style.visibility = 'visible'));
-        //--- Hide active Slide + Caption
-        this._activeSlide.style.opacity = '0';
-        setTimeout(() => {
-            this._slides.forEach((slide) => {
-                if (slide.classList.contains('active'))
-                    return;
-                slide.style.opacity = '0';
-                slide.style.transform = 'translate(0, 0)';
-                // Disables invisible slides (for assistive technologies)
-                slide.style.visibility = 'hidden';
-            });
-        }, this.options.duration);
-        // Hide active Caption
-        //this._animateCaptionIn(_caption, this.options.duration);
-        _caption.style.opacity = '0';
-        // Update indicators
-        if (this.options.indicators) {
-            const activeIndicator = this._indicators[this.activeIndex].children[0];
-            const nextIndicator = this._indicators[index].children[0];
-            activeIndicator.classList.remove('active');
-            nextIndicator.classList.add('active');
-            if (typeof this.options.indicatorLabelFunc === 'function') {
-                activeIndicator.ariaLabel = this.options.indicatorLabelFunc.call(this, this.activeIndex, false);
-                nextIndicator.ariaLabel = this.options.indicatorLabelFunc.call(this, index, true);
+    _updatePosition() {
+        const scrolled = Utils.getDocumentScrollTop() + this.options.offset;
+        if (this.options.top <= scrolled &&
+            this.options.bottom >= scrolled &&
+            !this.el.classList.contains('pinned')) {
+            this._removePinClasses();
+            this.el.style.top = `${this.options.offset}px`;
+            this.el.classList.add('pinned');
+            // onPositionChange callback
+            if (typeof this.options.onPositionChange === 'function') {
+                this.options.onPositionChange.call(this, 'pinned');
             }
         }
-        //--- Show new Slide + Caption
-        this._animateSlide(this._slides[index], true);
-        this._slides[index].classList.add('active');
-        this.activeIndex = index;
-        // Reset interval, if allowed. This check prevents autostart
-        // when slider is paused, since it can be changed though indicators.
-        if (this.interval != null) {
-            this.start();
+        // Add pin-top (when scrolled position is above top)
+        if (scrolled < this.options.top && !this.el.classList.contains('pin-top')) {
+            this._removePinClasses();
+            this.el.style.top = '0';
+            this.el.classList.add('pin-top');
+            // onPositionChange callback
+            if (typeof this.options.onPositionChange === 'function') {
+                this.options.onPositionChange.call(this, 'pin-top');
+            }
+        }
+        // Add pin-bottom (when scrolled position is below bottom)
+        if (scrolled > this.options.bottom && !this.el.classList.contains('pin-bottom')) {
+            this._removePinClasses();
+            this.el.classList.add('pin-bottom');
+            this.el.style.top = `${this.options.bottom - this.originalOffset}px`;
+            // onPositionChange callback
+            if (typeof this.options.onPositionChange === 'function') {
+                this.options.onPositionChange.call(this, 'pin-bottom');
+            }
         }
     }
-    _pause(fromEvent) {
-        clearInterval(this.interval);
-        this.eventPause = fromEvent;
-        this.interval = null;
+    _removePinClasses() {
+        // IE 11 bug (can't remove multiple classes in one line)
+        this.el.classList.remove('pin-top');
+        this.el.classList.remove('pinned');
+        this.el.classList.remove('pin-bottom');
     }
-    /**
-     * Pause slider autoslide.
-     */
-    pause = () => {
-        this._pause(false);
-    };
-    /**
-     * Start slider autoslide.
-     */
-    start = () => {
-        clearInterval(this.interval);
-        this.interval = setInterval(this._handleInterval, this.options.duration + this.options.interval);
-        this.eventPause = false;
-    };
-    /**
-     * Move to next slider.
-     */
-    next = () => {
-        let newIndex = this.activeIndex + 1;
-        // Wrap around indices.
-        if (newIndex >= this._slides.length)
-            newIndex = 0;
-        else if (newIndex < 0)
-            newIndex = this._slides.length - 1;
-        this.set(newIndex);
-    };
-    /**
-     * Move to prev slider.
-     */
-    prev = () => {
-        let newIndex = this.activeIndex - 1;
-        // Wrap around indices.
-        if (newIndex >= this._slides.length)
-            newIndex = 0;
-        else if (newIndex < 0)
-            newIndex = this._slides.length - 1;
-        this.set(newIndex);
-    };
+    static {
+        Pushpin._pushpins = [];
+    }
 }
 
 const _defaults = {
-    text: '',
-    displayLength: 4000,
-    inDuration: 300,
-    outDuration: 375,
-    classes: '',
-    completeCallback: null,
-    activationPercent: 0.8
+    throttle: 100,
+    scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
+    activeClass: 'active',
+    getActiveElement: (id) => {
+        return 'a[href="#' + id + '"]';
+    },
+    keepTopElementActive: false,
+    animationDuration: null
 };
-class Toast {
-    /** The toast element. */
-    el;
-    /**
-     * The remaining amount of time in ms that the toast
-     * will stay before dismissal.
-     */
-    timeRemaining;
-    /**
-     * Describes the current pan state of the Toast.
-     */
-    panning;
-    options;
-    message;
-    counterInterval;
-    wasSwiped;
-    startingXPos;
-    xPos;
-    time;
-    deltaX;
-    velocityX;
-    static _toasts;
-    static _container;
-    static _draggedToast;
-    constructor(options) {
+class ScrollSpy extends Component {
+    static _elements;
+    static _count;
+    static _increment;
+    static _elementsInView;
+    static _visibleElements;
+    static _ticks;
+    static _keptTopActiveElement = null;
+    tickId;
+    id;
+    constructor(el, options) {
+        super(el, options, ScrollSpy);
+        this.el['M_ScrollSpy'] = this;
         this.options = {
-            ...Toast.defaults,
+            ...ScrollSpy.defaults,
             ...options
         };
-        this.message = this.options.text;
-        this.panning = false;
-        this.timeRemaining = this.options.displayLength;
-        if (Toast._toasts.length === 0) {
-            Toast._createContainer();
-        }
-        // Create new toast
-        Toast._toasts.push(this);
-        const toastElement = this._createToast();
-        toastElement['M_Toast'] = this;
-        this.el = toastElement;
-        this._animateIn();
-        this._setTimer();
+        ScrollSpy._elements.push(this);
+        ScrollSpy._count++;
+        ScrollSpy._increment++;
+        this.tickId = -1;
+        this.id = ScrollSpy._increment.toString();
+        this._setupEventHandlers();
+        this._handleWindowScroll();
     }
     static get defaults() {
         return _defaults;
     }
+    /**
+     * Initializes instances of ScrollSpy.
+     * @param els HTML elements.
+     * @param options Component options.
+     */
+    static init(els, options = {}) {
+        return super.init(els, options, ScrollSpy);
+    }
     static getInstance(el) {
-        return el['M_Toast'];
+        return el['M_ScrollSpy'];
     }
-    static _createContainer() {
-        const container = document.createElement('div');
-        container.setAttribute('id', 'toast-container');
-        // Add event handler
-        container.addEventListener('touchstart', Toast._onDragStart);
-        container.addEventListener('touchmove', Toast._onDragMove);
-        container.addEventListener('touchend', Toast._onDragEnd);
-        container.addEventListener('mousedown', Toast._onDragStart);
-        document.addEventListener('mousemove', Toast._onDragMove);
-        document.addEventListener('mouseup', Toast._onDragEnd);
-        document.body.appendChild(container);
-        Toast._container = container;
+    destroy() {
+        ScrollSpy._elements.splice(ScrollSpy._elements.indexOf(this), 1);
+        ScrollSpy._elementsInView.splice(ScrollSpy._elementsInView.indexOf(this), 1);
+        ScrollSpy._visibleElements.splice(ScrollSpy._visibleElements.indexOf(this.el), 1);
+        ScrollSpy._count--;
+        this._removeEventHandlers();
+        const actElem = document.querySelector(this.options.getActiveElement(this.el.id));
+        actElem.classList.remove(this.options.activeClass);
+        this.el['M_ScrollSpy'] = undefined;
     }
-    static _removeContainer() {
-        document.removeEventListener('mousemove', Toast._onDragMove);
-        document.removeEventListener('mouseup', Toast._onDragEnd);
-        Toast._container.remove();
-        Toast._container = null;
-    }
-    static _onDragStart(e) {
-        if (e.target && e.target.closest('.toast')) {
-            const toastElem = e.target.closest('.toast');
-            const toast = toastElem['M_Toast'];
-            toast.panning = true;
-            Toast._draggedToast = toast;
-            toast.el.classList.add('panning');
-            toast.el.style.transition = '';
-            toast.startingXPos = Toast._xPos(e);
-            toast.time = Date.now();
-            toast.xPos = Toast._xPos(e);
+    _setupEventHandlers() {
+        if (ScrollSpy._count === 1) {
+            window.addEventListener('scroll', this._handleWindowScroll);
+            window.addEventListener('resize', this._handleThrottledResize);
+            document.body.addEventListener('click', this._handleTriggerClick);
         }
     }
-    static _onDragMove(e) {
-        if (!!Toast._draggedToast) {
-            e.preventDefault();
-            const toast = Toast._draggedToast;
-            toast.deltaX = Math.abs(toast.xPos - Toast._xPos(e));
-            toast.xPos = Toast._xPos(e);
-            toast.velocityX = toast.deltaX / (Date.now() - toast.time);
-            toast.time = Date.now();
-            const totalDeltaX = toast.xPos - toast.startingXPos;
-            const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
-            toast.el.style.transform = `translateX(${totalDeltaX}px)`;
-            toast.el.style.opacity = (1 - Math.abs(totalDeltaX / activationDistance)).toString();
+    _removeEventHandlers() {
+        if (ScrollSpy._count === 0) {
+            window.removeEventListener('scroll', this._handleWindowScroll);
+            window.removeEventListener('resize', this._handleThrottledResize);
+            document.body.removeEventListener('click', this._handleTriggerClick);
         }
     }
-    static _onDragEnd() {
-        if (!!Toast._draggedToast) {
-            const toast = Toast._draggedToast;
-            toast.panning = false;
-            toast.el.classList.remove('panning');
-            const totalDeltaX = toast.xPos - toast.startingXPos;
-            const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
-            const shouldBeDismissed = Math.abs(totalDeltaX) > activationDistance || toast.velocityX > 1;
-            // Remove toast
-            if (shouldBeDismissed) {
-                toast.wasSwiped = true;
-                toast.dismiss();
-                // Animate toast back to original position
+    _handleThrottledResize = () => Utils.throttle(this._handleWindowScroll, 200).bind(this);
+    _handleTriggerClick = (e) => {
+        const trigger = e.target;
+        for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
+            const scrollspy = ScrollSpy._elements[i];
+            const x = document.querySelector('a[href="#' + scrollspy.el.id + '"]');
+            if (trigger === x) {
+                e.preventDefault();
+                if (scrollspy.el['M_ScrollSpy'].options.animationDuration) {
+                    ScrollSpy._smoothScrollIntoView(scrollspy.el, scrollspy.el['M_ScrollSpy'].options.animationDuration);
+                }
+                else {
+                    scrollspy.el.scrollIntoView({ behavior: 'smooth' });
+                }
+                break;
+            }
+        }
+    };
+    _handleWindowScroll = () => {
+        // unique tick id
+        ScrollSpy._ticks++;
+        // viewport rectangle
+        const top = Utils.getDocumentScrollTop(), left = Utils.getDocumentScrollLeft(), right = left + window.innerWidth, bottom = top + window.innerHeight;
+        // determine which elements are in view
+        const intersections = ScrollSpy._findElements(top, right, bottom, left);
+        for (let i = 0; i < intersections.length; i++) {
+            const scrollspy = intersections[i];
+            const lastTick = scrollspy.tickId;
+            if (lastTick < 0) {
+                // entered into view
+                scrollspy._enter();
+            }
+            // update tick id
+            scrollspy.tickId = ScrollSpy._ticks;
+        }
+        for (let i = 0; i < ScrollSpy._elementsInView.length; i++) {
+            const scrollspy = ScrollSpy._elementsInView[i];
+            const lastTick = scrollspy.tickId;
+            if (lastTick >= 0 && lastTick !== ScrollSpy._ticks) {
+                // exited from view
+                scrollspy._exit();
+                scrollspy.tickId = -1;
+            }
+        }
+        // remember elements in view for next tick
+        ScrollSpy._elementsInView = intersections;
+        if (ScrollSpy._elements.length) {
+            const options = ScrollSpy._elements[0].el['M_ScrollSpy'].options;
+            if (options.keepTopElementActive && ScrollSpy._visibleElements.length === 0) {
+                this._resetKeptTopActiveElementIfNeeded();
+                const topElements = ScrollSpy._elements
+                    .filter((value) => ScrollSpy._getDistanceToViewport(value.el) <= 0)
+                    .sort((a, b) => {
+                    const distanceA = ScrollSpy._getDistanceToViewport(a.el);
+                    const distanceB = ScrollSpy._getDistanceToViewport(b.el);
+                    if (distanceA < distanceB)
+                        return -1;
+                    if (distanceA > distanceB)
+                        return 1;
+                    return 0;
+                });
+                const nearestTopElement = topElements.length
+                    ? topElements[topElements.length - 1]
+                    : ScrollSpy._elements[0];
+                const actElem = document.querySelector(options.getActiveElement(nearestTopElement.el.id));
+                actElem?.classList.add(options.activeClass);
+                ScrollSpy._keptTopActiveElement = actElem;
+            }
+        }
+    };
+    static _offset(el) {
+        const box = el.getBoundingClientRect();
+        const docElem = document.documentElement;
+        return {
+            top: box.top + window.pageYOffset - docElem.clientTop,
+            left: box.left + window.pageXOffset - docElem.clientLeft
+        };
+    }
+    static _findElements(top, right, bottom, left) {
+        const hits = [];
+        for (let i = 0; i < ScrollSpy._elements.length; i++) {
+            const scrollspy = ScrollSpy._elements[i];
+            const currTop = top + scrollspy.options.scrollOffset || 200;
+            if (scrollspy.el.getBoundingClientRect().height > 0) {
+                const elTop = ScrollSpy._offset(scrollspy.el).top, elLeft = ScrollSpy._offset(scrollspy.el).left, elRight = elLeft + scrollspy.el.getBoundingClientRect().width, elBottom = elTop + scrollspy.el.getBoundingClientRect().height;
+                const isIntersect = !(elLeft > right ||
+                    elRight < left ||
+                    elTop > bottom ||
+                    elBottom < currTop);
+                if (isIntersect) {
+                    hits.push(scrollspy);
+                }
+            }
+        }
+        return hits;
+    }
+    _enter() {
+        ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((value) => value.getBoundingClientRect().height !== 0);
+        if (ScrollSpy._visibleElements[0]) {
+            const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
+            actElem?.classList.remove(this.options.activeClass);
+            if (ScrollSpy._visibleElements[0]['M_ScrollSpy'] &&
+                this.id < ScrollSpy._visibleElements[0]['M_ScrollSpy'].id) {
+                ScrollSpy._visibleElements.unshift(this.el);
             }
             else {
-                toast.el.style.transition = 'transform .2s, opacity .2s';
-                toast.el.style.transform = '';
-                toast.el.style.opacity = '';
+                ScrollSpy._visibleElements.push(this.el);
             }
-            Toast._draggedToast = null;
         }
+        else {
+            ScrollSpy._visibleElements.push(this.el);
+        }
+        this._resetKeptTopActiveElementIfNeeded();
+        const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
+        document.querySelector(selector)?.classList.add(this.options.activeClass);
     }
-    static _xPos(e) {
-        if (e.type.startsWith('touch') && e.targetTouches.length >= 1) {
-            return e.targetTouches[0].clientX;
-        }
-        // mouse event
-        return e.clientX;
-    }
-    /**
-     * dismiss all toasts.
-     */
-    static dismissAll() {
-        for (const toastIndex in Toast._toasts) {
-            Toast._toasts[toastIndex].dismiss();
-        }
-    }
-    _createToast() {
-        let toast = this.options.toastId
-            ? document.getElementById(this.options.toastId)
-            : document.createElement('div');
-        if (toast instanceof HTMLTemplateElement) {
-            const node = toast.content.cloneNode(true);
-            toast = node.firstElementChild;
-        }
-        toast.classList.add('toast');
-        toast.setAttribute('role', 'alert');
-        toast.setAttribute('aria-live', 'assertive');
-        toast.setAttribute('aria-atomic', 'true');
-        // Add custom classes onto toast
-        if (this.options.classes.length > 0) {
-            toast.classList.add(...this.options.classes.split(' '));
-        }
-        if (this.message)
-            toast.innerText = this.message;
-        Toast._container.appendChild(toast);
-        return toast;
-    }
-    _animateIn() {
-        // Animate toast in
-        this.el.style.display = '';
-        this.el.style.opacity = '0';
-        // easeOutCubic
-        this.el.style.transition = `
-      top ${this.options.inDuration}ms ease,
-      opacity ${this.options.inDuration}ms ease
-    `;
-        setTimeout(() => {
-            this.el.style.top = '0';
-            this.el.style.opacity = '1';
-        }, 1);
-    }
-    /**
-     * Create setInterval which automatically removes toast when timeRemaining >= 0
-     * has been reached.
-     */
-    _setTimer() {
-        if (this.timeRemaining !== Infinity) {
-            this.counterInterval = setInterval(() => {
-                // If toast is not being dragged, decrease its time remaining
-                if (!this.panning) {
-                    this.timeRemaining -= 20;
-                }
-                // Animate toast out
-                if (this.timeRemaining <= 0) {
-                    this.dismiss();
-                }
-            }, 20);
-        }
-    }
-    /**
-     * Dismiss toast with animation.
-     */
-    dismiss() {
-        clearInterval(this.counterInterval);
-        const activationDistance = this.el.offsetWidth * this.options.activationPercent;
-        if (this.wasSwiped) {
-            this.el.style.transition = 'transform .05s, opacity .05s';
-            this.el.style.transform = `translateX(${activationDistance}px)`;
-            this.el.style.opacity = '0';
-        }
-        // easeOutExpo
-        this.el.style.transition = `
-      margin ${this.options.outDuration}ms ease,
-      opacity ${this.options.outDuration}ms ease`;
-        setTimeout(() => {
-            this.el.style.opacity = '0';
-            this.el.style.marginTop = '-40px';
-        }, 1);
-        setTimeout(() => {
-            // Call the optional callback
-            if (typeof this.options.completeCallback === 'function') {
-                this.options.completeCallback();
+    _exit() {
+        ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((value) => value.getBoundingClientRect().height !== 0);
+        if (ScrollSpy._visibleElements[0]) {
+            const actElem = document.querySelector(this.options.getActiveElement(ScrollSpy._visibleElements[0].id));
+            actElem?.classList.remove(this.options.activeClass);
+            ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter((x) => x.id != this.el.id);
+            if (ScrollSpy._visibleElements[0]) {
+                // Check if empty
+                const selector = this.options.getActiveElement(ScrollSpy._visibleElements[0].id);
+                document.querySelector(selector)?.classList.add(this.options.activeClass);
+                this._resetKeptTopActiveElementIfNeeded();
             }
-            // Remove toast from DOM
-            if (this.el.id != this.options.toastId) {
-                this.el.remove();
-                Toast._toasts.splice(Toast._toasts.indexOf(this), 1);
-                if (Toast._toasts.length === 0) {
-                    Toast._removeContainer();
-                }
+        }
+    }
+    _resetKeptTopActiveElementIfNeeded() {
+        if (ScrollSpy._keptTopActiveElement) {
+            ScrollSpy._keptTopActiveElement.classList.remove(this.options.activeClass);
+            ScrollSpy._keptTopActiveElement = null;
+        }
+    }
+    static _getDistanceToViewport(element) {
+        const rect = element.getBoundingClientRect();
+        const distance = rect.top;
+        return distance;
+    }
+    static _smoothScrollIntoView(element, duration = 300) {
+        const targetPosition = element.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+        const startPosition = window.scrollY || window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const startTime = performance.now();
+        function scrollStep(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const scrollY = startPosition + distance * progress;
+            if (progress < 1) {
+                window.scrollTo(0, scrollY);
+                requestAnimationFrame(scrollStep);
             }
-        }, this.options.outDuration);
+            else {
+                window.scrollTo(0, targetPosition);
+            }
+        }
+        requestAnimationFrame(scrollStep);
     }
     static {
-        Toast._toasts = [];
-        Toast._container = null;
-        Toast._draggedToast = null;
+        ScrollSpy._elements = [];
+        ScrollSpy._elementsInView = [];
+        ScrollSpy._visibleElements = []; // Array.<cash>
+        ScrollSpy._count = 0;
+        ScrollSpy._increment = 0;
+        ScrollSpy._ticks = 0;
+    }
+}
+
+class Waves {
+    static _offset(el) {
+        const box = el.getBoundingClientRect();
+        const docElem = document.documentElement;
+        return {
+            top: box.top + window.pageYOffset - docElem.clientTop,
+            left: box.left + window.pageXOffset - docElem.clientLeft
+        };
+    }
+    // https://phoenix-dx.com/css-techniques-for-material-ripple-effect/
+    static renderWaveEffect(targetElement, position = null, color = null) {
+        const isCentered = position === null;
+        const duration = 500;
+        let animationFrame, animationStart;
+        const animationStep = function (timestamp) {
+            if (!animationStart) {
+                animationStart = timestamp;
+            }
+            const frame = timestamp - animationStart;
+            if (frame < duration) {
+                const easing = (frame / duration) * (2 - frame / duration);
+                const circle = isCentered
+                    ? 'circle at 50% 50%'
+                    : `circle at ${position.x}px ${position.y}px`;
+                const waveColor = `rgba(${color?.r || 0}, ${color?.g || 0}, ${color?.b || 0}, ${0.3 * (1 - easing)})`;
+                const stop = 90 * easing + '%';
+                targetElement.style.backgroundImage =
+                    'radial-gradient(' +
+                        circle +
+                        ', ' +
+                        waveColor +
+                        ' ' +
+                        stop +
+                        ', transparent ' +
+                        stop +
+                        ')';
+                animationFrame = window.requestAnimationFrame(animationStep);
+            }
+            else {
+                targetElement.style.backgroundImage = 'none';
+                window.cancelAnimationFrame(animationFrame);
+            }
+        };
+        animationFrame = window.requestAnimationFrame(animationStep);
+    }
+    static Init() {
+        if (typeof document !== 'undefined')
+            document?.addEventListener('DOMContentLoaded', () => {
+                document.body.addEventListener('click', (e) => {
+                    const trigger = e.target;
+                    const el = trigger.closest('.waves-effect');
+                    if (el && el.contains(trigger)) {
+                        const isCircular = el.classList.contains('waves-circle');
+                        const x = e.pageX - Waves._offset(el).left;
+                        const y = e.pageY - Waves._offset(el).top;
+                        let color = null;
+                        if (el.classList.contains('waves-light'))
+                            color = { r: 255, g: 255, b: 255 };
+                        Waves.renderWaveEffect(el, isCircular ? null : { x, y }, color);
+                    }
+                });
+            });
     }
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const version = '2.2.2';
+const version = '2.3.0';
 /**
  * Automatically initialize components.
  * @param context Root element to initialize. Defaults to `document.body`.
