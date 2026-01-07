@@ -7,7 +7,7 @@
 @forward "./colors.module.css";
 @forward "./typography";
 @forward "./mixins.module";
-@forward "./color-variables";
+// @forward "./colors"; // => put in seperate file
 @forward "./variables";
 @forward "./global";
 @forward "./grid";

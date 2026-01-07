@@ -138,6 +138,24 @@ const config: RollupOptions[] = [
         defaultHandler(warning);
     }
   },
+  {
+    input: 'sass/_colors.scss',
+    output: [{ file: 'dist/css/materialize.colors.min.css' }], // overwritten
+    plugins: [
+      scss({
+        fileName: 'materialize.colors.min.css',
+        outputStyle: 'compressed',
+        processor: (css) =>
+          postcss([autoprefixer])
+            .process(css, { from: 'materialize.colors.min.css' })
+            .then((result) => result.css)
+      })
+    ],
+    onwarn: (warning, defaultHandler) => {
+      if (!(warning.code === 'FILE_NAME_CONFLICT' || warning.code === 'EMPTY_BUNDLE'))
+        defaultHandler(warning);
+    }
+  },
 
   //--- CSS Banners
   {
