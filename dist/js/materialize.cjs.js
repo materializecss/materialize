@@ -1,6 +1,6 @@
 /*!
-* Materialize v2.2.2 (https://materializeweb.com)
-* Copyright 2014-2025 Materialize
+* Materialize v2.3.0 (https://materializeweb.com)
+* Copyright 2014-2026 Materialize
 * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
 */
 'use strict';
@@ -399,7 +399,7 @@ class Component {
     }
 }
 
-const _defaults$n = {
+const _defaults$o = {
     alignment: 'left',
     autoFocus: true,
     constrainWidth: true,
@@ -452,7 +452,7 @@ class Dropdown extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$n;
+        return _defaults$o;
     }
     /**
      * Initializes instances of Dropdown.
@@ -903,7 +903,7 @@ class Dropdown extends Component {
     };
 }
 
-const _defaults$m = {
+const _defaults$n = {
     data: [], // Autocomplete data set
     onAutocomplete: null, // Callback for when autocompleted
     dropdownOptions: {
@@ -916,12 +916,12 @@ const _defaults$m = {
     isMultiSelect: false,
     onSearch: (text, autocomplete) => {
         const normSearch = text.toLocaleLowerCase();
-        autocomplete.setMenuItems(autocomplete.options.data.filter((option) => option.id.toString().toLocaleLowerCase().includes(normSearch) ||
+        autocomplete.setMenuItems(autocomplete.data.filter((option) => option.id.toString().toLocaleLowerCase().includes(normSearch) ||
             option.text?.toLocaleLowerCase().includes(normSearch)));
     },
     maxDropDownHeight: '300px',
     allowUnsafeHTML: false,
-    selected: []
+    selected: [],
 };
 class Autocomplete extends Component {
     /** If the autocomplete is open. */
@@ -939,6 +939,7 @@ class Autocomplete extends Component {
     static _keydown;
     selectedValues;
     menuItems;
+    data;
     constructor(el, options) {
         super(el, options, Autocomplete);
         this.el['M_Autocomplete'] = this;
@@ -955,13 +956,14 @@ class Autocomplete extends Component {
                 this.options.selected.map((value) => ({ id: value })) ||
                 [];
         this.menuItems = this.options.data || [];
+        this.data = this.options.data || [];
         this.$active = null;
         this._mousedown = false;
         this._setupDropdown();
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$m;
+        return _defaults$n;
     }
     /**
      * Initializes instances of Autocomplete.
@@ -1297,18 +1299,19 @@ class Autocomplete extends Component {
      * @param menuItems Items to be available.
      * @param selected Selected item ids
      * @param open Option to conditionally open dropdown
+     * @param initial Condition to set initial data
      */
-    setMenuItems(menuItems, selected = null, open = true) {
+    setMenuItems(menuItems, selected = null, open = true, initial = false) {
         this.menuItems = menuItems;
         this.options.data = menuItems;
+        if (initial) {
+            this.data = menuItems;
+        }
         if (selected) {
             this.selectedValues = this.menuItems.filter((item) => !(selected.indexOf(item.id) === -1));
         }
         if (this.options.isMultiSelect) {
             this._renderDropdown();
-        }
-        else {
-            this._refreshInputText();
         }
         if (open)
             this.open();
@@ -1368,20 +1371,20 @@ class Autocomplete extends Component {
     }
 }
 
-const _defaults$l = {
+const _defaults$m = {
     direction: 'top',
     hoverEnabled: true,
     toolbarEnabled: false
 };
 class FloatingActionButton extends Component {
+    #anchor;
+    #menu;
+    #floatingBtns;
+    #floatingBtnsReverse;
     /**
      * Describes open/close state of FAB.
      */
     isOpen;
-    _anchor;
-    _menu;
-    _floatingBtns;
-    _floatingBtnsReverse;
     offsetY;
     offsetX;
     btnBottom;
@@ -1395,15 +1398,15 @@ class FloatingActionButton extends Component {
             ...options
         };
         this.isOpen = false;
-        this._anchor = this.el.querySelector('a');
-        this._menu = this.el.querySelector('ul');
-        this._floatingBtns = Array.from(this.el.querySelectorAll('ul .btn-floating'));
-        this._floatingBtnsReverse = this._floatingBtns.reverse();
+        this.#anchor = this.el.querySelector('a');
+        this.#menu = this.el.querySelector('ul');
+        this.#floatingBtns = Array.from(this.el.querySelectorAll('ul .btn-floating'));
+        this.#floatingBtnsReverse = this.#floatingBtns.reverse();
         this.offsetY = 0;
         this.offsetX = 0;
         this.el.classList.add(`direction-${this.options.direction}`);
-        this._anchor.tabIndex = 0;
-        this._menu.ariaExpanded = 'false';
+        this.#anchor.tabIndex = 0;
+        this.#menu.ariaExpanded = 'false';
         if (this.options.direction === 'top')
             this.offsetY = 40;
         else if (this.options.direction === 'right')
@@ -1412,10 +1415,10 @@ class FloatingActionButton extends Component {
             this.offsetY = -40;
         else
             this.offsetX = 40;
-        this._setupEventHandlers();
+        this.#setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$l;
+        return _defaults$m;
     }
     /**
      * Initializes instances of FloatingActionButton.
@@ -1429,38 +1432,38 @@ class FloatingActionButton extends Component {
         return el['M_FloatingActionButton'];
     }
     destroy() {
-        this._removeEventHandlers();
+        this.#removeEventHandlers();
         this.el['M_FloatingActionButton'] = undefined;
     }
-    _setupEventHandlers() {
+    #setupEventHandlers() {
         if (this.options.hoverEnabled && !this.options.toolbarEnabled) {
             this.el.addEventListener('mouseenter', this.open);
             this.el.addEventListener('mouseleave', this.close);
         }
         else {
-            this.el.addEventListener('click', this._handleFABClick);
+            this.el.addEventListener('click', this.#handleFABClick);
         }
-        this.el.addEventListener('keypress', this._handleFABKeyPress);
+        this.el.addEventListener('keypress', this.#handleFABKeyPress);
     }
-    _removeEventHandlers() {
+    #removeEventHandlers() {
         if (this.options.hoverEnabled && !this.options.toolbarEnabled) {
             this.el.removeEventListener('mouseenter', this.open);
             this.el.removeEventListener('mouseleave', this.close);
         }
         else {
-            this.el.removeEventListener('click', this._handleFABClick);
+            this.el.removeEventListener('click', this.#handleFABClick);
         }
-        this.el.removeEventListener('keypress', this._handleFABKeyPress);
+        this.el.removeEventListener('keypress', this.#handleFABKeyPress);
     }
-    _handleFABClick = () => {
-        this._handleFABToggle();
+    #handleFABClick = () => {
+        this.#handleFABToggle();
     };
-    _handleFABKeyPress = (e) => {
+    #handleFABKeyPress = (e) => {
         if (Utils.keys.ENTER.includes(e.key)) {
-            this._handleFABToggle();
+            this.#handleFABToggle();
         }
     };
-    _handleFABToggle = () => {
+    #handleFABToggle = () => {
         if (this.isOpen) {
             this.close();
         }
@@ -1468,9 +1471,9 @@ class FloatingActionButton extends Component {
             this.open();
         }
     };
-    _handleDocumentClick = (e) => {
+    #handleDocumentClick = (e) => {
         const elem = e.target;
-        if (elem !== this._menu)
+        if (elem !== this.#menu)
             this.close();
     };
     /**
@@ -1480,9 +1483,9 @@ class FloatingActionButton extends Component {
         if (this.isOpen)
             return;
         if (this.options.toolbarEnabled)
-            this._animateInToolbar();
+            this.#animateInToolbar();
         else
-            this._animateInFAB();
+            this.#animateInFAB();
         this.isOpen = true;
     };
     /**
@@ -1493,19 +1496,19 @@ class FloatingActionButton extends Component {
             return;
         if (this.options.toolbarEnabled) {
             window.removeEventListener('scroll', this.close, true);
-            document.body.removeEventListener('click', this._handleDocumentClick, true);
+            document.body.removeEventListener('click', this.#handleDocumentClick, true);
         }
         else {
-            this._animateOutFAB();
+            this.#animateOutFAB();
         }
         this.isOpen = false;
     };
-    _animateInFAB() {
+    #animateInFAB() {
         this.el.classList.add('active');
-        this._menu.ariaExpanded = 'true';
+        this.#menu.ariaExpanded = 'true';
         const delayIncrement = 40;
         const duration = 275;
-        this._floatingBtnsReverse.forEach((el, index) => {
+        this.#floatingBtnsReverse.forEach((el, index) => {
             const delay = delayIncrement * index;
             el.style.transition = 'none';
             el.style.opacity = '0';
@@ -1524,13 +1527,13 @@ class FloatingActionButton extends Component {
             }, delay);
         });
     }
-    _animateOutFAB() {
+    #animateOutFAB() {
         const duration = 175;
         setTimeout(() => {
             this.el.classList.remove('active');
-            this._menu.ariaExpanded = 'false';
+            this.#menu.ariaExpanded = 'false';
         }, duration);
-        this._floatingBtnsReverse.forEach((el) => {
+        this.#floatingBtnsReverse.forEach((el) => {
             el.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
             // to
             el.style.opacity = '0';
@@ -1538,14 +1541,14 @@ class FloatingActionButton extends Component {
             el.tabIndex = -1;
         });
     }
-    _animateInToolbar() {
+    #animateInToolbar() {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
         const btnRect = this.el.getBoundingClientRect();
-        const backdrop = document.createElement('div'), scaleFactor = windowWidth / backdrop[0].clientWidth, fabColor = getComputedStyle(this._anchor).backgroundColor; // css('background-color');
+        const backdrop = document.createElement('div'), scaleFactor = windowWidth / backdrop[0].clientWidth, fabColor = getComputedStyle(this.#anchor).backgroundColor; // css('background-color');
         backdrop.classList.add('fab-backdrop'); //  $('<div class="fab-backdrop"></div>');
         backdrop.style.backgroundColor = fabColor;
-        this._anchor.append(backdrop);
+        this.#anchor.append(backdrop);
         this.offsetX = btnRect.left - windowWidth / 2 + btnRect.width / 2;
         this.offsetY = windowHeight - btnRect.bottom;
         this.btnBottom = btnRect.bottom;
@@ -1559,45 +1562,45 @@ class FloatingActionButton extends Component {
         this.el.style.left = '0';
         this.el.style.transform = 'translateX(' + this.offsetX + 'px)';
         this.el.style.transition = 'none';
-        this._menu.ariaExpanded = 'true';
-        this._anchor.style.transform = `translateY(${this.offsetY}px`;
-        this._anchor.style.transition = 'none';
+        this.#menu.ariaExpanded = 'true';
+        this.#anchor.style.transform = `translateY(${this.offsetY}px`;
+        this.#anchor.style.transition = 'none';
         setTimeout(() => {
             this.el.style.transform = '';
             this.el.style.transition =
                 'transform .2s cubic-bezier(0.550, 0.085, 0.680, 0.530), background-color 0s linear .2s';
-            this._anchor.style.overflow = 'visible';
-            this._anchor.style.transform = '';
-            this._anchor.style.transition = 'transform .2s';
+            this.#anchor.style.overflow = 'visible';
+            this.#anchor.style.transform = '';
+            this.#anchor.style.transition = 'transform .2s';
             setTimeout(() => {
                 this.el.style.overflow = 'hidden';
                 this.el.style.backgroundColor = fabColor;
                 backdrop.style.transform = 'scale(' + scaleFactor + ')';
                 backdrop.style.transition = 'transform .2s cubic-bezier(0.550, 0.055, 0.675, 0.190)';
-                this._menu.querySelectorAll('li > a').forEach((a) => {
+                this.#menu.querySelectorAll('li > a').forEach((a) => {
                     a.style.opacity = '1';
                     a.tabIndex = 0;
                 });
                 // Scroll to close.
                 window.addEventListener('scroll', this.close, true);
-                document.body.addEventListener('click', this._handleDocumentClick, true);
+                document.body.addEventListener('click', this.#handleDocumentClick, true);
             }, 100);
         }, 0);
     }
 }
 
-const _defaults$k = {
+const _defaults$l = {
     onOpen: null,
     onClose: null,
     inDuration: 225,
     outDuration: 300
 };
 class Cards extends Component {
+    #cardReveal;
+    #initialOverflow;
+    #activators;
+    #cardRevealClose;
     isOpen = false;
-    cardReveal;
-    initialOverflow;
-    _activators;
-    cardRevealClose;
     constructor(el, options) {
         super(el, options, Cards);
         this.el['M_Cards'] = this;
@@ -1605,24 +1608,24 @@ class Cards extends Component {
             ...Cards.defaults,
             ...options
         };
-        this._activators = [];
-        this.cardReveal = this.el.querySelector('.card-reveal');
-        if (this.cardReveal) {
-            this.initialOverflow = getComputedStyle(this.el).overflow;
-            this._activators = Array.from(this.el.querySelectorAll('.activator'));
-            this._activators.forEach((el) => {
+        this.#activators = [];
+        this.#cardReveal = this.el.querySelector('.card-reveal');
+        if (this.#cardReveal) {
+            this.#initialOverflow = getComputedStyle(this.el).overflow;
+            this.#activators = Array.from(this.el.querySelectorAll('.activator'));
+            this.#activators.forEach((el) => {
                 if (el)
                     el.tabIndex = 0;
             });
-            this.cardRevealClose = this.cardReveal?.querySelector('.card-title');
-            if (this.cardRevealClose)
-                this.cardRevealClose.tabIndex = -1;
-            this.cardReveal.ariaExpanded = 'false';
-            this._setupEventHandlers();
+            this.#cardRevealClose = this.#cardReveal?.querySelector('.card-title');
+            if (this.#cardRevealClose)
+                this.#cardRevealClose.tabIndex = -1;
+            this.#cardReveal.ariaExpanded = 'false';
+            this.#setupEventHandlers();
         }
     }
     static get defaults() {
-        return _defaults$k;
+        return _defaults$l;
     }
     /**
      * Initializes instances of Cards.
@@ -1639,43 +1642,42 @@ class Cards extends Component {
      * {@inheritDoc}
      */
     destroy() {
-        this._removeEventHandlers();
-        this._activators = [];
+        this.#removeEventHandlers();
+        this.#activators = [];
     }
-    _setupEventHandlers = () => {
-        this._activators.forEach((el) => {
-            el.addEventListener('click', this._handleClickInteraction);
-            el.addEventListener('keypress', this._handleKeypressEvent);
+    #setupEventHandlers = () => {
+        this.#activators.forEach((el) => {
+            el.addEventListener('click', this.#handleClickInteraction);
+            el.addEventListener('keypress', this.#handleKeypressEvent);
         });
     };
-    _removeEventHandlers = () => {
-        this._activators.forEach((el) => {
-            el.removeEventListener('click', this._handleClickInteraction);
-            el.removeEventListener('keypress', this._handleKeypressEvent);
+    #removeEventHandlers = () => {
+        this.#activators.forEach((el) => {
+            el.removeEventListener('click', this.#handleClickInteraction);
+            el.removeEventListener('keypress', this.#handleKeypressEvent);
         });
     };
-    _handleClickInteraction = () => {
-        this._handleRevealEvent();
+    #handleClickInteraction = () => {
+        this.#handleRevealEvent();
     };
-    _handleKeypressEvent = (e) => {
+    #handleKeypressEvent = (e) => {
         if (Utils.keys.ENTER.includes(e.key)) {
-            this._handleRevealEvent();
+            this.#handleRevealEvent();
         }
     };
-    _handleRevealEvent = () => {
-        // Reveal Card
-        this._activators.forEach((el) => (el.tabIndex = -1));
+    #handleRevealEvent = () => {
+        this.#activators.forEach((el) => (el.tabIndex = -1)); // Reveal Card
         this.open();
     };
-    _setupRevealCloseEventHandlers = () => {
-        this.cardRevealClose.addEventListener('click', this.close);
-        this.cardRevealClose.addEventListener('keypress', this._handleKeypressCloseEvent);
+    #setupRevealCloseEventHandlers = () => {
+        this.#cardRevealClose.addEventListener('click', this.close);
+        this.#cardRevealClose.addEventListener('keypress', this.#handleKeypressCloseEvent);
     };
-    _removeRevealCloseEventHandlers = () => {
-        this.cardRevealClose.addEventListener('click', this.close);
-        this.cardRevealClose.addEventListener('keypress', this._handleKeypressCloseEvent);
+    #removeRevealCloseEventHandlers = () => {
+        this.#cardRevealClose.addEventListener('click', this.close);
+        this.#cardRevealClose.addEventListener('keypress', this.#handleKeypressCloseEvent);
     };
-    _handleKeypressCloseEvent = (e) => {
+    #handleKeypressCloseEvent = (e) => {
         if (Utils.keys.ENTER.includes(e.key)) {
             this.close();
         }
@@ -1688,17 +1690,17 @@ class Cards extends Component {
             return;
         this.isOpen = true;
         this.el.style.overflow = 'hidden';
-        this.cardReveal.style.display = 'block';
-        this.cardReveal.ariaExpanded = 'true';
-        this.cardRevealClose.tabIndex = 0;
+        this.#cardReveal.style.display = 'block';
+        this.#cardReveal.ariaExpanded = 'true';
+        this.#cardRevealClose.tabIndex = 0;
         setTimeout(() => {
-            this.cardReveal.style.transition = `transform ${this.options.outDuration}ms ease`; //easeInOutQuad
-            this.cardReveal.style.transform = 'translateY(-100%)';
+            this.#cardReveal.style.transition = `transform ${this.options.outDuration}ms ease`; //easeInOutQuad
+            this.#cardReveal.style.transform = 'translateY(-100%)';
         }, 1);
         if (typeof this.options.onOpen === 'function') {
             this.options.onOpen.call(this);
         }
-        this._setupRevealCloseEventHandlers();
+        this.#setupRevealCloseEventHandlers();
     };
     /**
      * Hide card reveal.
@@ -1707,19 +1709,19 @@ class Cards extends Component {
         if (!this.isOpen)
             return;
         this.isOpen = false;
-        this.cardReveal.style.transition = `transform ${this.options.inDuration}ms ease`; //easeInOutQuad
-        this.cardReveal.style.transform = 'translateY(0)';
+        this.#cardReveal.style.transition = `transform ${this.options.inDuration}ms ease`; //easeInOutQuad
+        this.#cardReveal.style.transform = 'translateY(0)';
         setTimeout(() => {
-            this.cardReveal.style.display = 'none';
-            this.cardReveal.ariaExpanded = 'false';
-            this._activators.forEach((el) => (el.tabIndex = 0));
-            this.cardRevealClose.tabIndex = -1;
-            this.el.style.overflow = this.initialOverflow;
+            this.#cardReveal.style.display = 'none';
+            this.#cardReveal.ariaExpanded = 'false';
+            this.#activators.forEach((el) => (el.tabIndex = 0));
+            this.#cardRevealClose.tabIndex = -1;
+            this.el.style.overflow = this.#initialOverflow;
         }, this.options.inDuration);
         if (typeof this.options.onClose === 'function') {
             this.options.onClose.call(this);
         }
-        this._removeRevealCloseEventHandlers();
+        this.#removeRevealCloseEventHandlers();
     };
     static Init() {
         if (typeof document !== 'undefined')
@@ -1734,7 +1736,7 @@ class Cards extends Component {
     }
 }
 
-const _defaults$j = {
+const _defaults$k = {
     duration: 200, // ms
     dist: -100, // zoom scale TODO: make this more intuitive as an option
     shift: 0, // spacing for center image
@@ -1836,7 +1838,7 @@ class Carousel extends Component {
         this._scroll(this.offset);
     }
     static get defaults() {
-        return _defaults$j;
+        return _defaults$k;
     }
     /**
      * Initializes instances of Carousel.
@@ -2123,12 +2125,13 @@ class Carousel extends Component {
         this.scrollingTimeout = setTimeout(() => {
             this.el.classList.remove('scrolling');
         }, this.options.duration);
+        // Save last center before updating the center for onCycleTo callback
+        const lastCenter = this.center;
         // Start actual scroll
         this.offset = typeof x === 'number' ? x : this.offset;
         this.center = Math.floor((this.offset + this.dim / 2) / this.dim);
         const half = this.count >> 1, delta = this.offset - this.center * this.dim, dir = delta < 0 ? 1 : -1, tween = (-dir * delta * 2) / this.dim;
         let i, el, alignment, zTranslation, tweenedOpacity, centerTweenedOpacity;
-        const lastCenter = this.center;
         const numVisibleOffset = 1 / this.options.numVisible;
         // delta = this.offset - this.center * this.dim;
         // dir = delta < 0 ? 1 : -1;
@@ -2306,7 +2309,8 @@ class Carousel extends Component {
     }
 }
 
-const _defaults$i = {
+var _a;
+const _defaults$j = {
     data: [],
     placeholder: '',
     secondaryPlaceholder: '',
@@ -2329,38 +2333,38 @@ class Chips extends Component {
     hasAutocomplete;
     /** Autocomplete instance, if any. */
     autocomplete;
-    _input;
-    _label;
-    _chips;
-    static _keydown;
-    _selectedChip;
+    #input;
+    #label;
+    #chips;
+    static #keydown;
+    #selectedChip;
     constructor(el, options) {
-        super(el, options, Chips);
+        super(el, options, _a);
         this.el['M_Chips'] = this;
         this.options = {
-            ...Chips.defaults,
+            ..._a.defaults,
             ...options
         };
         this.el.classList.add('chips');
         this.chipsData = [];
-        this._chips = [];
+        this.#chips = [];
         // Render initial chips
         if (this.options.data.length) {
             this.chipsData = this.options.data;
-            this._renderChips();
+            this.#renderChips();
         }
-        this._setupLabel();
         // Render input element, setup event handlers
         if (this.options.allowUserInput) {
+            this.#setupLabel();
             this.el.classList.add('input-field');
-            this._setupInput();
-            this._setupEventHandlers();
+            this.#setupInput();
+            this.#setupEventHandlers();
             // move input to end
-            this.el.append(this._input);
+            this.el.append(this.#input);
         }
     }
     static get defaults() {
-        return _defaults$i;
+        return _defaults$j;
     }
     /**
      * Initializes instances of Chips.
@@ -2368,7 +2372,7 @@ class Chips extends Component {
      * @param options Component options.
      */
     static init(els, options = {}) {
-        return super.init(els, options, Chips);
+        return super.init(els, options, _a);
     }
     static getInstance(el) {
         return el['M_Chips'];
@@ -2377,40 +2381,39 @@ class Chips extends Component {
         return this.chipsData;
     }
     destroy() {
-        if (this.options.allowUserInput) {
-            this._removeEventHandlers();
-        }
-        this._chips.forEach((c) => c.remove());
-        this._chips = [];
+        if (this.options.allowUserInput)
+            this.#removeEventHandlers();
+        this.#chips.forEach((c) => c.remove());
+        this.#chips = [];
         this.el['M_Chips'] = undefined;
     }
-    _setupEventHandlers() {
-        this.el.addEventListener('click', this._handleChipClick);
+    #setupEventHandlers() {
+        this.el.addEventListener('click', this.#handleChipClick);
         // @todo why do we need this as document event listener, shouldn't we apply it to the element wrapper itself?
-        document.addEventListener('keydown', Chips._handleChipsKeydown);
-        document.addEventListener('keyup', Chips._handleChipsKeyup);
-        this.el.addEventListener('blur', Chips._handleChipsBlur, true);
-        this._input.addEventListener('focus', this._handleInputFocus);
-        this._input.addEventListener('blur', this._handleInputBlur);
-        this._input.addEventListener('keydown', this._handleInputKeydown);
+        document.addEventListener('keydown', _a.#handleChipsKeydown);
+        document.addEventListener('keyup', _a.#handleChipsKeyup);
+        this.el.addEventListener('blur', _a.#handleChipsBlur, true);
+        this.#input.addEventListener('focus', this.#handleInputFocus);
+        this.#input.addEventListener('blur', this.#handleInputBlur);
+        this.#input.addEventListener('keydown', this.#handleInputKeydown);
     }
-    _removeEventHandlers() {
-        this.el.removeEventListener('click', this._handleChipClick);
-        document.removeEventListener('keydown', Chips._handleChipsKeydown);
-        document.removeEventListener('keyup', Chips._handleChipsKeyup);
-        this.el.removeEventListener('blur', Chips._handleChipsBlur, true);
-        this._input.removeEventListener('focus', this._handleInputFocus);
-        this._input.removeEventListener('blur', this._handleInputBlur);
-        this._input.removeEventListener('keydown', this._handleInputKeydown);
+    #removeEventHandlers() {
+        this.el.removeEventListener('click', this.#handleChipClick);
+        document.removeEventListener('keydown', _a.#handleChipsKeydown);
+        document.removeEventListener('keyup', _a.#handleChipsKeyup);
+        this.el.removeEventListener('blur', _a.#handleChipsBlur, true);
+        this.#input.removeEventListener('focus', this.#handleInputFocus);
+        this.#input.removeEventListener('blur', this.#handleInputBlur);
+        this.#input.removeEventListener('keydown', this.#handleInputKeydown);
     }
-    _handleChipClick = (e) => {
+    #handleChipClick = (e) => {
         const _chip = e.target.closest('.chip');
         const clickedClose = e.target.classList.contains('close');
         if (_chip) {
             const index = [..._chip.parentNode.children].indexOf(_chip);
             if (clickedClose) {
                 this.deleteChip(index);
-                this._input.focus();
+                this.#input.focus();
             }
             else {
                 this.selectChip(index);
@@ -2418,11 +2421,11 @@ class Chips extends Component {
             // Default handle click to focus on input
         }
         else {
-            this._input.focus();
+            this.#input.focus();
         }
     };
-    static _handleChipsKeydown(e) {
-        Chips._keydown = true;
+    static #handleChipsKeydown(e) {
+        _a.#keydown = true;
         const chips = e.target.closest('.chips');
         const chipsKeydown = e.target && chips;
         // Don't handle keydown inputs on input and textarea
@@ -2433,54 +2436,54 @@ class Chips extends Component {
         if (Utils.keys.BACKSPACE.includes(e.key) || Utils.keys.DELETE.includes(e.key)) {
             e.preventDefault();
             let selectIndex = currChips.chipsData.length;
-            if (currChips._selectedChip) {
-                const index = gGetIndex(currChips._selectedChip);
+            if (currChips.#selectedChip) {
+                const index = gGetIndex(currChips.#selectedChip);
                 currChips.deleteChip(index);
-                currChips._selectedChip = null;
+                currChips.#selectedChip = null;
                 // Make sure selectIndex doesn't go negative
                 selectIndex = Math.max(index - 1, 0);
             }
             if (currChips.chipsData.length)
                 currChips.selectChip(selectIndex);
             else
-                currChips._input.focus();
+                currChips.#input.focus();
         }
         else if (Utils.keys.ARROW_LEFT.includes(e.key)) {
-            if (currChips._selectedChip) {
-                const selectIndex = gGetIndex(currChips._selectedChip) - 1;
+            if (currChips.#selectedChip) {
+                const selectIndex = gGetIndex(currChips.#selectedChip) - 1;
                 if (selectIndex < 0)
                     return;
                 currChips.selectChip(selectIndex);
             }
         }
         else if (Utils.keys.ARROW_RIGHT.includes(e.key)) {
-            if (currChips._selectedChip) {
-                const selectIndex = gGetIndex(currChips._selectedChip) + 1;
+            if (currChips.#selectedChip) {
+                const selectIndex = gGetIndex(currChips.#selectedChip) + 1;
                 if (selectIndex >= currChips.chipsData.length)
-                    currChips._input.focus();
+                    currChips.#input.focus();
                 else
                     currChips.selectChip(selectIndex);
             }
         }
     }
-    static _handleChipsKeyup() {
-        Chips._keydown = false;
+    static #handleChipsKeyup() {
+        _a.#keydown = false;
     }
-    static _handleChipsBlur(e) {
-        if (!Chips._keydown && document.hidden) {
+    static #handleChipsBlur(e) {
+        if (!_a.#keydown && document.hidden) {
             const chips = e.target.closest('.chips');
             const currChips = chips['M_Chips'];
-            currChips._selectedChip = null;
+            currChips.#selectedChip = null;
         }
     }
-    _handleInputFocus = () => {
+    #handleInputFocus = () => {
         this.el.classList.add('focus');
     };
-    _handleInputBlur = () => {
+    #handleInputBlur = () => {
         this.el.classList.remove('focus');
     };
-    _handleInputKeydown = (e) => {
-        Chips._keydown = true;
+    #handleInputKeydown = (e) => {
+        _a.#keydown = true;
         if (Utils.keys.ENTER.includes(e.key)) {
             // Override enter if autocompleting.
             if (this.hasAutocomplete && this.autocomplete && this.autocomplete.isOpen) {
@@ -2488,21 +2491,21 @@ class Chips extends Component {
             }
             e.preventDefault();
             if (!this.hasAutocomplete || (this.hasAutocomplete && !this.options.autocompleteOnly)) {
-                this.addChip({ id: this._input.value });
+                this.addChip({ id: this.#input.value });
             }
-            this._input.value = '';
+            this.#input.value = '';
         }
         else if ((Utils.keys.BACKSPACE.includes(e.key) || Utils.keys.ARROW_LEFT.includes(e.key)) &&
-            this._input.value === '' &&
+            this.#input.value === '' &&
             this.chipsData.length) {
             e.preventDefault();
             this.selectChip(this.chipsData.length - 1);
         }
     };
-    _renderChip(chip) {
+    #renderChip(chip) {
         if (!chip.id)
             return;
-        const renderedChip = document.createElement('div');
+        const renderedChip = document.createElement('li');
         renderedChip.classList.add('chip');
         renderedChip.innerText = chip.text || chip.id;
         // attach image if needed
@@ -2512,23 +2515,22 @@ class Chips extends Component {
             renderedChip.insertBefore(img, renderedChip.firstChild);
         }
         if (this.options.allowUserInput) {
-            renderedChip.setAttribute('tabindex', '0');
-            const closeIcon = document.createElement('i');
-            closeIcon.classList.add(this.options.closeIconClass, 'close');
-            closeIcon.innerText = 'close';
-            renderedChip.appendChild(closeIcon);
+            const closeButton = document.createElement('button');
+            closeButton.classList.add(this.options.closeIconClass, 'close');
+            closeButton.innerText = 'close';
+            renderedChip.appendChild(closeButton);
         }
         return renderedChip;
     }
-    _renderChips() {
-        this._chips = []; //.remove();
+    #renderChips() {
+        this.#chips = []; //.remove();
         for (let i = 0; i < this.chipsData.length; i++) {
-            const chipElem = this._renderChip(this.chipsData[i]);
+            const chipElem = this.#renderChip(this.chipsData[i]);
             this.el.appendChild(chipElem);
-            this._chips.push(chipElem);
+            this.#chips.push(chipElem);
         }
     }
-    _setupAutocomplete() {
+    #setupAutocomplete() {
         this.options.autocompleteOptions.onAutocomplete = (items) => {
             if (items.length > 0)
                 this.addChip({
@@ -2536,42 +2538,42 @@ class Chips extends Component {
                     text: items[0].text,
                     image: items[0].image
                 });
-            this._input.value = '';
-            this._input.focus();
+            this.#input.value = '';
+            this.#input.focus();
         };
-        this.autocomplete = Autocomplete.init(this._input, this.options.autocompleteOptions);
+        this.autocomplete = Autocomplete.init(this.#input, this.options.autocompleteOptions);
     }
-    _setupInput() {
-        this._input = this.el.querySelector('input');
-        if (!this._input) {
-            this._input = document.createElement('input');
-            this.el.append(this._input);
+    #setupInput() {
+        this.#input = this.el.querySelector('input');
+        if (!this.#input) {
+            this.#input = document.createElement('input');
+            this.el.append(this.#input);
         }
-        this._input.classList.add('input');
+        this.#input.classList.add('input');
         this.hasAutocomplete = Object.keys(this.options.autocompleteOptions).length > 0;
         // Setup autocomplete if needed
         if (this.hasAutocomplete)
-            this._setupAutocomplete();
-        this._setPlaceholder();
+            this.#setupAutocomplete();
+        this.#setPlaceholder();
         // Set input id
-        if (!this._input.getAttribute('id'))
-            this._input.setAttribute('id', Utils.guid());
+        if (!this.#input.getAttribute('id'))
+            this.#input.setAttribute('id', Utils.guid());
     }
-    _setupLabel() {
-        this._label = this.el.querySelector('label');
-        if (this._label)
-            this._label.setAttribute('for', this._input.getAttribute('id'));
+    #setupLabel() {
+        this.#label = this.el.querySelector('label');
+        if (this.#label)
+            this.#label.setAttribute('for', this.#input.getAttribute('id'));
     }
-    _setPlaceholder() {
+    #setPlaceholder() {
         if (this.chipsData !== undefined && !this.chipsData.length && this.options.placeholder) {
-            this._input.placeholder = this.options.placeholder;
+            this.#input.placeholder = this.options.placeholder;
         }
         else if ((this.chipsData === undefined || !!this.chipsData.length) &&
             this.options.secondaryPlaceholder) {
-            this._input.placeholder = this.options.secondaryPlaceholder;
+            this.#input.placeholder = this.options.secondaryPlaceholder;
         }
     }
-    _isValidAndNotExist(chip) {
+    #isValidAndNotExist(chip) {
         const isValid = !!chip.id;
         const doesNotExist = !this.chipsData.some((item) => item.id == chip.id);
         return isValid && doesNotExist;
@@ -2581,14 +2583,14 @@ class Chips extends Component {
      * @param chip Chip data object
      */
     addChip(chip) {
-        if (!this._isValidAndNotExist(chip) || this.chipsData.length >= this.options.limit)
+        if (!this.#isValidAndNotExist(chip) || this.chipsData.length >= this.options.limit)
             return;
-        const renderedChip = this._renderChip(chip);
-        this._chips.push(renderedChip);
+        const renderedChip = this.#renderChip(chip);
+        this.#chips.push(renderedChip);
         this.chipsData.push(chip);
         //$(this._input).before(renderedChip);
-        this._input.before(renderedChip);
-        this._setPlaceholder();
+        this.#input.before(renderedChip);
+        this.#setPlaceholder();
         // fire chipAdd callback
         if (typeof this.options.onChipAdd === 'function') {
             this.options.onChipAdd(this.el, renderedChip);
@@ -2599,11 +2601,11 @@ class Chips extends Component {
      * @param chipIndex  Index of chip
      */
     deleteChip(chipIndex) {
-        const chip = this._chips[chipIndex];
-        this._chips[chipIndex].remove();
-        this._chips.splice(chipIndex, 1);
+        const chip = this.#chips[chipIndex];
+        this.#chips[chipIndex].remove();
+        this.#chips.splice(chipIndex, 1);
         this.chipsData.splice(chipIndex, 1);
-        this._setPlaceholder();
+        this.#setPlaceholder();
         // fire chipDelete callback
         if (typeof this.options.onChipDelete === 'function') {
             this.options.onChipDelete(this.el, chip);
@@ -2614,8 +2616,8 @@ class Chips extends Component {
      * @param chipIndex Index of chip
      */
     selectChip(chipIndex) {
-        const chip = this._chips[chipIndex];
-        this._selectedChip = chip;
+        const chip = this.#chips[chipIndex];
+        this.#selectedChip = chip;
         chip.focus();
         // fire chipSelect callback
         if (typeof this.options.onChipSelect === 'function') {
@@ -2640,11 +2642,12 @@ class Chips extends Component {
             });
     }
     static {
-        Chips._keydown = false;
+        this.#keydown = false;
     }
 }
+_a = Chips;
 
-const _defaults$h = {
+const _defaults$i = {
     accordion: true,
     onOpenStart: null,
     onOpenEnd: null,
@@ -2680,7 +2683,7 @@ class Collapsible extends Component {
         }
     }
     static get defaults() {
-        return _defaults$h;
+        return _defaults$i;
     }
     /**
      * Initializes instances of Collapsible.
@@ -2799,7 +2802,7 @@ class Collapsible extends Component {
     };
 }
 
-const _defaults$g = {
+const _defaults$h = {
     classes: '',
     dropdownOptions: {}
 };
@@ -2839,7 +2842,7 @@ class FormSelect extends Component {
         this._setupEventHandlers();
     }
     static get defaults() {
-        return _defaults$g;
+        return _defaults$h;
     }
     /**
      * Initializes instances of FormSelect.
@@ -3182,11 +3185,14 @@ class FormSelect extends Component {
     }
 }
 
-const _defaults$f = {
+const _defaults$g = {
     margin: 5,
     transition: 10,
     duration: 250,
-    align: 'left'
+    align: 'left',
+    title: null,
+    onOpen: null,
+    onClose: null
 };
 class DockedDisplayPlugin {
     el;
@@ -3196,7 +3202,7 @@ class DockedDisplayPlugin {
     constructor(el, container, options) {
         this.el = el;
         this.options = {
-            ..._defaults$f,
+            ..._defaults$g,
             ...options
         };
         this.container = document.createElement('div');
@@ -3209,7 +3215,7 @@ class DockedDisplayPlugin {
                 !e.target.closest('.display-docked')) {
                 this.hide();
             }
-        });
+        }, true);
     }
     /**
      * Initializes instance of DockedDisplayPlugin
@@ -3234,7 +3240,10 @@ class DockedDisplayPlugin {
         setTimeout(() => {
             this.container.style.transform = `translateX(${coordinates.x}px) translateY(${coordinates.y}px)`;
             this.container.style.opacity = (1).toString();
-        }, 1);
+            if (typeof this.options.onOpen == 'function') {
+                this.options.onOpen.call(this);
+            }
+        }, 100);
     };
     hide = () => {
         if (!this.visible)
@@ -3248,7 +3257,83 @@ class DockedDisplayPlugin {
         setTimeout(() => {
             this.container.style.transform = `translateX(0px) translateY(0px)`;
             this.container.style.opacity = '0';
-        }, 1);
+            if (typeof this.options.onClose == 'function') {
+                this.options.onClose.call(this);
+            }
+        }, 100);
+    };
+}
+
+const _defaults$f = {
+    classList: ['modal'],
+    title: null,
+    onOpen: null,
+    onClose: null,
+};
+class ModalDisplayPlugin {
+    el;
+    container;
+    options;
+    visible;
+    footer;
+    constructor(el, container, options) {
+        this.el = el;
+        this.options = {
+            ..._defaults$f,
+            ...options,
+        };
+        this.container = document.createElement('dialog');
+        this.container.classList.add('modal', 'display-modal', this.options.classList.join(' '));
+        if (options.title) {
+            const modalHeader = document.createElement('div');
+            modalHeader.classList.add('modal-header');
+            modalHeader.append(options.title);
+            this.container.append(modalHeader);
+        }
+        const modalContent = document.createElement('div');
+        modalContent.classList.add('modal-content');
+        modalContent.append(container);
+        this.container.append(modalContent);
+        this.footer = document.createElement('div');
+        this.footer.classList.add('modal-footer');
+        this.container.append(this.footer);
+        document.body.append(this.container);
+        document.addEventListener('click', (e) => {
+            if (this.visible && !(this.el === e.target) && !(e.target.closest('.display-modal'))) {
+                this.hide();
+            }
+        }, true);
+    }
+    /**
+     * Initializes instance of ModalDisplayPlugin
+     * @param el HTMLElement to position to
+     * @param container HTMLElement to be positioned
+     * @param options Plugin options
+     */
+    static init(el, container, options) {
+        return new ModalDisplayPlugin(el, container, options);
+    }
+    show = () => {
+        if (this.visible)
+            return;
+        this.visible = true;
+        this.container.setAttribute('open', 'true');
+        setTimeout(() => {
+            if (typeof this.options.onOpen == 'function') {
+                this.options.onOpen.call(this);
+            }
+        }, 10);
+    };
+    hide = () => {
+        if (!this.visible)
+            return;
+        this.visible = false;
+        this.container.removeAttribute('open');
+        setTimeout(() => {
+            if (typeof this.options.onClose == 'function') {
+                this.options.onClose.call(this);
+            }
+        }, 10);
     };
 }
 
@@ -3350,7 +3435,7 @@ const _defaults$e = {
     displayPlugin: null,
     displayPluginOptions: null,
     onConfirm: null,
-    onCancel: null
+    onCancel: null,
 };
 class Datepicker extends Component {
     id;
@@ -3397,42 +3482,9 @@ class Datepicker extends Component {
         this._setupVariables();
         this._insertHTMLIntoDOM();
         this._setupEventHandlers();
-        if (!this.options.defaultDate) {
-            this.options.defaultDate = new Date(Date.parse(this.el.value));
-        }
-        const defDate = this.options.defaultDate;
-        if (Datepicker._isDate(defDate)) {
-            if (this.options.setDefaultDate) {
-                this.setDate(defDate, true);
-                this.setInputValue(this.el, defDate);
-            }
-            else {
-                this.gotoDate(defDate);
-            }
-        }
-        else {
-            this.gotoDate(new Date());
-        }
-        if (this.options.isDateRange) {
-            this.multiple = true;
-            const defEndDate = this.options.defaultEndDate;
-            if (Datepicker._isDate(defEndDate)) {
-                if (this.options.setDefaultEndDate) {
-                    this.setDate(defEndDate, true, true);
-                    this.setInputValue(this.endDateEl, defEndDate);
-                }
-            }
-        }
-        if (this.options.isMultipleSelection) {
-            this.multiple = true;
-            this.dates = [];
-            this.dateEls = [];
-            this.dateEls.push(el);
-        }
-        if (this.options.displayPlugin) {
-            if (this.options.displayPlugin === 'docked')
-                this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
-        }
+        if (this.options.displayPlugin)
+            this._setupDisplayPlugin();
+        this._pickerSetup();
     }
     static get defaults() {
         return _defaults$e;
@@ -3519,12 +3571,6 @@ class Datepicker extends Component {
                 }
             }
         }
-        /*if (this.options.showClearBtn) {
-          this.clearBtn.style.visibility = '';
-          this.clearBtn.innerText = this.options.i18n.clear;
-        }
-        this.doneBtn.innerText = this.options.i18n.done;
-        this.cancelBtn.innerText = this.options.i18n.cancel;*/
         Utils.createButton(this.footer, this.options.i18n.clear, ['datepicker-clear'], this.options.showClearBtn, this._handleClearClick);
         if (!this.options.autoSubmit) {
             Utils.createConfirmationContainer(this.footer, this.options.i18n.done, this.options.i18n.cancel, this._confirm, this._cancel);
@@ -3536,10 +3582,7 @@ class Datepicker extends Component {
             this.options.container.append(this.containerEl);
         }
         else {
-            //this.containerEl.before(this.el);
             const appendTo = !this.endDateEl ? this.el : this.endDateEl;
-            if (!this.options.openByDefault)
-                this.containerEl.setAttribute('style', 'display: none; visibility: hidden;');
             appendTo.parentElement.after(this.containerEl);
         }
     }
@@ -3702,6 +3745,38 @@ class Datepicker extends Component {
             composed: true,
             detail: { firedBy: this }
         }));
+    }
+    /**
+     * Display plugin setup.
+     */
+    _setupDisplayPlugin() {
+        const displayPluginOptions = {
+            ...this.options.displayPluginOptions,
+            ...{
+                onOpen: () => {
+                    document.querySelectorAll('.select-dropdown').forEach((e) => {
+                        e.tabIndex = 0;
+                    });
+                },
+                onClose: () => {
+                    document.querySelectorAll('.select-dropdown').forEach((e) => {
+                        e.tabIndex = -1;
+                    });
+                }
+            }
+        };
+        if (this.options.displayPlugin === 'docked')
+            this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, displayPluginOptions);
+        if (this.options.displayPlugin === 'modal') {
+            this.displayPlugin = ModalDisplayPlugin.init(this.el, this.containerEl, {
+                ...displayPluginOptions,
+                ...{ classList: ['datepicker-modal'] }
+            });
+            this.footer.remove();
+            this.footer = this.displayPlugin.footer;
+        }
+        if (this.options.openByDefault)
+            this.displayPlugin.show();
     }
     /**
      * Renders the date in the modal head section.
@@ -4023,12 +4098,6 @@ class Datepicker extends Component {
         this.el.addEventListener('keydown', this._handleInputKeydown);
         this.el.addEventListener('change', this._handleInputChange);
         this.calendarEl.addEventListener('click', this._handleCalendarClick);
-        /* this.doneBtn.addEventListener('click', this._confirm);
-        this.cancelBtn.addEventListener('click', this._cancel);
-    
-        if (this.options.showClearBtn) {
-          this.clearBtn.addEventListener('click', this._handleClearClick);
-        }*/
     }
     _setupVariables() {
         const template = document.createElement('template');
@@ -4037,11 +4106,6 @@ class Datepicker extends Component {
         this.calendarEl = this.containerEl.querySelector('.datepicker-calendar');
         this.yearTextEl = this.containerEl.querySelector('.year-text');
         this.dateTextEl = this.containerEl.querySelector('.date-text');
-        /* if (this.options.showClearBtn) {
-          this.clearBtn = this.containerEl.querySelector('.datepicker-clear');
-        }
-        this.doneBtn = this.containerEl.querySelector('.datepicker-done');
-        this.cancelBtn = this.containerEl.querySelector('.datepicker-cancel');*/
         this.footer = this.containerEl.querySelector('.datepicker-footer');
         this.formats = {
             d: (date) => {
@@ -4077,6 +4141,40 @@ class Datepicker extends Component {
                 return date.getFullYear();
             }
         };
+    }
+    _pickerSetup() {
+        if (!this.options.defaultDate) {
+            this.options.defaultDate = new Date(Date.parse(this.el.value));
+        }
+        const defDate = this.options.defaultDate;
+        if (Datepicker._isDate(defDate)) {
+            if (this.options.setDefaultDate) {
+                this.setDate(defDate, true);
+                this.setInputValue(this.el, defDate);
+            }
+            else {
+                this.gotoDate(defDate);
+            }
+        }
+        else {
+            this.gotoDate(new Date());
+        }
+        if (this.options.isDateRange) {
+            this.multiple = true;
+            const defEndDate = this.options.defaultEndDate;
+            if (Datepicker._isDate(defEndDate)) {
+                if (this.options.setDefaultEndDate) {
+                    this.setDate(defEndDate, true, true);
+                    this.setInputValue(this.endDateEl, defEndDate);
+                }
+            }
+        }
+        if (this.options.isMultipleSelection) {
+            this.multiple = true;
+            this.dates = [];
+            this.dateEls = [];
+            this.dateEls.push(this.el);
+        }
     }
     _removeEventHandlers() {
         this.el.removeEventListener('click', this._handleInputClick);
@@ -4124,10 +4222,14 @@ class Datepicker extends Component {
                     this.setDate(selectedDate);
                 }
                 if (this.options.isDateRange) {
+                    const confirmAfterSelection = Datepicker._isDate(this.date) && this.options.autoSubmit;
                     this._handleDateRangeCalendarClick(selectedDate);
+                    if (confirmAfterSelection) {
+                        this._confirm();
+                    }
                 }
-                if (this.options.autoSubmit)
-                    this._finishSelection();
+                if (!this.options.isDateRange && this.options.autoSubmit)
+                    this._confirm();
             }
             else if (target.closest('.month-prev')) {
                 this.prevMonth();
@@ -4142,7 +4244,7 @@ class Datepicker extends Component {
             if (Datepicker._isDate(this.date) && Datepicker._comparePastDate(date, this.date)) {
                 return;
             }
-            this.setDate(date, false, Datepicker._isDate(this.date));
+            this.setDate(date, true, Datepicker._isDate(this.date));
             return;
         }
         this._clearDates();
@@ -4225,10 +4327,14 @@ class Datepicker extends Component {
     };
     _confirm = () => {
         this._finishSelection();
+        if (this.displayPlugin)
+            this.displayPlugin.hide();
         if (typeof this.options.onConfirm === 'function')
             this.options.onConfirm.call(this);
     };
     _cancel = () => {
+        if (this.displayPlugin)
+            this.displayPlugin.hide();
         if (typeof this.options.onCancel === 'function')
             this.options.onCancel.call(this);
     };
@@ -6033,11 +6139,9 @@ class Timepicker extends Component {
         this._setupVariables();
         this._setupEventHandlers();
         this._clockSetup();
+        if (this.options.displayPlugin)
+            this._setupDisplayPlugin();
         this._pickerSetup();
-        if (this.options.displayPlugin) {
-            if (this.options.displayPlugin === 'docked')
-                this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
-        }
     }
     static get defaults() {
         return _defaults$8;
@@ -6077,6 +6181,7 @@ class Timepicker extends Component {
     }
     _setupEventHandlers() {
         this.el.addEventListener('click', this._handleInputClick);
+        // @todo allow input field to fill values from input field when container/modal opens
         this.el.addEventListener('keydown', this._handleInputKeydown);
         this.plate.addEventListener('mousedown', this._handleClockClickStart);
         this.plate.addEventListener('touchstart', this._handleClockClickStart);
@@ -6214,7 +6319,9 @@ class Timepicker extends Component {
         // clearButton.classList.add('timepicker-clear');
         // clearButton.addEventListener('click', this.clear);
         // this.footer.appendChild(clearButton);
-        Utils.createButton(this.footer, this.options.i18n.clear, ['timepicker-clear'], this.options.showClearBtn, this.clear);
+        if (this.options.showClearBtn) {
+            Utils.createButton(this.footer, this.options.i18n.clear, ['timepicker-clear'], true, this.clear);
+        }
         if (!this.options.autoSubmit) {
             /*const confirmationBtnsContainer = document.createElement('div');
           confirmationBtnsContainer.classList.add('confirmation-btns');
@@ -6233,6 +6340,18 @@ class Timepicker extends Component {
         }
         this._updateTimeFromInput();
         this.showView('hours');
+    }
+    _setupDisplayPlugin() {
+        if (this.options.displayPlugin === 'docked')
+            this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+        if (this.options.displayPlugin === 'modal') {
+            this.displayPlugin = ModalDisplayPlugin.init(this.el, this.containerEl, {
+                ...this.options.displayPluginOptions,
+                ...{ classList: ['timepicker-modal'] }
+            });
+            this.footer.remove();
+            this.footer = this.displayPlugin.footer;
+        }
     }
     _clockSetup() {
         if (this.options.twelveHour) {
@@ -6573,16 +6692,21 @@ class Timepicker extends Component {
     };
     confirm = () => {
         this.done();
+        if (this.displayPlugin)
+            this.displayPlugin.hide();
         if (typeof this.options.onDone === 'function')
             this.options.onDone.call(this);
     };
     cancel = () => {
         // not logical clearing the input field on cancel, since the end user might want to make use of the previously submitted value
         // this.clear();
+        if (this.displayPlugin)
+            this.displayPlugin.hide();
         if (typeof this.options.onCancel === 'function')
             this.options.onCancel.call(this);
     };
     clear = () => {
+        // @todo should clear timepicker hour/minute input elems and reset analog clock, currently clears input el
         this.done(true);
     };
     // deprecated
@@ -8156,7 +8280,7 @@ class Waves {
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const version = '2.2.2';
+const version = '2.3.0';
 /**
  * Automatically initialize components.
  * @param context Root element to initialize. Defaults to `document.body`.

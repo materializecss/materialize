@@ -304,6 +304,7 @@ declare class Autocomplete extends Component<AutocompleteOptions> {
     static _keydown: boolean;
     selectedValues: AutocompleteData[];
     menuItems: AutocompleteData[];
+    data: AutocompleteData[];
     constructor(el: HTMLInputElement, options: Partial<AutocompleteOptions>);
     static get defaults(): AutocompleteOptions;
     /**
@@ -354,8 +355,9 @@ declare class Autocomplete extends Component<AutocompleteOptions> {
      * @param menuItems Items to be available.
      * @param selected Selected item ids
      * @param open Option to conditionally open dropdown
+     * @param initial Condition to set initial data
      */
-    setMenuItems(menuItems: AutocompleteData[], selected?: number[] | string[], open?: boolean): void;
+    setMenuItems(menuItems: AutocompleteData[], selected?: number[] | string[], open?: boolean, initial?: boolean): void;
     /**
      * Sets selected values.
      * @deprecated @see https://github.com/materializecss/materialize/issues/552
@@ -388,14 +390,11 @@ interface FloatingActionButtonOptions extends BaseOptions$1 {
     toolbarEnabled: boolean;
 }
 declare class FloatingActionButton extends Component<FloatingActionButtonOptions> implements Openable {
+    #private;
     /**
      * Describes open/close state of FAB.
      */
     isOpen: boolean;
-    private _anchor;
-    private _menu;
-    private _floatingBtns;
-    private _floatingBtnsReverse;
     offsetY: number;
     offsetX: number;
     btnBottom: number;
@@ -417,12 +416,6 @@ declare class FloatingActionButton extends Component<FloatingActionButtonOptions
     static init(els: InitElements<MElement>, options?: Partial<FloatingActionButtonOptions>): FloatingActionButton[];
     static getInstance(el: HTMLElement): FloatingActionButton;
     destroy(): void;
-    _setupEventHandlers(): void;
-    _removeEventHandlers(): void;
-    _handleFABClick: () => void;
-    _handleFABKeyPress: (e: any) => void;
-    _handleFABToggle: () => void;
-    _handleDocumentClick: (e: MouseEvent) => void;
     /**
      * Open FAB.
      */
@@ -431,9 +424,6 @@ declare class FloatingActionButton extends Component<FloatingActionButtonOptions
      * Close FAB.
      */
     close: () => void;
-    _animateInFAB(): void;
-    _animateOutFAB(): void;
-    _animateInToolbar(): void;
 }
 
 interface CardsOptions extends BaseOptions$1 {
@@ -443,11 +433,8 @@ interface CardsOptions extends BaseOptions$1 {
     outDuration: number;
 }
 declare class Cards extends Component<CardsOptions> implements Openable {
+    #private;
     isOpen: boolean;
-    private readonly cardReveal;
-    private readonly initialOverflow;
-    private _activators;
-    private cardRevealClose;
     constructor(el: HTMLElement, options: Partial<CardsOptions>);
     static get defaults(): CardsOptions;
     /**
@@ -467,14 +454,6 @@ declare class Cards extends Component<CardsOptions> implements Openable {
      * {@inheritDoc}
      */
     destroy(): void;
-    _setupEventHandlers: () => void;
-    _removeEventHandlers: () => void;
-    _handleClickInteraction: () => void;
-    _handleKeypressEvent: (e: KeyboardEvent) => void;
-    _handleRevealEvent: () => void;
-    _setupRevealCloseEventHandlers: () => void;
-    _removeRevealCloseEventHandlers: () => void;
-    _handleKeypressCloseEvent: (e: KeyboardEvent) => void;
     /**
      * Show card reveal.
      */
@@ -618,17 +597,11 @@ declare class Carousel extends Component<CarouselOptions> {
 }
 
 interface ChipData {
-    /**
-     * Unique identifier.
-     */
+    /** Unique identifier. */
     id: number | string;
-    /**
-     * Chip text. If not specified, "id" will be used.
-     */
+    /** Chip text. If not specified, "id" will be used. */
     text?: string;
-    /**
-     * Chip image (URL).
-     */
+    /** Chip image (URL). */
     image?: string;
 }
 interface ChipsOptions extends BaseOptions$1 {
@@ -689,17 +662,13 @@ interface ChipsOptions extends BaseOptions$1 {
     onChipDelete: (element: HTMLElement, chip: HTMLElement) => void;
 }
 declare class Chips extends Component<ChipsOptions> {
+    #private;
     /** Array of the current chips data. */
     chipsData: ChipData[];
     /** If the chips has autocomplete enabled. */
     hasAutocomplete: boolean;
     /** Autocomplete instance, if any. */
     autocomplete: Autocomplete;
-    _input: HTMLInputElement;
-    _label: HTMLLabelElement;
-    _chips: HTMLElement[];
-    static _keydown: boolean;
-    private _selectedChip;
     constructor(el: HTMLElement, options: Partial<ChipsOptions>);
     static get defaults(): ChipsOptions;
     /**
@@ -717,22 +686,6 @@ declare class Chips extends Component<ChipsOptions> {
     static getInstance(el: HTMLElement): Chips;
     getData(): ChipData[];
     destroy(): void;
-    _setupEventHandlers(): void;
-    _removeEventHandlers(): void;
-    _handleChipClick: (e: MouseEvent) => void;
-    static _handleChipsKeydown(e: KeyboardEvent): void;
-    static _handleChipsKeyup(): void;
-    static _handleChipsBlur(e: Event): void;
-    _handleInputFocus: () => void;
-    _handleInputBlur: () => void;
-    _handleInputKeydown: (e: KeyboardEvent) => void;
-    _renderChip(chip: ChipData): HTMLDivElement;
-    _renderChips(): void;
-    _setupAutocomplete(): void;
-    _setupInput(): void;
-    _setupLabel(): void;
-    _setPlaceholder(): void;
-    _isValidAndNotExist(chip: ChipData): boolean;
     /**
      * Add chip to input.
      * @param chip Chip data object
@@ -1118,6 +1071,10 @@ declare class Datepicker extends Component<DatepickerOptions> {
      */
     setInputValue(el: any, date: any): void;
     /**
+     * Display plugin setup.
+     */
+    _setupDisplayPlugin(): void;
+    /**
      * Renders the date in the modal head section.
      */
     _renderDateDisplay(date: Date, endDate?: Date): void;
@@ -1140,6 +1097,7 @@ declare class Datepicker extends Component<DatepickerOptions> {
     draw(): void;
     _setupEventHandlers(): void;
     _setupVariables(): void;
+    _pickerSetup(): void;
     _removeEventHandlers(): void;
     _handleInputClick: (e: any) => void;
     _handleInputKeydown: (e: KeyboardEvent) => void;
@@ -1875,6 +1833,7 @@ declare class Timepicker extends Component<TimepickerOptions> {
     _insertHTMLIntoDOM(): void;
     _setupVariables(): void;
     _pickerSetup(): void;
+    private _setupDisplayPlugin;
     _clockSetup(): void;
     _buildSVGClock(): void;
     _buildHoursView(): void;
@@ -2560,7 +2519,7 @@ declare class Waves {
     static Init(): void;
 }
 
-declare const version = "2.2.2";
+declare const version = "2.3.0";
 interface AutoInitOptions {
     Autocomplete?: Partial<AutocompleteOptions>;
     Cards?: Partial<CardsOptions>;
