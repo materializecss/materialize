@@ -77,8 +77,11 @@ fieldset.form-field legend {
   /* color: transparent; */
   user-select: none;
 }
-fieldset.form-field input, fieldset.form-field select {
-  --mw-calc-input-height: calc(var(--mw-input-height) - var(--label-size) + 2 * var(--mw-border-width));
+fieldset.form-field input,
+fieldset.form-field select {
+  --mw-calc-input-height: calc(
+    var(--mw-input-height) - var(--label-size) + 2 * var(--mw-border-width)
+  );
   box-sizing: border-box;
   font-size: var(--font-size);
   padding: 0;
@@ -99,11 +102,12 @@ fieldset.form-field select {
   /* margin: 0; */
   padding-left: calc(var(--mw-padding-left) - var(--label-padding));
   /* background-color: #f005 !important; */
+  z-index: 2;
 }
 fieldset.form-field select option {
   background-color: black;
   color: white;
- }
+}
 fieldset.form-field input::placeholder {
   color: var(--mw-idle-color);
   font-size: var(--font-size);
@@ -117,10 +121,12 @@ fieldset.form-field label {
   user-select: none;
   color: transparent;
   /* color: green; */
+  z-index: 1; /* for not blocking klicks */
+  pointer-events: none;
 }
 /*--- idle animated */
 fieldset.form-field.animated legend::before {
-  content: "";
+  content: '';
   position: absolute;
   display: block;
   width: calc(100% - var(--mw-border-radius));
@@ -141,13 +147,21 @@ fieldset.form-field.animated label {
   position: absolute;
   left: calc(var(--input-padding-x) - var(--mw-border-width));
   font-size: var(--font-size);
-  transition: font-size var(--animation-duration), transform var(--animation-duration), opacity var(--animation-duration) step-end;
+  transition:
+    font-size var(--animation-duration),
+    transform var(--animation-duration),
+    opacity var(--animation-duration) step-end;
 }
 /*--- idle animated populated */
-fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend::before { width: 0; }
-fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend { color: var(--mw-idle-color); }
-fieldset.form-field.animated:has(input:not(:placeholder-shown)) label { color: transparent; }
-
+fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend::before {
+  width: 0;
+}
+fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend {
+  color: var(--mw-idle-color);
+}
+fieldset.form-field.animated:has(input:not(:placeholder-shown)) label {
+  color: transparent;
+}
 
 /*===== hovered */
 fieldset.form-field:hover {
@@ -159,9 +173,13 @@ fieldset.form-field:hover legend::before {
   border-width: var(--mw-hover-border-width);
   border-color: var(--mw-hover-color);
 }
-fieldset.form-field:hover legend { color: var(--mw-hover-color); }
+fieldset.form-field:hover legend {
+  color: var(--mw-hover-color);
+}
 /* hovered animated */
-fieldset.form-field.animated:hover legend { color: transparent; }
+fieldset.form-field.animated:hover legend {
+  color: transparent;
+}
 fieldset.form-field.animated:has(input:placeholder-shown):hover input::placeholder {
   color: transparent;
 }
@@ -172,7 +190,10 @@ fieldset.form-field.animated:hover label {
   /* color: transparent; */
   color: var(--mw-hover-color);
   left: calc(var(--input-padding-x) - var(--mw-hover-border-width));
-  top: calc(0.5 * var(--mw-input-height) - var(--label-size) * 0.5 - var(--font-size) + var(--mw-hover-border-width));
+  top: calc(
+    0.5 * var(--mw-input-height) - var(--label-size) * 0.5 - var(--font-size) +
+      var(--mw-hover-border-width)
+  );
 }
 
 /*===== focused */
@@ -185,13 +206,25 @@ fieldset.form-field:focus-within legend::before {
   border-width: var(--mw-focus-border-width);
   border-color: var(--mw-focus-color);
 }
-fieldset.form-field:focus-within legend { color: var(--mw-focus-color); }
-fieldset.form-field select:focus { color: var(--mw-focus-color); }
+fieldset.form-field:focus-within legend {
+  color: var(--mw-focus-color);
+}
+fieldset.form-field select:focus {
+  color: var(--mw-focus-color);
+}
 /* focused animated */
-fieldset.form-field.animated:focus-within legend::before { width: 0; }
-fieldset.form-field.animated:focus-within legend { color: var(--mw-focus-color); }
-fieldset.form-field.animated:has(input:not(:placeholder-shown)):focus-within legend { color: var(--mw-focus-color); }
-fieldset.form-field.animated:focus-within input::placeholder { color: transparent }
+fieldset.form-field.animated:focus-within legend::before {
+  width: 0;
+}
+fieldset.form-field.animated:focus-within legend {
+  color: var(--mw-focus-color);
+}
+fieldset.form-field.animated:has(input:not(:placeholder-shown)):focus-within legend {
+  color: var(--mw-focus-color);
+}
+fieldset.form-field.animated:focus-within input::placeholder {
+  color: transparent;
+}
 fieldset.form-field.animated:focus-within label {
   color: transparent;
   left: calc(var(--input-padding-x) - var(--mw-hover-border-width));
@@ -212,7 +245,7 @@ fieldset.form-field.animated label {
   font-size: var(--label-size);
   transform: translateY(var(--distY)) translateX(var(--input-padding-x));
   transition: font-size var(--animation-duration), transform var(--animation-duration), opacity 0s;
-} 
+}
 fieldset.form-field.animated:focus-within legend::before,
 fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend::before {
   border-top: var(--mw-focus-border-width) solid var(--mw-focus-color);
@@ -233,8 +266,10 @@ fieldset.form-field[disabled]:hover {
   cursor: not-allowed;
   padding: 0 calc(var(--mw-inset) - var(--mw-border-width));
 }
-fieldset.form-field[disabled] input { cursor: not-allowed; }
-fieldset.form-field[disabled] legend, 
+fieldset.form-field[disabled] input {
+  cursor: not-allowed;
+}
+fieldset.form-field[disabled] legend,
 fieldset.form-field[disabled] input::placeholder {
   color: var(--mw-disabled-color);
   cursor: not-allowed;
@@ -243,8 +278,11 @@ fieldset.form-field[disabled] input {
   height: calc(var(--mw-input-height) - var(--label-size) + 2 * var(--mw-border-width));
   margin-top: calc(-1 * var(--half-lbl));
 }
-fieldset.form-field[disabled]:hover { border-width: var(--mw-border-width); }
-fieldset.form-field[disabled]:hover input, fieldset.form-field[disabled]:hover select {
+fieldset.form-field[disabled]:hover {
+  border-width: var(--mw-border-width);
+}
+fieldset.form-field[disabled]:hover input,
+fieldset.form-field[disabled]:hover select {
   padding-left: calc(var(--mw-padding-left) - var(--mw-border-width));
 }
 fieldset.form-field[disabled]:hover legend {
@@ -259,5 +297,9 @@ fieldset.form-field[disabled] label {
 }
 
 /* special: required */
-fieldset.form-field:has([required]) legend::after { content: " *"; }
-fieldset.form-field:has([required]) label::after { content: " *"; }
+fieldset.form-field:has([required]) legend::after {
+  content: ' *';
+}
+fieldset.form-field:has([required]) label::after {
+  content: ' *';
+}
