@@ -1,16 +1,21 @@
-type RGBColor = {
-  r: number;
-  g: number;
-  b: number;
-};
+// type RGBColor = {
+//   r: number;
+//   g: number;
+//   b: number;
+// };
 
-type Position = {
-  x: number;
-  y: number;
-};
+// type Position = {
+//   x: number;
+//   y: number;
+// };
 
-export class Waves {
-  private static _offset(el: HTMLElement) {
+class Waves {
+  /**
+   *
+   * @param {HTMLElement} el
+   * @returns
+   */
+  static #offset(el) {
     const box = el.getBoundingClientRect();
     const docElem = document.documentElement;
     return {
@@ -21,18 +26,19 @@ export class Waves {
 
   // https://phoenix-dx.com/css-techniques-for-material-ripple-effect/
 
-  static renderWaveEffect(
-    targetElement: HTMLElement,
-    position: Position | null = null,
-    color: RGBColor | null = null
-  ): void {
+  /**
+   *
+   * @param {HTMLElement} targetElement
+   * @param position
+   * @param color
+   */
+  static renderWaveEffect(targetElement, position = null, color = null) {
     const isCentered = position === null;
     const duration = 500;
-    let animationFrame: number, animationStart: number;
-    const animationStep = function (timestamp: number) {
-      if (!animationStart) {
-        animationStart = timestamp;
-      }
+    let animationFrame, animationStart;
+
+    const animationStep = (timestamp) => {
+      if (!animationStart) animationStart = timestamp;
       const frame = timestamp - animationStart;
       if (frame < duration) {
         const easing = (frame / duration) * (2 - frame / duration);
@@ -57,6 +63,7 @@ export class Waves {
         window.cancelAnimationFrame(animationFrame);
       }
     };
+
     animationFrame = window.requestAnimationFrame(animationStep);
   }
 
@@ -64,19 +71,19 @@ export class Waves {
     if (typeof document !== 'undefined')
       document?.addEventListener('DOMContentLoaded', () => {
         document.body.addEventListener('click', (e) => {
-          const trigger = <HTMLElement>e.target;
-          const el = <HTMLElement>trigger.closest('.waves-effect');
+          const trigger = e.target;
+          const el = trigger.closest('.waves-effect');
           if (el && el.contains(trigger)) {
             const isCircular = el.classList.contains('waves-circle');
-            const x = e.pageX - Waves._offset(el).left;
-            const y = e.pageY - Waves._offset(el).top;
-
+            const x = e.pageX - this.#offset(el).left;
+            const y = e.pageY - this.#offset(el).top;
             let color = null;
             if (el.classList.contains('waves-light')) color = { r: 255, g: 255, b: 255 };
-
-            Waves.renderWaveEffect(el, isCircular ? null : { x, y }, color);
+            this.renderWaveEffect(el, isCircular ? null : { x, y }, color);
           }
         });
       });
   }
 }
+
+export { Waves };
