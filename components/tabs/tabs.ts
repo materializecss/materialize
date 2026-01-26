@@ -119,6 +119,13 @@ export class Tabs extends Component<TabsOptions> {
   _setupEventHandlers() {
     window.addEventListener('resize', this._handleWindowResize);
     this.el.addEventListener('click', this._handleTabClick);
+    // map vertical scrolling to horizontal scrolling because no scrollbar is shown on desktop
+    this.el.addEventListener('wheel', (event) => {
+      if (event.deltaY !== 0) {
+        event.preventDefault();
+        this.el.scrollLeft += event.deltaY * 1;
+      }
+    });
   }
 
   _removeEventHandlers() {
@@ -304,11 +311,11 @@ export class Tabs extends Component<TabsOptions> {
     this._tabWidth = Math.max(this._tabsWidth, this.el.scrollWidth) / this._tabLinks.length;
   }
 
-  _calcRightPos(el) {
+  _calcRightPos(el: HTMLElement) {
     return Math.ceil(this._tabsWidth - el.offsetLeft - el.getBoundingClientRect().width);
   }
 
-  _calcLeftPos(el) {
+  _calcLeftPos(el: HTMLElement) {
     return Math.floor(el.offsetLeft);
   }
 
@@ -321,7 +328,7 @@ export class Tabs extends Component<TabsOptions> {
     this._animateIndicator(this._index);
   }
 
-  _animateIndicator(prevIndex) {
+  _animateIndicator(prevIndex: number) {
     let leftDelay = 0,
       rightDelay = 0;
 
