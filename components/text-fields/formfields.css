@@ -39,7 +39,7 @@ new approach for floating labels aka "form-fields" (css only)
   --mw-input-padding-x: var(--mw-padding-left);
   --mw-input-padding-r: 12px;
   --mw-label-padding: 4px;
-  --mw-inputlabel-duration: 0.9s;
+  --mw-inputlabel-duration: 0.2s;
   --mw-inset: 5px;
   /* calclated properties */
   --label-size: calc(var(--mw-font-size) * 0.75);
