@@ -25,25 +25,25 @@ new approach for floating labels aka "form-fields" (css only)
 */
 
 :root {
-  --font-size: 16px;
+  --mw-font-size: 16px;
   --mw-border-radius: 8px;
   --mw-input-height: 56px;
-  --mw-idle-color: #888;
+  --mw-idle-color: var(--md-sys-color-outline);
   --mw-border-width: 1px;
-  --mw-hover-color: darkgoldenrod;
-  --mw-hover-border-width: 2px;
+  --mw-hover-color: var(--md-sys-color-on-primary-container);
+  --mw-hover-border-width: 1px;
   --mw-focus-color: var(--md-sys-color-primary);
   --mw-focus-border-width: 2px;
   --mw-disabled-color: #8886;
   --mw-padding-left: 16px;
-  --input-padding-x: var(--mw-padding-left);
-  --input-padding-r: 12px;
-  --label-padding: 4px;
-  --animation-duration: 0.9s;
-  /* calc */
+  --mw-input-padding-x: var(--mw-padding-left);
+  --mw-input-padding-r: 12px;
+  --mw-label-padding: 4px;
+  --mw-inputlabel-duration: 0.9s;
   --mw-inset: 5px;
-  --label-size: calc(var(--font-size) * 0.75);
-  --label-margin-left: calc(var(--mw-padding-left) - var(--label-padding));
+  /* calclated properties */
+  --label-size: calc(var(--mw-font-size) * 0.75);
+  --label-margin-left: calc(var(--mw-padding-left) - var(--mw-label-padding));
   --half-inp: calc((-0.5 * var(--mw-input-height)));
   --half-lbl: calc((0.5 * var(--label-size)));
   --distY: calc(var(--half-inp) + var(--half-lbl));
@@ -64,15 +64,15 @@ fieldset.form-field {
   display: grid;
   grid-auto-flow: column;
   align-items: baseline;
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
   padding: 0 calc(var(--mw-inset) - var(--mw-border-width));
 }
 fieldset.form-field legend {
   color: var(--mw-idle-color);
   font-size: var(--label-size);
-  padding: 0 var(--label-padding);
+  padding: 0 var(--mw-label-padding);
   margin: 0;
-  margin-left: calc(var(--mw-padding-left) - var(--label-padding) - var(--mw-border-width));
+  margin-left: calc(var(--mw-padding-left) - var(--mw-label-padding) - var(--mw-border-width));
   cursor: text;
   /* color: transparent; */
   user-select: none;
@@ -83,7 +83,7 @@ fieldset.form-field select {
     var(--mw-input-height) - var(--label-size) + 2 * var(--mw-border-width)
   );
   box-sizing: border-box;
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
   padding: 0;
   margin: 0;
   width: 100%;
@@ -100,7 +100,7 @@ fieldset.form-field select {
 fieldset.form-field select {
   padding: 0;
   /* margin: 0; */
-  padding-left: calc(var(--mw-padding-left) - var(--label-padding));
+  padding-left: calc(var(--mw-padding-left) - var(--mw-label-padding));
   /* background-color: #f005 !important; */
   z-index: 2;
 }
@@ -110,13 +110,13 @@ fieldset.form-field select option {
 }
 fieldset.form-field input::placeholder {
   color: var(--mw-idle-color);
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
 }
 fieldset.form-field label {
   position: absolute;
-  top: calc(var(--mw-input-height) / 2 - var(--label-size) - var(--font-size) / 2);
+  top: calc(var(--mw-input-height) / 2 - var(--label-size) - var(--mw-font-size) / 2);
   margin-left: calc(var(--mw-inset) - var(--mw-border-width));
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
   cursor: text;
   user-select: none;
   color: transparent;
@@ -124,6 +124,12 @@ fieldset.form-field label {
   z-index: 1; /* for not blocking klicks */
   pointer-events: none;
 }
+
+/* fixes from other inputs */
+fieldset.form-field .select-wrapper {
+  outline: none !important;
+}
+
 /*--- idle animated */
 fieldset.form-field.animated legend::before {
   content: '';
@@ -134,23 +140,23 @@ fieldset.form-field.animated legend::before {
   height: 0;
   border-top: var(--mw-border-width) solid var(--mw-idle-color);
   align-self: center;
-  transition: width calc(var(--animation-duration) * 0.8);
+  transition: width calc(var(--mw-inputlabel-duration) * 0.8);
 }
 fieldset.form-field.animated legend {
   color: transparent;
 }
 fieldset.form-field.animated input::placeholder {
   opacity: 1;
-  transition: opacity var(--animation-duration) step-end;
+  transition: opacity var(--mw-inputlabel-duration) step-end;
 }
 fieldset.form-field.animated label {
   position: absolute;
-  left: calc(var(--input-padding-x) - var(--mw-border-width));
-  font-size: var(--font-size);
+  left: calc(var(--mw-input-padding-x) - var(--mw-border-width));
+  font-size: var(--mw-font-size);
   transition:
-    font-size var(--animation-duration),
-    transform var(--animation-duration),
-    opacity var(--animation-duration) step-end;
+    font-size var(--mw-inputlabel-duration),
+    transform var(--mw-inputlabel-duration),
+    opacity var(--mw-inputlabel-duration) step-end;
 }
 /*--- idle animated populated */
 fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend::before {
@@ -189,9 +195,9 @@ fieldset.form-field.animated:has(input:not(:placeholder-shown)):hover legend {
 fieldset.form-field.animated:hover label {
   /* color: transparent; */
   color: var(--mw-hover-color);
-  left: calc(var(--input-padding-x) - var(--mw-hover-border-width));
+  left: calc(var(--mw-input-padding-x) - var(--mw-hover-border-width));
   top: calc(
-    0.5 * var(--mw-input-height) - var(--label-size) * 0.5 - var(--font-size) +
+    0.5 * var(--mw-input-height) - var(--label-size) * 0.5 - var(--mw-font-size) +
       var(--mw-hover-border-width)
   );
 }
@@ -227,7 +233,7 @@ fieldset.form-field.animated:focus-within input::placeholder {
 }
 fieldset.form-field.animated:focus-within label {
   color: transparent;
-  left: calc(var(--input-padding-x) - var(--mw-hover-border-width));
+  left: calc(var(--mw-input-padding-x) - var(--mw-hover-border-width));
 }
 
 /*
@@ -243,8 +249,8 @@ fieldset.form-field.animated label {
   opacity: 1;
   color: var(--mw-focus-color);
   font-size: var(--label-size);
-  transform: translateY(var(--distY)) translateX(var(--input-padding-x));
-  transition: font-size var(--animation-duration), transform var(--animation-duration), opacity 0s;
+  transform: translateY(var(--distY)) translateX(var(--mw-input-padding-x));
+  transition: font-size var(--mw-inputlabel-duration), transform var(--mw-inputlabel-duration), opacity 0s;
 }
 fieldset.form-field.animated:focus-within legend::before,
 fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend::before {
@@ -286,7 +292,7 @@ fieldset.form-field[disabled]:hover select {
   padding-left: calc(var(--mw-padding-left) - var(--mw-border-width));
 }
 fieldset.form-field[disabled]:hover legend {
-  margin-left: calc(var(--mw-padding-left) - var(--label-padding) - var(--mw-border-width));
+  margin-left: calc(var(--mw-padding-left) - var(--mw-label-padding) - var(--mw-border-width));
   border-color: transparent;
   border-color: var(--mw-disabled-color);
   color: var(--mw-disabled-color);
