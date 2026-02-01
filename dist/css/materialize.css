@@ -1,5 +1,5 @@
 /*!
-* Materialize v2.3.1 (https://materializeweb.com)
+* Materialize v2.3.2 (https://materializeweb.com)
 * Copyright 2014-2026 Materialize
 * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
 */
@@ -3834,6 +3834,7 @@ table span.badge {
   background-color: var(--md-sys-color-surface);
   margin: 0 auto;
   white-space: nowrap;
+  scrollbar-width: none;
 }
 .tabs.tabs-transparent {
   background-color: transparent;
@@ -3908,6 +3909,10 @@ table span.badge {
   padding: 0 24px;
   font-size: 14px;
   text-overflow: ellipsis;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   overflow: hidden;
   -webkit-transition: color 0.28s ease, background-color 0.28s ease;
   transition: color 0.28s ease, background-color 0.28s ease;
@@ -4265,6 +4270,7 @@ body.keyboard-focused .dropdown-content li:focus {
           user-select: none;
   vertical-align: top;
 }
+
 .chip:focus {
   outline: none;
   background-color: var(--md-sys-color-primary);
@@ -4327,27 +4333,30 @@ body.keyboard-focused .dropdown-content li:focus {
           box-shadow: none;
   margin: 0 0 8px 0;
   padding: 4px;
+  /* min-height: 45px; */
   outline: none;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
+
 .chips.focus {
   border-bottom: 1px solid var(--md-sys-color-primary);
   -webkit-box-shadow: 0 1px 0 0 var(--md-sys-color-primary);
           box-shadow: 0 1px 0 0 var(--md-sys-color-primary);
 }
+
 .chips.input-field {
   border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
 }
-.chips.input-field:hover {
-  cursor: text;
-}
-.chips input:not([type]):not(.browser-default).input {
+
+.chis input:not([type]):not(.browser-default).input {
   background: none;
   border: 0;
   color: var(--md-sys-color-on-background);
   display: inline-block;
   font-size: 16px;
+  /* height: 32px;
+   line-height: 32px; */
   height: 32px;
   outline: 0;
   margin: 0;
@@ -4359,11 +4368,17 @@ body.keyboard-focused .dropdown-content li:focus {
   min-width: 100px;
   max-width: 200px;
 }
-.chips input:not([type]):not(.browser-default).input:focus {
+
+.chis input:not([type]):not(.browser-default).input:focus {
   border: 0;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
+
+.chips.input-field:hover {
+  cursor: text;
+}
+
 .chips .autocomplete-content {
   margin-top: 0;
   margin-bottom: 0;
@@ -7523,25 +7538,25 @@ new approach for floating labels aka "form-fields" (css only)
 </div>
 */
 :root {
-  --font-size: 16px;
+  --mw-font-size: 16px;
   --mw-border-radius: 8px;
   --mw-input-height: 56px;
-  --mw-idle-color: #888;
+  --mw-idle-color: var(--md-sys-color-outline);
   --mw-border-width: 1px;
-  --mw-hover-color: darkgoldenrod;
-  --mw-hover-border-width: 2px;
+  --mw-hover-color: var(--md-sys-color-on-primary-container);
+  --mw-hover-border-width: 1px;
   --mw-focus-color: var(--md-sys-color-primary);
   --mw-focus-border-width: 2px;
   --mw-disabled-color: #8886;
   --mw-padding-left: 16px;
-  --input-padding-x: var(--mw-padding-left);
-  --input-padding-r: 12px;
-  --label-padding: 4px;
-  --animation-duration: 0.9s;
-  /* calc */
+  --mw-input-padding-x: var(--mw-padding-left);
+  --mw-input-padding-r: 12px;
+  --mw-label-padding: 4px;
+  --mw-inputlabel-duration: 0.2s;
   --mw-inset: 5px;
-  --label-size: calc(var(--font-size) * 0.75);
-  --label-margin-left: calc(var(--mw-padding-left) - var(--label-padding));
+  /* calclated properties */
+  --label-size: calc(var(--mw-font-size) * 0.75);
+  --label-margin-left: calc(var(--mw-padding-left) - var(--mw-label-padding));
   --half-inp: calc((-0.5 * var(--mw-input-height)));
   --half-lbl: calc((0.5 * var(--label-size)));
   --distY: calc(var(--half-inp) + var(--half-lbl));
@@ -7568,16 +7583,16 @@ fieldset.form-field {
   -webkit-align-items: baseline;
       -ms-flex-align: baseline;
           align-items: baseline;
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
   padding: 0 calc(var(--mw-inset) - var(--mw-border-width));
 }
 
 fieldset.form-field legend {
   color: var(--mw-idle-color);
   font-size: var(--label-size);
-  padding: 0 var(--label-padding);
+  padding: 0 var(--mw-label-padding);
   margin: 0;
-  margin-left: calc(var(--mw-padding-left) - var(--label-padding) - var(--mw-border-width));
+  margin-left: calc(var(--mw-padding-left) - var(--mw-label-padding) - var(--mw-border-width));
   cursor: text;
   /* color: transparent; */
   -webkit-user-select: none;
@@ -7586,11 +7601,14 @@ fieldset.form-field legend {
           user-select: none;
 }
 
-fieldset.form-field input, fieldset.form-field select {
-  --mw-calc-input-height: calc(var(--mw-input-height) - var(--label-size) + 2 * var(--mw-border-width));
+fieldset.form-field input,
+fieldset.form-field select {
+  --mw-calc-input-height: calc(
+    var(--mw-input-height) - var(--label-size) + 2 * var(--mw-border-width)
+  );
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
   padding: 0;
   margin: 0;
   width: 100%;
@@ -7608,8 +7626,9 @@ fieldset.form-field input, fieldset.form-field select {
 fieldset.form-field select {
   padding: 0;
   /* margin: 0; */
-  padding-left: calc(var(--mw-padding-left) - var(--label-padding));
+  padding-left: calc(var(--mw-padding-left) - var(--mw-label-padding));
   /* background-color: #f005 !important; */
+  z-index: 2;
 }
 
 fieldset.form-field select option {
@@ -7619,34 +7638,34 @@ fieldset.form-field select option {
 
 fieldset.form-field input::-webkit-input-placeholder {
   color: var(--mw-idle-color);
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
 }
 
 fieldset.form-field input::-moz-placeholder {
   color: var(--mw-idle-color);
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
 }
 
 fieldset.form-field input:-ms-input-placeholder {
   color: var(--mw-idle-color);
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
 }
 
 fieldset.form-field input::-ms-input-placeholder {
   color: var(--mw-idle-color);
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
 }
 
 fieldset.form-field input::placeholder {
   color: var(--mw-idle-color);
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
 }
 
 fieldset.form-field label {
   position: absolute;
-  top: calc(var(--mw-input-height) / 2 - var(--label-size) - var(--font-size) / 2);
+  top: calc(var(--mw-input-height) / 2 - var(--label-size) - var(--mw-font-size) / 2);
   margin-left: calc(var(--mw-inset) - var(--mw-border-width));
-  font-size: var(--font-size);
+  font-size: var(--mw-font-size);
   cursor: text;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -7654,6 +7673,13 @@ fieldset.form-field label {
           user-select: none;
   color: transparent;
   /* color: green; */
+  z-index: 1; /* for not blocking klicks */
+  pointer-events: none;
+}
+
+/* fixes from other inputs */
+fieldset.form-field .select-wrapper {
+  outline: none !important;
 }
 
 /*--- idle animated */
@@ -7668,8 +7694,8 @@ fieldset.form-field.animated legend::before {
   -webkit-align-self: center;
       -ms-flex-item-align: center;
           align-self: center;
-  -webkit-transition: width calc(var(--animation-duration) * 0.8);
-  transition: width calc(var(--animation-duration) * 0.8);
+  -webkit-transition: width calc(var(--mw-inputlabel-duration) * 0.8);
+  transition: width calc(var(--mw-inputlabel-duration) * 0.8);
 }
 
 fieldset.form-field.animated legend {
@@ -7678,42 +7704,42 @@ fieldset.form-field.animated legend {
 
 fieldset.form-field.animated input::-webkit-input-placeholder {
   opacity: 1;
-  -webkit-transition: opacity var(--animation-duration) step-end;
-  transition: opacity var(--animation-duration) step-end;
+  -webkit-transition: opacity var(--mw-inputlabel-duration) step-end;
+  transition: opacity var(--mw-inputlabel-duration) step-end;
 }
 
 fieldset.form-field.animated input::-moz-placeholder {
   opacity: 1;
-  -moz-transition: opacity var(--animation-duration) step-end;
-  transition: opacity var(--animation-duration) step-end;
+  -moz-transition: opacity var(--mw-inputlabel-duration) step-end;
+  transition: opacity var(--mw-inputlabel-duration) step-end;
 }
 
 fieldset.form-field.animated input:-ms-input-placeholder {
   opacity: 1;
-  -ms-transition: opacity var(--animation-duration) step-end;
-  transition: opacity var(--animation-duration) step-end;
+  -ms-transition: opacity var(--mw-inputlabel-duration) step-end;
+  transition: opacity var(--mw-inputlabel-duration) step-end;
 }
 
 fieldset.form-field.animated input::-ms-input-placeholder {
   opacity: 1;
-  -ms-transition: opacity var(--animation-duration) step-end;
-  transition: opacity var(--animation-duration) step-end;
+  -ms-transition: opacity var(--mw-inputlabel-duration) step-end;
+  transition: opacity var(--mw-inputlabel-duration) step-end;
 }
 
 fieldset.form-field.animated input::placeholder {
   opacity: 1;
-  -webkit-transition: opacity var(--animation-duration) step-end;
-  transition: opacity var(--animation-duration) step-end;
+  -webkit-transition: opacity var(--mw-inputlabel-duration) step-end;
+  transition: opacity var(--mw-inputlabel-duration) step-end;
 }
 
 fieldset.form-field.animated label {
   position: absolute;
-  left: calc(var(--input-padding-x) - var(--mw-border-width));
-  font-size: var(--font-size);
-  -webkit-transition: font-size var(--animation-duration), opacity var(--animation-duration) step-end, -webkit-transform var(--animation-duration);
-  transition: font-size var(--animation-duration), opacity var(--animation-duration) step-end, -webkit-transform var(--animation-duration);
-  transition: font-size var(--animation-duration), transform var(--animation-duration), opacity var(--animation-duration) step-end;
-  transition: font-size var(--animation-duration), transform var(--animation-duration), opacity var(--animation-duration) step-end, -webkit-transform var(--animation-duration);
+  left: calc(var(--mw-input-padding-x) - var(--mw-border-width));
+  font-size: var(--mw-font-size);
+  -webkit-transition: font-size var(--mw-inputlabel-duration), opacity var(--mw-inputlabel-duration) step-end, -webkit-transform var(--mw-inputlabel-duration);
+  transition: font-size var(--mw-inputlabel-duration), opacity var(--mw-inputlabel-duration) step-end, -webkit-transform var(--mw-inputlabel-duration);
+  transition: font-size var(--mw-inputlabel-duration), transform var(--mw-inputlabel-duration), opacity var(--mw-inputlabel-duration) step-end;
+  transition: font-size var(--mw-inputlabel-duration), transform var(--mw-inputlabel-duration), opacity var(--mw-inputlabel-duration) step-end, -webkit-transform var(--mw-inputlabel-duration);
 }
 
 /*--- idle animated populated */
@@ -7815,8 +7841,8 @@ fieldset.form-field.animated:has(input:not(:placeholder-shown)):hover legend {
 fieldset.form-field.animated:hover label {
   /* color: transparent; */
   color: var(--mw-hover-color);
-  left: calc(var(--input-padding-x) - var(--mw-hover-border-width));
-  top: calc(0.5 * var(--mw-input-height) - var(--label-size) * 0.5 - var(--font-size) + var(--mw-hover-border-width));
+  left: calc(var(--mw-input-padding-x) - var(--mw-hover-border-width));
+  top: calc(0.5 * var(--mw-input-height) - var(--label-size) * 0.5 - var(--mw-font-size) + var(--mw-hover-border-width));
 }
 
 /*===== focused */
@@ -7882,7 +7908,7 @@ fieldset.form-field.animated:focus-within input::placeholder {
 
 fieldset.form-field.animated:focus-within label {
   color: transparent;
-  left: calc(var(--input-padding-x) - var(--mw-hover-border-width));
+  left: calc(var(--mw-input-padding-x) - var(--mw-hover-border-width));
 }
 
 /*
@@ -7898,9 +7924,9 @@ fieldset.form-field.animated label {
   opacity: 1;
   color: var(--mw-focus-color);
   font-size: var(--label-size);
-  transform: translateY(var(--distY)) translateX(var(--input-padding-x));
-  transition: font-size var(--animation-duration), transform var(--animation-duration), opacity 0s;
-} 
+  transform: translateY(var(--distY)) translateX(var(--mw-input-padding-x));
+  transition: font-size var(--mw-inputlabel-duration), transform var(--mw-inputlabel-duration), opacity 0s;
+}
 fieldset.form-field.animated:focus-within legend::before,
 fieldset.form-field.animated:has(input:not(:placeholder-shown)) legend::before {
   border-top: var(--mw-focus-border-width) solid var(--mw-focus-color);
@@ -7963,12 +7989,13 @@ fieldset.form-field[disabled]:hover {
   border-width: var(--mw-border-width);
 }
 
-fieldset.form-field[disabled]:hover input, fieldset.form-field[disabled]:hover select {
+fieldset.form-field[disabled]:hover input,
+fieldset.form-field[disabled]:hover select {
   padding-left: calc(var(--mw-padding-left) - var(--mw-border-width));
 }
 
 fieldset.form-field[disabled]:hover legend {
-  margin-left: calc(var(--mw-padding-left) - var(--label-padding) - var(--mw-border-width));
+  margin-left: calc(var(--mw-padding-left) - var(--mw-label-padding) - var(--mw-border-width));
   border-color: transparent;
   border-color: var(--mw-disabled-color);
   color: var(--mw-disabled-color);

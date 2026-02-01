@@ -1,12 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- CSS -->
-    <link type="text/css" rel="stylesheet" href="/dist/css/materialize.min.css" media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="/components/text-fields/formfields.css"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="/dist/css/materialize.min.css"
+      media="screen,projection"
+    />
+    <link type="text/css" rel="stylesheet" href="/components/text-fields/formfields.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <style>
       body {
         background-image: radial-gradient(#8882 1px, transparent 0);
@@ -16,16 +21,23 @@
   </head>
   <body>
     <div class="container">
-      <h1>Test</h1>
+      <h1 style="font-size: 1.5rem;">Test</h1>
       <p>This is for quick testing purposes. The files are used from dist directory.</p>
-      <div style="border: 1px dashed #888;">
 
+      <div style="border: 1px dashed #888">
+        <h6>Textfields</h6>
         <div class="row g-1 p-3">
           <!-- Animated -->
           <fieldset class="form-field animated s12 m4">
             <legend>Given Name</legend>
-            <input type="text" id="my-input-1" placeholder="Given Name"/>
+            <input type="text" id="my-input-1" placeholder="Given Name" />
             <label for="my-input-1">Given Name</label>
+          </fieldset>
+          <!-- Preset -->
+          <fieldset class="form-field animated s12 m4">
+            <legend>Middle Name</legend>
+            <input type="text" id="in-middlename" placeholder="Middle Name" value="John" />
+            <label for="in-middlename">Middle Name</label>
           </fieldset>
           <!-- Disabled-->
           <fieldset class="form-field s12 m4" disabled>
@@ -51,7 +63,13 @@
           <!-- Compound Input -->
           <fieldset class="form-field animated s12 m4">
             <legend>Height</legend>
-            <input type="number" id="my-input-size" placeholder=" " required style="text-align: right;" />
+            <input
+              type="number"
+              id="my-input-size"
+              placeholder=" "
+              required
+              style="text-align: right"
+            />
             <label for="my-input-size">Height</label>
             <select id="my-input-unit">
               <option>m</option>
@@ -70,20 +88,32 @@
           <!-- Date -->
           <fieldset class="form-field animated s12 m4">
             <legend>Birthday</legend>
-            <input type="date" id="my-input-birthday" placeholder=" "/>
+            <input type="date" id="my-input-birthday" placeholder=" " />
             <label for="my-input-birthday">Birthday</label>
           </fieldset>
         </div>
 
-
+        <h6>Tabs</h6>
+          <div style="width: 20%; height: 40px">
+          <ul class="tabs">
+            <li class="tab"><a href="#test1">Test 1</a></li>
+            <li class="tab"><a class="active" href="#test2">Test 2</a></li>
+            <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
+            <li class="tab"><a href="#test4">Test 4</a></li>
+          </ul>
+          <div id="test1" class="col s12">Test 1</div>
+          <div id="test2" class="col s12">Test 2</div>
+          <div id="test3" class="col s12">Test 3</div>
+          <div id="test4" class="col s12">Test 4</div>
+          </div>
+        </div>
       </div>
     </div>
+
     <!-- JS -->
-    <!--
     <script type="text/javascript" src="/dist/js/materialize.min.js"></script>
     <script>
       M.AutoInit();
     </script>
-    -->
   </body>
 </html>

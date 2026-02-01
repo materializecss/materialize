@@ -18,12 +18,11 @@
   align-items: center;
   user-select: none;
   vertical-align: top;
-
-  &:focus {
-    outline: none;
-    background-color: var(--md-sys-color-primary);
-    color:  var(--md-sys-color-on-primary);
-  }
+}
+.chip:focus {
+  outline: none;
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
 }
 
 .chip.outlined {
@@ -62,8 +61,6 @@
   background-color: #8888;
 }
 
-//--------------------------
-
 .chips {
   display: flex;
   gap: 4px;
@@ -72,68 +69,58 @@
   box-shadow: none;
   margin: 0 0 8px 0;
   padding: 4px;
-  // min-height: 45px;
+  /* min-height: 45px; */
   outline: none;
-  transition: all .3s;
-
-  &.focus {
-    border-bottom: 1px solid var(--md-sys-color-primary);
-    box-shadow: 0 1px 0 0 var(--md-sys-color-primary);
-  }
-
-  &.input-field {
-    border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
-
-    &:hover {
-      cursor: text;
-    }
-  }
-
-  input:not([type]):not(.browser-default).input {
-    background: none;
-    border: 0;
-    color: var(--md-sys-color-on-background);
-    display: inline-block;
-    font-size: 16px;
-    // height: 32px;
-    // line-height: 32px;
-    height: 32px;
-    outline: 0;
-    margin: 0;
-    padding: 0;
-    width: 120px;
-    width: fit-content;
-    min-width: 100px;
-    max-width: 200px;
-
-    &:focus {
-      border: 0;
-      box-shadow: none;
-    }
-  }
-
-  // Autocomplete
-  .autocomplete-content {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+  transition: all 0.3s;
+}
+.chips.focus {
+  border-bottom: 1px solid var(--md-sys-color-primary);
+  box-shadow: 0 1px 0 0 var(--md-sys-color-primary);
+}
+.chips.input-field {
+  border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
+}
+.chis input:not([type]):not(.browser-default).input {
+  background: none;
+  border: 0;
+  color: var(--md-sys-color-on-background);
+  display: inline-block;
+  font-size: 16px;
+  /* height: 32px;
+   line-height: 32px; */
+  height: 32px;
+  outline: 0;
+  margin: 0;
+  padding: 0;
+  width: 120px;
+  width: fit-content;
+  min-width: 100px;
+  max-width: 200px;
 }
 
-// Form prefix
+.chis input:not([type]):not(.browser-default).input:focus {
+  border: 0;
+  box-shadow: none;
+}
+.chips.input-field:hover {
+  cursor: text;
+}
+.chips .autocomplete-content {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .prefix ~ .chips {
   margin-left: 3rem;
   width: 92%;
   width: calc(100% - 3rem);
 }
-
-// Form suffix
 .suffix ~ .chips {
   margin-right: 3rem;
   width: 92%;
   width: calc(100% - 3rem);
 }
-
-.chips:empty ~ label  {
+.chips:empty ~ label {
   font-size: 0.8rem;
   transform: translateY(-140%);
 }
