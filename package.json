@@ -55,6 +55,9 @@
     "Safari >= 8"
   ],
   "engine": "node >= 6",
+  "dependencies": {
+    "normalize.css": "^8.0.1"
+  },
   "devDependencies": {
     "@fontsource/material-icons": "^5.2.5",
     "@rollup/plugin-terser": "^0.4.4",
@@ -71,7 +74,6 @@
     "jasmine": "^5.1.0",
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.2.0",
-    "normalize.css": "^8.0.1",
     "postcss": "^8.4.49",
     "rollup": "^4.20.0",
     "rollup-plugin-copy": "^3.5.0",
