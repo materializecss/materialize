@@ -93,20 +93,25 @@
           </fieldset>
         </div>
 
-        <h6>Tabs</h6>
-          <div style="width: 20%; height: 40px">
-          <ul class="tabs">
-            <li class="tab"><a href="#test1">Test 1</a></li>
-            <li class="tab"><a class="active" href="#test2">Test 2</a></li>
-            <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
-            <li class="tab"><a href="#test4">Test 4</a></li>
-          </ul>
-          <div id="test1" class="col s12">Test 1</div>
-          <div id="test2" class="col s12">Test 2</div>
-          <div id="test3" class="col s12">Test 3</div>
-          <div id="test4" class="col s12">Test 4</div>
+        <div class="my-5">
+          <h6>Tabs</h6>
+            <div style="width: 20%; height: 40px">
+            <ul class="tabs">
+              <li class="tab"><a href="#test1">Test 1</a></li>
+              <li class="tab"><a class="active" href="#test2">Test 2</a></li>
+              <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
+              <li class="tab"><a href="#test4">Test 4</a></li>
+            </ul>
+            <div id="test1" class="col s12">Test 1</div>
+            <div id="test2" class="col s12">Test 2</div>
+            <div id="test3" class="col s12">Test 3</div>
+            <div id="test4" class="col s12">Test 4</div>
+            </div>
           </div>
         </div>
+
+        <div class="app mt-5"></div>
+
       </div>
     </div>
 
@@ -114,6 +119,47 @@
     <script type="text/javascript" src="/dist/js/materialize.min.js"></script>
     <script>
       M.AutoInit();
+    </script>
+    <script type="module">
+      import { createCounterApp } from '/components/buttons/examples.iso.js';
+
+      const app = createCounterApp();
+
+      // html
+      const html = app.toHTML();
+      console.log(html);
+
+      //------------------------------- Client starts here
+
+      // html => dom
+      const template = document.createElement('template');
+      template.innerHTML = html;
+      const appElem = template.content.firstElementChild;
+      document.querySelector('.app').replaceChildren(appElem);
+
+      // business logic
+      function count(input) {
+        const value = input.value + input.increment;
+        return { value }
+      }
+
+      // State / ViewModel
+      const state = {
+        value: 12
+      };
+
+      // Link events to business logic
+      const numberEl = appElem.querySelector('.mw-number'); // output
+      const btns = appElem.querySelectorAll('.btn'); // input
+      numberEl.innerHTML = state.value;
+      btns[0].addEventListener('click', e => {
+        state.value = count({ value: state.value , increment: 1 }).value;
+        numberEl.innerHTML = state.value;
+      })
+      btns[1].addEventListener('click', e => {
+        state.value = count({ value: state.value , increment: -1 }).value;
+        numberEl.innerHTML = state.value;
+      })
     </script>
   </body>
 </html>
