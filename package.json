@@ -11,8 +11,13 @@
   "main": "dist/js/materialize.js",
   "module": "./dist/js/materialize.mjs",
   "exports": {
-    "import": "./dist/js/materialize.mjs",
-    "require": "./dist/js/materialize.cjs.js"
+    ".": {
+      "import": "./dist/js/materialize.mjs",
+      "require": "./dist/js/materialize.cjs.js"
+    },
+    "./dist/css/*": "./dist/css/*",
+    "./sass/*": "./sass/*",
+    "./components/*": "./components/*"
   },
   "repository": {
     "type": "git",
@@ -89,6 +94,7 @@
     "dist/css",
     "dist/js",
     "sass/**/*.scss",
+    "components",
     "LICENSE"
   ],
   "overrides": {
