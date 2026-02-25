@@ -18,7 +18,6 @@
 @forward './tapTarget';
 
 @forward '../components/buttons/buttons';
-@forward '../components/lists/collection';
 @forward '../components/collapsible/collapsible'; // custom
 @forward '../components/badges/badges';
 @forward '../components/cards/cards';
@@ -26,6 +25,8 @@
 @forward '../components/tabs/tabs';
 @forward '../components/tooltips/tooltip';
 @forward '../components/dropdown/dropdown';
+@forward '../components/lists/collection';
+@forward '../components/lists/list';
 @forward '../components/dialog/modal';
 @forward '../components/dialog/materialbox'; // custom
 @forward '../components/chips/chips';
