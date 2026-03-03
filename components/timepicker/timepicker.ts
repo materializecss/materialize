@@ -382,8 +382,8 @@ export class Timepicker extends Component<TimepickerOptions> {
     this.vibrate = navigator.vibrate
       ? 'vibrate'
       : navigator['webkitVibrate']
-      ? 'webkitVibrate'
-      : null;
+        ? 'webkitVibrate'
+        : null;
     this._canvas = this.containerEl.querySelector('.timepicker-canvas');
     this.plate = this.containerEl.querySelector('.timepicker-plate');
     this.digitalClock = this.containerEl.querySelector('.timepicker-display-column');
@@ -448,7 +448,12 @@ export class Timepicker extends Component<TimepickerOptions> {
   }
 
   private _setupDisplayPlugin() {
-    if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, this.options.displayPluginOptions);
+    if (this.options.displayPlugin === 'docked')
+      this.displayPlugin = DockedDisplayPlugin.init(
+        this.el,
+        this.containerEl,
+        this.options.displayPluginOptions
+      );
     if (this.options.displayPlugin === 'modal') {
       this.displayPlugin = ModalDisplayPlugin.init(this.el, this.containerEl, {
         ...this.options.displayPluginOptions,

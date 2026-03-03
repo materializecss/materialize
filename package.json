@@ -61,12 +61,11 @@
   ],
   "engine": "node >= 6",
   "dependencies": {
-    "normalize.css": "^8.0.1",
-    "vitest": "^4.0.18"
+    "normalize.css": "^8.0.1"
   },
   "devDependencies": {
     "@fontsource/material-icons": "^5.2.5",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^0.1.0",
     "@rollup/plugin-typescript": "^11.1.6",
     "@storybook/addon-docs": "^9.0.12",
     "@storybook/addon-themes": "^9.0.12",
@@ -81,7 +80,7 @@
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.2.0",
     "postcss": "^8.4.49",
-    "rollup": "^4.20.0",
+    "rollup": "^4.59.0",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-scss": "^4.0.0",
@@ -89,7 +88,8 @@
     "storybook": "^9.0.12",
     "tslib": "^2.6.3",
     "typescript": "^5.4.3",
-    "typescript-eslint": "^8.6.0"
+    "typescript-eslint": "^8.6.0",
+    "vitest": "^4.0.18"
   },
   "files": [
     "dist/css",
