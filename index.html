@@ -3,6 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@materializecss/materialize/": "/"
+        }
+      }
+    </script>
     <!-- CSS -->
     <link
       type="text/css"
@@ -26,7 +33,7 @@
 
       <div style="border: 1px dashed #888">
         <h6>Textfields</h6>
-        <div class="row g-1 p-3">
+        <div class="row g-1 p-3 form-wrapper">
           <!-- Animated -->
           <fieldset class="form-field animated s12 m4">
             <legend>Given Name</legend>
@@ -117,10 +124,15 @@
 
     <!-- JS -->
     <script type="text/javascript" src="/dist/js/materialize.min.js"></script>
-    <script>
-      M.AutoInit();
-    </script>
     <script type="module">
+      import { TextField } from "@materializecss/materialize/components/text-fields/text-field.mjs";
+
+      const givenName = new TextField().setLabel('Given Name').addClassname('s12');
+      console.log(givenName.toHTML());
+      document.querySelector('.form-wrapper').innerHTML = givenName.toHTML();
+
+      //-------------------------------------
+
       import { createCounterApp } from '/components/buttons/examples.iso.js';
 
       const app = createCounterApp();
@@ -160,6 +172,9 @@
         state.value = count({ value: state.value , increment: -1 }).value;
         numberEl.innerHTML = state.value;
       })
+    </script>
+    <script>
+      M.AutoInit();
     </script>
   </body>
 </html>

@@ -61,7 +61,8 @@
   ],
   "engine": "node >= 6",
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "vitest": "^4.0.18"
   },
   "devDependencies": {
     "@fontsource/material-icons": "^5.2.5",
