@@ -1,6 +1,6 @@
 import { Utils } from '../../src/utils';
 import { BaseOptions, Component, I18nOptions, InitElements, MElement } from '../../src/component';
-import { FormSelect } from '../text-fields/select';
+import { FormSelect } from '../text-field/select';
 import { DockedDisplayPlugin } from '../../src/dockedDisplayPlugin';
 import { ModalDisplayPlugin } from '../../src/modalDisplayPlugin';
 
@@ -294,7 +294,7 @@ const _defaults: DatepickerOptions = {
   displayPlugin: null,
   displayPluginOptions: null,
   onConfirm: null,
-  onCancel: null,
+  onCancel: null
 };
 
 export class Datepicker extends Component<DatepickerOptions> {
@@ -692,9 +692,14 @@ export class Datepicker extends Component<DatepickerOptions> {
           });
         }
       }
-    }
+    };
 
-    if (this.options.displayPlugin === 'docked') this.displayPlugin = DockedDisplayPlugin.init(this.el, this.containerEl, displayPluginOptions);
+    if (this.options.displayPlugin === 'docked')
+      this.displayPlugin = DockedDisplayPlugin.init(
+        this.el,
+        this.containerEl,
+        displayPluginOptions
+      );
     if (this.options.displayPlugin === 'modal') {
       this.displayPlugin = ModalDisplayPlugin.init(this.el, this.containerEl, {
         ...displayPluginOptions,
@@ -1287,7 +1292,7 @@ export class Datepicker extends Component<DatepickerOptions> {
           const confirmAfterSelection = Datepicker._isDate(this.date) && this.options.autoSubmit;
           this._handleDateRangeCalendarClick(selectedDate);
 
-          if(confirmAfterSelection) {
+          if (confirmAfterSelection) {
             this._confirm();
           }
         }

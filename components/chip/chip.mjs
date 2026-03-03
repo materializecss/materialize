@@ -1,4 +1,4 @@
-import { Component } from '../component.mjs';
+import { Component } from '../atomic/component.mjs';
 
 class Chip extends Component {
   #id;

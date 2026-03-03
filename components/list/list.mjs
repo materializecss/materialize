@@ -1,4 +1,4 @@
-import { Component } from '../component.mjs';
+import { Component } from '../atomic/component.mjs';
 
 class ListItem extends Component {
   #id;

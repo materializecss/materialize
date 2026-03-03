@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Autocomplete, AutocompleteOptions } from '../components/search/autocomplete';
-import { FloatingActionButton, FloatingActionButtonOptions } from '../components/buttons/buttons';
-import { Cards, CardsOptions } from '../components/cards/cards';
+import { FloatingActionButton, FloatingActionButtonOptions } from '../components/button/buttons';
+import { Cards, CardsOptions } from '../components/card/cards';
 import { Carousel, CarouselOptions } from '../components/carousel/carousel';
-import { Chips, ChipsOptions } from '../components/chips/chips';
+import { Chips, ChipsOptions } from '../components/chip/chips';
 import { Collapsible, CollapsibleOptions } from '../components/collapsible/collapsible';
 import { Datepicker, DatepickerOptions } from '../components/datepicker/datepicker';
 import { Dropdown, DropdownOptions } from '../components/dropdown/dropdown';
-import { Forms } from '../components/text-fields/forms';
+import { Forms } from '../components/text-field/forms';
 import { Materialbox, MaterialboxOptions } from '../components/dialog/materialbox';
 import { Modal, ModalOptions } from '../components/dialog/modal';
-import { FormSelect, FormSelectOptions } from '../components/text-fields/select';
+import { FormSelect, FormSelectOptions } from '../components/text-field/select';
 import { Sidenav, SidenavOptions } from '../components/navigation-drawer/sidenav';
 import { Slider, SliderOptions } from '../components/carousel/slider';
 import { Tabs, TabsOptions } from '../components/tabs/tabs';
 import { Timepicker, TimepickerOptions } from '../components/timepicker/timepicker';
 import { Toast, ToastOptions } from '../components/snackbar/toasts';
 import { Tooltip, TooltipOptions } from '../components/tooltips/tooltip';
-import { Range } from '../components/sliders/range';
+import { Range } from '../components/slider/range';
 
 import { TapTarget, TapTargetOptions } from './tapTarget';
 import { CharacterCounter /*, CharacterCounterOptions*/ } from './characterCounter';

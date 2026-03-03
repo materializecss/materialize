@@ -1,4 +1,4 @@
-import { Component } from '../component.mjs';
+import { Component } from '../atomic/component.mjs';
 
 class LoadingIndicator extends Component {
   constructor(options) {

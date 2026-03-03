@@ -1,4 +1,5 @@
-import { Text, Button, Card, Number } from './button.mjs';
+import { Number, Text } from '../atomic/atomic.mjs';
+import { Button, Card } from './button.mjs';
 
 // Example App (isomorphic javascript)
 const app = new Card({
