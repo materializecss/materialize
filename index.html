@@ -17,7 +17,8 @@
       href="/dist/css/materialize.min.css"
       media="screen,projection"
     />
-    <link type="text/css" rel="stylesheet" href="/components/text-fields/formfields.css" />
+    <link type="text/css" rel="stylesheet" href="/components/textfield/formfields.css" />
+    <link type="text/css" rel="stylesheet" href="/components/appbar/appbar.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <style>
       body {
@@ -32,6 +33,9 @@
       <p>This is for quick testing purposes. The files are used from dist directory.</p>
 
       <div style="border: 1px dashed #888">
+
+        <div class="appbar">Appbar</div>
+
         <h6>Textfields</h6>
         <div class="row g-1 p-3 form-wrapper">
           <!-- Animated -->
@@ -125,45 +129,42 @@
     <!-- JS -->
     <script type="text/javascript" src="/dist/js/materialize.min.js"></script>
     <script type="module">
-      import { TextField } from "@materializecss/materialize/components/text-fields/text-field.mjs";
+      import { TextField } from "@materializecss/materialize/components/textfield/textfield.mjs";
+      import { AppBar } from "@materializecss/materialize/components/appbar/appbar.mjs";
 
-      const givenName = new TextField().setLabel('Given Name').addClassname('s12');
-      console.log(givenName.toHTML());
-      document.querySelector('.form-wrapper').innerHTML = givenName.toHTML();
+      const appBar = new AppBar().setTitle('My App');
+      document.querySelector('.appbar').innerHTML = appBar.toHTML();
 
-      //-------------------------------------
+      // create input field
+      //const givenName = new TextField().setLabel('Given Name').addClassname('s12');
+      //document.querySelector('.form-wrapper').innerHTML = givenName.toHTML();
 
-      import { createCounterApp } from '/components/buttons/examples.iso.js';
+      //------------------------------------- Example (Nested components to widget)
+
+      import { createCounterApp } from '/components/button/examples.iso.js';
 
       const app = createCounterApp();
+      const appHtml = app.toHTML();
+      console.log(appHtml);
 
-      // html
-      const html = app.toHTML();
-      console.log(html);
-
-      //------------------------------- Client starts here
-
-      // html => dom
+      // html => element
       const template = document.createElement('template');
-      template.innerHTML = html;
+      template.innerHTML = appHtml;
       const appElem = template.content.firstElementChild;
       document.querySelector('.app').replaceChildren(appElem);
 
-      // business logic
       function count(input) {
         const value = input.value + input.increment;
         return { value }
       }
 
-      // State / ViewModel
-      const state = {
-        value: 12
-      };
+      const state = { value: 12 };
 
-      // Link events to business logic
       const numberEl = appElem.querySelector('.mw-number'); // output
       const btns = appElem.querySelectorAll('.btn'); // input
+
       numberEl.innerHTML = state.value;
+
       btns[0].addEventListener('click', e => {
         state.value = count({ value: state.value , increment: 1 }).value;
         numberEl.innerHTML = state.value;

@@ -1,4 +1,6 @@
-import { Text, Button, Card, Number } from './button.mjs';
+import { Number, Text } from '../atomic/atomic.mjs';
+import { Card } from '../card/card.mjs';
+import { Button } from './button.mjs';
 
 // Example App (isomorphic javascript)
 
