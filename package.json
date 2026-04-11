@@ -45,7 +45,8 @@
     "version": "npm run build -- --environment BUILD:release && node compress.mjs && git add .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "demo": "live-server"
+    "demo": "live-server",
+    "vitest": "vitest"
   },
   "lint-staged": {
     "js/*.js": [

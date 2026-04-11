@@ -1,11 +1,16 @@
+import { describe, expect, test } from 'vitest';
 import { List, ListItem } from './list.mjs';
 
-const data = ['HP Pavilion dv6-6013cl', 'Dell XPS 15 (Sandy Bridge)', 'Lenovo ThinkPad X220'];
+describe('list', () => {
+  const testData = ['HP Pavilion dv6-6013cl', 'Dell XPS 15 (Sandy Bridge)', 'Lenovo ThinkPad X220'];
 
-const list = new List();
-data.map((raw) => {
-  const item = new ListItem().setText(raw);
-  list.addItem(item);
+  test('create html', () => {
+    const list = new List();
+    testData.map((raw) => {
+      const item = new ListItem().setText(raw);
+      list.addItem(item);
+    });
+    //console.log(list.toHTML());
+    expect(list.toHTML()).toContain('Pavilion');
+  });
 });
-
-console.log(list.toHTML());

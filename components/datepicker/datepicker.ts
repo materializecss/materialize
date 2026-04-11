@@ -1,6 +1,6 @@
 import { Utils } from '../../src/utils';
 import { BaseOptions, Component, I18nOptions, InitElements, MElement } from '../../src/component';
-import { FormSelect } from '../text-field/select';
+import { FormSelect } from '../textfield/select';
 import { DockedDisplayPlugin } from '../../src/dockedDisplayPlugin';
 import { ModalDisplayPlugin } from '../../src/modalDisplayPlugin';
 

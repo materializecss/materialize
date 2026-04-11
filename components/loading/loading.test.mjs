@@ -1,4 +1,10 @@
+import { describe, expect, test } from 'vitest';
 import { LoadingIndicator } from './loading.mjs';
 
-const loading = new LoadingIndicator();
-console.log(loading.toHTML());
+describe('loading', () => {
+  test('create html', () => {
+    const loading = new LoadingIndicator();
+    //console.log(list.toHTML());
+    expect(loading.toHTML()).toContain('circle');
+  });
+});
