@@ -57,7 +57,7 @@
   "engine": "node >= 6",
   "devDependencies": {
     "@fontsource/material-icons": "^5.2.5",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^11.1.6",
     "@storybook/addon-docs": "^9.0.12",
     "@storybook/addon-themes": "^9.0.12",
