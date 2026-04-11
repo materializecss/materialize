@@ -30,7 +30,7 @@ To fully release a new version, you need to have access to the @materializecss o
    * dist/js
    * dist/css
 
-- Push to server. `git push `. 
+- Push to server. `git push --tags`. 
 
 - Create a Pull Request from dev into main
 

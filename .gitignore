@@ -28,6 +28,7 @@ node_modules/
 # Ignore lock
 yarn.lock
 
-#dist/
+dist/*.zip
+
 *storybook.log
 storybook-static

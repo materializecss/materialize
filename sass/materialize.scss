@@ -1,43 +1,43 @@
 @charset "UTF-8";
 
-@forward "../node_modules/normalize.css/normalize.css";
-@forward "./tokens.module.css";
-@forward "./theme.module.css";
-@forward "./typography.module.css";
-@forward "./colors.module.css";
-@forward "./typography";
-@forward "./mixins.module";
-@forward "./variables";
-@forward "./global";
-@forward "./grid";
+@forward '../node_modules/normalize.css/normalize.css';
+@forward './tokens.module.css';
+@forward './theme.module.css';
+@forward './typography.module.css';
+@forward './colors.module.css';
+@forward './typography';
+@forward './mixins.module';
+@forward './variables';
+@forward './global';
+@forward './grid';
 // animations
-@forward "./transitions.css";
-@forward "./pulse.css";
+@forward './transitions.css';
+@forward './pulse.css';
 // custom
-@forward "./table_of_contents";
-@forward "./tapTarget";
+@forward './table_of_contents';
+@forward './tapTarget';
 
-@forward "../components/buttons/buttons";
-@forward "../components/lists/collection";
-@forward "../components/collapsible/collapsible"; // custom
-@forward "../components/badges/badges";
-@forward "../components/cards/cards";
-@forward "../components/snackbar/toast";
-@forward "../components/tabs/tabs";
-@forward "../components/tooltips/tooltip";
-@forward "../components/dropdown/dropdown";
-@forward "../components/dialog/modal";
-@forward "../components/dialog/materialbox"; // custom
-@forward "../components/chips/chips";
-@forward "../components/navigation-bar/navbar";
-@forward "../components/navigation-drawer/sidenav";
-@forward "../components/progress-indicators/preloader";
-@forward "../components/carousel/slider";
-@forward "../components/carousel/carousel";
-@forward "../components/datepicker/datepicker";
-@forward "../components/timepicker/timepicker";
-@forward "../components/breadcrumb/breadcrumb"; // custom
-@forward "../components/pagination/pagination"; //custom
+@forward '../components/buttons/buttons';
+@forward '../components/lists/collection';
+@forward '../components/collapsible/collapsible'; // custom
+@forward '../components/badges/badges';
+@forward '../components/cards/cards';
+@forward '../components/snackbar/toast';
+@forward '../components/tabs/tabs';
+@forward '../components/tooltips/tooltip';
+@forward '../components/dropdown/dropdown';
+@forward '../components/dialog/modal';
+@forward '../components/dialog/materialbox'; // custom
+@forward '../components/chips/chips';
+@forward '../components/navigation-bar/navbar';
+@forward '../components/navigation-drawer/sidenav';
+@forward '../components/progress-indicators/preloader';
+@forward '../components/carousel/slider';
+@forward '../components/carousel/carousel';
+@forward '../components/datepicker/datepicker';
+@forward '../components/timepicker/timepicker';
+@forward '../components/breadcrumb/breadcrumb'; // custom
+@forward '../components/pagination/pagination'; //custom
 @forward '../components/radio-button/radio-buttons';
 @forward '../components/checkbox/checkboxes';
 @forward '../components/switch/switches';
