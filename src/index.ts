@@ -57,7 +57,7 @@ export {
   Range
 };
 
-export const version = '2.3.1';
+export const version = '2.3.2';
 
 export interface AutoInitOptions {
   Autocomplete?: Partial<AutocompleteOptions>;

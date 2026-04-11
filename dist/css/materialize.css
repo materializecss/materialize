@@ -1,5 +1,5 @@
 /*!
-* Materialize v2.3.1 (https://materializeweb.com)
+* Materialize v2.3.2 (https://materializeweb.com)
 * Copyright 2014-2026 Materialize
 * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
 */
@@ -6877,7 +6877,6 @@ input[type=range] + .thumb {
 
 input[type=range] {
   position: relative;
-  background: -webkit-gradient(linear, left top, left bottom, from(var(--md-sys-color-outline-variant)), to(var(--md-sys-color-outline-variant)));
   background: linear-gradient(var(--md-sys-color-outline-variant), var(--md-sys-color-outline-variant));
   border: none;
   outline: none;

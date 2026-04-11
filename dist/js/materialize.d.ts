@@ -2519,7 +2519,7 @@ declare class Waves {
     static Init(): void;
 }
 
-declare const version = "2.3.1";
+declare const version = "2.3.2";
 interface AutoInitOptions {
     Autocomplete?: Partial<AutocompleteOptions>;
     Cards?: Partial<CardsOptions>;
