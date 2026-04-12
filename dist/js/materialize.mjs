@@ -1,5 +1,5 @@
 /*!
-* Materialize v2.3.2 (https://materializeweb.com)
+* Materialize v2.3.3 (https://materializeweb.com)
 * Copyright 2014-2026 Materialize
 * MIT License (https://raw.githubusercontent.com/materializecss/materialize/master/LICENSE)
 */
@@ -8308,7 +8308,7 @@ class Waves {
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const version = '2.3.2';
+const version = '2.3.3';
 /**
  * Automatically initialize components.
  * @param context Root element to initialize. Defaults to `document.body`.
