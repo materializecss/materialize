@@ -18,7 +18,7 @@
   height: var(--navbar-height-mobile);
 }
 
-.navbar  ul:not(.dropdown-content) {
+.navbar ul:not(.dropdown-content) {
   list-style-type: none;
   margin: 0;
   display: flex;
@@ -26,23 +26,24 @@
   gap: 1em;
 }
 
-.navbar  ul:not(.dropdown-content) > li {
+.navbar ul:not(.dropdown-content) > li {
   transition: background-color 0.3s;
   padding: 0;
 }
 
-.navbar  ul:not(.dropdown-content) > li > a {
+.navbar ul:not(.dropdown-content) > li > a {
   transition: background-color 0.3s;
   color: var(--md-sys-color-on-surface);
   display: block;
   cursor: pointer;
 }
 
- .navbar .brand-logo {
+.navbar .brand-logo {
   color: var(--md-sys-color-on-surface);
   font-size: var(--appbar-title-font-size);
   display: inline-block;
   padding: 0;
+}
 
 .navbar .nav-title {
   display: inline-block;
