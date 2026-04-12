@@ -2,6 +2,8 @@ import { Utils } from '../../src/utils';
 import { Bounding } from '../../src/bounding';
 import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
+// TODO: Rewrite this using popover and js only
+
 export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 
 export interface TooltipOptions extends BaseOptions {

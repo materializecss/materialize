@@ -3436,7 +3436,7 @@ var M = (function (exports) {
         displayPlugin: null,
         displayPluginOptions: null,
         onConfirm: null,
-        onCancel: null,
+        onCancel: null
     };
     class Datepicker extends Component {
         id;

@@ -17,21 +17,22 @@
 @forward './table_of_contents';
 @forward './tapTarget';
 
-@forward '../components/buttons/buttons';
-@forward '../components/lists/collection';
+@forward '../components/button/buttons';
 @forward '../components/collapsible/collapsible'; // custom
-@forward '../components/badges/badges';
-@forward '../components/cards/cards';
+@forward '../components/badge/badges';
+@forward '../components/card/cards';
 @forward '../components/snackbar/toast';
 @forward '../components/tabs/tabs';
-@forward '../components/tooltips/tooltip';
+@forward '../components/tooltip/tooltip';
 @forward '../components/dropdown/dropdown';
+@forward '../components/list/collection';
+@forward '../components/list/list';
 @forward '../components/dialog/modal';
 @forward '../components/dialog/materialbox'; // custom
-@forward '../components/chips/chips';
-@forward '../components/navigation-bar/navbar';
+@forward '../components/chip/chips';
+@forward '../components/appbar/navbar';
 @forward '../components/navigation-drawer/sidenav';
-@forward '../components/progress-indicators/preloader';
+@forward '../components/progress/preloader';
 @forward '../components/carousel/slider';
 @forward '../components/carousel/carousel';
 @forward '../components/datepicker/datepicker';
@@ -41,8 +42,8 @@
 @forward '../components/radio-button/radio-buttons';
 @forward '../components/checkbox/checkboxes';
 @forward '../components/switch/switches';
-@forward '../components/sliders/range';
-@forward '../components/text-fields/input-fields';
-@forward '../components/text-fields/select';
-@forward '../components/text-fields/file-input';
-@forward '../components/text-fields/formfields.css';
+@forward '../components/slider/range';
+@forward '../components/textfield/input-fields';
+@forward '../components/textfield/select';
+@forward '../components/textfield/file-input';
+@forward '../components/textfield/formfields.css';

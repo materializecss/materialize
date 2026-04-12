@@ -11,8 +11,13 @@
   "main": "dist/js/materialize.js",
   "module": "./dist/js/materialize.mjs",
   "exports": {
-    "import": "./dist/js/materialize.mjs",
-    "require": "./dist/js/materialize.cjs.js"
+    ".": {
+      "import": "./dist/js/materialize.mjs",
+      "require": "./dist/js/materialize.cjs.js"
+    },
+    "./dist/css/*": "./dist/css/*",
+    "./sass/*": "./sass/*",
+    "./components/*": "./components/*"
   },
   "repository": {
     "type": "git",
@@ -40,7 +45,8 @@
     "version": "npm run build -- --environment BUILD:release && node compress.mjs && git add .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "demo": "live-server"
+    "demo": "live-server",
+    "vitest": "vitest"
   },
   "lint-staged": {
     "js/*.js": [
@@ -55,6 +61,9 @@
     "Safari >= 8"
   ],
   "engine": "node >= 6",
+  "dependencies": {
+    "normalize.css": "^8.0.1"
+  },
   "devDependencies": {
     "@fontsource/material-icons": "^5.2.5",
     "@rollup/plugin-terser": "^1.0.0",
@@ -71,9 +80,8 @@
     "jasmine": "^5.1.0",
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.2.0",
-    "normalize.css": "^8.0.1",
     "postcss": "^8.4.49",
-    "rollup": "^4.20.0",
+    "rollup": "^4.59.0",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-scss": "^4.0.0",
@@ -81,12 +89,14 @@
     "storybook": "^9.0.12",
     "tslib": "^2.6.3",
     "typescript": "^5.4.3",
-    "typescript-eslint": "^8.6.0"
+    "typescript-eslint": "^8.6.0",
+    "vitest": "^4.0.18"
   },
   "files": [
     "dist/css",
     "dist/js",
     "sass/**/*.scss",
+    "components",
     "LICENSE"
   ],
   "overrides": {
