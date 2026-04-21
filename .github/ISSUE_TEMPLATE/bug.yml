@@ -10,7 +10,7 @@ body:
       options:
         - label: I have searched for [duplicate or closed issues](https://github.com/materializecss/materialize/issues?utf8=%E2%9C%93&q=is%3Aissue).
           required: true
-        - label: I have read the [CONTRIBUTING document](https://github.com/materializecss/materialize/blob/master/CONTRIBUTING.md) and my issue is following the guidelines. 
+        - label: I have read the [CONTRIBUTING document](https://github.com/materializecss/materialize/blob/main/docs/CONTRIBUTING.md) and my issue is following the guidelines.
           required: true
         - label: I have read the template completely before filling it in.
           required: true
@@ -50,10 +50,10 @@ body:
     attributes:
       label: Steps to reproduce
       description: |
-        If relevant, give a set of steps to reproduce this bug.  
+        If relevant, give a set of steps to reproduce this bug.
         We encourage you a live example that demonstrates the bug (you may want to use the [following jsfiddle template](https://jsfiddle.net/1es0zhaf/))
       placeholder: |
-        1. Open this link 
+        1. Open this link
         2. Click there
         3. This appears, but...
     validations:
