@@ -6831,8 +6831,10 @@ class Toast {
     static _removeContainer() {
         document.removeEventListener('mousemove', Toast._onDragMove);
         document.removeEventListener('mouseup', Toast._onDragEnd);
-        Toast._container.remove();
-        Toast._container = null;
+        if (Toast._container) {
+            Toast._container.remove();
+            Toast._container = null;
+        }
     }
     static _onDragStart(e) {
         if (e.target && e.target.closest('.toast')) {
@@ -6916,7 +6918,9 @@ class Toast {
         }
         if (this.message)
             toast.innerText = this.message;
-        Toast._container.appendChild(toast);
+        if (Toast._container) {
+            Toast._container.appendChild(toast);
+        }
         return toast;
     }
     _animateIn() {
