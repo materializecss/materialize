@@ -6,7 +6,8 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "target": "ES2022",
-    //"skipLibCheck": true,
+    "strict": true,
+    "skipLibCheck": true,
     //"esModuleInterop": true,
     //"resolveJsonModule": true,
     //"sourceMap": true,
@@ -17,6 +18,8 @@
   "include": [
     "src",
     "src/**/*",
+    "components",
+    "components/**/*",
     "rollup.config.ts"
   ]
 }
