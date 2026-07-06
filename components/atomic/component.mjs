@@ -10,15 +10,20 @@
 class Component {
   #tagname;
   #children;
-  #classnames;
+  #classNames;
 
   constructor(options) {
     this.#tagname = 'div';
     this.#children = [];
-    this.#classnames = [];
+    this.#classNames = [];
     if (typeof options === 'object' && options.children) {
       // Tree Nodes
-      options.children.forEach((c) => this.addChild(c));
+      if (typeof options.children === 'string') {
+        this.#children = options.children;
+        return;
+      }
+      const kids = Array.isArray(options.children) ? options.children : [options.children];
+      kids.forEach((c) => this.addChild(c));
       return;
     }
     // Text or numeric
@@ -43,14 +48,14 @@ class Component {
   }
 
   addClassname(name) {
-    this.#classnames.push(name);
+    this.#classNames.push(name);
     return this;
   }
 
   toHTML() {
     const classAttr =
-      this.#classnames.length === 0 ? '' : ' class="' + this.#classnames.join(' ') + '"';
-    if (typeof this.#children === 'object')
+      this.#classNames.length === 0 ? '' : ' class="' + this.#classNames.join(' ') + '"';
+    if (typeof this.#children === 'object' && Array.isArray(this.#children))
       return `<${this.#tagname}${classAttr}>${this.#children.map((child) => child.toHTML()).join('')}</${this.#tagname}>`;
     // string or number
     return `<${this.#tagname}${classAttr}>${this.#children}</${this.#tagname}>`;
