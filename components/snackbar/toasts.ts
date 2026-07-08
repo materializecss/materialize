@@ -77,7 +77,7 @@ export class Toast {
   velocityX: number;
 
   static _toasts: Toast[];
-  static _container: HTMLElement;
+  private static _container: HTMLElement | null;
   static _draggedToast: Toast;
 
   constructor(options: Partial<ToastOptions>) {
@@ -125,8 +125,10 @@ export class Toast {
   static _removeContainer() {
     document.removeEventListener('mousemove', Toast._onDragMove);
     document.removeEventListener('mouseup', Toast._onDragEnd);
-    Toast._container.remove();
-    Toast._container = null;
+    if (Toast._container) {
+      Toast._container.remove();
+      Toast._container = null;
+    }
   }
 
   static _onDragStart(e: TouchEvent | MouseEvent) {
@@ -217,7 +219,9 @@ export class Toast {
       toast.classList.add(...this.options.classes.split(' '));
     }
     if (this.message) toast.innerText = this.message;
-    Toast._container.appendChild(toast);
+    if (Toast._container) {
+      Toast._container.appendChild(toast);
+    }
     return toast;
   }
 

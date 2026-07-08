@@ -77,4 +77,45 @@ describe('Toasts:', () => {
       }, 20);
     });
   });
+
+  describe('Toast _container null guard', () => {
+    afterEach(() => {
+      // Reset shared static state so other specs are unaffected
+      M.Toast.dismissAll();
+      M.Toast._removeContainer();
+    });
+
+    it('should not throw when _removeContainer is called with a null container', () => {
+      M.Toast._container = null;
+      expect(() => M.Toast._removeContainer()).not.toThrow();
+      expect(M.Toast._container).toBeNull('because there was no container to remove');
+    });
+
+    it('should not throw when _removeContainer is called twice', () => {
+      // First call removes a freshly created container, second call hits the guard.
+      M.Toast._createContainer();
+      expect(M.Toast._container).not.toBeNull('because a container was just created');
+
+      expect(() => M.Toast._removeContainer()).not.toThrow();
+      expect(M.Toast._container).toBeNull('because the container was just removed');
+
+      expect(() => M.Toast._removeContainer()).not.toThrow('because the guard protects the second call');
+      expect(M.Toast._container).toBeNull();
+    });
+
+    it('should not throw building a toast while _container is null', () => {
+      // Create a first toast so the container exists and _toasts is non-empty,
+      // then null the container to force the inconsistent state the guard handles
+      // (a second toast skips _createContainer because _toasts.length !== 0).
+      const first = new M.Toast({ text: 'First', displayLength: 50, inDuration: 10, outDuration: 10 });
+      expect(first.el).toBeDefined();
+      M.Toast._container = null;
+
+      let instance;
+      expect(() => {
+        instance = new M.Toast({ text: 'No container', displayLength: 50, inDuration: 10, outDuration: 10 });
+      }).not.toThrow('because _createToast guards the null container');
+      expect(instance.el).toBeDefined('because the toast element is still created without a container');
+    });
+  });
 });
