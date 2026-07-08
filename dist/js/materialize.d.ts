@@ -1931,7 +1931,7 @@ declare class Toast {
     deltaX: number;
     velocityX: number;
     static _toasts: Toast[];
-    static _container: HTMLElement;
+    private static _container;
     static _draggedToast: Toast;
     constructor(options: Partial<ToastOptions>);
     static get defaults(): ToastOptions;
