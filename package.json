@@ -96,7 +96,7 @@
     "dist/css",
     "dist/js",
     "sass/**/*.scss",
-    "components",
+    "components/**/*.ts",
     "LICENSE"
   ],
   "overrides": {
