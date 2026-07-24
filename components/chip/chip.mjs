@@ -8,6 +8,12 @@ class Chip extends Component {
   constructor(options) {
     super(options);
     this.addClassname('chip');
+    this.setAttribute('tabindex', '0');
+    if (options.name) this.#text = options.name;
+    if (options.href) {
+      this.setTagName('a');
+      this.setAttribute('href', options.href);
+    }
   }
 
   setId(id) {
@@ -34,4 +40,11 @@ class Chip extends Component {
   }
 }
 
-export { Chip };
+class AssistChip extends Chip {
+  constructor(options) {
+    super(options);
+    this.addClassname('assist-chip'); // TODO: remove classname chip
+  }
+}
+
+export { Chip, AssistChip };

@@ -23,9 +23,7 @@ const portfolioPage = new Page({
       .setColumns(2)
       .addClassname('py-5')
   ]
-}).addStyleUrl(
-  'https://cdn.jsdelivr.net/npm/@materializecss/materialize@latest/dist/css/materialize.min.css'
-);
+}).addStyleUrl('/dist/css/materialize.css');
 
 const html = portfolioPage.toHTML();
 console.log(html);

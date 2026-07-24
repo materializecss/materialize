@@ -2,13 +2,15 @@ class Component {
   #tagname;
   #children;
   #classNames;
+  #attributes;
 
   constructor(options) {
     this.#tagname = 'div';
+    this.#attributes = {};
     this.#children = [];
     this.#classNames = [];
-    if (typeof options === 'object' && options.children) {
-      // Tree Nodes
+
+    if (typeof options === 'object' && options !== null && options.children) {
       if (typeof options.children === 'string') {
         this.#children = options.children;
         return;
@@ -17,7 +19,6 @@ class Component {
       kids.forEach((c) => this.addChild(c));
       return;
     }
-    // Text or numeric
     this.#children = options;
   }
 
@@ -38,6 +39,11 @@ class Component {
     return this;
   }
 
+  setAttribute(key, value) {
+    this.#attributes[key] = value;
+    return this;
+  }
+
   addClassname(name) {
     this.#classNames.push(name);
     return this;
@@ -46,13 +52,21 @@ class Component {
   toHTML() {
     const classAttr =
       this.#classNames.length === 0 ? '' : ' class="' + this.#classNames.join(' ') + '"';
-    if (typeof this.#children === 'object' && Array.isArray(this.#children))
-      return `<${this.#tagname}${classAttr}>${this.#children.map((child) => child.toHTML()).join('')}</${this.#tagname}>`;
-    // string or number
-    return `<${this.#tagname}${classAttr}>${this.#children}</${this.#tagname}>`;
+
+    const attrEntries = Object.entries(this.#attributes);
+    const otherAttrs =
+      attrEntries.length === 0
+        ? ''
+        : ' ' + attrEntries.map(([key, val]) => `${key}="${val}"`).join(' ');
+
+    if (Array.isArray(this.#children)) {
+      const innerHTML = this.#children.map((child) => child.toHTML()).join('');
+      return `<${this.#tagname}${classAttr}${otherAttrs}>${innerHTML}</${this.#tagname}>`;
+    }
+
+    return `<${this.#tagname}${classAttr}${otherAttrs}>${this.#children ?? ''}</${this.#tagname}>`;
   }
 
-  // TODO: remove here
   toDOM() {
     const template = document.createElement('template');
     template.innerHTML = this.toHTML();

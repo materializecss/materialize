@@ -4,6 +4,7 @@ class Page extends Component {
   #title;
   #metaDescription;
   #styleList = [];
+  #css = [];
 
   constructor(options) {
     super(options);
@@ -13,6 +14,10 @@ class Page extends Component {
 
   addStyleUrl(url) {
     this.#styleList.push(url);
+    return this;
+  }
+  addStyle(css) {
+    this.#css.push(css);
     return this;
   }
   addJavascriptUrl() {
@@ -35,6 +40,7 @@ class Page extends Component {
             (s) => `<link type="text/css" rel="stylesheet" href="${s}" media="screen,projection"/>`
           )
           .join('')}
+        ${this.#css.map((s) => `<style>${s}</style>`).join('\n')}
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       </head>
       <body>

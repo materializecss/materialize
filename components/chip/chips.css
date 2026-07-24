@@ -4,7 +4,7 @@
   --padding: 8px;
 
   color: var(--md-sys-color-on-surface-variant);
-  background-color: rgba(0, 0, 0, 0.09);
+  background-color: var(--md-sys-color-surface);
   display: inline-flex;
   white-space: nowrap;
   gap: 8px;
@@ -19,6 +19,16 @@
   user-select: none;
   vertical-align: top;
 }
+
+.chip:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-surface),
+    var(--md-sys-color-surface-tint) 16%
+  );
+  color: var(--md-sys-color-on-surface);
+}
+
 .chip:focus {
   outline: none;
   background-color: var(--md-sys-color-primary);
@@ -123,4 +133,10 @@
 .chips:empty ~ label {
   font-size: 0.8rem;
   transform: translateY(-140%);
+}
+
+/*------------------------------------------ Assist Chip */
+.assist-chip {
+  background-color: var(--md-sys-color-surface);
+  outline: 1px solid var(--md-sys-color-outline);
 }

@@ -23,6 +23,7 @@
     "type": "git",
     "url": "git://github.com/materializecss/materialize.git"
   },
+  "type": "module",
   "bugs": {
     "url": "https://github.com/materializecss/materialize/issues"
   },
@@ -40,11 +41,12 @@
     "lint": "eslint .",
     "test": "jasmine-browser-runner runSpecs --config=jasmine.json",
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "build-storybook": "storybook build",
+    "build-examples": "examples/compile.sh",
     "release": "npm run lint && npm run build -- --environment BUILD:release && node compress.mjs",
     "preversion": "npm run lint && npm test",
     "version": "npm run build -- --environment BUILD:release && node compress.mjs && git add .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "demo": "live-server",
     "vitest": "vitest"
   },
@@ -54,13 +56,6 @@
       "git add"
     ]
   },
-  "browserslist": [
-    "last 2 versions",
-    "Chrome >= 30",
-    "Firefox >= 30",
-    "Safari >= 8"
-  ],
-  "engine": "node >= 6",
   "dependencies": {
     "normalize.css": "^8.0.1"
   },

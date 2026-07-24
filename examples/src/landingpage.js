@@ -19,9 +19,7 @@ const landingPage = new Page({
       You can also checkout the <a href="./blog.html">Blog</a>`),
     new Container('Hello, this is my landing page!').addClassname('pt-5')
   ]
-}).addStyleUrl(
-  'https://cdn.jsdelivr.net/npm/@materializecss/materialize@latest/dist/css/materialize.min.css'
-);
+}).addStyleUrl('/dist/css/materialize.css');
 
 const html = landingPage.toHTML();
 console.log(html);
