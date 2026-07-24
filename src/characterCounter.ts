@@ -1,12 +1,12 @@
 import { Component, InitElements, MElement } from './component';
 
-export interface BaseOptions {}
+interface BaseOptions {}
 
 const _defaults = Object.freeze({});
 
 type InputElement = HTMLInputElement | HTMLTextAreaElement;
 
-export class CharacterCounter extends Component<object> {
+class CharacterCounter extends Component<object> {
   declare el: InputElement;
   /** Stores the reference to the counter HTML element. */
   counterEl: HTMLSpanElement;
@@ -119,3 +119,5 @@ export class CharacterCounter extends Component<object> {
     }
   }
 }
+
+export { BaseOptions, CharacterCounter };

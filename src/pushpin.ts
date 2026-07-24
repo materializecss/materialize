@@ -1,7 +1,7 @@
 import { Utils } from './utils';
 import { Component, BaseOptions, InitElements, MElement } from './component';
 
-export interface PushpinOptions extends BaseOptions {
+interface PushpinOptions extends BaseOptions {
   /**
    * The distance in pixels from the top of the page where
    * the element becomes fixed.
@@ -34,7 +34,7 @@ const _defaults = {
   onPositionChange: null
 };
 
-export class Pushpin extends Component<PushpinOptions> {
+class Pushpin extends Component<PushpinOptions> {
   static _pushpins: Pushpin[];
   originalOffset: number;
 
@@ -166,3 +166,5 @@ export class Pushpin extends Component<PushpinOptions> {
     Pushpin._pushpins = [];
   }
 }
+
+export { PushpinOptions, Pushpin };

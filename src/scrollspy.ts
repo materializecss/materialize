@@ -1,7 +1,7 @@
 import { Utils } from './utils';
 import { Component, BaseOptions, InitElements, MElement } from './component';
 
-export interface ScrollSpyOptions extends BaseOptions {
+interface ScrollSpyOptions extends BaseOptions {
   /**
    * Throttle of scroll handler.
    * @default 100
@@ -50,7 +50,7 @@ const _defaults: ScrollSpyOptions = {
   animationDuration: null
 };
 
-export class ScrollSpy extends Component<ScrollSpyOptions> {
+class ScrollSpy extends Component<ScrollSpyOptions> {
   static _elements: ScrollSpy[];
   static _count: number;
   static _increment: number;
@@ -349,3 +349,5 @@ export class ScrollSpy extends Component<ScrollSpyOptions> {
     ScrollSpy._ticks = 0;
   }
 }
+
+export { ScrollSpyOptions, ScrollSpy };

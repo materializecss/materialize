@@ -1,5 +1,16 @@
-import { Edges } from './edges';
-import { Bounding } from './bounding';
+class Edges {
+  top: boolean; // If the top edge was exceeded
+  right: boolean; // If the right edge was exceeded
+  bottom: boolean; // If the bottom edge was exceeded
+  left: boolean; // If the left edge was exceeded
+}
+
+class Bounding {
+  left: number; // left offset coordinate
+  top: number;
+  width: number;
+  height: number;
+}
 
 /**
  * Class with utilitary functions for global usage.
@@ -379,7 +390,7 @@ export class Utils {
     container.style.top = newCoordinates.y + 'px';
     container.style.left = newCoordinates.x + 'px';
 
-    return {x: xMovement, y: yMovement};
+    return { x: xMovement, y: yMovement };
   }
 
   static _repositionWithinScreen(

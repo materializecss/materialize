@@ -1,6 +1,6 @@
 import { Utils } from './utils';
 
-export interface DockedDisplayPluginOptions {
+interface DockedDisplayPluginOptions {
   /**
    * Margin between element and docked container
    */
@@ -20,7 +20,7 @@ export interface DockedDisplayPluginOptions {
   /**
    * Title element.
    */
-  title: HTMLElement|null,
+  title: HTMLElement | null;
   /**
    * On open callback.
    */
@@ -41,7 +41,7 @@ const _defaults: DockedDisplayPluginOptions = {
   onClose: null
 };
 
-export class DockedDisplayPlugin {
+class DockedDisplayPlugin {
   private readonly el: HTMLElement;
   private readonly container: HTMLDivElement;
   private options: Partial<DockedDisplayPluginOptions>;
@@ -63,15 +63,19 @@ export class DockedDisplayPlugin {
     this.container.append(container);
     el.parentElement.append(this.container);
 
-    document.addEventListener('click', (e) => {
-      if (
-        this.visible &&
-        !(this.el === <HTMLElement>e.target) &&
-        !(<HTMLElement>e.target).closest('.display-docked')
-      ) {
-        this.hide();
-      }
-    }, true);
+    document.addEventListener(
+      'click',
+      (e) => {
+        if (
+          this.visible &&
+          !(this.el === <HTMLElement>e.target) &&
+          !(<HTMLElement>e.target).closest('.display-docked')
+        ) {
+          this.hide();
+        }
+      },
+      true
+    );
   }
 
   /**
@@ -132,3 +136,5 @@ export class DockedDisplayPlugin {
     }, 100);
   };
 }
+
+export { DockedDisplayPluginOptions, DockedDisplayPlugin };

@@ -1,8 +1,14 @@
 import { Utils } from '../../src/utils';
-import { Bounding } from '../../src/bounding';
 import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 // TODO: Rewrite this using popover and js only
+
+class Bounding {
+  left: number; // left offset coordinate
+  top: number;
+  width: number;
+  height: number;
+}
 
 export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 

@@ -93,8 +93,7 @@
     "vitest": "^4.0.18"
   },
   "files": [
-    "dist/css",
-    "dist/js",
+    "dist",
     "sass/**/*.scss",
     "components/**/*.ts",
     "LICENSE"

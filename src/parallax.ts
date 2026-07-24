@@ -1,7 +1,7 @@
 import { Utils } from './utils';
 import { Component, BaseOptions, InitElements, MElement } from './component';
 
-export interface ParallaxOptions extends BaseOptions {
+interface ParallaxOptions extends BaseOptions {
   /**
    * The minimum width of the screen, in pixels, where the parallax functionality starts working.
    * @default 0
@@ -13,7 +13,7 @@ const _defaults: ParallaxOptions = {
   responsiveThreshold: 0 // breakpoint for swipeable
 };
 
-export class Parallax extends Component<ParallaxOptions> {
+class Parallax extends Component<ParallaxOptions> {
   private _enabled: boolean;
   private _img: HTMLImageElement;
   static _parallaxes: Parallax[] = [];
@@ -149,3 +149,5 @@ export class Parallax extends Component<ParallaxOptions> {
     }
   }
 }
+
+export { ParallaxOptions, Parallax };

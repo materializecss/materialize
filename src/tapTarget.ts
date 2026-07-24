@@ -1,7 +1,7 @@
 import { Utils } from './utils';
 import { Component, BaseOptions, InitElements, MElement, Openable } from './component';
 
-export interface TapTargetOptions extends BaseOptions {
+interface TapTargetOptions extends BaseOptions {
   /**
    * Callback function called when Tap Target is opened.
    * @default null
@@ -19,7 +19,7 @@ const _defaults: TapTargetOptions = {
   onClose: null
 };
 
-export class TapTarget extends Component<TapTargetOptions> implements Openable {
+class TapTarget extends Component<TapTargetOptions> implements Openable {
   /**
    * If the tap target is open.
    */
@@ -313,3 +313,5 @@ export class TapTarget extends Component<TapTargetOptions> implements Openable {
     TapTarget._taptargets = [];
   }
 }
+
+export { TapTargetOptions, TapTarget };

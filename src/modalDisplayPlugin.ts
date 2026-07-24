@@ -1,12 +1,12 @@
-export interface ModalDisplayPluginOptions {
+interface ModalDisplayPluginOptions {
   /**
    * Classes to add on modal container.
    */
-  classList: string[],
+  classList: string[];
   /**
    * Title element.
    */
-  title: HTMLElement|null,
+  title: HTMLElement | null;
   /**
    * On open callback.
    */
@@ -21,27 +21,31 @@ const _defaults: ModalDisplayPluginOptions = {
   classList: ['modal'],
   title: null,
   onOpen: null,
-  onClose: null,
-}
+  onClose: null
+};
 
-export class ModalDisplayPlugin {
+class ModalDisplayPlugin {
   private readonly el: HTMLElement;
   private readonly container: HTMLDialogElement;
   private options: Partial<ModalDisplayPluginOptions>;
   private visible: boolean;
   footer: HTMLElement;
 
-  constructor(el: HTMLElement, container: HTMLElement, options: Partial<ModalDisplayPluginOptions>) {
+  constructor(
+    el: HTMLElement,
+    container: HTMLElement,
+    options: Partial<ModalDisplayPluginOptions>
+  ) {
     this.el = el;
     this.options = {
       ..._defaults,
-      ...options,
+      ...options
     };
 
     this.container = document.createElement('dialog');
     this.container.classList.add('modal', 'display-modal', this.options.classList.join(' '));
 
-    if(options.title) {
+    if (options.title) {
       const modalHeader = document.createElement('div');
       modalHeader.classList.add('modal-header');
       modalHeader.append(options.title);
@@ -59,11 +63,19 @@ export class ModalDisplayPlugin {
 
     document.body.append(this.container);
 
-    document.addEventListener('click', (e) => {
-      if (this.visible && !(this.el === <HTMLElement>e.target) && !((<HTMLElement>e.target).closest('.display-modal'))) {
-        this.hide();
-      }
-    }, true);
+    document.addEventListener(
+      'click',
+      (e) => {
+        if (
+          this.visible &&
+          !(this.el === <HTMLElement>e.target) &&
+          !(<HTMLElement>e.target).closest('.display-modal')
+        ) {
+          this.hide();
+        }
+      },
+      true
+    );
   }
 
   /**
@@ -72,7 +84,11 @@ export class ModalDisplayPlugin {
    * @param container HTMLElement to be positioned
    * @param options Plugin options
    */
-  static init(el: HTMLElement, container: HTMLElement, options?: Partial<ModalDisplayPluginOptions>): ModalDisplayPlugin {
+  static init(
+    el: HTMLElement,
+    container: HTMLElement,
+    options?: Partial<ModalDisplayPluginOptions>
+  ): ModalDisplayPlugin {
     return new ModalDisplayPlugin(el, container, options);
   }
 
@@ -98,3 +114,5 @@ export class ModalDisplayPlugin {
     }, 10);
   };
 }
+
+export { ModalDisplayPluginOptions, ModalDisplayPlugin };
