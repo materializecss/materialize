@@ -72,6 +72,7 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9.10.0",
     "eslint-plugin-storybook": "^9.0.12",
+    "happy-dom": "^20.11.1",
     "jasmine": "^5.1.0",
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.2.0",
