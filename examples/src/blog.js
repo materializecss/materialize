@@ -1,17 +1,11 @@
 import { Text } from '../../components/atomic/atomic.mjs';
 import { Component } from '../../components/atomic/component.mjs';
-import { Container, Page } from '../../components/atomic/page.mjs';
+import { Page, Container } from '../../components/atomic/page.mjs';
+import { Breadcrumb } from '../../components/breadcrumb/breadcrumb.mjs';
 import { Button } from '../../components/button/button.mjs';
 import { AssistChip } from '../../components/chip/chip.mjs';
 
-// class Link extends Component {
-//   constructor(options) {
-//     super(options);
-//     this.setTagName('a');
-//     //this.setAttribute('href', options.href);
-//   }
-// }
-
+// Article
 class BlogArticle extends Component {
   constructor(options) {
     super(options);
@@ -19,7 +13,6 @@ class BlogArticle extends Component {
     this.addClassname('card').addClassname('p-5');
   }
 }
-
 const myArticle = new BlogArticle(`
 <p>01/01/2026 posted by Daniel</p>
 <h1 class="m-0">Crafting Sleek, Responsive Interfaces with MaterializeWeb</h1>
@@ -37,14 +30,17 @@ const myArticle = new BlogArticle(`
 <p>If you want your web applications to mirror the sleek, unified visual identity of modern mobile apps without spending weeks writing custom styles, MaterializeWeb is an outstanding choice. It strikes an ideal balance between aesthetic polish and developer efficiency, making it perfect for rapid prototyping and production-ready sites alike.</p>
 <p>Give MaterializeWeb a try on your next project to experience how effortless modern visual design can be!</p>`);
 
+// Page
 const blogPage = new Page({
   title: 'Materialize Web Blog',
   description: 'This is a custom blog',
   keywords: 'News sites, personal journals, niche resource hubs, and content creators.',
   children: [
+    // TODO: use Navigationbar Component
     new Container({
       children: new Text('Materialize Web Blog').setTagName('p').addClassname('py-3')
     }),
+
     new Container({
       children: [
         new AssistChip({ href: './landingpage.html', name: 'Visit Landingpage' }),
@@ -52,12 +48,13 @@ const blogPage = new Page({
       ]
     })
       .addClassname('g-2')
+      .addClassname('p-2')
+      .addClassname('secondary')
       .addClassname('row'),
 
-    // TODO: use Breadcrumb Component
-    new Container({
-      children: 'Home > Articles > Crafting Sleek, Responsive Interfaces with MaterializeWeb'
-    }).addClassname('py-5'),
+    new Breadcrumb()
+      .setCrumbs(['Home', 'Articles', 'Crafting Sleek, Responsive Interfaces with MaterializeWeb'])
+      .addClassname('py-5'),
 
     myArticle,
     new Container({
@@ -73,13 +70,19 @@ const blogPage = new Page({
       children: 'Sidebar or navigation dropdowns ("Tech," "Lifestyle")'
     }).addClassname('py-5')
   ]
-}).addStyleUrl('/dist/css/materialize.css')
+});
+
+// CSS
+blogPage
+  .addStyleUrl('/dist/css/materialize.css')
+  .addStyleUrl('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined')
   .addStyle(`article { font-family: Times; line-height: 1.25; }
     h1 { font-size: 2.75em; }
     h2 { font-size: 2em; }
     h3 { font-size: 1.5em; }
-    p, li { font-size: 1.2em;  }
-    `);
+    p, li { font-size: 1.2em; }
+  `);
 
+// Render
 const html = blogPage.toHTML();
 console.log(html);

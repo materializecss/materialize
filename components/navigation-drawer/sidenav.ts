@@ -1,7 +1,7 @@
 import { Utils } from '../../src/utils';
 import { Component, BaseOptions, InitElements, MElement, Openable } from '../../src/component';
 
-export interface SidenavOptions extends BaseOptions {
+interface SidenavOptions extends BaseOptions {
   /**
    * Side of screen on which Sidenav appears.
    * @default 'left'
@@ -63,7 +63,7 @@ const _defaults: SidenavOptions = {
   preventScrolling: true
 };
 
-export class Sidenav extends Component<SidenavOptions> implements Openable {
+class Sidenav extends Component<SidenavOptions> implements Openable {
   id: string;
   /** Describes open/close state of Sidenav. */
   isOpen: boolean;
@@ -544,3 +544,5 @@ export class Sidenav extends Component<SidenavOptions> implements Openable {
     Sidenav._sidenavs = [];
   }
 }
+
+export { Sidenav, SidenavOptions };

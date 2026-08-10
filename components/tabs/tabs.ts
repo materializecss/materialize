@@ -1,7 +1,7 @@
 import { Carousel } from '../carousel/carousel';
 import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
-export interface TabsOptions extends BaseOptions {
+interface TabsOptions extends BaseOptions {
   /**
    * Transition duration in milliseconds.
    * @default 300
@@ -33,7 +33,7 @@ const _defaults: TabsOptions = {
   responsiveThreshold: Infinity // breakpoint for swipeable
 };
 
-export class Tabs extends Component<TabsOptions> {
+class Tabs extends Component<TabsOptions> {
   _tabLinks: NodeListOf<HTMLAnchorElement>;
   _index: number;
   _indicator: HTMLLIElement;
@@ -356,3 +356,5 @@ export class Tabs extends Component<TabsOptions> {
     if (tab) (<HTMLAnchorElement>tab).click();
   }
 }
+
+export { Tabs, TabsOptions };

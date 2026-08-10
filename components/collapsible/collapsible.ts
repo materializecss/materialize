@@ -1,7 +1,7 @@
 import { Utils } from '../../src/utils';
 import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
-export interface CollapsibleOptions extends BaseOptions {
+interface CollapsibleOptions extends BaseOptions {
   /**
    * If accordion versus collapsible.
    * @default true
@@ -49,7 +49,7 @@ const _defaults: CollapsibleOptions = {
   outDuration: 300
 };
 
-export class Collapsible extends Component<CollapsibleOptions> {
+class Collapsible extends Component<CollapsibleOptions> {
   private _headers: HTMLElement[];
 
   constructor(el: HTMLElement, options: Partial<CollapsibleOptions>) {
@@ -228,3 +228,5 @@ export class Collapsible extends Component<CollapsibleOptions> {
     }
   };
 }
+
+export { CollapsibleOptions, Collapsible };
