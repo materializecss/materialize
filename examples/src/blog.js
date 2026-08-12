@@ -39,7 +39,7 @@ const blogPage = new Page({
     // TODO: use NavigationBar Component
     new Container({
       children: new Text('Materialize Web Blog').setTagName('p').addClassname('py-3')
-    }),
+    }).addClassname('wrapper-1'),
 
     new Container({
       children: [

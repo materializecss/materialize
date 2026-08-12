@@ -11,7 +11,7 @@ class Page extends Component {
 
   constructor(options) {
     super(options);
-    this.setTagName('html');
+    //this.setTagName('html');
     if (options.title) this.setTitle(options.title);
     this.#langCode = 'en';
     this.#cssUrls = [];
@@ -46,6 +46,7 @@ class Page extends Component {
   }
   // override
   toHTML() {
+    const content = super.toHTML();
     return `<!DOCTYPE html>
 <html lang="${this.#langCode}">
   <head>
@@ -62,7 +63,7 @@ class Page extends Component {
   </head>
   <body>
     <main class="container">
-      ${super.toHTML()}
+      ${content}
     </main>
     ${this.#scriptUrls.map((url) => `<script src="${url}"></script>`).join('\n')}
     ${this.#scripts.map((s) => `<script>${s}</script>`).join('\n')}

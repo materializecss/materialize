@@ -64,10 +64,10 @@ class Component {
 
     if (Array.isArray(this.#children)) {
       const innerHTML = this.#children.map((child) => child.toHTML()).join('');
-      return `<${this.#tagname}${classAttr}${otherAttrs}>${innerHTML}</${this.#tagname}>`;
+      return `<${this.#tagname}${classAttr}${otherAttrs}>\n${innerHTML}</${this.#tagname}>\n`;
     }
 
-    return `<${this.#tagname}${classAttr}${otherAttrs}>${this.#children ?? ''}</${this.#tagname}>`;
+    return `<${this.#tagname}${classAttr}${otherAttrs}>${this.#children ?? ''}</${this.#tagname}>\n`;
   }
 
   toDOM() {
