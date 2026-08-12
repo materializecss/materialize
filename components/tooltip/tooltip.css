@@ -1,0 +1,56 @@
+/* Reset popover default browser styles */
+.material-tooltip[popover] {
+  margin: 0;
+  border: none;
+  padding: 6px 10px;
+  background: #323232;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+
+  /* Modern CSS Anchor Positioning */
+  position: fixed;
+  position-fallback: --tooltip-fallback;
+
+  /* Transition/Animation Handling */
+  opacity: 0;
+  transition:
+    opacity 0.2s ease-out,
+    display 0.2s allow-discrete;
+}
+
+/* Style for open state */
+.material-tooltip[popover]:popover-open {
+  opacity: 1;
+}
+
+@starting-style {
+  .material-tooltip[popover]:popover-open {
+    opacity: 0;
+  }
+}
+
+/* Position mapping using anchor positioning */
+.material-tooltip[data-position='top'] {
+  bottom: anchor(top);
+  justify-self: anchor-center;
+  margin-bottom: 5px;
+}
+
+.material-tooltip[data-position='bottom'] {
+  top: anchor(bottom);
+  justify-self: anchor-center;
+  margin-top: 5px;
+}
+
+.material-tooltip[data-position='left'] {
+  right: anchor(left);
+  align-self: anchor-center;
+  margin-right: 5px;
+}
+
+.material-tooltip[data-position='right'] {
+  left: anchor(right);
+  align-self: anchor-center;
+  margin-left: 5px;
+}

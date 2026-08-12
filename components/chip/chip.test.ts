@@ -155,24 +155,24 @@ describe('Chips', () => {
     it('should have working callbacks', async () => {
       chips = document.querySelector('.chips.input-field');
       let chipWasAdded = false;
-      let chipAddedElem: any = null;
+      let chipAddedElem = null;
       let chipSelect = false;
-      let chipSelected: any = null;
+      let chipSelected = null;
       let chipDelete = false;
-      let chipDeleted: any = null;
+      let chipDeleted = null;
 
       (global.M as any).Chips.init(chips, {
         allowUserInput: true,
         data: [{ id: 'One' }, { id: 'Two' }, { id: 'Three' }],
-        onChipAdd: (_chipsEl: any, chipEl: any) => {
+        onChipAdd: (_chipsEl, chipEl) => {
           chipAddedElem = chipEl;
           chipWasAdded = true;
         },
-        onChipSelect: (_chipsEl: any, chipEl: any) => {
+        onChipSelect: (_chipsEl, chipEl) => {
           chipSelected = chipEl;
           chipSelect = true;
         },
-        onChipDelete: (_chipsEl: any, chipEl: any) => {
+        onChipDelete: (_chipsEl, chipEl) => {
           chipDeleted = chipEl;
           chipDelete = true;
         }
