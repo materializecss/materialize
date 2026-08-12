@@ -36,14 +36,17 @@ const blogPage = new Page({
   description: 'This is a custom blog',
   keywords: 'News sites, personal journals, niche resource hubs, and content creators.',
   children: [
-    // TODO: use Navigationbar Component
+    // TODO: use NavigationBar Component
     new Container({
       children: new Text('Materialize Web Blog').setTagName('p').addClassname('py-3')
     }),
 
     new Container({
       children: [
-        new AssistChip({ href: './landingpage.html', name: 'Visit Landingpage' }),
+        new AssistChip({ href: './landingpage.html', name: 'Visit Landingpage' })
+          .addClassname('tooltipped') // tooltip
+          .setAttribute('data-tooltip', "I'm a toolip")
+          .setAttribute('data-position', 'bottom'),
         new AssistChip({ href: './portfolio.html', name: 'Visit Porfolio' })
       ]
     })
@@ -71,7 +74,6 @@ const blogPage = new Page({
     }).addClassname('py-5')
   ]
 });
-
 // CSS
 blogPage
   .addStyleUrl('/dist/css/materialize.css')
@@ -82,6 +84,9 @@ blogPage
     h3 { font-size: 1.5em; }
     p, li { font-size: 1.2em; }
   `);
+// Client JS
+blogPage.addJavascriptUrl('/dist/js/materialize.js');
+blogPage.addJavascript(`M.AutoInit();`);
 
 // Render
 const html = blogPage.toHTML();
