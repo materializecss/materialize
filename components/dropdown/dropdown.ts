@@ -18,11 +18,6 @@ export interface DropdownOptions extends BaseOptions {
    */
   constrainWidth: boolean;
   /**
-   * Provide an element that will be the bounding container of the dropdown.
-   * @default null
-   */
-  container: Element;
-  /**
    * If false, the dropdown will show below the trigger.
    * @default true
    */
@@ -37,16 +32,6 @@ export interface DropdownOptions extends BaseOptions {
    * @default false
    */
   hover: boolean;
-  /**
-   * The duration of the transition enter in milliseconds.
-   * @default 150
-   */
-  inDuration: number;
-  /**
-   * The duration of the transition out in milliseconds.
-   * @default 250
-   */
-  outDuration: number;
   /**
    * Function called when dropdown starts entering.
    * @default null
@@ -78,12 +63,9 @@ const _defaults: DropdownOptions = {
   alignment: 'left',
   autoFocus: true,
   constrainWidth: true,
-  container: null,
   coverTrigger: true,
   closeOnClick: true,
   hover: false,
-  inDuration: 150,
-  outDuration: 250,
   onOpenStart: null,
   onOpenEnd: null,
   onCloseStart: null,
@@ -99,9 +81,6 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
   dropdownEl: HTMLElement;
   /** If the dropdown is open. */
   isOpen: boolean;
-  /** If the dropdown content is scrollable. */
-  isScrollable: boolean;
-  isTouchMoving: boolean;
   /** The index of the item focused. */
   focusedIndex: number;
   filterQuery: string[];
@@ -121,14 +100,10 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     };
 
     this.isOpen = false;
-    this.isScrollable = false;
-    this.isTouchMoving = false;
     this.focusedIndex = -1;
     this.filterQuery = [];
-    this.el.ariaExpanded = 'false';
 
-    // Move dropdown-content after dropdown-trigger
-    this._moveDropdownToElement();
+    this._setupPopoverAndAnchor();
     this._makeDropdownFocusable();
     this._setupEventHandlers();
   }
@@ -137,23 +112,8 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     return _defaults;
   }
 
-  /**
-   * Initializes instance of Dropdown.
-   * @param el HTML element.
-   * @param options Component options.
-   */
   static init(el: HTMLElement, options?: Partial<DropdownOptions>): Dropdown;
-  /**
-   * Initializes instances of Dropdown.
-   * @param els HTML elements.
-   * @param options Component options.
-   */
   static init(els: InitElements<MElement>, options?: Partial<DropdownOptions>): Dropdown[];
-  /**
-   * Initializes instances of Dropdown.
-   * @param els HTML elements.
-   * @param options Component options.
-   */
   static init(
     els: HTMLElement | InitElements<MElement>,
     options: Partial<DropdownOptions> = {}
@@ -166,23 +126,63 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
   }
 
   destroy() {
-    this._resetDropdownStyles();
     this._removeEventHandlers();
+    if (this.dropdownEl?.hasAttribute('popover')) {
+      this.dropdownEl.removeAttribute('popover');
+    }
     Dropdown._dropdowns.splice(Dropdown._dropdowns.indexOf(this), 1);
     this.el['M_Dropdown'] = undefined;
   }
 
+  /**
+   * Applies CSS Anchor Positioning and Popover attributes to the elements
+   */
+  private _setupPopoverAndAnchor() {
+    if (!this.dropdownEl) return;
+
+    // Set Popover API attributes
+    this.dropdownEl.popover = 'auto';
+
+    // Generate unique anchor name if necessary
+    const anchorName = `--dropdown-anchor-${this.id || Math.random().toString(36).substring(2, 9)}`;
+
+    // Set CSS Anchor variables directly on elements
+    this.el.style.setProperty('anchor-name', anchorName);
+    this.dropdownEl.style.setProperty('position-anchor', anchorName);
+
+    // Apply native anchor positioning via inline styles or class rules
+    this.dropdownEl.style.position = 'fixed';
+    this.dropdownEl.style.margin = '0';
+
+    // Width constraint
+    if (this.options.constrainWidth) {
+      this.dropdownEl.style.width = 'anchor-size(width)';
+    }
+
+    // Vertical placement (Cover Trigger vs Below Trigger)
+    const topPosition = this.options.coverTrigger ? 'anchor(top)' : 'anchor(bottom)';
+    this.dropdownEl.style.top = `position-area(${topPosition})`;
+
+    // Horizontal alignment
+    if (this.options.alignment === 'right') {
+      this.dropdownEl.style.left = 'anchor(right)';
+      this.dropdownEl.style.transform = 'translateX(-100%)';
+    } else {
+      this.dropdownEl.style.left = 'anchor(left)';
+    }
+  }
+
   _setupEventHandlers() {
-    // Trigger keydown handler
     this.el.addEventListener('keydown', this._handleTriggerKeydown);
-    // Item click handler
     this.dropdownEl?.addEventListener('click', this._handleDropdownClick);
-    // Hover event handlers
+
+    // Listen to native Popover Toggle events to manage lifecycle and state synchronization
+    this.dropdownEl?.addEventListener('beforetoggle', this._handlePopoverToggle);
+
     if (this.options.hover) {
       this.el.addEventListener('mouseenter', this._handleMouseEnter);
       this.el.addEventListener('mouseleave', this._handleMouseLeave);
       this.dropdownEl.addEventListener('mouseleave', this._handleMouseLeave);
-      // Click event handlers
     } else {
       this.el.addEventListener('click', this._handleClick);
     }
@@ -190,7 +190,9 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
 
   _removeEventHandlers() {
     this.el.removeEventListener('keydown', this._handleTriggerKeydown);
-    this.dropdownEl.removeEventListener('click', this._handleDropdownClick);
+    this.dropdownEl?.removeEventListener('click', this._handleDropdownClick);
+    this.dropdownEl?.removeEventListener('beforetoggle', this._handlePopoverToggle);
+
     if (this.options.hover) {
       this.el.removeEventListener('mouseenter', this._handleMouseEnter);
       this.el.removeEventListener('mouseleave', this._handleMouseLeave);
@@ -200,23 +202,35 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     }
   }
 
-  _setupTemporaryEventHandlers() {
-    document.body.addEventListener('click', this._handleDocumentClick);
-    document.body.addEventListener('touchmove', this._handleDocumentTouchmove);
-    this.dropdownEl.addEventListener('keydown', this._handleDropdownKeydown);
-    window.addEventListener('resize', this._handleWindowResize);
-  }
+  private _handlePopoverToggle = (e: ToggleEvent) => {
+    if (e.newState === 'open') {
+      this.isOpen = true;
+      this.el.setAttribute('aria-expanded', 'true');
+      this.dropdownEl.addEventListener('keydown', this._handleDropdownKeydown);
 
-  _removeTemporaryEventHandlers() {
-    document.body.removeEventListener('click', this._handleDocumentClick);
-    document.body.removeEventListener('touchmove', this._handleDocumentTouchmove);
-    this.dropdownEl.removeEventListener('keydown', this._handleDropdownKeydown);
-    window.removeEventListener('resize', this._handleWindowResize);
-  }
+      if (typeof this.options.onOpenEnd === 'function') {
+        this.options.onOpenEnd.call(this, this.el);
+      }
+      if (this.options.autoFocus) {
+        this._focusFocusedItem();
+      }
+    } else {
+      this.isOpen = false;
+      this.focusedIndex = -1;
+      this.el.setAttribute('aria-expanded', 'false');
+      this.dropdownEl.removeEventListener('keydown', this._handleDropdownKeydown);
+
+      if (typeof this.options.onCloseEnd === 'function') {
+        this.options.onCloseEnd.call(this, this.el);
+      }
+      if (this.options.autoFocus) {
+        this.el.focus();
+      }
+    }
+  };
 
   _handleClick = (e: MouseEvent) => {
     e.preventDefault();
-    //this._moveDropdown((<HTMLElement>e.target).closest('li'));
     if (this.isOpen) {
       this.close();
     } else {
@@ -225,43 +239,24 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
   };
 
   _handleMouseEnter = () => {
-    //this._moveDropdown((<HTMLElement>e.target).closest('li'));
     this.open();
   };
 
   _handleMouseLeave = (e: MouseEvent) => {
     const toEl = e.relatedTarget as HTMLElement;
+    if (!toEl) return;
+
     const leaveToDropdownContent = !!toEl.closest('.dropdown-content');
-    let leaveToActiveDropdownTrigger = false;
     const closestTrigger = toEl.closest('.dropdown-trigger');
-    if (closestTrigger && !!closestTrigger['M_Dropdown'] && closestTrigger['M_Dropdown'].isOpen) {
-      leaveToActiveDropdownTrigger = true;
-    }
-    // Close hover dropdown if mouse did not leave to either active dropdown-trigger or dropdown-content
+    const leaveToActiveDropdownTrigger =
+      closestTrigger && !!closestTrigger['M_Dropdown'] && closestTrigger['M_Dropdown'].isOpen;
+
     if (!leaveToActiveDropdownTrigger && !leaveToDropdownContent) {
       this.close();
     }
   };
 
-  _handleDocumentClick = (e: MouseEvent) => {
-    const target = <HTMLElement>e.target;
-    if (this.options.closeOnClick && target.closest('.dropdown-content') && !this.isTouchMoving) {
-      // isTouchMoving to check if scrolling on mobile.
-      this.close();
-    } else if (!target.closest('.dropdown-content')) {
-      // Do this one frame later so that if the element clicked also triggers _handleClick
-      // For example, if a label for a select was clicked, that we don't close/open the dropdown
-      setTimeout(() => {
-        if (this.isOpen) {
-          this.close();
-        }
-      }, 0);
-    }
-    this.isTouchMoving = false;
-  };
-
   _handleTriggerKeydown = (e: KeyboardEvent) => {
-    // ARROW DOWN OR ENTER WHEN SELECT IS CLOSED - open Dropdown
     const arrowDownOrEnter =
       Utils.keys.ARROW_DOWN.includes(e.key) || Utils.keys.ENTER.includes(e.key);
     if (arrowDownOrEnter && !this.isOpen) {
@@ -270,36 +265,31 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     }
   };
 
-  _handleDocumentTouchmove = (e: TouchEvent) => {
-    const target = <HTMLElement>e.target;
-    if (target.closest('.dropdown-content')) {
-      this.isTouchMoving = true;
-    }
-  };
-
   _handleDropdownClick = (e: MouseEvent) => {
-    // onItemClick callback
-    if (typeof this.options.onItemClick === 'function') {
-      const itemEl = (<HTMLElement>e.target).closest('li');
+    const itemEl = (<HTMLElement>e.target).closest('li');
+    if (typeof this.options.onItemClick === 'function' && itemEl) {
       this.options.onItemClick.call(this, itemEl);
+    }
+
+    if (this.options.closeOnClick) {
+      this.close();
     }
   };
 
   _handleDropdownKeydown = (e: KeyboardEvent) => {
     const arrowUpOrDown =
       Utils.keys.ARROW_DOWN.includes(e.key) || Utils.keys.ARROW_UP.includes(e.key);
+
     if (Utils.keys.TAB.includes(e.key)) {
-      e.preventDefault();
       this.close();
-    }
-    // Navigate down dropdown list
-    else if (arrowUpOrDown && this.isOpen) {
+    } else if (arrowUpOrDown && this.isOpen) {
       e.preventDefault();
       const direction = Utils.keys.ARROW_DOWN.includes(e.key) ? 1 : -1;
       let newFocusedIndex = this.focusedIndex;
       let hasFoundNewIndex = false;
+
       do {
-        newFocusedIndex = newFocusedIndex + direction;
+        newFocusedIndex += direction;
         if (
           !!this.dropdownEl.children[newFocusedIndex] &&
           (<HTMLLIElement>this.dropdownEl.children[newFocusedIndex]).tabIndex !== -1
@@ -310,34 +300,26 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
       } while (newFocusedIndex < this.dropdownEl.children.length && newFocusedIndex >= 0);
 
       if (hasFoundNewIndex) {
-        // Remove active class from old element
-        if (this.focusedIndex >= 0)
+        if (this.focusedIndex >= 0) {
           this.dropdownEl.children[this.focusedIndex].classList.remove('active');
+        }
         this.focusedIndex = newFocusedIndex;
         this._focusFocusedItem();
       }
-    }
-    // ENTER selects choice on focused item
-    else if (Utils.keys.ENTER.includes(e.key) && this.isOpen) {
-      // Search for <a> and <button>
+    } else if (Utils.keys.ENTER.includes(e.key) && this.isOpen) {
       const focusedElement = this.dropdownEl.children[this.focusedIndex];
       const activatableElement = <HTMLElement>focusedElement?.querySelector('a, button');
-      // Click a or button tag if exists, otherwise click li tag
-      if (!!activatableElement) {
+      if (activatableElement) {
         activatableElement.click();
-      } else if (!!focusedElement) {
-        if (focusedElement instanceof HTMLElement) {
-          focusedElement.click();
-        }
+      } else if (focusedElement instanceof HTMLElement) {
+        focusedElement.click();
       }
-    }
-    // Close dropdown on ESC
-    else if (Utils.keys.ESC.includes(e.key) && this.isOpen) {
+    } else if (Utils.keys.ESC.includes(e.key) && this.isOpen) {
       e.preventDefault();
       this.close();
     }
 
-    // CASE WHEN USER TYPE LTTERS
+    // Type-to-filter logic
     const keyText = e.key.toLowerCase();
     const isLetter = /[a-zA-Z0-9-_]/.test(keyText);
     const specialKeys = [
@@ -347,6 +329,7 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
       ...Utils.keys.ESC,
       ...Utils.keys.TAB
     ];
+
     if (isLetter && !specialKeys.includes(e.key)) {
       this.filterQuery.push(keyText);
       const string = this.filterQuery.join('');
@@ -361,293 +344,57 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     this.filterTimeout = setTimeout(this._resetFilterQuery, 1000);
   };
 
-  _handleWindowResize = () => {
-    // Only re-place the dropdown if it's still visible
-    // Accounts for elements hiding via media queries
-    if (this.el.offsetParent) {
-      this.recalculateDimensions();
-    }
-  };
-
   _resetFilterQuery = () => {
     this.filterQuery = [];
   };
 
-  _resetDropdownStyles() {
-    this.dropdownEl.style.display = '';
-    this._resetDropdownPositioningStyles();
-    this.dropdownEl.style.transform = '';
-    this.dropdownEl.style.opacity = '';
-  }
-
-  _resetDropdownPositioningStyles() {
-    this.dropdownEl.style.width = '';
-    this.dropdownEl.style.height = '';
-    this.dropdownEl.style.left = '';
-    this.dropdownEl.style.top = '';
-    this.dropdownEl.style.transformOrigin = '';
-  }
-
-  _moveDropdownToElement(containerEl: HTMLElement = null) {
-    if (this.options.container) {
-      this.options.container.append(this.dropdownEl);
-      return;
-    }
-    if (containerEl) {
-      if (!containerEl.contains(this.dropdownEl)) containerEl.append(this.dropdownEl);
-      return;
-    }
-    this.el.after(this.dropdownEl);
-  }
-
   _makeDropdownFocusable() {
     if (!this.dropdownEl) return;
-    this.dropdownEl.popover = '';
-    // Needed for arrow key navigation
-    this.dropdownEl.tabIndex = 0;
-    // Only set tabindex if it hasn't been set by user
+    this.dropdownEl.tabIndex = -1;
     Array.from(this.dropdownEl.children).forEach((el) => {
       if (!el.getAttribute('tabindex')) el.setAttribute('tabindex', '0');
     });
   }
 
   _focusFocusedItem() {
-    if (
-      this.focusedIndex >= 0 &&
-      this.focusedIndex < this.dropdownEl.children.length &&
-      this.options.autoFocus
-    ) {
-      (this.dropdownEl.children[this.focusedIndex] as HTMLElement).focus({
-        preventScroll: true
-      });
-      this.dropdownEl.children[this.focusedIndex].scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'nearest'
-      });
+    if (this.focusedIndex >= 0 && this.focusedIndex < this.dropdownEl.children.length) {
+      const target = this.dropdownEl.children[this.focusedIndex] as HTMLElement;
+      target.classList.add('active');
+      target.focus({ preventScroll: true });
+      target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else if (this.dropdownEl.children.length > 0 && this.options.autoFocus) {
+      // Focus first item if no item is active yet
+      (this.dropdownEl.children[0] as HTMLElement).focus();
     }
-  }
-
-  _getDropdownPosition(closestOverflowParent: HTMLElement) {
-    // const offsetParentBRect = this.el.offsetParent.getBoundingClientRect();
-    const triggerBRect = this.el.getBoundingClientRect();
-    const dropdownBRect = this.dropdownEl.getBoundingClientRect();
-
-    let idealHeight = dropdownBRect.height;
-    let idealWidth = dropdownBRect.width;
-    let idealXPos = triggerBRect.left - dropdownBRect.left;
-    let idealYPos = triggerBRect.top - dropdownBRect.top;
-
-    const dropdownBounds = {
-      left: idealXPos,
-      top: idealYPos,
-      height: idealHeight,
-      width: idealWidth
-    };
-
-    const alignments = Utils.checkPossibleAlignments(
-      this.el,
-      closestOverflowParent,
-      dropdownBounds,
-      this.options.coverTrigger ? 0 : triggerBRect.height
-    );
-
-    let verticalAlignment = 'top';
-    let horizontalAlignment = this.options.alignment;
-    idealYPos += this.options.coverTrigger ? 0 : triggerBRect.height;
-
-    // Reset isScrollable
-    this.isScrollable = false;
-
-    if (!alignments.top) {
-      if (alignments.bottom) {
-        verticalAlignment = 'bottom';
-
-        if (!this.options.coverTrigger) {
-          idealYPos -= triggerBRect.height;
-        }
-      } else {
-        this.isScrollable = true;
-
-        // Determine which side has most space and cutoff at correct height
-        idealHeight -= 20; // Add padding when cutoff
-        if (alignments.spaceOnTop > alignments.spaceOnBottom) {
-          verticalAlignment = 'bottom';
-          idealHeight += alignments.spaceOnTop;
-          idealYPos -= this.options.coverTrigger
-            ? alignments.spaceOnTop - 20
-            : alignments.spaceOnTop - 20 + triggerBRect.height;
-        } else {
-          idealHeight += alignments.spaceOnBottom;
-        }
-      }
-    }
-
-    // If preferred horizontal alignment is possible
-    if (!alignments[horizontalAlignment]) {
-      const oppositeAlignment = horizontalAlignment === 'left' ? 'right' : 'left';
-      if (alignments[oppositeAlignment]) {
-        horizontalAlignment = oppositeAlignment;
-      } else {
-        // Determine which side has most space and cutoff at correct height
-        if (alignments.spaceOnLeft > alignments.spaceOnRight) {
-          horizontalAlignment = 'right';
-          idealWidth += alignments.spaceOnLeft;
-          idealXPos -= alignments.spaceOnLeft;
-        } else {
-          horizontalAlignment = 'left';
-          idealWidth += alignments.spaceOnRight;
-        }
-      }
-    }
-
-    if (verticalAlignment === 'bottom') {
-      idealYPos =
-        idealYPos - dropdownBRect.height + (this.options.coverTrigger ? triggerBRect.height : 0);
-    }
-    if (horizontalAlignment === 'right') {
-      idealXPos = idealXPos - dropdownBRect.width + triggerBRect.width;
-    }
-    return {
-      x: idealXPos,
-      y: idealYPos,
-      verticalAlignment: verticalAlignment,
-      horizontalAlignment: horizontalAlignment,
-      height: idealHeight,
-      width: idealWidth
-    };
-  }
-
-  _animateIn() {
-    const duration = this.options.inDuration;
-    this.dropdownEl.style.transition = 'none';
-    // from
-    this.dropdownEl.style.opacity = '0';
-    this.dropdownEl.style.transform = 'scale(0.3, 0.3)';
-    setTimeout(() => {
-      // easeOutQuad (opacity) & easeOutQuint
-      this.dropdownEl.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
-      // to
-      this.dropdownEl.style.opacity = '1';
-      this.dropdownEl.style.transform = 'scale(1, 1)';
-    }, 1);
-    setTimeout(() => {
-      if (this.options.autoFocus) this.dropdownEl.focus();
-      if (typeof this.options.onOpenEnd === 'function') this.options.onOpenEnd.call(this, this.el);
-    }, duration);
-  }
-
-  _animateOut() {
-    const duration = this.options.outDuration;
-    // easeOutQuad (opacity) & easeOutQuint
-    this.dropdownEl.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
-    // to
-    this.dropdownEl.style.opacity = '0';
-    this.dropdownEl.style.transform = 'scale(0.3, 0.3)';
-    setTimeout(() => {
-      this._resetDropdownStyles();
-      if (typeof this.options.onCloseEnd === 'function')
-        this.options.onCloseEnd.call(this, this.el);
-    }, duration);
-  }
-
-  private _getClosestAncestor(el: HTMLElement, condition: (Function) => boolean): HTMLElement {
-    let ancestor = el.parentNode;
-    while (ancestor !== null && ancestor !== document) {
-      if (condition(ancestor)) {
-        return <HTMLElement>ancestor;
-      }
-      ancestor = ancestor.parentElement;
-    }
-    return null;
-  }
-
-  _placeDropdown() {
-    // Container here will be closest ancestor with overflow: hidden
-    let closestOverflowParent: HTMLElement = this._getClosestAncestor(
-      this.dropdownEl,
-      (ancestor: HTMLElement) => {
-        return (
-          !['HTML', 'BODY'].includes(ancestor.tagName) &&
-          getComputedStyle(ancestor).overflow !== 'visible'
-        );
-      }
-    );
-    // Fallback
-    if (!closestOverflowParent) {
-      closestOverflowParent = <HTMLElement>(
-        (!!this.dropdownEl.offsetParent ? this.dropdownEl.offsetParent : this.dropdownEl.parentNode)
-      );
-    }
-
-    if (getComputedStyle(closestOverflowParent).position === 'static')
-      closestOverflowParent.style.position = 'relative';
-
-    //this._moveDropdown(closestOverflowParent);
-
-    // Set width before calculating positionInfo
-    const idealWidth = this.options.constrainWidth
-      ? this.el.getBoundingClientRect().width
-      : this.dropdownEl.getBoundingClientRect().width;
-    this.dropdownEl.style.width = idealWidth + 'px';
-
-    const positionInfo = this._getDropdownPosition(closestOverflowParent);
-    this.dropdownEl.style.left = positionInfo.x + 'px';
-    this.dropdownEl.style.top = positionInfo.y + 'px';
-    this.dropdownEl.style.height = positionInfo.height + 'px';
-    this.dropdownEl.style.width = positionInfo.width + 'px';
-    this.dropdownEl.style.transformOrigin = `${
-      positionInfo.horizontalAlignment === 'left' ? '0' : '100%'
-    } ${positionInfo.verticalAlignment === 'top' ? '0' : '100%'}`;
   }
 
   /**
-   * Open dropdown.
+   * Open dropdown using the native Popover API.
    */
   open = () => {
     if (this.isOpen) return;
-    this.isOpen = true;
-    // onOpenStart callback
     if (typeof this.options.onOpenStart === 'function') {
       this.options.onOpenStart.call(this, this.el);
     }
-    // Reset styles
-    this._resetDropdownStyles();
-    this.dropdownEl.style.display = 'block';
-    this._placeDropdown();
-    this._animateIn();
-    // Do this one frame later so that we don't bind an event handler that's immediately
-    // called when the event bubbles up to the document and closes the dropdown
-    setTimeout(() => this._setupTemporaryEventHandlers(), 0);
-    this.el.ariaExpanded = 'true';
+    this.dropdownEl.showPopover();
   };
 
   /**
-   * Close dropdown.
+   * Close dropdown using the native Popover API.
    */
   close = () => {
     if (!this.isOpen) return;
-    this.isOpen = false;
-    this.focusedIndex = -1;
-    // onCloseStart callback
     if (typeof this.options.onCloseStart === 'function') {
       this.options.onCloseStart.call(this, this.el);
     }
-    this._animateOut();
-    this._removeTemporaryEventHandlers();
-    if (this.options.autoFocus) {
-      this.el.focus();
-    }
-    this.el.ariaExpanded = 'false';
+    this.dropdownEl.hidePopover();
   };
 
   /**
-   * While dropdown is open, you can recalculate its dimensions if its contents have changed.
+   * Kept for backwards-compatibility. Native anchor positioning automatically
+   * recalculates positions when the DOM or window resizes.
    */
   recalculateDimensions = () => {
-    if (this.isOpen) {
-      this._resetDropdownPositioningStyles();
-      this._placeDropdown();
-    }
+    // No-op required; browser layout engine handles anchor positioning.
   };
 }
