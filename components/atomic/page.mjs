@@ -62,9 +62,7 @@ class Page extends Component {
     ${this.#css.map((s) => `<style>${s}</style>`).join('\n')}
   </head>
   <body>
-    <main class="container">
-      ${content}
-    </main>
+    ${content}
     ${this.#scriptUrls.map((url) => `<script src="${url}"></script>`).join('\n')}
     ${this.#scripts.map((s) => `<script>${s}</script>`).join('\n')}
   </body>
