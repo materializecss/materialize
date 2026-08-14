@@ -88,6 +88,8 @@
     "dist",
     "sass/**/*.scss",
     "components/**/*.ts",
+    "components/**/*.mjs",
+    "components/**/*.js",
     "LICENSE"
   ],
   "overrides": {
