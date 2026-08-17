@@ -1,5 +1,5 @@
 # Dialog
 
-*THIS SECTION IS FOR DEMONSTRATION ONLY*
+TODO: Use the native html popover attribute and CSS only for this component.
 
-Also called Modal.
+- [ ] Make a builder component

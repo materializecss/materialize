@@ -39,7 +39,7 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "test": "jasmine-browser-runner runSpecs --config=jasmine.json",
+    "test": "vitest",
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "build-storybook": "storybook build",
     "build-examples": "examples/compile.sh",
@@ -47,8 +47,7 @@
     "preversion": "npm run lint && npm test",
     "version": "npm run build -- --environment BUILD:release && node compress.mjs && git add .",
     "storybook": "storybook dev -p 6006",
-    "demo": "live-server",
-    "vitest": "vitest"
+    "demo": "live-server --no-browser"
   },
   "lint-staged": {
     "js/*.js": [
@@ -73,9 +72,6 @@
     "eslint": "^9.10.0",
     "eslint-plugin-storybook": "^9.0.12",
     "happy-dom": "^20.11.1",
-    "jasmine": "^5.1.0",
-    "jasmine-browser-runner": "^2.5.0",
-    "jasmine-core": "^5.2.0",
     "postcss": "^8.4.49",
     "rollup": "^4.59.0",
     "rollup-plugin-copy": "^3.5.0",
@@ -92,6 +88,8 @@
     "dist",
     "sass/**/*.scss",
     "components/**/*.ts",
+    "components/**/*.mjs",
+    "components/**/*.js",
     "LICENSE"
   ],
   "overrides": {

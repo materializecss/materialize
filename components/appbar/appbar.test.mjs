@@ -1,8 +1,8 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { AppBar } from './appbar.mjs';
 
 describe('appBar', () => {
-  test('create html', () => {
+  it('should create the html', () => {
     const appBar = new AppBar();
     expect(appBar.toHTML()).toContain('<nav');
   });

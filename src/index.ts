@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Autocomplete, AutocompleteOptions } from '../components/search/autocomplete';
-import { FloatingActionButton, FloatingActionButtonOptions } from '../components/button/buttons';
+import {
+  FloatingActionButton,
+  FloatingActionButtonOptions
+} from '../components/button/floatingactionbutton';
 import { Cards, CardsOptions } from '../components/card/cards';
 import { Carousel, CarouselOptions } from '../components/carousel/carousel';
 import { Chips, ChipsOptions } from '../components/chip/chips';
