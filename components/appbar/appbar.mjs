@@ -1,6 +1,6 @@
 import { Component } from '../atomic/component.mjs';
 
-// AppBar is the old *Navbar*
+// AppBar is the old "Navbar"
 
 class AppBar extends Component {
   #title = '';
