@@ -13,16 +13,18 @@ class Drawer extends Component {
   }
 
   addItem(item) {
-    this.#items = item;
+    this.#items.push(item);
     return this;
   }
 
   toHTML() {
-    const html = `<li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+    const html =
+      `<li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
       <li><a href="#!">Second Link</a></li>
       <li><div class="divider"></div></li>
       <li><a class="subheader">Subheader</a></li>
-      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>`;
+      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>` +
+      this.#items.map((item) => `<li>${item}</li>`).join('');
     // <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     this.setChildren(html);
     return super.toHTML();
