@@ -14,7 +14,7 @@ class AppBar extends Component {
     super(options);
     this.#title = '';
     this.#items = [];
-    if (options.isFixed) {
+    if (typeof options === 'object' && options.isFixed) {
       this.addClassname('navbar-fixed');
     }
   }
@@ -46,20 +46,20 @@ class AppBar extends Component {
   //
 
   toHTML() {
+    /*
+    <li><a href="sass.html"><i class="material-icons">search</i></a></li>
+    <li><a href="badges.html"><i class="material-icons">view_module</i></a></li>
+    <li><a href="collapsible.html"><i class="material-icons">refresh</i></a></li>
+    <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
+    */
     const html = `<nav class="nav navbar">
       <div class="nav-wrapper">
         ${this.#title}
         <ul class="right hide-on-med-and-down">
-          <!--
-          <li><a href="sass.html"><i class="material-icons">search</i></a></li>
-          <li><a href="badges.html"><i class="material-icons">view_module</i></a></li>
-          <li><a href="collapsible.html"><i class="material-icons">refresh</i></a></li>
-          <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
-          -->
           ${this.#items.map((item) => `<li>${item}</li>`).join('')}
         </ul>
       </div>
-    </nav`;
+    </nav>`;
     this.setChildren(html);
     return super.toHTML();
   }
