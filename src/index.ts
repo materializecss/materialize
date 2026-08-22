@@ -11,7 +11,6 @@ import { Collapsible, CollapsibleOptions } from '../components/collapsible/colla
 import { Datepicker, DatepickerOptions } from '../components/datepicker/datepicker';
 import { Dropdown, DropdownOptions } from '../components/dropdown/dropdown';
 import { Forms } from '../components/textfield/forms';
-//import { Materialbox, MaterialboxOptions } from '../components/dialog/materialbox'; // DEPRECATED!
 import { Modal, ModalOptions } from '../components/dialog/modal';
 import { FormSelect, FormSelectOptions } from '../components/textfield/select';
 import { Sidenav, SidenavOptions } from '../components/navigation-drawer/sidenav';
@@ -43,7 +42,6 @@ export {
   Datepicker,
   Dropdown,
   Forms,
-  Materialbox,
   Modal,
   Parallax,
   Pushpin,
@@ -70,7 +68,6 @@ export interface AutoInitOptions {
   Collapsible?: Partial<CollapsibleOptions>;
   Datepicker?: Partial<DatepickerOptions>;
   Dropdown?: Partial<DropdownOptions>;
-  Materialbox?: Partial<MaterialboxOptions>;
   Modal?: Partial<ModalOptions>;
   Parallax?: Partial<ParallaxOptions>;
   Pushpin?: Partial<PushpinOptions>;
@@ -118,7 +115,6 @@ export function AutoInit(context: HTMLElement = document.body, options?: Partial
   Collapsible.init(registry.Collapsible, options?.Collapsible ?? {});
   Datepicker.init(registry.Datepicker, options?.Datepicker ?? {});
   Dropdown.init(registry.Dropdown, options?.Dropdown ?? {});
-  Materialbox.init(registry.Materialbox, options?.Materialbox ?? {});
   Modal.init(registry.Modal, options?.Modal ?? {});
   Parallax.init(registry.Parallax, options?.Parallax ?? {});
   Pushpin.init(registry.Pushpin, options?.Pushpin ?? {});
