@@ -1,7 +1,7 @@
 import { Utils } from '../../src/utils';
 import { Component, BaseOptions, InitElements, MElement, Openable } from '../../src/component';
 
-export interface DropdownOptions extends BaseOptions {
+interface DropdownOptions extends BaseOptions {
   /**
    * Defines the edge the menu is aligned to.
    * @default 'left'
@@ -73,7 +73,7 @@ const _defaults: DropdownOptions = {
   onItemClick: null
 };
 
-export class Dropdown extends Component<DropdownOptions> implements Openable {
+class Dropdown extends Component<DropdownOptions> implements Openable {
   static _dropdowns: Dropdown[] = [];
   /** ID of the dropdown element. */
   id: string;
@@ -398,3 +398,5 @@ export class Dropdown extends Component<DropdownOptions> implements Openable {
     // No-op required; browser layout engine handles anchor positioning.
   };
 }
+
+export { DropdownOptions, Dropdown };

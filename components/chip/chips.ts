@@ -1,5 +1,5 @@
 import { Utils } from '../../src/utils';
-import { Autocomplete, AutocompleteOptions } from '../search/autocomplete';
+import { Autocomplete, AutocompleteOptions } from '../autocomplete/autocomplete';
 import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 interface ChipData {

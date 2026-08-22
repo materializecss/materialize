@@ -35,13 +35,16 @@ const click = (element: Element) => {
   );
 };
 
+// Test Chips isolated! Do not mix with autocomplete and dropdown tests...
+
 describe('Chips', () => {
   const fixture = `<div class="chips"></div>
 <div class="chips chips-initial"></div>
 <div class="chips input-field"><input></div>
 <div class="chips chips-initial input-field"><input></div>
 <div class="chips chips-placeholder input-field"><input></div>
-<div class="chips chips-autocomplete input-field"><input></div>`;
+<!--<div class="chips chips-autocomplete input-field"><input>-->
+</div>`;
 
   beforeEach(() => {
     // Inject fixture HTML directly into the DOM

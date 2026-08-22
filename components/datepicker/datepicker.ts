@@ -4,7 +4,7 @@ import { FormSelect } from '../textfield/select';
 import { DockedDisplayPlugin } from '../../src/dockedDisplayPlugin';
 import { ModalDisplayPlugin } from '../../src/modalDisplayPlugin';
 
-export interface DateI18nOptions extends I18nOptions {
+interface DateI18nOptions extends I18nOptions {
   previousMonth: string;
   nextMonth: string;
   months: string[];
@@ -14,7 +14,7 @@ export interface DateI18nOptions extends I18nOptions {
   weekdaysAbbrev: string[];
 }
 
-export interface DatepickerOptions extends BaseOptions {
+interface DatepickerOptions extends BaseOptions {
   /**
    * The date output format for the input field value
    * or a function taking the date and outputting the
@@ -297,7 +297,7 @@ const _defaults: DatepickerOptions = {
   onCancel: null
 };
 
-export class Datepicker extends Component<DatepickerOptions> {
+class Datepicker extends Component<DatepickerOptions> {
   declare el: HTMLInputElement;
   id: string;
   multiple: boolean = false;
@@ -1448,3 +1448,5 @@ export class Datepicker extends Component<DatepickerOptions> {
         </div>`;
   }
 }
+
+export { DateI18nOptions, DatepickerOptions, Datepicker };
