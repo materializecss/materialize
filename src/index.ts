@@ -11,7 +11,7 @@ import { Collapsible, CollapsibleOptions } from '../components/collapsible/colla
 import { Datepicker, DatepickerOptions } from '../components/datepicker/datepicker';
 import { Dropdown, DropdownOptions } from '../components/dropdown/dropdown';
 import { Forms } from '../components/textfield/forms';
-import { Materialbox, MaterialboxOptions } from '../components/dialog/materialbox';
+//import { Materialbox, MaterialboxOptions } from '../components/dialog/materialbox'; // DEPRECATED!
 import { Modal, ModalOptions } from '../components/dialog/modal';
 import { FormSelect, FormSelectOptions } from '../components/textfield/select';
 import { Sidenav, SidenavOptions } from '../components/navigation-drawer/sidenav';
