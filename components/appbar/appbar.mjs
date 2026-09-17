@@ -14,6 +14,7 @@ class AppBar extends Component {
     super(options);
     this.#title = '';
     this.#items = [];
+    this.addClassname('appbar');
     if (typeof options === 'object' && options.isFixed) {
       this.addClassname('navbar-fixed');
     }
@@ -52,7 +53,6 @@ class AppBar extends Component {
     <li><a href="collapsible.html"><i class="material-icons">refresh</i></a></li>
     <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
     */
-    console.log('===> navbar');
     const html = `<nav class="nav navbar ${this.options.hasContainer ? 'container' : ''}">
       <div class="nav-wrapper">
         ${this.#title}
