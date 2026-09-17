@@ -254,12 +254,18 @@ class Autocomplete extends Component<AutocompleteOptions> {
       }
     };
 
-    // Resolve Dropdown implementation safely
+    // Safely resolve Dropdown implementation without using `any`
+    type DropdownConstructor = {
+      init: (el: HTMLElement, options?: Partial<DropdownOptions>) => Dropdown;
+    };
+
     const DropdownClass = Dropdown?.init
       ? Dropdown
-      : (Dropdown as any)?.default?.init
-        ? (Dropdown as any).default
-        : (globalThis as any).Dropdown || (window as any).Dropdown;
+      : (Dropdown as unknown as { default?: DropdownConstructor })?.default?.init
+        ? (Dropdown as unknown as { default: DropdownConstructor }).default
+        : (globalThis as unknown as { Dropdown: DropdownConstructor }).Dropdown ||
+          (window as unknown as { Dropdown: DropdownConstructor }).Dropdown;
+
     this.dropdown = DropdownClass.init(this.el, dropdownOptions);
 
     if (this.el.parentElement) {
@@ -267,8 +273,8 @@ class Autocomplete extends Component<AutocompleteOptions> {
       if (label) this.el.after(label);
     }
 
-    if (this.dropdown && (this.dropdown as any)._handleClick) {
-      this.el.removeEventListener('click', (this.dropdown as any)._handleClick);
+    if (this.dropdown && this.dropdown._handleClick) {
+      this.el.removeEventListener('click', this.dropdown._handleClick);
     }
 
     if (!this.options.isMultiSelect && this.options.selected && this.options.selected.length > 0) {

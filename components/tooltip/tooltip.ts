@@ -83,8 +83,8 @@ export class Tooltip extends Component<TooltipOptions> {
 
     // Assign unique anchor name linking the element and popover
     const anchorName = `--tooltip-anchor-${Math.random().toString(36).substring(2, 9)}`;
-    (this.el.style as any).anchorName = anchorName;
-    (this.tooltipEl.style as any).positionAnchor = anchorName;
+    this.el.style['anchorName'] = anchorName;
+    this.tooltipEl.style['positionAnchor'] = anchorName;
 
     // Set default position class/data-attribute for CSS positioning
     this.tooltipEl.dataset.position = this.options.position;

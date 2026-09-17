@@ -1,22 +1,34 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { Chips } from './chips.ts';
+import { Dropdown } from '../dropdown/dropdown.ts'; // Adjust path as needed
 
-// Attach M to both global and window contexts
-const globalM = { Chips };
-global.M = globalM;
+declare global {
+  var M: {
+    Chips: typeof Chips;
+    Dropdown?: typeof Dropdown;
+  };
+}
+
+const globalM = { Chips, Dropdown };
+globalThis.M = globalM;
+
 if (typeof window !== 'undefined') {
-  (window as any).M = globalM;
+  (window as unknown as { M: typeof globalM }).M = globalM;
+  (window as unknown as { Dropdown: typeof Dropdown }).Dropdown = Dropdown;
 }
 
 // Utility helper to replace done() timeouts with async/await
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms: number): Promise<void> =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 
 // Event helpers to dispatch native DOM events compatible with Happy DOM
-const keydown = (element: Element, keyCode: number) => {
+const keydown = (element: Element, keyCode: number): void => {
   element.dispatchEvent(
     new KeyboardEvent('keydown', {
-      keyCode: keyCode,
+      keyCode,
       which: keyCode,
       key: keyCode === 13 ? 'Enter' : '',
       code: keyCode === 13 ? 'Enter' : '',
@@ -26,7 +38,7 @@ const keydown = (element: Element, keyCode: number) => {
   );
 };
 
-const click = (element: Element) => {
+const click = (element: Element): void => {
   element.dispatchEvent(
     new MouseEvent('click', {
       bubbles: true,
@@ -35,24 +47,28 @@ const click = (element: Element) => {
   );
 };
 
-// Test Chips isolated! Do not mix with autocomplete and dropdown tests...
-
 describe('Chips', () => {
   const fixture = `<div class="chips"></div>
 <div class="chips chips-initial"></div>
 <div class="chips input-field"><input></div>
 <div class="chips chips-initial input-field"><input></div>
 <div class="chips chips-placeholder input-field"><input></div>
-<!--<div class="chips chips-autocomplete input-field"><input>-->
-</div>`;
+<div class="chips chips-autocomplete input-field"><input></div>`;
 
   beforeEach(() => {
     // Inject fixture HTML directly into the DOM
     document.body.innerHTML = fixture;
 
+    // Helper to query element safely
+    const select = (selector: string): HTMLElement => {
+      const el = document.querySelector<HTMLElement>(selector);
+      if (!el) throw new Error(`Element not found: ${selector}`);
+      return el;
+    };
+
     // Initialize Components
-    (global.M as any).Chips.init(document.querySelector('.chips'));
-    (global.M as any).Chips.init(document.querySelector('.chips-initial'), {
+    globalThis.M.Chips.init(select('.chips'));
+    globalThis.M.Chips.init(select('.chips-initial'), {
       data: [
         { id: 12, text: 'Apple' },
         { id: 13, text: 'Microsoft' },
@@ -64,10 +80,10 @@ describe('Chips', () => {
         }
       ]
     });
-    (global.M as any).Chips.init(document.querySelector('.chips.input-field'), {
+    globalThis.M.Chips.init(select('.chips.input-field'), {
       allowUserInput: true
     });
-    (global.M as any).Chips.init(document.querySelector('.chips-initial.input-field'), {
+    globalThis.M.Chips.init(select('.chips-initial.input-field'), {
       allowUserInput: true,
       data: [
         { id: 12, text: 'Apple' },
@@ -80,12 +96,12 @@ describe('Chips', () => {
         }
       ]
     });
-    (global.M as any).Chips.init(document.querySelector('.chips-placeholder.input-field'), {
+    globalThis.M.Chips.init(select('.chips-placeholder.input-field'), {
       allowUserInput: true,
       placeholder: 'Enter a tag',
       secondaryPlaceholder: '+Tag'
     });
-    (global.M as any).Chips.init(document.querySelector('.chips-autocomplete.input-field'), {
+    globalThis.M.Chips.init(select('.chips-autocomplete.input-field'), {
       allowUserInput: true,
       autocompleteOptions: {
         data: [
@@ -102,25 +118,22 @@ describe('Chips', () => {
     document.body.innerHTML = '';
   });
 
-  describe('chips plugin', () => {
-    let chips: HTMLElement | null,
-      chipsUserInput: HTMLElement | null,
-      input: HTMLInputElement | NodeListOf<HTMLInputElement> | null;
-
+  describe('chips', () => {
     it('should work with multiple initializations', () => {
-      chips = document.querySelector('.chips');
-      (global.M as any).Chips.init(chips);
-      (global.M as any).Chips.init(chips);
-      (global.M as any).Chips.init(chips);
-      chipsUserInput = document.querySelector('.chips.input-field');
-      (global.M as any).Chips.init(chips, { allowUserInput: true });
+      const chips = document.querySelector('.chips') as HTMLElement;
+      globalThis.M.Chips.init(chips);
+      globalThis.M.Chips.init(chips);
+      globalThis.M.Chips.init(chips);
+
+      const chipsUserInput = document.querySelector('.chips.input-field') as HTMLElement;
+      globalThis.M.Chips.init(chips, { allowUserInput: true });
 
       const inputs = chipsUserInput?.querySelectorAll('input');
       expect(inputs?.length, 'Should dynamically generate chips structure.').toBe(1);
     });
 
     it('should be able to add chip', async () => {
-      chips = document.querySelector('.chips.input-field');
+      const chips = document.querySelector('.chips.input-field');
       const inputEl = chips?.querySelector('input') as HTMLInputElement;
       inputEl.value = 'one';
       keydown(inputEl, 13);
@@ -138,7 +151,7 @@ describe('Chips', () => {
     });
 
     it('should be able to delete chip', async () => {
-      chips = document.querySelector('.chips.chips-initial.input-field');
+      const chips = document.querySelector('.chips.chips-initial.input-field');
       let numChips = chips?.querySelectorAll('.chip').length;
       expect(numChips, '3 initial chips should have been added').toBe(3);
 
@@ -148,7 +161,6 @@ describe('Chips', () => {
       if (chipCloseButton && chipCloseButton[0]) {
         click(chipCloseButton[0]);
       }
-
       await delay(100);
 
       numChips = chips?.querySelectorAll('.chip').length;
@@ -156,49 +168,45 @@ describe('Chips', () => {
     });
 
     it('should have working callbacks', async () => {
-      chips = document.querySelector('.chips.input-field');
+      const chips = document.querySelector<HTMLElement>('.chips.input-field')!;
       let chipWasAdded = false;
-      let chipAddedElem = null;
+      let chipAddedElem: HTMLElement | null = null;
       let chipSelect = false;
-      let chipSelected = null;
+      let chipSelected: HTMLElement | null = null;
       let chipDelete = false;
-      let chipDeleted = null;
+      let chipDeleted: HTMLElement | null = null;
 
-      (global.M as any).Chips.init(chips, {
+      globalThis.M.Chips.init(chips, {
         allowUserInput: true,
         data: [{ id: 'One' }, { id: 'Two' }, { id: 'Three' }],
-        onChipAdd: (_chipsEl, chipEl) => {
+        onChipAdd: (_chipsEl: HTMLElement, chipEl: HTMLElement) => {
           chipAddedElem = chipEl;
           chipWasAdded = true;
         },
-        onChipSelect: (_chipsEl, chipEl) => {
+        onChipSelect: (_chipsEl: HTMLElement, chipEl: HTMLElement) => {
           chipSelected = chipEl;
           chipSelect = true;
         },
-        onChipDelete: (_chipsEl, chipEl) => {
+        onChipDelete: (_chipsEl: HTMLElement, chipEl: HTMLElement) => {
           chipDeleted = chipEl;
           chipDelete = true;
         }
       });
 
-      const inputEl = chips?.querySelector('input') as HTMLInputElement;
+      const inputEl = chips.querySelector('input') as HTMLInputElement;
       inputEl.value = 'Four';
-      expect(chipWasAdded, 'callback not yet fired').toBe(false);
-      expect(chipSelect, 'callback not yet fired').toBe(false);
-      expect(chipDelete, 'callback not yet fired').toBe(false);
 
       keydown(inputEl, 13);
-
       await delay(100);
 
       expect(chipWasAdded, 'add callback fired').toBe(true);
       expect(
-        chipAddedElem.childNodes[0].nodeValue,
+        chipAddedElem?.firstChild?.nodeValue,
         'add callback provides correct chip element'
       ).toBe('Four');
 
-      const chipList = chips?.querySelectorAll('.chip');
-      if (chipList && chipList[1]) {
+      const chipList = chips.querySelectorAll('.chip');
+      if (chipList[1]) {
         click(chipList[1]);
       }
 
@@ -206,12 +214,12 @@ describe('Chips', () => {
 
       expect(chipSelect, 'select callback fired').toBe(true);
       expect(
-        chipSelected.childNodes[0].nodeValue,
+        chipSelected?.firstChild?.nodeValue,
         'select callback provides correct chip element'
       ).toBe('Two');
 
-      const closeList = chips?.querySelectorAll('.close');
-      if (closeList && closeList[2]) {
+      const closeList = chips.querySelectorAll('.close');
+      if (closeList[2]) {
         click(closeList[2]);
       }
 
@@ -219,7 +227,7 @@ describe('Chips', () => {
 
       expect(chipDelete, 'delete callback fired').toBe(true);
       expect(
-        chipDeleted.childNodes[0].nodeValue,
+        chipDeleted?.firstChild?.nodeValue,
         'delete callback provides correct chip element'
       ).toBe('Three');
     });

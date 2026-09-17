@@ -97,7 +97,7 @@ export class Toast {
     // Create new toast
     Toast._toasts.push(this);
     const toastElement = this._createToast();
-    (toastElement as any)['M_Toast'] = this;
+    toastElement['M_Toast'] = this;
     this.el = toastElement;
     this._animateIn();
     this._setTimer();
@@ -108,7 +108,7 @@ export class Toast {
   }
 
   static getInstance(el: HTMLElement): Toast {
-    return (el as any)['M_Toast'];
+    return el['M_Toast'];
   }
 
   static _createContainer() {
@@ -139,7 +139,7 @@ export class Toast {
   static _onDragStart(e: TouchEvent | MouseEvent) {
     if (e.target && (e.target as HTMLElement).closest('.toast')) {
       const toastElem = (e.target as HTMLElement).closest('.toast') as HTMLElement;
-      const toast: Toast = (toastElem as any)['M_Toast'];
+      const toast: Toast = toastElem['M_Toast'];
       if (!toast) return;
 
       toast.panning = true;

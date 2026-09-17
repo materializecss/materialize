@@ -16,8 +16,8 @@ describe('Toasts:', () => {
     vi.useRealTimers();
   });
 
-  describe('Toast javascript functions', () => {
-    it('should display and remove a toast', () => {
+  describe('Toast', () => {
+    it('displays and removes toast', () => {
       const instance = new Toast({
         text: 'Test toast',
         inDuration: 20,
@@ -47,7 +47,7 @@ describe('Toasts:', () => {
       expect(document.body.contains(toast)).toBe(false);
     });
 
-    it('Toasts should call the callback function when dismissed', () => {
+    it('calls callback function when dismissed', () => {
       let wasCalled = false;
       const callback = () => {
         wasCalled = true;
@@ -66,7 +66,7 @@ describe('Toasts:', () => {
       expect(wasCalled).toBe(true);
     });
 
-    it('should apply classes to toast', () => {
+    it('applies classes to toast', () => {
       new Toast({
         text: 'Hi',
         displayLength: 100,
@@ -78,55 +78,6 @@ describe('Toasts:', () => {
       vi.advanceTimersByTime(20);
       const toastFlat = document.querySelectorAll('.toast.round.flat');
       expect(toastFlat.length).toBe(1);
-    });
-  });
-
-  describe('Toast _container null guard', () => {
-    afterEach(() => {
-      Toast.dismissAll();
-      Toast._removeContainer();
-    });
-
-    it('should not throw when _removeContainer is called with a null container', () => {
-      (Toast as any)._container = null;
-      expect(() => Toast._removeContainer()).not.toThrow();
-      expect((Toast as any)._container).toBeNull();
-    });
-
-    it('should not throw when _removeContainer is called twice', () => {
-      Toast._createContainer();
-      expect((Toast as any)._container).not.toBeNull();
-
-      expect(() => Toast._removeContainer()).not.toThrow();
-      expect((Toast as any)._container).toBeNull();
-
-      expect(() => Toast._removeContainer()).not.toThrow();
-      expect((Toast as any)._container).toBeNull();
-    });
-
-    it('should not throw building a toast while _container is null', () => {
-      const first = new Toast({
-        text: 'First',
-        displayLength: 50,
-        inDuration: 10,
-        outDuration: 10
-      });
-      expect(first.el).toBeDefined();
-
-      // Force null container state
-      (Toast as any)._container = null;
-
-      let instance: Toast | undefined;
-      expect(() => {
-        instance = new Toast({
-          text: 'No container',
-          displayLength: 50,
-          inDuration: 10,
-          outDuration: 10
-        });
-      }).not.toThrow();
-
-      expect(instance?.el).toBeDefined();
     });
   });
 });

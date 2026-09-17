@@ -77,11 +77,8 @@ describe('Autocomplete Component', () => {
   it('should filter items via default onSearch handler', () => {
     const instance = new Autocomplete(inputEl, { data: sampleData });
     inputEl.value = 'Ban';
-
     // Simulate input change detection triggered by keyup/focus
     instance._inputChangeDetection('ban');
-
-    const listItems = instance.container.querySelectorAll('li');
     expect(instance.menuItems.length).toBe(1);
     expect(instance.menuItems[0].text).toBe('Banana');
   });

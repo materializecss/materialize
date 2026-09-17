@@ -28,11 +28,11 @@ function hydrate(domElement, initState = { value: 12 }) {
 
   numberEl.innerHTML = state.value;
 
-  btns[0].addEventListener('click', (e) => {
+  btns[0].addEventListener('click', () => {
     state.value = count({ value: state.value, increment: 1 }).value;
     numberEl.innerHTML = state.value;
   });
-  btns[1].addEventListener('click', (e) => {
+  btns[1].addEventListener('click', () => {
     state.value = count({ value: state.value, increment: -1 }).value;
     numberEl.innerHTML = state.value;
   });
