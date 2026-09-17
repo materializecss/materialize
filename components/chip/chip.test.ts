@@ -199,11 +199,9 @@ describe('Chips', () => {
       keydown(inputEl, 13);
       await delay(100);
 
+      const valueAdd = chipAddedElem ? (chipAddedElem as HTMLElement).firstChild?.nodeValue : '';
       expect(chipWasAdded, 'add callback fired').toBe(true);
-      expect(
-        chipAddedElem?.firstChild?.nodeValue,
-        'add callback provides correct chip element'
-      ).toBe('Four');
+      expect(valueAdd, 'add callback provides correct chip element').toBe('Four');
 
       const chipList = chips.querySelectorAll('.chip');
       if (chipList[1]) {
@@ -212,11 +210,9 @@ describe('Chips', () => {
 
       await delay(100);
 
+      const valueSel = chipSelected ? (chipSelected as HTMLElement).firstChild?.nodeValue : '';
       expect(chipSelect, 'select callback fired').toBe(true);
-      expect(
-        chipSelected?.firstChild?.nodeValue,
-        'select callback provides correct chip element'
-      ).toBe('Two');
+      expect(valueSel, 'select callback provides correct chip element').toBe('Two');
 
       const closeList = chips.querySelectorAll('.close');
       if (closeList[2]) {
@@ -225,11 +221,9 @@ describe('Chips', () => {
 
       await delay(100);
 
+      const valueDel = chipDeleted ? (chipDeleted as HTMLElement).firstChild?.nodeValue : '';
       expect(chipDelete, 'delete callback fired').toBe(true);
-      expect(
-        chipDeleted?.firstChild?.nodeValue,
-        'delete callback provides correct chip element'
-      ).toBe('Three');
+      expect(valueDel, 'delete callback provides correct chip element').toBe('Three');
     });
   });
 });
