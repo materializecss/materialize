@@ -3,8 +3,10 @@ class Component {
   #children;
   #classNames;
   #attributes;
+  #options;
 
   constructor(options) {
+    this.#options = options;
     this.#tagname = 'div';
     this.#attributes = {};
     this.#children = [];
@@ -74,6 +76,10 @@ class Component {
     const template = document.createElement('template');
     template.innerHTML = this.toHTML();
     return template.content.firstElementChild;
+  }
+
+  get options() {
+    return Object.freeze(this.#options);
   }
 }
 

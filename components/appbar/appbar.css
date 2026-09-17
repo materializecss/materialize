@@ -6,6 +6,7 @@
 
 .nav-wrapper {
   height: 100%;
+  width: 100%;
   background-color: var(--md-sys-color-surface);
   padding-left: 4px;
   padding-right: 4px;
@@ -43,7 +44,8 @@
 .navbar .brand-logo {
   color: var(--md-sys-color-on-surface);
   font-size: var(--appbar-title-font-size);
-  display: inline-block;
+  display: flex;
+  align-items: center;
   padding: 0;
 }
 

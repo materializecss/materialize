@@ -8,7 +8,7 @@ class AppBar extends Component {
 
   /**
    *
-   * @param {{isFixed: Boolean = false}} options
+   * @param {{isFixed: Boolean = false, hasContainer: Boolean = true}} options
    */
   constructor(options) {
     super(options);
@@ -52,10 +52,11 @@ class AppBar extends Component {
     <li><a href="collapsible.html"><i class="material-icons">refresh</i></a></li>
     <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
     */
-    const html = `<nav class="nav navbar">
+    console.log('===> navbar');
+    const html = `<nav class="nav navbar ${this.options.hasContainer ? 'container' : ''}">
       <div class="nav-wrapper">
         ${this.#title}
-        <ul class="right hide-on-med-and-down">
+        <ul class="hide-on-med-and-down">
           ${this.#items.map((item) => `<li>${item}</li>`).join('')}
         </ul>
       </div>

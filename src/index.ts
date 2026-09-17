@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Autocomplete, AutocompleteOptions } from '../components/search/autocomplete';
+import { Autocomplete, AutocompleteOptions } from '../components/autocomplete/autocomplete';
 import {
   FloatingActionButton,
   FloatingActionButtonOptions
@@ -28,7 +28,6 @@ import { Pushpin, PushpinOptions } from './pushpin';
 import { ScrollSpy, ScrollSpyOptions } from './scrollspy';
 import { Waves } from './waves';
 import { Utils } from './utils';
-import { Component } from './component';
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export {
