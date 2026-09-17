@@ -47,13 +47,13 @@ class AppBar extends Component {
   //
 
   toHTML() {
-    const html = `<nav class="nav navbar ${this.options.hasContainer ? 'container' : ''}">
+    const html = `<nav class="nav navbar ${this.options?.hasContainer ? 'container' : ''}">
       <div class="nav-wrapper">
         ${this.#title}
         <ul class="hide-on-med-and-down">
           ${this.#items.map((item) => `<li>${item}</li>`).join('')}
         </ul>
-        ${this.options.content || ''}
+        ${this.options?.content || ''}
       </div>
     </nav>`;
     this.setChildren(html);
