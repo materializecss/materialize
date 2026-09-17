@@ -3,23 +3,28 @@ class Component {
   #children;
   #classNames;
   #attributes;
+  #options;
 
   constructor(options) {
+    this.#options = options;
     this.#tagname = 'div';
     this.#attributes = {};
     this.#children = [];
     this.#classNames = [];
 
-    if (typeof options === 'object' && options !== null && options.children) {
-      if (typeof options.children === 'string') {
-        this.#children = options.children;
+    if (typeof options === 'object' && options !== null) {
+      // children
+      if (options.children) {
+        if (typeof options.children === 'string') {
+          this.#children = options.children;
+          return;
+        }
+        const kids = Array.isArray(options.children) ? options.children : [options.children];
+        kids.forEach((c) => this.addChild(c));
         return;
       }
-      const kids = Array.isArray(options.children) ? options.children : [options.children];
-      kids.forEach((c) => this.addChild(c));
-      return;
     }
-    this.#children = options;
+    this.#children = options; // TODO: Maybe do not do this
   }
 
   setChildren(children) {
@@ -61,16 +66,20 @@ class Component {
 
     if (Array.isArray(this.#children)) {
       const innerHTML = this.#children.map((child) => child.toHTML()).join('');
-      return `<${this.#tagname}${classAttr}${otherAttrs}>${innerHTML}</${this.#tagname}>`;
+      return `<${this.#tagname}${classAttr}${otherAttrs}>\n${innerHTML}</${this.#tagname}>\n`;
     }
 
-    return `<${this.#tagname}${classAttr}${otherAttrs}>${this.#children ?? ''}</${this.#tagname}>`;
+    return `<${this.#tagname}${classAttr}${otherAttrs}>${this.#children ?? ''}</${this.#tagname}>\n`;
   }
 
   toDOM() {
     const template = document.createElement('template');
     template.innerHTML = this.toHTML();
     return template.content.firstElementChild;
+  }
+
+  get options() {
+    return Object.freeze(this.#options);
   }
 }
 

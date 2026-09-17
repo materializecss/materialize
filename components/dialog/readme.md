@@ -1,5 +1,0 @@
-# Dialog
-
-*THIS SECTION IS FOR DEMONSTRATION ONLY*
-
-Also called Modal.

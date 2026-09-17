@@ -1,14 +1,3 @@
-// type RGBColor = {
-//   r: number;
-//   g: number;
-//   b: number;
-// };
-
-// type Position = {
-//   x: number;
-//   y: number;
-// };
-
 class Waves {
   /**
    *

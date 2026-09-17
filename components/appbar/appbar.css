@@ -4,8 +4,13 @@
   --appbar-title-font-size: 24px;
 }
 
+.appbar {
+  background-color: var(--md-sys-color-surface);
+}
+
 .nav-wrapper {
   height: 100%;
+  width: 100%;
   background-color: var(--md-sys-color-surface);
   padding-left: 4px;
   padding-right: 4px;
@@ -15,7 +20,9 @@
 
 .navbar {
   color: var(--md-sys-color-on-surface);
-  height: var(--navbar-height-mobile);
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
 }
 
 .navbar ul:not(.dropdown-content) {
@@ -41,7 +48,8 @@
 .navbar .brand-logo {
   color: var(--md-sys-color-on-surface);
   font-size: var(--appbar-title-font-size);
-  display: inline-block;
+  display: flex;
+  align-items: center;
   padding: 0;
 }
 
@@ -53,5 +61,8 @@
 
 .navbar-fixed {
   position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 997;
 }

@@ -148,38 +148,16 @@
 
       //------------------------------------- Example (Nested components to widget)
 
-      import { createCounterApp } from '/components/button/examples.iso.js';
+      import { createCounterApp, hydrate } from './examples/counter-app.iso.js';
 
       const app = createCounterApp();
       const appHtml = app.toHTML();
-      console.log(appHtml);
-
-      // html => element
       const template = document.createElement('template');
       template.innerHTML = appHtml;
       const appElem = template.content.firstElementChild;
       document.querySelector('.app').replaceChildren(appElem);
+      hydrate(appElem);
 
-      function count(input) {
-        const value = input.value + input.increment;
-        return { value }
-      }
-
-      const state = { value: 12 };
-
-      const numberEl = appElem.querySelector('.mw-number'); // output
-      const btns = appElem.querySelectorAll('.btn'); // input
-
-      numberEl.innerHTML = state.value;
-
-      btns[0].addEventListener('click', e => {
-        state.value = count({ value: state.value , increment: 1 }).value;
-        numberEl.innerHTML = state.value;
-      })
-      btns[1].addEventListener('click', e => {
-        state.value = count({ value: state.value , increment: -1 }).value;
-        numberEl.innerHTML = state.value;
-      })
     </script>
     <script>
       M.AutoInit();

@@ -1,13 +1,11 @@
 import { Component, BaseOptions, InitElements, MElement } from '../../src/component';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface RangeOptions extends BaseOptions {}
+interface RangeOptions extends BaseOptions {}
 
 const _defaults: RangeOptions = {};
 
-// TODO: !!!!!
-
-export class Range extends Component<RangeOptions> {
+class Range extends Component<RangeOptions> {
   declare el: HTMLInputElement;
   private _mousedown: boolean;
   value: HTMLElement;
@@ -214,3 +212,5 @@ export class Range extends Component<RangeOptions> {
       );
   }
 }
+
+export { RangeOptions, Range };

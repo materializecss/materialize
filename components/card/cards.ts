@@ -33,6 +33,7 @@ class Cards extends Component<CardsOptions> implements Openable {
     this.#cardReveal = this.el.querySelector('.card-reveal');
     if (this.#cardReveal) {
       this.#initialOverflow = getComputedStyle(this.el).overflow;
+      this.#cardReveal.style.display = 'none';
       this.#activators = Array.from(this.el.querySelectorAll('.activator'));
       this.#activators.forEach((el: HTMLElement) => {
         if (el) el.tabIndex = 0;
@@ -119,8 +120,8 @@ class Cards extends Component<CardsOptions> implements Openable {
   };
 
   #removeRevealCloseEventHandlers = () => {
-    this.#cardRevealClose.addEventListener('click', this.close);
-    this.#cardRevealClose.addEventListener('keypress', this.#handleKeypressCloseEvent);
+    this.#cardRevealClose.removeEventListener('click', this.close);
+    this.#cardRevealClose.removeEventListener('keypress', this.#handleKeypressCloseEvent);
   };
 
   #handleKeypressCloseEvent: (e: KeyboardEvent) => void = (e: KeyboardEvent) => {

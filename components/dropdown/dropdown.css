@@ -1,0 +1,60 @@
+/* Base styles for the popover element */
+.dropdown-content[popover] {
+  /* Reset default popover browser styles */
+  margin: 0;
+  padding: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  list-style: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  /* Automatic flip if top/bottom or left/right overflows viewport */
+  position-try-fallbacks: flip-block, flip-inline;
+
+  /* Smooth entry / exit transitions */
+  opacity: 0;
+  transform: scale(0.95);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease,
+    display 150ms allow-discrete;
+}
+
+/* Open State */
+.dropdown-content[popover]:popover-open {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Entry animation start point */
+@starting-style {
+  .dropdown-content[popover]:popover-open {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* Styling dropdown items */
+.dropdown-content li {
+  padding: 0;
+}
+
+.dropdown-content li a,
+.dropdown-content li button {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dropdown-content li:focus-within,
+.dropdown-content li.active {
+  background-color: #f0f0f0;
+  outline: none;
+}

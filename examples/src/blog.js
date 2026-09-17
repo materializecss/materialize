@@ -35,43 +35,53 @@ const blogPage = new Page({
   title: 'Materialize Web Blog',
   description: 'This is a custom blog',
   keywords: 'News sites, personal journals, niche resource hubs, and content creators.',
-  children: [
-    // TODO: use Navigationbar Component
-    new Container({
-      children: new Text('Materialize Web Blog').setTagName('p').addClassname('py-3')
-    }),
+  children: new Container({
+    children: [
+      // TODO: use NavigationBar Component
+      new Container({
+        children: new Text('Materialize Web Blog').setTagName('p').addClassname('py-3')
+      }).addClassname('wrapper-1'),
 
-    new Container({
-      children: [
-        new AssistChip({ href: './landingpage.html', name: 'Visit Landingpage' }),
-        new AssistChip({ href: './portfolio.html', name: 'Visit Porfolio' })
-      ]
-    })
-      .addClassname('g-2')
-      .addClassname('p-2')
-      .addClassname('secondary')
-      .addClassname('row'),
+      new Container({
+        children: [
+          new AssistChip({ href: './landingpage.html', name: 'Visit Landingpage' })
+            .addClassname('tooltipped') // tooltip
+            .setAttribute('data-tooltip', "I'm a toolip")
+            .setAttribute('data-position', 'bottom'),
+          new AssistChip({ href: './portfolio.html', name: 'Visit Porfolio' })
+        ]
+      })
+        .addClassname('g-2')
+        .addClassname('p-2')
+        .addClassname('secondary')
+        .addClassname('row'),
 
-    new Breadcrumb()
-      .setCrumbs(['Home', 'Articles', 'Crafting Sleek, Responsive Interfaces with MaterializeWeb'])
-      .addClassname('py-5'),
+      new Breadcrumb()
+        .setCrumbs([
+          'Home',
+          'Articles',
+          'Crafting Sleek, Responsive Interfaces with MaterializeWeb'
+        ])
+        .addClassname('py-5'),
 
-    myArticle,
-    new Container({
-      children:
-        '2 or 3-column masonry grid showing article thumbnails, titles, and publication dates'
-    }).addClassname('py-5'),
-    new Button({ children: 'Call to action' }),
-    new Text(
-      `This is a test <a href="./landingpage.html">Landingpage</a>. ok it can produce nested html too...<br>
+      myArticle,
+      new Container({
+        children:
+          '2 or 3-column masonry grid showing article thumbnails, titles, and publication dates'
+      }).addClassname('py-5'),
+      new Button({ children: 'Call to action' }),
+      new Text(
+        `This is a test <a href="./landingpage.html">Landingpage</a>. ok it can produce nested html too...<br>
       Or you can go to the <a href="./portfolio.html">Portfolio</a>`
-    ),
-    new Container({
-      children: 'Sidebar or navigation dropdowns ("Tech," "Lifestyle")'
-    }).addClassname('py-5')
-  ]
+      ),
+      new Container({
+        children: 'Sidebar or navigation dropdowns ("Tech," "Lifestyle")'
+      }).addClassname('py-5')
+    ]
+  })
+    .setTagName('main')
+    .addClassname('container')
 });
-
 // CSS
 blogPage
   .addStyleUrl('/dist/css/materialize.css')
@@ -82,6 +92,9 @@ blogPage
     h3 { font-size: 1.5em; }
     p, li { font-size: 1.2em; }
   `);
+// Client JS
+blogPage.addJavascriptUrl('/dist/js/materialize.js');
+blogPage.addJavascript(`M.AutoInit();`);
 
 // Render
 const html = blogPage.toHTML();

@@ -23,12 +23,12 @@
 @forward '../components/card/cards';
 @forward '../components/snackbar/toast';
 @forward '../components/tabs/tabs';
-@forward '../components/tooltip/tooltip';
+@forward '../components/tooltip/tooltip.css';
 @forward '../components/dropdown/dropdown';
 @forward '../components/list/collection';
 @forward '../components/list/list';
 @forward '../components/dialog/modal';
-@forward '../components/dialog/materialbox'; // custom
+//@forward '../components/dialog/materialbox'; // custom
 @forward '../components/chip/chips';
 //@forward '../components/appbar/navbar';
 @forward '../components/appbar/appbar.css';

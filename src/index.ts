@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Autocomplete, AutocompleteOptions } from '../components/search/autocomplete';
-import { FloatingActionButton, FloatingActionButtonOptions } from '../components/button/buttons';
+import { Autocomplete, AutocompleteOptions } from '../components/autocomplete/autocomplete';
+import {
+  FloatingActionButton,
+  FloatingActionButtonOptions
+} from '../components/button/floatingactionbutton';
 import { Cards, CardsOptions } from '../components/card/cards';
 import { Carousel, CarouselOptions } from '../components/carousel/carousel';
 import { Chips, ChipsOptions } from '../components/chip/chips';
@@ -8,7 +11,6 @@ import { Collapsible, CollapsibleOptions } from '../components/collapsible/colla
 import { Datepicker, DatepickerOptions } from '../components/datepicker/datepicker';
 import { Dropdown, DropdownOptions } from '../components/dropdown/dropdown';
 import { Forms } from '../components/textfield/forms';
-import { Materialbox, MaterialboxOptions } from '../components/dialog/materialbox';
 import { Modal, ModalOptions } from '../components/dialog/modal';
 import { FormSelect, FormSelectOptions } from '../components/textfield/select';
 import { Sidenav, SidenavOptions } from '../components/navigation-drawer/sidenav';
@@ -26,7 +28,6 @@ import { Pushpin, PushpinOptions } from './pushpin';
 import { ScrollSpy, ScrollSpyOptions } from './scrollspy';
 import { Waves } from './waves';
 import { Utils } from './utils';
-import { Component } from './component';
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export {
@@ -40,7 +41,6 @@ export {
   Datepicker,
   Dropdown,
   Forms,
-  Materialbox,
   Modal,
   Parallax,
   Pushpin,
@@ -67,7 +67,6 @@ export interface AutoInitOptions {
   Collapsible?: Partial<CollapsibleOptions>;
   Datepicker?: Partial<DatepickerOptions>;
   Dropdown?: Partial<DropdownOptions>;
-  Materialbox?: Partial<MaterialboxOptions>;
   Modal?: Partial<ModalOptions>;
   Parallax?: Partial<ParallaxOptions>;
   Pushpin?: Partial<PushpinOptions>;
@@ -115,7 +114,6 @@ export function AutoInit(context: HTMLElement = document.body, options?: Partial
   Collapsible.init(registry.Collapsible, options?.Collapsible ?? {});
   Datepicker.init(registry.Datepicker, options?.Datepicker ?? {});
   Dropdown.init(registry.Dropdown, options?.Dropdown ?? {});
-  Materialbox.init(registry.Materialbox, options?.Materialbox ?? {});
   Modal.init(registry.Modal, options?.Modal ?? {});
   Parallax.init(registry.Parallax, options?.Parallax ?? {});
   Pushpin.init(registry.Pushpin, options?.Pushpin ?? {});

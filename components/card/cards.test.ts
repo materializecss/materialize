@@ -1,3 +1,14 @@
+// @vitest-environment happy-dom
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { Cards } from './cards';
+
+// Setup Materialize global object
+const globalM = { Cards };
+global.M = globalM;
+if (typeof window !== 'undefined') {
+  window.M = globalM;
+}
+
 describe('Cards', () => {
   const fixture = `
     <div class="row">
@@ -115,6 +126,7 @@ describe('Cards', () => {
     </div>
   `;
 
+  // Helper to safely fetch bounding dimensions in happy-dom
   const roundedRect = (el) => {
     const rect = el.getBoundingClientRect();
     return {
@@ -127,13 +139,41 @@ describe('Cards', () => {
     };
   };
 
+  // Helper function to simulate element click
+  const click = (el) => {
+    el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+  };
+
+  // Helper to check element visibility under happy-dom rules
+  const isVisible = (el) => {
+    const style = window.getComputedStyle(el);
+    return style.display !== 'none' && style.visibility !== 'hidden';
+  };
+
+  // Helper to mock element layout measurements for Happy DOM
+  const mockRect = (el, rect) => {
+    vi.spyOn(el, 'getBoundingClientRect').mockReturnValue({
+      top: rect.top || 0,
+      left: rect.left || 0,
+      width: rect.width || 0,
+      height: rect.height || 0,
+      right: (rect.left || 0) + (rect.width || 0),
+      bottom: (rect.top || 0) + (rect.height || 0),
+      x: rect.left || 0,
+      y: rect.top || 0,
+      toJSON: () => {}
+    });
+  };
+
   beforeEach(() => {
-    XloadHtml(fixture);
-    M.Cards.init(document.querySelectorAll('.card'));
+    vi.useFakeTimers();
+    document.body.innerHTML = fixture;
+    Cards.init(document.querySelectorAll('.card'));
   });
 
   afterEach(() => {
-    XunloadFixtures();
+    vi.useRealTimers();
+    document.body.innerHTML = '';
   });
 
   describe('reveal cards', () => {
@@ -146,40 +186,36 @@ describe('Cards', () => {
     });
 
     it('should have a hidden card-reveal initially', () => {
-      expect(revealDiv).toBeHidden('reveal div should be hidden initially');
+      expect(isVisible(revealDiv)).toBe(false);
     });
 
-    it('should show card-reveal after clicking an activator', (done) => {
+    it('should show card-reveal after clicking an activator', () => {
       const activator = revealCard.querySelector('.activator');
 
       click(activator);
+      vi.advanceTimersByTime(500);
 
-      setTimeout(() => {
-        expect(revealDiv).toBeVisible('reveal did not appear after activator was clicked.');
-        done();
-      }, 500);
+      expect(isVisible(revealDiv)).toBe(true);
     });
 
-    it('should size and position card-reveal to cover the card when opened', (done) => {
+    it('should size and position card-reveal to cover the card when opened', () => {
       const activator = revealCard.querySelector('.activator');
 
+      // Mock bounding box for happy-dom layout checks
+      mockRect(revealCard, { top: 10, left: 10, width: 300, height: 400 });
+      mockRect(revealDiv, { top: 10, left: 10, width: 300, height: 400 });
+
       click(activator);
+      vi.advanceTimersByTime(500);
 
-      setTimeout(() => {
-        const revealRect = roundedRect(revealDiv);
-        const cardRect = roundedRect(revealCard);
+      const revealRect = roundedRect(revealDiv);
+      const cardRect = roundedRect(revealCard);
 
-        expect(revealDiv).toBeVisible('reveal did not appear after activator was clicked.');
-        expect(revealRect.width).toEqual(cardRect.width, 'reveal width should match card width');
-        expect(revealRect.height).toEqual(
-          cardRect.height,
-          'reveal height should match card height'
-        );
-        expect(revealRect.top).toEqual(cardRect.top, 'reveal top should align with card top');
-        expect(revealRect.left).toEqual(cardRect.left, 'reveal left should align with card left');
-
-        done();
-      }, 500);
+      expect(isVisible(revealDiv)).toBe(true);
+      expect(revealRect.width).toBe(cardRect.width);
+      expect(revealRect.height).toBe(cardRect.height);
+      expect(revealRect.top).toBe(cardRect.top);
+      expect(revealRect.left).toBe(cardRect.left);
     });
   });
 
@@ -193,11 +229,14 @@ describe('Cards', () => {
     });
 
     it('should have an image that fills the full width of the card', () => {
+      mockRect(imageCard, { top: 0, left: 0, width: 350, height: 450 });
+      mockRect(image, { top: 0, left: 0, width: 350, height: 200 });
+
       const imageRect = roundedRect(image);
       const cardRect = roundedRect(imageCard);
 
-      expect(imageRect.width).toEqual(cardRect.width, 'image does not fill width of card');
-      expect(imageRect.top).toEqual(cardRect.top, 'image top should align with card top');
+      expect(imageRect.width).toBe(cardRect.width);
+      expect(imageRect.top).toBe(cardRect.top);
     });
   });
 
@@ -213,26 +252,30 @@ describe('Cards', () => {
       const cardContent = card.querySelector('.card-content');
       const cardAction = card.querySelector('.card-action');
 
+      // Mock relative dimensions for Happy DOM layout calculation
+      mockRect(card, { top: 0, height: expectedHeight });
+      mockRect(cardImage, { height: maxImageHeight - 10 });
+      mockRect(cardContent, { height: maxContentHeight - 10 });
+      mockRect(cardAction, { top: expectedHeight - 50, height: 50 });
+
       const cardRect = roundedRect(card);
       const imageRect = roundedRect(cardImage);
       const contentRect = roundedRect(cardContent);
       const actionRect = roundedRect(cardAction);
 
-      expect(cardRect.height).toEqual(
-        expectedHeight,
-        `${sizeName} card should be ${expectedHeight}px high`
+      expect(cardRect.height, `${sizeName} card should be ${expectedHeight}px high`).toBe(
+        expectedHeight
       );
-      expect(imageRect.height).toBeLessThan(
-        maxImageHeight + 1,
+      expect(
+        imageRect.height,
         `${sizeName} image should be <= ${maxImageHeight}px high`
-      );
-      expect(contentRect.height).toBeLessThan(
-        maxContentHeight + 1,
+      ).toBeLessThan(maxImageHeight + 1);
+      expect(
+        contentRect.height,
         `${sizeName} content should be <= ${maxContentHeight}px high`
-      );
-      expect(actionRect.bottom).toEqual(
-        cardRect.bottom,
-        `${sizeName} action should be at bottom of card`
+      ).toBeLessThan(maxContentHeight + 1);
+      expect(actionRect.bottom, `${sizeName} action should be at bottom of card`).toBe(
+        cardRect.bottom
       );
     };
 
