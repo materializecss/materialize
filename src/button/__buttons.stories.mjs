@@ -1,9 +1,3 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
-
-export default {
-  title: 'Components/Buttons'
-} satisfies Meta;
-
 const BTN_SIZES = {
   Small: ['btn-small'],
   'Small disabled': ['btn-small', 'disabled'],
@@ -21,7 +15,7 @@ const BTN_STYLES = {
   Text: ['text']
 };
 
-export const Basic: StoryObj = {
+export const Basic = {
   render(args) {
     const table = document.createElement('table');
     const headerRow = table.insertRow();
@@ -64,7 +58,7 @@ export const Basic: StoryObj = {
   }
 };
 
-export const Elevated: StoryObj = {
+export const Elevated = {
   ...Basic,
   args: {
     label: 'Button',
@@ -72,7 +66,7 @@ export const Elevated: StoryObj = {
   }
 };
 
-export const FloatingWithText: StoryObj = {
+export const FloatingWithText = {
   ...Basic,
   args: {
     label: 'B',
@@ -80,7 +74,7 @@ export const FloatingWithText: StoryObj = {
   }
 };
 
-export const FloatingWithIcon: StoryObj = {
+export const FloatingWithIcon = {
   ...Basic,
   args: {
     label: '',
@@ -89,7 +83,7 @@ export const FloatingWithIcon: StoryObj = {
   }
 };
 
-export const IconLeft: StoryObj = {
+export const IconLeft = {
   ...Basic,
   args: {
     label: 'Button',
@@ -98,7 +92,7 @@ export const IconLeft: StoryObj = {
   }
 };
 
-export const IconRight: StoryObj = {
+export const IconRight = {
   ...Basic,
   args: {
     label: 'Submit',
@@ -107,7 +101,7 @@ export const IconRight: StoryObj = {
   }
 };
 
-export const FloatingActionButton: StoryObj = {
+export const FloatingActionButton = {
   render() {
     return `
 <div class="fixed-action-btn">

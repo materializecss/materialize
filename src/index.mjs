@@ -1,7 +1,7 @@
 import { Autocomplete } from './autocomplete/autocomplete';
 import { FloatingActionButton } from './button/floatingactionbutton';
 import { Cards } from './card/cards';
-import { Carousel } from './carousel/carousel';
+import { Carousel, Slider } from './carousel/carousel';
 import { Chips } from './chip/chips';
 import { Collapsible } from './collapsible/collapsible';
 import { Datepicker } from './datepicker/datepicker';
@@ -10,7 +10,6 @@ import { Forms } from './textfield/forms';
 import { Modal } from './dialog/modal';
 import { FormSelect } from './textfield/select';
 import { Sidenav } from './navigation-drawer/sidenav';
-import { Slider } from './carousel/slider';
 import { Tabs } from './tabs/tabs';
 import { Timepicker } from './timepicker/timepicker';
 import { Toast } from './snackbar/toasts';
@@ -87,7 +86,6 @@ export {
   version,
   // components:
   Autocomplete,
-  FloatingActionButton,
   Cards,
   Carousel,
   CharacterCounter,
@@ -95,16 +93,17 @@ export {
   Collapsible,
   Datepicker,
   Dropdown,
+  FloatingActionButton,
+  FormSelect,
   Forms,
   Modal,
+  Range,
   ScrollSpy,
-  FormSelect,
   Sidenav,
   Slider,
   Tabs,
   Timepicker,
   Toast,
   Tooltip,
-  Waves,
-  Range
+  Waves
 };

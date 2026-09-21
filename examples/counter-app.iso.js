@@ -1,6 +1,6 @@
-import { Number, Text } from '../components/atomic/atomic.mjs';
-import { Card } from '../components/card/card.mjs';
-import { Button } from '../components/button/button.mjs';
+import { Number, Text } from '../src/atomic/atomic.mjs';
+import { Card } from '../src/card/card.mjs';
+import { Button } from '../src/button/button.mjs';
 
 function createCounterApp() {
   return new Card({

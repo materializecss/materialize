@@ -17,8 +17,8 @@
       href="/dist/css/materialize.min.css"
       media="screen,projection"
     />
-    <link type="text/css" rel="stylesheet" href="/components/textfield/formfields.css" />
-    <link type="text/css" rel="stylesheet" href="/components/appbar/appbar.css" />
+    <link type="text/css" rel="stylesheet" href="/src/textfield/formfields.css" />
+    <link type="text/css" rel="stylesheet" href="/src/appbar/appbar.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <style>
       body {
@@ -136,8 +136,8 @@
     <!-- JS -->
     <script type="text/javascript" src="/dist/js/materialize.min.js"></script>
     <script type="module">
-      import { TextField } from "@materializecss/materialize/components/textfield/textfield.mjs";
-      import { AppBar } from "@materializecss/materialize/components/appbar/appbar.mjs";
+      import { TextField } from "@materializecss/materialize/src/textfield/textfield.mjs";
+      import { AppBar } from "@materializecss/materialize/src/appbar/appbar.mjs";
 
       const appBar = new AppBar().setTitle('My App');
       document.querySelector('.appbar').innerHTML = appBar.toHTML();

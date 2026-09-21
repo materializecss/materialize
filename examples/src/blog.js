@@ -1,9 +1,9 @@
-import { Text } from '../../components/atomic/atomic.mjs';
-import { Component } from '../../components/atomic/component.mjs';
-import { Page, Container } from '../../components/atomic/page.mjs';
-import { Breadcrumb } from '../../components/breadcrumb/breadcrumb.mjs';
-import { Button } from '../../components/button/button.mjs';
-import { AssistChip } from '../../components/chip/chip.mjs';
+import { Text } from '../../src/atomic/atomic.mjs';
+import { Component } from '../../src/atomic/component.mjs';
+import { Page, Container } from '../../src/atomic/page.mjs';
+import { Breadcrumb } from '../../src/breadcrumb/breadcrumb.mjs';
+import { Button } from '../../src/button/button.mjs';
+import { AssistChip } from '../../src/chip/chip.mjs';
 
 // Article
 class BlogArticle extends Component {

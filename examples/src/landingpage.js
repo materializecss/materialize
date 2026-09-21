@@ -1,5 +1,5 @@
-import { Text } from '../../components/atomic/atomic.mjs';
-import { Container, Page } from '../../components/atomic/page.mjs';
+import { Text } from '../../src/atomic/atomic.mjs';
+import { Container, Page } from '../../src/atomic/page.mjs';
 
 const landingPage = new Page({
   title: 'T-Shirt Landingpage',
