@@ -1,29 +1,3 @@
-/**
-new approach for floating labels aka "form-fields" (css only)
-- also use for selects, autocomplete, etc.
-
-<div class="row g-1 p-3">
-  <!-- Animated -->
-  <fieldset class="form-field animated s12 m4">
-    <legend>Given Name</legend>
-    <input type="text" id="my-input-1" placeholder=" "/>
-    <label for="my-input-1">Given Name</label>
-  </fieldset>
-  <!-- Disabled-->
-  <fieldset class="form-field s12 m4" disabled>
-    <legend>Family Name</legend>
-    <input type="text" id="my-input-2" placeholder="e.g. Doe" />
-    <label for="my-input-2">Family Name</label>
-  </fieldset>
-  <!-- different placeholder than label + required -->
-  <fieldset class="form-field s12 m4">
-    <legend>Birthmonth</legend>
-    <input type="text" id="my-input-3" placeholder="e.g. April" required />
-    <label for="my-input-3">Birthmonth</label>
-  </fieldset>
-</div>
-*/
-
 :root {
   --mw-font-size: 16px;
   --mw-border-radius: 8px;
@@ -135,15 +109,19 @@ fieldset.form-field.animated legend::before {
   content: '';
   position: absolute;
   display: block;
-  width: calc(100% - var(--mw-border-radius));
-  right: calc(0.5 * var(--mw-border-radius));
-  height: 0;
-  border-top: var(--mw-border-width) solid var(--mw-idle-color);
+  width: 100%;
+  height: var(--mw-border-width);
+  left: 0;
+  /* Replace top calc with relative centering */
+  top: 50%;
+  transform: translateY(-50%);
   align-self: center;
   transition: width calc(var(--mw-inputlabel-duration) * 0.8);
 }
+
 fieldset.form-field.animated legend {
   color: transparent;
+  position: relative;
 }
 fieldset.form-field.animated input::placeholder {
   opacity: 1;
