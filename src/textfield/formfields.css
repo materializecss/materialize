@@ -48,7 +48,6 @@ fieldset.form-field legend {
   margin: 0;
   margin-left: calc(var(--mw-padding-left) - var(--mw-label-padding) - var(--mw-border-width));
   cursor: text;
-  /* color: transparent; */
   user-select: none;
 }
 fieldset.form-field input,
@@ -69,18 +68,11 @@ fieldset.form-field select {
   line-height: normal;
   outline: none;
   background: none;
-  /* background-color: #0f05 !important; */
 }
 fieldset.form-field select {
   padding: 0;
-  /* margin: 0; */
   padding-left: calc(var(--mw-padding-left) - var(--mw-label-padding));
-  /* background-color: #f005 !important; */
   z-index: 2;
-}
-fieldset.form-field select option {
-  background-color: black;
-  color: white;
 }
 fieldset.form-field input::placeholder {
   color: var(--mw-idle-color);

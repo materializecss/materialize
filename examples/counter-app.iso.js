@@ -7,8 +7,8 @@ function createCounterApp() {
     children: [
       new Text('My Counter').setTagName('div'),
       new Number(9),
-      new Button('➕'),
-      new Button('➖')
+      new Button('+'),
+      new Button('-')
     ]
   }).addClassname('p-3');
 }

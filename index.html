@@ -29,9 +29,11 @@
   </head>
   <body>
     <div class="container">
-      <h1 style="font-size: 1.5rem;">Examples</h1>
-      <p>For quick testing purposes. The files are used from dist directory.
-        Generate server side html or render on client. Be in control and decide.</p>
+      <h1 style="font-size: 1.5rem">Examples</h1>
+      <p>
+        For quick testing purposes. The files are used from dist directory. Generate server side
+        html or render on client. Be in control and decide.
+      </p>
       <a href="./examples/html/blog.html" class="btn-small tonal">👉 Visit Blog</a>
 
       <div class="mt-3" style="border: 1px dashed #888">
@@ -109,50 +111,46 @@
             <input type="date" id="my-input-birthday" placeholder=" " />
             <label for="my-input-birthday">Birthday</label>
           </fieldset>
+        </div>
 
-          <!-- Checkboxes -->
+        <!-- Checkboxes -->
+        <div class="p-3">
           <p>
             <label>
               <input type="checkbox" checked="checked" />
               <span>Checked</span>
             </label>
           </p>
-
           <p>
             <label>
-              <input type="checkbox" class="filled-in"/>
+              <input type="checkbox" class="filled-in" />
               <span>Filled in unchecked</span>
             </label>
           </p>
         </div>
 
-        <div class="my-5">
-          <h6>Tabs</h6>
-            <div style="width: 20%; height: 40px">
-            <ul class="tabs">
-              <li class="tab"><a href="#test1">Test 1</a></li>
-              <li class="tab"><a class="active" href="#test2">Test 2</a></li>
-              <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
-              <li class="tab"><a href="#test4">Test 4</a></li>
-            </ul>
-            <div id="test1" class="col s12">Test 1</div>
-            <div id="test2" class="col s12">Test 2</div>
-            <div id="test3" class="col s12">Test 3</div>
-            <div id="test4" class="col s12">Test 4</div>
-            </div>
-          </div>
+        <div class="my-5 p-3" style="border: 1px solid red">
+          <ul class="tabs">
+            <li class="tab"><a href="#test1">Test 1</a></li>
+            <li class="tab"><a class="active" href="#test2">Test 2</a></li>
+            <li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
+            <li class="tab"><a href="#test4">Test 4</a></li>
+          </ul>
+          <div id="test1" class="col s12">Test 1</div>
+          <div id="test2" class="col s12">Test 2</div>
+          <div id="test3" class="col s12">Test 3</div>
+          <div id="test4" class="col s12">Test 4</div>
         </div>
 
         <div class="app mt-5"></div>
-
       </div>
     </div>
 
     <!-- JS -->
     <script type="text/javascript" src="/dist/js/materialize.min.js"></script>
     <script type="module">
-      import { TextField } from "@materializecss/materialize/src/textfield/textfield.mjs";
-      import { AppBar } from "@materializecss/materialize/src/appbar/appbar.mjs";
+      import { TextField } from '@materializecss/materialize/src/textfield/textfield.mjs';
+      import { AppBar } from '@materializecss/materialize/src/appbar/appbar.mjs';
 
       const appBar = new AppBar().setTitle('My App');
       document.querySelector('.appbar').innerHTML = appBar.toHTML();
@@ -172,10 +170,9 @@
       const appElem = template.content.firstElementChild;
       document.querySelector('.app').replaceChildren(appElem);
       hydrate(appElem);
-
     </script>
     <script>
-      M.AutoInit();
+      //M.AutoInit();
     </script>
   </body>
 </html>
