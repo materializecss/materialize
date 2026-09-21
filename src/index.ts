@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Autocomplete, AutocompleteOptions } from '../components/autocomplete/autocomplete';
 import {
   FloatingActionButton,
@@ -14,52 +13,25 @@ import { Forms } from '../components/textfield/forms';
 import { Modal, ModalOptions } from '../components/dialog/modal';
 import { FormSelect, FormSelectOptions } from '../components/textfield/select';
 import { Sidenav, SidenavOptions } from '../components/navigation-drawer/sidenav';
-import { Slider, SliderOptions } from '../components/carousel/slider';
+import { Slider } from '../components/carousel/slider';
 import { Tabs, TabsOptions } from '../components/tabs/tabs';
 import { Timepicker, TimepickerOptions } from '../components/timepicker/timepicker';
-import { Toast, ToastOptions } from '../components/snackbar/toasts';
+import { Toast } from '../components/snackbar/toasts';
 import { Tooltip, TooltipOptions } from '../components/tooltip/tooltip';
 import { Range } from '../components/slider/range';
-
-import { TapTarget, TapTargetOptions } from './tapTarget';
-import { CharacterCounter /*, CharacterCounterOptions*/ } from './characterCounter';
-import { Parallax, ParallaxOptions } from './parallax';
-import { Pushpin, PushpinOptions } from './pushpin';
-import { ScrollSpy, ScrollSpyOptions } from './scrollspy';
-import { Waves } from './waves';
+import {
+  CharacterCounter /*, CharacterCounterOptions*/
+} from '../components/textfield/characterCounter';
+import { ScrollSpy, ScrollSpyOptions } from '../components/scrollspy/scrollspy';
+import { Waves } from '../components/ripple/waves';
 import { Utils } from './utils';
-/* eslint-enable @typescript-eslint/no-unused-vars */
 
-export {
-  Autocomplete,
-  FloatingActionButton,
-  Cards,
-  Carousel,
-  CharacterCounter,
-  Chips,
-  Collapsible,
-  Datepicker,
-  Dropdown,
-  Forms,
-  Modal,
-  Parallax,
-  Pushpin,
-  ScrollSpy,
-  FormSelect,
-  Sidenav,
-  Slider,
-  Tabs,
-  TapTarget,
-  Timepicker,
-  Toast,
-  Tooltip,
-  Waves,
-  Range
-};
+// import { TapTarget, TapTargetOptions } from '../components/tooltip/__tapTarget';
+// import { Pushpin, PushpinOptions } from './__pushpin';
 
-export const version = '2.3.3';
+const version = '2.3.3';
 
-export interface AutoInitOptions {
+interface AutoInitOptions {
   Autocomplete?: Partial<AutocompleteOptions>;
   Cards?: Partial<CardsOptions>;
   Carousel?: Partial<CarouselOptions>;
@@ -68,16 +40,15 @@ export interface AutoInitOptions {
   Datepicker?: Partial<DatepickerOptions>;
   Dropdown?: Partial<DropdownOptions>;
   Modal?: Partial<ModalOptions>;
-  Parallax?: Partial<ParallaxOptions>;
-  Pushpin?: Partial<PushpinOptions>;
   ScrollSpy?: Partial<ScrollSpyOptions>;
   FormSelect?: Partial<FormSelectOptions>;
   Sidenav?: Partial<SidenavOptions>;
   Tabs?: Partial<TabsOptions>;
-  TapTarget?: Partial<TapTargetOptions>;
   Timepicker?: Partial<TimepickerOptions>;
   Tooltip?: Partial<TooltipOptions>;
   FloatingActionButton?: Partial<FloatingActionButtonOptions>;
+  // Pushpin?: Partial<PushpinOptions>;
+  // TapTarget?: Partial<TapTargetOptions>;
 }
 
 /**
@@ -85,7 +56,7 @@ export interface AutoInitOptions {
  * @param context Root element to initialize. Defaults to `document.body`.
  * @param options Options for each component.
  */
-export function AutoInit(context: HTMLElement = document.body, options?: Partial<AutoInitOptions>) {
+function AutoInit(context: HTMLElement = document.body, options?: Partial<AutoInitOptions>) {
   const registry = {
     Autocomplete: context.querySelectorAll('.autocomplete:not(.no-autoinit)'),
     Cards: context.querySelectorAll('.cards:not(.no-autoinit)'),
@@ -115,16 +86,15 @@ export function AutoInit(context: HTMLElement = document.body, options?: Partial
   Datepicker.init(registry.Datepicker, options?.Datepicker ?? {});
   Dropdown.init(registry.Dropdown, options?.Dropdown ?? {});
   Modal.init(registry.Modal, options?.Modal ?? {});
-  Parallax.init(registry.Parallax, options?.Parallax ?? {});
-  Pushpin.init(registry.Pushpin, options?.Pushpin ?? {});
   ScrollSpy.init(registry.ScrollSpy, options?.ScrollSpy ?? {});
   FormSelect.init(registry.FormSelect, options?.FormSelect ?? {});
   Sidenav.init(registry.Sidenav, options?.Sidenav ?? {});
   Tabs.init(registry.Tabs, options?.Tabs ?? {});
-  TapTarget.init(registry.TapTarget, options?.TapTarget ?? {});
   Timepicker.init(registry.Timepicker, options?.Timepicker ?? {});
   Tooltip.init(registry.Tooltip, options?.Tooltip ?? {});
   FloatingActionButton.init(registry.FloatingActionButton, options?.FloatingActionButton ?? {});
+  // Pushpin.init(registry.Pushpin, options?.Pushpin ?? {});
+  // TapTarget.init(registry.TapTarget, options?.TapTarget ?? {});
 }
 
 // Init
@@ -135,8 +105,39 @@ if (typeof document !== 'undefined') {
   document.addEventListener('focus', Utils.docHandleFocus, true);
   document.addEventListener('blur', Utils.docHandleBlur, true);
 }
+
 Forms.Init();
 Chips.Init();
 Waves.Init();
 Range.Init();
 Cards.Init();
+
+export {
+  AutoInit,
+  AutoInitOptions,
+  version,
+  // components:
+  Autocomplete,
+  FloatingActionButton,
+  Cards,
+  Carousel,
+  CharacterCounter,
+  Chips,
+  Collapsible,
+  Datepicker,
+  Dropdown,
+  Forms,
+  Modal,
+  ScrollSpy,
+  FormSelect,
+  Sidenav,
+  Slider,
+  Tabs,
+  Timepicker,
+  Toast,
+  Tooltip,
+  Waves,
+  Range
+  // Pushpin,
+  // TapTarget,
+};

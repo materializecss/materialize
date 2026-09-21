@@ -1,7 +1,7 @@
 import { Utils } from '../../src/utils';
 import { Component, BaseOptions, InitElements, MElement, I18nOptions } from '../../src/component';
-import { DockedDisplayPlugin } from '../../src/dockedDisplayPlugin';
-import { ModalDisplayPlugin } from '../../src/modalDisplayPlugin';
+import { DockedDisplayPlugin } from '../../src/__dockedDisplayPlugin';
+import { ModalDisplayPlugin } from '../../src/__modalDisplayPlugin';
 
 export type Views = 'hours' | 'minutes';
 

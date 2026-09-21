@@ -1,8 +1,8 @@
 import { Utils } from '../../src/utils';
 import { BaseOptions, Component, I18nOptions, InitElements, MElement } from '../../src/component';
 import { FormSelect } from '../textfield/select';
-import { DockedDisplayPlugin } from '../../src/dockedDisplayPlugin';
-import { ModalDisplayPlugin } from '../../src/modalDisplayPlugin';
+import { DockedDisplayPlugin } from '../../src/__dockedDisplayPlugin';
+import { ModalDisplayPlugin } from '../../src/__modalDisplayPlugin';
 
 interface DateI18nOptions extends I18nOptions {
   previousMonth: string;

@@ -1,4 +1,4 @@
-import { Component, InitElements, MElement } from './component';
+import { Component, InitElements, MElement } from '../../src/component';
 
 interface BaseOptions {}
 
