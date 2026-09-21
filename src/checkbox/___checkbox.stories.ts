@@ -1,16 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/html-vite';
-
-export default {
-  title: 'Components/Checkbox'
-} satisfies Meta;
-
-export const Default: StoryObj = {
+export const Default = {
   render() {
     return `
 <form action="#">
 
   <p>Normal basic checkbox input</p>
-  
+
   <input type="checkbox" />
   <input type="checkbox" checked="checked" />
   <input type="checkbox" disabled />
@@ -57,7 +51,7 @@ export const Default: StoryObj = {
   }
 };
 
-export const FilledIn: StoryObj = {
+export const FilledIn = {
   render() {
     return `
 <form action="#">
@@ -90,7 +84,7 @@ export const FilledIn: StoryObj = {
   }
 };
 
-export const Indeterminate: StoryObj = {
+export const Indeterminate = {
   render() {
     return `
 <form action="#">
