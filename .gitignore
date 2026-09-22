@@ -30,5 +30,4 @@ yarn.lock
 
 dist/**/*
 
-*storybook.log
-storybook-static
+# examples/html

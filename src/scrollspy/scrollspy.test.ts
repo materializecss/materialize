@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { ScrollSpy } from './scrollspy';
 
 declare global {
-  var M: {
+  const M: {
     ScrollSpy: typeof ScrollSpy;
   };
 }

@@ -1,22 +1,24 @@
 import { Autocomplete } from './autocomplete/autocomplete';
-import { FloatingActionButton } from './button/floatingactionbutton';
+import { Button } from './button/button';
 import { Cards } from './card/cards';
 import { Carousel, Slider } from './carousel/carousel';
+import { CharacterCounter } from './textfield/characterCounter';
 import { Chips } from './chip/chips';
 import { Collapsible } from './collapsible/collapsible';
 import { Datepicker } from './datepicker/datepicker';
 import { Dropdown } from './dropdown/dropdown';
 import { Forms } from './textfield/forms';
-import { Modal } from './dialog/modal';
 import { FormSelect } from './textfield/select';
+import { FloatingActionButton } from './button/floatingactionbutton';
+import { Modal } from './dialog/modal';
+import { ScrollSpy } from './scrollspy/scrollspy';
 import { Sidenav } from './navigation-drawer/sidenav';
 import { Tabs } from './tabs/tabs';
+import { TextField } from './textfield/textfield.mjs';
 import { Timepicker } from './timepicker/timepicker';
 import { Toast } from './snackbar/toasts';
 import { Tooltip } from './tooltip/tooltip';
 import { Range } from './slider/range';
-import { CharacterCounter } from './textfield/characterCounter';
-import { ScrollSpy } from './scrollspy/scrollspy';
 import { Waves } from './ripple/waves';
 import { Utils } from './utils';
 
@@ -67,14 +69,12 @@ function AutoInit(context = document.body, options) {
 }
 
 // Init
-
 if (typeof document !== 'undefined') {
   document.addEventListener('keydown', Utils.docHandleKeydown, true);
   document.addEventListener('keyup', Utils.docHandleKeyup, true);
   document.addEventListener('focus', Utils.docHandleFocus, true);
   document.addEventListener('blur', Utils.docHandleBlur, true);
 }
-
 Forms.Init();
 Chips.Init();
 Waves.Init();
@@ -86,6 +86,7 @@ export {
   version,
   // components:
   Autocomplete,
+  Button,
   Cards,
   Carousel,
   CharacterCounter,
@@ -102,6 +103,7 @@ export {
   Sidenav,
   Slider,
   Tabs,
+  TextField,
   Timepicker,
   Toast,
   Tooltip,
