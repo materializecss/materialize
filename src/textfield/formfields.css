@@ -104,6 +104,7 @@ fieldset.form-field.animated legend::before {
   width: 100%;
   height: var(--mw-border-width);
   left: 0;
+  background-color: var(--mw-idle-color);
   /* Replace top calc with relative centering */
   top: 50%;
   transform: translateY(-50%);
@@ -147,7 +148,8 @@ fieldset.form-field:hover {
 }
 fieldset.form-field:hover legend::before {
   border-width: var(--mw-hover-border-width);
-  border-color: var(--mw-hover-color);
+  /*border-color: var(--mw-hover-color);*/
+  background-color: var(--mw-hover-color);
 }
 fieldset.form-field:hover legend {
   color: var(--mw-hover-color);

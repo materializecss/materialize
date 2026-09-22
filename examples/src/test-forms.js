@@ -24,7 +24,7 @@ const formTestPage = new Page({
 
         new Component('Many inputs').addClassname('mt-3'),
         new Grid({
-          children: Array.from({ length: 333 }, (_, i) => {
+          children: Array.from({ length: 33 }, (_, i) => {
             const x = new TextField().setLabel(i + 1);
             return x.toHTML();
           })
