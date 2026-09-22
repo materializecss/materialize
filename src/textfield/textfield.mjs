@@ -2,11 +2,14 @@ import { Component } from '../atomic/component.mjs';
 
 class TextField extends Component {
   #labelText;
-  #isReadOnly = false;
-  #isRequired = false;
+  #isReadOnly;
+  #isRequired;
 
   constructor(options) {
     super(options);
+    this.#labelText = '';
+    this.#isRequired = false;
+    this.#isReadOnly = false;
     this.setTagName('fieldset');
     this.addClassname('form-field animated');
   }
@@ -17,10 +20,11 @@ class TextField extends Component {
   }
 
   toHTML() {
-    const elemId = 'elem-' + 100000 * Math.random();
-    const html = `<legend>${this.#labelText}</legend>
+    const elemId = 'textfield-' + 100000 * Math.random();
+    const hasLabel = this.#labelText !== '';
+    const html = `${hasLabel ? `<legend>${this.#labelText}</legend>` : ''}
       <input type="text" id="${elemId}" name="" placeholder="${this.#labelText}"/>
-      <label for="${elemId}">${this.#labelText}</label>`;
+      ${hasLabel ? `<label for="${elemId}">${this.#labelText}</label>` : ''}`;
     this.setChildren(html);
     return super.toHTML();
   }
