@@ -30,4 +30,4 @@ yarn.lock
 
 dist/**/*
 
-# examples/html
+examples/html
