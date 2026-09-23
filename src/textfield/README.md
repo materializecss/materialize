@@ -10,12 +10,14 @@ new approach for floating labels aka "form-fields" (css only)
     <input type="text" id="my-input-1" placeholder=" " />
     <label for="my-input-1">Given Name</label>
   </fieldset>
+
   <!-- Disabled-->
   <fieldset class="form-field s12 m4" disabled>
     <legend>Family Name</legend>
     <input type="text" id="my-input-2" placeholder="e.g. Doe" />
     <label for="my-input-2">Family Name</label>
   </fieldset>
+
   <!-- different placeholder than label + required -->
   <fieldset class="form-field s12 m4">
     <legend>Birthmonth</legend>

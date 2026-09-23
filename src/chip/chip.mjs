@@ -9,10 +9,14 @@ class Chip extends Component {
     super(options);
     this.addClassname('chip');
     this.setAttribute('tabindex', '0');
-    if (options.name) this.#text = options.name;
-    if (options.href) {
-      this.setTagName('a');
-      this.setAttribute('href', options.href);
+    if (typeof options === 'string') {
+      this.#text = options;
+    } else {
+      if (options.name) this.#text = options.name;
+      if (options.href) {
+        this.setTagName('a');
+        this.setAttribute('href', options.href);
+      }
     }
   }
 

@@ -1,5 +1,3 @@
-@use '../../sass/mixins.module.scss' as *;
-
 .datepicker-container {
   display: flex;
   flex-direction: column;
@@ -14,12 +12,12 @@
   width: 280px;
   margin: 0 auto;
 
-  .selects-container {
+  & .selects-container {
     display: flex;
   }
 
-  .select-wrapper {
-    input {
+  & .select-wrapper {
+    & input {
       height: 49px;
       margin: 4px 0 0 0;
       border-bottom: none;
@@ -36,89 +34,76 @@
       }
     }
 
-    .caret {
+    & .caret {
       display: none;
     }
   }
 
-  .select-dropdown {
+  & .select-dropdown {
     padding: 0;
     vertical-align: middle;
   }
 
-  .select-year input,
-  .select-month input {
+  & .select-year input,
+  & .select-month input {
     background-color: transparent;
   }
 
-  .select-year input {
+  & .select-year input {
     width: 50px;
   }
 
-  .select-month input {
+  & .select-month input {
     width: 80px;
   }
 
-  .month-prev,
-  .month-next {
+  & .month-prev,
+  & .month-next {
     display: inline-flex;
     align-items: center;
-
-    @include btn($height: 49px);
+    height: 49px;
+    margin-top: 4px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
 
     &:focus {
       background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
     }
-  }
 
-  .month-prev > svg,
-  .month-next > svg {
-    fill: var(--md-sys-color-on-surface-variant);
+    & > svg {
+      fill: var(--md-sys-color-on-surface-variant);
+    }
   }
 }
-
-.month-prev, .month-next {
-  height: 49px;
-  margin-top: 4px;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-}
-
 
 /* Date Display */
 .datepicker-date-display {
   flex: 1 auto;
-  // @removed since v2.2.1-dev regarding Material M3 standards
-  // background-color: var(--md-sys-color-primary);
-  // color:  var(--md-sys-color-on-primary);
   padding: 20px 22px;
   border-bottom: 1px solid var(--md-sys-color-surface-variant-light);
   font-weight: 500;
 
-  .year-text {
+  & .year-text {
     display: block;
     font-size: 1.5rem;
     line-height: 25px;
     color: var(--md-sys-color-on-primary);
   }
 
-  .date-text {
+  & .date-text {
     display: block;
     font-size: 2.8rem;
     line-height: 47px;
     font-weight: 500;
   }
-
-  .daterange & {
-    .date-text {
-      font-size: 1.8rem;
-    }
-  }
 }
 
+.daterange .datepicker-date-display .date-text {
+  font-size: 1.8rem;
+}
 
-/* Calendar */
+/* Calendar Grid */
 .datepicker-calendar-container {
   flex: 2.5 auto;
 }
@@ -128,55 +113,41 @@
   font-size: 1rem;
   margin: 0 auto;
 
-  thead {
+  & thead {
     border-bottom: none;
   }
 
-  th {
+  & th {
     padding: 10px 5px;
     text-align: center;
   }
 
-  tr {
+  & tr {
     border: none;
   }
 
-  abbr {
+  & abbr {
     text-decoration: none;
     color: var(--md-sys-color-on-surface-variant);
   }
 
-  .datepicker-day {
+  & .datepicker-day {
     padding: 0;
     color: var(--md-sys-color-on-background);
-    // border-radius: 50%;
 
     &.is-today {
       color: var(--md-sys-color-primary);
     }
-
-    /*&.is-selected button {
-      background-color: var(--md-sys-color-primary);
-      color:  var(--md-sys-color-on-primary);
-    }*/
   }
 }
 
-// @todo
-.datepicker-day.has-event {}
-// @todo
-.datepicker-day.is-inrange {}
-// @todo
-.datepicker-day.is-startrange {}
-// @todo
-.datepicker-day.is-endrange {}
-
+/* Date Range Styling */
 .datepicker-day.is-daterange-start,
 .datepicker-day.is-daterange-end,
 .datepicker-day.is-daterange {
   position: relative;
 
-  &:before {
+  &::before {
     position: absolute;
     top: 5px;
     width: 100%;
@@ -187,19 +158,20 @@
   }
 }
 
-.datepicker-day.is-daterange-start:before,
-.datepicker-day.is-daterange-end:before {
+.datepicker-day.is-daterange-start::before,
+.datepicker-day.is-daterange-end::before {
   width: 50%;
 }
 
-.datepicker-day.is-daterange-start:before {
+.datepicker-day.is-daterange-start::before {
   left: 50%;
 }
 
-.datepicker-day.is-daterange .datepicker-day-button:before {
+.datepicker-day.is-daterange .datepicker-day-button::before {
   background-color: var(--md-sys-color-primary-container);
 }
 
+/* Day Button */
 .datepicker-day-button {
   background-color: transparent;
   border: none;
@@ -222,20 +194,21 @@
     border-color: var(--md-sys-color-primary);
   }
 
-  .is-selected & {
-    background-color: var(--md-sys-color-primary);
-    color: var(--md-sys-color-on-primary);
-
-    &:focus {
-      background-color: var(--md-sys-color-surface-variant);
-      color: var(--md-sys-color-primary);
-    }
-  }
-
-  &.is-outside-current-month button,
-  &.is-disabled button {
+  &.is-outside-current-month,
+  &.is-disabled {
     color: var(--md-sys-color-on-surface);
+    opacity: 0.38;
     pointer-events: none;
+  }
+}
+
+.is-selected .datepicker-day-button {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+
+  &:focus {
+    background-color: var(--md-sys-color-surface-variant);
+    color: var(--md-sys-color-primary);
   }
 }
 
@@ -260,9 +233,9 @@
   color: var(--md-sys-color-error);
 }
 
-/* Display modes */
+/* Modal Variant */
 .datepicker-modal {
-  max-width: calc(325px + var(--modal-padding) * 2);
+  max-width: calc(325px + var(--modal-padding, 0px) * 2);
   max-height: none;
   background-color: var(--md-sys-color-inverse-on-surface);
 }

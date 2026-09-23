@@ -3,11 +3,11 @@
 html {
   box-sizing: border-box;
 }
-
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
-
 body {
   background-color: var(--md-sys-color-background);
   color: var(--md-sys-color-on-background);
@@ -28,58 +28,66 @@ a {
 }
 
 // Positioning
-.valign-wrapper { display: flex; align-items: center; }
-
-.clearfix { clear: both; }
+.valign-wrapper {
+  display: flex;
+  align-items: center;
+}
+.clearfix {
+  clear: both;
+}
 
 // Z-levels
 .z-depth-0 {
   box-shadow: none !important;
 }
-
 /* 2dp elevation modified*/
 .z-depth-1 {
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-  0 3px 1px -2px rgba(0, 0, 0, 0.12),
-  0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.12),
+    0 1px 5px 0 rgba(0, 0, 0, 0.2);
 }
-
 .z-depth-1-half {
-  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 3px 3px 0 rgba(0, 0, 0, 0.14),
+    0 1px 7px 0 rgba(0, 0, 0, 0.12),
+    0 3px 1px -1px rgba(0, 0, 0, 0.2);
 }
-
 /* 6dp elevation modified*/
 .z-depth-2 {
-  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-  0 1px 10px 0 rgba(0, 0, 0, 0.12),
-  0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
-
 /* 12dp elevation modified*/
 .z-depth-3 {
-  box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12),
-  0 5px 5px -3px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 8px 17px 2px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12),
+    0 5px 5px -3px rgba(0, 0, 0, 0.2);
 }
-
 /* 16dp elevation */
 .z-depth-4 {
-  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
-  0 6px 30px 5px rgba(0, 0, 0, 0.12),
-  0 8px 10px -7px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 16px 24px 2px rgba(0, 0, 0, 0.14),
+    0 6px 30px 5px rgba(0, 0, 0, 0.12),
+    0 8px 10px -7px rgba(0, 0, 0, 0.2);
 }
-
 /* 24dp elevation */
 .z-depth-5 {
-  box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
-  0 9px 46px 8px rgba(0, 0, 0, 0.12),
-  0 11px 15px -7px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0 9px 46px 8px rgba(0, 0, 0, 0.12),
+    0 11px 15px -7px rgba(0, 0, 0, 0.2);
 }
 
 .hoverable {
-  transition: box-shadow .25s;
+  transition: box-shadow 0.25s;
   &:hover {
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow:
+      0 8px 17px 0 rgba(0, 0, 0, 0.2),
+      0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 }
 
@@ -91,7 +99,11 @@ a {
 }
 
 //  Blockquote
-blockquote { margin: 20px 0; padding-left: 1.5rem; border-left: 5px solid var(--md-sys-color-primary); }
+blockquote {
+  margin: 20px 0;
+  padding-left: 1.5rem;
+  border-left: 5px solid var(--md-sys-color-primary);
+}
 
 // Icon Styles
 i {
@@ -133,35 +145,36 @@ video.responsive-video {
   height: auto;
 }
 
-// Parallax
-.parallax-container {
-  position: relative;
-  overflow: hidden;
-  height: 500px;
+// // Parallax
+// .parallax-container {
+//   position: relative;
+//   overflow: hidden;
+//   height: 500px;
 
-  .parallax {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
+//   .parallax {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     z-index: -1;
 
-    img {
-      opacity: 0;
-      position: absolute;
-      left: 50%;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      transform: translate3d(0, 0, 0);
-      transform: translateX(-50%);
-    }
-  }
-}
+//     img {
+//       opacity: 0;
+//       position: absolute;
+//       left: 50%;
+//       bottom: 0;
+//       min-width: 100%;
+//       min-height: 100%;
+//       transform: translate3d(0, 0, 0);
+//       transform: translateX(-50%);
+//     }
+//   }
+// }
 
 // Pushpin
-.pin-top, .pin-bottom {
+.pin-top,
+.pin-bottom {
   position: relative;
 }
 
@@ -175,77 +188,92 @@ select:focus {
 }
 
 label {
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: var(--md-sys-color-on-surface-variant);
 }
-
 
 /*********************
   Transition Classes
 **********************/
 
-ul.staggered-list li { opacity: 0; }
-.fade-in { opacity: 0; transform-origin: 0 50%; }
+ul.staggered-list li {
+  opacity: 0;
+}
+.fade-in {
+  opacity: 0;
+  transform-origin: 0 50%;
+}
 
 /*********************
   Media Query Classes
 **********************/
-.hide-on-small-only, .hide-on-small-and-down {
-  @media #{$small-and-down} { display: none !important; }
+.hide-on-small-only,
+.hide-on-small-and-down {
+  @media #{$small-and-down} {
+    display: none !important;
+  }
 }
-
 .hide-on-med-and-down {
-  @media #{$medium-and-down} { display: none !important; }
+  @media #{$medium-and-down} {
+    display: none !important;
+  }
 }
-
 .hide-on-med-and-up {
-  @media #{$medium-and-up} { display: none !important; }
+  @media #{$medium-and-up} {
+    display: none !important;
+  }
 }
-
 .hide-on-med-only {
   @media only screen and (min-width: $small-screen-up) and (max-width: $medium-screen) {
     display: none !important;
   }
 }
-
 .hide-on-large-only {
-  @media #{$large-and-up} { display: none !important; }
+  @media #{$large-and-up} {
+    display: none !important;
+  }
 }
-
 .hide-on-extra-large-only {
-  @media #{$extra-large-and-up} { display: none !important; }
+  @media #{$extra-large-and-up} {
+    display: none !important;
+  }
 }
-
 .show-on-extra-large {
-  @media #{$extra-large-and-up} { display: block !important; }
+  @media #{$extra-large-and-up} {
+    display: block !important;
+  }
 }
-
 .show-on-large {
-  @media #{$large-and-up} { display: block !important; }
+  @media #{$large-and-up} {
+    display: block !important;
+  }
 }
-
 .show-on-medium {
   @media only screen and (min-width: $small-screen-up) and (max-width: $medium-screen) {
     display: block !important;
   }
 }
-
 .show-on-small {
-  @media #{$small-and-down} { display: block !important; }
+  @media #{$small-and-down} {
+    display: block !important;
+  }
 }
-
 .show-on-medium-and-up {
-  @media #{$medium-and-up} { display: block !important; }
+  @media #{$medium-and-up} {
+    display: block !important;
+  }
 }
-
 .show-on-medium-and-down {
-  @media #{$medium-and-down} { display: block !important; }
+  @media #{$medium-and-down} {
+    display: block !important;
+  }
 }
-
 
 // Center text on mobile
 .center-on-small-only {
-  @media #{$small-and-down} { text-align: center; }
+  @media #{$small-and-down} {
+    text-align: center;
+  }
 }
 
 // Footer
@@ -276,7 +304,9 @@ ul.staggered-list li { opacity: 0; }
 }
 
 // Tables
-table, th, td {
+table,
+th,
+td {
   border: none;
 }
 
@@ -296,7 +326,7 @@ table {
   }
 
   &.highlight > tbody > tr {
-    transition: background-color .25s ease;
+    transition: background-color 0.25s ease;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.04);
@@ -308,7 +338,8 @@ table {
   }
 
   &.centered {
-    thead tr th, tbody tr td {
+    thead tr th,
+    tbody tr td {
       text-align: center;
     }
   }
@@ -318,7 +349,8 @@ tr {
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
 }
 
-td, th {
+td,
+th {
   padding: 15px 5px;
   display: table-cell;
   text-align: left;
@@ -328,7 +360,6 @@ td, th {
 
 // Responsive Table
 @media #{$medium-and-down} {
-
   table.responsive-table {
     width: 100%;
     border-collapse: collapse;
@@ -356,7 +387,7 @@ td, th {
         padding: 0 10px 0 0;
 
         th::before {
-          content: "\00a0";
+          content: '\00a0';
         }
       }
     }
@@ -400,7 +431,9 @@ td, th {
   height: 0;
   overflow: hidden;
 
-  iframe, object, embed {
+  iframe,
+  object,
+  embed {
     position: absolute;
     top: 0;
     left: 0;
@@ -413,56 +446,101 @@ td, th {
   Utility Classes
 *******************/
 
-.hide { display: none !important; }
+.hide {
+  display: none !important;
+}
 
 // Text Align
-.left-align { text-align: left; }
-.right-align { text-align: right }
-.center, .center-align { text-align: center; }
+.left-align {
+  text-align: left;
+}
+.right-align {
+  text-align: right;
+}
+.center,
+.center-align {
+  text-align: center;
+}
 
 // TODO: Remove this
-.left { float: left !important; }
-.right { float: right !important; }
+.left {
+  float: left !important;
+}
+.right {
+  float: right !important;
+}
 
 // No Text Select
-.no-select { user-select: none; }
-.circle { border-radius: 50%; }
-.center-block { display: block; margin-left: auto; margin-right: auto; }
-.truncate { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.no-padding { padding: 0 !important; }
+.no-select {
+  user-select: none;
+}
+.circle {
+  border-radius: 50%;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.no-padding {
+  padding: 0 !important;
+}
 
 /**************************
   Utility Spacing Classes
 **************************/
 
-$spacing-shortcuts: ("margin": "m", "padding": "p") !default;
-$spacing-directions: ("top": "t", "right": "r", "bottom": "b", "left": "l") !default;
-$spacing-horizontal: "x" !default;
-$spacing-vertical: "y" !default;
-$spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5": 1.5rem, "6": 3rem, "auto": auto) !default;
+$spacing-shortcuts: (
+  'margin': 'm',
+  'padding': 'p'
+) !default;
+$spacing-directions: (
+  'top': 't',
+  'right': 'r',
+  'bottom': 'b',
+  'left': 'l'
+) !default;
+$spacing-horizontal: 'x' !default;
+$spacing-vertical: 'y' !default;
+$spacing-values: (
+  '0': 0,
+  '1': 0.25rem,
+  '2': 0.5rem,
+  '3': 0.75rem,
+  '4': 1rem,
+  '5': 1.5rem,
+  '6': 3rem,
+  'auto': auto
+) !default;
 
-@each $property, $shortcut in $spacing-shortcuts{
-  @each $name, $value in $spacing-values{
+@each $property, $shortcut in $spacing-shortcuts {
+  @each $name, $value in $spacing-values {
     // All direction spacing
-    .#{$shortcut}-#{$name}{
+    .#{$shortcut}-#{$name} {
       #{$property}: $value !important;
     }
     // (t, b, r, l) spacing
-    @each $direction, $suffix in $spacing-directions{
-      .#{$shortcut}#{$suffix}-#{$name}{
-        #{$property}-#{$direction}: $value !important
+    @each $direction, $suffix in $spacing-directions {
+      .#{$shortcut}#{$suffix}-#{$name} {
+        #{$property}-#{$direction}: $value !important;
       }
     }
     // x spacing
-    @if $spacing-horizontal != null{
-       .#{$shortcut}#{$spacing-horizontal}-#{$name}{
-         #{$property}-left: $value !important;
-         #{$property}-right: $value !important;
-       }
+    @if $spacing-horizontal != null {
+      .#{$shortcut}#{$spacing-horizontal}-#{$name} {
+        #{$property}-left: $value !important;
+        #{$property}-right: $value !important;
+      }
     }
     // y spacing
-    @if $spacing-vertical != null{
-      .#{$shortcut}#{$spacing-vertical}-#{$name}{
+    @if $spacing-vertical != null {
+      .#{$shortcut}#{$spacing-vertical}-#{$name} {
         #{$property}-top: $value !important;
         #{$property}-bottom: $value !important;
       }
@@ -483,8 +561,10 @@ $spacing-values: ("0": 0, "1": 0.25rem, "2": 0.5rem, "3": 0.75rem, "4": 1rem, "5
 }
 
 /* This is needed for some mobile phones to display the Google Icon font properly */
-.material-icons, .material-symbols-outlined,
-.material-symbols-rounded, .material-symbols-sharp {
+.material-icons,
+.material-symbols-outlined,
+.material-symbols-rounded,
+.material-symbols-sharp {
   text-rendering: optimizeLegibility;
   font-feature-settings: 'liga';
 }

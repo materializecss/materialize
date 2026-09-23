@@ -1,5 +1,6 @@
 /* System Defaults */
-:root, :host {
+:root,
+:host {
   color-scheme: light;
   --md-sys-color-primary: var(--md-sys-color-primary-light);
   --md-sys-color-on-primary: var(--md-sys-color-on-primary-light);
@@ -34,7 +35,8 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root, :host {
+  :root,
+  :host {
     color-scheme: dark;
     --md-sys-color-primary: var(--md-sys-color-primary-dark);
     --md-sys-color-on-primary: var(--md-sys-color-on-primary-dark);
@@ -104,7 +106,7 @@
   --md-sys-color-outline-variant: var(--md-sys-color-outline-variant-light);
   --md-sys-color-scrim: var(--md-sys-color-scrim-light);
 }
- 
+
 :root[theme='dark'] {
   color-scheme: dark;
   --md-sys-color-primary: var(--md-sys-color-primary-dark);

@@ -1,18 +1,21 @@
-.chip {
-  --font-size: 14px;
-  --font-size-icon: 18px;
-  --padding: 8px;
+:root {
+  --mw-chip-height: 32px;
+  --mw-chip-font-size: 14px;
+  --mw-chip-font-size-icon: 18px;
+  --mw-chip-padding: 8px;
+}
 
+.chip {
   color: var(--md-sys-color-on-surface-variant);
   background-color: var(--md-sys-color-surface);
   display: inline-flex;
   white-space: nowrap;
   gap: 8px;
   margin: 0;
-  height: 32px;
-  padding-left: var(--padding);
-  padding-right: var(--padding);
-  font-size: var(--font-size);
+  height: var(--mw-chip-height);
+  padding-left: var(--mw-chip-padding);
+  padding-right: var(--mw-chip-padding);
+  font-size: var(--mw-chip-font-size);
   font-weight: 500;
   border-radius: 8px;
   align-items: center;
@@ -51,7 +54,7 @@
 }
 
 .chip > .material-icons {
-  font-size: var(--font-size-icon);
+  font-size: var(--mw-chip-font-size-icon);
   color: var(--md-sys-color-on-surface-variant);
 }
 

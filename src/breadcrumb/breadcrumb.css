@@ -1,0 +1,31 @@
+.breadcrumb-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+}
+
+.breadcrumb i,
+.breadcrumb i.material-icons,
+.breadcrumb i.material-symbols-outlined,
+.breadcrumb i.material-symbols-rounded,
+.breadcrumb i.material-symbols-sharp,
+.breadcrumb::before {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.breadcrumb::before {
+  content: '\E5CC';
+  font-family:
+    'Material Symbols Outlined', 'Material Symbols Rounded', 'Material Symbols Sharp',
+    'Material Icons';
+}
+
+.breadcrumb:first-child::before {
+  visibility: hidden;
+}

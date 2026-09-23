@@ -1,0 +1,182 @@
+:root {
+  --btn-height: 40px;
+  --btn-font-size-icon: 16px;
+  --btn-padding: 24px;
+  --btn-padding-icon: 16px;
+  --btn-gap-icon: 8px;
+  --btn-border-radius: 4px;
+  --btn-font-size: 14px;
+}
+
+/* ==========================================
+   Basis-Button (.btn)
+   ========================================== */
+.btn {
+  height: var(--btn-height);
+  border-radius: var(--btn-border-radius);
+  padding-left: var(--btn-padding);
+  padding-right: var(--btn-padding);
+  font-size: var(--btn-font-size);
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  outline: 0;
+  user-select: none;
+  transition: background-color 0.2s ease-out;
+}
+.btn:focus {
+  background-color: var(--md-sys-color-primary-container);
+}
+.btn:focus-visible {
+  outline: 3px solid var(--md-sys-color-secondary);
+  outline-offset: 2px;
+}
+
+/* ==========================================
+   Button Varianten
+   ========================================== */
+
+/* --- Filled --- */
+.btn-filled {
+  color: var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+}
+.btn-filled:hover,
+.btn-filled:focus {
+  color: var(--md-sys-color-on-primary);
+}
+.btn-filled:hover {
+  /* Entspricht @extend .z-depth-1 */
+  box-shadow: var(--z-depth-1, 0 2px 5px 0 rgba(0, 0, 0, 0.16));
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-primary),
+    var(--md-sys-color-on-primary) 16%
+  );
+}
+.btn-filled:focus {
+  /* Entspricht @extend .z-depth-0 */
+  box-shadow: var(--z-depth-0, none);
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-primary),
+    var(--md-sys-color-on-primary) 20%
+  );
+}
+
+/* --- Tonal --- */
+.btn-tonal,
+.btn.tonal {
+  color: var(--md-sys-color-on-secondary-container);
+  background-color: var(--md-sys-color-secondary-container);
+}
+.btn-tonal:hover,
+.btn.tonal:hover,
+.btn-tonal:focus,
+.btn.tonal:focus {
+  color: var(--md-sys-color-on-secondary-container);
+}
+.btn-tonal:hover,
+.btn.tonal:hover {
+  box-shadow: var(--z-depth-1, 0 2px 5px 0 rgba(0, 0, 0, 0.16));
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-secondary-container),
+    var(--md-sys-color-on-secondary-container) 16%
+  );
+}
+.btn-tonal:focus,
+.btn.tonal:focus {
+  box-shadow: var(--z-depth-0, none);
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-secondary-container),
+    var(--md-sys-color-on-secondary-container) 20%
+  );
+}
+
+/* --- Elevated --- */
+.btn-elevated {
+  box-shadow: var(--z-depth-1, 0 2px 5px 0 rgba(0, 0, 0, 0.16));
+}
+.btn-elevated:hover {
+  box-shadow: var(--z-depth-2, 0 5px 11px 0 rgba(0, 0, 0, 0.18));
+}
+.btn-elevated:focus {
+  box-shadow: var(--z-depth-1, 0 2px 5px 0 rgba(0, 0, 0, 0.16));
+}
+
+/* --- Outlined --- */
+.btn-outlined,
+.btn.outlined {
+  background-color: transparent;
+  color: var(--md-sys-color-primary);
+  border: 1px solid var(--md-sys-color-outline);
+}
+
+.btn-outlined:hover,
+.btn.outlined:hover,
+.btn-outlined:focus,
+.btn.outlined:focus {
+  color: var(--md-sys-color-primary);
+}
+
+.btn-outlined:hover,
+.btn.outlined:hover {
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 16%);
+}
+
+.btn-outlined:focus,
+.btn.outlined:focus {
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
+  border: 1px solid var(--md-sys-color-primary);
+}
+
+.btn-outlined.disabled,
+.btn.outlined.disabled,
+.btn-outlined:disabled,
+.btn.outlined:disabled {
+  background-color: unset;
+  border-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
+}
+
+/* --- Flat / Text --- */
+.btn-flat,
+.btn.text {
+  box-shadow: var(--z-depth-0, none);
+  color: var(--md-sys-color-primary);
+  background-color: transparent;
+}
+.btn-flat:hover,
+.btn.text:hover .btn-flat:focus,
+.btn.text:focus {
+  color: var(--md-sys-color-primary);
+}
+.btn-flat:hover,
+.btn.text:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 16%, transparent);
+}
+.btn-flat:focus,
+.btn.text:focus {
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 20%);
+}
+.btn-flat.disabled,
+.btn.text.disabled .btn-flat:disabled,
+.btn.text:disabled {
+  background-color: unset;
+}
+
+/* --- Disabled State --- */
+.btn-disabled,
+.btn:disabled {
+  box-shadow: var(--z-depth-0, none);
+  color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 38%);
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-on-surface) 12%);
+  pointer-events: none;
+  cursor: default;
+}

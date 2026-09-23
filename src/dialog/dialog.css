@@ -1,0 +1,107 @@
+/* Material 3 Dialog Component */
+.dialog {
+  --dialog-footer-divider-height: 1px;
+  --dialog-border-radius: 28px;
+  --dialog-padding: 24px;
+  --dialog-padding-bottom: 16px;
+  --dialog-background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-surface, #f7f2fa),
+    var(--md-sys-color-surface-tint, #6750a4) 17%
+  );
+
+  /* Material 3 Level 3 Elevation Shadow */
+  box-shadow:
+    0 16px 24px 2px rgba(0, 0, 0, 0.14),
+    0 6px 30px 5px rgba(0, 0, 0, 0.12),
+    0 8px 10px -7px rgba(0, 0, 0, 0.2);
+  border: none;
+  outline: none;
+  padding: 0;
+  max-height: 70vh;
+  width: 55%;
+  max-width: 560px;
+  min-width: 280px;
+  border-radius: var(--dialog-border-radius);
+  will-change: top, opacity;
+  background-color: var(--dialog-background-color);
+  color: var(--md-sys-color-on-surface, #1d1b20);
+}
+
+/* Native <dialog> open state layout */
+.dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 992px) {
+  .dialog {
+    width: 80%;
+  }
+}
+
+/* Material 3 Blurry Backdrop */
+.dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.dialog .dialog-header {
+  padding: var(--dialog-padding);
+  padding-bottom: var(--dialog-padding-bottom);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 400;
+}
+
+.dialog .dialog-content {
+  padding: 0 var(--dialog-padding);
+  overflow-y: auto;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--md-sys-color-on-surface-variant, #49454f);
+}
+
+.dialog .dialog-footer {
+  display: flex;
+  border-radius: 0 0 var(--dialog-border-radius) var(--dialog-border-radius);
+  padding: var(--dialog-padding);
+  text-align: right;
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.dialog .dialog-close {
+  cursor: pointer;
+}
+
+.dialog h1,
+.dialog h2,
+.dialog h3,
+.dialog h4,
+.dialog h5,
+.dialog h6 {
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Material 3 Bottom Sheet Variant */
+.dialog.bottom-sheet {
+  margin-bottom: 0;
+  margin-top: auto;
+  max-height: 45vh;
+  width: 100%;
+  max-width: 100%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: var(--dialog-border-radius);
+  border-top-right-radius: var(--dialog-border-radius);
+  will-change: transform, opacity;
+}

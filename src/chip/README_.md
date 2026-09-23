@@ -2,41 +2,22 @@
 
 Chips can be used to represent small blocks of information. They are most commonly used either for contacts or for tags.
 
-<!-- component -->
-<div class="chip">
-  <img src="images/yuna.jpg" alt="Contact Person"> Jane Doe
-</div>
-<div class="chip">
-  Tag
-  <i class="close material-icons">close</i>
-</div>
-<div class="chip">
-  <i class="material-icons">check</i>
-  Filter
-  <i class="close material-icons">close</i>
-</div>
-<div class="chip outlined">Information</div>
-<div class="chip outlined">
-  <i class="material-icons">check</i>
-  Filter
-  <i class="close material-icons">close</i>
-</div>
-<!-- /component -->
-
 ```html
-<div class="chip">
-  <img src="images/yuna.jpg" alt="Contact Person"> Jane Doe
-</div>
+<div class="chip"><img src="images/yuna.jpg" alt="Contact Person" /> Jane Doe</div>
+
 <div class="chip">
   Tag
   <i class="close material-icons">close</i>
 </div>
+
 <div class="chip">
   <i class="material-icons">check</i>
   Filter
   <i class="close material-icons">close</i>
 </div>
+
 <div class="chip outlined">Information</div>
+
 <div class="chip outlined">
   <i class="material-icons">check</i>
   Filter
@@ -44,33 +25,20 @@ Chips can be used to represent small blocks of information. They are most common
 </div>
 ```
 
-## Contacts
+## For Contacts
 
 To create a contact chip just add an img inside.
 
-<!-- component -->
-<div class="chip">
-  <img src="images/yuna.jpg" alt="Contact Person"> Jane Doe
-</div>
-<!-- /component -->
-
 ```html
 <div class="chip">
-  <img src="images/yuna.jpg" alt="Contact Person">
+  <img src="images/yuna.jpg" alt="Contact Person" />
   Jane Doe
 </div>
 ```
 
-## Tags
+## For Tags
 
 To create a tag chip just add a close icon inside with the class `close`.
-
-<!-- component -->
-<div class="chip">
-  Tag
-  <i class="close material-icons">close</i>
-</div>
-<!-- /component -->
 
 ```html
 <div class="chip">
@@ -79,10 +47,10 @@ To create a tag chip just add a close icon inside with the class `close`.
 </div>
 ```
 
-## Javascript Plugin
+# Chip Set
 
 To add tags, just enter your tag text and press enter. You can delete them by clicking on the close icon or by
-  using your delete button.
+using your delete button.
 
 <!-- Update Info -->
 <p class="red-text"><strong>ATTENTION:</strong> Data-Format has changed from version 1.X.X to 2.0.0! Please update option 'data'.</p>
@@ -119,26 +87,26 @@ Use autocomplete with chips:
 <div class="chips chips-autocomplete"></div>
 <!-- Customizable input  -->
 <div class="chips">
-  <input class="custom-class">
+  <input class="custom-class" />
 </div>
 ```
 
 ## Initialization
 
 ```javascript
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const elems = document.querySelectorAll('.chips');
   const instances = M.Chips.init(elems, {
     // specify options here
     autocompleteOptions: {
       data: [
-        {id: 12, text: "Apple"},
-        {id: 13, text: "Microsoft"},
-        {id: 42, text: "Google", image: 'http://placehold.it/250x250'}
+        { id: 12, text: 'Apple' },
+        { id: 13, text: 'Microsoft' },
+        { id: 42, text: 'Google', image: 'http://placehold.it/250x250' }
       ]
     },
     placeholder: 'Enter a tag',
-    secondaryPlaceholder: '+Tag',
+    secondaryPlaceholder: '+Tag'
   });
 });
 ```
@@ -152,7 +120,7 @@ const chip = {
   image: '', // optional Image-Url
 };
 ```
-        
+
 ## Options
 
 Note: This could be generated from the JSDocs
@@ -245,26 +213,28 @@ Use these methods to interact with chips. All the methods are called on the plug
 const instance = M.Chips.getInstance(elem);
 ```
 
-
 ### .addChip();
+
 Add chip to input.
 
 #### Arguments
+
 <b>Chip:</b> Chip data object.
 
 ```javascript
 instance.addChip({
   id: 1337,
   text: 'John Doe', // optional
-  image: '', // optional
+  image: '' // optional
 });
 ```
 
-
 ### .deleteChip();
+
 Delete nth chip.
 
 #### Arguments
+
 <b>Integer:</b> Index of chip.
 
 ```javascript
@@ -272,9 +242,11 @@ instance.deleteChip(3); // Delete 3rd chip.
 ```
 
 ### .selectChip();
+
 Select nth chip.
 
 #### Arguments
+
 <b>Integer:</b> Index of chip.
 
 ```javascript

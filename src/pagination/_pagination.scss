@@ -7,7 +7,12 @@
     vertical-align: top;
 
     a {
-      @include btn($height: 2rem, $padding-left: .66rem, $padding-right: .66rem, $font-size: 1.2rem);
+      @include btn(
+        $height: 2rem,
+        $padding-left: 0.66rem,
+        $padding-right: 0.66rem,
+        $font-size: 1.2rem
+      );
     }
 
     &.active a {
