@@ -1,6 +1,15 @@
+:root {
+  --mw-pagination-height: 2rem;
+}
+
 .pagination li {
   display: inline-block;
   vertical-align: top;
+
+  height: var(--mw-pagination-height);
+  padding-left: 0.66rem;
+  padding-right: 0.66rem;
+  font-size: 1.2rem;
 }
 
 .pagination li a {

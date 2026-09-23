@@ -1,31 +1,59 @@
-.breadcrumb-wrapper {
+:root {
+  /* TODO: Make vars for custom theming */
+}
+.mw-breadcrumb {
   display: flex;
   align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font: var(--md-sys-typescale-body-large);
 }
-
-.breadcrumb {
+/* List item */
+.mw-breadcrumb-item {
   display: inline-flex;
   align-items: center;
+  color: var(--md-sys-color-on-surface-variant);
 }
-
-.breadcrumb i,
-.breadcrumb i.material-icons,
-.breadcrumb i.material-symbols-outlined,
-.breadcrumb i.material-symbols-rounded,
-.breadcrumb i.material-symbols-sharp,
-.breadcrumb::before {
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
+/* Interactive Link */
+.mw-breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--md-sys-color-on-surface-variant);
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
-
-.breadcrumb::before {
-  content: '\E5CC';
-  font-family:
-    'Material Symbols Outlined', 'Material Symbols Rounded', 'Material Symbols Sharp',
-    'Material Icons';
+/* Icon adjustments */
+.mw-breadcrumb-link .material-symbols-outlined {
+  font-size: 18px;
 }
-
-.breadcrumb:first-child::before {
-  visibility: hidden;
+/* States: Hover & Focus */
+.mw-breadcrumb-link:hover {
+  background-color: rgba(103, 80, 164, 0.08); /* State layer */
+  color: var(--md-sys-color-primary);
+}
+.mw-breadcrumb-link:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+/* Active / Current Page */
+.mw-breadcrumb-item[aria-current='page'] {
+  color: var(--md-sys-color-primary);
+  font-weight: 500;
+  padding: 6px 8px;
+}
+/* CSS Chevron Separator */
+.mw-breadcrumb-separator {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 8px;
+  border-top: 2px solid var(--md-sys-color-outline);
+  border-right: 2px solid var(--md-sys-color-outline);
+  transform: rotate(45deg);
 }

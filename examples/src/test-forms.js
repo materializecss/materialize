@@ -8,6 +8,7 @@ import { Divider } from '../../src/divider/divider.mjs';
 import { RadioButton } from '../../src/radiobutton/radiobutton.mjs';
 import { Switch } from '../../src/switch/switch.mjs';
 import { AssistChip } from '../../src/chip/chip.mjs';
+import { Breadcrumb } from '../../src/breadcrumb/breadcrumb.mjs';
 
 // Dynamic Content Generation on Serverside
 
@@ -23,7 +24,7 @@ const formTestPage = new Page({
           content:
             new Component('Please enter your age:').addClassname('my-3').toHTML() +
             new TextField().setLabel('Age').toHTML(),
-          footer: new Button('Confirm').addClassname('tonal').toHTML()
+          footer: new Button('Confirm').addClassname('text').toHTML()
         }),
         new Button('Show').addClassname('tonal').addClassname('btn-modal-1'),
 
@@ -63,6 +64,10 @@ const formTestPage = new Page({
         new Switch(),
 
         new Divider().addClassname('my-3'), //----------------------
+        new Component('Breadcrumbs').addClassname('my-3'),
+        new Breadcrumb().setCrumbs(['Home', 'Chillaxing', 'Living Room']),
+
+        new Divider().addClassname('my-3'), //----------------------
         new Component('Many inputs').addClassname('my-3'),
         new Grid({
           children: Array.from({ length: 33 }, (_, i) => {
@@ -78,7 +83,9 @@ const formTestPage = new Page({
       .addClassname('container')
       .addClassname('my-5')
   ]
-}).addStyleUrl('/dist/css/materialize.css') // client-side custom theming
+})
+  .addStyleUrl('/dist/css/materialize.css')
+  .addStyleUrl('/src/breadcrumb/breadcrumb.css') // client-side custom theming
   .addStyle(`:root {
     --mw-chip-height: 20px;
     --mw-input-height: 42px;

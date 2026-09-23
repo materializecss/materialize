@@ -6,8 +6,8 @@
   --dialog-padding-bottom: 16px;
   --dialog-background-color: color-mix(
     in srgb,
-    var(--md-sys-color-surface, #f7f2fa),
-    var(--md-sys-color-surface-tint, #6750a4) 17%
+    var(--md-sys-color-surface),
+    var(--md-sys-color-surface-tint) 17%
   );
 
   /* Material 3 Level 3 Elevation Shadow */

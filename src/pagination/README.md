@@ -1,6 +1,8 @@
 # Pagination
 
-Simple Example
+The Pagination is deprecated in the newest standard.
+
+## Examples
 
 ```html
 <ul class="pagination">
