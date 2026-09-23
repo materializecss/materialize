@@ -10,6 +10,7 @@ import { Switch } from '../../src/switch/switch.mjs';
 import { Checkbox } from '../../src/checkbox/checkbox.mjs';
 import { AssistChip } from '../../src/chip/chip.mjs';
 import { Breadcrumb } from '../../src/breadcrumb/breadcrumb.mjs';
+import { MiniCalendar } from '../../src/datepicker/minicalendar.mjs';
 
 // Dynamic Content Generation on Serverside
 
@@ -88,6 +89,10 @@ const formTestPage = new Page({
         }).setColumns(3),
 
         new Divider().addClassname('my-3'), //----------------------
+        new Component('Date- and Timepicker').addClassname('my-3'),
+        new MiniCalendar(),
+
+        new Divider().addClassname('my-3'), //----------------------
         new Component('Breadcrumbs').addClassname('my-3'),
         new Breadcrumb().setCrumbs(['Home', 'Chillaxing', 'Living Room']),
 
@@ -104,7 +109,10 @@ const formTestPage = new Page({
       .addClassname('container')
       .addClassname('my-5')
   ]
-}).addStyleUrl('/dist/css/materialize.css').addStyle(`:root {
+})
+  .addStyleUrl('/dist/css/materialize.css')
+  .addStyleUrl('/src/breadcrumb/breadcrumb.css')
+  .addStyleUrl('/src/datepicker/minicalendar.css').addStyle(`:root {
     --mw-chip-height: 20px;
     --mw-input-height: 42px;
     --mw-padding-left: 4px;
