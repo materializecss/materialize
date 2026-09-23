@@ -1,7 +1,7 @@
 import { Utils } from '../utils';
 import { Component, BaseOptions, InitElements, MElement, I18nOptions } from '../component';
-import { DockedDisplayPlugin } from '../__dockedDisplayPlugin';
-import { ModalDisplayPlugin } from '../__modalDisplayPlugin';
+//import { DockedDisplayPlugin } from '../__dockedDisplayPlugin';
+//import { ModalDisplayPlugin } from '../__modalDisplayPlugin';
 
 export type Views = 'hours' | 'minutes';
 
@@ -178,7 +178,7 @@ export class Timepicker extends Component<TimepickerOptions> {
   g: Element;
   toggleViewTimer: string | number | NodeJS.Timeout;
   vibrateTimer: NodeJS.Timeout | number;
-  private displayPlugin: DockedDisplayPlugin | ModalDisplayPlugin;
+  // private displayPlugin: DockedDisplayPlugin | ModalDisplayPlugin;
 
   constructor(el: HTMLInputElement, options: Partial<TimepickerOptions>) {
     super(el, options, Timepicker);

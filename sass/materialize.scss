@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
 @forward '../node_modules/normalize.css/normalize.css';
-@forward './tokens.module.css';
-@forward './theme.module.css';
-@forward './typography.module.css';
-@forward './colors.module.css';
+@forward './_input-m3-tokens.css';
+@forward './merge-light-dark.css';
+@forward './classes-typography.css';
+@forward './classes-color.css';
 @forward './typography';
 @forward './variables';
 @forward './global';
@@ -17,25 +17,25 @@
 @forward '../src/breadcrumb/breadcrumb.css';
 @forward '../src/card/card.css';
 
-@forward '../src/carousel/carousel';
-@forward '../src/collapsible/collapsible';
-@forward '../src/chip/chips';
-@forward '../src/checkbox/checkboxes';
+@forward '../src/carousel/carousel'; //
+@forward '../src/collapsible/collapsible'; //
+@forward '../src/chip/chip.css';
+@forward '../src/checkbox/checkbox.css';
 @forward '../src/datepicker/datepicker.css';
 @forward '../src/dialog/dialog.css';
-@forward '../src/dropdown/dropdown';
-@forward '../src/snackbar/toast';
-@forward '../src/tabs/tabs';
+@forward '../src/dropdown/dropdown'; //
+@forward '../src/snackbar/toast'; //
+@forward '../src/tabs/tabs'; //
 @forward '../src/tooltip/tooltip.css';
-@forward '../src/list/collection';
-@forward '../src/list/list';
-@forward '../src/navigation-drawer/sidenav';
-@forward '../src/progress/preloader';
-@forward '../src/timepicker/timepicker';
+@forward '../src/list/collection'; //
+@forward '../src/list/list'; //
+@forward '../src/navigation-drawer/sidenav'; //
+@forward '../src/progress/preloader'; //
+@forward '../src/timepicker/timepicker'; //
 @forward '../src/pagination/pagination.css';
 @forward '../src/radiobutton/radiobutton.css';
 @forward '../src/switch/switch.css';
-@forward '../src/slider/range';
+@forward '../src/slider/range'; //
 @forward '../src/textfield/formfields.css';
 @forward '../src/textfield/file-input';
 @forward '../src/textfield/input-fields';

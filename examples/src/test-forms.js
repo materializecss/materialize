@@ -7,6 +7,7 @@ import { Dialog } from '../../src/dialog/dialog.mjs';
 import { Divider } from '../../src/divider/divider.mjs';
 import { RadioButton } from '../../src/radiobutton/radiobutton.mjs';
 import { Switch } from '../../src/switch/switch.mjs';
+import { Checkbox } from '../../src/checkbox/checkbox.mjs';
 import { AssistChip } from '../../src/chip/chip.mjs';
 import { Breadcrumb } from '../../src/breadcrumb/breadcrumb.mjs';
 
@@ -17,6 +18,12 @@ const formTestPage = new Page({
   children: [
     new Component({
       children: [
+        new Component('Grid').addClassname('my-3'),
+        new Component(`<div class="row m-1">
+          <div class="col s10 offset-s1">YO</div>
+          </div>`),
+
+        new Divider().addClassname('my-3'), //----------------------
         new Component('Modals').addClassname('my-3'),
         // new Dialog({ header: 'Question of the day', content: 'Wazz up?' }),
         new Dialog({
@@ -56,12 +63,29 @@ const formTestPage = new Page({
         new AssistChip('Failed').setAttribute('style', 'color: red; outline-color: red;'),
 
         new Divider().addClassname('my-3'), //----------------------
-        new Component('Radio Buttons &amp; Switch').addClassname('my-3'),
-        new RadioButton({ group: 'group1', text: 'Red' }), // todo: checked
-        new RadioButton({ group: 'group1', text: 'Green' }),
-        new RadioButton({ group: 'group1', text: 'Blue' }),
-        new RadioButton({ group: 'group1', text: 'Brown' }), // todo: disabled
-        new Switch(),
+        new Component('Radio Buttons, Switch and Checkboxes').addClassname('my-3'),
+        new Grid({
+          children: [
+            new Component({
+              children: [
+                new RadioButton({ group: 'group1', text: 'Red' }), // todo: checked
+                new RadioButton({ group: 'group1', text: 'Green' }),
+                new RadioButton({ group: 'group1', text: 'Blue' }),
+                new RadioButton({ group: 'group1', text: 'Brown' }) // todo: disabled
+              ]
+            }).toHTML(),
+            new Switch().toHTML(),
+            new Component({
+              children: [
+                new Checkbox(), //
+                new Checkbox('Accept Privacy Agreement'),
+                new Checkbox({ isChecked: true, text: 'Pre-checked' }),
+                new Checkbox({ text: 'Indeterminate' }).addClassname('cb-ind'), // has to be set via js
+                new Checkbox({ text: 'Disabled', isDisabled: true })
+              ]
+            }).toHTML()
+          ]
+        }).setColumns(3),
 
         new Divider().addClassname('my-3'), //----------------------
         new Component('Breadcrumbs').addClassname('my-3'),
@@ -70,10 +94,7 @@ const formTestPage = new Page({
         new Divider().addClassname('my-3'), //----------------------
         new Component('Many inputs').addClassname('my-3'),
         new Grid({
-          children: Array.from({ length: 33 }, (_, i) => {
-            const x = new TextField().setLabel(i + 1);
-            return x.toHTML();
-          })
+          children: Array.from({ length: 33 }, (_, i) => new TextField().setLabel(i + 1).toHTML())
         })
           .setColumns(6)
           .addClassname('g-1')
@@ -83,10 +104,7 @@ const formTestPage = new Page({
       .addClassname('container')
       .addClassname('my-5')
   ]
-})
-  .addStyleUrl('/dist/css/materialize.css')
-  .addStyleUrl('/src/breadcrumb/breadcrumb.css') // client-side custom theming
-  .addStyle(`:root {
+}).addStyleUrl('/dist/css/materialize.css').addStyle(`:root {
     --mw-chip-height: 20px;
     --mw-input-height: 42px;
     --mw-padding-left: 4px;
@@ -96,7 +114,11 @@ const formTestPage = new Page({
 document.querySelector('.btn-modal-1').addEventListener('click', () => {
   document.querySelector('dialog').showModal();
 });
+
+const cb = document.querySelector('.cb-ind input');
+if (cb) cb.indeterminate = true;
 `);
+//.addStyleUrl('/src/breadcrumb/breadcrumb.css') // client-side custom theming
 
 const html = formTestPage.toHTML();
 console.log(html);

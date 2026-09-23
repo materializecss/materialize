@@ -1,8 +1,8 @@
 import { Utils } from '../utils';
 import { BaseOptions, Component, I18nOptions, InitElements, MElement } from '../component';
 import { FormSelect } from '../textfield/select';
-import { DockedDisplayPlugin } from '../__dockedDisplayPlugin';
-import { ModalDisplayPlugin } from '../__modalDisplayPlugin';
+//import { DockedDisplayPlugin } from '../__dockedDisplayPlugin';
+//import { ModalDisplayPlugin } from '../__modalDisplayPlugin';
 
 interface DateI18nOptions extends I18nOptions {
   previousMonth: string;
@@ -322,7 +322,7 @@ class Datepicker extends Component<DatepickerOptions> {
   calendars: [{ month: number; year: number }];
   private _y: number;
   private _m: number;
-  private displayPlugin: DockedDisplayPlugin | ModalDisplayPlugin;
+  //private displayPlugin: DockedDisplayPlugin | ModalDisplayPlugin;
   private footer: HTMLElement;
   static _template: string;
 
@@ -349,7 +349,7 @@ class Datepicker extends Component<DatepickerOptions> {
     this._setupVariables();
     this._insertHTMLIntoDOM();
     this._setupEventHandlers();
-    if (this.options.displayPlugin) this._setupDisplayPlugin();
+    //if (this.options.displayPlugin) this._setupDisplayPlugin();
     this._pickerSetup();
   }
 
@@ -1256,7 +1256,7 @@ class Datepicker extends Component<DatepickerOptions> {
     this.setDateFromInput(e.target as HTMLInputElement);
     this.draw();
     this.gotoDate(<HTMLElement>e.target === this.el ? this.date : this.endDate);
-    if (this.displayPlugin) this.displayPlugin.show();
+    //if (this.displayPlugin) this.displayPlugin.show();
     if (this.options.onInputInteraction) this.options.onInputInteraction.call(this);
   };
 
@@ -1265,7 +1265,7 @@ class Datepicker extends Component<DatepickerOptions> {
       e.preventDefault();
       this.setDateFromInput(e.target as HTMLInputElement);
       this.draw();
-      if (this.displayPlugin) this.displayPlugin.show();
+      //if (this.displayPlugin) this.displayPlugin.show();
       if (this.options.onInputInteraction) this.options.onInputInteraction.call(this);
     }
   };
@@ -1407,12 +1407,12 @@ class Datepicker extends Component<DatepickerOptions> {
 
   _confirm = () => {
     this._finishSelection();
-    if (this.displayPlugin) this.displayPlugin.hide();
+    //if (this.displayPlugin) this.displayPlugin.hide();
     if (typeof this.options.onConfirm === 'function') this.options.onConfirm.call(this);
   };
 
   _cancel = () => {
-    if (this.displayPlugin) this.displayPlugin.hide();
+    //if (this.displayPlugin) this.displayPlugin.hide();
     if (typeof this.options.onCancel === 'function') this.options.onCancel.call(this);
   };
 

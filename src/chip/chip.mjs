@@ -47,7 +47,7 @@ class Chip extends Component {
 class AssistChip extends Chip {
   constructor(options) {
     super(options);
-    this.addClassname('assist-chip'); // TODO: remove classname chip
+    this.addClassname('assist-chip');
   }
 }
 
