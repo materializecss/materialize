@@ -1,13 +1,15 @@
 @use '../../sass/variables' as *;
 @use '../../sass/global' as *;
 
-.sidenav {
+:root {
   --sidenav-width: 300px;
   --sidenav-font-size: 14px;
   --sidenav-padding: 16px;
   --sidenav-item-height: 48px;
   --sidenav-line-height: var(--sidenav-item-height);
+}
 
+.sidenav {
   position: fixed;
   width: var(--sidenav-width);
   left: 0;
@@ -20,9 +22,9 @@
   overflow-y: auto;
   will-change: transform;
   backface-visibility: hidden;
-  transform: translateX(-105%); 
+  transform: translateX(-105%);
   user-select: none;
-  
+
   color: var(--md-sys-color-on-secondary-container);
   background-color: var(--md-sys-color-surface);
   @extend .z-depth-1;
@@ -49,15 +51,20 @@
     background-color: rgba(0, 0, 0, 0.12);
   }
 
-  li.active > a:not(.collapsible-header):not(.btn):not(.btn-large):not(.btn-small):not(.btn-flat):not(.btn-large):not(.btn-floating)  {
+  li.active
+    > a:not(.collapsible-header):not(.btn):not(.btn-large):not(.btn-small):not(.btn-flat):not(
+      .btn-large
+    ):not(.btn-floating) {
     //color: var(--md-sys-color-on-secondary-container); //var(--md-sys-color-on-secondary-container);
     //background-color: var(--md-sys-color-secondary-container);
     background-color: color-mix(in srgb, var(--md-sys-color-secondary) 10%, transparent);
   }
 
-  .collapsible-body > ul { padding-left: 10px; }
+  .collapsible-body > ul {
+    padding-left: 10px;
+  }
 
-  li {    
+  li {
     list-style: none;
     display: grid;
     align-content: center;
@@ -93,13 +100,18 @@
       }
     }
 
-    &.btn, &.btn-large, &.btn-flat, &.btn-floating {
+    &.btn,
+    &.btn-large,
+    &.btn-flat,
+    &.btn-floating {
       margin: 10px 15px;
     }
 
     /* TODO: Use special class in future like "mw-icon" */
-    & > .material-icons, & > .material-symbols-outlined,
-    & > .material-symbols-rounded, & > .material-symbols-sharp {
+    & > .material-icons,
+    & > .material-symbols-outlined,
+    & > .material-symbols-rounded,
+    & > .material-symbols-sharp {
       display: inline-flex;
       vertical-align: middle;
       margin-right: 12px;
@@ -144,7 +156,9 @@
       z-index: -1;
     }
 
-    .circle, .name, .email {
+    .circle,
+    .name,
+    .email {
       display: block;
     }
 
@@ -226,7 +240,7 @@
   right: 0;
   opacity: 0;
   height: 120vh;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 997;
   display: none;
 }

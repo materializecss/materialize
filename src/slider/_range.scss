@@ -4,15 +4,18 @@
   position: relative;
 }
 
-input[type=range],
-input[type=range] + .thumb {
+input[type='range'],
+input[type='range'] + .thumb {
   @extend .no-select;
   cursor: pointer;
 }
 
-input[type=range] {
+input[type='range'] {
   position: relative;
-  background: linear-gradient(var(--md-sys-color-outline-variant), var(--md-sys-color-outline-variant));
+  background: linear-gradient(
+    var(--md-sys-color-outline-variant),
+    var(--md-sys-color-outline-variant)
+  );
   border: none;
   outline: none;
   width: 100%;
@@ -25,7 +28,7 @@ input[type=range] {
   }
 }
 
-input[type=range] + .thumb {
+input[type='range'] + .thumb {
   position: absolute;
   top: 10px;
   left: 0;
@@ -73,63 +76,57 @@ input[type=range] + .thumb {
   width: 14px;
   border-radius: 50%;
   background: var(--md-sys-color-primary);
-  transition: box-shadow .3s;
+  transition: box-shadow 0.3s;
 }
 
 // WebKit
-input[type=range] {
+input[type='range'] {
   appearance: none;
   -webkit-appearance: none;
 }
 
-input[type=range]::-webkit-slider-runnable-track {
+input[type='range']::-webkit-slider-runnable-track {
   @include range-track;
 }
 
-input[type=range]::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
   @include range-thumb;
   -webkit-appearance: none;
   background-color: var(--md-sys-color-primary);
   transform-origin: 50% 50%;
   margin: -5px 0 0 0;
-
 }
 
-.keyboard-focused input[type=range]:focus:not(.active)::-webkit-slider-thumb {
+.keyboard-focused input[type='range']:focus:not(.active)::-webkit-slider-thumb {
   box-shadow: 0 0 0 10px color-mix(in srgb, transparent, var(--md-sys-color-primary) 18%);
 }
 
-// FireFox
-input[type=range] {
-  /*required for proper track sizing in FF*/
-}
-
-input[type=range]::-moz-range-track {
+input[type='range']::-moz-range-track {
   @include range-track;
 }
 
-input[type=range]::-moz-focus-inner {
+input[type='range']::-moz-focus-inner {
   border: 0;
 }
 
-input[type=range]::-moz-range-thumb {
+input[type='range']::-moz-range-thumb {
   @include range-thumb;
   margin-top: -5px;
 }
 
 // hide the outline behind the border
-input[type=range]:-moz-focusring {
+input[type='range']:-moz-focusring {
   outline: 1px solid #fff;
   outline-offset: -1px;
 }
 
-.keyboard-focused input[type=range]:focus:not(.active)::-moz-range-thumb {
+.keyboard-focused input[type='range']:focus:not(.active)::-moz-range-thumb {
   box-shadow: 0 0 0 10px color-mix(in srgb, transparent, var(--md-sys-color-primary) 18%);
 }
 
 //------------------------------- Remove this?
 // IE 10+
-input[type=range]::-ms-track {
+input[type='range']::-ms-track {
   height: 3px;
   // remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead
   background: transparent;
@@ -139,19 +136,19 @@ input[type=range]::-ms-track {
   /*remove default tick marks*/
   color: transparent;
 }
-input[type=range]::-ms-fill-lower,
-input[type=range]::-moz-range-progress {
+input[type='range']::-ms-fill-lower,
+input[type='range']::-moz-range-progress {
   background: var(--md-sys-color-primary);
 }
-input[type=range]::-ms-fill-upper,
-input[type=range]::-moz-range-track {
+input[type='range']::-ms-fill-upper,
+input[type='range']::-moz-range-track {
   background: var(--md-sys-color-shadow-light);
 }
-input[type=range]::-ms-thumb {
+input[type='range']::-ms-thumb {
   @include range-thumb;
 }
 //--------------------------------
 
-.keyboard-focused input[type=range]:focus:not(.active)::-ms-thumb {
+.keyboard-focused input[type='range']:focus:not(.active)::-ms-thumb {
   box-shadow: 0 0 0 10px color-mix(in srgb, transparent, var(--md-sys-color-primary) 18%);
 }
