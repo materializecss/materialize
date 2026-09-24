@@ -2,7 +2,7 @@
 <!-- Describe the big picture of your changes here to communicate to the maintainers why we should accept this pull request. If it fixes a bug or resolves a feature request, be sure to link to that issue. -->
 
 ## Screenshots (if appropriate) or codepen:
-<!-- Add supplemental screenshots or code examples. Look for a codepen template in our **[CONTRIBUTING document](https://github.com/materializecss/materialize/blob/master/CONTRIBUTING.md)**. -->
+<!-- Add supplemental screenshots or code examples. Look for a codepen template in our **[CONTRIBUTING document](https://github.com/materializecss/materialize/blob/main/docs/CONTRIBUTING.md)**. -->
 
 ## Types of changes
 <!-- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
@@ -14,8 +14,8 @@
 ## Checklist:
 <!-- Go over all the following points, and put an `x` in all the boxes that apply. If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
 
-- [ ] I have read the **[CONTRIBUTING document](https://github.com/materializecss/materialize/blob/main/CONTRIBUTING.md)**.
-- [ ] My commit messages follows the [conventional commit format](https://github.com/materializecss/materialize/blob/main/CONTRIBUTING.md#submitting-your-pull-request)
+- [ ] I have read the **[CONTRIBUTING document](https://github.com/materializecss/materialize/blob/main/docs/CONTRIBUTING.md)**.
+- [ ] My commit messages follows the [conventional commit format](https://github.com/materializecss/materialize/blob/main/docs/CONTRIBUTING.md#submitting-your-pull-request)
 - [ ] My change requires a change to the documentation, and updated it accordingly.
 - [ ] I have added tests to cover my changes.
 - [ ] All new and existing tests passed.

@@ -1,0 +1,163 @@
+.card-panel {
+  transition: box-shadow 0.25s ease;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: var(--md-sys-elevation-1, 0 1px 3px rgba(0, 0, 0, 0.12));
+  background-color: var(--md-sys-color-surface);
+}
+
+.card {
+  --background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-surface),
+    var(--md-sys-color-surface-tint) 17%
+  );
+  position: relative;
+  background-color: var(--background-color);
+  transition: box-shadow 0.25s ease;
+  border-radius: 12px;
+  box-shadow: var(--md-sys-elevation-1, 0 1px 3px rgba(0, 0, 0, 0.12));
+}
+
+.card .card-title {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+/* Aspect ratios instead of fixed pixel heights */
+.card.small {
+  aspect-ratio: 4 / 3;
+}
+
+.card.medium {
+  aspect-ratio: 1 / 1;
+}
+
+.card.large {
+  aspect-ratio: 3 / 4;
+}
+
+.card.small .card-image,
+.card.medium .card-image,
+.card.large .card-image {
+  max-height: 60%;
+  overflow: hidden;
+}
+
+.card.small .card-image + .card-content,
+.card.medium .card-image + .card-content,
+.card.large .card-image + .card-content {
+  max-height: 40%;
+}
+
+.card.small .card-content,
+.card.medium .card-content,
+.card.large .card-content {
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.card.small .card-action,
+.card.medium .card-action,
+.card.large .card-action {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+}
+
+/* Horizontal Layout */
+.card.horizontal {
+  display: flex;
+}
+
+.card.horizontal .card-image {
+  max-width: 50%;
+}
+
+.card.horizontal .card-image img {
+  border-radius: 2px 0 0 2px;
+  max-width: 100%;
+  width: auto;
+}
+
+.card.horizontal .card-stacked {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+}
+
+.card.horizontal .card-stacked .card-content {
+  flex-grow: 1;
+}
+
+/* Card Image */
+.card .card-image {
+  position: relative;
+}
+
+.card .card-image img {
+  display: block;
+  border-radius: 2px 2px 0 0;
+  width: 100%;
+}
+
+.card .card-image .card-title {
+  color: var(--md-sys-color-surface);
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  max-width: 100%;
+  padding: 24px;
+}
+
+.card .card-image .activator {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}
+
+/* Card Content */
+.card .card-content {
+  padding: 24px;
+}
+
+.card .card-content p {
+  margin: 0;
+}
+
+.card .card-content .card-title {
+  display: block;
+  line-height: 2rem;
+  margin-block-end: 8px;
+}
+
+.card .card-content .card-title.activator {
+  cursor: pointer;
+}
+
+/* Card Action Buttons */
+.card .card-action {
+  padding-inline: 1.6rem;
+}
+
+.card .card-action a:first-child {
+  margin-inline-start: -1.6rem;
+}
+
+.card .card-action a:last-child {
+  margin-inline-end: -1.6rem;
+}
+
+/* Reveal Overlay */
+.card .card-reveal {
+  padding: 24px;
+  position: absolute;
+  background-color: var(--md-sys-color-surface);
+  inset-inline: 0;
+  top: 100%;
+  block-size: 100%;
+  z-index: 3;
+  display: none;
+  overflow-y: auto;
+}

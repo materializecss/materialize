@@ -1,0 +1,56 @@
+:root {
+  --mw-pagination-height: 2rem;
+}
+
+.pagination li {
+  display: inline-block;
+  vertical-align: top;
+
+  height: var(--mw-pagination-height);
+  padding-left: 0.66rem;
+  padding-right: 0.66rem;
+  font-size: 1.2rem;
+}
+
+.pagination li a {
+  /* Include styles from the 'btn' mixin ($height: 2rem, $padding-left: .66rem, $padding-right: .66rem, $font-size: 1.2rem) */
+  height: 2rem;
+  padding-left: 0.66rem;
+  padding-right: 0.66rem;
+  font-size: 1.2rem;
+}
+
+.pagination li.active a {
+  /* Include styles from the 'btn-filled' mixin */
+}
+
+.pagination li.disabled a {
+  /* Include styles from the 'btn-disabled' mixin */
+}
+
+.pagination li i {
+  font-size: 2rem;
+}
+
+.pagination li.pages ul li {
+  display: inline-block;
+  float: none;
+}
+
+@media (max-width: 992px) {
+  /* Default value for $medium-and-down; update if your breakpoint variable uses a different value */
+  .pagination {
+    width: 100%;
+  }
+
+  .pagination li.prev,
+  .pagination li.next {
+    width: 10%;
+  }
+
+  .pagination li.pages {
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

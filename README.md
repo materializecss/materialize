@@ -30,6 +30,7 @@
 </p>
 
 ## Getting started
+
 Read the [getting started guide](https://materializeweb.com/getting-started.html) for more information on how to use materialize.
 
 - [Download the latest release](https://github.com/materializecss/materialize/releases/latest) of materialize directly from GitHub. ([Beta](https://github.com/materializecss/materialize/releases/))
@@ -37,40 +38,27 @@ Read the [getting started guide](https://materializeweb.com/getting-started.html
 - Include the files via [jsDelivr](https://www.jsdelivr.com/package/npm/@materializecss/materialize).
 - Install with [npm](https://www.npmjs.com): `npm install @materializecss/materialize` (Beta: `npm install @materializecss/materialize@next`)
 
-## Testing
-To run tests locally you first have to build the files and then run the tests. This can be done with the command `npm test`;
-To get more info and debug information you can do the following:
-run `npx jasmine-browser-runner` then go to the url via browser `http://localhost:8888`. The tests will then run and show detailed feedback.
-
-## Development
-The documentation can be found at <https://materializeweb.com>. To run the documentation locally on your machine, you need [Node.js](https://nodejs.org) installed on your computer.
-This is the core project with all the components. To see how they are used we recommend using an example project or go to the documentation.
-
-### Running documentation locally
-See [Materialize Docs Repo](https://github.com/materializecss/materialize-docs) to see Materialize in Action.
-
 ### Releases
+
 Previous releases are available [here](https://github.com/materializecss/materialize/releases). You can also find the changelog under each release.
 
-## Supported Browsers:
-Materialize is compatible with:
+## Examples
 
-- Chrome 35+
-- Firefox 31+
-- Safari 9+
-- Opera
-- Edge
+First install materializeweb locally. Then create the html files with `npm run build-examples`. After creating the files you can run `npm run demo` and browse to the url (normally [127.0.0.1:8080/](http://127.0.0.1:8080))
 
-## Testing
-We use Jasmine as our testing framework and we're trying to write a robust test suite for our components. If you want to help, [here's a starting guide on how to write tests in Jasmine](docs/CONTRIBUTING.md#jasmine-testing-guide).
+## Tests
 
-## Quick Testing and Development
-For quick testing install live-server node package globally and run `npm run demo`
+To run tests locally you first have to build the files and then run the tests. This can be done with the command `npm test`;
+The tests will then run and show detailed feedback.
 
-## Contributing
+## Develop
+
+This is the core project with all the components. To see how they are used we recommend to check out the examples or go to the documentation at <https://materializeweb.com>.
+
+## Contribute
+
 Check out the [CONTRIBUTING document](docs/CONTRIBUTING.md) in the root of the repository to learn how you can contribute. You can also browse the [help-wanted](https://github.com/materializecss/materialize/labels/help-wanted) tag in our issue tracker to find things to do.
 
-## Sponsors
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/materialize#sponsor)]
 
 [![OC sponsor 0](https://opencollective.com/materialize/sponsor/0/avatar.svg)](https://opencollective.com/materialize/sponsor/0/website)
@@ -84,11 +72,10 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 [![OC sponsor 8](https://opencollective.com/materialize/sponsor/8/avatar.svg)](https://opencollective.com/materialize/sponsor/8/website)
 [![OC sponsor 9](https://opencollective.com/materialize/sponsor/9/avatar.svg)](https://opencollective.com/materialize/sponsor/9/website)
 
-
-## Backers
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/materialize#backer)]
+Thank you to all our supporters! 🙏 [[Become a backer](https://opencollective.com/materialize#backer)]
 
 [![Backers](https://opencollective.com/materialize/backers.svg?width=890)](https://opencollective.com/materialize#backers)
 
 ## Copyright and license
+
 Code Copyright 2026 Materialize. Code released under the MIT license.

@@ -1,0 +1,56 @@
+.mw-breadcrumb {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font: var(--md-sys-typescale-body-large);
+}
+/* List item */
+.mw-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  color: var(--md-sys-color-on-surface-variant);
+}
+/* Interactive Link */
+.mw-breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--md-sys-color-on-surface-variant);
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+/* Icon adjustments */
+.mw-breadcrumb-link .material-symbols-outlined {
+  font-size: 18px;
+}
+/* States: Hover & Focus */
+.mw-breadcrumb-link:hover {
+  background-color: rgba(103, 80, 164, 0.08); /* State layer */
+  color: var(--md-sys-color-primary);
+}
+.mw-breadcrumb-link:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+/* Active / Current Page */
+.mw-breadcrumb-item[aria-current='page'] {
+  color: var(--md-sys-color-primary);
+  font-weight: 500;
+  padding: 6px 8px;
+}
+/* CSS Chevron Separator */
+.mw-breadcrumb-separator {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 8px;
+  border-top: 2px solid var(--md-sys-color-outline);
+  border-right: 2px solid var(--md-sys-color-outline);
+  transform: rotate(45deg);
+}

@@ -1,0 +1,351 @@
+import { Carousel } from '../carousel/carousel';
+import { Component, BaseOptions, InitElements, MElement } from '../component';
+
+interface TabsOptions extends BaseOptions {
+  /**
+   * Transition duration in milliseconds.
+   * @default 300
+   */
+  duration: number;
+  /**
+   * Callback for when a new tab content is shown.
+   * @default null
+   */
+  onShow: (newContent: Element) => void;
+  /**
+   * Set to true to enable swipeable tabs.
+   * This also uses the responsiveThreshold option.
+   * @default false
+   */
+  swipeable: boolean;
+  /**
+   * The maximum width of the screen, in pixels,
+   * where the swipeable functionality initializes.
+   * @default Infinity
+   */
+  responsiveThreshold: number;
+}
+
+const _defaults: TabsOptions = {
+  duration: 300,
+  onShow: null,
+  swipeable: false,
+  responsiveThreshold: Infinity
+};
+
+class Tabs extends Component<TabsOptions> {
+  _tabLinks: NodeListOf<HTMLAnchorElement>;
+  _index: number;
+  _indicator: HTMLLIElement;
+  _tabWidth: number;
+  _tabsWidth: number;
+  _tabsCarousel: Carousel;
+  _activeTabLink: HTMLAnchorElement;
+  _content: HTMLElement;
+
+  constructor(el: HTMLElement, options: Partial<TabsOptions>) {
+    super(el, options, Tabs);
+    this.el['M_Tabs'] = this;
+
+    this.options = {
+      ...Tabs.defaults,
+      ...options
+    };
+
+    this._tabLinks = this.el.querySelectorAll('li.tab > a');
+    this._index = 0;
+    this._setupActiveTabLink();
+
+    if (this.options.swipeable) {
+      this._setupSwipeableTabs();
+    } else {
+      this._setupNormalTabs();
+    }
+
+    // Setup tabs indicator after content to ensure accurate widths
+    this._setTabsAndTabWidth();
+    this._createIndicator();
+    this._setupEventHandlers();
+  }
+
+  static get defaults(): TabsOptions {
+    return _defaults;
+  }
+
+  static init(el: HTMLElement, options?: Partial<TabsOptions>): Tabs;
+  static init(els: InitElements<MElement>, options?: Partial<TabsOptions>): Tabs[];
+  static init(
+    els: HTMLElement | InitElements<MElement>,
+    options: Partial<TabsOptions> = {}
+  ): Tabs | Tabs[] {
+    return super.init(els, options, Tabs);
+  }
+
+  static getInstance(el: HTMLElement): Tabs {
+    return el['M_Tabs'];
+  }
+
+  destroy() {
+    this._removeEventHandlers();
+    if (this._indicator?.parentNode) {
+      this._indicator.parentNode.removeChild(this._indicator);
+    }
+    if (this.options.swipeable) {
+      this._teardownSwipeableTabs();
+    } else {
+      this._teardownNormalTabs();
+    }
+    this.el['M_Tabs'] = undefined;
+  }
+
+  get index() {
+    return this._index;
+  }
+
+  _setupEventHandlers() {
+    window.addEventListener('resize', this._handleWindowResize);
+    this.el.addEventListener('click', this._handleTabClick);
+    this.el.addEventListener('wheel', this._handleWheel);
+  }
+
+  _removeEventHandlers() {
+    window.removeEventListener('resize', this._handleWindowResize);
+    this.el.removeEventListener('click', this._handleTabClick);
+    this.el.removeEventListener('wheel', this._handleWheel);
+  }
+
+  _handleWheel = (event: WheelEvent) => {
+    if (event.deltaY !== 0) {
+      event.preventDefault();
+      this.el.scrollLeft += event.deltaY;
+    }
+  };
+
+  _handleWindowResize = () => {
+    this._setTabsAndTabWidth();
+    if (this._tabWidth !== 0 && this._tabsWidth !== 0 && this._activeTabLink) {
+      this._indicator.style.left = this._calcLeftPos(this._activeTabLink) + 'px';
+      this._indicator.style.right = this._calcRightPos(this._activeTabLink) + 'px';
+    }
+  };
+
+  _handleTabClick = (e: MouseEvent) => {
+    let tabLink = e.target as HTMLAnchorElement;
+
+    if (!tabLink) return;
+    let tab = tabLink.parentElement;
+    while (tab && !tab.classList.contains('tab')) {
+      tabLink = tabLink.parentElement as HTMLAnchorElement;
+      tab = tab.parentElement;
+    }
+
+    if (!tabLink || !tab?.classList.contains('tab')) return;
+    if (tab.classList.contains('disabled')) {
+      e.preventDefault();
+      return;
+    }
+    if (tabLink.hasAttribute('target')) return;
+
+    this._activeTabLink?.classList.remove('active');
+    const _oldContent = this._content;
+
+    this._activeTabLink = tabLink;
+    if (tabLink.hash) this._content = document.querySelector(tabLink.hash);
+    this._tabLinks = this.el.querySelectorAll('li.tab > a');
+
+    this._activeTabLink.classList.add('active');
+    const prevIndex = this._index;
+    this._index = Math.max(Array.from(this._tabLinks).indexOf(tabLink), 0);
+
+    if (this.options.swipeable) {
+      if (this._tabsCarousel) {
+        this._tabsCarousel.set(this._index, () => {
+          if (typeof this.options.onShow === 'function') {
+            this.options.onShow.call(this, this._content);
+          }
+        });
+      }
+    } else {
+      if (this._content) {
+        this._content.style.display = 'block';
+        this._content.classList.add('active');
+        if (typeof this.options.onShow === 'function') {
+          this.options.onShow.call(this, this._content);
+        }
+        if (_oldContent && _oldContent !== this._content) {
+          _oldContent.style.display = 'none';
+          _oldContent.classList.remove('active');
+        }
+      }
+    }
+
+    this._setTabsAndTabWidth();
+    this._animateIndicator(prevIndex);
+    e.preventDefault();
+  };
+
+  _createIndicator() {
+    const indicator = document.createElement('li');
+    indicator.classList.add('indicator');
+    this.el.appendChild(indicator);
+    this._indicator = indicator;
+    if (this._activeTabLink) {
+      this._indicator.style.left = this._calcLeftPos(this._activeTabLink) + 'px';
+      this._indicator.style.right = this._calcRightPos(this._activeTabLink) + 'px';
+    }
+  }
+
+  _setupActiveTabLink() {
+    this._activeTabLink = Array.from(this._tabLinks).find(
+      (a: HTMLAnchorElement) => a.getAttribute('href') === location.hash
+    );
+
+    if (!this._activeTabLink) {
+      let activeTabLink = this.el.querySelector('li.tab a.active');
+      if (!activeTabLink) {
+        activeTabLink = this.el.querySelector('li.tab a');
+      }
+      this._activeTabLink = activeTabLink as HTMLAnchorElement;
+    }
+
+    Array.from(this._tabLinks).forEach((a: HTMLAnchorElement) => a.classList.remove('active'));
+
+    if (this._activeTabLink) {
+      this._activeTabLink.classList.add('active');
+      this._index = Math.max(Array.from(this._tabLinks).indexOf(this._activeTabLink), 0);
+      if (this._activeTabLink.hash) {
+        this._content = document.querySelector(this._activeTabLink.hash);
+        if (this._content) this._content.classList.add('active');
+      }
+    }
+  }
+
+  _setupSwipeableTabs() {
+    if (window.innerWidth > this.options.responsiveThreshold) {
+      this.options.swipeable = false;
+      return;
+    }
+
+    const tabsContent: HTMLElement[] = [];
+    this._tabLinks.forEach((a) => {
+      if (a.hash) {
+        const currContent = document.querySelector(a.hash) as HTMLElement;
+        if (currContent) {
+          currContent.classList.add('carousel-item');
+          tabsContent.push(currContent);
+        }
+      }
+    });
+
+    if (tabsContent.length === 0) return;
+
+    const tabsWrapper = document.createElement('div');
+    tabsWrapper.classList.add('tabs-content', 'carousel', 'carousel-slider');
+
+    tabsContent[0].parentElement.insertBefore(tabsWrapper, tabsContent[0]);
+    tabsContent.forEach((tabContent) => {
+      tabsWrapper.appendChild(tabContent);
+      tabContent.style.display = '';
+    });
+
+    const tab = this._activeTabLink?.parentElement;
+    const activeTabIndex = tab ? Array.from(tab.parentNode.children).indexOf(tab) : 0;
+
+    this._tabsCarousel = Carousel.init(tabsWrapper, {
+      fullWidth: true,
+      noWrap: true,
+      onCycleTo: (item) => {
+        const prevIndex = this._index;
+        this._index = Array.from(item.parentNode.children).indexOf(item);
+        this._activeTabLink?.classList.remove('active');
+        this._activeTabLink = Array.from(this._tabLinks)[this._index];
+        this._activeTabLink?.classList.add('active');
+        this._animateIndicator(prevIndex);
+        if (typeof this.options.onShow === 'function') {
+          this.options.onShow.call(this, this._content);
+        }
+      }
+    });
+
+    this._tabsCarousel.set(activeTabIndex);
+  }
+
+  _teardownSwipeableTabs() {
+    if (!this._tabsCarousel) return;
+    const tabsWrapper = this._tabsCarousel.el;
+    this._tabsCarousel.destroy();
+
+    // Move children back out to the parent container
+    while (tabsWrapper.firstChild) {
+      tabsWrapper.parentElement.insertBefore(tabsWrapper.firstChild, tabsWrapper);
+    }
+    tabsWrapper.remove();
+  }
+
+  _setupNormalTabs() {
+    Array.from(this._tabLinks).forEach((a) => {
+      if (a === this._activeTabLink) return;
+      if (a.hash) {
+        const currContent = document.querySelector(a.hash) as HTMLElement;
+        if (currContent) currContent.style.display = 'none';
+      }
+    });
+  }
+
+  _teardownNormalTabs() {
+    this._tabLinks.forEach((a) => {
+      if (a.hash) {
+        const currContent = document.querySelector(a.hash) as HTMLElement;
+        if (currContent) currContent.style.display = '';
+      }
+    });
+  }
+
+  _setTabsAndTabWidth() {
+    this._tabsWidth = this.el.getBoundingClientRect().width;
+    this._tabWidth =
+      this._tabLinks.length > 0
+        ? Math.max(this._tabsWidth, this.el.scrollWidth) / this._tabLinks.length
+        : 0;
+  }
+
+  _calcRightPos(el: HTMLElement) {
+    return Math.ceil(this._tabsWidth - el.offsetLeft - el.getBoundingClientRect().width);
+  }
+
+  _calcLeftPos(el: HTMLElement) {
+    return Math.floor(el.offsetLeft);
+  }
+
+  updateTabIndicator() {
+    this._setTabsAndTabWidth();
+    this._animateIndicator(this._index);
+  }
+
+  _animateIndicator(prevIndex: number) {
+    if (!this._indicator || !this._activeTabLink) return;
+
+    let leftDelay = 0;
+    let rightDelay = 0;
+
+    const isMovingLeftOrStaying = this._index - prevIndex >= 0;
+    if (isMovingLeftOrStaying) leftDelay = 90;
+    else rightDelay = 90;
+
+    this._indicator.style.transition = `
+      left ${this.options.duration}ms ease-out ${leftDelay}ms,
+      right ${this.options.duration}ms ease-out ${rightDelay}ms`;
+
+    this._indicator.style.left = this._calcLeftPos(this._activeTabLink) + 'px';
+    this._indicator.style.right = this._calcRightPos(this._activeTabLink) + 'px';
+  }
+
+  select(tabId: string) {
+    const tab = Array.from(this._tabLinks).find(
+      (a: HTMLAnchorElement) => a.getAttribute('href') === '#' + tabId
+    );
+    if (tab) tab.click();
+  }
+}
+
+export { Tabs, TabsOptions };

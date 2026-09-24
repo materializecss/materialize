@@ -1,50 +1,46 @@
 @charset "UTF-8";
 
 @forward '../node_modules/normalize.css/normalize.css';
-@forward './tokens.module.css';
-@forward './theme.module.css';
-@forward './typography.module.css';
-@forward './colors.module.css';
+@forward './_input-m3-tokens.css';
+@forward './merge-light-dark.css';
+@forward './classes-typography.css';
+@forward './classes-color.css';
 @forward './typography';
-@forward './mixins.module';
 @forward './variables';
 @forward './global';
-@forward './grid';
-// animations
-@forward './transitions.css';
-@forward './pulse.css';
-// custom
-@forward './table_of_contents';
-@forward './tapTarget';
+@forward './grid.css';
+@forward './animations.css';
 
-@forward '../components/button/buttons';
-@forward '../components/collapsible/collapsible'; // custom
-@forward '../components/badge/badges';
-@forward '../components/card/cards';
-@forward '../components/snackbar/toast';
-@forward '../components/tabs/tabs';
-@forward '../components/tooltip/tooltip';
-@forward '../components/dropdown/dropdown';
-@forward '../components/list/collection';
-@forward '../components/list/list';
-@forward '../components/dialog/modal';
-@forward '../components/dialog/materialbox'; // custom
-@forward '../components/chip/chips';
-//@forward '../components/appbar/navbar';
-@forward '../components/appbar/appbar.css';
-@forward '../components/navigation-drawer/sidenav';
-@forward '../components/progress/preloader';
-@forward '../components/carousel/slider';
-@forward '../components/carousel/carousel';
-@forward '../components/datepicker/datepicker';
-@forward '../components/timepicker/timepicker';
-@forward '../components/breadcrumb/breadcrumb'; // custom
-@forward '../components/pagination/pagination'; //custom
-@forward '../components/radio-button/radio-buttons';
-@forward '../components/checkbox/checkboxes';
-@forward '../components/switch/switches';
-@forward '../components/slider/range';
-@forward '../components/textfield/input-fields';
-@forward '../components/textfield/select';
-@forward '../components/textfield/file-input';
-@forward '../components/textfield/formfields.css';
+@forward '../src/appbar/appbar.css';
+@forward '../src/badge/badge.css';
+@forward '../src/button/button.css';
+@forward '../src/breadcrumb/breadcrumb.css';
+@forward '../src/card/card.css';
+
+@forward '../src/carousel/carousel'; //
+@forward '../src/collapsible/collapsible'; //
+@forward '../src/chip/chip.css';
+@forward '../src/checkbox/checkbox.css';
+@forward '../src/datepicker/datepicker.css';
+@forward '../src/datepicker/minicalendar.css';
+@forward '../src/dialog/dialog.css';
+@forward '../src/dropdown/dropdown.css';
+@forward '../src/snackbar/toasts.css';
+@forward '../src/tabs/tabs'; //
+@forward '../src/tooltip/tooltip.css';
+@forward '../src/list/collection'; //
+@forward '../src/list/list.css';
+@forward '../src/navigation-drawer/sidenav'; //
+@forward '../src/progress/preloader'; //
+@forward '../src/timepicker/timepicker'; //
+@forward '../src/pagination/pagination.css';
+@forward '../src/radiobutton/radiobutton.css';
+@forward '../src/switch/switch.css';
+@forward '../src/slider/range'; //
+@forward '../src/textfield/formfields.css';
+@forward '../src/textfield/file-input';
+@forward '../src/textfield/input-fields';
+@forward '../src/textfield/select';
+
+// DEPRECATED:
+@forward '../src/dialog/deprecated_modal';

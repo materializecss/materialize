@@ -1,5 +1,4 @@
 import typescriptEslint from 'typescript-eslint';
-import storybook from 'eslint-plugin-storybook';
 
 export default [
   { files: ['src/**/*.{ts,js,mjs}'] },
@@ -8,7 +7,6 @@ export default [
     ignores: ['dist', 'tsconfig.json', 'node_modules']
   },
   ...typescriptEslint.configs.recommended,
-  ...storybook.configs['flat/recommended'],
   {
     rules: {
       'prefer-const': 'error',
