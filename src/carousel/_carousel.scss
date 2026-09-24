@@ -1,0 +1,212 @@
+.carousel {
+  --carousel-height: 400px;
+
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: var(--carousel-height);
+  perspective: 500px;
+  transform-style: preserve-3d;
+  transform-origin: 0% 50%;
+
+  &.carousel-slider {
+    top: 0;
+    left: 0;
+
+    .carousel-fixed-item {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 20px;
+      z-index: 1;
+
+      &.with-indicators {
+        bottom: 68px;
+      }
+    }
+
+    .carousel-item {
+      width: 100%;
+      height: 100%;
+      min-height: var(--carousel-height);
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      h2 {
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 32px;
+      }
+
+      p {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .carousel-item {
+    visibility: hidden;
+    width: calc(var(--carousel-height) * 0.5);
+    height: calc(var(--carousel-height) * 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    & > img {
+      width: 100%;
+    }
+  }
+
+  .indicators {
+    padding-left: 0;
+    list-style-type: none;
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+
+    .indicator-item {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      height: 8px;
+      width: 8px;
+      margin: 24px 4px;
+      background-color: rgba(255, 255, 255, 0.45);
+      transition: background-color 0.3s;
+      border-radius: 50%;
+
+      &.active {
+        background-color: var(--md-ref-palette-primary100);
+      }
+    }
+  }
+
+  // Materialbox compatibility
+  &.scrolling .carousel-item .materialboxed,
+  .carousel-item:not(.active) .materialboxed {
+    pointer-events: none;
+  }
+}
+
+.slider {
+  position: relative;
+  height: 400px;
+  width: 100%;
+
+  // Fullscreen slider
+  &.fullscreen {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    ul.slides {
+      padding-left: 0;
+      list-style-type: none;
+      height: 100%;
+    }
+
+    ul.indicators {
+      padding-left: 0;
+      list-style-type: none;
+      z-index: 2;
+      bottom: 30px;
+
+      .indicator-item {
+        background-color: rgba(255, 255, 255, 0.45);
+
+        &.active {
+          background-color: var(--md-ref-palette-primary100);
+        }
+      }
+    }
+  }
+
+  .slides {
+    background-color: var(--md-sys-color-surface);
+    margin: 0;
+    height: 400px;
+    padding-left: 0;
+    list-style-type: none;
+
+    li {
+      padding-left: 0;
+      list-style-type: none;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: inherit;
+      overflow: hidden;
+
+      img {
+        height: 100%;
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .caption {
+        color: #fff;
+        position: absolute;
+        top: 15%;
+        left: 15%;
+        width: 70%;
+        opacity: 0;
+
+        p {
+          color: rgba(255, 255, 255, 0.75);
+        }
+      }
+
+      &.active {
+        z-index: 2;
+      }
+    }
+  }
+
+  .indicators {
+    padding-left: 0;
+    list-style-type: none;
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+
+    .indicator-item {
+      display: inline-block;
+      position: relative;
+      height: 16px;
+      width: 16px;
+      margin: 0 12px;
+    }
+
+    .indicator-item-btn {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      background-color: var(--md-sys-color-shadow-light);
+      transition: background-color 0.3s;
+      border-radius: 50%;
+      border-width: 0;
+
+      &.active {
+        background-color: var(--md-sys-color-primary);
+      }
+    }
+  }
+}

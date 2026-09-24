@@ -1,0 +1,67 @@
+.mini-calendar {
+  width: 280px;
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.calendar-weekdays,
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+}
+
+.calendar-weekdays {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant);
+  margin-bottom: 8px;
+}
+
+.calendar-day {
+  aspect-ratio: 1; /* Ensures a perfect circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Material Hover / State Layer */
+.calendar-day:hover:not(.day-padding):not(.selected) {
+  background-color: rgba(103, 80, 164, 0.08);
+}
+
+.calendar-day.day-padding {
+  color: var(--md-sys-color-outline-variant);
+  cursor: default;
+}
+
+/* Today state (Material ring outline) */
+.calendar-day.today {
+  font-weight: 700;
+  color: var(--md-sys-color-primary);
+  border: 1px solid var(--md-sys-color-primary);
+}
+
+/* Selected state (Material filled circle) */
+.calendar-day.selected {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font-weight: 500;
+  border: none;
+}

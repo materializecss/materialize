@@ -15,7 +15,7 @@ class Bounding {
 /**
  * Class with utilitary functions for global usage.
  */
-export class Utils {
+class Utils {
   /** Specifies wether tab is pressed or not. */
   static tabPressed: boolean = false;
   /** Specifies wether there is a key pressed. */
@@ -437,3 +437,5 @@ export class Utils {
     };
   }
 }
+
+export { Utils };

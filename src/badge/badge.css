@@ -1,0 +1,76 @@
+:root {
+  --badge-height: 22px;
+}
+
+span.badge {
+  min-width: 3rem;
+  padding: 0 6px;
+  margin-left: 14px;
+  text-align: center;
+  font-size: 1rem;
+  line-height: var(--badge-height);
+  height: var(--badge-height);
+  color: var(--md-sys-color-on-surface-variant);
+  float: right;
+  box-sizing: border-box;
+}
+
+span.badge.new {
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+  border-radius: 2px;
+}
+
+span.badge.new::after {
+  content: ' new';
+}
+
+span.badge[data-badge-caption]::after {
+  content: ' ' attr(data-badge-caption);
+}
+
+.active span.badge {
+  color: var(--md-sys-color-on-primary);
+}
+
+/* Special cases */
+
+.navbar ul a span.badge {
+  display: inline-block;
+  float: none;
+  margin-left: 4px;
+  line-height: var(--badge-height);
+  height: var(--badge-height);
+  -webkit-font-smoothing: auto;
+}
+
+/* Line height centering */
+
+.collection-item span.badge {
+  margin-top: calc((1.5rem * 0.5) - (var(--badge-height) * 0.5));
+}
+
+.collapsible span.badge {
+  margin-left: auto;
+}
+
+.collapsible span.badge.leading {
+  margin-right: 7px;
+  order: -1;
+}
+
+.collapsible .active span.badge:not(.new) {
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.sidenav span.badge {
+  margin-top: calc((var(--sidenav-line-height) * 0.5) - (22px * 0.5));
+}
+
+table span.badge {
+  display: inline-block;
+  float: none;
+  margin-left: auto;
+}

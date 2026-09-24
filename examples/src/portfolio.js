@@ -1,6 +1,6 @@
-import { Text } from '../../components/atomic/atomic.mjs';
-import { Container, Page } from '../../components/atomic/page.mjs';
-import { Grid } from '../../components/grid/grid.js';
+import { Text } from '../../src/atomic/atomic.mjs';
+import { Container, Page } from '../../src/atomic/page.mjs';
+import { Grid } from '../../src/grid/grid.mjs';
 
 const portfolioPage = new Page({
   title: 'My Portfolio',

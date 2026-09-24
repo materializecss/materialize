@@ -29,7 +29,7 @@ const config: RollupOptions[] = [
       copy({
         targets: [
           {
-            src: `src/index.ts`,
+            src: `src/index.mjs`,
             dest: `src`,
             transform: (contents) =>
               contents
@@ -49,7 +49,7 @@ const config: RollupOptions[] = [
 
   //--- JS
   {
-    input: 'src/index.ts',
+    input: 'src/index.mjs',
     plugins: [typescriptPlugin()],
     output: [
       {
@@ -60,7 +60,7 @@ const config: RollupOptions[] = [
     ]
   },
   {
-    input: 'src/index.ts',
+    input: 'src/index.mjs',
     plugins: [typescriptPlugin()],
     output: [
       {
@@ -71,7 +71,7 @@ const config: RollupOptions[] = [
     ]
   },
   {
-    input: 'src/index.ts',
+    input: 'src/index.mjs',
     plugins: [typescriptPlugin()],
     output: [
       {
@@ -91,7 +91,7 @@ const config: RollupOptions[] = [
   },
   //--- Types
   {
-    input: 'src/index.ts',
+    input: 'src/index.mjs',
     plugins: [typescriptPlugin(), dtsPlugin()],
     output: [
       {

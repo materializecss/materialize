@@ -1,0 +1,118 @@
+.switch {
+  --track-height: 32px;
+  --track-width: 52px;
+  --border-width: 2px;
+  --size-off: 16px;
+  --size-on: 24px;
+  --icon-size: 16px;
+  --gap-on: calc(((var(--track-height) - var(--size-on)) / 2) - var(--border-width));
+  --gap-off: calc(((var(--track-height) - var(--size-off)) / 2) - var(--border-width));
+}
+
+.switch,
+.switch * {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.switch label {
+  cursor: pointer;
+}
+
+.switch label input[type='checkbox'] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Checked Track */
+.switch label input[type='checkbox']:checked + .lever {
+  background-color: var(--md-sys-color-primary);
+  border-color: var(--md-sys-color-primary);
+}
+
+/* Checked Dot Dimensions & Position */
+.switch label input[type='checkbox']:checked + .lever:before,
+.switch label input[type='checkbox']:checked + .lever:after {
+  top: var(--gap-on);
+  left: calc(var(--track-width) - var(--size-on) - var(--gap-on) - 2 * var(--border-width));
+  width: var(--size-on);
+  height: var(--size-on);
+}
+
+.switch label input[type='checkbox']:checked + .lever:after {
+  background-color: var(--md-sys-color-surface);
+}
+
+.switch label .lever {
+  content: '';
+  display: inline-block;
+  position: relative;
+  width: var(--track-width);
+  height: var(--track-height);
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--md-sys-color-outline);
+  background-color: var(--md-sys-color-surface-variant);
+  border-radius: 15px;
+  transition: background 0.3s ease;
+  vertical-align: middle;
+  margin: 0;
+}
+
+/* Dot Pseudo-elements Base */
+.switch label .lever:before,
+.switch label .lever:after {
+  content: '';
+  position: absolute;
+  display: inline-block;
+  width: var(--size-off);
+  height: var(--size-off);
+  border-radius: 50%;
+  left: var(--gap-off);
+  top: var(--gap-off);
+  transition:
+    left 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.1s ease,
+    transform 0.1s ease;
+}
+
+/* Unchecked Dot Specifics */
+.switch label .lever:after {
+  background-color: var(--md-sys-color-outline);
+  height: var(--size-off);
+  width: var(--size-off);
+}
+
+/* Hover, Active, and Focus States */
+input[type='checkbox']:not(:disabled) ~ .lever:active:before,
+input[type='checkbox']:not(:disabled):focus ~ .lever::before,
+input[type='checkbox']:not(:disabled) ~ .lever:hover::before {
+  transform: scale(2.4);
+}
+
+input[type='checkbox']:not(:disabled) ~ .lever:hover::before {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+input[type='checkbox']:not(:disabled) ~ .lever:active:before,
+input[type='checkbox']:not(:disabled):focus ~ .lever::before {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+input[type='checkbox']:checked:not(:disabled) ~ .lever:hover::before {
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 6%);
+}
+
+/* Switch Active/Checked State */
+input[type='checkbox']:checked:not(:disabled) ~ .lever:active::before,
+input[type='checkbox']:checked:not(:disabled):focus ~ .lever::before {
+  background-color: color-mix(in srgb, transparent, var(--md-sys-color-primary) 18%);
+}
+
+/* Disabled Styles */
+.switch input[type='checkbox'][disabled] + .lever {
+  cursor: default;
+  opacity: 0.5;
+}

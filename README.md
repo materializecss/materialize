@@ -42,22 +42,18 @@ Read the [getting started guide](https://materializeweb.com/getting-started.html
 
 Previous releases are available [here](https://github.com/materializecss/materialize/releases). You can also find the changelog under each release.
 
-## Test
+## Examples
+
+First install materializeweb locally. Then create the html files with `npm run build-examples`. After creating the files you can run `npm run demo` and browse to the url (normally [127.0.0.1:8080/](http://127.0.0.1:8080))
+
+## Tests
 
 To run tests locally you first have to build the files and then run the tests. This can be done with the command `npm test`;
-To get more info and debug information you can do the following:
-run `npx jasmine-browser-runner` then go to the url via browser `http://localhost:8888`. The tests will then run and show detailed feedback.
-
-We use Jasmine as our testing framework and we're trying to write a robust test suite for our components. If you want to help, [here's a starting guide on how to write tests in Jasmine](docs/CONTRIBUTING.md#jasmine-testing-guide).
-
-For quick testing install live-server node package globally and run `npm run demo`
+The tests will then run and show detailed feedback.
 
 ## Develop
 
-The documentation can be found at <https://materializeweb.com>. To run the documentation locally on your machine, you need [Node.js](https://nodejs.org) installed on your computer.
-This is the core project with all the components. To see how they are used we recommend using an example project or go to the documentation.
-
-See [Materialize Docs Repo](https://github.com/materializecss/materialize-docs) to see Materialize in Action and to read the documentation.
+This is the core project with all the components. To see how they are used we recommend to check out the examples or go to the documentation at <https://materializeweb.com>.
 
 ## Contribute
 
