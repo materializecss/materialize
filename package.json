@@ -39,7 +39,8 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "build-examples": "examples/compile.sh",
     "release": "npm run lint && npm run build -- --environment BUILD:release && node compress.mjs",
