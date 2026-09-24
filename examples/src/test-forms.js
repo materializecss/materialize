@@ -5,6 +5,7 @@ import { Button } from '../../src/button/button.mjs';
 import { TextField } from '../../src/textfield/textfield.mjs';
 import { Dialog } from '../../src/dialog/dialog.mjs';
 import { Divider } from '../../src/divider/divider.mjs';
+import { List, ListItem } from '../../src/list/list.mjs';
 import { RadioButton } from '../../src/radiobutton/radiobutton.mjs';
 import { Switch } from '../../src/switch/switch.mjs';
 import { Checkbox } from '../../src/checkbox/checkbox.mjs';
@@ -35,6 +36,28 @@ const formTestPage = new Page({
           footer: new Button('Confirm').addClassname('text').toHTML()
         }),
         new Button('Show').addClassname('tonal').addClassname('btn-modal-1'),
+
+        new Divider().addClassname('my-3'), //----------------------
+        new Component('Lists').addClassname('my-3'),
+        new List()
+          .setLines(2)
+          .addItem(
+            new ListItem()
+              .setText('Forks')
+              .setSupportingText('Some Forks')
+              .setImage('https://picsum.photos/id/23/200')
+          )
+          .addItem(
+            new ListItem()
+              .setText('Books')
+              .setSupportingText('An open book')
+              .setImage('https://picsum.photos/id/24/200')
+              .setTrailingContent(
+                new Button('<span class="material-symbols-outlined">more_vert</span>')
+                  .addClassname('text')
+                  .toHTML()
+              )
+          ),
 
         new Divider().addClassname('my-3'), //----------------------
         new Component('Buttons').addClassname('my-3'),
