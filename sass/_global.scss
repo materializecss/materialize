@@ -100,7 +100,7 @@ a {
 
 //  Blockquote
 blockquote {
-  margin: 20px 0;
+  margin: var(--mw-space-5) 0;
   padding-left: 1.5rem;
   border-left: 5px solid var(--md-sys-color-primary);
 }
@@ -227,7 +227,7 @@ label {
 
 // Footer
 .page-footer {
-  margin-top: 5rem;
+  margin-top: var(--mw-space-6);
   padding-top: 3rem;
   border-top: 1px dashed var(--md-sys-color-outline-variant);
   p {
@@ -243,7 +243,7 @@ label {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 0px;
+    padding: var(--mw-space-3) 0;
   }
 }
 
@@ -300,7 +300,7 @@ tr {
 
 td,
 th {
-  padding: 15px 5px;
+  padding: var(--mw-space-4) var(--mw-space-1);
   display: table-cell;
   text-align: left;
   vertical-align: middle;
@@ -333,7 +333,7 @@ th {
 
       tr {
         display: block;
-        padding: 0 10px 0 0;
+        padding: 0 var(--mw-space-3) 0 0;
 
         th::before {
           content: '\00a0';
@@ -363,7 +363,7 @@ th {
     }
     tr {
       border-bottom: none;
-      padding: 0 10px;
+      padding: 0 var(--mw-space-3);
     }
     /* sort out borders */
     thead {
@@ -438,13 +438,13 @@ $spacing-directions: (
 $spacing-horizontal: 'x' !default;
 $spacing-vertical: 'y' !default;
 $spacing-values: (
-  '0': 0,
-  '1': 0.25rem,
-  '2': 0.5rem,
-  '3': 0.75rem,
-  '4': 1rem,
-  '5': 1.5rem,
-  '6': 3rem,
+  '0': var(--mw-space-0),
+  '1': var(--mw-space-1),
+  '2': var(--mw-space-2),
+  '3': var(--mw-space-3),
+  '4': var(--mw-space-4),
+  '5': var(--mw-space-5),
+  '6': var(--mw-space-6),
   'auto': auto
 ) !default;
 
