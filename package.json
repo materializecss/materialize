@@ -46,7 +46,7 @@
     "release": "npm run lint && npm run build -- --environment BUILD:release && node compress.mjs",
     "preversion": "npm run lint && npm test",
     "version": "npm run build -- --environment BUILD:release && node compress.mjs && git add .",
-    "demo": "live-server --no-browser"
+    "demo": "vite"
   },
   "lint-staged": {
     "js/*.js": [
@@ -62,7 +62,7 @@
     "archiver": "^7.0.1",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.10.0",
-    "happy-dom": "^20.11.1",
+    "happy-dom": "^21.0.4",
     "normalize.css": "^8.0.1",
     "postcss": "^8.4.49",
     "rollup": "^4.59.0",
@@ -73,6 +73,7 @@
     "tslib": "^2.6.3",
     "typescript": "^5.4.3",
     "typescript-eslint": "^8.6.0",
+    "vite": "^8.3.5",
     "vitest": "^4.0.18"
   },
   "files": [
