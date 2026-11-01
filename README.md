@@ -54,10 +54,11 @@ The tests will then run and show detailed feedback.
 ## Develop
 
 This is the core project with all the components. To see how they are used we recommend to check out the examples or go to the documentation at <https://materializeweb.com>.
+After cloning run `npm install`. To test is locally you have to build it first with `npm run build` then build the examples with `npm run build-examples`. After that you can run the webserver with `npm run demo`. Then you can access via browser and test the examples.
 
 ## Contribute
 
-Check out the [CONTRIBUTING document](docs/CONTRIBUTING.md) in the root of the repository to learn how you can contribute. You can also browse the [help-wanted](https://github.com/materializecss/materialize/labels/help-wanted) tag in our issue tracker to find things to do.
+Check out the [CONTRIBUTING document](docs/CONTRIBUTING.md) in to see how you can contribute to Materialize. If you want to contribute code, you can browse the [help-wanted](https://github.com/materializecss/materialize/labels/help-wanted) tag in the issue-tracker to find things to do.
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/materialize#sponsor)]
 
